@@ -2,7 +2,7 @@
  * Modal credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ tokenId, tokenSecret, apiBaseUrl }`
- * per request; the protocol layer sends them as `x-modal-token-id` /
+ * per request; the protocol sends them as `x-modal-token-id` /
  * `x-modal-token-secret` (the same headers the official JS/Go clients use).
  */
 import { isThrottling, isTransientError, retryableKey } from "@distilled.cloud/core/category";
@@ -79,10 +79,12 @@ export const authTokenError = (cause: unknown): AuthTokenError => {
 };
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<
-    Credentials,
-    Effect.Effect<Config, ConfigError | AuthTokenError>
-  >()("ModalCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, AuthTokenError>>()(
+    "ModalCredentials",
+  ) {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   tokenId: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_ID"),
@@ -94,15 +96,22 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "MODAL_TOKEN_ID and MODAL_TOKEN_SECRET environment variables are required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "MODAL_TOKEN_ID and MODAL_TOKEN_SECRET environment variables are required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 
@@ -272,9 +281,9 @@ export interface RouterAccess {
 
 /** The caller's credentials (or none), aimed at the router with its JWT. */
 const routerCredentials = (
-  outer: Option.Option<Effect.Effect<Config, ConfigError | AuthTokenError>>,
+  outer: Option.Option<Effect.Effect<Config, CredentialsError>>,
   access: RouterAccess,
-): Effect.Effect<Config, ConfigError | AuthTokenError> =>
+): Effect.Effect<Config, CredentialsError> =>
   Effect.map(
     Option.isSome(outer)
       ? outer.value

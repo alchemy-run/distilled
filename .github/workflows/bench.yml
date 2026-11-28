@@ -5,7 +5,7 @@ name: Benchmarks
 #
 # `benches/sdks/ci.ts` measures a fixed panel of SDKs (benches/sdks/ci.json)
 # plus the SDKs the PR changes: 1-auth + 1-operation bundle size for every
-# protocol, and for the small SDKs import heap, live objects, import time,
+# protocol, and for the `runtime` SDKs import heap, live objects, import time,
 # first call, added call latency and download size. Offline, like every
 # bench: each call hits a canned in-memory response.
 #
@@ -17,9 +17,9 @@ name: Benchmarks
 # main's last N commits.
 #
 # The job is a required check of main's merge queue (stacks/distilled-monorepo),
-# so it also runs on the queue's merge commit. There it measures only the SDKs
-# the queued PR changes, like a PR run, and never writes main's cache: only
-# pushes to main and manual runs do.
+# so it also runs on the queue's merge commit. There it skips every step and
+# passes at once: the PR run already measured the change, and the push to main
+# after the merge measures it again for main's history.
 
 on:
   push:
@@ -44,18 +44,24 @@ permissions:
 jobs:
   bench:
     name: Benchmarks (PR vs main)
-    runs-on: blacksmith-8vcpu-ubuntu-2404
+    runs-on: ${{ github.event_name == 'merge_group' && 'ubuntu-latest' || 'blacksmith-8vcpu-ubuntu-2404' }}
     permissions:
       contents: read
     steps:
+      - name: Skipped (runs on PRs and on main)
+        if: github.event_name == 'merge_group'
+        run: echo "bench.yml benchmarks PRs and pushes to main, not the merge queue."
+
       # Depth 2: on a PR the checkout is the merge commit, and its first
       # parent is main, which is how ci.ts finds the SDKs the PR changes.
       - name: Checkout repository
+        if: github.event_name != 'merge_group'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 2
 
       - name: Setup pnpm, Node.js and install dependencies
+        if: github.event_name != 'merge_group'
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -65,6 +71,7 @@ jobs:
       # On main, the previous entry holds the history this run appends to.
       - name: Restore main's benchmark
         id: main-cache
+        if: github.event_name != 'merge_group'
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
@@ -74,9 +81,9 @@ jobs:
           # commit's newest entry wins, then main's newest entry. Bump v2 (here
           # and in the save step) when a metric's measurement changes, so old
           # runs are dropped. v2: added latency's call and roundtrip interleaved.
-          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}-none
+          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-none
           restore-keys: |
-            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}-
+            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-
             bench-ci-main-v2-
 
       - name: Backfill main's history
@@ -100,10 +107,10 @@ jobs:
           done
 
       - name: Benchmark
+        if: github.event_name != 'merge_group'
         env:
           BENCH_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          # The queue's merge commit has the base as its first parent too.
-          SCOPE: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && '--changed-since HEAD^1' || '--wide' }}
+          SCOPE: ${{ github.event_name == 'pull_request' && '--changed-since HEAD^1' || '--wide' }}
         run: |
           mkdir -p .bench-ci
           # Whole-SDK heap is copied from main's run for SDKs this PR leaves unchanged.
@@ -143,6 +150,7 @@ jobs:
           key: bench-ci-main-v2-${{ github.sha }}-${{ github.run_id }}
 
       - name: Write report
+        if: github.event_name != 'merge_group'
         env:
           BENCH_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
@@ -165,7 +173,7 @@ jobs:
           node -e 'require("fs").writeFileSync(".bench-ci/pr.json", JSON.stringify({ number: +process.env.PR, sha: process.env.SHA, title: process.env.TITLE }))'
 
       - name: Upload results
-        if: always()
+        if: always() && github.event_name != 'merge_group'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: benchmarks

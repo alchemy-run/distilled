@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1594,6 +1594,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -2549,17 +2551,31 @@ export interface UpdatePageMarkdownRequestInsertContentPositionCase1 {
   /** Insert the content at the end of the page. */
   type: string;
 }
-/** Explicit position for inserted content. Use {"type":"start"} to prepend or {"type":"end"} to append. Cannot be combined with after. */
+export interface UpdatePageMarkdownRequestInsertContentPositionCase2 {
+  /** Insert the content after the block where the anchor ends, at that block's nesting level, so anchoring on a parent block inserts after its children. */
+  type: string;
+  /** Text copied exactly from the page, starting at the beginning of a line with its leading syntax, such as `## ` or `- `, and keeping its inline formatting and escapes. It doesn't need the whole line, only enough to match exactly one place on the page. If the target's text repeats, extend the anchor without moving its end for after_content or its start for before_content: start after_content at an earlier unique line, and continue before_content into the lines after it. */
+  anchor: string;
+}
+export interface UpdatePageMarkdownRequestInsertContentPositionCase3 {
+  /** Insert the content before the block where the anchor starts, at that block's nesting level. */
+  type: string;
+  /** Text copied exactly from the page, starting at the beginning of a line with its leading syntax, such as `## ` or `- `, and keeping its inline formatting and escapes. It doesn't need the whole line, only enough to match exactly one place on the page. If the target's text repeats, extend the anchor without moving its end for after_content or its start for before_content: start after_content at an earlier unique line, and continue before_content into the lines after it. */
+  anchor: string;
+}
+/** Where to insert the content. Use `{"type":"start"}` to prepend or `{"type":"end"}` to append. Use `{"type":"after_content","anchor":"..."}` or `{"type":"before_content","anchor":"..."}` to insert next to the block that the anchor matches; anchored positions require `markdown_version: "v2"`. Omit to append at the end of the page. */
 export type UpdatePageMarkdownRequestInsertContentPosition =
   | UpdatePageMarkdownRequestInsertContentPositionCase0
-  | UpdatePageMarkdownRequestInsertContentPositionCase1;
+  | UpdatePageMarkdownRequestInsertContentPositionCase1
+  | UpdatePageMarkdownRequestInsertContentPositionCase2
+  | UpdatePageMarkdownRequestInsertContentPositionCase3;
 /** Insert new content into the page. */
 export interface UpdatePageMarkdownRequestInsertContent {
   /** The Markdown content to insert into the page, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   content: string;
-  /** Selection of existing content to insert after, using the ellipsis format ("start text...end text"). Omit to append at the end of the page. */
+  /** Deprecated: use `position` with `{"type":"after_content","anchor":"..."}` instead. Selection of existing content to insert after, using the ellipsis format ("start text...end text"). Cannot be combined with `position`. */
   after?: string | undefined;
-  /** Explicit position for inserted content. Use {"type":"start"} to prepend or {"type":"end"} to append. Cannot be combined with after. */
+  /** Where to insert the content. Use `{"type":"start"}` to prepend or `{"type":"end"}` to append. Use `{"type":"after_content","anchor":"..."}` or `{"type":"before_content","anchor":"..."}` to insert next to the block that the anchor matches; anchored positions require `markdown_version: "v2"`. Omit to append at the end of the page. */
   position?: UpdatePageMarkdownRequestInsertContentPosition | undefined;
 }
 /** Replace a range of content in the page. */
@@ -2623,7 +2639,8 @@ export const createPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreatePageRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<CreatePageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2640,7 +2657,8 @@ export const getPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetPageRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<GetPageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2657,7 +2675,8 @@ export const getPageMarkdown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetPageMarkdownRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<PageMarkdownResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2674,7 +2693,8 @@ export const getPageProperty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetPagePropertyRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetPagePropertyResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2691,7 +2711,8 @@ export const movePage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<MovePageRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<MovePageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2708,7 +2729,8 @@ export const updatePage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<UpdatePageRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<UpdatePageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2725,7 +2747,8 @@ export const updatePageMarkdown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78, __c9, 6) as any as S.Schema<UpdatePageMarkdownRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<PageMarkdownResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

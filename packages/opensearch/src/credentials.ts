@@ -4,8 +4,14 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * OpenSearch credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the cluster's
- * endpoint and how to authenticate; the protocol layer resolves it per
+ * endpoint and how to authenticate; the protocol resolves it per
  * request on the calling fiber, so the effect can refresh credentials.
+ *
+ * `CredentialsFromEnv` reads and checks the environment when it is built: a
+ * missing variable or an unknown `OPENSEARCH_AWS_SERVICE` is a `ConfigError`
+ * at setup, and no call fails for it. The service's effect can still fail
+ * with `ConfigError`: the `credentials` effect given to {@link fromSigV4}
+ * runs on every request.
  *
  * A cluster authenticates in one of these ways:
  *
@@ -24,6 +30,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
+import { SigV4CredentialsFailed } from "./errors.ts";
 
 /** The default endpoint of a local cluster. */
 export const DEFAULT_ENDPOINT = "http://localhost:9200";
@@ -59,11 +66,12 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "OpenSearchCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<Config, SigV4CredentialsFailed>
+  >()("OpenSearchCredentials") {}
 
-const layerOf = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials> =>
+const layerOf = (config: Effect.Effect<Config, SigV4CredentialsFailed>): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, config);
 
 /** A cluster without authentication (no security plugin). */
@@ -101,15 +109,24 @@ export const fromBearerToken = (config: {
  * AWS SigV4 for Amazon OpenSearch Service (`service: "es"`, the default) or
  * OpenSearch Serverless (`service: "aoss"`). `credentials` can be an effect;
  * it runs on every request, so it can return refreshed temporary credentials.
+ * When it fails, the call fails with {@link SigV4CredentialsFailed}, which
+ * holds its error as `cause`.
  */
 export const fromSigV4 = (config: {
   readonly endpoint: string;
   readonly region: string;
   readonly service?: "es" | "aoss";
-  readonly credentials: AwsCredentials | Effect.Effect<AwsCredentials, ConfigError>;
+  readonly credentials: AwsCredentials | Effect.Effect<AwsCredentials, unknown>;
 }): Layer.Layer<Credentials> => {
   const credentials = Effect.isEffect(config.credentials)
-    ? config.credentials
+    ? Effect.mapError(
+        config.credentials,
+        (cause) =>
+          new SigV4CredentialsFailed({
+            message: "The credentials effect given to OpenSearch.fromSigV4 failed",
+            cause,
+          }),
+      )
     : Effect.succeed(config.credentials);
   return layerOf(
     Effect.map(credentials, (keys) => ({
@@ -189,7 +206,8 @@ const fromEnv: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ Effect.gen(fun
 );
 
 /**
- * Reads the environment on every request:
+ * Reads the environment, and checks the values, once: when the layer is
+ * built.
  *
  *   - `OPENSEARCH_URL`: the endpoint (default `http://localhost:9200`).
  *   - `OPENSEARCH_AWS_SERVICE` (`es` or `aoss`): sign with SigV4, using
@@ -199,4 +217,7 @@ const fromEnv: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ Effect.gen(fun
  *   - else `OPENSEARCH_USERNAME` and `OPENSEARCH_PASSWORD`: basic auth.
  *   - else no authentication.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ layerOf(fromEnv);
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
+  Credentials,
+  /*@__PURE__*/ Effect.map(fromEnv, (config) => Effect.succeed(config)),
+);

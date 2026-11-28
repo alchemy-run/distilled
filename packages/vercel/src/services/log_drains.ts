@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -35,6 +36,17 @@ export class BadRequest
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
+  ) {}
+
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
   ) {}
 
 export class Forbidden
@@ -390,7 +402,9 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2 {
   table: string;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type;
 }
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression = "none";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression =
+  | "gzip"
+  | "none";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding =
   | "json"
   | "ndjson";
@@ -413,6 +427,7 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3 {
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -436,6 +451,7 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery =
   | GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4;
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -492,13 +508,19 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsState =
   | "healthy"
   | "unknown";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStatsWindow;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -573,7 +595,7 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase0Item {
   status?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryStats | undefined;
   filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2 | undefined;
 }
@@ -633,7 +655,9 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2 {
   table: string;
   type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type;
 }
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression = "none";
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression =
+  | "gzip"
+  | "none";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding =
   | "json"
   | "ndjson";
@@ -656,6 +680,7 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3 {
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -679,6 +704,7 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery =
   | GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4;
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -728,13 +754,19 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsState =
   | "healthy"
   | "unknown";
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStatsWindow;
 }
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -831,7 +863,7 @@ export interface GetAllLogDrainsResponseBodyCase1DrainsCase1Item {
   status?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryStats | undefined;
   filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2 | undefined;
   integrationConfigurationUri?: string | undefined;
@@ -1049,9 +1081,10 @@ export const createConfigurableLogDrain: API.OperationMethod<
   CreateConfigurableLogDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateConfigurableLogDrainRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateConfigurableLogDrainResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateConfigurableLogDrainRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<CreateConfigurableLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1066,16 +1099,22 @@ export const createLogDrain: API.OperationMethod<
   CreateLogDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CreateLogDrainRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<CreateLogDrainResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<CreateLogDrainRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<CreateLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateLogDrain",
 }));
 
-export type DeleteConfigurableLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type DeleteConfigurableLogDrainError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
 /** Deletes a Configurable Log Drain (deprecated) Deletes a Configurable Log Drain. This endpoint must be called with a team AccessToken (integration OAuth2 clients are not allowed). Only log drains owned by the authenticated team can be deleted. */
 export const deleteConfigurableLogDrain: API.OperationMethod<
   DeleteConfigurableLogDrainRequest,
@@ -1083,9 +1122,10 @@ export const deleteConfigurableLogDrain: API.OperationMethod<
   DeleteConfigurableLogDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<DeleteConfigurableLogDrainRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<DeleteConfigurableLogDrainResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteConfigurableLogDrainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DeleteConfigurableLogDrainResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1100,9 +1140,10 @@ export const deleteIntegrationLogDrain: API.OperationMethod<
   DeleteIntegrationLogDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DeleteIntegrationLogDrainRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<DeleteIntegrationLogDrainResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DeleteIntegrationLogDrainRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DeleteIntegrationLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1117,9 +1158,10 @@ export const getAllLogDrains: API.OperationMethod<
   GetAllLogDrainsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetAllLogDrainsRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<GetAllLogDrainsResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetAllLogDrainsRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<GetAllLogDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1134,9 +1176,10 @@ export const getConfigurableLogDrain: API.OperationMethod<
   GetConfigurableLogDrainError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31, __c7, 3) as any as S.Schema<GetConfigurableLogDrainRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<GetConfigurableLogDrainResponse>,
+  input: __S(35, __c8, 3) as any as S.Schema<GetConfigurableLogDrainRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<GetConfigurableLogDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1151,9 +1194,10 @@ export const getIntegrationLogDrains: API.OperationMethod<
   GetIntegrationLogDrainsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetIntegrationLogDrainsRequest>,
-  output: __S(35, __c8, 3) as any as S.Schema<GetIntegrationLogDrainsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetIntegrationLogDrainsRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<GetIntegrationLogDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1168,12 +1212,51 @@ function __c0(j: number): any {
         S.Struct({
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/integrations/log-drains", code: 200 })),
+      ).annotate({ identifier: "GetIntegrationLogDrainsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          branch: S.optional(S.String),
+          clientId: S.optional(S.String),
+          configurationId: S.optional(S.String),
+          createdAt: S.Number,
+          createdFrom: S.optional(S.String),
+          deliveryFormat: S.optional(S.String),
+          environments: S.optional(__S(10, __c2, 2)),
+          headers: S.optional(__S(8, __c2, 0)),
+          id: S.String,
+          name: S.String,
+          ownerId: S.String,
+          projectId: S.optional(S.NullOr(S.String)),
+          projectIds: S.optional(__S(9, __c2, 1)),
+          samplingRate: S.optional(S.Number),
+          source: S.Unknown,
+          sources: S.optional(__S(10, __c2, 2)),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "GetIntegrationLogDrainsResponseBodyItem" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() => __S(2, __c0, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetIntegrationLogDrainsResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
           deliveryFormat: S.String,
           url: S.String,
-          headers: S.optional(__S(4, __c1, 0)),
-          projectIds: S.optional(__S(5, __c1, 1)),
-          sources: __S(6, __c1, 2),
-          environments: S.optional(__S(6, __c1, 2)),
+          headers: S.optional(__S(8, __c2, 0)),
+          projectIds: S.optional(__S(9, __c2, 1)),
+          sources: __S(10, __c2, 2),
+          environments: S.optional(__S(10, __c2, 2)),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           samplingRate: S.optional(S.Number),
           name: S.optional(S.String),
@@ -1185,7 +1268,7 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1195,7 +1278,7 @@ function __c1(j: number): any {
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1203,13 +1286,13 @@ function __c2(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           name: S.String,
-          projectIds: S.optional(__S(5, __c1, 1)),
+          projectIds: S.optional(__S(9, __c2, 1)),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           deliveryFormat: S.optional(S.String),
           url: S.String,
-          sources: S.optional(__S(6, __c1, 2)),
-          headers: S.optional(__S(4, __c1, 0)),
-          environments: S.optional(__S(6, __c1, 2)),
+          sources: S.optional(__S(10, __c2, 2)),
+          headers: S.optional(__S(8, __c2, 0)),
+          environments: S.optional(__S(10, __c2, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/integrations/log-drains", code: 200 })),
       ).annotate({ identifier: "CreateLogDrainRequest" });
     case 1:
@@ -1221,22 +1304,22 @@ function __c2(j: number): any {
           createdAt: S.Number,
           createdFrom: S.optional(S.String),
           deliveryFormat: S.optional(S.String),
-          environments: S.optional(__S(6, __c1, 2)),
-          headers: S.optional(__S(4, __c1, 0)),
+          environments: S.optional(__S(10, __c2, 2)),
+          headers: S.optional(__S(8, __c2, 0)),
           id: S.String,
           name: S.String,
           ownerId: S.String,
           projectId: S.optional(S.NullOr(S.String)),
-          projectIds: S.optional(__S(5, __c1, 1)),
+          projectIds: S.optional(__S(9, __c2, 1)),
           samplingRate: S.optional(S.Number),
           source: S.Unknown,
-          sources: S.optional(__S(6, __c1, 2)),
+          sources: S.optional(__S(10, __c2, 2)),
           url: S.String,
         }),
       ).annotate({ identifier: "CreateLogDrainResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1248,7 +1331,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteConfigurableLogDrainRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1256,7 +1339,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1268,7 +1351,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationLogDrainRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1287,7 +1370,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1299,7 +1382,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItem" });
     case 1:
-      return S.Array(__S(28, __c7, 0));
+      return S.Array(__S(32, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1309,7 +1392,7 @@ function __c7(j: number): any {
           integrationConfigurationUri: S.optional(S.String),
           integrationIcon: S.optional(S.String),
           integrationWebsite: S.optional(S.String),
-          projectsMetadata: S.optional(S.NullOr(__S(29, __c7, 1))),
+          projectsMetadata: S.optional(S.NullOr(__S(33, __c8, 1))),
         }),
       ).annotate({ identifier: "GetAllLogDrainsResponseBodyCase0Item" });
     case 3:
@@ -1320,45 +1403,6 @@ function __c7(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/log-drains/{id}", code: 200 })),
       ).annotate({ identifier: "GetConfigurableLogDrainRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/integrations/log-drains", code: 200 })),
-      ).annotate({ identifier: "GetIntegrationLogDrainsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          branch: S.optional(S.String),
-          clientId: S.optional(S.String),
-          configurationId: S.optional(S.String),
-          createdAt: S.Number,
-          createdFrom: S.optional(S.String),
-          deliveryFormat: S.optional(S.String),
-          environments: S.optional(__S(6, __c1, 2)),
-          headers: S.optional(__S(4, __c1, 0)),
-          id: S.String,
-          name: S.String,
-          ownerId: S.String,
-          projectId: S.optional(S.NullOr(S.String)),
-          projectIds: S.optional(__S(5, __c1, 1)),
-          samplingRate: S.optional(S.Number),
-          source: S.Unknown,
-          sources: S.optional(__S(6, __c1, 2)),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "GetIntegrationLogDrainsResponseBodyItem" });
-    case 2:
-      return S.Array(__S(33, __c8, 1));
-    case 3:
-      return S.suspend(() => __S(34, __c8, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetIntegrationLogDrainsResponse",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

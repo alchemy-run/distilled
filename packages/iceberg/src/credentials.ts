@@ -1,9 +1,10 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
+import type { Checked } from "@distilled.cloud/core/config";
 /**
  * Iceberg REST Catalog credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ uri, token, prefix }` per request;
- * the protocol layer builds every URL from it.
+ * the protocol builds every URL from it.
  *
  * - `uri` is the catalog's REST endpoint -- what Iceberg clients call the
  *   catalog URI (`https://catalog.cloudflarestorage.com/<account>/<bucket>`
@@ -16,6 +17,10 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  *   resolves it for you from a warehouse name.
  * - `token` is sent as `Authorization: Bearer <token>`. It is optional
  *   because some catalogs (a local REST catalog, a sidecar) take none.
+ *
+ * A layer here reads and checks its configuration when it is built
+ * ({@link check}): a missing catalog URI or a prefix that can't be a URL
+ * path is a `ConfigError` at setup, and no call fails for it.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
@@ -35,10 +40,40 @@ export interface Config {
   readonly token?: Redacted.Redacted<string>;
 }
 
+/** What the service resolves: a {@link Config} that passed {@link check}. */
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Checked<Config>>>()(
     "IcebergCredentials",
   ) {}
+
+/** A `.` or `..` path segment, also percent-encoded (`%2e%2E`): URL parsers resolve both. */
+const DOT_SEGMENT = /^(?:\.|%2e){1,2}$/i;
+
+/**
+ * Check `config`: fails with `ConfigError` for a prefix with a `.` or `..`
+ * segment or a lone UTF-16 surrogate, which can't be a URL path. For a
+ * `Credentials` layer of your own, for example one that rotates tokens.
+ */
+export const check = (config: Config): Effect.Effect<Checked<Config>, ConfigError> => {
+  const prefix = config.prefix?.replace(/^\/+|\/+$/g, "");
+  return !prefix || (prefix.isWellFormed() && !prefix.split("/").some((s) => DOT_SEGMENT.test(s)))
+    ? // The one place that says a Config is checked.
+      Effect.succeed(config as Checked<Config>)
+    : Effect.fail(
+        new ConfigError({
+          message: `The configured Iceberg prefix ${JSON.stringify(config.prefix)} cannot be a URL path`,
+        }),
+      );
+};
+
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = <R>(
+  config: Effect.Effect<Config, ConfigError, R>,
+): Layer.Layer<Credentials, ConfigError, R> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(Effect.flatMap(config, check), (checked) => Effect.succeed(checked)),
+  );
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   uri: /*@__PURE__*/ EffectConfig.String("ICEBERG_CATALOG_URI"),
@@ -48,10 +83,10 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 
 /**
  * `ICEBERG_CATALOG_URI` (required), `ICEBERG_PREFIX` and `ICEBERG_TOKEN`
- * (optional).
+ * (optional). The environment is read, and the values checked, once: when
+ * the layer is built.
  */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       () =>
@@ -68,14 +103,15 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
 );
 
 /** Convenience layer from a catalog URI, optional prefix and optional token. */
-export const credentials = (config: Config): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, Effect.succeed(config));
+export const credentials = (config: Config): Layer.Layer<Credentials, ConfigError> =>
+  layer(Effect.succeed(config));
 
 /**
  * Resolve a warehouse to its catalog configuration once, at layer build:
  * `GET <uri>/v1/config?warehouse=<warehouse>`, then use the catalog's
  * `overrides` -- `prefix`, and `uri` when the catalog redirects clients to
- * another endpoint -- exactly as Iceberg clients do.
+ * another endpoint -- exactly as Iceberg clients do. The prefix the catalog
+ * hands out is checked there too.
  *
  * @example
  * ```ts
@@ -120,10 +156,7 @@ export const fromCatalogConfig = (options: {
     },
   ).pipe(Effect.catchTag("HttpClientError", (error) => Effect.fail(failure(error.message))));
 
-  return Layer.effect(
-    Credentials,
-    Effect.map(resolve, (config) => Effect.succeed(config)),
-  );
+  return layer(resolve);
 };
 
 const trimTrailingSlash = (uri: string): string => uri.replace(/\/+$/, "");

@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -773,8 +774,10 @@ export interface GetCaseAuditEventsResponse {
 export interface GetCaseEventConfigurationRequest {
   domainId: string;
 }
+export type AutoIncludeFields = string;
 export interface CaseEventIncludedData {
   fields: FieldIdentifier[];
+  autoIncludeFields?: string | undefined;
 }
 export interface RelatedItemEventIncludedData {
   includeContent: boolean;
@@ -1335,9 +1338,14 @@ export interface CommentUpdateContent {
 export interface CustomUpdateContent {
   fields: FieldValue[];
 }
+export interface SlaUpdateConfiguration {
+  targetSlaMinutes: number;
+}
+export type SlaUpdateContent = { slaUpdateConfiguration: SlaUpdateConfiguration };
 export type RelatedItemUpdateContent =
-  | { comment: CommentUpdateContent; custom?: undefined }
-  | { comment?: undefined; custom: CustomUpdateContent };
+  | { comment: CommentUpdateContent; custom?: undefined; sla?: undefined }
+  | { comment?: undefined; custom: CustomUpdateContent; sla?: undefined }
+  | { comment?: undefined; custom?: undefined; sla: SlaUpdateContent };
 export interface UpdateRelatedItemRequest {
   domainId: string;
   caseId: string;
@@ -1414,6 +1422,7 @@ export const batchCreateRelatedItem: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRelatedItem",
@@ -1446,6 +1455,7 @@ export const batchGetCaseRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCaseRule",
@@ -1478,6 +1488,7 @@ export const batchGetField: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetField",
@@ -1512,6 +1523,7 @@ export const batchPutFieldOptions: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutFieldOptions",
@@ -1570,6 +1582,7 @@ export const batchUpdateCase: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCase",
@@ -1616,6 +1629,7 @@ export const createCase: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
@@ -1652,6 +1666,7 @@ export const createCaseRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseRule",
@@ -1688,6 +1703,7 @@ export const createDomain: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
@@ -1724,6 +1740,7 @@ export const createField: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateField",
@@ -1766,6 +1783,7 @@ export const createLayout: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLayout",
@@ -1786,6 +1804,8 @@ export type CreateRelatedItemError =
  * Creates a related item (comments, tasks, and contacts) and associates it with a case.
  *
  * There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.
+ *
+ * There's a quota for the number of SLAs that can be attached to a case. See Connect Customer Cases quotas.
  *
  * **Use cases**
  *
@@ -1832,6 +1852,7 @@ export const createRelatedItem: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelatedItem",
@@ -1878,6 +1899,7 @@ export const createTemplate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
@@ -1922,6 +1944,7 @@ export const deleteCase: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCase",
@@ -1954,6 +1977,7 @@ export const deleteCaseRule: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCaseRule",
@@ -1990,6 +2014,7 @@ export const deleteDomain: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
@@ -2052,6 +2077,7 @@ export const deleteField: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteField",
@@ -2094,6 +2120,7 @@ export const deleteLayout: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayout",
@@ -2132,6 +2159,7 @@ export const deleteRelatedItem: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelatedItem",
@@ -2176,6 +2204,7 @@ export const deleteTemplate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
@@ -2209,6 +2238,7 @@ export const getCase: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCase",
@@ -2243,6 +2273,7 @@ export const getCaseAuditEvents: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAuditEvents",
@@ -2280,6 +2311,7 @@ export const getCaseEventConfiguration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseEventConfiguration",
@@ -2312,6 +2344,7 @@ export const getDomain: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
@@ -2344,6 +2377,7 @@ export const getLayout: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayout",
@@ -2386,6 +2420,7 @@ export const getMergeCasesStatus: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeCasesStatus",
@@ -2426,6 +2461,7 @@ export const getTemplate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
@@ -2459,6 +2495,7 @@ export const listCaseRules: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCaseRules",
@@ -2498,6 +2535,7 @@ export const listCasesForContact: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCasesForContact",
@@ -2534,6 +2572,7 @@ export const listDomains: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomains",
@@ -2572,6 +2611,7 @@ export const listFieldOptions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldOptions",
@@ -2610,6 +2650,7 @@ export const listFields: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFields",
@@ -2648,6 +2689,7 @@ export const listLayouts: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLayouts",
@@ -2685,6 +2727,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2728,6 +2771,7 @@ export const listTemplates: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
@@ -2767,6 +2811,7 @@ export const putCaseEventConfiguration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCaseEventConfiguration",
@@ -2818,6 +2863,7 @@ export const searchAllRelatedItems: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchAllRelatedItems",
@@ -2859,6 +2905,7 @@ export const searchCases: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchCases",
@@ -2900,6 +2947,7 @@ export const searchRelatedItems: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRelatedItems",
@@ -2970,6 +3018,7 @@ export const startMergeCases: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMergeCases",
@@ -3002,6 +3051,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3034,6 +3084,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -3074,6 +3125,7 @@ export const updateCase: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
@@ -3110,6 +3162,7 @@ export const updateCaseRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseRule",
@@ -3144,6 +3197,7 @@ export const updateField: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateField",
@@ -3186,6 +3240,7 @@ export const updateLayout: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLayout",
@@ -3209,6 +3264,8 @@ export type UpdateRelatedItemError =
  *
  * - **Custom** - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Connect Customer Cases quotas.
  *
+ * - **Sla** - Update the target duration (`targetSlaMinutes`) of an SLA. The new deadline is counted from when the SLA was created. The SLA status is recalculated against the new deadline: an open SLA becomes Active or Overdue, and a completed SLA becomes Met or NotMet.
+ *
  * **Important things to know**
  *
  * - When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.
@@ -3227,8 +3284,8 @@ export const updateRelatedItem: API.OperationMethod<
   UpdateRelatedItemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c51, 1) as any as S.Schema<UpdateRelatedItemRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<UpdateRelatedItemResponse>,
+  input: __S(819, __c51, 3) as any as S.Schema<UpdateRelatedItemRequest>,
+  output: __S(820, __c51, 4) as any as S.Schema<UpdateRelatedItemResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3238,6 +3295,7 @@ export const updateRelatedItem: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItem",
@@ -3284,6 +3342,7 @@ export const updateTemplate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
@@ -3872,9 +3931,9 @@ function __c23(j: number): any {
 function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ fields: __S(1041, __c65, 1) })).annotate({
-        identifier: "CaseEventIncludedData",
-      });
+      return S.suspend(() =>
+        S.Struct({ fields: __S(1041, __c65, 1), autoIncludeFields: S.optional(S.String) }),
+      ).annotate({ identifier: "CaseEventIncludedData" });
     case 1:
       return S.suspend(() => S.Struct({ includeContent: S.Boolean })).annotate({
         identifier: "RelatedItemEventIncludedData",
@@ -4714,17 +4773,24 @@ function __c50(j: number): any {
 function __c51(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ targetSlaMinutes: S.Number })).annotate({
+        identifier: "SlaUpdateConfiguration",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ slaUpdateConfiguration: __S(816, __c51, 0) })]);
+    case 2:
       return S.Union([
         /*@__PURE__*/ S.Struct({ comment: __S(944, __c59, 0) }),
         /*@__PURE__*/ S.Struct({ custom: __S(948, __c59, 4) }),
+        /*@__PURE__*/ S.Struct({ sla: __S(817, __c51, 1) }),
       ]);
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           domainId: S.String.pipe(T.HttpLabel("domainId")),
           caseId: S.String.pipe(T.HttpLabel("caseId")),
           relatedItemId: S.String.pipe(T.HttpLabel("relatedItemId")),
-          content: __S(816, __c51, 0),
+          content: __S(818, __c51, 2),
           performedBy: S.optional(__S(896, __c56, 0)),
         }).pipe(
           T.all(
@@ -4740,7 +4806,7 @@ function __c51(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateRelatedItemRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           relatedItemId: S.String,

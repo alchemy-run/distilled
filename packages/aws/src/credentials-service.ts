@@ -5,6 +5,7 @@
  * `Credentials` layer. Each provider under `credential-providers/` builds its
  * layer from this module.
  */
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import { Credentials, type ResolvedCredentials } from "@distilled.cloud/s3/Credentials";
 import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
@@ -123,25 +124,29 @@ const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 /**
  * Create a credentials effect with lazy resolution and expiration-aware caching.
- * Uses Effect.cachedWithTTL where the TTL is computed from the credentials' expiration.
+ * Credentials are reused until five minutes before they expire, and
+ * concurrent calls on a cold or stale cache share one resolution. Credentials
+ * without an expiration are not cached: they are resolved again on every
+ * call. A resolution that runs past `timeoutMs` (default 60 s) is interrupted
+ * and fails with {@link AwsCredentialProviderError}.
  */
 export const createCachedCredentialsEffect = <E, R>(
   resolve: Effect.Effect<ResolvedCredentials, E, R>,
-): Effect.Effect<ResolvedCredentials, E, R> => {
-  let cachedCreds: ResolvedCredentials | undefined;
-  let expiresAt: number | undefined;
-
-  return Effect.suspend(() => {
-    const now = Date.now();
-    if (cachedCreds && expiresAt && now < expiresAt) {
-      return Effect.succeed(cachedCreds);
-    }
-    return Effect.map(resolve, (creds) => {
-      cachedCreds = creds;
-      expiresAt = creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined;
-      return creds;
-    });
-  });
+  options: { readonly provider?: string; readonly timeoutMs?: number } = {},
+): Effect.Effect<ResolvedCredentials, E | AwsCredentialProviderError, R> => {
+  const provider = options.provider ?? "credentials";
+  return refreshing<ResolvedCredentials, E | AwsCredentialProviderError, R>(
+    resolve,
+    (creds) => (creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined),
+    {
+      ...(options.timeoutMs !== undefined ? { timeoutMs: options.timeoutMs } : {}),
+      onTimeout: (timeoutMs) =>
+        new AwsCredentialProviderError({
+          message: `Resolving credentials from ${provider} timed out after ${timeoutMs / 1000} s.`,
+          provider,
+        }),
+    },
+  );
 };
 
 /**
@@ -174,7 +179,10 @@ export const createLazyProvider = (
     return fromAwsCredentialIdentity(identity, yield* region);
   });
 
-  return Layer.succeed(Credentials, createCachedCredentialsEffect(resolve));
+  return Layer.succeed(
+    Credentials,
+    createCachedCredentialsEffect(resolve, { provider: providerName }),
+  );
 };
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);

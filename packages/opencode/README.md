@@ -23,10 +23,20 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Opencode.CredentialsFromEnv,
-  Opencode.OpencodeProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Experimental routes
+
+OpenCode serves its experimental routes under `/api/experimental/`. Those
+operations import from `unstable/`:
+
+```ts
+import * as OpencodeUnstable from "@distilled.cloud/opencode/unstable/opencode";
+
+const schedules = yield* OpencodeUnstable.listExperimentalSchedule({ sessionID });
 ```
 
 ## Auth

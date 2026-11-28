@@ -4,12 +4,13 @@
  * API-compatible port of the distilled repo's cloudflare credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
  * credentials (apiToken / apiKey+email / OAuth with refresh) on every
- * request, so rotating or refreshing tokens Just Works. The protocol layer
+ * request, so rotating or refreshing tokens Just Works. The protocol
  * resolves it per request and formats the auth headers via
  * {@link formatHeaders}.
  */
 import * as Config from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -94,13 +95,14 @@ export class OAuthRefreshError
     cause?: unknown;
   }> {}
 
-export type CredentialsError = ConfigError | OAuthRefreshError;
-
 export class Credentials
   extends /*@__PURE__*/ Context.Service<
     Credentials,
-    Effect.Effect<ResolvedCredentials, CredentialsError, never>
+    Effect.Effect<ResolvedCredentials, OAuthRefreshError>
   >()("CloudflareCredentials") {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 
@@ -144,25 +146,16 @@ const getRefreshAt = (credentials: ResolvedCredentials): number => {
 const isExpired = (expiresAt?: number): boolean =>
   expiresAt !== undefined && Date.now() >= expiresAt - CREDENTIAL_REFRESH_WINDOW_MS;
 
+/** Concurrent calls on a cold or stale cache share one refresh. */
 const createCachedCredentialsEffect = <E>(
   resolve: Effect.Effect<ResolvedCredentials, E>,
-): Effect.Effect<ResolvedCredentials, E> => {
-  let cachedCreds: ResolvedCredentials | undefined;
-  let refreshAt = 0;
-
-  return Effect.suspend(() => {
-    const now = Date.now();
-    if (cachedCreds && now < refreshAt) {
-      return Effect.succeed(cachedCreds);
-    }
-
-    return Effect.map(resolve, (credentials) => {
-      cachedCreds = credentials;
-      refreshAt = getRefreshAt(credentials);
-      return credentials;
-    });
+): Effect.Effect<ResolvedCredentials, E | OAuthRefreshError> =>
+  refreshing<ResolvedCredentials, E | OAuthRefreshError, never>(resolve, getRefreshAt, {
+    onTimeout: (timeoutMs) =>
+      new OAuthRefreshError({
+        message: `Cloudflare OAuth credentials refresh timed out after ${timeoutMs / 1000} s`,
+      }),
   });
-};
 
 const wrapOAuthError = <A>(
   message: string,
@@ -276,7 +269,16 @@ export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
     });
   });
 
-export const fromEnv = (): Layer.Layer<Credentials> => Layer.succeed(Credentials, resolveFromEnv);
+/**
+ * Credentials from the environment ({@link resolveFromEnv}), read once: when
+ * the layer is built. A missing or incomplete set of variables fails the
+ * layer with `ConfigError`.
+ */
+export const fromEnv = (): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    /*@__PURE__*/ Effect.map(resolveFromEnv, (config) => Effect.succeed(config)),
+  );
 
 export const CredentialsFromEnv = /*@__PURE__*/ fromEnv();
 

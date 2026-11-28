@@ -4,7 +4,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *
  * API-compatible port of the distilled v0 credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  *
  * Argo CD authenticates HTTP API requests with a bearer token
@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "ArgocdCredentials",
   ) {}
 
@@ -45,21 +45,27 @@ export const fromToken = (config: {
 
 /**
  * Reads ARGOCD_TOKEN (required) and ARGOCD_SERVER (optional instance origin).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const token = process.env.ARGOCD_TOKEN;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const token = process.env.ARGOCD_TOKEN;
 
-    if (!token) {
-      return yield* new ConfigError({
-        message: "ARGOCD_TOKEN environment variable is required",
-      });
-    }
+      if (!token) {
+        return yield* new ConfigError({
+          message: "ARGOCD_TOKEN environment variable is required",
+        });
+      }
 
-    return {
-      token: Redacted.make(token),
-      apiBaseUrl: process.env.ARGOCD_SERVER ?? DEFAULT_API_BASE_URL,
-    };
-  }),
+      return {
+        token: Redacted.make(token),
+        apiBaseUrl: process.env.ARGOCD_SERVER ?? DEFAULT_API_BASE_URL,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

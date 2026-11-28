@@ -24,10 +24,20 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Stackit.CredentialsFromEnv,
-  Stackit.StackitProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Modules
+
+One module per STACKIT product, at that product's latest published version.
+Products whose version is alpha or beta (the document's `info.version`, such
+as `1alpha` or `1beta.0.0`) are under `unstable/`:
+
+```ts
+import * as Dns from "@distilled.cloud/stackit/dns";
+import * as Git from "@distilled.cloud/stackit/unstable/git";
 ```
 
 ## Auth

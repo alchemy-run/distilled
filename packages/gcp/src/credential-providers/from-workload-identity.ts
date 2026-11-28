@@ -16,7 +16,7 @@ import {
   type TokenSource,
 } from "../credentials-service.ts";
 import { GCPCredentialsError } from "../errors.ts";
-import { CLOUD_PLATFORM_SCOPE, oauthToken, requestJson } from "./oauth.ts";
+import { CLOUD_PLATFORM_SCOPE, iamCredentialsUrl, oauthToken, requestJson } from "./oauth.ts";
 
 const STS_TOKEN_URL = "https://sts.googleapis.com/v1/token";
 const JWT_TOKEN_TYPE = "urn:ietf:params:oauth:token-type:jwt";
@@ -87,7 +87,7 @@ const exchangeSubjectToken = (
  */
 export const impersonateServiceAccount = (
   serviceAccountEmail: string,
-  source: Token,
+  source: { readonly accessToken: Redacted.Redacted<string> },
   options: {
     readonly scopes: ReadonlyArray<string>;
     readonly lifetimeSeconds?: number;
@@ -96,11 +96,10 @@ export const impersonateServiceAccount = (
 ): Effect.Effect<Token, GCPCredentialsError, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const step = `Impersonating ${serviceAccountEmail}`;
+    const url = yield* iamCredentialsUrl(serviceAccountEmail, "generateAccessToken");
     const body = yield* requestJson(
       step,
-      HttpClientRequest.post(
-        `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${encodeURIComponent(serviceAccountEmail)}:generateAccessToken`,
-      ).pipe(
+      HttpClientRequest.post(url).pipe(
         HttpClientRequest.bearerToken(Redacted.value(source.accessToken)),
         HttpClientRequest.bodyJsonUnsafe({
           scope: options.scopes,

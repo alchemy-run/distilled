@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -528,6 +528,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -981,7 +983,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15, __c0, 15) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(16, __c0, 16) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -998,7 +1001,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GetDatabaseResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1015,7 +1019,8 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<UpdateDatabaseRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<UpdateDatabaseResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

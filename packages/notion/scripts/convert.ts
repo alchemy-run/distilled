@@ -96,6 +96,8 @@ const OPERATION_NAMES: Record<string, string> = {
   "DELETE /v1/views/{view_id}/queries/{query_id}": "deleteViewQuery",
   "POST /v1/blocks/meeting_notes": "createMeetingNote",
   "POST /v1/blocks/meeting_notes/query": "queryMeetingNotes",
+  "POST /v1/meeting_notes": "createMeetingNotePage",
+  "PATCH /v1/meeting_notes/{meeting_note_id}": "updateMeetingNotePage",
   "POST /v1/agents/query": "queryAgents",
   "GET /v1/agents/{agent_id}": "getAgent",
   "DELETE /v1/agents/{agent_id}": "deleteAgent",

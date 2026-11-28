@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * MetabaseProtocol -- hand-written.
  *
  * Metabase speaks API-key-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `X-API-Key: <apiKey>` + base URL
@@ -21,34 +19,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownMetabaseError, MetabaseParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownMetabaseError, MetabaseParseError, type MetabaseServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Metabase operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * MetabaseOpError, MetabaseOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Metabase operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, MetabaseOpError, MetabaseOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
  */
-export type MetabaseOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownMetabaseError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | MetabaseParseError
-  | InvalidInput
-  | SdkError;
+export type MetabaseOpError = MetabaseServiceError | ErrorOf<typeof MetabaseProtocol>;
 
 /** Context (requirements) shared by every generated Metabase operation. */
 export type MetabaseOpContext = Credentials | HttpClient.HttpClient;
 
-export const MetabaseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const MetabaseProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     "X-API-Key": Redacted.value(creds.apiKey),

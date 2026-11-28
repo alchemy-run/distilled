@@ -69,18 +69,6 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.modal.proxy#ProxyGetOrCreate/errors",
-      "value": [
-        {
-          "target": "com.modal.proxy#ProxyNotFound"
-        },
-        {
-          "target": "com.modal.proxy#ProxyAlreadyExists"
-        }
-      ]
-    },
-    {
-      "op": "add",
       "path": "/shapes/com.modal.proxy#ProxyAddIp/errors",
       "value": [
         {

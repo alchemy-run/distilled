@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { SlackError, SlackRateLimited } from "../errors.ts";
+import { SlackServiceErrors } from "../errors.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -35,7 +35,7 @@ export interface BeginShortTokenRotationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A new xoxp access token to replace the token with a shorter secret. Not yet active until completeShortTokenRotation is called. */
-  new_token: string;
+  new_token: string | Redacted.Redacted<string>;
 }
 export interface CompleteShortTokenRotationRequest {
   /** Issued when you created your application. Must be the app the token being rotated was issued to. */
@@ -43,13 +43,13 @@ export interface CompleteShortTokenRotationRequest {
   /** Issued when you created your application. */
   client_secret: string | Redacted.Redacted<string>;
   /** The new xoxp token returned by oauth.v2.beginShortTokenRotation. */
-  new_token: string;
+  new_token: string | Redacted.Redacted<string>;
 }
 export interface CompleteShortTokenRotationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The new xoxp access token, now active. The previous token is no longer valid. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface OauthAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
@@ -84,7 +84,7 @@ export interface OauthAccessResponseScopes {
 }
 export interface OauthAccessResponseBot {
   bot_user_id?: string | undefined;
-  bot_access_token?: string | undefined;
+  bot_access_token?: string | Redacted.Redacted<string> | undefined;
   scope?: string | undefined;
 }
 export interface OauthAccessResponseUser {
@@ -319,7 +319,8 @@ export const beginShortTokenRotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BeginShortTokenRotationRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<BeginShortTokenRotationResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +337,8 @@ export const completeShortTokenRotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CompleteShortTokenRotationRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<CompleteShortTokenRotationResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +355,8 @@ export const oauthAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<OauthAccessRequest>,
   output: __S(40, __c2, 8) as any as S.Schema<OauthAccessResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -361,7 +364,7 @@ export const oauthAccess: API.OperationMethod<
 }));
 
 export type V2AccessError = SlackOpError;
-/** Exchanges a temporary OAuth verifier code for an access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- Value passed for `client_secret` was invalid. - `bad_redirect_uri` -- Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- Returned when the the org-installed app cannot be installed on a workspace. - `invalid_client_id` -- Value passed for `client_id` was invalid. - `invalid_code` -- Value passed for `code` was invalid. - `invalid_grant_type` -- Value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `no_scopes` -- Missing `scope` in the request. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize. - `preview_feature_not_available` -- Returned when the API method is not yet available on the team in context. - `user_email_unverified` -- The users email is unverified. - `pkce_not_allowed` -- The app is not allowed to use the PKCE flow. - `invalid_code_verifier` -- The code_verifier is invalid. See https://docs.slack.dev/reference/methods/oauth.v2.access */
+/** Exchanges a temporary OAuth verifier code for an access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- Value passed for `client_secret` was invalid. - `bad_redirect_uri` -- Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- Returned when the the org-installed app cannot be installed on a workspace. - `workspace_denied_app` -- Returned when the org-installed app is denied for a workspace the install would add it to, by that workspace or by the org, so it can't be added there. - `invalid_client_id` -- Value passed for `client_id` was invalid. - `invalid_code` -- Value passed for `code` was invalid. - `invalid_grant_type` -- Value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `no_scopes` -- Missing `scope` in the request. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize. - `preview_feature_not_available` -- Returned when the API method is not yet available on the team in context. - `user_email_unverified` -- The users email is unverified. - `pkce_not_allowed` -- The app is not allowed to use the PKCE flow. - `invalid_code_verifier` -- The code_verifier is invalid. See https://docs.slack.dev/reference/methods/oauth.v2.access */
 export const v2Access: API.OperationMethod<
   V2AccessRequest,
   V2AccessResponse,
@@ -370,7 +373,8 @@ export const v2Access: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<V2AccessRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<V2AccessResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +391,8 @@ export const v2Exchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<V2ExchangeRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<V2ExchangeResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -395,7 +400,7 @@ export const v2Exchange: API.OperationMethod<
 }));
 
 export type V2UserAccessError = SlackOpError;
-/** Exchanges a temporary OAuth verifier code for a user access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- Value passed for `client_secret` was invalid. - `bad_redirect_uri` -- Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- Returned when the the org-installed app cannot be installed on a workspace. - `invalid_client_id` -- Value passed for `client_id` was invalid, or the `client_id` in the assertion is not a string. - `invalid_code` -- Value passed for `code` was invalid. - `invalid_grant_type` -- Value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_resource` -- The `resource` in the assertion is malformed, or is not a resource tokens can be issued for. - `no_scopes` -- Missing `scope` in the request. - `no_user_scopes` -- Missing user `scope` in the auth request. - `not_implemented` -- Method not yet supported - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize . - `preview_feature_not_available` -- Returned when the API method is not yet available on the team in context. - `user_email_unverified` -- The users email is unverified - `app_not_admin_approved` -- The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `app_not_org_installed` -- The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs. - `client_id_mismatch` -- Value passed for `client_id` did not match the `client_id` in the assertion. - `ema_disabled` -- Enterprise-managed auth is disabled. - `ema_issuer_mismatch` -- The issuer in the assertion did not match the issuer configured for enterprise-managed auth. - `invalid_audience` -- The audience in the assertion is not one this token endpoint supports. - `missing_scope` -- Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim. - `no_app_scopes_requested` -- None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares. - `no_approved_scopes_requested` -- The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes. - `no_assertion` -- Missing `assertion` in the request. - `user_not_authenticated` -- The user has never authenticated via single sign-on. - `no_idp_config_for_entity_id` -- No Enterprise-Managed Authorization (cross-app access) configuration is bound to the identity provider's SAML EntityID carried in the assertion's `sub_id`. An org admin must configure External Identity / cross-app access for that identity provider before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `ema_tenant_mismatch` -- The `aud_tenant` in an assertion without a `sub_id` is missing, or is not the ID of the organization or workspace whose identity provider issued it. - `invalid_aud_tenant` -- The `aud_tenant` in the assertion is not a string. It must be the ID of the organization or workspace whose identity provider issued the assertion. - `invalid_email` -- The `email` in the assertion is not a string. - `invalid_issuer` -- The `iss` in the assertion is not a string. It must be the issuer URL of the identity provider that issued the assertion. - `invalid_jti` -- The `jti` in the assertion is not a string. It must be a unique identifier for the assertion. - `invalid_scope` -- The `scope` in the assertion is not a string. It must be a space-delimited list of scopes. - `invalid_sub` -- The `sub` in the assertion is not a string. - `invalid_sub_id_format` -- The `format` of the `sub_id` in the assertion is not a string. The only supported format is `saml-nameid`. - `missing_audience` -- Missing `aud` in the assertion. It must name this token endpoint as an audience. - `missing_client_id` -- Missing `client_id` in the assertion. It must match the `client_id` of the app requesting the token. See https://docs.slack.dev/reference/methods/oauth.v2.user.access */
+/** Exchanges a temporary OAuth verifier code for a user access token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- Value passed for `client_secret` was invalid. - `bad_redirect_uri` -- Value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- Returned when the the org-installed app cannot be installed on a workspace. - `workspace_denied_app` -- Returned when the org-installed app is denied for a workspace the install would add it to, by that workspace or by the org, so it can't be added there. - `invalid_client_id` -- Value passed for `client_id` was invalid, or the `client_id` in the assertion is not a string. - `invalid_code` -- Value passed for `code` was invalid. - `invalid_grant_type` -- Value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_resource` -- The `resource` in the assertion is malformed, or is not a resource tokens can be issued for. - `no_scopes` -- Missing `scope` in the request. - `no_user_scopes` -- Missing user `scope` in the auth request. - `not_implemented` -- Method not yet supported - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize . - `preview_feature_not_available` -- Returned when the API method is not yet available on the team in context. - `user_email_unverified` -- The users email is unverified - `app_not_admin_approved` -- The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `app_not_org_installed` -- The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs. - `client_id_mismatch` -- Value passed for `client_id` did not match the `client_id` in the assertion. - `ema_disabled` -- Enterprise-managed auth is disabled. - `ema_issuer_mismatch` -- The issuer in the assertion did not match the issuer configured for enterprise-managed auth. - `invalid_audience` -- The audience in the assertion is not one this token endpoint supports. - `missing_scope` -- Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim. - `missing_sub_id` -- Missing `sub_id` in the assertion. It must identify the user with a `sub_id` in the `saml-nameid` format, unless it carries an `aud_tenant` for an organization set up to accept assertions without one. - `no_app_scopes_requested` -- None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares. - `no_approved_scopes_requested` -- The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes. - `no_assertion` -- Missing `assertion` in the request. - `user_not_authenticated` -- The user has never authenticated via single sign-on. - `no_idp_config_for_entity_id` -- No Enterprise-Managed Authorization (cross-app access) configuration is bound to the identity provider's SAML EntityID carried in the assertion's `sub_id`. An org admin must configure External Identity / cross-app access for that identity provider before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. - `ema_tenant_mismatch` -- The `aud_tenant` in an assertion without a `sub_id` is missing, or is not the ID of the organization or workspace whose identity provider issued it. - `invalid_aud_tenant` -- The `aud_tenant` in the assertion is not a string. It must be the ID of the organization or workspace whose identity provider issued the assertion. - `invalid_email` -- The `email` in the assertion is not a string. - `invalid_issuer` -- The `iss` in the assertion is not a string. It must be the issuer URL of the identity provider that issued the assertion. - `invalid_jti` -- The `jti` in the assertion is not a string. It must be a unique identifier for the assertion. - `invalid_scope` -- The `scope` in the assertion is not a string. It must be a space-delimited list of scopes. - `invalid_sub` -- The `sub` in the assertion is not a string. - `invalid_sub_id_format` -- The `format` of the `sub_id` in the assertion is not a string. The only supported format is `saml-nameid`. - `missing_audience` -- Missing `aud` in the assertion. It must name this token endpoint as an audience. - `missing_client_id` -- Missing `client_id` in the assertion. It must match the `client_id` of the app requesting the token. - `expired_token` -- The assertion has expired: its `exp` is in the past. Request a new assertion from the identity provider. - `idp_keys_unavailable` -- Slack could not fetch the OpenID Connect discovery document (`/.well-known/openid-configuration`) or the `jwks_uri` of the identity provider named by the `iss` in the assertion: the request failed or returned an HTTP error status. Retry, and if it keeps failing, check that both are served over HTTPS. - `invalid_exp` -- The `exp` in the assertion is not an integer. It must be the assertion's expiration time, in seconds since the epoch. - `invalid_header_encoding` -- The header of the assertion is not base64url-encoded JSON. - `invalid_jwks` -- The identity provider's `jwks_uri` did not return a JSON Web Key Set with a `keys` array. - `invalid_jwt_format` -- Value passed for `assertion` is not a JWT in compact serialization. It must have exactly three segments separated by `.`. - `invalid_openid_provider_metadata` -- The identity provider's OpenID Connect discovery document (`/.well-known/openid-configuration`) is not JSON with string `issuer` and `jwks_uri` fields. - `invalid_payload_encoding` -- The payload of the assertion is not base64url-encoded JSON. - `invalid_signature` -- The signature of the assertion does not verify against the identity provider's signing key named by its `kid`. - `invalid_sub_id` -- The `sub_id` in the assertion is not a JSON object. It must identify the user in the `saml-nameid` format. - `invalid_token` -- The assertion could not be verified. For example, its header has no `alg` or `kid`, its `alg` is not supported or doesn't match the signing key, or its `nbf`, `iat`, or `exp` is not a number. - `invalid_typ_header` -- The `typ` in the header of the assertion is not `oauth-id-jag+jwt`. - `invalid_code_verifier` -- The code_verifier is invalid. - `jwks_uri_not_https` -- The `jwks_uri` in the identity provider's OpenID Connect discovery document is not an `https` URL. - `jwt_already_used` -- The assertion has already been exchanged for a token. An assertion can be used only once: request a new one, with a new `jti`, from the identity provider. - `jwt_expired` -- The assertion was presented before and has since expired. Request a new assertion, with a new `jti`, from the identity provider. - `missing_email` -- Missing `email` in an assertion without a `sub_id`, or it is empty. It must be the email address of the user the token is for. - `missing_exp` -- Missing `exp` in the assertion. It must be the assertion's expiration time, in seconds since the epoch. - `missing_issuer` -- Missing `iss` in the assertion. It must be the issuer URL of the identity provider that issued the assertion. - `missing_jti` -- Missing `jti` in the assertion, or it is empty. It must be a unique identifier for the assertion. - `missing_sub` -- Missing `sub` in the assertion, or it is empty. - `missing_sub_id_format` -- Missing `format` in the `sub_id` of the assertion. The only supported format is `saml-nameid`. - `missing_sub_id_issuer` -- Missing `issuer` in the `sub_id` of the assertion, or it is not a string. It must be the SAML EntityID of the identity provider. - `missing_sub_id_nameid` -- Missing `nameid` in the `sub_id` of the assertion, or it is not a string. It must be the user's SAML NameID. - `missing_typ_header` -- Missing `typ` in the header of the assertion. It must be `oauth-id-jag+jwt`. - `openid_provider_issuer_mismatch` -- The `issuer` in the identity provider's OpenID Connect discovery document does not exactly match the `iss` in the assertion. - `pkce_not_allowed` -- The app is not allowed to use the PKCE flow. - `token_not_yet_valid` -- The assertion is not valid yet: its `nbf` or `iat` is in the future. Check the identity provider's clock. - `unknown_kid` -- The `kid` in the header of the assertion does not match any signing key published at the identity provider's `jwks_uri`. - `unknown_saml_issuer_for_team` -- The `issuer` in the `sub_id` of the assertion is not a SAML identity provider configured for the organization or workspace. - `unsupported_sub_id_format` -- The `format` of the `sub_id` in the assertion is not supported. The only supported format is `saml-nameid`. - `user_not_found` -- No active user in the organization or workspace matches the user the assertion identifies by its `sub_id` NameID or, without a `sub_id`, its `email`. External guests can't be identified this way. - `well_known_url_not_https` -- The `iss` in the assertion is not an `https` URL, so the identity provider's OpenID Connect discovery document can't be fetched. See https://docs.slack.dev/reference/methods/oauth.v2.user.access */
 export const v2UserAccess: API.OperationMethod<
   V2UserAccessRequest,
   V2UserAccessResponse,
@@ -404,7 +409,8 @@ export const v2UserAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<V2UserAccessRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<V2UserAccessResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -432,7 +438,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          new_token: S.String,
+          new_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BeginShortTokenRotationResponse" });
   }
@@ -444,7 +450,7 @@ function __c1(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
-          new_token: S.String,
+          new_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -458,7 +464,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CompleteShortTokenRotationResponse" });
   }
@@ -506,7 +512,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bot_user_id: S.optional(S.String),
-          bot_access_token: S.optional(S.String),
+          bot_access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthAccessResponseBot" });

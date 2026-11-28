@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTinybirdError } from "../errors.ts";
+import { TinybirdServiceErrors } from "../errors.ts";
 import { TinybirdProtocol, type TinybirdOpError, type TinybirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -113,7 +113,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<CreateTokenRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<CreateTokenResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -130,7 +131,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<DeleteTokenResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -147,7 +149,8 @@ export const getToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<GetTokenResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -164,7 +167,8 @@ export const listTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListTokensRequest>,
   output: __S(31, __c7, 3) as any as S.Schema<ListTokensResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -181,7 +185,8 @@ export const refreshToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<RefreshTokenRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<RefreshTokenResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -198,7 +203,8 @@ export const updateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateTokenRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<UpdateTokenResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

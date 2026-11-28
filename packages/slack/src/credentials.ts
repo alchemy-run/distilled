@@ -2,7 +2,7 @@
  * Slack credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it.
+ * protocol formats the `Authorization: Bearer <token>` header from it.
  *
  * Slack authorizes Web API calls with one bearer token, and the token's
  * PREFIX carries its kind (https://docs.slack.dev/authentication/tokens):
@@ -36,9 +36,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "SlackCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("SlackCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // SLACK_BOT_TOKEN is the spelling Bolt and most hosting platforms use;
@@ -51,19 +49,26 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "SLACK_BOT_TOKEN (or SLACK_TOKEN) environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "SLACK_BOT_TOKEN (or SLACK_TOKEN) environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ token, apiBaseUrl }) => ({
+        token: Redacted.make(token),
+        apiBaseUrl,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ token, apiBaseUrl }) => ({
-      token: Redacted.make(token),
-      apiBaseUrl,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

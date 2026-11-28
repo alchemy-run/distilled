@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -68,7 +69,7 @@ export interface UserCodexAuthTokens {
   /** The single-use ChatGPT refresh token from the same `tokens` object. */
   refresh_token: string | Redacted.Redacted<string>;
   /** The OpenID id token from the same `tokens` object, when present. Used to read the account email. */
-  id_token?: string | null | undefined;
+  id_token?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreateUsersIntegrationsCodexRequest {
   uuid: string;
@@ -785,6 +786,17 @@ export interface OrganizationMemberNotice {
   /** Optional link button shown on the right of the banner. */
   action?: OrganizationMemberNoticeAction | null | undefined;
 }
+/** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+export type OrganizationIpRestrictionsList = Array<string>;
+export interface OrganizationExternalProjectLink {
+  id: string;
+  /** Name shown for the project in the project switcher. */
+  name: string;
+  /** Full URL of the project on the other PostHog instance. */
+  url: string;
+}
+/** Projects on other PostHog instances, such as another cloud region, shown in the project switcher. Set by PostHog staff. */
+export type OrganizationExternalProjectLinksList = Array<OrganizationExternalProjectLink>;
 export interface Organization {
   id?: string | undefined;
   name?: string | undefined;
@@ -819,6 +831,8 @@ export interface Organization {
   member_notice?: OrganizationMemberNotice | null | undefined;
   member_count?: number | undefined;
   is_ai_data_processing_approved?: boolean | null | undefined;
+  /** When True, AI data processing cannot be turned on through the UI or API, and members cannot ask admins to turn it on. Set at the organization's request. */
+  is_ai_data_processing_locked: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
   is_ai_training_opted_in?: boolean | null | undefined;
   /** When True, the AI training opt-out setting cannot be modified through the UI or API. */
@@ -839,6 +853,14 @@ export interface Organization {
   is_pending_deletion?: boolean | null | undefined;
   /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
   uses_most_specific_access_resolution?: boolean | null | undefined;
+  /** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+  ip_restrictions?: OrganizationIpRestrictionsList | undefined;
+  /** When False, the IP allowlist is kept but not enforced. */
+  ip_restrictions_enabled?: boolean | undefined;
+  /** A warning when the current request's IP address is not in the saved allowlist. */
+  ip_restrictions_warning: string | null;
+  /** Projects on other PostHog instances, such as another cloud region, shown in the project switcher. Set by PostHog staff. */
+  external_project_links: OrganizationExternalProjectLinksList;
 }
 /** Serializer for `Organization` model with minimal attributes to speeed up loading and transfer times. Also used for nested serializers. */
 export interface OrganizationBasic {
@@ -878,13 +900,14 @@ export type RoleAtOrganizationEnum =
   | "sales"
   | "student"
   | "other";
-/** * `delegated` - Delegated to teammate * `later` - Skipped for later * `other` - Other * `provisioned` - Account provisioned by a partner * `connector` - Signed up through an OAuth connector */
+/** * `delegated` - Delegated to teammate * `later` - Skipped for later * `other` - Other * `provisioned` - Account provisioned by a partner * `connector` - Signed up through an OAuth connector * `device_login` - Signed up through an OAuth device login */
 export type OnboardingSkippedReasonEnum =
   | "delegated"
   | "later"
   | "other"
   | "provisioned"
-  | "connector";
+  | "connector"
+  | "device_login";
 /** Real-time notification types that currently have a live dispatch site. Drives the in-app notifications settings UI. Read-only. */
 export type UserOutputActiveRealtimeNotificationTypesList = Array<string>;
 /** Shape of each item in UserSerializer.pending_invites. */
@@ -966,7 +989,7 @@ export type UserPushTokenPlatformEnum = "ios" | "android" | "web";
 export interface CreateUsersPushTokenRequest {
   uuid: string;
   /** Opaque push token issued by the device's platform push service (e.g. an Expo push token). */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Device platform the token was issued for. One of `ios`, `android`, or `web`. * `ios` - iOS * `android` - Android * `web` - Web */
   platform: UserPushTokenPlatformEnum | (string & {});
 }
@@ -1718,7 +1741,7 @@ export interface RevokeOtherSessionsResponse {
 export interface UsersPushTokensUnregisterCreateRequest {
   uuid: string;
   /** The opaque push token to remove for the authenticated user. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface UsersPushTokensUnregisterCreateResponse {}
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
@@ -1823,6 +1846,7 @@ export const createUsersCredentialsReviewComplete: API.OperationMethod<
   input: __S(704, __c22, 0) as any as S.Schema<CreateUsersCredentialsReviewCompleteRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CreateUsersCredentialsReviewCompleteResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1840,6 +1864,7 @@ export const createUsersIntegrationsCodex: API.OperationMethod<
   input: __S(1089, __c34, 1) as any as S.Schema<CreateUsersIntegrationsCodexRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UserCodexIntegration>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1865,6 +1890,7 @@ export const createUsersIntegrationsGithubPrepareCallback: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateUsersIntegrationsGithubPrepareCallbackResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1880,8 +1906,9 @@ export const createUsersOnboardingSkip: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CreateUsersOnboardingSkipRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1899,6 +1926,7 @@ export const createUsersPushToken: API.OperationMethod<
   input: __S(1568, __c49, 0) as any as S.Schema<CreateUsersPushTokenRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<UserPushTokenItem>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1915,6 +1943,7 @@ export const createUsersRequestEmailVerification: API.OperationMethod<
   input: __S(1600, __c50, 0) as any as S.Schema<CreateUsersRequestEmailVerificationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CreateUsersRequestEmailVerificationResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1935,6 +1964,7 @@ export const createUsersScenePersonalisation: API.OperationMethod<
   input: __S(1632, __c51, 0) as any as S.Schema<CreateUsersScenePersonalisationRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CreateUsersScenePersonalisationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1952,6 +1982,7 @@ export const createUsersSignalAutonomy: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateUsersSignalAutonomyRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<SignalUserAutonomyConfig>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1973,6 +2004,7 @@ export const createUsersTwoFactorBackupCode: API.OperationMethod<
   input: __S(64, __c2, 0) as any as S.Schema<CreateUsersTwoFactorBackupCodeRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CreateUsersTwoFactorBackupCodeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1989,6 +2021,7 @@ export const createUsersValidate2fa: API.OperationMethod<
   input: __S(96, __c3, 0) as any as S.Schema<CreateUsersValidate2faRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<CreateUsersValidate2faResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2004,8 +2037,9 @@ export const getUser: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2022,6 +2056,7 @@ export const getUsersGithubLogin: API.OperationMethod<
   input: __S(160, __c5, 0) as any as S.Schema<GetUsersGithubLoginRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<UserGithubLogin>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2038,6 +2073,7 @@ export const getUsersHedgehogConfig: API.OperationMethod<
   input: __S(192, __c6, 0) as any as S.Schema<GetUsersHedgehogConfigRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<GetUsersHedgehogConfigResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2055,6 +2091,7 @@ export const getUsersIntegrationsCodex: API.OperationMethod<
   input: __S(224, __c7, 0) as any as S.Schema<GetUsersIntegrationsCodexRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UserCodexIntegration>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2072,6 +2109,7 @@ export const getUsersIntegrationsGithubBranch: API.OperationMethod<
   input: __S(256, __c8, 0) as any as S.Schema<GetUsersIntegrationsGithubBranchRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<GitHubBranchesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2089,6 +2127,7 @@ export const getUsersIntegrationsGithubRepos: API.OperationMethod<
   input: __S(288, __c9, 0) as any as S.Schema<GetUsersIntegrationsGithubReposRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<GitHubReposResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2106,6 +2145,7 @@ export const getUsersIntegrationsSlackLinkableWorkspace: API.OperationMethod<
   input: __S(352, __c11, 0) as any as S.Schema<GetUsersIntegrationsSlackLinkableWorkspaceRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<UserSlackLinkableWorkspaceListResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2123,6 +2163,7 @@ export const getUsersSignalAutonomy: API.OperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<GetUsersSignalAutonomyRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<SignalUserAutonomyConfig>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2139,6 +2180,7 @@ export const getUsersStart2faSetup: API.OperationMethod<
   input: __S(416, __c13, 0) as any as S.Schema<GetUsersStart2faSetupRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<GetUsersStart2faSetupResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2156,6 +2198,7 @@ export const getUsersTwoFactorStatus: API.OperationMethod<
   input: __S(448, __c14, 0) as any as S.Schema<GetUsersTwoFactorStatusRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<TwoFactorStatus>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2181,6 +2224,7 @@ export const installUsersIntegrationsGithubRequestsDestroy: API.OperationMethod<
     0,
   ) as any as S.Schema<InstallUsersIntegrationsGithubRequestsDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2197,6 +2241,7 @@ export const listUsers: API.OperationMethod<
   input: __S(512, __c16, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(514, __c16, 2) as any as S.Schema<PaginatedUserListOutput>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2214,6 +2259,7 @@ export const listUsersIntegrations: API.OperationMethod<
   input: __S(544, __c17, 0) as any as S.Schema<ListUsersIntegrationsRequest>,
   output: __S(550, __c17, 6) as any as S.Schema<PaginatedUserGitHubIntegrationListResponseList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2231,6 +2277,7 @@ export const listUsersLoginSessions: API.OperationMethod<
   input: __S(576, __c18, 0) as any as S.Schema<ListUsersLoginSessionsRequest>,
   output: __S(579, __c18, 3) as any as S.Schema<ListUsersLoginSessionsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2248,6 +2295,7 @@ export const loginUserSessionsDestroy: API.OperationMethod<
   input: __S(608, __c19, 0) as any as S.Schema<LoginUserSessionsDestroyRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<LoginUserSessionsDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2265,6 +2313,7 @@ export const signalUserAutonomyDestroy: API.OperationMethod<
   input: __S(640, __c20, 0) as any as S.Schema<SignalUserAutonomyDestroyRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<SignalUserAutonomyDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2280,8 +2329,9 @@ export const updateUser: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2302,6 +2352,7 @@ export const updateUsersHedgehogConfigPartial: API.OperationMethod<
   input: __S(768, __c24, 0) as any as S.Schema<UpdateUsersHedgehogConfigPartialRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UpdateUsersHedgehogConfigPartialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2317,8 +2368,9 @@ export const updateUsersPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<UpdateUsersPartialRequest>,
-  output: __S(1521, __c47, 17) as any as S.Schema<UserOutput>,
+  output: __S(1523, __c47, 19) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2336,6 +2388,7 @@ export const updateUsersProductIntroSeenPartial: API.OperationMethod<
   input: __S(832, __c26, 0) as any as S.Schema<UpdateUsersProductIntroSeenPartialRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<UpdateUsersProductIntroSeenPartialResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2355,6 +2408,7 @@ export const usersCancelEmailChangeRequestPartialUpdate: API.OperationMethod<
   input: __S(864, __c27, 0) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2371,6 +2425,7 @@ export const usersDestroy: API.OperationMethod<
   input: __S(896, __c28, 0) as any as S.Schema<UsersDestroyRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2388,6 +2443,7 @@ export const usersIntegrationsCodexDestroy: API.OperationMethod<
   input: __S(928, __c29, 0) as any as S.Schema<UsersIntegrationsCodexDestroyRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersIntegrationsCodexDestroyResponse>,
   errors: [Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2405,6 +2461,7 @@ export const usersIntegrationsGithubDestroy: API.OperationMethod<
   input: __S(960, __c30, 0) as any as S.Schema<UsersIntegrationsGithubDestroyRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersIntegrationsGithubDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2426,6 +2483,7 @@ export const usersIntegrationsGithubInstallRequestsRetrieve: API.OperationMethod
   ) as any as S.Schema<UsersIntegrationsGithubInstallRequestsRetrieveRequest>,
   output: __S(995, __c31, 3) as any as S.Schema<GitHubInstallRequestListResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2443,6 +2501,7 @@ export const usersIntegrationsGithubReposRefreshCreate: API.OperationMethod<
   input: __S(1024, __c32, 0) as any as S.Schema<UsersIntegrationsGithubReposRefreshCreateRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<GitHubReposRefreshResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2460,6 +2519,7 @@ export const usersIntegrationsGithubStartCreate: API.OperationMethod<
   input: __S(1056, __c33, 0) as any as S.Schema<UsersIntegrationsGithubStartCreateRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<UserGitHubLinkStartResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2477,6 +2537,7 @@ export const usersIntegrationsSlackDestroy: API.OperationMethod<
   input: __S(1152, __c36, 0) as any as S.Schema<UsersIntegrationsSlackDestroyRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersIntegrationsSlackDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2494,6 +2555,7 @@ export const usersIntegrationsSlackStartCreate: API.OperationMethod<
   input: __S(1184, __c37, 0) as any as S.Schema<UsersIntegrationsSlackStartCreateRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<UserSlackLinkStartResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2511,6 +2573,7 @@ export const usersLoginSessionsRevokeOthersCreate: API.OperationMethod<
   input: __S(1216, __c38, 0) as any as S.Schema<UsersLoginSessionsRevokeOthersCreateRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<RevokeOtherSessionsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2528,6 +2591,7 @@ export const usersPushTokensUnregisterCreate: API.OperationMethod<
   input: __S(1248, __c39, 0) as any as S.Schema<UsersPushTokensUnregisterCreateRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersPushTokensUnregisterCreateResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2545,6 +2609,7 @@ export const usersTwoFactorDisableCreate: API.OperationMethod<
   input: __S(1280, __c40, 0) as any as S.Schema<UsersTwoFactorDisableCreateRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersTwoFactorDisableCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2561,6 +2626,7 @@ export const usersTwoFactorStartSetupRetrieve: API.OperationMethod<
   input: __S(1312, __c41, 0) as any as S.Schema<UsersTwoFactorStartSetupRetrieveRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersTwoFactorStartSetupRetrieveResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2577,6 +2643,7 @@ export const usersTwoFactorValidateCreate: API.OperationMethod<
   input: __S(1344, __c42, 0) as any as S.Schema<UsersTwoFactorValidateCreateRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersTwoFactorValidateCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2593,6 +2660,7 @@ export const usersVerifyEmailCreate: API.OperationMethod<
   input: __S(1376, __c43, 0) as any as S.Schema<UsersVerifyEmailCreateRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<UsersVerifyEmailCreateResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2947,7 +3015,7 @@ function __c16(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/users/", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(1521, __c47, 17));
+      return S.Array(__S(1523, __c47, 19));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3380,7 +3448,7 @@ function __c34(j: number): any {
         S.Struct({
           access_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
-          id_token: S.optional(S.NullOr(S.String)),
+          id_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UserCodexAuthTokens" });
     case 1:
@@ -3472,7 +3540,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/users/{uuid}/push_tokens/unregister/", code: 200 }),
         ),
@@ -3677,6 +3745,16 @@ function __c47(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          name: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationExternalProjectLink" });
+    case 11:
+      return S.Array(__S(1514, __c47, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           slug: S.optional(S.String),
@@ -3703,6 +3781,7 @@ function __c47(j: number): any {
           member_notice: S.optional(S.NullOr(__S(1513, __c47, 9))),
           member_count: S.optional(S.Number),
           is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
+          is_ai_data_processing_locked: S.NullOr(S.Boolean),
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_locked: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_cta_shown: S.optional(S.NullOr(S.Boolean)),
@@ -3713,9 +3792,13 @@ function __c47(j: number): any {
           is_not_active_reason: S.optional(S.NullOr(S.String)),
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
           uses_most_specific_access_resolution: S.optional(S.NullOr(S.Boolean)),
+          ip_restrictions: S.optional(__S(1472, __c46, 0)),
+          ip_restrictions_enabled: S.optional(S.Boolean),
+          ip_restrictions_warning: S.NullOr(S.String),
+          external_project_links: __S(1515, __c47, 11),
         }),
       ).annotate({ identifier: "Organization" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3729,18 +3812,18 @@ function __c47(j: number): any {
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "OrganizationBasic" });
-    case 12:
-      return S.Array(__S(1515, __c47, 11));
-    case 13:
+    case 14:
+      return S.Array(__S(1517, __c47, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           scene: S.optional(S.String),
           dashboard: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ScenePersonalisationBasic" });
-    case 14:
-      return S.Array(__S(1517, __c47, 13));
-    case 15:
+    case 16:
+      return S.Array(__S(1519, __c47, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -3750,9 +3833,9 @@ function __c47(j: number): any {
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingInvite" });
-    case 16:
-      return S.Array(__S(1519, __c47, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(1521, __c47, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           date_joined: S.optional(S.String),
@@ -3778,14 +3861,14 @@ function __c47(j: number): any {
           sensitive_session_expires_at: S.optional(S.NullOr(S.String)),
           fresh_reauth_expires_at: S.optional(S.NullOr(S.String)),
           team: S.optional(__S(1506, __c47, 2)),
-          organization: S.optional(__S(1514, __c47, 10)),
-          organizations: S.optional(__S(1516, __c47, 12)),
+          organization: S.optional(__S(1516, __c47, 12)),
+          organizations: S.optional(__S(1518, __c47, 14)),
           events_column_config: S.optional(S.Unknown),
           is_2fa_enabled: S.optional(S.Boolean),
           has_social_auth: S.optional(S.Boolean),
           has_sso_enforcement: S.optional(S.Boolean),
           has_seen_product_intro_for: S.optional(S.Unknown),
-          scene_personalisation: S.optional(__S(1518, __c47, 14)),
+          scene_personalisation: S.optional(__S(1520, __c47, 16)),
           theme_mode: S.optional(S.NullOr(S.Unknown)),
           hedgehog_config: S.optional(S.Unknown),
           allow_sidebar_suggestions: S.optional(S.NullOr(S.Boolean)),
@@ -3802,7 +3885,7 @@ function __c47(j: number): any {
           onboarding_delegation_accepted_at: S.optional(S.NullOr(S.String)),
           is_organization_first_user: S.optional(S.NullOr(S.Boolean)),
           active_realtime_notification_types: S.optional(__S(1472, __c46, 0)),
-          pending_invites: S.optional(__S(1520, __c47, 16)),
+          pending_invites: S.optional(__S(1522, __c47, 18)),
           requires_credential_review: S.optional(S.Boolean),
           personal_api_keys_limit: S.Number,
         }),
@@ -3821,7 +3904,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           platform: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/push_tokens/", code: 200 })),
       ).annotate({ identifier: "CreateUsersPushTokenRequest" });

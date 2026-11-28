@@ -1,0 +1,16 @@
+{
+  "description": "Page organizationRolesGetList by cursor. The operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor }; the spec says 'Pass `nextCursor` as the `cursor` query parameter to fetch the next page until it is null.' The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Not called live. The multi-page traversal was captured on listApiKeys, which answers the same envelope per the spec.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.role_management#OrganizationRolesGetList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

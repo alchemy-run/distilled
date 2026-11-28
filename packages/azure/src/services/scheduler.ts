@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -152,7 +152,7 @@ export interface StorageQueueMessage {
   /** Gets or sets the queue name. */
   queueName?: string | undefined;
   /** Gets or sets the SAS key. */
-  sasToken?: string | undefined;
+  sasToken?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the message. */
   message?: string | undefined;
 }
@@ -483,18 +483,22 @@ export interface ListJobCollectionByResourceGroupRequest {
   subscriptionId: string;
   /** The resource group name. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets the job collections. */
 export type JobCollectionListResultValueList = Array<JobCollectionDefinition>;
 export interface JobCollectionListResult {
   /** Gets the job collections. */
-  value?: JobCollectionListResultValueList | undefined;
+  value: JobCollectionListResultValueList;
   /** Gets or sets the URL to get the next set of job collections. */
   nextLink?: string | undefined;
 }
 export interface ListJobCollectionBySubscriptionRequest {
   /** The subscription id. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListJobJobHistoryRequest {
   /** The subscription id. */
@@ -511,6 +515,8 @@ export interface ListJobJobHistoryRequest {
   _skip?: number | undefined;
   /** The filter to apply on the job state. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets the job history action name. */
 export type JobHistoryDefinitionPropertiesActionName = "MainAction" | "ErrorAction";
@@ -548,7 +554,7 @@ export interface JobHistoryDefinition {
 export type JobHistoryListResultValueList = Array<JobHistoryDefinition>;
 export interface JobHistoryListResult {
   /** Gets or sets the job histories under job. */
-  value?: JobHistoryListResultValueList | undefined;
+  value: JobHistoryListResultValueList;
   /** Gets or sets the URL to get the next set of job histories. */
   nextLink?: string | undefined;
 }
@@ -565,12 +571,14 @@ export interface ListJobsRequest {
   _skip?: number | undefined;
   /** The filter to apply on the job state. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets or sets all jobs under job collection. */
 export type JobListResultValueList = Array<JobDefinition>;
 export interface JobListResult {
   /** Gets or sets all jobs under job collection. */
-  value?: JobListResultValueList | undefined;
+  value: JobListResultValueList;
   /** Gets or sets the URL to get the next set of jobs. */
   nextLink?: string | undefined;
 }
@@ -625,7 +633,8 @@ export const DeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -642,7 +651,8 @@ export const DeleteJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteJobCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteJobCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -659,7 +669,8 @@ export const DisableJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DisableJobCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableJobCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -676,7 +687,8 @@ export const EnableJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<EnableJobCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<EnableJobCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -693,7 +705,8 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetJobRequest>,
   output: __S(405, __c12, 21) as any as S.Schema<JobDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -710,7 +723,8 @@ export const GetJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetJobCollectionRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<JobCollectionDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -727,7 +741,8 @@ export const JobCollectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<JobCollectionsCreateOrUpdateRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<JobCollectionDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -744,7 +759,8 @@ export const JobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<JobsCreateOrUpdateRequest>,
   output: __S(405, __c12, 21) as any as S.Schema<JobDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -753,71 +769,103 @@ export const JobsCreateOrUpdate: API.OperationMethod<
 
 export type ListJobCollectionByResourceGroupError = AzureOpError;
 /** Gets all job collections under specified resource group. */
-export const ListJobCollectionByResourceGroup: API.OperationMethod<
+export const ListJobCollectionByResourceGroup: API.PaginatedOperationMethod<
   ListJobCollectionByResourceGroupRequest,
   JobCollectionListResult,
   ListJobCollectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobCollectionDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListJobCollectionByResourceGroupRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<JobCollectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobCollectionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobCollectionBySubscriptionError = AzureOpError;
 /** Gets all job collections under specified subscription. */
-export const ListJobCollectionBySubscription: API.OperationMethod<
+export const ListJobCollectionBySubscription: API.PaginatedOperationMethod<
   ListJobCollectionBySubscriptionRequest,
   JobCollectionListResult,
   ListJobCollectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobCollectionDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListJobCollectionBySubscriptionRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<JobCollectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobCollectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobJobHistoryError = AzureOpError;
 /** Lists job history. */
-export const ListJobJobHistory: API.OperationMethod<
+export const ListJobJobHistory: API.PaginatedOperationMethod<
   ListJobJobHistoryRequest,
   JobHistoryListResult,
   ListJobJobHistoryError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobHistoryDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ListJobJobHistoryRequest>,
   output: __S(100, __c3, 4) as any as S.Schema<JobHistoryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobJobHistory",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobsError = AzureOpError;
 /** Lists all jobs under the specified job collection. */
-export const ListJobs: API.OperationMethod<
+export const ListJobs: API.PaginatedOperationMethod<
   ListJobsRequest,
   JobListResult,
   ListJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<JobListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PatchJobError = AzureOpError;
 /** Patches an existing job. */
@@ -829,7 +877,8 @@ export const PatchJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PatchJobRequest>,
   output: __S(405, __c12, 21) as any as S.Schema<JobDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -846,7 +895,8 @@ export const PatchJobCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PatchJobCollectionRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<JobCollectionDefinition>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -863,7 +913,8 @@ export const RunJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<RunJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RunJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -928,12 +979,14 @@ function __c3(j: number): any {
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs/{jobName}/history",
             code: 200,
             apiVersion: "2016-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobJobHistoryRequest" });
@@ -964,7 +1017,7 @@ function __c3(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(99, __c3, 3)),
+          value: __S(99, __c3, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobHistoryListResult" });
@@ -981,12 +1034,14 @@ function __c4(j: number): any {
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections/{jobCollectionName}/jobs",
             code: 200,
             apiVersion: "2016-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
@@ -995,7 +1050,7 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(129, __c4, 1)),
+          value: __S(129, __c4, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobListResult" });
@@ -1177,7 +1232,7 @@ function __c12(j: number): any {
         S.Struct({
           storageAccount: S.optional(S.String),
           queueName: S.optional(S.String),
-          sasToken: S.optional(S.String),
+          sasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageQueueMessage" });
@@ -1453,12 +1508,14 @@ function __c18(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Scheduler/jobCollections",
             code: 200,
             apiVersion: "2016-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobCollectionByResourceGroupRequest" });
@@ -1471,7 +1528,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(608, __c19, 0)),
+          value: __S(608, __c19, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobCollectionListResult" });
@@ -1483,12 +1540,14 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Scheduler/jobCollections",
             code: 200,
             apiVersion: "2016-03-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobCollectionBySubscriptionRequest" });

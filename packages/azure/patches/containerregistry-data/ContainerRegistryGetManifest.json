@@ -1,0 +1,21 @@
+{
+  "description": "Get Manifest answers only the media types the request accepts: without an OCI/Docker v2 `Accept`, ACR answers OCI manifests with MANIFEST_UNKNOWN. Accept every image manifest and index type, and read the digest from `Docker-Content-Digest`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryGetManifest/traits/smithy.api#http/accept",
+      "value": "application/vnd.oci.image.manifest.v1+json, application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.v2+json, application/vnd.docker.distribution.manifest.list.v2+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryGetManifestResponse/members/dockerContentDigest",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Docker-Content-Digest",
+          "smithy.api#documentation": "Digest of the content the registry stored or returned."
+        }
+      }
+    }
+  ]
+}

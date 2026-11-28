@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { SlackError, SlackRateLimited } from "../errors.ts";
+import { SlackServiceErrors } from "../errors.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -49,7 +49,7 @@ export interface ConnectTokenResponse {
   ok: boolean;
   access_token: string | Redacted.Redacted<string>;
   token_type: ConnectTokenResponseTokenType;
-  id_token?: string | undefined;
+  id_token?: string | Redacted.Redacted<string> | undefined;
   state?: string | undefined;
   /** Time until this credential expires, if it expires at all */
   expires_in?: number | undefined;
@@ -93,7 +93,7 @@ export interface UserInfoResponse {
   https___slack_com_team_image_default?: boolean | undefined;
 }
 export type ConnectTokenError = SlackOpError;
-/** Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- The value passed for `client_secret` was invalid. - `bad_redirect_uri` -- The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- An org-installed app cannot be installed on a workspace. - `invalid_client` -- Client authentication failed (unknown `client_id` or bad `client_secret`). - `invalid_client_id` -- The value passed for `client_id` was invalid. - `invalid_code` -- The value passed for `code` was invalid. - `invalid_grant` -- The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. - `invalid_grant_type` -- The value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_request` -- The request is missing a required parameter or includes an invalid parameter value. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . - `preview_feature_not_available` -- The API method is not yet available on the team. - `unsupported_grant_type` -- The `grant_type` is not supported by this endpoint. See https://docs.slack.dev/reference/methods/openid.connect.token */
+/** Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack. Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `bad_client_secret` -- The value passed for `client_secret` was invalid. - `bad_redirect_uri` -- The value passed for `redirect_uri` did not match the `redirect_uri` in the original request. - `cannot_install_an_org_installed_app` -- An org-installed app cannot be installed on a workspace. - `workspace_denied_app` -- Returned when the org-installed app is denied for a workspace the install would add it to, by that workspace or by the org, so it can't be added there. - `invalid_client` -- Client authentication failed (unknown `client_id` or bad `client_secret`). - `invalid_client_id` -- The value passed for `client_id` was invalid. - `invalid_code` -- The value passed for `code` was invalid. - `invalid_grant` -- The authorization code is invalid, expired, revoked, or the PKCE `code_verifier` does not match. - `invalid_grant_type` -- The value passed for `grant_type` was invalid. - `invalid_refresh_token` -- The given refresh token is invalid. - `invalid_request` -- The request is missing a required parameter or includes an invalid parameter value. - `oauth_authorization_url_mismatch` -- The OAuth flow was initiated on an incorrect version of the authorization URL. The flow must be initiated via /openid/connect/authorize . - `preview_feature_not_available` -- The API method is not yet available on the team. - `unsupported_grant_type` -- The `grant_type` is not supported by this endpoint. See https://docs.slack.dev/reference/methods/openid.connect.token */
 export const connectToken: API.OperationMethod<
   ConnectTokenRequest,
   ConnectTokenResponse,
@@ -102,7 +102,8 @@ export const connectToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConnectTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ConnectTokenResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -119,7 +120,8 @@ export const userInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c1, 0) as any as S.Schema<UserInfoRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UserInfoResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -154,7 +156,7 @@ function __c0(j: number): any {
           ok: S.Boolean,
           access_token: S.String.pipe(T.SensitiveValue({})),
           token_type: S.String,
-          id_token: S.optional(S.String),
+          id_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           state: S.optional(S.String),
           expires_in: S.optional(S.Number),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),

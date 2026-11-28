@@ -6,7 +6,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { Credentials } from "../src/credentials.ts";
+import { check, Credentials } from "../src/credentials.ts";
 import {
   AzureParseError,
   InternalServerError,
@@ -64,9 +64,16 @@ const fakeArm = (
 const subscriptionId = "00000000-0000-0000-0000-000000000001";
 
 const credentials = (apiBaseUrl = "https://management.azure.com", token = "arm-token") =>
-  Layer.succeed(
+  Layer.effect(
     Credentials,
-    Effect.succeed({ bearerToken: Redacted.make(token), subscriptionId, apiBaseUrl }),
+    Effect.map(
+      check({
+        token: () => Effect.succeed(Redacted.make(token)),
+        subscriptionId,
+        apiBaseUrl,
+      }),
+      Effect.succeed,
+    ),
   );
 
 const run = <A, E>(
@@ -98,13 +105,20 @@ describe("request encoding", () => {
   test("resolves credentials per request", async () => {
     const { calls, layer } = fakeArm(200, JSON.stringify({ location: "westus" }));
     let n = 0;
-    const rotating = Layer.succeed(
+    const rotating = Layer.effect(
       Credentials,
-      Effect.sync(() => ({
-        bearerToken: Redacted.make(`t${++n}`),
-        subscriptionId,
-        apiBaseUrl: "https://management.azure.com",
-      })),
+      Effect.map(
+        check({
+          token: () => Effect.succeed(Redacted.make("t0")),
+          subscriptionId,
+          apiBaseUrl: "https://management.azure.com",
+        }),
+        (checked) =>
+          Effect.sync(() => {
+            const token = Redacted.make(`t${++n}`);
+            return { ...checked, token: () => Effect.succeed(token) };
+          }),
+      ),
     );
     await run(GetResourceGroup(rg), layer, rotating);
     await run(GetResourceGroup(rg), layer, rotating);

@@ -6,7 +6,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *
  * Input:  .generated-specs/<tag>.json  (one model per ClickHouse Cloud tag,
  *         written by scripts/convert.ts)
- * Output: src/services/<tag>.ts  +  src/services/index.ts
+ * Output: src/services/<tag>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for models convert marks unstable
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is ClickHouse Cloud's provider
@@ -91,10 +92,7 @@ const clickHouseCloudSpec: SdkSpec = {
   operationDecl: {
     contextType: "ClickHouseCloudOpContext",
     commonErrorType: "ClickHouseCloudOpError",
-    // No per-operation error classes: every failure is the shared envelope,
-    // so every status rides ClickHouseCloudOpError and the protocol picks
-    // the class (see src/errors.ts).
-    commonErrorClasses: ["UnknownClickHouseCloudError"],
+    serviceErrors: "ClickHouseCloudServiceErrors",
     protocol: "ClickHouseCloudProtocol",
     retry: "Retry.Retry",
   },
@@ -117,6 +115,7 @@ runGeneratorCli({
   // Patches are Smithy ops applied by finalizeConvert in scripts/convert.ts;
   // generate only compiles the patched models.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   barrelExportName: camel,
   spec: () => clickHouseCloudSpec,
 });

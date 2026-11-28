@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOnepasswordError } from "../errors.ts";
+import { OnepasswordServiceErrors } from "../errors.ts";
 import { OAuthProtocol, type OnepasswordOpError, type OAuthOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -49,7 +49,7 @@ export interface IntrospectAccessTokenRequest {
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The access token to introspect. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** A hint about the type of token. Optional; only access tokens are issued. */
   token_type_hint?: IntrospectAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
@@ -97,7 +97,7 @@ export interface RevokeAccessTokenRequest {
   /** The client secret of the OAuth application. Use together with `client_id` as an alternative to HTTP Basic authentication. */
   client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The access token to revoke. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** A hint about the type of token being revoked. Optional; only access tokens are issued. */
   token_type_hint?: RevokeAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
@@ -128,7 +128,8 @@ export const introspectAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c1, 0) as any as S.Schema<IntrospectAccessTokenRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<IntrospectionResponse>,
-  errors: [BadRequest, UnknownOnepasswordError],
+  errors: [BadRequest],
+  serviceErrors: OnepasswordServiceErrors,
   protocol: OAuthProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -145,7 +146,8 @@ export const requestAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<RequestAccessTokenRequest>,
   output: __S(5, __c2, 1) as any as S.Schema<TokenResponse>,
-  errors: [BadRequest, UnknownOnepasswordError],
+  errors: [BadRequest],
+  serviceErrors: OnepasswordServiceErrors,
   protocol: OAuthProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -162,7 +164,8 @@ export const revokeAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<RevokeAccessTokenRequest>,
   output: __S(7, __c3, 1) as any as S.Schema<RevokeAccessTokenResponse>,
-  errors: [BadRequest, UnknownOnepasswordError],
+  errors: [BadRequest],
+  serviceErrors: OnepasswordServiceErrors,
   protocol: OAuthProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -188,7 +191,7 @@ function __c1(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -248,7 +251,7 @@ function __c3(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.String),
         }).pipe(
           T.Http({

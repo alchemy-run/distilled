@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Effect SDK.
  *
  * Input:  .generated-specs/auth0.json  (written by scripts/convert.ts)
- * Output: src/services/auth0.ts  +  src/services/index.ts
+ * Output: src/services/auth0.ts  +  src/services/index.ts, and the
+ *         operations convert marks unstable in src/unstable-services/auth0.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Auth0's provider spec.
@@ -70,7 +71,7 @@ const auth0Spec: SdkSpec = {
   operationDecl: {
     contextType: "Auth0OpContext",
     commonErrorType: "Auth0OpError",
-    commonErrorClasses: ["UnknownAuth0Error"],
+    serviceErrors: "Auth0ServiceErrors",
     protocol: "Auth0Protocol",
     retry: "Retry.Retry",
   },
@@ -94,5 +95,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => auth0Spec,
 });

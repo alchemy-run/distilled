@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -229,6 +229,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -1155,7 +1157,8 @@ export const searchByTitle: API.PaginatedOperationMethod<
   () => ({
     input: __S(1, __c0, 1) as any as S.Schema<SearchByTitleRequest>,
     output: __S(4, __c0, 4) as any as S.Schema<PageOrDataSourceListResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,

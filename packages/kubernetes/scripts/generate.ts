@@ -7,6 +7,7 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Input:  .generated-specs/<group>.json  (23 per-API-group models written by
  *         scripts/convert.ts)
  * Output: src/services/<group>.ts  +  src/services/index.ts
+ *         src/unstable-services/<group>.ts + index.ts   (marked smithy.api#unstable)
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Kubernetes' provider spec.
@@ -97,7 +98,7 @@ const kubernetesSpec: SdkSpec = {
   operationDecl: {
     contextType: "KubernetesOpContext",
     commonErrorType: "KubernetesOpError",
-    commonErrorClasses: ["UnknownKubernetesError"],
+    serviceErrors: "KubernetesServiceErrors",
     protocol: "KubernetesProtocol",
     retry: "Retry.Retry",
   },
@@ -118,6 +119,7 @@ runGeneratorCli({
   description: "Generate the Kubernetes Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  unstableOutDir: "src/unstable-services",
   // patches/ holds Swagger-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,

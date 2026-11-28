@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClickHouseCloudError } from "../errors.ts";
+import { ClickHouseCloudServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   ClickHouseCloudProtocol,
@@ -196,7 +196,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<ApiKeyPostResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -213,7 +214,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -230,7 +232,8 @@ export const getApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(13, __c1, 5) as any as S.Schema<ApiKey>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -249,7 +252,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c5, 0) as any as S.Schema<ListApiKeysRequest>,
     output: __S(42, __c5, 2) as any as S.Schema<ListApiKeysResponse>,
-    errors: [UnknownClickHouseCloudError],
+    errors: [],
+    serviceErrors: ClickHouseCloudServiceErrors,
     protocol: ClickHouseCloudPaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -275,7 +279,8 @@ export const updateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateApiKeyRequest>,
   output: __S(13, __c1, 5) as any as S.Schema<ApiKey>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

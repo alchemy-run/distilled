@@ -2,20 +2,16 @@
 
 A git mirror of everything `packages/whop` reads out of `specs/`.
 
-## The OpenAPI documents
+## The OpenAPI document
 
-| surface | document | reference |
-| --- | --- | --- |
-| versioned | [`api-v1-native.json`](https://docs.whop.com/openapi/api-v1-native.json) | <https://docs.whop.com/api-reference/beta/overview> |
-| legacy | [`api-v1-stable.json`](https://docs.whop.com/openapi/api-v1-stable.json) | <https://docs.whop.com/developer/api/getting-started> |
+`openapi.json` is Whop's OpenAPI 3.1 document, served by the API itself at
+<https://api.whop.com/api/v1/openapi.json> and named as the OpenAPI spec in
+<https://docs.whop.com/llms.txt>. It holds both reference surfaces: every
+Current API path carries `x-whop-surface: native`, and the Legacy-only paths
+carry no marker.
 
-Whop documents one HTTP API through two reference sites, each with its own
-document, and neither is a superset of the other — so both are mirrored and the
-generator merges them, versioned winning every route both describe.
-
-Both documents are stamped with the same `info.x-api-version-date`, which is
-what the generated SDK pins every request to. The fetch script fails if that
-ever stops being true, since a merged client can send only one pin.
+Its `info.x-api-version-date` is what the generated SDK pins every request to.
+The fetch script fails if the document has none.
 
 ## The docs pages
 
@@ -25,12 +21,13 @@ appended. The page list is the **union** of `/llms.txt` and `/sitemap.xml`,
 because neither is complete: llms.txt misses several webhook-event pages and
 the sitemap misses a handful of api-reference operations, so taking one alone
 silently loses documentation. `docs/_manifest.json` records which index listed
-each page.
+each page. Translated copies under a two-letter language prefix (`/es/...`)
+are skipped: each repeats an English page that is mirrored already.
 
 Every `/api-reference/**` page inlines the *whole* OpenAPI document into a
-fence — 58 KB per page, ~37 MB across the reference, all of it a duplicate of
-the two documents above. Each fence is replaced with a one-line pointer at the
-file it came from; the page's own prose is kept verbatim, and guide pages,
+fence — 58 KB per page, ~37 MB across the reference, all of it a copy of what
+`openapi.json` describes. Each fence is replaced with a one-line pointer at the
+route and the docs-host file it came from; the page's own prose is kept verbatim, and guide pages,
 which carry no such fence, are saved byte-for-byte. That is the difference
 between a 15 MB mirror and a 45 MB one.
 

@@ -30,9 +30,7 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
   execute: (request: CompiledOperation) =>
     Effect.gen(function* () {
       const resolve = yield* Credentials;
-      const credentials = yield* resolve.pipe(
-        Effect.mapError((cause) => new GraphQLTransportError({ message: cause.message, cause })),
-      );
+      const credentials = yield* resolve;
       const token = Redacted.value(credentials.token).trim();
       const auth =
         token.length === 0

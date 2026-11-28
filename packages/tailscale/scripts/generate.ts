@@ -51,7 +51,7 @@ const tailscaleSpec: SdkSpec = {
   operationDecl: {
     contextType: "TailscaleOpContext",
     commonErrorType: "TailscaleOpError",
-    commonErrorClasses: ["UnknownTailscaleError"],
+    serviceErrors: "TailscaleServiceErrors",
     protocol: "TailscaleProtocol",
     retry: "Retry.Retry",
   },
@@ -72,5 +72,6 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => tailscaleSpec,
 });

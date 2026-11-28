@@ -34,7 +34,7 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -89,3 +89,12 @@ export type DefaultErrors =
   | CoreNotFound
   | CoreConflict
   | ClientErrors;
+
+/**
+ * The errors declared on the ACME service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes: the protocol builds the one for the status
+ * of a failed response that is not a problem document.
+ */
+export const AcmeServiceErrors = API_ERRORS;
+export type AcmeServiceError = InstanceType<(typeof AcmeServiceErrors)[number]>;

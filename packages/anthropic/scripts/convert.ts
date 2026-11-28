@@ -15,7 +15,9 @@
  * `__qualifiers` option and request the bare path, and the API selects a
  * beta by the `anthropic-beta` header. So the literal is dropped and every beta route
  * goes in a `beta_<segment>` module beside its generally available twin, as
- * the official SDKs put them under `client.beta`.
+ * the official SDKs put them under `client.beta`. A module whose routes are
+ * all beta routes is marked `smithy.api#unstable`, so generate writes it to
+ * `src/unstable-services` (`@distilled.cloud/anthropic/unstable/<module>`).
  *
  * Header parameters are modeled (`headerParams`): `anthropic-beta` (an array,
  * sent comma-separated), `anthropic-workspace-id`, `anthropic-user-profile-id`
@@ -37,6 +39,7 @@ import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { toVerbNoun } from "@distilled.cloud/dev/codegen/rewrite-operation-ids";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-anthropic/specs/openapi.json");
@@ -121,6 +124,8 @@ function deref(schema: any): any {
 
 // ---- 2. Bucket paths by area -----------------------------------------------
 const buckets = new Map<string, Record<string, Record<string, unknown>>>();
+/** Whether every path key in a bucket is a `?beta=true` route. */
+const betaOnly = new Map<string, boolean>();
 for (const [pathKey, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   const [route, literal] = pathKey.split("?") as [string, string | undefined];
   if (literal !== undefined && literal !== BETA_LITERAL) {
@@ -133,6 +138,7 @@ for (const [pathKey, pathItem] of Object.entries<Record<string, unknown>>(fullSp
   const bucketPaths = buckets.get(slug)!;
   if (bucketPaths[route]) throw new Error(`${pathKey}: ${route} appears twice in ${slug}`);
   bucketPaths[route] = pathItem;
+  betaOnly.set(slug, (betaOnly.get(slug) ?? true) && literal === BETA_LITERAL);
 }
 
 // ---- 3. Pagination ---------------------------------------------------------
@@ -238,6 +244,9 @@ for (const slug of [...buckets.keys()].sort()) {
     );
   }
 
+  // A module of beta routes only is the API's beta surface (`client.beta`
+  // in the official SDKs): it goes to `unstable/`.
+  if (betaOnly.get(slug)) markUnstable(model);
   writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;

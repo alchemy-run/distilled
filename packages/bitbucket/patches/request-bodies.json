@@ -1,0 +1,319 @@
+{
+  "description": "Add the JSON request bodies that the spec leaves out of eight write operations. Each one documents its body only as a curl example in its own `description`: create a branch (`{ name, target: { hash } }`), create and update a repository or workspace webhook (`{ description, url, active, secret, events }`; `secret` is the HMAC key for `X-Hub-Signature`, so it is sensitive), and create or update a repository or project deploy key (`{ key, label }`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateBranchTarget",
+      "value": {
+        "type": "structure",
+        "members": {
+          "hash": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The commit the branch points at: a full commit hash (preferred), a short hash prefix, or a branch name such as `main`.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The commit a new branch points at."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugRefsBranchesRequest/members/name",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The branch name, with no `refs/heads/` prefix.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugRefsBranchesRequest/members/target",
+      "value": {
+        "target": "org.bitbucket#CreateBranchTarget",
+        "traits": {
+          "smithy.api#documentation": "The commit the branch points at.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryHookRequest/members/description",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "A user-defined description of the webhook."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryHookRequest/members/url",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URL events get delivered to. It must resolve to a routable address.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryHookRequest/members/active",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether the webhook delivers events."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryHookRequest/members/secret",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Key for the HMAC digest Bitbucket sends in the `X-Hub-Signature` header of each delivery. `null`, empty or left out leaves the secret unset.",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryHookRequest/members/events",
+      "value": {
+        "target": "org.bitbucket#WebhookSubscriptionEventsList",
+        "traits": {
+          "smithy.api#documentation": "The events this webhook subscribes to.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryHookRequest/members/description",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "A user-defined description of the webhook."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryHookRequest/members/url",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URL events get delivered to. It must resolve to a routable address."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryHookRequest/members/active",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether the webhook delivers events."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryHookRequest/members/secret",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Key for the HMAC digest Bitbucket sends in the `X-Hub-Signature` header of each delivery. `null`, empty or left out leaves the secret unset.",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryHookRequest/members/events",
+      "value": {
+        "target": "org.bitbucket#WebhookSubscriptionEventsList",
+        "traits": {
+          "smithy.api#documentation": "The events this webhook subscribes to."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateWorkspaceHookRequest/members/description",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "A user-defined description of the webhook."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateWorkspaceHookRequest/members/url",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URL events get delivered to. It must resolve to a routable address.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateWorkspaceHookRequest/members/active",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether the webhook delivers events."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateWorkspaceHookRequest/members/secret",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Key for the HMAC digest Bitbucket sends in the `X-Hub-Signature` header of each delivery. `null`, empty or left out leaves the secret unset.",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateWorkspaceHookRequest/members/events",
+      "value": {
+        "target": "org.bitbucket#WebhookSubscriptionEventsList",
+        "traits": {
+          "smithy.api#documentation": "The events this webhook subscribes to.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateWorkspaceHookRequest/members/description",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "A user-defined description of the webhook."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateWorkspaceHookRequest/members/url",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URL events get delivered to. It must resolve to a routable address."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateWorkspaceHookRequest/members/active",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Whether the webhook delivers events."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateWorkspaceHookRequest/members/secret",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Key for the HMAC digest Bitbucket sends in the `X-Hub-Signature` header of each delivery. `null`, empty or left out leaves the secret unset.",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateWorkspaceHookRequest/members/events",
+      "value": {
+        "target": "org.bitbucket#WebhookSubscriptionEventsList",
+        "traits": {
+          "smithy.api#documentation": "The events this webhook subscribes to."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugDeployKeysRequest/members/key",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The public SSH key, such as `ssh-rsa AAAA... comment`. An update must pass the same key; only its comment may change.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugDeployKeysRequest/members/label",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The key's label.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugDeployKeysKeyIdRequest/members/key",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The public SSH key, such as `ssh-rsa AAAA... comment`. An update must pass the same key; only its comment may change.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugDeployKeysKeyIdRequest/members/label",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The key's label."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostWorkspacesWorkspaceProjectsProjectKeyDeployKeysRequest/members/key",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The public SSH key, such as `ssh-rsa AAAA... comment`. An update must pass the same key; only its comment may change.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostWorkspacesWorkspaceProjectsProjectKeyDeployKeysRequest/members/label",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The key's label.",
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

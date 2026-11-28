@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -720,7 +721,8 @@ export const batchGetMemberAccountDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<BatchGetMemberAccountDetailsRequest>,
   output: __S(261, __c32, 5) as any as S.Schema<BatchGetMemberAccountDetailsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -730,7 +732,7 @@ export const batchGetMemberAccountDetails: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberAccountDetails",
@@ -760,7 +762,8 @@ export const cancelMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelMembershipRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelMembershipResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -770,7 +773,7 @@ export const cancelMembership: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMembership",
@@ -800,7 +803,8 @@ export const closeCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CloseCaseRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CloseCaseResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -810,7 +814,7 @@ export const closeCase: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseCase",
@@ -840,7 +844,8 @@ export const createCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateCaseRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<CreateCaseResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -850,7 +855,7 @@ export const createCase: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
@@ -880,7 +885,8 @@ export const createCaseComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<CreateCaseCommentRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<CreateCaseCommentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -890,7 +896,7 @@ export const createCaseComment: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseComment",
@@ -920,7 +926,8 @@ export const createMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<CreateMembershipRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateMembershipResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -930,7 +937,7 @@ export const createMembership: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
@@ -960,7 +967,8 @@ export const getCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetCaseRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<GetCaseResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -970,7 +978,7 @@ export const getCase: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCase",
@@ -1000,7 +1008,8 @@ export const getCaseAttachmentDownloadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetCaseAttachmentDownloadUrlRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<GetCaseAttachmentDownloadUrlResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1010,7 +1019,7 @@ export const getCaseAttachmentDownloadUrl: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentDownloadUrl",
@@ -1040,7 +1049,8 @@ export const getCaseAttachmentUploadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetCaseAttachmentUploadUrlRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<GetCaseAttachmentUploadUrlResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1050,7 +1060,7 @@ export const getCaseAttachmentUploadUrl: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentUploadUrl",
@@ -1080,7 +1090,8 @@ export const getFindingMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetFindingMetricsRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetFindingMetricsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1090,7 +1101,7 @@ export const getFindingMetrics: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingMetrics",
@@ -1120,7 +1131,8 @@ export const getMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetMembershipRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<GetMembershipResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1130,7 +1142,7 @@ export const getMembership: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
@@ -1161,7 +1173,8 @@ export const listCaseEdits: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListCaseEditsRequest>,
   output: __S(131, __c16, 3) as any as S.Schema<ListCaseEditsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1171,7 +1184,7 @@ export const listCaseEdits: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCaseEdits",
@@ -1208,7 +1221,8 @@ export const listCases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListCasesRequest>,
   output: __S(139, __c17, 3) as any as S.Schema<ListCasesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1218,7 +1232,7 @@ export const listCases: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCases",
@@ -1255,7 +1269,8 @@ export const listComments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListCommentsRequest>,
   output: __S(147, __c18, 3) as any as S.Schema<ListCommentsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1265,7 +1280,7 @@ export const listComments: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListComments",
@@ -1302,7 +1317,8 @@ export const listInvestigations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListInvestigationsRequest>,
   output: __S(156, __c19, 4) as any as S.Schema<ListInvestigationsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1312,7 +1328,7 @@ export const listInvestigations: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvestigations",
@@ -1349,7 +1365,8 @@ export const listMemberships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListMembershipsRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<ListMembershipsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1359,7 +1376,7 @@ export const listMemberships: API.PaginatedOperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMemberships",
@@ -1395,17 +1412,18 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(169, __c21, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
     ConflictException,
     InternalServerException,
     InvalidTokenException,
+    ResourceNotFoundException,
     SecurityIncidentResponseNotActiveException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1435,7 +1453,8 @@ export const sendFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<SendFeedbackRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<SendFeedbackResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1445,7 +1464,7 @@ export const sendFeedback: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendFeedback",
@@ -1475,17 +1494,18 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<TagResourceInput>,
   output: __S(184, __c23, 0) as any as S.Schema<TagResourceOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
     ConflictException,
     InternalServerException,
     InvalidTokenException,
+    ResourceNotFoundException,
     SecurityIncidentResponseNotActiveException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1515,17 +1535,18 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(184, __c23, 0) as any as S.Schema<UntagResourceOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
     ConflictException,
     InternalServerException,
     InvalidTokenException,
+    ResourceNotFoundException,
     SecurityIncidentResponseNotActiveException,
     ServiceQuotaExceededException,
     ThrottlingException,
-  ],
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1555,7 +1576,8 @@ export const updateCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<UpdateCaseRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<UpdateCaseResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1565,7 +1587,7 @@ export const updateCase: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
@@ -1595,7 +1617,8 @@ export const updateCaseComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<UpdateCaseCommentRequest>,
   output: __S(217, __c27, 1) as any as S.Schema<UpdateCaseCommentResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1605,7 +1628,7 @@ export const updateCaseComment: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseComment",
@@ -1655,7 +1678,8 @@ export const updateCaseStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<UpdateCaseStatusRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<UpdateCaseStatusResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1665,7 +1689,7 @@ export const updateCaseStatus: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseStatus",
@@ -1695,7 +1719,8 @@ export const updateMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(233, __c29, 1) as any as S.Schema<UpdateMembershipRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<UpdateMembershipResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1705,7 +1730,7 @@ export const updateMembership: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
@@ -1737,7 +1762,8 @@ export const updateResolverType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<UpdateResolverTypeRequest>,
   output: __S(241, __c30, 1) as any as S.Schema<UpdateResolverTypeResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ConflictException,
     InternalServerException,
@@ -1747,7 +1773,7 @@ export const updateResolverType: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverType",

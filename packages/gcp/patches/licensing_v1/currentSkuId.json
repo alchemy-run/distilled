@@ -1,0 +1,25 @@
+{
+  "description": "licenseAssignments.patch and .update reassign a user to a different SKU of the same product (https://developers.google.com/workspace/admin/licensing/reference/rest/v1/licenseAssignments/patch: \"Reassign a user's product SKU with a different SKU in the same product\"). The path `skuId` is the user's current SKU and the body LicenseAssignment `skuId` is the new one. Flattening the body into the input gave both the same member name, and the path parameter won, so the new SKU could not be sent. This patch renames the path member to `currentSkuId`.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.licensing_v1#PatchLicenseAssignmentsRequest/members/skuId",
+      "path": "/shapes/com.gcp.licensing_v1#PatchLicenseAssignmentsRequest/members/currentSkuId"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.gcp.licensing_v1#PatchLicenseAssignments/traits/smithy.api#http/uri",
+      "value": "apps/licensing/v1/product/{productId}/sku/{currentSkuId}/user/{userId}"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.gcp.licensing_v1#UpdateLicenseAssignmentsRequest/members/skuId",
+      "path": "/shapes/com.gcp.licensing_v1#UpdateLicenseAssignmentsRequest/members/currentSkuId"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.gcp.licensing_v1#UpdateLicenseAssignments/traits/smithy.api#http/uri",
+      "value": "apps/licensing/v1/product/{productId}/sku/{currentSkuId}/user/{userId}"
+    }
+  ]
+}

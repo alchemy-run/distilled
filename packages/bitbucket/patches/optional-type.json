@@ -1,0 +1,169 @@
+{
+  "description": "Make `type` optional on every request body. Bitbucket's schemas all extend `object`, which requires `type` (the object's kind, such as `pullrequest`) because every response carries it. A request does not need it: the spec's own create and update examples send no `type`. The create-pull-request description says \"The minimum required fields to create a pull request are `title` and `source`\", and the webhook example sends only `description`, `url`, `active`, `secret` and `events`.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateDeploymentVariableRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateEnvironmentRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateOrUpdateAnnotationRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateOrUpdateReportRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreatePipelineForRepositoryRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreatePipelineVariableForWorkspaceRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateRepositoryPipelineKnownHostRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateRepositoryPipelineScheduleRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#CreateRepositoryPipelineVariableRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugBranchRestrictionsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitCommitCommentsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitCommitStatusesBuildRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugForksRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdMergeRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugPullrequestsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugRefsTagsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostSnippetsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostSnippetsWorkspaceEncodedIdCommentsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostSnippetsWorkspaceRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostUsersSelectedUserGpgKeysRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostUsersSelectedUserSshKeysRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PostWorkspacesWorkspaceProjectsRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugBranchRestrictionsIdRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugCommitCommitCommentsCommentIdRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugCommitCommitStatusesBuildKeyRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommentsCommentIdRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutRepositoriesWorkspaceRepoSlugRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutSnippetsWorkspaceEncodedIdCommentsCommentIdRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutUsersSelectedUserSshKeysKeyIdRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#PutWorkspacesWorkspaceProjectsProjectKeyRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateDeploymentVariableRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdatePipelineVariableForWorkspaceRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryBuildNumberRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineConfigRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineKeyPairRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineKnownHostRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineScheduleRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineVariableRequest/members/type/traits/smithy.api#required"
+    }
+  ]
+}

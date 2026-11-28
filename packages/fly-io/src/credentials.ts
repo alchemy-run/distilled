@@ -3,7 +3,7 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  * Fly.io credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request. The protocol layer resolves it per request
+ * credentials on every request. The protocol resolves it per request
  * and formats the `Authorization` header.
  *
  * Alchemy and `flyctl` read `FLY_API_TOKEN`. `FLY_IO_API_KEY` is kept as a
@@ -54,7 +54,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "Fly-ioCredentials",
   ) {}
 
@@ -67,19 +67,26 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "FLY_API_TOKEN (or FLY_IO_API_KEY) environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "FLY_API_TOKEN (or FLY_IO_API_KEY) environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: normalizeApiBaseUrl(apiBaseUrl || undefined),
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: normalizeApiBaseUrl(apiBaseUrl || undefined),
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -736,7 +736,7 @@ export interface OsProfileForVmInstance {
   /** Gets or sets the workgroup. */
   workgroup?: string | undefined;
   /** Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx */
-  productKey?: string | undefined;
+  productKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the index value of the timezone. */
   timezone?: number | undefined;
   /** Get or sets the commands to be run once at the time of creation separated by semicolons. */
@@ -1119,6 +1119,8 @@ export interface ListAvailabilitySetByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AvailabilitySetTagsMap = { [key: string]: string | undefined };
@@ -1153,12 +1155,16 @@ export interface AvailabilitySetListResult {
 export interface ListAvailabilitySetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudTagsMap = { [key: string]: string | undefined };
@@ -1193,10 +1199,14 @@ export interface CloudListResult {
 export interface ListCloudBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGuestAgentByVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Defines the GuestAgent. */
 export interface GuestAgent {
@@ -1227,6 +1237,8 @@ export interface ListInventoryItemByVmmServerRequest {
   resourceGroupName: string;
   /** Name of the VmmServer. */
   vmmServerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Defines the inventory item. */
 export interface InventoryItem {
@@ -1252,7 +1264,10 @@ export interface InventoryItemListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1285,13 +1300,15 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
 export interface ListVirtualMachineInstancesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Define the virtualMachineInstance. */
 export interface VirtualMachineInstance {
@@ -1322,6 +1339,8 @@ export interface ListVirtualMachineTemplateByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineTemplateTagsMap = { [key: string]: string | undefined };
@@ -1356,12 +1375,16 @@ export interface VirtualMachineTemplateListResult {
 export interface ListVirtualMachineTemplateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkTagsMap = { [key: string]: string | undefined };
@@ -1396,10 +1419,14 @@ export interface VirtualNetworkListResult {
 export interface ListVirtualNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Defines the HybridIdentityMetadata. */
 export interface VmInstanceHybridIdentityMetadata {
@@ -1429,6 +1456,8 @@ export interface ListVmmServerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VmmServerTagsMap = { [key: string]: string | undefined };
@@ -1463,6 +1492,8 @@ export interface VmmServerListResult {
 export interface ListVmmServerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface RestartVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1830,7 +1861,7 @@ export interface OsProfileForVmInstanceInput {
   /** Gets or sets the workgroup. */
   workgroup?: string | undefined;
   /** Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx */
-  productKey?: string | undefined;
+  productKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the index value of the timezone. */
   timezone?: number | undefined;
   /** Get or sets the commands to be run once at the time of creation separated by semicolons. */
@@ -2096,7 +2127,8 @@ export const AvailabilitySetsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AvailabilitySetsCreateOrUpdateRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<AvailabilitySetsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2113,7 +2145,8 @@ export const CloudsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CloudsCreateOrUpdateRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<CloudsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2130,7 +2163,8 @@ export const CreateGuestAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(417, __c26, 1) as any as S.Schema<CreateGuestAgentRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<CreateGuestAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2153,7 +2187,8 @@ export const CreateInventoryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(723, __c45, 3) as any as S.Schema<CreateInventoryItemRequest>,
   output: __S(757, __c47, 5) as any as S.Schema<CreateInventoryItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2170,7 +2205,8 @@ export const CreateVirtualMachineInstanceCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<CreateVirtualMachineInstanceCheckpointRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<CreateVirtualMachineInstanceCheckpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2193,7 +2229,8 @@ export const DeleteAvailabilitySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<DeleteAvailabilitySetRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<DeleteAvailabilitySetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2210,7 +2247,8 @@ export const DeleteCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<DeleteCloudRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<DeleteCloudResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2227,7 +2265,8 @@ export const DeleteGuestAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<DeleteGuestAgentRequest>,
   output: __S(1280, __c80, 0) as any as S.Schema<DeleteGuestAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2250,7 +2289,8 @@ export const DeleteInventoryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<DeleteInventoryItemRequest>,
   output: __S(1280, __c80, 0) as any as S.Schema<DeleteInventoryItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2267,7 +2307,8 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2289,7 +2330,8 @@ export const DeleteVirtualMachineInstanceCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2312,7 +2354,8 @@ export const DeleteVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteVirtualMachineTemplateRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<DeleteVirtualMachineTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2329,7 +2372,8 @@ export const DeleteVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteVirtualNetworkRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2346,7 +2390,8 @@ export const DeleteVmmServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteVmmServerRequest>,
   output: __S(1200, __c75, 0) as any as S.Schema<DeleteVmmServerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2363,7 +2408,8 @@ export const GetAvailabilitySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetAvailabilitySetRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<GetAvailabilitySetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2380,7 +2426,8 @@ export const GetCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetCloudRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<GetCloudResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2397,7 +2444,8 @@ export const GetGuestAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetGuestAgentRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<GetGuestAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2420,7 +2468,8 @@ export const GetInventoryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetInventoryItemRequest>,
   output: __S(757, __c47, 5) as any as S.Schema<GetInventoryItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2437,7 +2486,8 @@ export const GetVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetVirtualMachineInstanceRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<GetVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2459,7 +2509,8 @@ export const GetVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetVirtualMachineTemplateRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<GetVirtualMachineTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2476,7 +2527,8 @@ export const GetVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetVirtualNetworkRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<GetVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2493,7 +2545,8 @@ export const GetVmInstanceHybridIdentityMetadatas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetVmInstanceHybridIdentityMetadatasRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<GetVmInstanceHybridIdentityMetadatasResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2516,7 +2569,8 @@ export const GetVmmServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetVmmServerRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<GetVmmServerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2525,83 +2579,117 @@ export const GetVmmServer: API.OperationMethod<
 
 export type ListAvailabilitySetByResourceGroupError = AzureOpError;
 /** Implements GET AvailabilitySets in a resource group. List of AvailabilitySets in a resource group. */
-export const ListAvailabilitySetByResourceGroup: API.OperationMethod<
+export const ListAvailabilitySetByResourceGroup: API.PaginatedOperationMethod<
   ListAvailabilitySetByResourceGroupRequest,
   AvailabilitySetListResult,
   ListAvailabilitySetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AvailabilitySet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListAvailabilitySetByResourceGroupRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<AvailabilitySetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailabilitySetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAvailabilitySetBySubscriptionError = AzureOpError;
 /** Implements GET AvailabilitySets in a subscription. List of AvailabilitySets in a subscription. */
-export const ListAvailabilitySetBySubscription: API.OperationMethod<
+export const ListAvailabilitySetBySubscription: API.PaginatedOperationMethod<
   ListAvailabilitySetBySubscriptionRequest,
   AvailabilitySetListResult,
   ListAvailabilitySetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AvailabilitySet
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListAvailabilitySetBySubscriptionRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<AvailabilitySetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailabilitySetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudByResourceGroupError = AzureOpError;
 /** Implements GET Clouds in a resource group. List of Clouds in a resource group. */
-export const ListCloudByResourceGroup: API.OperationMethod<
+export const ListCloudByResourceGroup: API.PaginatedOperationMethod<
   ListCloudByResourceGroupRequest,
   CloudListResult,
   ListCloudByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cloud
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListCloudByResourceGroupRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<CloudListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudBySubscriptionError = AzureOpError;
 /** Implements GET Clouds in a subscription. List of Clouds in a subscription. */
-export const ListCloudBySubscription: API.OperationMethod<
+export const ListCloudBySubscription: API.PaginatedOperationMethod<
   ListCloudBySubscriptionRequest,
   CloudListResult,
   ListCloudBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cloud
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListCloudBySubscriptionRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<CloudListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGuestAgentByVirtualMachineInstanceError = AzureOpError;
 /** Implements GET GuestAgent in a vm. Returns the list of GuestAgent of the given vm. */
-export const ListGuestAgentByVirtualMachineInstance: API.OperationMethod<
+export const ListGuestAgentByVirtualMachineInstance: API.PaginatedOperationMethod<
   ListGuestAgentByVirtualMachineInstanceRequest,
   GuestAgentListResult,
   ListGuestAgentByVirtualMachineInstanceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GuestAgent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ListGuestAgentByVirtualMachineInstanceRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<GuestAgentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2612,53 +2700,77 @@ export const ListGuestAgentByVirtualMachineInstance: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInventoryItemByVmmServerError = AzureOpError;
 /** Implements GET for the list of Inventory Items in the VMMServer. Returns the list of inventoryItems in the given VmmServer. */
-export const ListInventoryItemByVmmServer: API.OperationMethod<
+export const ListInventoryItemByVmmServer: API.PaginatedOperationMethod<
   ListInventoryItemByVmmServerRequest,
   InventoryItemListResult,
   ListInventoryItemByVmmServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InventoryItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListInventoryItemByVmmServerRequest>,
   output: __S(690, __c43, 2) as any as S.Schema<InventoryItemListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInventoryItemByVmmServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(708, __c44, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineInstancesError = AzureOpError;
 /** Implements List virtual machine instances. Lists all of the virtual machine instances within the specified parent resource. */
-export const ListVirtualMachineInstances: API.OperationMethod<
+export const ListVirtualMachineInstances: API.PaginatedOperationMethod<
   ListVirtualMachineInstancesRequest,
   VirtualMachineInstanceListResult,
   ListVirtualMachineInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachineInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
   output: __S(770, __c48, 2) as any as S.Schema<VirtualMachineInstanceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2668,91 +2780,131 @@ export const ListVirtualMachineInstances: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineTemplateByResourceGroupError = AzureOpError;
 /** Implements GET VirtualMachineTemplates in a resource group. List of VirtualMachineTemplates in a resource group. */
-export const ListVirtualMachineTemplateByResourceGroup: API.OperationMethod<
+export const ListVirtualMachineTemplateByResourceGroup: API.PaginatedOperationMethod<
   ListVirtualMachineTemplateByResourceGroupRequest,
   VirtualMachineTemplateListResult,
   ListVirtualMachineTemplateByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachineTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<VirtualMachineTemplateListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachineTemplateByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineTemplateBySubscriptionError = AzureOpError;
 /** Implements GET VirtualMachineTemplates in a subscription. List of VirtualMachineTemplates in a subscription. */
-export const ListVirtualMachineTemplateBySubscription: API.OperationMethod<
+export const ListVirtualMachineTemplateBySubscription: API.PaginatedOperationMethod<
   ListVirtualMachineTemplateBySubscriptionRequest,
   VirtualMachineTemplateListResult,
   ListVirtualMachineTemplateBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachineTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListVirtualMachineTemplateBySubscriptionRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<VirtualMachineTemplateListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachineTemplateBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworkByResourceGroupError = AzureOpError;
 /** Implements GET VirtualNetworks in a resource group. List of VirtualNetworks in a resource group. */
-export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
+export const ListVirtualNetworkByResourceGroup: API.PaginatedOperationMethod<
   ListVirtualNetworkByResourceGroupRequest,
   VirtualNetworkListResult,
   ListVirtualNetworkByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<VirtualNetworkListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworkBySubscriptionError = AzureOpError;
 /** Implements GET VirtualNetworks in a subscription. List of VirtualNetworks in a subscription. */
-export const ListVirtualNetworkBySubscription: API.OperationMethod<
+export const ListVirtualNetworkBySubscription: API.PaginatedOperationMethod<
   ListVirtualNetworkBySubscriptionRequest,
   VirtualNetworkListResult,
   ListVirtualNetworkBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListVirtualNetworkBySubscriptionRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<VirtualNetworkListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceError = AzureOpError;
 /** Implements GET HybridIdentityMetadata in a vm. Returns the list of HybridIdentityMetadata of the given VM. */
-export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance: API.OperationMethod<
+export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance: API.PaginatedOperationMethod<
   ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceRequest,
   VmInstanceHybridIdentityMetadataListResult,
   ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VmInstanceHybridIdentityMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     880,
     __c55,
     0,
   ) as any as S.Schema<ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceRequest>,
   output: __S(882, __c55, 2) as any as S.Schema<VmInstanceHybridIdentityMetadataListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2763,41 +2915,63 @@ export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstance: API.
         "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVmmServerByResourceGroupError = AzureOpError;
 /** Implements GET VmmServers in a resource group. List of VmmServers in a resource group. */
-export const ListVmmServerByResourceGroup: API.OperationMethod<
+export const ListVmmServerByResourceGroup: API.PaginatedOperationMethod<
   ListVmmServerByResourceGroupRequest,
   VmmServerListResult,
   ListVmmServerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VmmServer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListVmmServerByResourceGroupRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<VmmServerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVmmServerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVmmServerBySubscriptionError = AzureOpError;
 /** Implements GET VmmServers in a subscription. List of VmmServers in a subscription. */
-export const ListVmmServerBySubscription: API.OperationMethod<
+export const ListVmmServerBySubscription: API.PaginatedOperationMethod<
   ListVmmServerBySubscriptionRequest,
   VmmServerListResult,
   ListVmmServerBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VmmServer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListVmmServerBySubscriptionRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<VmmServerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVmmServerBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RestartVirtualMachineInstanceError = AzureOpError;
 /** Implements the operation to restart a virtual machine. The operation to restart a virtual machine instance. */
@@ -2809,7 +2983,8 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2832,7 +3007,8 @@ export const RestoreVirtualMachineInstanceCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2855,7 +3031,8 @@ export const StartVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2878,7 +3055,8 @@ export const StopVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2901,7 +3079,8 @@ export const UpdateAvailabilitySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<UpdateAvailabilitySetRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<UpdateAvailabilitySetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2918,7 +3097,8 @@ export const UpdateCloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<UpdateCloudRequest>,
   output: __S(1057, __c66, 1) as any as S.Schema<UpdateCloudResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2935,7 +3115,8 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1078, __c67, 6) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
   output: __S(1079, __c67, 7) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2957,7 +3138,8 @@ export const UpdateVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<UpdateVirtualMachineTemplateRequest>,
   output: __S(1105, __c69, 1) as any as S.Schema<UpdateVirtualMachineTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2974,7 +3156,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<UpdateVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2991,7 +3174,8 @@ export const UpdateVmmServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<UpdateVmmServerRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<UpdateVmmServerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3008,7 +3192,8 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1158, __c72, 6) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
   output: __S(1159, __c72, 7) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3030,7 +3215,8 @@ export const VirtualMachineTemplatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3047,7 +3233,8 @@ export const VirtualNetworksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3064,7 +3251,8 @@ export const VmmServersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1233, __c77, 1) as any as S.Schema<VmmServersCreateOrUpdateRequest>,
   output: __S(1234, __c77, 2) as any as S.Schema<VmmServersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3555,7 +3743,7 @@ function __c22(j: number): any {
           domainUsername: S.optional(S.String),
           domainPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           workgroup: S.optional(S.String),
-          productKey: S.optional(S.String),
+          productKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           timezone: S.optional(S.Number),
           runOnceCommands: S.optional(S.String),
         }),
@@ -3913,12 +4101,14 @@ function __c36(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAvailabilitySetByResourceGroupRequest" });
@@ -3943,12 +4133,14 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/availabilitySets",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAvailabilitySetBySubscriptionRequest" });
@@ -3961,12 +4153,14 @@ function __c39(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudByResourceGroupRequest" });
@@ -3991,12 +4185,14 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/clouds",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudBySubscriptionRequest" });
@@ -4008,12 +4204,14 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGuestAgentByVirtualMachineInstanceRequest" });
@@ -4036,12 +4234,14 @@ function __c43(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vmmServerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInventoryItemByVmmServerRequest" });
@@ -4060,12 +4260,15 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ScVmm/operations",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4093,7 +4296,7 @@ function __c44(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(707, __c44, 3)),
+          value: __S(707, __c44, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -4226,12 +4429,14 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineInstancesRequest" });
@@ -4253,12 +4458,14 @@ function __c49(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineTemplateByResourceGroupRequest" });
@@ -4283,12 +4490,14 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualMachineTemplates",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineTemplateBySubscriptionRequest" });
@@ -4301,12 +4510,14 @@ function __c52(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkByResourceGroupRequest" });
@@ -4331,12 +4542,14 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualNetworks",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkBySubscriptionRequest" });
@@ -4348,12 +4561,14 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -4377,12 +4592,14 @@ function __c56(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVmmServerByResourceGroupRequest" });
@@ -4407,12 +4624,14 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/vmmServers",
             code: 200,
             apiVersion: "2024-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVmmServerBySubscriptionRequest" });
@@ -4814,7 +5033,7 @@ function __c72(j: number): any {
           domainUsername: S.optional(S.String),
           domainPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           workgroup: S.optional(S.String),
-          productKey: S.optional(S.String),
+          productKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           timezone: S.optional(S.Number),
           runOnceCommands: S.optional(S.String),
         }),

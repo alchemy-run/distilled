@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownS2Error } from "../errors.ts";
+import { S2ServiceErrors } from "../errors.ts";
 import { paginateStartAfter } from "../pagination.ts";
 import { S2Protocol, type S2OpError, type S2OpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -72,7 +72,11 @@ export type Operation =
   | "stream-metrics"
   | "list-locations"
   | "get-default-location"
-  | "set-default-location";
+  | "set-default-location"
+  | "list-network-policies"
+  | "create-network-policy"
+  | "get-network-policy"
+  | "delete-network-policy";
 /** Operations allowed for the token. A union of allowed operations and groups is used as an effective set of allowed operations. */
 export type AccessTokenScopeOpsList = Array<Operation | (string & {})>;
 export interface AccessTokenScope {
@@ -90,6 +94,7 @@ export interface IssueAccessTokenRequest {
   expires_at?: string | null | undefined;
   /** Access token ID. It must be unique to the account and between 1 and 96 bytes in length, and must not contain NUL bytes. */
   id: string;
+  network_policy?: string | null | undefined;
   /** Access token scope. */
   scope: AccessTokenScope;
 }
@@ -112,6 +117,7 @@ export interface AccessTokenInfo {
   expires_at?: string | null | undefined;
   /** Access token ID. */
   id: string;
+  network_policy?: string | null | undefined;
   /** Access token scope. */
   scope: AccessTokenScope;
 }
@@ -138,7 +144,8 @@ export const issueAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<IssueAccessTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<IssueAccessTokenResponse>,
-  errors: [UnknownS2Error],
+  errors: [],
+  serviceErrors: S2ServiceErrors,
   protocol: S2Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -157,7 +164,8 @@ export const listAccessTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(8, __c2, 0) as any as S.Schema<ListAccessTokensRequest>,
     output: __S(11, __c2, 3) as any as S.Schema<ListAccessTokensResponse>,
-    errors: [UnknownS2Error],
+    errors: [],
+    serviceErrors: S2ServiceErrors,
     protocol: S2Protocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -183,7 +191,8 @@ export const revokeAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<RevokeAccessTokenRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<RevokeAccessTokenResponse>,
-  errors: [UnknownS2Error],
+  errors: [],
+  serviceErrors: S2ServiceErrors,
   protocol: S2Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -199,6 +208,7 @@ function __c0(j: number): any {
           auto_prefix_streams: S.optional(S.Boolean),
           expires_at: S.optional(S.NullOr(S.String)),
           id: S.String,
+          network_policy: S.optional(S.NullOr(S.String)),
           scope: __S(7, __c1, 3),
         }).pipe(T.Http({ method: "POST", uri: "/access-tokens", code: 200 })),
       ).annotate({ identifier: "IssueAccessTokenRequest" });
@@ -257,6 +267,7 @@ function __c2(j: number): any {
           auto_prefix_streams: S.Boolean,
           expires_at: S.optional(S.NullOr(S.String)),
           id: S.String,
+          network_policy: S.optional(S.NullOr(S.String)),
           scope: __S(7, __c1, 3),
         }),
       ).annotate({ identifier: "AccessTokenInfo" });

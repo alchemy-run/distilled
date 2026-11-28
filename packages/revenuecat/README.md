@@ -35,13 +35,24 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   RevenueCat.CredentialsFromEnv,
-  RevenueCat.RevenueCatProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
 List operations follow `next_page` with `.pages()` and `.items()`.
+
+## Beta operations
+
+Operations the spec marks `x-release-status: beta` (`getBenchmarks`, the chart subscriber list
+exports, and the blocked-customer operations) are not in the root export. Import them from
+`unstable/`:
+
+```ts
+import * as RevenueCatBeta from "@distilled.cloud/revenuecat/unstable/revenuecat";
+
+const blocked = yield* RevenueCatBeta.listBlockedCustomers({ project_id });
+```
 
 ## Auth
 

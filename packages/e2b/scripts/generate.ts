@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Effect SDK.
  *
  * Input:  .generated-specs/<module>.json  (written by scripts/convert.ts)
- * Output: src/services/<module>.ts  +  src/services/index.ts
+ * Output: src/services/<module>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for models convert marks unstable
  *
  * E2B serves three hosts with three credentials, so each module is
  * compiled against the protocol for the host it talks to:
@@ -31,7 +32,6 @@ import {
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 const COMMA_DELIMITED_TRAIT = "com.e2b#commaDelimited";
-const FORM_DATA_FILE_TRAIT = "com.e2b#formDataFile";
 
 /** `volume_content` → `volumeContent` (the barrel's export name). */
 const camel = (slug: string): string =>
@@ -65,14 +65,6 @@ const baseSpec: SdkSpec = {
 
   extraBindings: [
     {
-      // A multipart file part (envd `writeFiles`): the protocol appends a
-      // bare Blob as the `file` part.
-      trait: FORM_DATA_FILE_TRAIT,
-      binding: "file",
-      pipe: "T.FormDataFile()",
-      tsType: "Blob",
-    },
-    {
       // Sole member of a synthesized wrapper for bare array/scalar response
       // bodies — as a response's sole member, the response IS the payload.
       trait: RAW_RESPONSE_TRAIT,
@@ -92,21 +84,6 @@ const baseSpec: SdkSpec = {
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
-      : "smithy.api#httpPayload" in m.traits && m.target === "smithy.api#Blob"
-        ? "Uint8Array | string"
-        : undefined,
-
-  // File downloads (envd `readFile`, `readVolumeFile`): the output is the raw
-  // body, decoded as bytes. convert stamps them as a sole raw `Blob` member.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
-        ]
       : undefined,
 
   // Unions surface as TS type unions over an opaque schema — the protocol
@@ -131,9 +108,7 @@ const baseSpec: SdkSpec = {
   operationDecl: {
     contextType: "E2BOpContext",
     commonErrorType: "E2BOpError",
-    // Failures share a `{ code, message }` envelope; the protocol picks the
-    // class from the status.
-    commonErrorClasses: ["UnknownE2BError"],
+    serviceErrors: "E2BServiceErrors",
     protocol: "E2BProtocol",
     retry: "Retry.Retry",
   },
@@ -182,6 +157,7 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   barrelExportName: camel,
   spec: (model) => {
     const streaming = STREAMING_EXPORTS[namespaceOf(model)];

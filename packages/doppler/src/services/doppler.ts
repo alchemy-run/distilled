@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDopplerError } from "../errors.ts";
+import { DopplerServiceErrors } from "../errors.ts";
 import {
   DopplerProtocol,
   DopplerPublicProtocol,
@@ -136,7 +136,7 @@ export type AddWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic";
 export interface AddWebhookRequestAuthentication {
   type?: AddWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Used when type = Basic */
   username?: string | undefined;
   /** Used when type = Basic */
@@ -2127,12 +2127,27 @@ export interface ProjectMembersAddRequest {
 }
 export type ProjectMembersAddResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersAddResponseMemberEnvironmentsList = Array<string>;
+export type ProjectMembersAddResponseMemberRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersAddResponseMemberRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersAddResponseMemberRolesItemConfigsList = Array<string>;
+export interface ProjectMembersAddResponseMemberRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersAddResponseMemberRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersAddResponseMemberRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersAddResponseMemberRolesList =
+  Array<ProjectMembersAddResponseMemberRolesItem>;
 export interface ProjectMembersAddResponseMember {
   type?: string | undefined;
   slug?: string | undefined;
   role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
   access_all_environments?: boolean | undefined;
   environments?: ProjectMembersAddResponseMemberEnvironmentsList | undefined;
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersAddResponseMemberRolesList | undefined;
 }
 export interface ProjectMembersAddResponse {
   member?: ProjectMembersAddResponseMember | undefined;
@@ -2164,12 +2179,27 @@ export interface ProjectMembersGetRequest {
 }
 export type ProjectMembersGetResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersGetResponseMemberEnvironmentsList = Array<string>;
+export type ProjectMembersGetResponseMemberRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersGetResponseMemberRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersGetResponseMemberRolesItemConfigsList = Array<string>;
+export interface ProjectMembersGetResponseMemberRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersGetResponseMemberRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersGetResponseMemberRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersGetResponseMemberRolesList =
+  Array<ProjectMembersGetResponseMemberRolesItem>;
 export interface ProjectMembersGetResponseMember {
   type?: string | undefined;
   slug?: string | undefined;
   role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
   access_all_environments?: boolean | undefined;
   environments?: ProjectMembersGetResponseMemberEnvironmentsList | undefined;
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersGetResponseMemberRolesList | undefined;
 }
 export interface ProjectMembersGetResponse {
   member?: ProjectMembersGetResponseMember | undefined;
@@ -2182,16 +2212,200 @@ export interface ProjectMembersListRequest {
 }
 export type ProjectMembersListResponseMembersItemRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersListResponseMembersItemEnvironmentsList = Array<string>;
+export type ProjectMembersListResponseMembersItemRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersListResponseMembersItemRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersListResponseMembersItemRolesItemConfigsList = Array<string>;
+export interface ProjectMembersListResponseMembersItemRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersListResponseMembersItemRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersListResponseMembersItemRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersListResponseMembersItemRolesList =
+  Array<ProjectMembersListResponseMembersItemRolesItem>;
 export interface ProjectMembersListResponseMembersItem {
   type?: string | undefined;
   slug?: string | undefined;
   role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
   access_all_environments?: boolean | undefined;
   environments?: ProjectMembersListResponseMembersItemEnvironmentsList | undefined;
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersListResponseMembersItemRolesList | undefined;
 }
 export type ProjectMembersListResponseMembersList = Array<ProjectMembersListResponseMembersItem>;
 export interface ProjectMembersListResponse {
   members?: ProjectMembersListResponseMembersList | undefined;
+}
+export type ProjectMembersRolesAddRequestType =
+  | "workplace_user"
+  | "group"
+  | "invite"
+  | "service_account";
+/** Environment slugs this role applies to */
+export type ProjectMembersRolesAddRequestEnvironmentsList = Array<string>;
+/** Config names this role applies to. See: https://docs.doppler.com/docs/advanced-permissions#grant-access-to-individual-configs */
+export type ProjectMembersRolesAddRequestConfigsList = Array<string>;
+export interface ProjectMembersRolesAddRequest {
+  type: ProjectMembersRolesAddRequestType | (string & {});
+  /** Member's slug */
+  slug: string;
+  /** Project slug */
+  project: string;
+  /** Identifier of the project role */
+  role: string;
+  /** Environment slugs this role applies to */
+  environments?: ProjectMembersRolesAddRequestEnvironmentsList | undefined;
+  /** Config names this role applies to. See: https://docs.doppler.com/docs/advanced-permissions#grant-access-to-individual-configs */
+  configs?: ProjectMembersRolesAddRequestConfigsList | undefined;
+}
+export type ProjectMembersRolesAddResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersRolesAddResponseMemberEnvironmentsList = Array<string>;
+export type ProjectMembersRolesAddResponseMemberRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersRolesAddResponseMemberRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersRolesAddResponseMemberRolesItemConfigsList = Array<string>;
+export interface ProjectMembersRolesAddResponseMemberRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersRolesAddResponseMemberRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersRolesAddResponseMemberRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersRolesAddResponseMemberRolesList =
+  Array<ProjectMembersRolesAddResponseMemberRolesItem>;
+export interface ProjectMembersRolesAddResponseMember {
+  type?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersRolesAddResponseMemberEnvironmentsList | undefined;
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersRolesAddResponseMemberRolesList | undefined;
+}
+export interface ProjectMembersRolesAddResponse {
+  member?: ProjectMembersRolesAddResponseMember | undefined;
+}
+export type ProjectMembersRolesDeleteRequestType =
+  | "workplace_user"
+  | "group"
+  | "invite"
+  | "service_account";
+export interface ProjectMembersRolesDeleteRequest {
+  type: ProjectMembersRolesDeleteRequestType | (string & {});
+  /** Member's slug */
+  slug: string;
+  /** Identifier of the project role, e.g. `collaborator` or a custom role's identifier */
+  role: string;
+  /** Project slug */
+  project: string;
+}
+export interface ProjectMembersRolesDeleteResponse {}
+export type ProjectMembersRolesGetRequestType =
+  | "workplace_user"
+  | "group"
+  | "invite"
+  | "service_account";
+export interface ProjectMembersRolesGetRequest {
+  type: ProjectMembersRolesGetRequestType | (string & {});
+  /** Member's slug */
+  slug: string;
+  /** Identifier of the project role, e.g. `collaborator` or a custom role's identifier */
+  role: string;
+  /** Project slug */
+  project: string;
+}
+export type ProjectMembersRolesGetResponseRoleRole = CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersRolesGetResponseRoleEnvironmentsList = Array<string>;
+export type ProjectMembersRolesGetResponseRoleConfigsList = Array<string>;
+export interface ProjectMembersRolesGetResponseRole {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersRolesGetResponseRoleEnvironmentsList | undefined;
+  configs?: ProjectMembersRolesGetResponseRoleConfigsList | undefined;
+}
+export interface ProjectMembersRolesGetResponse {
+  role?: ProjectMembersRolesGetResponseRole | undefined;
+}
+export type ProjectMembersRolesListRequestType =
+  | "workplace_user"
+  | "group"
+  | "invite"
+  | "service_account";
+export interface ProjectMembersRolesListRequest {
+  type: ProjectMembersRolesListRequestType | (string & {});
+  /** Member's slug */
+  slug: string;
+  /** Project slug */
+  project: string;
+}
+export type ProjectMembersRolesListResponseRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersRolesListResponseRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersRolesListResponseRolesItemConfigsList = Array<string>;
+export interface ProjectMembersRolesListResponseRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersRolesListResponseRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersRolesListResponseRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersRolesListResponseRolesList =
+  Array<ProjectMembersRolesListResponseRolesItem>;
+export interface ProjectMembersRolesListResponse {
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersRolesListResponseRolesList | undefined;
+}
+export type ProjectMembersRolesUpdateRequestType =
+  | "workplace_user"
+  | "group"
+  | "invite"
+  | "service_account";
+/** Environment slugs this role applies to */
+export type ProjectMembersRolesUpdateRequestEnvironmentsList = Array<string>;
+/** Config names this role applies to. Omit to keep the role's current configs. See: https://docs.doppler.com/docs/advanced-permissions#grant-access-to-individual-configs */
+export type ProjectMembersRolesUpdateRequestConfigsList = Array<string>;
+export interface ProjectMembersRolesUpdateRequest {
+  type: ProjectMembersRolesUpdateRequestType | (string & {});
+  /** Member's slug */
+  slug: string;
+  /** Identifier of the project role, e.g. `collaborator` or a custom role's identifier */
+  role: string;
+  /** Project slug */
+  project: string;
+  /** Environment slugs this role applies to */
+  environments: ProjectMembersRolesUpdateRequestEnvironmentsList;
+  /** Config names this role applies to. Omit to keep the role's current configs. See: https://docs.doppler.com/docs/advanced-permissions#grant-access-to-individual-configs */
+  configs?: ProjectMembersRolesUpdateRequestConfigsList | undefined;
+}
+export type ProjectMembersRolesUpdateResponseMemberRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersRolesUpdateResponseMemberEnvironmentsList = Array<string>;
+export type ProjectMembersRolesUpdateResponseMemberRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersRolesUpdateResponseMemberRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersRolesUpdateResponseMemberRolesItemConfigsList = Array<string>;
+export interface ProjectMembersRolesUpdateResponseMemberRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersRolesUpdateResponseMemberRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersRolesUpdateResponseMemberRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersRolesUpdateResponseMemberRolesList =
+  Array<ProjectMembersRolesUpdateResponseMemberRolesItem>;
+export interface ProjectMembersRolesUpdateResponseMember {
+  type?: string | undefined;
+  slug?: string | undefined;
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersRolesUpdateResponseMemberEnvironmentsList | undefined;
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersRolesUpdateResponseMemberRolesList | undefined;
+}
+export interface ProjectMembersRolesUpdateResponse {
+  member?: ProjectMembersRolesUpdateResponseMember | undefined;
 }
 export type ProjectMembersUpdateRequestType =
   | "workplace_user"
@@ -2213,12 +2427,27 @@ export interface ProjectMembersUpdateRequest {
 }
 export type ProjectMembersUpdateResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export type ProjectMembersUpdateResponseMemberEnvironmentsList = Array<string>;
+export type ProjectMembersUpdateResponseMemberRolesItemRole =
+  CreateGroupResponseGroupDefaultProjectRole;
+export type ProjectMembersUpdateResponseMemberRolesItemEnvironmentsList = Array<string>;
+export type ProjectMembersUpdateResponseMemberRolesItemConfigsList = Array<string>;
+export interface ProjectMembersUpdateResponseMemberRolesItem {
+  role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
+  access_all_environments?: boolean | undefined;
+  environments?: ProjectMembersUpdateResponseMemberRolesItemEnvironmentsList | undefined;
+  configs?: ProjectMembersUpdateResponseMemberRolesItemConfigsList | undefined;
+}
+/** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+export type ProjectMembersUpdateResponseMemberRolesList =
+  Array<ProjectMembersUpdateResponseMemberRolesItem>;
 export interface ProjectMembersUpdateResponseMember {
   type?: string | undefined;
   slug?: string | undefined;
   role?: CreateGroupResponseGroupDefaultProjectRole | undefined;
   access_all_environments?: boolean | undefined;
   environments?: ProjectMembersUpdateResponseMemberEnvironmentsList | undefined;
+  /** Every role the member holds on the project, oldest first. `role` and `environments` describe the first entry. */
+  roles?: ProjectMembersUpdateResponseMemberRolesList | undefined;
 }
 export interface ProjectMembersUpdateResponse {
   member?: ProjectMembersUpdateResponseMember | undefined;
@@ -2530,7 +2759,7 @@ export interface RenameEnvironmentResponse {
   environment?: CreateEnvironmentResponseEnvironment | undefined;
 }
 export interface RevokeAuthRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface RevokeAuthResponse {}
 export interface RevokeCliAuthRequest {
@@ -3166,7 +3395,7 @@ export type UpdateWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic"
 export interface UpdateWebhookRequestAuthentication {
   type?: UpdateWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Used when type = Basic */
   username?: string | undefined;
   /** Used when type = Basic */
@@ -3336,9 +3565,10 @@ export const activityLogsList: API.OperationMethod<
   ActivityLogsListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<ActivityLogsListRequest>,
-  output: __S(730, __c91, 2) as any as S.Schema<ActivityLogsListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(776, __c97, 0) as any as S.Schema<ActivityLogsListRequest>,
+  output: __S(778, __c97, 2) as any as S.Schema<ActivityLogsListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3353,9 +3583,10 @@ export const activityLogsRetrieve: API.OperationMethod<
   ActivityLogsRetrieveError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<ActivityLogsRetrieveRequest>,
-  output: __S(833, __c104, 1) as any as S.Schema<ActivityLogsRetrieveResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(880, __c110, 0) as any as S.Schema<ActivityLogsRetrieveRequest>,
+  output: __S(881, __c110, 1) as any as S.Schema<ActivityLogsRetrieveResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3370,9 +3601,10 @@ export const addWebhook: API.OperationMethod<
   AddWebhookError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<AddWebhookRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<AddWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(968, __c121, 0) as any as S.Schema<AddWebhookRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<AddWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3387,9 +3619,10 @@ export const auditGetUser: API.OperationMethod<
   AuditGetUserError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<AuditGetUserRequest>,
-  output: __S(1059, __c132, 3) as any as S.Schema<AuditGetUserResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1104, __c138, 0) as any as S.Schema<AuditGetUserRequest>,
+  output: __S(1107, __c138, 3) as any as S.Schema<AuditGetUserResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3404,9 +3637,10 @@ export const authMe: API.OperationMethod<
   AuthMeError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<AuthMeRequest>,
-  output: __S(1217, __c152, 1) as any as S.Schema<AuthMeResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1264, __c158, 0) as any as S.Schema<AuthMeRequest>,
+  output: __S(1265, __c158, 1) as any as S.Schema<AuthMeResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3421,9 +3655,10 @@ export const authOidc: API.OperationMethod<
   AuthOidcError,
   DopplerPublicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c168, 0) as any as S.Schema<AuthOidcRequest>,
-  output: __S(1345, __c168, 1) as any as S.Schema<AuthOidcResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1392, __c174, 0) as any as S.Schema<AuthOidcRequest>,
+  output: __S(1393, __c174, 1) as any as S.Schema<AuthOidcResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3438,9 +3673,10 @@ export const authorizeCliAuth: API.OperationMethod<
   AuthorizeCliAuthError,
   DopplerPublicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<AuthorizeCliAuthRequest>,
-  output: __S(1465, __c183, 1) as any as S.Schema<AuthorizeCliAuthResponse>,
-  errors: [Conflict, UnknownDopplerError],
+  input: __S(1528, __c191, 0) as any as S.Schema<AuthorizeCliAuthRequest>,
+  output: __S(1529, __c191, 1) as any as S.Schema<AuthorizeCliAuthResponse>,
+  errors: [Conflict],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3457,7 +3693,8 @@ export const cloneConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CloneConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<CloneConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3472,9 +3709,10 @@ export const configLogsGet: API.OperationMethod<
   ConfigLogsGetError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ConfigLogsGetRequest>,
-  output: __S(124, __c15, 4) as any as S.Schema<ConfigLogsGetResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(128, __c16, 0) as any as S.Schema<ConfigLogsGetRequest>,
+  output: __S(132, __c16, 4) as any as S.Schema<ConfigLogsGetResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3491,7 +3729,8 @@ export const configLogsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ConfigLogsListRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<ConfigLogsListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3506,9 +3745,10 @@ export const configLogsRollback: API.OperationMethod<
   ConfigLogsRollbackError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<ConfigLogsRollbackRequest>,
-  output: __S(340, __c42, 4) as any as S.Schema<ConfigLogsRollbackResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(344, __c43, 0) as any as S.Schema<ConfigLogsRollbackRequest>,
+  output: __S(348, __c43, 4) as any as S.Schema<ConfigLogsRollbackResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3525,7 +3765,8 @@ export const configsAddTrustedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<ConfigsAddTrustedIpRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<ConfigsAddTrustedIpResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3540,9 +3781,10 @@ export const configsDeleteTrustedIp: API.OperationMethod<
   ConfigsDeleteTrustedIpError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<ConfigsDeleteTrustedIpRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<ConfigsDeleteTrustedIpResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(504, __c63, 0) as any as S.Schema<ConfigsDeleteTrustedIpRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ConfigsDeleteTrustedIpResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3557,9 +3799,10 @@ export const configsInheritable: API.OperationMethod<
   ConfigsInheritableError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<ConfigsInheritableRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<ConfigsInheritableResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(520, __c65, 0) as any as S.Schema<ConfigsInheritableRequest>,
+  output: __S(529, __c66, 1) as any as S.Schema<ConfigsInheritableResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3574,9 +3817,10 @@ export const configsInherits: API.OperationMethod<
   ConfigsInheritsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(489, __c61, 1) as any as S.Schema<ConfigsInheritsRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<ConfigsInheritsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(537, __c67, 1) as any as S.Schema<ConfigsInheritsRequest>,
+  output: __S(529, __c66, 1) as any as S.Schema<ConfigsInheritsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3591,9 +3835,10 @@ export const configsListTrustedIps: API.OperationMethod<
   ConfigsListTrustedIpsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<ConfigsListTrustedIpsRequest>,
-  output: __S(505, __c63, 1) as any as S.Schema<ConfigsListTrustedIpsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(552, __c69, 0) as any as S.Schema<ConfigsListTrustedIpsRequest>,
+  output: __S(553, __c69, 1) as any as S.Schema<ConfigsListTrustedIpsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3608,9 +3853,10 @@ export const createChangeRequestPolicy: API.OperationMethod<
   CreateChangeRequestPolicyError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<CreateChangeRequestPolicyRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<CreateChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(560, __c70, 0) as any as S.Schema<CreateChangeRequestPolicyRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<CreateChangeRequestPolicyResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3625,9 +3871,10 @@ export const createConfig: API.OperationMethod<
   CreateConfigError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<CreateConfigRequest>,
+  input: __S(608, __c76, 0) as any as S.Schema<CreateConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<CreateConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3642,9 +3889,10 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<CreateEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(616, __c77, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(624, __c78, 0) as any as S.Schema<CreateEnvironmentResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3659,9 +3907,10 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(612, __c76, 4) as any as S.Schema<CreateGroupResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(640, __c80, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(660, __c82, 4) as any as S.Schema<CreateGroupResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3676,9 +3925,10 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<CreateIntegrationRequest>,
-  output: __S(618, __c77, 2) as any as S.Schema<CreateIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(664, __c83, 0) as any as S.Schema<CreateIntegrationRequest>,
+  output: __S(666, __c83, 2) as any as S.Schema<CreateIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3693,9 +3943,10 @@ export const createIntegrationsIntegrationMember: API.OperationMethod<
   CreateIntegrationsIntegrationMemberError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<CreateIntegrationsIntegrationMemberRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<CreateIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(672, __c84, 0) as any as S.Schema<CreateIntegrationsIntegrationMemberRequest>,
+  output: __S(688, __c86, 0) as any as S.Schema<CreateIntegrationsIntegrationMemberResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3710,9 +3961,10 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<CreateProjectResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(696, __c87, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(705, __c88, 1) as any as S.Schema<CreateProjectResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3727,9 +3979,10 @@ export const createSync: API.OperationMethod<
   CreateSyncError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<CreateSyncRequest>,
-  output: __S(673, __c84, 1) as any as S.Schema<CreateSyncResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(712, __c89, 0) as any as S.Schema<CreateSyncRequest>,
+  output: __S(721, __c90, 1) as any as S.Schema<CreateSyncResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3744,9 +3997,10 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(688, __c86, 0) as any as S.Schema<CreateTagResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(728, __c91, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(736, __c92, 0) as any as S.Schema<CreateTagResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3761,9 +4015,10 @@ export const deleteChangeRequestPolicy: API.OperationMethod<
   DeleteChangeRequestPolicyError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<DeleteChangeRequestPolicyRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<DeleteChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(752, __c94, 0) as any as S.Schema<DeleteChangeRequestPolicyRequest>,
+  output: __S(760, __c95, 0) as any as S.Schema<DeleteChangeRequestPolicyResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3778,9 +4033,10 @@ export const deleteConfig: API.OperationMethod<
   DeleteConfigError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<DeleteConfigRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<DeleteConfigResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(768, __c96, 0) as any as S.Schema<DeleteConfigRequest>,
+  output: __S(760, __c95, 0) as any as S.Schema<DeleteConfigResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3795,9 +4051,10 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(792, __c99, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<DeleteEnvironmentResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3812,9 +4069,10 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(800, __c100, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<DeleteGroupResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3829,9 +4087,10 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<DeleteIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(808, __c101, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<DeleteIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3846,9 +4105,10 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(816, __c102, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<DeleteProjectResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3863,9 +4123,10 @@ export const deleteSecret: API.OperationMethod<
   DeleteSecretError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<DeleteSecretRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(824, __c103, 0) as any as S.Schema<DeleteSecretRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<DeleteSecretResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3880,9 +4141,10 @@ export const deleteSync: API.OperationMethod<
   DeleteSyncError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<DeleteSyncRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<DeleteSyncResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(832, __c104, 0) as any as S.Schema<DeleteSyncRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<DeleteSyncResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3897,9 +4159,10 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [BadRequest, NotFound, UnknownDopplerError],
+  input: __S(840, __c105, 0) as any as S.Schema<DeleteTagRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<DeleteTagResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3915,16 +4178,17 @@ export const deleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsuni
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c100,
+    848,
+    __c106,
     0,
   ) as any as S.Schema<DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewRequest>,
   output: __S(
-    809,
-    __c101,
+    857,
+    __c107,
     1,
   ) as any as S.Schema<DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3940,16 +4204,17 @@ export const deleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentit
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    816,
-    __c102,
+    864,
+    __c108,
     0,
   ) as any as S.Schema<DeleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequest>,
   output: __S(
-    464,
-    __c58,
+    512,
+    __c64,
     0,
   ) as any as S.Schema<DeleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3964,9 +4229,10 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(872, __c109, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<DeleteWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3982,16 +4248,17 @@ export const deleteWorkplaceIntegrationsIntegrationMember: API.OperationMethod<
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    840,
-    __c105,
+    888,
+    __c111,
     0,
   ) as any as S.Schema<DeleteWorkplaceIntegrationsIntegrationMemberRequest>,
   output: __S(
-    464,
-    __c58,
+    512,
+    __c64,
     0,
   ) as any as S.Schema<DeleteWorkplaceIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4006,9 +4273,10 @@ export const disableWebhook: API.OperationMethod<
   DisableWebhookError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<DisableWebhookRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<DisableWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(896, __c112, 0) as any as S.Schema<DisableWebhookRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<DisableWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4023,9 +4291,10 @@ export const downloadSecret: API.OperationMethod<
   DownloadSecretError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<DownloadSecretRequest>,
-  output: __S(858, __c107, 2) as any as S.Schema<DownloadSecretResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(904, __c113, 0) as any as S.Schema<DownloadSecretRequest>,
+  output: __S(906, __c113, 2) as any as S.Schema<DownloadSecretResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4040,9 +4309,10 @@ export const dynamicSecretsIssueLease: API.OperationMethod<
   DynamicSecretsIssueLeaseError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<DynamicSecretsIssueLeaseRequest>,
-  output: __S(865, __c108, 1) as any as S.Schema<DynamicSecretsIssueLeaseResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(912, __c114, 0) as any as S.Schema<DynamicSecretsIssueLeaseRequest>,
+  output: __S(913, __c114, 1) as any as S.Schema<DynamicSecretsIssueLeaseResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4057,9 +4327,10 @@ export const dynamicSecretsRevokeLease: API.OperationMethod<
   DynamicSecretsRevokeLeaseError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<DynamicSecretsRevokeLeaseRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<DynamicSecretsRevokeLeaseResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(920, __c115, 0) as any as S.Schema<DynamicSecretsRevokeLeaseRequest>,
+  output: __S(760, __c95, 0) as any as S.Schema<DynamicSecretsRevokeLeaseResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4074,9 +4345,10 @@ export const enableWebhook: API.OperationMethod<
   EnableWebhookError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<EnableWebhookRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<EnableWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(928, __c116, 0) as any as S.Schema<EnableWebhookRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<EnableWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4091,9 +4363,10 @@ export const generateCliAuth: API.OperationMethod<
   GenerateCliAuthError,
   DopplerPublicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<GenerateCliAuthRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<GenerateCliAuthResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(936, __c117, 0) as any as S.Schema<GenerateCliAuthRequest>,
+  output: __S(937, __c117, 1) as any as S.Schema<GenerateCliAuthResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4108,9 +4381,10 @@ export const getChangeRequestPolicy: API.OperationMethod<
   GetChangeRequestPolicyError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<GetChangeRequestPolicyRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<GetChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(944, __c118, 0) as any as S.Schema<GetChangeRequestPolicyRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<GetChangeRequestPolicyResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4125,9 +4399,10 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<GetConfigRequest>,
+  input: __S(952, __c119, 0) as any as S.Schema<GetConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<GetConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4142,9 +4417,10 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<GetEnvironmentRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<GetEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(960, __c120, 0) as any as S.Schema<GetEnvironmentRequest>,
+  output: __S(624, __c78, 0) as any as S.Schema<GetEnvironmentResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4159,9 +4435,10 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(612, __c76, 4) as any as S.Schema<GetGroupResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(992, __c124, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(660, __c82, 4) as any as S.Schema<GetGroupResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4176,9 +4453,10 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(954, __c119, 2) as any as S.Schema<GetIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1000, __c125, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(1002, __c125, 2) as any as S.Schema<GetIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4193,9 +4471,10 @@ export const getIntegrationsIntegrationMembers: API.OperationMethod<
   GetIntegrationsIntegrationMembersError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<GetIntegrationsIntegrationMembersRequest>,
-  output: __S(962, __c120, 2) as any as S.Schema<GetIntegrationsIntegrationMembersResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1008, __c126, 0) as any as S.Schema<GetIntegrationsIntegrationMembersRequest>,
+  output: __S(1010, __c126, 2) as any as S.Schema<GetIntegrationsIntegrationMembersResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4210,9 +4489,10 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<GetMemberRequest>,
-  output: __S(612, __c76, 4) as any as S.Schema<GetMemberResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(1016, __c127, 0) as any as S.Schema<GetMemberRequest>,
+  output: __S(660, __c82, 4) as any as S.Schema<GetMemberResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4227,9 +4507,10 @@ export const getOptions: API.OperationMethod<
   GetOptionsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<GetOptionsRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<GetOptionsResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1024, __c128, 0) as any as S.Schema<GetOptionsRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<GetOptionsResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4244,9 +4525,10 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1032, __c129, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(705, __c88, 1) as any as S.Schema<GetProjectResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4261,9 +4543,10 @@ export const getSecret: API.OperationMethod<
   GetSecretError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<GetSecretRequest>,
-  output: __S(993, __c124, 1) as any as S.Schema<GetSecretResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1040, __c130, 0) as any as S.Schema<GetSecretRequest>,
+  output: __S(1041, __c130, 1) as any as S.Schema<GetSecretResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4278,9 +4561,10 @@ export const getSync: API.OperationMethod<
   GetSyncError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<GetSyncRequest>,
-  output: __S(673, __c84, 1) as any as S.Schema<GetSyncResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1064, __c133, 0) as any as S.Schema<GetSyncRequest>,
+  output: __S(721, __c90, 1) as any as S.Schema<GetSyncResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4295,9 +4579,10 @@ export const getTag: API.OperationMethod<
   GetTagError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<GetTagRequest>,
-  output: __S(688, __c86, 0) as any as S.Schema<GetTagResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(1072, __c134, 0) as any as S.Schema<GetTagRequest>,
+  output: __S(736, __c92, 0) as any as S.Schema<GetTagResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4312,9 +4597,10 @@ export const getUser: API.OperationMethod<
   GetUserError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(1040, __c130, 0) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1080, __c135, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(1088, __c136, 0) as any as S.Schema<GetUserResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4328,9 +4614,10 @@ export const getV3workplacechangeRequests: API.OperationMethod<
   GetV3workplacechangeRequestsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<GetV3workplacechangeRequestsRequest>,
-  output: __S(1069, __c133, 5) as any as S.Schema<GetV3workplacechangeRequestsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1112, __c139, 0) as any as S.Schema<GetV3workplacechangeRequestsRequest>,
+  output: __S(1117, __c139, 5) as any as S.Schema<GetV3workplacechangeRequestsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4345,16 +4632,17 @@ export const getV3workplacechangeRequestschangeRequestChangeRequestId: API.Opera
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c136,
+    1136,
+    __c142,
     0,
   ) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdRequest>,
   output: __S(
-    1091,
-    __c136,
+    1139,
+    __c142,
     3,
   ) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4370,16 +4658,17 @@ export const getV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1104,
-    __c138,
+    1152,
+    __c144,
     0,
   ) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdRequest>,
   output: __S(
-    1105,
-    __c138,
+    1153,
+    __c144,
     1,
   ) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4395,16 +4684,17 @@ export const getV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1112,
-    __c139,
+    1160,
+    __c145,
     0,
   ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequest>,
   output: __S(
-    1115,
-    __c139,
+    1163,
+    __c145,
     3,
   ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4420,16 +4710,17 @@ export const getV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1136,
-    __c142,
+    1184,
+    __c148,
     0,
   ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequest>,
   output: __S(
-    1145,
-    __c143,
+    1193,
+    __c149,
     1,
   ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4444,9 +4735,10 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1153, __c144, 1) as any as S.Schema<GetWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1200, __c150, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(1201, __c150, 1) as any as S.Schema<GetWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4461,9 +4753,10 @@ export const getWorkplace: API.OperationMethod<
   GetWorkplaceError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<GetWorkplaceRequest>,
-  output: __S(1185, __c148, 1) as any as S.Schema<GetWorkplaceResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1224, __c153, 0) as any as S.Schema<GetWorkplaceRequest>,
+  output: __S(1233, __c154, 1) as any as S.Schema<GetWorkplaceResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4478,9 +4771,10 @@ export const getWorkplaceIntegrationsIntegrationMember: API.OperationMethod<
   GetWorkplaceIntegrationsIntegrationMemberError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<GetWorkplaceIntegrationsIntegrationMemberRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<GetWorkplaceIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1240, __c155, 0) as any as S.Schema<GetWorkplaceIntegrationsIntegrationMemberRequest>,
+  output: __S(688, __c86, 0) as any as S.Schema<GetWorkplaceIntegrationsIntegrationMemberResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4495,9 +4789,10 @@ export const groupsAddMember: API.OperationMethod<
   GroupsAddMemberError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<GroupsAddMemberRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<GroupsAddMemberResponse>,
-  errors: [Conflict, UnknownDopplerError],
+  input: __S(1248, __c156, 0) as any as S.Schema<GroupsAddMemberRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<GroupsAddMemberResponse>,
+  errors: [Conflict],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4512,9 +4807,10 @@ export const groupsDeleteMember: API.OperationMethod<
   GroupsDeleteMemberError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<GroupsDeleteMemberRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<GroupsDeleteMemberResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1256, __c157, 0) as any as S.Schema<GroupsDeleteMemberRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<GroupsDeleteMemberResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4529,9 +4825,10 @@ export const listChangeRequestPolicies: API.OperationMethod<
   ListChangeRequestPoliciesError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<ListChangeRequestPoliciesRequest>,
-  output: __S(1243, __c155, 3) as any as S.Schema<ListChangeRequestPoliciesResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1288, __c161, 0) as any as S.Schema<ListChangeRequestPoliciesRequest>,
+  output: __S(1291, __c161, 3) as any as S.Schema<ListChangeRequestPoliciesResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4546,9 +4843,10 @@ export const listConfigs: API.OperationMethod<
   ListConfigsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<ListConfigsRequest>,
-  output: __S(1251, __c156, 3) as any as S.Schema<ListConfigsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1296, __c162, 0) as any as S.Schema<ListConfigsRequest>,
+  output: __S(1299, __c162, 3) as any as S.Schema<ListConfigsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4563,9 +4861,10 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(1258, __c157, 2) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1304, __c163, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(1306, __c163, 2) as any as S.Schema<ListEnvironmentsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4580,9 +4879,10 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(1267, __c158, 3) as any as S.Schema<ListGroupsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1312, __c164, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(1315, __c164, 3) as any as S.Schema<ListGroupsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4597,9 +4897,10 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(1275, __c159, 3) as any as S.Schema<ListIntegrationsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1320, __c165, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(1323, __c165, 3) as any as S.Schema<ListIntegrationsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4614,9 +4915,10 @@ export const listInvites: API.OperationMethod<
   ListInvitesError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c160, 0) as any as S.Schema<ListInvitesRequest>,
-  output: __S(1283, __c160, 3) as any as S.Schema<ListInvitesResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1328, __c166, 0) as any as S.Schema<ListInvitesRequest>,
+  output: __S(1331, __c166, 3) as any as S.Schema<ListInvitesResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4631,9 +4933,10 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c162, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(1299, __c162, 3) as any as S.Schema<ListProjectsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1344, __c168, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(1347, __c168, 3) as any as S.Schema<ListProjectsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4648,9 +4951,10 @@ export const listSecrets: API.OperationMethod<
   ListSecretsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<ListSecretsRequest>,
-  output: __S(1313, __c164, 1) as any as S.Schema<ListSecretsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1352, __c169, 0) as any as S.Schema<ListSecretsRequest>,
+  output: __S(1361, __c170, 1) as any as S.Schema<ListSecretsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4665,9 +4969,10 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(1329, __c166, 1) as any as S.Schema<ListTagsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1368, __c171, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(1377, __c172, 1) as any as S.Schema<ListTagsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4682,9 +4987,10 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1336, __c167, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(1338, __c167, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1384, __c173, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(1386, __c173, 2) as any as S.Schema<ListUsersResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4699,9 +5005,10 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1352, __c169, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(1354, __c169, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(1400, __c175, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(1402, __c175, 2) as any as S.Schema<ListWebhooksResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4716,9 +5023,10 @@ export const lockConfig: API.OperationMethod<
   LockConfigError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c170, 0) as any as S.Schema<LockConfigRequest>,
+  input: __S(1408, __c176, 0) as any as S.Schema<LockConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<LockConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4732,9 +5040,10 @@ export const postV3workplacechangeRequests: API.OperationMethod<
   PostV3workplacechangeRequestsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1372, __c171, 4) as any as S.Schema<PostV3workplacechangeRequestsRequest>,
-  output: __S(1377, __c172, 1) as any as S.Schema<PostV3workplacechangeRequestsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1420, __c177, 4) as any as S.Schema<PostV3workplacechangeRequestsRequest>,
+  output: __S(1425, __c178, 1) as any as S.Schema<PostV3workplacechangeRequestsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4749,16 +5058,17 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestId: API.Oper
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1384,
-    __c173,
+    1432,
+    __c179,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdRequest>,
   output: __S(
-    1385,
-    __c173,
+    1433,
+    __c179,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4773,16 +5083,17 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdClose: API
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1392,
-    __c174,
+    1440,
+    __c180,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdCloseRequest>,
   output: __S(
-    712,
-    __c89,
+    760,
+    __c95,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdCloseResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4798,16 +5109,17 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1400,
-    __c175,
+    1448,
+    __c181,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyRequest>,
   output: __S(
-    809,
-    __c101,
+    857,
+    __c107,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4823,16 +5135,17 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c176,
+    1456,
+    __c182,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewRequest>,
   output: __S(
-    809,
-    __c101,
+    857,
+    __c107,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4848,16 +5161,17 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1416,
-    __c177,
+    1464,
+    __c183,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusRequest>,
   output: __S(
-    809,
-    __c101,
+    857,
+    __c107,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4873,16 +5187,17 @@ export const postV3workplaceserviceAccountsserviceAccountServiceAccountIdentitie
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1424,
-    __c178,
+    1472,
+    __c184,
     0,
   ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequest>,
   output: __S(
-    1427,
-    __c178,
+    1475,
+    __c184,
     3,
   ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4897,9 +5212,10 @@ export const projectMembersAdd: API.OperationMethod<
   ProjectMembersAddError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c180, 0) as any as S.Schema<ProjectMembersAddRequest>,
-  output: __S(1456, __c182, 0) as any as S.Schema<ProjectMembersAddResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1488, __c186, 0) as any as S.Schema<ProjectMembersAddRequest>,
+  output: __S(1520, __c190, 0) as any as S.Schema<ProjectMembersAddResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4914,9 +5230,10 @@ export const projectMembersDelete: API.OperationMethod<
   ProjectMembersDeleteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<ProjectMembersDeleteRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<ProjectMembersDeleteResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1536, __c192, 0) as any as S.Schema<ProjectMembersDeleteRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ProjectMembersDeleteResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4931,9 +5248,10 @@ export const projectMembersGet: API.OperationMethod<
   ProjectMembersGetError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<ProjectMembersGetRequest>,
-  output: __S(1456, __c182, 0) as any as S.Schema<ProjectMembersGetResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1544, __c193, 0) as any as S.Schema<ProjectMembersGetRequest>,
+  output: __S(1520, __c190, 0) as any as S.Schema<ProjectMembersGetResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4948,26 +5266,118 @@ export const projectMembersList: API.OperationMethod<
   ProjectMembersListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<ProjectMembersListRequest>,
-  output: __S(1490, __c186, 2) as any as S.Schema<ProjectMembersListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1552, __c194, 0) as any as S.Schema<ProjectMembersListRequest>,
+  output: __S(1554, __c194, 2) as any as S.Schema<ProjectMembersListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProjectMembersList",
 }));
 
+export type ProjectMembersRolesAddError = DopplerOpError;
+/** Add Role Add a role to a member who may already hold other roles on the project. */
+export const projectMembersRolesAdd: API.OperationMethod<
+  ProjectMembersRolesAddRequest,
+  ProjectMembersRolesAddResponse,
+  ProjectMembersRolesAddError,
+  DopplerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1560, __c195, 0) as any as S.Schema<ProjectMembersRolesAddRequest>,
+  output: __S(1520, __c190, 0) as any as S.Schema<ProjectMembersRolesAddResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
+  protocol: DopplerProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersRolesAdd",
+}));
+
+export type ProjectMembersRolesDeleteError = DopplerOpError;
+/** Delete Role Remove one of the member's roles on the project. The member keeps any other roles. */
+export const projectMembersRolesDelete: API.OperationMethod<
+  ProjectMembersRolesDeleteRequest,
+  ProjectMembersRolesDeleteResponse,
+  ProjectMembersRolesDeleteError,
+  DopplerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1568, __c196, 0) as any as S.Schema<ProjectMembersRolesDeleteRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ProjectMembersRolesDeleteResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
+  protocol: DopplerProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersRolesDelete",
+}));
+
+export type ProjectMembersRolesGetError = DopplerOpError;
+/** Retrieve Role Retrieve one of the member's roles on the project. */
+export const projectMembersRolesGet: API.OperationMethod<
+  ProjectMembersRolesGetRequest,
+  ProjectMembersRolesGetResponse,
+  ProjectMembersRolesGetError,
+  DopplerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1576, __c197, 0) as any as S.Schema<ProjectMembersRolesGetRequest>,
+  output: __S(1577, __c197, 1) as any as S.Schema<ProjectMembersRolesGetResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
+  protocol: DopplerProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersRolesGet",
+}));
+
+export type ProjectMembersRolesListError = DopplerOpError;
+/** List Roles List every role the member holds on the project. */
+export const projectMembersRolesList: API.OperationMethod<
+  ProjectMembersRolesListRequest,
+  ProjectMembersRolesListResponse,
+  ProjectMembersRolesListError,
+  DopplerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1584, __c198, 0) as any as S.Schema<ProjectMembersRolesListRequest>,
+  output: __S(1585, __c198, 1) as any as S.Schema<ProjectMembersRolesListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
+  protocol: DopplerProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersRolesList",
+}));
+
+export type ProjectMembersRolesUpdateError = DopplerOpError;
+/** Update Role Replace the environments and configs one of the member's roles applies to. */
+export const projectMembersRolesUpdate: API.OperationMethod<
+  ProjectMembersRolesUpdateRequest,
+  ProjectMembersRolesUpdateResponse,
+  ProjectMembersRolesUpdateError,
+  DopplerOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1592, __c199, 0) as any as S.Schema<ProjectMembersRolesUpdateRequest>,
+  output: __S(1520, __c190, 0) as any as S.Schema<ProjectMembersRolesUpdateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
+  protocol: DopplerProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectMembersRolesUpdate",
+}));
+
 export type ProjectMembersUpdateError = DopplerOpError;
-/** Update */
+/** Update Replaces every role the member holds on the project with the given role and environments. To change one of several roles, use the role assignment endpoints. */
 export const projectMembersUpdate: API.OperationMethod<
   ProjectMembersUpdateRequest,
   ProjectMembersUpdateResponse,
   ProjectMembersUpdateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1496, __c187, 0) as any as S.Schema<ProjectMembersUpdateRequest>,
-  output: __S(1456, __c182, 0) as any as S.Schema<ProjectMembersUpdateResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1600, __c200, 0) as any as S.Schema<ProjectMembersUpdateRequest>,
+  output: __S(1520, __c190, 0) as any as S.Schema<ProjectMembersUpdateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4982,9 +5392,10 @@ export const projectRolesCreate: API.OperationMethod<
   ProjectRolesCreateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<ProjectRolesCreateRequest>,
-  output: __S(1520, __c190, 0) as any as S.Schema<ProjectRolesCreateResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(1608, __c201, 0) as any as S.Schema<ProjectRolesCreateRequest>,
+  output: __S(1624, __c203, 0) as any as S.Schema<ProjectRolesCreateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4999,9 +5410,10 @@ export const projectRolesDelete: API.OperationMethod<
   ProjectRolesDeleteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1528, __c191, 0) as any as S.Schema<ProjectRolesDeleteRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<ProjectRolesDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(40, __c5, 0) as any as S.Schema<ProjectRolesDeleteRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ProjectRolesDeleteResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5016,9 +5428,10 @@ export const projectRolesGet: API.OperationMethod<
   ProjectRolesGetError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c192, 0) as any as S.Schema<ProjectRolesGetRequest>,
-  output: __S(1520, __c190, 0) as any as S.Schema<ProjectRolesGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(48, __c6, 0) as any as S.Schema<ProjectRolesGetRequest>,
+  output: __S(1624, __c203, 0) as any as S.Schema<ProjectRolesGetResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5033,9 +5446,10 @@ export const projectRolesList: API.OperationMethod<
   ProjectRolesListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1544, __c193, 0) as any as S.Schema<ProjectRolesListRequest>,
-  output: __S(1546, __c193, 2) as any as S.Schema<ProjectRolesListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(56, __c7, 0) as any as S.Schema<ProjectRolesListRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ProjectRolesListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5050,9 +5464,10 @@ export const projectRolesListPermissions: API.OperationMethod<
   ProjectRolesListPermissionsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<ProjectRolesListPermissionsRequest>,
-  output: __S(1560, __c195, 0) as any as S.Schema<ProjectRolesListPermissionsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(64, __c8, 0) as any as S.Schema<ProjectRolesListPermissionsRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<ProjectRolesListPermissionsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5067,9 +5482,10 @@ export const projectRolesUpdate: API.OperationMethod<
   ProjectRolesUpdateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<ProjectRolesUpdateRequest>,
-  output: __S(1520, __c190, 0) as any as S.Schema<ProjectRolesUpdateResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(80, __c10, 0) as any as S.Schema<ProjectRolesUpdateRequest>,
+  output: __S(1624, __c203, 0) as any as S.Schema<ProjectRolesUpdateResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5084,9 +5500,10 @@ export const projectTagsAssign: API.OperationMethod<
   ProjectTagsAssignError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ProjectTagsAssignRequest>,
-  output: __S(688, __c86, 0) as any as S.Schema<ProjectTagsAssignResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDopplerError],
+  input: __S(88, __c11, 0) as any as S.Schema<ProjectTagsAssignRequest>,
+  output: __S(736, __c92, 0) as any as S.Schema<ProjectTagsAssignResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5101,9 +5518,10 @@ export const projectTagsList: API.OperationMethod<
   ProjectTagsListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ProjectTagsListRequest>,
-  output: __S(1329, __c166, 1) as any as S.Schema<ProjectTagsListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(96, __c12, 0) as any as S.Schema<ProjectTagsListRequest>,
+  output: __S(1377, __c172, 1) as any as S.Schema<ProjectTagsListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5118,9 +5536,10 @@ export const projectTagsUnassign: API.OperationMethod<
   ProjectTagsUnassignError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ProjectTagsUnassignRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<ProjectTagsUnassignResponse>,
-  errors: [BadRequest, NotFound, UnknownDopplerError],
+  input: __S(104, __c13, 0) as any as S.Schema<ProjectTagsUnassignRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ProjectTagsUnassignResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5135,16 +5554,17 @@ export const putV3workplacechangeRequestschangeRequestChangeRequestId: API.Opera
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    68,
-    __c8,
+    116,
+    __c14,
     4,
   ) as any as S.Schema<PutV3workplacechangeRequestschangeRequestChangeRequestIdRequest>,
   output: __S(
-    1377,
-    __c172,
+    1425,
+    __c178,
     1,
   ) as any as S.Schema<PutV3workplacechangeRequestschangeRequestChangeRequestIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5160,16 +5580,17 @@ export const putV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    72,
-    __c9,
+    120,
+    __c15,
     0,
   ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequest>,
   output: __S(
-    1145,
-    __c143,
+    1193,
+    __c149,
     1,
   ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5184,9 +5605,10 @@ export const renameEnvironment: API.OperationMethod<
   RenameEnvironmentError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<RenameEnvironmentRequest>,
-  output: __S(576, __c72, 0) as any as S.Schema<RenameEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(144, __c18, 0) as any as S.Schema<RenameEnvironmentRequest>,
+  output: __S(624, __c78, 0) as any as S.Schema<RenameEnvironmentResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5201,9 +5623,10 @@ export const revokeAuth: API.OperationMethod<
   RevokeAuthError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<RevokeAuthRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<RevokeAuthResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(152, __c19, 0) as any as S.Schema<RevokeAuthRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<RevokeAuthResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5218,9 +5641,10 @@ export const revokeCliAuth: API.OperationMethod<
   RevokeCliAuthError,
   DopplerPublicOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<RevokeCliAuthRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<RevokeCliAuthResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(160, __c20, 0) as any as S.Schema<RevokeCliAuthRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<RevokeCliAuthResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5235,9 +5659,10 @@ export const secretsNames: API.OperationMethod<
   SecretsNamesError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<SecretsNamesRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<SecretsNamesResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(168, __c21, 0) as any as S.Schema<SecretsNamesRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<SecretsNamesResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5252,9 +5677,10 @@ export const secretsUpdateNote: API.OperationMethod<
   SecretsUpdateNoteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<SecretsUpdateNoteRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<SecretsUpdateNoteResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(176, __c22, 0) as any as S.Schema<SecretsUpdateNoteRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<SecretsUpdateNoteResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5269,9 +5695,10 @@ export const serviceAccountsCreate: API.OperationMethod<
   ServiceAccountsCreateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ServiceAccountsCreateRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ServiceAccountsCreateResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(184, __c23, 0) as any as S.Schema<ServiceAccountsCreateRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<ServiceAccountsCreateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5286,9 +5713,10 @@ export const serviceAccountsDelete: API.OperationMethod<
   ServiceAccountsDeleteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ServiceAccountsDeleteRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<ServiceAccountsDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(216, __c27, 0) as any as S.Schema<ServiceAccountsDeleteRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ServiceAccountsDeleteResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5303,9 +5731,10 @@ export const serviceAccountsGet: API.OperationMethod<
   ServiceAccountsGetError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ServiceAccountsGetRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<ServiceAccountsGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(224, __c28, 0) as any as S.Schema<ServiceAccountsGetRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<ServiceAccountsGetResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5320,9 +5749,10 @@ export const serviceAccountsList: API.OperationMethod<
   ServiceAccountsListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ServiceAccountsListRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<ServiceAccountsListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(232, __c29, 0) as any as S.Schema<ServiceAccountsListRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<ServiceAccountsListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5337,9 +5767,10 @@ export const serviceAccountsUpdate: API.OperationMethod<
   ServiceAccountsUpdateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ServiceAccountsUpdateRequest>,
-  output: __S(195, __c24, 3) as any as S.Schema<ServiceAccountsUpdateResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(240, __c30, 0) as any as S.Schema<ServiceAccountsUpdateRequest>,
+  output: __S(243, __c30, 3) as any as S.Schema<ServiceAccountsUpdateResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5354,9 +5785,10 @@ export const serviceAccountTokensCreate: API.OperationMethod<
   ServiceAccountTokensCreateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ServiceAccountTokensCreateRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<ServiceAccountTokensCreateResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(256, __c32, 0) as any as S.Schema<ServiceAccountTokensCreateRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<ServiceAccountTokensCreateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5371,9 +5803,10 @@ export const serviceAccountTokensDelete: API.OperationMethod<
   ServiceAccountTokensDeleteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ServiceAccountTokensDeleteRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<ServiceAccountTokensDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(272, __c34, 0) as any as S.Schema<ServiceAccountTokensDeleteRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<ServiceAccountTokensDeleteResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5388,9 +5821,10 @@ export const serviceAccountTokensGet: API.OperationMethod<
   ServiceAccountTokensGetError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ServiceAccountTokensGetRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<ServiceAccountTokensGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(280, __c35, 0) as any as S.Schema<ServiceAccountTokensGetRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<ServiceAccountTokensGetResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5405,9 +5839,10 @@ export const serviceAccountTokensList: API.OperationMethod<
   ServiceAccountTokensListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ServiceAccountTokensListRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<ServiceAccountTokensListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(288, __c36, 0) as any as S.Schema<ServiceAccountTokensListRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<ServiceAccountTokensListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5422,9 +5857,10 @@ export const serviceTokensCreate: API.OperationMethod<
   ServiceTokensCreateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ServiceTokensCreateRequest>,
-  output: __S(242, __c30, 2) as any as S.Schema<ServiceTokensCreateResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(296, __c37, 0) as any as S.Schema<ServiceTokensCreateRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<ServiceTokensCreateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5439,9 +5875,10 @@ export const serviceTokensDelete: API.OperationMethod<
   ServiceTokensDeleteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ServiceTokensDeleteRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<ServiceTokensDeleteResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(304, __c38, 0) as any as S.Schema<ServiceTokensDeleteRequest>,
+  output: __S(760, __c95, 0) as any as S.Schema<ServiceTokensDeleteResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5456,9 +5893,10 @@ export const serviceTokensList: API.OperationMethod<
   ServiceTokensListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ServiceTokensListRequest>,
-  output: __S(267, __c33, 3) as any as S.Schema<ServiceTokensListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(312, __c39, 0) as any as S.Schema<ServiceTokensListRequest>,
+  output: __S(315, __c39, 3) as any as S.Schema<ServiceTokensListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5473,9 +5911,10 @@ export const shareSecret: API.OperationMethod<
   ShareSecretError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ShareSecretRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<ShareSecretResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(320, __c40, 0) as any as S.Schema<ShareSecretRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<ShareSecretResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5490,9 +5929,10 @@ export const shareSecretEncrypted: API.OperationMethod<
   ShareSecretEncryptedError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ShareSecretEncryptedRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<ShareSecretEncryptedResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(328, __c41, 0) as any as S.Schema<ShareSecretEncryptedRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<ShareSecretEncryptedResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5507,9 +5947,10 @@ export const unlockConfig: API.OperationMethod<
   UnlockConfigError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UnlockConfigRequest>,
+  input: __S(336, __c42, 0) as any as S.Schema<UnlockConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<UnlockConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5524,9 +5965,10 @@ export const updateChangeRequestPolicy: API.OperationMethod<
   UpdateChangeRequestPolicyError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<UpdateChangeRequestPolicyRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<UpdateChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(352, __c44, 0) as any as S.Schema<UpdateChangeRequestPolicyRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<UpdateChangeRequestPolicyResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5541,9 +5983,10 @@ export const updateConfig: API.OperationMethod<
   UpdateConfigError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<UpdateConfigRequest>,
+  input: __S(360, __c45, 0) as any as S.Schema<UpdateConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<UpdateConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5558,9 +6001,10 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(612, __c76, 4) as any as S.Schema<UpdateGroupResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(368, __c46, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(660, __c82, 4) as any as S.Schema<UpdateGroupResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5575,9 +6019,10 @@ export const updateIntegration: API.OperationMethod<
   UpdateIntegrationError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<UpdateIntegrationRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<UpdateIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(376, __c47, 0) as any as S.Schema<UpdateIntegrationRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<UpdateIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5592,9 +6037,10 @@ export const updateIntegrationsIntegrationMember: API.OperationMethod<
   UpdateIntegrationsIntegrationMemberError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<UpdateIntegrationsIntegrationMemberRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<UpdateIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(384, __c48, 0) as any as S.Schema<UpdateIntegrationsIntegrationMemberRequest>,
+  output: __S(688, __c86, 0) as any as S.Schema<UpdateIntegrationsIntegrationMemberResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5609,9 +6055,10 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<UpdateProjectResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(392, __c49, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(705, __c88, 1) as any as S.Schema<UpdateProjectResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5626,9 +6073,10 @@ export const updateSecret: API.OperationMethod<
   UpdateSecretError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(355, __c44, 3) as any as S.Schema<UpdateSecretRequest>,
-  output: __S(1313, __c164, 1) as any as S.Schema<UpdateSecretResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(403, __c50, 3) as any as S.Schema<UpdateSecretRequest>,
+  output: __S(1361, __c170, 1) as any as S.Schema<UpdateSecretResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5643,9 +6091,10 @@ export const updateTag: API.OperationMethod<
   UpdateTagError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<UpdateTagRequest>,
-  output: __S(688, __c86, 0) as any as S.Schema<UpdateTagResponse>,
-  errors: [BadRequest, NotFound, UnknownDopplerError],
+  input: __S(408, __c51, 0) as any as S.Schema<UpdateTagRequest>,
+  output: __S(736, __c92, 0) as any as S.Schema<UpdateTagResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5660,9 +6109,10 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(1040, __c130, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(416, __c52, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(1088, __c136, 0) as any as S.Schema<UpdateUserResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5677,9 +6127,10 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  input: __S(424, __c53, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(984, __c123, 0) as any as S.Schema<UpdateWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5694,9 +6145,10 @@ export const updateWorkplace: API.OperationMethod<
   UpdateWorkplaceError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<UpdateWorkplaceRequest>,
-  output: __S(1185, __c148, 1) as any as S.Schema<UpdateWorkplaceResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(440, __c55, 0) as any as S.Schema<UpdateWorkplaceRequest>,
+  output: __S(1233, __c154, 1) as any as S.Schema<UpdateWorkplaceResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5711,9 +6163,10 @@ export const workplaceRolesCreate: API.OperationMethod<
   WorkplaceRolesCreateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<WorkplaceRolesCreateRequest>,
-  output: __S(400, __c50, 0) as any as S.Schema<WorkplaceRolesCreateResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(448, __c56, 0) as any as S.Schema<WorkplaceRolesCreateRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<WorkplaceRolesCreateResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5728,9 +6181,10 @@ export const workplaceRolesDelete: API.OperationMethod<
   WorkplaceRolesDeleteError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<WorkplaceRolesDeleteRequest>,
-  output: __S(464, __c58, 0) as any as S.Schema<WorkplaceRolesDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(464, __c58, 0) as any as S.Schema<WorkplaceRolesDeleteRequest>,
+  output: __S(512, __c64, 0) as any as S.Schema<WorkplaceRolesDeleteResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5745,9 +6199,10 @@ export const workplaceRolesGet: API.OperationMethod<
   WorkplaceRolesGetError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<WorkplaceRolesGetRequest>,
-  output: __S(400, __c50, 0) as any as S.Schema<WorkplaceRolesGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(472, __c59, 0) as any as S.Schema<WorkplaceRolesGetRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<WorkplaceRolesGetResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5762,9 +6217,10 @@ export const workplaceRolesList: API.OperationMethod<
   WorkplaceRolesListError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<WorkplaceRolesListRequest>,
-  output: __S(426, __c53, 2) as any as S.Schema<WorkplaceRolesListResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(480, __c60, 0) as any as S.Schema<WorkplaceRolesListRequest>,
+  output: __S(482, __c60, 2) as any as S.Schema<WorkplaceRolesListResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5779,9 +6235,10 @@ export const workplaceRolesListPermissions: API.OperationMethod<
   WorkplaceRolesListPermissionsError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<WorkplaceRolesListPermissionsRequest>,
-  output: __S(1560, __c195, 0) as any as S.Schema<WorkplaceRolesListPermissionsResponse>,
-  errors: [UnknownDopplerError],
+  input: __S(488, __c61, 0) as any as S.Schema<WorkplaceRolesListPermissionsRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<WorkplaceRolesListPermissionsResponse>,
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5796,9 +6253,10 @@ export const workplaceRolesUpdate: API.OperationMethod<
   WorkplaceRolesUpdateError,
   DopplerOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<WorkplaceRolesUpdateRequest>,
-  output: __S(400, __c50, 0) as any as S.Schema<WorkplaceRolesUpdateResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  input: __S(496, __c62, 0) as any as S.Schema<WorkplaceRolesUpdateRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<WorkplaceRolesUpdateResponse>,
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5881,13 +6339,79 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          role: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v3/projects/roles/role/{role}", code: 200 })),
+      ).annotate({ identifier: "ProjectRolesDeleteRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v3/projects/roles/role/{role}", code: 200 })),
+      ).annotate({ identifier: "ProjectRolesGetRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/projects/roles", code: 200 })),
+      ).annotate({ identifier: "ProjectRolesListRequest" });
+    case 1:
+      return S.Array(__S(1616, __c202, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          roles: S.optional(__S(57, __c7, 1)),
+        }),
+      ).annotate({ identifier: "ProjectRolesListResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/projects/permissions", code: 200 })),
+      ).annotate({ identifier: "ProjectRolesListPermissionsRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "ProjectRolesListPermissionsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          permissions: S.optional(__S(0, __c0, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v3/projects/roles/role/{role}", code: 200 })),
+      ).annotate({ identifier: "ProjectRolesUpdateRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           project: S.String.pipe(T.Query()),
           tag: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v3/projects/project/tags", code: 200 })),
       ).annotate({ identifier: "ProjectTagsAssignRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5897,7 +6421,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ProjectTagsListRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5910,7 +6434,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ProjectTagsUnassignRequest" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5920,7 +6444,7 @@ function __c8(j: number): any {
           value: S.optional(S.String),
           shouldDelete: S.optional(S.Boolean),
           visType: S.optional(S.Number),
-          valueType: S.optional(__S(1000, __c125, 0)),
+          valueType: S.optional(__S(1048, __c131, 0)),
           generationSettings: S.optional(S.Unknown),
           originalSecretUpdateName: S.optional(S.String),
         }),
@@ -5929,28 +6453,28 @@ function __c8(j: number): any {
           "PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItem",
       });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           id: S.optional(S.String),
           status: S.optional(S.String),
-          updates: __S(65, __c8, 1),
+          updates: __S(113, __c14, 1),
         }),
       ).annotate({
         identifier: "PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItem",
       });
     case 3:
-      return S.Array(__S(66, __c8, 2));
+      return S.Array(__S(114, __c14, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           change_request_id: S.String.pipe(T.Label()),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          assigned: S.optional(__S(553, __c69, 1)),
-          units: S.optional(__S(67, __c8, 3)),
+          assigned: S.optional(__S(601, __c75, 1)),
+          units: S.optional(__S(115, __c14, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5961,7 +6485,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PutV3workplacechangeRequestschangeRequestChangeRequestIdRequest" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5970,7 +6494,7 @@ function __c9(j: number): any {
           identity: S.String.pipe(T.Label()),
           name: S.String,
           method: S.String,
-          config: __S(1432, __c179, 0),
+          config: __S(1480, __c185, 0),
           ttl_seconds: S.Number,
         }).pipe(
           T.Http({
@@ -5985,7 +6509,62 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Query()),
+          config: S.String.pipe(T.Query()),
+          log: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/logs/log", code: 200 })),
+      ).annotate({ identifier: "ConfigLogsGetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          added: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigLogsGetResponseLogDiffItem" });
+    case 2:
+      return S.Array(__S(129, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          text: S.optional(S.String),
+          html: S.optional(S.String),
+          diff: S.optional(__S(130, __c16, 2)),
+          rollback: S.optional(S.Boolean),
+          created_at: S.optional(S.String),
+          config: S.optional(S.String),
+          environment: S.optional(S.String),
+          project: S.optional(S.String),
+          user: S.optional(__S(136, __c17, 0)),
+        }),
+      ).annotate({ identifier: "ConfigLogsGetResponseLog" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          log: S.optional(__S(131, __c16, 3)),
+        }),
+      ).annotate({ identifier: "ConfigLogsGetResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+          name: S.optional(S.String),
+          username: S.optional(S.String),
+          profile_image_url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigLogsGetResponseLogUser" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5999,17 +6578,17 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RenameEnvironmentRequest" });
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v3/auth/revoke", code: 200 })),
       ).annotate({ identifier: "RevokeAuthRequest" });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6019,7 +6598,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RevokeCliAuthRequest" });
   }
 }
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6038,7 +6617,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SecretsNamesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6057,83 +6636,28 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SecretsUpdateNoteResponse" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Query()),
-          config: S.String.pipe(T.Query()),
-          log: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/logs/log", code: 200 })),
-      ).annotate({ identifier: "ConfigLogsGetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          added: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfigLogsGetResponseLogDiffItem" });
-    case 2:
-      return S.Array(__S(121, __c15, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          text: S.optional(S.String),
-          html: S.optional(S.String),
-          diff: S.optional(__S(122, __c15, 2)),
-          rollback: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          config: S.optional(S.String),
-          environment: S.optional(S.String),
-          project: S.optional(S.String),
-          user: S.optional(__S(128, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ConfigLogsGetResponseLog" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          log: S.optional(__S(123, __c15, 3)),
-        }),
-      ).annotate({ identifier: "ConfigLogsGetResponse" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.String),
-          name: S.optional(S.String),
-          username: S.optional(S.String),
-          profile_image_url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfigLogsGetResponseLogUser" });
-  }
-}
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          workplace_role: S.optional(__S(160, __c20, 0)),
+          workplace_role: S.optional(__S(208, __c26, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/service_accounts", code: 200 })),
       ).annotate({ identifier: "ServiceAccountsCreateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          service_account: S.optional(__S(152, __c19, 0)),
+          service_account: S.optional(__S(200, __c25, 0)),
         }),
       ).annotate({ identifier: "ServiceAccountsCreateResponse" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6141,12 +6665,12 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           slug: S.optional(S.String),
           created_at: S.optional(S.String),
-          workplace_role: S.optional(__S(1288, __c161, 0)),
+          workplace_role: S.optional(__S(1336, __c167, 0)),
         }),
       ).annotate({ identifier: "ServiceAccountsCreateResponseServiceAccount" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6157,7 +6681,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ServiceAccountsCreateRequestWorkplaceRole" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6173,7 +6697,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ServiceAccountsDeleteRequest" });
   }
 }
-function __c22(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6189,7 +6713,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ServiceAccountsGetRequest" });
   }
 }
-function __c23(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6199,23 +6723,23 @@ function __c23(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/service_accounts", code: 200 })),
       ).annotate({ identifier: "ServiceAccountsListRequest" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(200, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          service_accounts: S.optional(__S(185, __c23, 1)),
+          service_accounts: S.optional(__S(233, __c29, 1)),
         }),
       ).annotate({ identifier: "ServiceAccountsListResponse" });
   }
 }
-function __c24(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slug: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          workplace_role: S.optional(__S(160, __c20, 0)),
+          workplace_role: S.optional(__S(208, __c26, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6228,7 +6752,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          permissions: S.optional(__S(536, __c67, 0)),
+          permissions: S.optional(__S(584, __c73, 0)),
           identifier: S.optional(S.String),
           created_at: S.optional(S.String),
           is_custom_role: S.optional(S.Boolean),
@@ -6241,18 +6765,54 @@ function __c24(j: number): any {
           name: S.optional(S.String),
           slug: S.optional(S.String),
           created_at: S.optional(S.String),
-          workplace_role: S.optional(__S(193, __c24, 1)),
+          workplace_role: S.optional(__S(241, __c30, 1)),
         }),
       ).annotate({ identifier: "ServiceAccountsUpdateResponseServiceAccount" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          service_account: S.optional(__S(194, __c24, 2)),
+          service_account: S.optional(__S(242, __c30, 2)),
         }),
       ).annotate({ identifier: "ServiceAccountsUpdateResponse" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Query()),
+          config: S.String.pipe(T.Query()),
+          page: S.optional(S.Number.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/logs", code: 200 })),
+      ).annotate({ identifier: "ConfigLogsListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          text: S.optional(S.String),
+          html: S.optional(S.String),
+          rollback: S.optional(S.Boolean),
+          created_at: S.optional(S.String),
+          config: S.optional(S.String),
+          environment: S.optional(S.String),
+          project: S.optional(S.String),
+          user: S.optional(__S(136, __c17, 0)),
+        }),
+      ).annotate({ identifier: "ConfigLogsListResponseLogsItem" });
+    case 2:
+      return S.Array(__S(249, __c31, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number),
+          logs: S.optional(__S(250, __c31, 2)),
+        }),
+      ).annotate({ identifier: "ConfigLogsListResponse" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6271,14 +6831,14 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          api_token: S.optional(__S(208, __c26, 0)),
+          api_token: S.optional(__S(264, __c33, 0)),
           api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ServiceAccountTokensCreateResponse" });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6292,7 +6852,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ServiceAccountTokensCreateResponseApiToken" });
   }
 }
-function __c27(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6309,7 +6869,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ServiceAccountTokensDeleteRequest" });
   }
 }
-function __c28(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6327,13 +6887,13 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          api_token: S.optional(__S(208, __c26, 0)),
+          api_token: S.optional(__S(264, __c33, 0)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ServiceAccountTokensGetResponse" });
   }
 }
-function __c29(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6350,17 +6910,17 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ServiceAccountTokensListRequest" });
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(264, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          api_tokens: S.optional(__S(233, __c29, 1)),
+          api_tokens: S.optional(__S(289, __c36, 1)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ServiceAccountTokensListResponse" });
   }
 }
-function __c30(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6389,48 +6949,12 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(__S(241, __c30, 1)),
+          token: S.optional(__S(297, __c37, 1)),
         }),
       ).annotate({ identifier: "ServiceTokensCreateResponse" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Query()),
-          config: S.String.pipe(T.Query()),
-          page: S.optional(S.Number.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/logs", code: 200 })),
-      ).annotate({ identifier: "ConfigLogsListRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          text: S.optional(S.String),
-          html: S.optional(S.String),
-          rollback: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          config: S.optional(S.String),
-          environment: S.optional(S.String),
-          project: S.optional(S.String),
-          user: S.optional(__S(128, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ConfigLogsListResponseLogsItem" });
-    case 2:
-      return S.Array(__S(249, __c31, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number),
-          logs: S.optional(__S(250, __c31, 2)),
-        }),
-      ).annotate({ identifier: "ConfigLogsListResponse" });
-  }
-}
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6443,7 +6967,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ServiceTokensDeleteRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6465,16 +6989,16 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "ServiceTokensListResponseTokensItem" });
     case 2:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(313, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(266, __c33, 2)),
+          tokens: S.optional(__S(314, __c39, 2)),
         }),
       ).annotate({ identifier: "ServiceTokensListResponse" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6495,7 +7019,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ShareSecretResponse" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6517,7 +7041,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ShareSecretEncryptedResponse" });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6528,7 +7052,49 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UnlockConfigRequest" });
   }
 }
-function __c37(j: number): any {
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Query()),
+          config: S.String.pipe(T.Query()),
+          log: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/logs/log/rollback", code: 200 })),
+      ).annotate({ identifier: "ConfigLogsRollbackRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          removed: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigLogsRollbackResponseLogDiffItem" });
+    case 2:
+      return S.Array(__S(345, __c43, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          text: S.optional(S.String),
+          html: S.optional(S.String),
+          diff: S.optional(__S(346, __c43, 2)),
+          rollback: S.optional(S.Boolean),
+          created_at: S.optional(S.String),
+          config: S.optional(S.String),
+          environment: S.optional(S.String),
+          project: S.optional(S.String),
+          user: S.optional(__S(136, __c17, 0)),
+        }),
+      ).annotate({ identifier: "ConfigLogsRollbackResponseLog" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          log: S.optional(__S(347, __c43, 3)),
+        }),
+      ).annotate({ identifier: "ConfigLogsRollbackResponse" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6536,8 +7102,8 @@ function __c37(j: number): any {
           slug: S.String.pipe(T.Label()),
           name: S.String,
           description: S.optional(S.String),
-          rules: __S(521, __c65, 1),
-          targets: __S(522, __c65, 2),
+          rules: __S(569, __c71, 1),
+          targets: __S(570, __c71, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6548,7 +7114,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "UpdateChangeRequestPolicyRequest" });
   }
 }
-function __c38(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6560,7 +7126,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateConfigRequest" });
   }
 }
-function __c39(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6572,7 +7138,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c40(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6584,7 +7150,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationRequest" });
   }
 }
-function __c41(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6603,49 +7169,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationsIntegrationMemberRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Query()),
-          config: S.String.pipe(T.Query()),
-          log: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/logs/log/rollback", code: 200 })),
-      ).annotate({ identifier: "ConfigLogsRollbackRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          removed: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfigLogsRollbackResponseLogDiffItem" });
-    case 2:
-      return S.Array(__S(337, __c42, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          text: S.optional(S.String),
-          html: S.optional(S.String),
-          diff: S.optional(__S(338, __c42, 2)),
-          rollback: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          config: S.optional(S.String),
-          environment: S.optional(S.String),
-          project: S.optional(S.String),
-          user: S.optional(__S(128, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ConfigLogsRollbackResponseLog" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          log: S.optional(__S(339, __c42, 3)),
-        }),
-      ).annotate({ identifier: "ConfigLogsRollbackResponse" });
-  }
-}
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6657,7 +7181,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
@@ -6673,24 +7197,24 @@ function __c44(j: number): any {
           shouldPromote: S.optional(S.Boolean),
           shouldDelete: S.optional(S.Boolean),
           shouldConverge: S.optional(S.Boolean),
-          valueType: S.optional(__S(1168, __c146, 0)),
-          originalValueType: S.optional(__S(1168, __c146, 0)),
+          valueType: S.optional(__S(1216, __c152, 0)),
+          originalValueType: S.optional(__S(1216, __c152, 0)),
         }),
       ).annotate({ identifier: "UpdateSecretRequestChangeRequestsItem" });
     case 2:
-      return S.Array(__S(353, __c44, 1));
+      return S.Array(__S(401, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           project: S.String,
           config: S.String,
-          secrets: S.optional(__S(352, __c44, 0)),
-          change_requests: S.optional(__S(354, __c44, 2)),
+          secrets: S.optional(__S(400, __c50, 0)),
+          change_requests: S.optional(__S(402, __c50, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/secrets", code: 200 })),
       ).annotate({ identifier: "UpdateSecretRequest" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6702,7 +7226,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateTagRequest" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6713,7 +7237,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c47(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6722,82 +7246,13 @@ function __c47(j: number): any {
           project: S.optional(S.String.pipe(T.Query())),
           url: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authentication: S.optional(__S(928, __c116, 0)),
+          authentication: S.optional(__S(976, __c122, 0)),
           payload: S.optional(S.String),
           name: S.optional(S.String),
           enableConfigs: S.optional(__S(0, __c0, 0)),
           disableConfigs: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v3/webhooks/webhook/{slug}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          billing_email: S.optional(S.String),
-          security_email: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v3/workplace", code: 200 })),
-      ).annotate({ identifier: "UpdateWorkplaceRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          permissions: __S(0, __c0, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/roles", code: 200 })),
-      ).annotate({ identifier: "WorkplaceRolesCreateRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.optional(__S(1288, __c161, 0)),
-        }),
-      ).annotate({ identifier: "WorkplaceRolesCreateResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
-      ).annotate({ identifier: "WorkplaceRolesDeleteRequest" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
-      ).annotate({ identifier: "WorkplaceRolesGetRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/workplace/roles", code: 200 })),
-      ).annotate({ identifier: "WorkplaceRolesListRequest" });
-    case 1:
-      return S.Array(__S(1288, __c161, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          roles: S.optional(__S(425, __c53, 1)),
-        }),
-      ).annotate({ identifier: "WorkplaceRolesListResponse" });
   }
 }
 function __c54(j: number): any {
@@ -6822,11 +7277,80 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          billing_email: S.optional(S.String),
+          security_email: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v3/workplace", code: 200 })),
+      ).annotate({ identifier: "UpdateWorkplaceRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          permissions: __S(0, __c0, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/roles", code: 200 })),
+      ).annotate({ identifier: "WorkplaceRolesCreateRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(__S(1336, __c167, 0)),
+        }),
+      ).annotate({ identifier: "WorkplaceRolesCreateResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
+      ).annotate({ identifier: "WorkplaceRolesDeleteRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
+      ).annotate({ identifier: "WorkplaceRolesGetRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/workplace/roles", code: 200 })),
+      ).annotate({ identifier: "WorkplaceRolesListRequest" });
+    case 1:
+      return S.Array(__S(1336, __c167, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          roles: S.optional(__S(481, __c60, 1)),
+        }),
+      ).annotate({ identifier: "WorkplaceRolesListResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/workplace/permissions", code: 200 })),
       ).annotate({ identifier: "WorkplaceRolesListPermissionsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6838,7 +7362,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "WorkplaceRolesUpdateRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6850,7 +7374,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ConfigsDeleteTrustedIpRequest" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -6858,7 +7382,7 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6870,7 +7394,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ConfigsInheritableRequest" });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6893,27 +7417,27 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(480, __c60, 0)),
+          config: S.optional(__S(528, __c66, 0)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConfigsInheritableResponse" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(496, __c62, 0));
+      return S.Array(__S(544, __c68, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           project: S.String,
           config: S.String,
-          inherits: __S(488, __c61, 0),
+          inherits: __S(536, __c67, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/inherits", code: 200 })),
       ).annotate({ identifier: "ConfigsInheritsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6924,7 +7448,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ConfigsInheritsRequestInheritsItem" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6941,33 +7465,33 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ConfigsListTrustedIpsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          rules: __S(521, __c65, 1),
-          targets: __S(522, __c65, 2),
+          rules: __S(569, __c71, 1),
+          targets: __S(570, __c71, 2),
         }).pipe(
           T.Http({ method: "POST", uri: "/v3/workplace/change_request_policies", code: 200 }),
         ),
       ).annotate({ identifier: "CreateChangeRequestPolicyRequest" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           count: S.optional(S.Number),
-          subjects: S.optional(__S(553, __c69, 1)),
+          subjects: S.optional(__S(601, __c75, 1)),
         }),
       ).annotate({ identifier: "CreateChangeRequestPolicyRequestRulesItem" });
     case 1:
-      return S.Array(__S(520, __c65, 0));
+      return S.Array(__S(568, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6977,24 +7501,24 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateChangeRequestPolicyRequestTargets" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(545, __c68, 1)),
+          policy: S.optional(__S(593, __c74, 1)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateChangeRequestPolicyResponse" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7009,13 +7533,13 @@ function __c68(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          rules: S.optional(__S(536, __c67, 0)),
-          targets: S.optional(__S(544, __c68, 0)),
+          rules: S.optional(__S(584, __c73, 0)),
+          targets: S.optional(__S(592, __c74, 0)),
         }),
       ).annotate({ identifier: "CreateChangeRequestPolicyResponsePolicy" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7025,10 +7549,10 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "CreateChangeRequestPolicyRequestRulesItemSubjectsItem" });
     case 1:
-      return S.Array(__S(552, __c69, 0));
+      return S.Array(__S(600, __c75, 0));
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7040,7 +7564,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateConfigRequest" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7053,17 +7577,17 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(__S(584, __c73, 0)),
+          environment: S.optional(__S(632, __c79, 0)),
         }),
       ).annotate({ identifier: "CreateEnvironmentResponse" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7077,7 +7601,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentResponseEnvironment" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7088,7 +7612,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CreateGroupRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7098,40 +7622,40 @@ function __c75(j: number): any {
       ).annotate({ identifier: "CreateGroupResponseGroupDefaultProjectRole" });
   }
 }
-function __c76(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           slug: S.optional(S.String),
-          role: S.optional(__S(600, __c75, 0)),
+          role: S.optional(__S(648, __c81, 0)),
         }),
       ).annotate({ identifier: "CreateGroupResponseGroupProjectsItem" });
     case 1:
-      return S.Array(__S(608, __c76, 0));
+      return S.Array(__S(656, __c82, 0));
     case 2:
-      return S.Array(__S(1224, __c153, 0));
+      return S.Array(__S(1272, __c159, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           slug: S.optional(S.String),
           created_at: S.optional(S.String),
-          default_project_role: S.optional(__S(600, __c75, 0)),
-          projects: S.optional(__S(609, __c76, 1)),
-          members: S.optional(__S(610, __c76, 2)),
+          default_project_role: S.optional(__S(648, __c81, 0)),
+          projects: S.optional(__S(657, __c82, 1)),
+          members: S.optional(__S(658, __c82, 2)),
         }),
       ).annotate({ identifier: "CreateGroupResponseGroup" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(611, __c76, 3)),
+          group: S.optional(__S(659, __c82, 3)),
         }),
       ).annotate({ identifier: "CreateGroupResponse" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7153,12 +7677,12 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          integration: S.optional(__S(617, __c77, 1)),
+          integration: S.optional(__S(665, __c83, 1)),
         }),
       ).annotate({ identifier: "CreateIntegrationResponse" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7171,29 +7695,29 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateIntegrationsIntegrationMemberRequest" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           slug: S.optional(S.String),
-          role: S.optional(__S(600, __c75, 0)),
+          role: S.optional(__S(648, __c81, 0)),
         }),
       ).annotate({ identifier: "CreateIntegrationsIntegrationMemberResponseMember" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          member: S.optional(__S(632, __c79, 0)),
+          member: S.optional(__S(680, __c85, 0)),
         }),
       ).annotate({ identifier: "CreateIntegrationsIntegrationMemberResponse" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7204,7 +7728,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7218,12 +7742,12 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(__S(656, __c82, 0)),
+          project: S.optional(__S(704, __c88, 0)),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7238,7 +7762,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateSyncRequest" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7254,12 +7778,12 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sync: S.optional(__S(672, __c84, 0)),
+          sync: S.optional(__S(720, __c90, 0)),
         }),
       ).annotate({ identifier: "CreateSyncResponse" });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7271,17 +7795,17 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateTagRequest" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(__S(696, __c87, 0)),
+          tag: S.optional(__S(744, __c93, 0)),
         }),
       ).annotate({ identifier: "CreateTagResponse" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7294,7 +7818,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateTagResponseTag" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7310,7 +7834,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteChangeRequestPolicyRequest" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7320,7 +7844,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteChangeRequestPolicyResponse" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7331,7 +7855,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteConfigRequest" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7341,17 +7865,17 @@ function __c91(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/logs", code: 200 })),
       ).annotate({ identifier: "ActivityLogsListRequest" });
     case 1:
-      return S.Array(__S(737, __c92, 1));
+      return S.Array(__S(785, __c98, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
-          logs: S.optional(__S(729, __c91, 1)),
+          logs: S.optional(__S(777, __c97, 1)),
         }),
       ).annotate({ identifier: "ActivityLogsListResponse" });
   }
 }
-function __c92(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7371,12 +7895,12 @@ function __c92(j: number): any {
           config: S.optional(S.Unknown),
           environment: S.optional(S.String),
           project: S.optional(S.String),
-          user: S.optional(__S(736, __c92, 0)),
+          user: S.optional(__S(784, __c98, 0)),
         }),
       ).annotate({ identifier: "ActivityLogsListResponseLogsItem" });
   }
 }
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7387,7 +7911,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7397,7 +7921,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7407,7 +7931,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7417,7 +7941,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7429,7 +7953,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteSecretRequest" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7442,7 +7966,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteSyncRequest" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7452,7 +7976,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7472,7 +7996,7 @@ function __c100(j: number): any {
       });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7487,7 +8011,7 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(__S(808, __c101, 0)),
+          unit: S.optional(__S(856, __c107, 0)),
         }),
       ).annotate({
         identifier:
@@ -7495,7 +8019,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7515,7 +8039,7 @@ function __c102(j: number): any {
       });
   }
 }
-function __c103(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7526,7 +8050,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c104(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7537,12 +8061,12 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          log: S.optional(__S(737, __c92, 1)),
+          log: S.optional(__S(785, __c98, 1)),
         }),
       ).annotate({ identifier: "ActivityLogsRetrieveResponse" });
   }
 }
-function __c105(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7560,7 +8084,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteWorkplaceIntegrationsIntegrationMemberRequest" });
   }
 }
-function __c106(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7571,7 +8095,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DisableWebhookRequest" });
   }
 }
-function __c107(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7588,12 +8112,12 @@ function __c107(j: number): any {
     case 1:
       return S.Record(S.String, S.String);
     case 2:
-      return S.suspend(() => __S(857, __c107, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(905, __c113, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "DownloadSecretResponse",
       });
   }
 }
-function __c108(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7621,7 +8145,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DynamicSecretsIssueLeaseResponse" });
   }
 }
-function __c109(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7640,7 +8164,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DynamicSecretsRevokeLeaseRequest" });
   }
 }
-function __c110(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7651,7 +8175,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "EnableWebhookRequest" });
   }
 }
-function __c111(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7672,7 +8196,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GenerateCliAuthResponse" });
   }
 }
-function __c112(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7688,7 +8212,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetChangeRequestPolicyRequest" });
   }
 }
-function __c113(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7699,7 +8223,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetConfigRequest" });
   }
 }
-function __c114(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7710,7 +8234,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetEnvironmentRequest" });
   }
 }
-function __c115(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7718,7 +8242,7 @@ function __c115(j: number): any {
           project: S.optional(S.String.pipe(T.Query())),
           url: S.String,
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          authentication: S.optional(__S(928, __c116, 0)),
+          authentication: S.optional(__S(976, __c122, 0)),
           payload: S.optional(S.String),
           enableConfigs: S.optional(__S(0, __c0, 0)),
           name: S.optional(S.String),
@@ -7726,20 +8250,20 @@ function __c115(j: number): any {
       ).annotate({ identifier: "AddWebhookRequest" });
   }
 }
-function __c116(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AddWebhookRequestAuthentication" });
   }
 }
-function __c117(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -7747,7 +8271,7 @@ function __c117(j: number): any {
       });
   }
 }
-function __c118(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7757,7 +8281,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c119(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7777,12 +8301,12 @@ function __c119(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          integration: S.optional(__S(953, __c119, 1)),
+          integration: S.optional(__S(1001, __c125, 1)),
         }),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c120(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7793,16 +8317,16 @@ function __c120(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/integrations/integration/members", code: 200 })),
       ).annotate({ identifier: "GetIntegrationsIntegrationMembersRequest" });
     case 1:
-      return S.Array(__S(632, __c79, 0));
+      return S.Array(__S(680, __c85, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(961, __c120, 1)),
+          members: S.optional(__S(1009, __c126, 1)),
         }),
       ).annotate({ identifier: "GetIntegrationsIntegrationMembersResponse" });
   }
 }
-function __c121(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7820,7 +8344,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetMemberRequest" });
   }
 }
-function __c122(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7830,7 +8354,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetOptionsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7840,7 +8364,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c124(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7854,12 +8378,12 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(__S(1008, __c126, 0)),
+          value: S.optional(__S(1056, __c132, 0)),
         }),
       ).annotate({ identifier: "GetSecretResponse" });
   }
 }
-function __c125(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7869,7 +8393,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetSecretResponseValueRawValueType" });
   }
 }
-function __c126(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7879,13 +8403,13 @@ function __c126(j: number): any {
           note: S.optional(S.String),
           rawVisibility: S.optional(S.String),
           computedVisibility: S.optional(S.String),
-          rawValueType: S.optional(__S(1000, __c125, 0)),
-          computedValueType: S.optional(__S(1000, __c125, 0)),
+          rawValueType: S.optional(__S(1048, __c131, 0)),
+          computedValueType: S.optional(__S(1048, __c131, 0)),
         }),
       ).annotate({ identifier: "GetSecretResponseValue" });
   }
 }
-function __c127(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7897,7 +8421,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetSyncRequest" });
   }
 }
-function __c128(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7907,7 +8431,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetTagRequest" });
   }
 }
-function __c129(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7917,18 +8441,18 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c130(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workplace_user: S.optional(__S(1048, __c131, 0)),
+          workplace_user: S.optional(__S(1096, __c137, 0)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c131(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7936,12 +8460,12 @@ function __c131(j: number): any {
           id: S.optional(S.String),
           access: S.optional(S.String),
           created_at: S.optional(S.String),
-          user: S.optional(__S(128, __c16, 0)),
+          user: S.optional(__S(136, __c17, 0)),
         }),
       ).annotate({ identifier: "GetUserResponseWorkplaceUser" });
   }
 }
-function __c132(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7970,19 +8494,19 @@ function __c132(j: number): any {
           id: S.optional(S.String),
           access: S.optional(S.String),
           created_at: S.optional(S.String),
-          user: S.optional(__S(1057, __c132, 1)),
+          user: S.optional(__S(1105, __c138, 1)),
         }),
       ).annotate({ identifier: "AuditGetUserResponseWorkplaceUser" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workplace_user: S.optional(__S(1058, __c132, 2)),
+          workplace_user: S.optional(__S(1106, __c138, 2)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuditGetUserResponse" });
   }
 }
-function __c133(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7998,11 +8522,11 @@ function __c133(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           status: S.optional(S.String),
-          target: S.optional(__S(1073, __c134, 1)),
+          target: S.optional(__S(1121, __c140, 1)),
         }),
       ).annotate({ identifier: "GetV3workplacechangeRequestsResponseBodyItemUnitsItem" });
     case 2:
-      return S.Array(__S(1065, __c133, 1));
+      return S.Array(__S(1113, __c139, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8010,20 +8534,20 @@ function __c133(j: number): any {
           title: S.optional(S.String),
           status: S.optional(S.String),
           createdAt: S.optional(S.String),
-          createdBy: S.optional(__S(1072, __c134, 0)),
-          units: S.optional(__S(1066, __c133, 2)),
-          assigned: S.optional(__S(1081, __c135, 1)),
+          createdBy: S.optional(__S(1120, __c140, 0)),
+          units: S.optional(__S(1114, __c139, 2)),
+          assigned: S.optional(__S(1129, __c141, 1)),
         }),
       ).annotate({ identifier: "GetV3workplacechangeRequestsResponseBodyItem" });
     case 4:
-      return S.Array(__S(1067, __c133, 3));
+      return S.Array(__S(1115, __c139, 3));
     case 5:
-      return S.suspend(() => __S(1068, __c133, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1116, __c139, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetV3workplacechangeRequestsResponse",
       });
   }
 }
-function __c134(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8038,14 +8562,14 @@ function __c134(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(__S(1232, __c154, 0)),
-          environment: S.optional(__S(1232, __c154, 0)),
-          config: S.optional(__S(1232, __c154, 0)),
+          project: S.optional(__S(1280, __c160, 0)),
+          environment: S.optional(__S(1280, __c160, 0)),
+          config: S.optional(__S(1280, __c160, 0)),
         }),
       ).annotate({ identifier: "GetV3workplacechangeRequestsResponseBodyItemUnitsItemTarget" });
   }
 }
-function __c135(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8058,10 +8582,10 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "GetV3workplacechangeRequestsResponseBodyItemAssignedItem" });
     case 1:
-      return S.Array(__S(1080, __c135, 0));
+      return S.Array(__S(1128, __c141, 0));
   }
 }
-function __c136(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8077,7 +8601,7 @@ function __c136(j: number): any {
         ),
       ).annotate({ identifier: "GetV3workplacechangeRequestschangeRequestChangeRequestIdRequest" });
     case 1:
-      return S.Array(__S(1100, __c137, 4));
+      return S.Array(__S(1148, __c143, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8086,9 +8610,9 @@ function __c136(j: number): any {
           description: S.optional(S.String),
           status: S.optional(S.String),
           createdAt: S.optional(S.String),
-          createdBy: S.optional(__S(1072, __c134, 0)),
-          units: S.optional(__S(1089, __c136, 1)),
-          assigned: S.optional(__S(1081, __c135, 1)),
+          createdBy: S.optional(__S(1120, __c140, 0)),
+          units: S.optional(__S(1137, __c142, 1)),
+          assigned: S.optional(__S(1129, __c141, 1)),
         }),
       ).annotate({
         identifier: "GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequest",
@@ -8096,14 +8620,14 @@ function __c136(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          changeRequest: S.optional(__S(1090, __c136, 2)),
+          changeRequest: S.optional(__S(1138, __c142, 2)),
         }),
       ).annotate({
         identifier: "GetV3workplacechangeRequestschangeRequestChangeRequestIdResponse",
       });
   }
 }
-function __c137(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8117,8 +8641,8 @@ function __c137(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          configLog: S.optional(__S(1096, __c137, 0)),
-          activityLog: S.optional(__S(1096, __c137, 0)),
+          configLog: S.optional(__S(1144, __c143, 0)),
+          activityLog: S.optional(__S(1144, __c143, 0)),
         }),
       ).annotate({
         identifier:
@@ -8131,7 +8655,7 @@ function __c137(j: number): any {
           value: S.optional(S.String),
           shouldDelete: S.optional(S.Boolean),
           visType: S.optional(S.Number),
-          valueType: S.optional(__S(1000, __c125, 0)),
+          valueType: S.optional(__S(1048, __c131, 0)),
           generationSettings: S.optional(S.Unknown),
         }),
       ).annotate({
@@ -8139,17 +8663,17 @@ function __c137(j: number): any {
           "GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItem",
       });
     case 3:
-      return S.Array(__S(1098, __c137, 2));
+      return S.Array(__S(1146, __c143, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           status: S.optional(S.String),
-          target: S.optional(__S(1073, __c134, 1)),
-          applied: S.optional(__S(1097, __c137, 1)),
+          target: S.optional(__S(1121, __c140, 1)),
+          applied: S.optional(__S(1145, __c143, 1)),
           createdAt: S.optional(S.String),
-          createdBy: S.optional(__S(1072, __c134, 0)),
-          updates: S.optional(__S(1099, __c137, 3)),
+          createdBy: S.optional(__S(1120, __c140, 0)),
+          updates: S.optional(__S(1147, __c143, 3)),
         }),
       ).annotate({
         identifier:
@@ -8157,7 +8681,7 @@ function __c137(j: number): any {
       });
   }
 }
-function __c138(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8179,7 +8703,7 @@ function __c138(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(__S(1100, __c137, 4)),
+          unit: S.optional(__S(1148, __c143, 4)),
         }),
       ).annotate({
         identifier:
@@ -8187,7 +8711,7 @@ function __c138(j: number): any {
       });
   }
 }
-function __c139(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8211,7 +8735,7 @@ function __c139(j: number): any {
           slug: S.optional(S.String),
           name: S.optional(S.String),
           method: S.optional(S.String),
-          config: S.optional(__S(1120, __c140, 0)),
+          config: S.optional(__S(1168, __c146, 0)),
           ttl_seconds: S.optional(S.Number),
           created_at: S.optional(S.String),
           last_seen_at: S.optional(S.NullOr(S.String)),
@@ -8221,11 +8745,11 @@ function __c139(j: number): any {
           "GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItem",
       });
     case 2:
-      return S.Array(__S(1113, __c139, 1));
+      return S.Array(__S(1161, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identities: S.optional(__S(1114, __c139, 2)),
+          identities: S.optional(__S(1162, __c145, 2)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({
@@ -8233,14 +8757,14 @@ function __c139(j: number): any {
       });
   }
 }
-function __c140(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           discovery_url: S.optional(S.String),
           claims_type: S.optional(S.String),
-          claims: S.optional(__S(1128, __c141, 0)),
+          claims: S.optional(__S(1176, __c147, 0)),
         }),
       ).annotate({
         identifier:
@@ -8248,13 +8772,13 @@ function __c140(j: number): any {
       });
   }
 }
-function __c141(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, __S(0, __c0, 0));
   }
 }
-function __c142(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8274,7 +8798,7 @@ function __c142(j: number): any {
       });
   }
 }
-function __c143(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8282,7 +8806,7 @@ function __c143(j: number): any {
           slug: S.optional(S.String),
           name: S.optional(S.String),
           method: S.optional(S.String),
-          config: S.optional(__S(1120, __c140, 0)),
+          config: S.optional(__S(1168, __c146, 0)),
           ttl_seconds: S.optional(S.Number),
           created_at: S.optional(S.String),
           last_seen_at: S.optional(S.NullOr(S.String)),
@@ -8294,7 +8818,7 @@ function __c143(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1144, __c143, 0)),
+          identity: S.optional(__S(1192, __c149, 0)),
         }),
       ).annotate({
         identifier:
@@ -8302,7 +8826,7 @@ function __c143(j: number): any {
       });
   }
 }
-function __c144(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8314,12 +8838,12 @@ function __c144(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          webhook: __S(1160, __c145, 0),
+          webhook: __S(1208, __c151, 0),
         }),
       ).annotate({ identifier: "GetWebhookResponse" });
   }
 }
-function __c145(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8329,14 +8853,14 @@ function __c145(j: number): any {
           url: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           hasSecret: S.optional(S.Boolean),
-          authentication: S.optional(__S(1168, __c146, 0)),
+          authentication: S.optional(__S(1216, __c152, 0)),
           enabledConfigs: S.optional(__S(0, __c0, 0)),
           canManage: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetWebhookResponseWebhook" });
   }
 }
-function __c146(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8346,7 +8870,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetWebhookResponseWebhookAuthentication" });
   }
 }
-function __c147(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8354,7 +8878,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetWorkplaceRequest" });
   }
 }
-function __c148(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8368,12 +8892,12 @@ function __c148(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          workplace: S.optional(__S(1184, __c148, 0)),
+          workplace: S.optional(__S(1232, __c154, 0)),
         }),
       ).annotate({ identifier: "GetWorkplaceResponse" });
   }
 }
-function __c149(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8391,7 +8915,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetWorkplaceIntegrationsIntegrationMemberRequest" });
   }
 }
-function __c150(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8404,7 +8928,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GroupsAddMemberRequest" });
   }
 }
-function __c151(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8422,7 +8946,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GroupsDeleteMemberRequest" });
   }
 }
-function __c152(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8437,13 +8961,13 @@ function __c152(j: number): any {
           last_seen_at: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
           token_preview: S.optional(S.String),
-          workplace: S.optional(__S(1232, __c154, 0)),
-          principal: S.optional(__S(1224, __c153, 0)),
+          workplace: S.optional(__S(1280, __c160, 0)),
+          principal: S.optional(__S(1272, __c159, 0)),
         }),
       ).annotate({ identifier: "AuthMeResponse" });
   }
 }
-function __c153(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8454,7 +8978,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "AuthMeResponsePrincipal" });
   }
 }
-function __c154(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8465,7 +8989,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "AuthMeResponseWorkplace" });
   }
 }
-function __c155(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8476,21 +9000,21 @@ function __c155(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(545, __c68, 1)),
+          policy: S.optional(__S(593, __c74, 1)),
         }),
       ).annotate({ identifier: "ListChangeRequestPoliciesResponsePoliciesItem" });
     case 2:
-      return S.Array(__S(1241, __c155, 1));
+      return S.Array(__S(1289, __c161, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          policies: S.optional(__S(1242, __c155, 2)),
+          policies: S.optional(__S(1290, __c161, 2)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ListChangeRequestPoliciesResponse" });
   }
 }
-function __c156(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8519,17 +9043,17 @@ function __c156(j: number): any {
         }),
       ).annotate({ identifier: "ListConfigsResponseConfigsItem" });
     case 2:
-      return S.Array(__S(1249, __c156, 1));
+      return S.Array(__S(1297, __c162, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
-          configs: S.optional(__S(1250, __c156, 2)),
+          configs: S.optional(__S(1298, __c162, 2)),
         }),
       ).annotate({ identifier: "ListConfigsResponse" });
   }
 }
-function __c157(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8538,17 +9062,17 @@ function __c157(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/environments", code: 200 })),
       ).annotate({ identifier: "ListEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(584, __c73, 0));
+      return S.Array(__S(632, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environments: S.optional(__S(1257, __c157, 1)),
+          environments: S.optional(__S(1305, __c163, 1)),
           page: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListEnvironmentsResponse" });
   }
 }
-function __c158(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8563,20 +9087,20 @@ function __c158(j: number): any {
           name: S.optional(S.String),
           slug: S.optional(S.String),
           created_at: S.optional(S.String),
-          default_project_role: S.optional(__S(600, __c75, 0)),
+          default_project_role: S.optional(__S(648, __c81, 0)),
         }),
       ).annotate({ identifier: "ListGroupsResponseGroupsItem" });
     case 2:
-      return S.Array(__S(1265, __c158, 1));
+      return S.Array(__S(1313, __c164, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(1266, __c158, 2)),
+          groups: S.optional(__S(1314, __c164, 2)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
 }
-function __c159(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8593,17 +9117,17 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "ListIntegrationsResponseIntegrationsItem" });
     case 2:
-      return S.Array(__S(1273, __c159, 1));
+      return S.Array(__S(1321, __c165, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          integrations: S.optional(__S(1274, __c159, 2)),
+          integrations: S.optional(__S(1322, __c165, 2)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ListIntegrationsResponse" });
   }
 }
-function __c160(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8618,20 +9142,20 @@ function __c160(j: number): any {
           slug: S.optional(S.String),
           email: S.optional(S.String),
           created_at: S.optional(S.String),
-          workplace_role: S.optional(__S(1288, __c161, 0)),
+          workplace_role: S.optional(__S(1336, __c167, 0)),
         }),
       ).annotate({ identifier: "ListInvitesResponseInvitesItem" });
     case 2:
-      return S.Array(__S(1281, __c160, 1));
+      return S.Array(__S(1329, __c166, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          invites: S.optional(__S(1282, __c160, 2)),
+          invites: S.optional(__S(1330, __c166, 2)),
         }),
       ).annotate({ identifier: "ListInvitesResponse" });
   }
 }
-function __c161(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8646,7 +9170,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "ListInvitesResponseInvitesItemWorkplaceRole" });
   }
 }
-function __c162(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8667,17 +9191,17 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "ListProjectsResponseProjectsItem" });
     case 2:
-      return S.Array(__S(1297, __c162, 1));
+      return S.Array(__S(1345, __c168, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
-          projects: S.optional(__S(1298, __c162, 2)),
+          projects: S.optional(__S(1346, __c168, 2)),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c163(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8692,19 +9216,19 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ListSecretsRequest" });
   }
 }
-function __c164(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(1008, __c126, 0));
+      return S.Record(S.String, __S(1056, __c132, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secrets: S.optional(__S(1312, __c164, 0)),
+          secrets: S.optional(__S(1360, __c170, 0)),
         }),
       ).annotate({ identifier: "ListSecretsResponse" });
   }
 }
-function __c165(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8712,19 +9236,19 @@ function __c165(j: number): any {
       ).annotate({ identifier: "ListTagsRequest" });
   }
 }
-function __c166(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(696, __c87, 0));
+      return S.Array(__S(744, __c93, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(1328, __c166, 0)),
+          tags: S.optional(__S(1376, __c172, 0)),
         }),
       ).annotate({ identifier: "ListTagsResponse" });
   }
 }
-function __c167(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8734,18 +9258,18 @@ function __c167(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/users", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
-      return S.Array(__S(1048, __c131, 0));
+      return S.Array(__S(1096, __c137, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          workplace_users: S.optional(__S(1337, __c167, 1)),
+          workplace_users: S.optional(__S(1385, __c173, 1)),
           page: S.optional(S.Number),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c168(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8763,7 +9287,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "AuthOidcResponse" });
   }
 }
-function __c169(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8772,16 +9296,16 @@ function __c169(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(1160, __c145, 0));
+      return S.Array(__S(1208, __c151, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          webhooks: __S(1353, __c169, 1),
+          webhooks: __S(1401, __c175, 1),
         }),
       ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
-function __c170(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8792,7 +9316,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "LockConfigRequest" });
   }
 }
-function __c171(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8801,37 +9325,37 @@ function __c171(j: number): any {
           value: S.optional(S.String),
           shouldDelete: S.optional(S.Boolean),
           visType: S.optional(S.Number),
-          valueType: S.optional(__S(1000, __c125, 0)),
+          valueType: S.optional(__S(1048, __c131, 0)),
           generationSettings: S.optional(S.Unknown),
           originalSecretUpdateName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostV3workplacechangeRequestsRequestUnitsItemUpdatesItem" });
     case 1:
-      return S.Array(__S(1368, __c171, 0));
+      return S.Array(__S(1416, __c177, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
           id: S.optional(S.String),
-          target: __S(496, __c62, 0),
+          target: __S(544, __c68, 0),
           status: S.optional(S.String),
-          updates: __S(1369, __c171, 1),
+          updates: __S(1417, __c177, 1),
         }),
       ).annotate({ identifier: "PostV3workplacechangeRequestsRequestUnitsItem" });
     case 3:
-      return S.Array(__S(1370, __c171, 2));
+      return S.Array(__S(1418, __c177, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
           description: S.optional(S.String),
-          assigned: __S(553, __c69, 1),
-          units: __S(1371, __c171, 3),
+          assigned: __S(601, __c75, 1),
+          units: __S(1419, __c177, 3),
         }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/change_requests", code: 200 })),
       ).annotate({ identifier: "PostV3workplacechangeRequestsRequest" });
   }
 }
-function __c172(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8842,18 +9366,18 @@ function __c172(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changeRequest: S.optional(__S(1376, __c172, 0)),
+          changeRequest: S.optional(__S(1424, __c178, 0)),
         }),
       ).annotate({ identifier: "PostV3workplacechangeRequestsResponse" });
   }
 }
-function __c173(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           change_request_id: S.String.pipe(T.Label()),
-          assigned: __S(553, __c69, 1),
+          assigned: __S(601, __c75, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8867,14 +9391,14 @@ function __c173(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assigned: S.optional(__S(1081, __c135, 1)),
+          assigned: S.optional(__S(1129, __c141, 1)),
         }),
       ).annotate({
         identifier: "PostV3workplacechangeRequestschangeRequestChangeRequestIdResponse",
       });
   }
 }
-function __c174(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8892,7 +9416,7 @@ function __c174(j: number): any {
       });
   }
 }
-function __c175(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8912,7 +9436,7 @@ function __c175(j: number): any {
       });
   }
 }
-function __c176(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8932,7 +9456,7 @@ function __c176(j: number): any {
       });
   }
 }
-function __c177(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8953,7 +9477,7 @@ function __c177(j: number): any {
       });
   }
 }
-function __c178(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8961,7 +9485,7 @@ function __c178(j: number): any {
           service_account: S.String.pipe(T.Label()),
           name: S.String,
           method: S.String,
-          config: __S(1432, __c179, 0),
+          config: __S(1480, __c185, 0),
           ttl_seconds: S.Number,
         }).pipe(
           T.Http({
@@ -8978,7 +9502,7 @@ function __c178(j: number): any {
         S.Struct({
           discovery_url: S.optional(S.String),
           claims_type: S.optional(S.String),
-          claims: S.optional(__S(1128, __c141, 0)),
+          claims: S.optional(__S(1176, __c147, 0)),
         }),
       ).annotate({
         identifier:
@@ -8990,7 +9514,7 @@ function __c178(j: number): any {
           slug: S.optional(S.String),
           name: S.optional(S.String),
           method: S.optional(S.String),
-          config: S.optional(__S(1425, __c178, 1)),
+          config: S.optional(__S(1473, __c184, 1)),
           ttl_seconds: S.optional(S.Number),
           created_at: S.optional(S.String),
           last_seen_at: S.optional(S.NullOr(S.String)),
@@ -9002,21 +9526,21 @@ function __c178(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identity: S.optional(__S(1426, __c178, 2)),
+          identity: S.optional(__S(1474, __c184, 2)),
         }),
       ).annotate({
         identifier: "PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse",
       });
   }
 }
-function __c179(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           discovery_url: S.String,
           claims_type: S.String,
-          claims: __S(1128, __c141, 0),
+          claims: __S(1176, __c147, 0),
         }),
       ).annotate({
         identifier:
@@ -9024,7 +9548,7 @@ function __c179(j: number): any {
       });
   }
 }
-function __c180(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9038,31 +9562,51 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ProjectMembersAddRequest" });
   }
 }
-function __c181(j: number): any {
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(__S(648, __c81, 0)),
+          access_all_environments: S.optional(S.Boolean),
+          environments: S.optional(__S(0, __c0, 0)),
+          configs: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "ProjectMembersAddResponseMemberRolesItem" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1496, __c187, 0));
+  }
+}
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           slug: S.optional(S.String),
-          role: S.optional(__S(600, __c75, 0)),
+          role: S.optional(__S(648, __c81, 0)),
           access_all_environments: S.optional(S.Boolean),
           environments: S.optional(__S(0, __c0, 0)),
+          roles: S.optional(__S(1504, __c188, 0)),
         }),
       ).annotate({ identifier: "ProjectMembersAddResponseMember" });
   }
 }
-function __c182(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          member: S.optional(__S(1448, __c181, 0)),
+          member: S.optional(__S(1512, __c189, 0)),
         }),
       ).annotate({ identifier: "ProjectMembersAddResponse" });
   }
 }
-function __c183(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9080,7 +9624,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "AuthorizeCliAuthResponse" });
   }
 }
-function __c184(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9098,7 +9642,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ProjectMembersDeleteRequest" });
   }
 }
-function __c185(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9116,7 +9660,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ProjectMembersGetRequest" });
   }
 }
-function __c186(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9127,16 +9671,126 @@ function __c186(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/projects/project/members", code: 200 })),
       ).annotate({ identifier: "ProjectMembersListRequest" });
     case 1:
-      return S.Array(__S(1448, __c181, 0));
+      return S.Array(__S(1512, __c189, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(1489, __c186, 1)),
+          members: S.optional(__S(1553, __c194, 1)),
         }),
       ).annotate({ identifier: "ProjectMembersListResponse" });
   }
 }
-function __c187(j: number): any {
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Query()),
+          role: S.String,
+          environments: S.optional(__S(0, __c0, 0)),
+          configs: S.optional(__S(0, __c0, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v3/projects/project/members/member/{type}/{slug}/roles",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ProjectMembersRolesAddRequest" });
+  }
+}
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Label()),
+          role: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v3/projects/project/members/member/{type}/{slug}/roles/role/{role}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ProjectMembersRolesDeleteRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Label()),
+          role: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v3/projects/project/members/member/{type}/{slug}/roles/role/{role}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ProjectMembersRolesGetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(__S(1496, __c187, 0)),
+        }),
+      ).annotate({ identifier: "ProjectMembersRolesGetResponse" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v3/projects/project/members/member/{type}/{slug}/roles",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ProjectMembersRolesListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          roles: S.optional(__S(1504, __c188, 0)),
+        }),
+      ).annotate({ identifier: "ProjectMembersRolesListResponse" });
+  }
+}
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String.pipe(T.Label()),
+          slug: S.String.pipe(T.Label()),
+          role: S.String.pipe(T.Label()),
+          project: S.String.pipe(T.Query()),
+          environments: __S(0, __c0, 0),
+          configs: S.optional(__S(0, __c0, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v3/projects/project/members/member/{type}/{slug}/roles/role/{role}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ProjectMembersRolesUpdateRequest" });
+  }
+}
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9156,7 +9810,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "ProjectMembersUpdateRequest" });
   }
 }
-function __c188(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9167,7 +9821,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "ProjectRolesCreateRequest" });
   }
 }
-function __c189(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9181,80 +9835,14 @@ function __c189(j: number): any {
       ).annotate({ identifier: "ProjectRolesCreateResponseRole" });
   }
 }
-function __c190(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          role: S.optional(__S(1512, __c189, 0)),
+          role: S.optional(__S(1616, __c202, 0)),
         }),
       ).annotate({ identifier: "ProjectRolesCreateResponse" });
-  }
-}
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v3/projects/roles/role/{role}", code: 200 })),
-      ).annotate({ identifier: "ProjectRolesDeleteRequest" });
-  }
-}
-function __c192(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v3/projects/roles/role/{role}", code: 200 })),
-      ).annotate({ identifier: "ProjectRolesGetRequest" });
-  }
-}
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/projects/roles", code: 200 })),
-      ).annotate({ identifier: "ProjectRolesListRequest" });
-    case 1:
-      return S.Array(__S(1512, __c189, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          roles: S.optional(__S(1545, __c193, 1)),
-        }),
-      ).annotate({ identifier: "ProjectRolesListResponse" });
-  }
-}
-function __c194(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/projects/permissions", code: 200 })),
-      ).annotate({ identifier: "ProjectRolesListPermissionsRequest" });
-  }
-}
-function __c195(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "ProjectRolesListPermissionsResponse" });
-  }
-}
-function __c196(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          permissions: S.optional(__S(0, __c0, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v3/projects/roles/role/{role}", code: 200 })),
-      ).annotate({ identifier: "ProjectRolesUpdateRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

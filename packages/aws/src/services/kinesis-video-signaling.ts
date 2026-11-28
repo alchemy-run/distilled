@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -207,6 +208,7 @@ export const getIceServerConfig: API.OperationMethod<
     ResourceNotFoundException,
     SessionExpiredException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIceServerConfig",
@@ -242,6 +244,7 @@ export const sendAlexaOfferToMaster: API.OperationMethod<
     NotAuthorizedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAlexaOfferToMaster",

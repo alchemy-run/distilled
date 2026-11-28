@@ -71,7 +71,7 @@ const polarSpec: SdkSpec = {
   operationDecl: {
     contextType: "PolarOpContext",
     commonErrorType: "PolarOpError",
-    commonErrorClasses: ["UnknownPolarError"],
+    serviceErrors: "PolarServiceErrors",
     protocol: "PolarProtocol",
     retry: "Retry.Retry",
   },

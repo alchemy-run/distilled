@@ -35,3 +35,4 @@ export {
 } from "./protocol.ts";
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
+export * as RunAsUser from "./run-as-user.ts";

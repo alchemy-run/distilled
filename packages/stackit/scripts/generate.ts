@@ -6,7 +6,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *
  * Input:  .generated-specs/<service>.json  (one model per STACKIT product,
  *         written by scripts/convert.ts)
- * Output: src/services/<service>.ts  +  src/services/index.ts
+ * Output: src/services/<service>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for the alpha and beta product versions
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is STACKIT's provider spec:
@@ -85,7 +86,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "StackitOpContext",
     commonErrorType: "StackitOpError",
-    commonErrorClasses: ["UnknownStackitError"],
+    serviceErrors: "StackitServiceErrors",
     protocol: "StackitProtocol",
     retry: "Retry.Retry",
   },
@@ -106,5 +107,6 @@ runGeneratorCli({
   patchesDir: false,
   barrelExportName: camel,
   continueOnModelError: true,
+  unstableOutDir: "src/unstable-services",
   spec: () => spec,
 });

@@ -2,7 +2,7 @@
  * Whop credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ apiKey, apiBaseUrl, apiVersionDate }`
- * per request; the protocol layer formats the `Authorization: Bearer
+ * per request; the protocol formats the `Authorization: Bearer
  * <apiKey>` and `Api-Version-Date` headers from it.
  *
  * `apiKey` is whatever Whop's bearer scheme accepts:
@@ -55,9 +55,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "WhopCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("WhopCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.
@@ -70,20 +68,27 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "WHOP_API_KEY environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "WHOP_API_KEY environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl, apiVersionDate }) => ({
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl,
+        apiVersionDate,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl, apiVersionDate }) => ({
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl,
-      apiVersionDate,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

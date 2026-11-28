@@ -9,27 +9,20 @@
  * - A failed call answers `{ "data": null, "message": ..., "errors"?: ... }`.
  *   `errors` names each rejected parameter and is folded into the message.
  */
-import * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
-import * as Effect from "effect/Effect";
+import type { ErrorOf, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import { ProxmoxParseError, UnknownProxmoxError, type DefaultErrors } from "./errors.ts";
+import { ProxmoxParseError, UnknownProxmoxError, type ProxmoxServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Proxmox operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * ProxmoxOpError, ProxmoxOpContext>` explicitly.
+ * What every generated Proxmox operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ProxmoxOpError, ProxmoxOpContext>` explicitly.
  */
-export type ProxmoxOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput;
+export type ProxmoxOpError = ProxmoxServiceError | ErrorOf<typeof ProxmoxProtocol>;
 
 /** Context (requirements) shared by every generated Proxmox operation. */
 export type ProxmoxOpContext = Credentials | HttpClient.HttpClient;
@@ -65,32 +58,22 @@ const authHeaders = (config: Config) => ({
   Accept: "application/json",
 });
 
-/** Core's REST protocol with booleans sent the way Proxmox reads them. */
-const proxmox = (): Layer.Layer<API.Protocol> =>
-  Layer.effect(
-    API.Protocol,
-    Effect.gen(function* () {
-      const base = yield* API.Protocol;
-      const call = base.call;
-      return API.Protocol.of({
-        ...base,
-        encode: (args) => base.encode({ ...args, input: toWire(args.input) }),
-        call: call && ((operation, input) => call(operation, toWire(input))),
-      });
-    }),
-  ).pipe(
-    Layer.provide(
-      makeRestProtocol<Config>({
-        credentials: Credentials,
-        baseUrl: (config) => config.endpoint,
-        headers: authHeaders,
-        errorEnvelope,
-        transformResponse: (body) => (isObject(body) && "data" in body ? body.data : body),
-        unknownError: ({ status, message, body }) =>
-          new UnknownProxmoxError({ status, message, body }),
-        parseError: ({ body, cause }) => new ProxmoxParseError({ body, cause }),
-      }),
-    ),
-  );
+const RestProtocol = /*@__PURE__*/ restProtocol({
+  credentials: Credentials,
+  baseUrl: (config) => config.endpoint,
+  headers: authHeaders,
+  errorEnvelope,
+  transformResponse: (body) => (isObject(body) && "data" in body ? body.data : body),
+  unknownError: ({ status, message, body }) => new UnknownProxmoxError({ status, message, body }),
+  parseError: ({ body, cause }) => new ProxmoxParseError({ body, cause }),
+});
 
-export const ProxmoxProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ proxmox();
+const proxmoxProtocolMethods = {
+  ...RestProtocol,
+  encode: (args) => RestProtocol.encode({ ...args, input: toWire(args.input) }),
+  // The REST protocol always has `call`.
+  call: (operation, input) => RestProtocol.call!(operation, toWire(input)),
+} satisfies Protocol<unknown, unknown>;
+
+/** Core's REST protocol with booleans sent the way Proxmox reads them. */
+export const ProxmoxProtocol: ProtocolOf<typeof proxmoxProtocolMethods> = proxmoxProtocolMethods;

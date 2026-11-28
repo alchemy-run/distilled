@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Grafana credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  *
  * Grafana authenticates HTTP API requests with a service account token
@@ -29,7 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "GrafanaCredentials",
   ) {}
 
@@ -51,22 +51,28 @@ export const fromApiKey = (config: {
 /**
  * Reads GRAFANA_TOKEN (required), GRAFANA_URL (optional instance origin),
  * and GRAFANA_ORG_ID (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const token = process.env.GRAFANA_TOKEN;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const token = process.env.GRAFANA_TOKEN;
 
-    if (!token) {
-      return yield* new ConfigError({
-        message: "GRAFANA_TOKEN environment variable is required",
-      });
-    }
+      if (!token) {
+        return yield* new ConfigError({
+          message: "GRAFANA_TOKEN environment variable is required",
+        });
+      }
 
-    return {
-      token: Redacted.make(token),
-      apiBaseUrl: process.env.GRAFANA_URL ?? DEFAULT_API_BASE_URL,
-      orgId: process.env.GRAFANA_ORG_ID,
-    };
-  }),
+      return {
+        token: Redacted.make(token),
+        apiBaseUrl: process.env.GRAFANA_URL ?? DEFAULT_API_BASE_URL,
+        orgId: process.env.GRAFANA_ORG_ID,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

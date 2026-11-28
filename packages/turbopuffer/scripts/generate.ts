@@ -66,7 +66,7 @@ const turbopufferSpec: SdkSpec = {
   operationDecl: {
     contextType: "TurbopufferOpContext",
     commonErrorType: "TurbopufferOpError",
-    commonErrorClasses: ["UnknownTurbopufferError"],
+    serviceErrors: "TurbopufferServiceErrors",
     protocol: "TurbopufferProtocol",
     retry: "Retry.Retry",
   },

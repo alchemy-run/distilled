@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSteelError } from "../errors.ts";
+import { SteelServiceErrors } from "../errors.ts";
 import { SteelProtocol, type SteelOpError, type SteelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -31,7 +31,7 @@ export class BadRequest
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -47,7 +47,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -63,7 +63,7 @@ export class NotFound
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(3, __c0, 3)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -103,11 +103,15 @@ export interface ErrorResponseContextItem {
   params: unknown;
 }
 export type ErrorResponseContextList = Array<ErrorResponseContextItem>;
+/** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+export type ErrorResponseDetailsMap = { [key: string]: unknown | undefined };
 /** An error response from the API */
 export interface ErrorResponse {
   /** Stable machine-readable reason, e.g. 'budget_exceeded' or 'profile_not_ready'. Branch on this instead of parsing the message. */
   code?: string | undefined;
   context?: ErrorResponseContextList | undefined;
+  /** Structured data about the error for the caller, e.g. `candidates` for credential_ambiguous. Never contains secret values. */
+  details?: ErrorResponseDetailsMap | undefined;
   error?: string | undefined;
   linkToDocs?: string | undefined;
   message: string;
@@ -117,6 +121,8 @@ export interface ErrorResponse {
   retryAfterSeconds?: number | undefined;
   /** Whether the same request can succeed later without changes. False means fix the request or the account first. */
   retryable?: boolean | undefined;
+  /** Where a person turns on the refused feature, e.g. verifying the account. Pass it to your user. */
+  unlockUrl?: string | undefined;
 }
 export type CreateApiKeyError = BadRequest | Forbidden | NotFound | SteelOpError;
 /** Create an API key Create a project-scoped API key using a global (organization-scoped) API key. Supply projectId for an active project in the authenticated organization; scopeType must be project or omitted. Project-scoped API keys cannot create keys, and global keys cannot create other global keys. Dashboard users may also create project keys, or global keys with organization admin access. Returns the full secret once with Cache-Control: no-store; save it securely. The new key is independent: revoking the creating global key does not revoke keys it created. Missing projectId returns 400; insufficient scope returns 403; an unavailable or foreign project returns 404. */
@@ -128,7 +134,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<ApiKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSteelError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -149,16 +156,20 @@ function __c0(j: number): any {
     case 1:
       return S.Array(__S(0, __c0, 0));
     case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           context: S.optional(__S(1, __c0, 1)),
+          details: S.optional(__S(2, __c0, 2)),
           error: S.optional(S.String),
           linkToDocs: S.optional(S.String),
           message: S.String,
           param: S.optional(S.String),
           retryAfterSeconds: S.optional(S.Number),
           retryable: S.optional(S.Boolean),
+          unlockUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }

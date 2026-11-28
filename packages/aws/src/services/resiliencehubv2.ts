@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -877,6 +878,16 @@ export interface TestRunPolicySnapshot {
   multiRegion?: MultiRegionTargets | undefined;
   dataRecovery?: DataRecoveryTargets | undefined;
 }
+export interface TestRunEffectivePolicyValues {
+  availabilitySlo?: SloSource | undefined;
+  multiAzRto?: TargetSource | undefined;
+  multiAzRpo?: TargetSource | undefined;
+  multiAzDrApproach?: DisasterRecoverySource | undefined;
+  multiRegionRto?: TargetSource | undefined;
+  multiRegionRpo?: TargetSource | undefined;
+  multiRegionDrApproach?: DisasterRecoverySource | undefined;
+  dataRecoveryTimeBetweenBackups?: TargetSource | undefined;
+}
 export type RegionSwitchExecutionId = string;
 export type AccountTargeting = "SINGLE_ACCOUNT" | "MULTI_ACCOUNT" | (string & {});
 export type DevOpsAgentVerdict = "PASS" | "FAIL" | (string & {});
@@ -913,6 +924,7 @@ export interface TestRun {
   testTemplateArn: string;
   reportConfiguration?: TestRunReportConfiguration | undefined;
   policy?: TestRunPolicySnapshot | undefined;
+  effectivePolicyValues?: TestRunEffectivePolicyValues | undefined;
   reportOutput?: ReportGenerationResult | undefined;
   regionSwitchPlanArn?: string | undefined;
   regionSwitchExecutionId?: string | undefined;
@@ -2306,7 +2318,10 @@ export interface ListTestSourcesResponse {
   testSources: TestSourceSummary[];
   nextToken?: string | undefined;
 }
-export interface ListTestTemplatesRequest {}
+export interface ListTestTemplatesRequest {
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
 export interface TestTemplateSummary {
   testTemplateArn: string;
   name: string;
@@ -2315,6 +2330,7 @@ export interface TestTemplateSummary {
 export type TestTemplateSummaryList = TestTemplateSummary[];
 export interface ListTestTemplatesResponse {
   testTemplates: TestTemplateSummary[];
+  nextToken?: string | undefined;
 }
 export interface ListUserJourneysRequest {
   systemArn: string;
@@ -2519,6 +2535,7 @@ export const createAssertion: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssertion",
@@ -2553,6 +2570,7 @@ export const createInputSource: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInputSource",
@@ -2587,6 +2605,7 @@ export const createPolicy: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
@@ -2621,6 +2640,7 @@ export const createReport: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReport",
@@ -2646,7 +2666,7 @@ export const createService: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(231, __c7, 7) as any as S.Schema<CreateServiceResponse>,
+  output: __S(228, __c7, 4) as any as S.Schema<CreateServiceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2655,6 +2675,7 @@ export const createService: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
@@ -2689,6 +2710,7 @@ export const createServiceFunction: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceFunction",
@@ -2721,6 +2743,7 @@ export const createServiceFunctionResources: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceFunctionResources",
@@ -2755,6 +2778,7 @@ export const createSystem: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystem",
@@ -2787,6 +2811,7 @@ export const createTest: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTest",
@@ -2821,6 +2846,7 @@ export const createUserJourney: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserJourney",
@@ -2851,6 +2877,7 @@ export const deleteAssertion: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssertion",
@@ -2881,6 +2908,7 @@ export const deleteInputSource: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInputSource",
@@ -2913,6 +2941,7 @@ export const deletePolicy: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
@@ -2945,6 +2974,7 @@ export const deleteService: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
@@ -2977,6 +3007,7 @@ export const deleteServiceFunction: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceFunction",
@@ -3009,6 +3040,7 @@ export const deleteServiceFunctionResources: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceFunctionResources",
@@ -3041,6 +3073,7 @@ export const deleteSystem: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystem",
@@ -3073,6 +3106,7 @@ export const deleteTest: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTest",
@@ -3105,6 +3139,7 @@ export const deleteTestSources: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestSources",
@@ -3137,6 +3172,7 @@ export const deleteUserJourney: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserJourney",
@@ -3169,6 +3205,7 @@ export const getDependencyInsights: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDependencyInsights",
@@ -3199,6 +3236,7 @@ export const getFailureModeFinding: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailureModeFinding",
@@ -3229,6 +3267,7 @@ export const getPolicy: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -3252,13 +3291,14 @@ export const getService: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(231, __c7, 7) as any as S.Schema<GetServiceResponse>,
+  output: __S(228, __c7, 4) as any as S.Schema<GetServiceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
@@ -3289,6 +3329,7 @@ export const getSystem: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystem",
@@ -3319,6 +3360,7 @@ export const getTest: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
@@ -3349,6 +3391,7 @@ export const getTestRun: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestRun",
@@ -3360,6 +3403,7 @@ export type GetTestTemplateError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3377,8 +3421,10 @@ export const getTestTemplate: API.OperationMethod<
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
+    ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestTemplate",
@@ -3409,6 +3455,7 @@ export const getUserJourney: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserJourney",
@@ -3434,7 +3481,7 @@ export const importApp: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ImportAppRequest>,
-  output: __S(231, __c7, 7) as any as S.Schema<ImportAppResponse>,
+  output: __S(228, __c7, 4) as any as S.Schema<ImportAppResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3443,6 +3490,7 @@ export const importApp: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApp",
@@ -3477,6 +3525,7 @@ export const importPolicy: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPolicy",
@@ -3508,6 +3557,7 @@ export const listAssertions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssertions",
@@ -3545,6 +3595,7 @@ export const listDependencies: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDependencies",
@@ -3582,6 +3633,7 @@ export const listFailureModeAssessments: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFailureModeAssessments",
@@ -3619,6 +3671,7 @@ export const listFailureModeFindings: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFailureModeFindings",
@@ -3656,6 +3709,7 @@ export const listInputSources: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInputSources",
@@ -3687,6 +3741,7 @@ export const listPolicies: API.PaginatedOperationMethod<
   input: __S(1664, __c52, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(1667, __c52, 3) as any as S.Schema<ListPoliciesResponse>,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicies",
@@ -3724,6 +3779,7 @@ export const listPolicyEvents: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyEvents",
@@ -3763,6 +3819,7 @@ export const listReports: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReports",
@@ -3800,6 +3857,7 @@ export const listResolvedTestRunTargetResources: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolvedTestRunTargetResources",
@@ -3837,6 +3895,7 @@ export const listResources: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResources",
@@ -3874,6 +3933,7 @@ export const listServiceEvents: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceEvents",
@@ -3911,6 +3971,7 @@ export const listServiceFunctions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceFunctions",
@@ -3942,6 +4003,7 @@ export const listServices: API.PaginatedOperationMethod<
   input: __S(1920, __c60, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(1923, __c60, 3) as any as S.Schema<ListServicesResponse>,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServices",
@@ -3973,6 +4035,7 @@ export const listServiceTopologyEdges: API.PaginatedOperationMethod<
   input: __S(1952, __c61, 0) as any as S.Schema<ListServiceTopologyEdgesRequest>,
   output: __S(1957, __c61, 5) as any as S.Schema<ListServiceTopologyEdgesResponse>,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceTopologyEdges",
@@ -4010,6 +4073,7 @@ export const listSystemEvents: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSystemEvents",
@@ -4041,6 +4105,7 @@ export const listSystems: API.PaginatedOperationMethod<
   input: __S(2016, __c63, 0) as any as S.Schema<ListSystemsRequest>,
   output: __S(2019, __c63, 3) as any as S.Schema<ListSystemsResponse>,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSystems",
@@ -4079,6 +4144,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -4110,6 +4176,7 @@ export const listTestRunDependencies: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestRunDependencies",
@@ -4147,6 +4214,7 @@ export const listTestRunEvents: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestRunEvents",
@@ -4184,6 +4252,7 @@ export const listTestRuns: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestRuns",
@@ -4221,6 +4290,7 @@ export const listTestRunSourceEvents: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestRunSourceEvents",
@@ -4258,6 +4328,7 @@ export const listTestRunSources: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestRunSources",
@@ -4295,6 +4366,7 @@ export const listTests: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTests",
@@ -4332,6 +4404,7 @@ export const listTestSources: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestSources",
@@ -4348,26 +4421,40 @@ export const listTestSources: API.PaginatedOperationMethod<
 export type ListTestTemplatesError =
   | AccessDeniedException
   | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
  * Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
  */
-export const listTestTemplates: API.OperationMethod<
+export const listTestTemplates: API.PaginatedOperationMethod<
   ListTestTemplatesRequest & RegionInput,
   ListTestTemplatesResponse,
   ListTestTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ API.make(() => ({
+  Credentials | HttpClient.HttpClient,
+  TestTemplateSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListTestTemplatesRequest>,
   output: __S(2339, __c73, 3) as any as S.Schema<ListTestTemplatesResponse>,
-  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestTemplates",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "testTemplates",
+    pageSize: "maxResults",
+  } as const,
   telemetry: TELEMETRY,
   span: "ListTestTemplates",
-}));
+})) as any;
 
 export type ListUserJourneysError =
   | AccessDeniedException
@@ -4393,6 +4480,7 @@ export const listUserJourneys: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserJourneys",
@@ -4433,6 +4521,7 @@ export const putTestSources: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTestSources",
@@ -4467,6 +4556,7 @@ export const startDependencyInsights: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDependencyInsights",
@@ -4501,6 +4591,7 @@ export const startFailureModeAssessment: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailureModeAssessment",
@@ -4533,6 +4624,7 @@ export const startTestRun: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestRun",
@@ -4565,6 +4657,7 @@ export const stopTestRun: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTestRun",
@@ -4597,6 +4690,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4629,6 +4723,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4661,6 +4756,7 @@ export const updateAssertion: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssertion",
@@ -4693,6 +4789,7 @@ export const updateDependency: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDependency",
@@ -4725,6 +4822,7 @@ export const updateFailureModeFinding: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailureModeFinding",
@@ -4757,6 +4855,7 @@ export const updatePolicy: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
@@ -4782,7 +4881,7 @@ export const updateService: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(231, __c7, 7) as any as S.Schema<UpdateServiceResponse>,
+  output: __S(228, __c7, 4) as any as S.Schema<UpdateServiceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4791,6 +4890,7 @@ export const updateService: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
@@ -4823,6 +4923,7 @@ export const updateServiceFunction: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceFunction",
@@ -4855,6 +4956,7 @@ export const updateSystem: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystem",
@@ -4887,6 +4989,7 @@ export const updateTest: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTest",
@@ -4919,6 +5022,7 @@ export const updateUserJourney: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserJourney",
@@ -5025,6 +5129,35 @@ function __c3(j: number): any {
       return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(99, __c3, 3) })]);
     case 5:
       return S.Array(__S(100, __c3, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.Number),
+          policyName: S.optional(S.String),
+          source: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SloSource" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          policyName: S.optional(S.String),
+          source: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DisasterRecoverySource" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          availabilitySlo: S.optional(__S(102, __c3, 6)),
+          multiAzRto: S.optional(__S(102, __c3, 6)),
+          multiAzRpo: S.optional(__S(102, __c3, 6)),
+          multiAzDrApproach: S.optional(__S(103, __c3, 7)),
+          multiRegionRto: S.optional(__S(102, __c3, 6)),
+          multiRegionRpo: S.optional(__S(102, __c3, 6)),
+          multiRegionDrApproach: S.optional(__S(103, __c3, 7)),
+          dataRecoveryTimeBetweenBackups: S.optional(__S(102, __c3, 6)),
+        }),
+      ).annotate({ identifier: "EffectivePolicyValues" });
   }
 }
 function __c4(j: number): any {
@@ -5080,42 +5213,13 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.Number),
-          policyName: S.optional(S.String),
-          source: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SloSource" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          policyName: S.optional(S.String),
-          source: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DisasterRecoverySource" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          availabilitySlo: S.optional(__S(225, __c7, 1)),
-          multiAzRto: S.optional(__S(225, __c7, 1)),
-          multiAzRpo: S.optional(__S(225, __c7, 1)),
-          multiAzDrApproach: S.optional(__S(226, __c7, 2)),
-          multiRegionRto: S.optional(__S(225, __c7, 1)),
-          multiRegionRpo: S.optional(__S(225, __c7, 1)),
-          multiRegionDrApproach: S.optional(__S(226, __c7, 2)),
-          dataRecoveryTimeBetweenBackups: S.optional(__S(225, __c7, 1)),
-        }),
-      ).annotate({ identifier: "EffectivePolicyValues" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           status: S.optional(S.String),
           lastRunAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceDiscoveryStatus" });
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           agentSpaceArn: S.optional(S.String),
@@ -5127,7 +5231,7 @@ function __c7(j: number): any {
           statusReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "DevOpsAgentConfigurationView" });
-    case 6:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           serviceArn: S.String,
@@ -5138,13 +5242,13 @@ function __c7(j: number): any {
           regions: S.optional(__S(3040, __c95, 0)),
           permissionModel: S.optional(__S(98, __c3, 2)),
           dependencyDiscovery: S.optional(__S(194, __c6, 2)),
-          effectivePolicyValues: S.optional(__S(227, __c7, 3)),
+          effectivePolicyValues: S.optional(__S(104, __c3, 8)),
           achievability: S.optional(__S(128, __c4, 0)),
           reportConfiguration: S.optional(__S(224, __c7, 0)),
           kmsKeyId: S.optional(S.String),
           tags: S.optional(__S(3136, __c98, 0)),
           estimatedAssessmentCost: S.optional(__S(160, __c5, 0)),
-          resourceDiscovery: S.optional(__S(228, __c7, 4)),
+          resourceDiscovery: S.optional(__S(225, __c7, 1)),
           assessmentStatus: S.optional(S.String),
           rerunAssessment: S.optional(S.Boolean),
           openFindingsCount: S.optional(S.Number),
@@ -5152,13 +5256,13 @@ function __c7(j: number): any {
           organizationId: S.optional(S.String),
           ouId: S.optional(S.String),
           accountId: S.optional(S.String),
-          devOpsAgentConfiguration: S.optional(__S(229, __c7, 5)),
+          devOpsAgentConfiguration: S.optional(__S(226, __c7, 2)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "Service" });
-    case 7:
-      return S.suspend(() => S.Struct({ service: __S(230, __c7, 6) })).annotate({
+    case 4:
+      return S.suspend(() => S.Struct({ service: __S(227, __c7, 3) })).annotate({
         identifier: "CreateServiceResponse",
       });
   }
@@ -5802,6 +5906,7 @@ function __c41(j: number): any {
           testTemplateArn: S.String,
           reportConfiguration: S.optional(__S(1315, __c41, 3)),
           policy: S.optional(__S(1316, __c41, 4)),
+          effectivePolicyValues: S.optional(__S(104, __c3, 8)),
           reportOutput: S.optional(__S(35, __c1, 3)),
           regionSwitchPlanArn: S.optional(S.String),
           regionSwitchExecutionId: S.optional(S.String),
@@ -7164,7 +7269,10 @@ function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/v2/list-test-templates" }),
             svc,
@@ -7182,9 +7290,9 @@ function __c73(j: number): any {
     case 2:
       return S.Array(__S(2337, __c73, 1));
     case 3:
-      return S.suspend(() => S.Struct({ testTemplates: __S(2338, __c73, 2) })).annotate({
-        identifier: "ListTestTemplatesResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ testTemplates: __S(2338, __c73, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTestTemplatesResponse" });
   }
 }
 function __c74(j: number): any {

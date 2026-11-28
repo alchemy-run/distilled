@@ -23,7 +23,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Clerk.CredentialsFromEnv,
-  Clerk.ClerkProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -33,17 +32,23 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 Backend calls require `CLERK_SECRET_KEY`, sent as `Authorization: Bearer`. Optional: `CLERK_API_BASE_URL` (default `https://api.clerk.com/v1`) and `CLERK_API_VERSION` (default `2026-05-12`, sent as `Clerk-API-Version`).
 
+## Beta features
+
+Backend operations the spec tags "Beta Features" (`updateInstanceAuthConfig`,
+`changeProductionInstanceDomain`) are imported from `@distilled.cloud/clerk/unstable/clerk`. The
+rest of the Backend API stays on `@distilled.cloud/clerk/clerk`.
+
 ## Platform API
 
 The Platform API manages workspace applications, instances, configuration, users, organizations, domains, and related resources. It is currently **private beta** and requires [Platform API access](https://github.com/clerk/openapi-specs/blob/main/platform/beta.yml).
 
-Platform operations are imported from `@distilled.cloud/clerk/platform` to avoid collisions with Backend types and operations. They require a separate Platform bearer access token; Backend credentials do not satisfy Platform calls. API keys, OAuth access tokens, and exchanged access tokens are accepted without a token-prefix restriction. Token acquisition and refresh are managed by the caller.
+Platform operations are imported from `@distilled.cloud/clerk/unstable/platform`: the spec marks the API `BETA`, and a separate module avoids collisions with Backend types and operations. They require a separate Platform bearer access token; Backend credentials do not satisfy Platform calls. API keys, OAuth access tokens, and exchanged access tokens are accepted without a token-prefix restriction. Token acquisition and refresh are managed by the caller.
 
 ```ts
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { PlatformCredentialsFromEnv } from "@distilled.cloud/clerk/Credentials";
-import * as Platform from "@distilled.cloud/clerk/platform";
+import * as Platform from "@distilled.cloud/clerk/unstable/platform";
 
 const program = Platform.getMe({});
 const Live = Layer.mergeAll(FetchHttpClient.layer, PlatformCredentialsFromEnv);

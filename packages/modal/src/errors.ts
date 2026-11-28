@@ -24,7 +24,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -55,3 +55,13 @@ export type ClientErrors = UnknownModalError | ModalParseError;
  * plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Modal service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes: a gRPC status is read by the HTTP status it maps
+ * to (`NOT_FOUND` is 404 `NotFound`, `UNAVAILABLE` is 503
+ * `ServiceUnavailable`, ...).
+ */
+export const ModalServiceErrors = API_ERRORS;
+export type ModalServiceError = InstanceType<(typeof ModalServiceErrors)[number]>;

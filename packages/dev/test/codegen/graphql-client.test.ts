@@ -364,27 +364,50 @@ describe("GraphQL Query SDK generator", () => {
     );
   });
 
-  test("rejects a sensitive mark on an argument or an input field", () => {
-    const argument = convertGraphQLClient(fixture);
-    applyOperation(argument, {
+  test("types a sensitive argument or input field as plain or Redacted", () => {
+    const model = convertGraphQLClient({
+      ...fixture,
+      types: [
+        ...fixture.types,
+        {
+          kind: "INPUT_OBJECT",
+          name: "LoginInput",
+          inputFields: [
+            { name: "password", type: required(named("String", "SCALAR")) },
+            { name: "email", type: required(named("String", "SCALAR")) },
+          ],
+        },
+      ],
+    });
+    // The shared name rule marks `password`; a patch can mark any scalar input.
+    expect(model.types.LoginInput?.inputFields?.password?.sensitive).toBe(true);
+    expect(model.types.LoginInput?.inputFields?.email?.sensitive).toBeUndefined();
+    applyOperation(model, {
       op: "add",
       path: "/types/Query/fields/project/args/id/sensitive",
       value: true,
     });
-    expect(() => validateGraphQLModel(argument)).toThrow(
-      "Query.project(id): only output fields can be sensitive",
-    );
+    validateGraphQLModel(model);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain('import type * as Redacted from "effect/Redacted";');
+    expect(output).toContain("readonly password: string | Redacted.Redacted<string>;");
+    expect(output).toContain("readonly email: string;");
+    expect(output).toContain("args: { readonly id: string | Redacted.Redacted<string> }");
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("rejects a sensitive mark on an input that is not a scalar", () => {
     const input = convertGraphQLClient(fixture);
     applyOperation(input, {
       op: "add",
       path: "/types/ProjectInput",
       value: {
         kind: "INPUT_OBJECT",
-        inputFields: { password: { type: "String!", sensitive: true } },
+        inputFields: { owner: { type: "User!", sensitive: true } },
       },
     });
     expect(() => validateGraphQLModel(input)).toThrow(
-      "ProjectInput.password: only output fields can be sensitive",
+      "ProjectInput.owner: only scalar inputs can be sensitive",
     );
   });
 

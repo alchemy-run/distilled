@@ -5,6 +5,11 @@
  *
  * Input:  specs/spec-mirror-revenuecat/specs/openapi.yaml  (spec submodule)
  * Output: .generated-specs/revenuecat.json
+ *
+ * An operation with `x-release-status: beta` is marked `smithy.api#unstable`,
+ * so generate writes it to src/unstable-services/revenuecat.ts
+ * (`@distilled.cloud/revenuecat/unstable/revenuecat`). `public` operations
+ * stay stable. A patch can remove a mark.
  */
 import * as path from "node:path";
 import { SENSITIVE_FIELD_PATTERNS } from "@distilled.cloud/dev/codegen/openapi";
@@ -73,6 +78,7 @@ await runOpenApiConvert({
     namespace: "com.revenuecat.api",
     serviceName: "RevenueCat",
     skipDeprecated: true,
+    unstableOperation: (op) => op["x-release-status"] === "beta",
     sensitivePatterns: [
       ...SENSITIVE_FIELD_PATTERNS,
       /_api_key$/i,

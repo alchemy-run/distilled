@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1559,7 +1560,7 @@ export interface CreateJobRequest {
   ConfirmationRequired?: boolean | undefined;
   Operation: JobOperation;
   Report: JobReport;
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Manifest?: JobManifest | undefined;
   Description?: string | undefined;
   Priority: number;
@@ -1586,7 +1587,7 @@ export interface CreateMultiRegionAccessPointInput {
 }
 export interface CreateMultiRegionAccessPointRequest {
   AccountId: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Details: CreateMultiRegionAccessPointInput;
 }
 export type AsyncRequestTokenARN = string;
@@ -1721,7 +1722,7 @@ export interface DeleteMultiRegionAccessPointInput {
 }
 export interface DeleteMultiRegionAccessPointRequest {
   AccountId: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Details: DeleteMultiRegionAccessPointInput;
 }
 export interface DeleteMultiRegionAccessPointResult {
@@ -2431,11 +2432,27 @@ export interface StorageLensExpandedPrefixesDataExport {
   S3BucketDestination?: S3BucketDestination | undefined;
   StorageLensTableDestination?: StorageLensTableDestination | undefined;
 }
+export type StorageLensCostAndUsageReportsMinDepth = number;
+export type StorageLensCostAndUsageReportsMaxDepth = number;
+export interface StorageLensCostAndUsageReportsSelectionCriteria {
+  MinDepth?: number | undefined;
+  MaxDepth?: number | undefined;
+}
+export interface StorageLensCostAndUsageReportsPrefixLevel {
+  IsEnabled: boolean;
+  SelectionCriteria?: StorageLensCostAndUsageReportsSelectionCriteria | undefined;
+}
+export interface StorageLensCostAndUsageReportsPublish {
+  PrefixLevel?: StorageLensCostAndUsageReportsPrefixLevel | undefined;
+}
 export type AwsOrgArn = string;
 export interface StorageLensAwsOrg {
   Arn: string;
 }
 export type StorageLensArn = string;
+export interface IntAccessTiers {
+  IsEnabled?: boolean | undefined;
+}
 export interface StorageLensConfiguration {
   Id: string;
   AccountLevel: AccountLevel;
@@ -2443,10 +2460,12 @@ export interface StorageLensConfiguration {
   Exclude?: Exclude | undefined;
   DataExport?: StorageLensDataExport | undefined;
   ExpandedPrefixesDataExport?: StorageLensExpandedPrefixesDataExport | undefined;
+  CostAndUsageReportsPublish?: StorageLensCostAndUsageReportsPublish | undefined;
   IsEnabled: boolean;
   AwsOrg?: StorageLensAwsOrg | undefined;
   StorageLensArn?: string | undefined;
   PrefixDelimiter?: string | undefined;
+  IntAccessTiers?: IntAccessTiers | undefined;
 }
 export interface GetStorageLensConfigurationResult {
   StorageLensConfiguration?: StorageLensConfiguration | undefined;
@@ -2790,7 +2809,7 @@ export interface PutJobTaggingRequest {
 export interface PutJobTaggingResult {}
 export interface PutMultiRegionAccessPointPolicyRequest {
   AccountId: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Details: PutMultiRegionAccessPointPolicyInput;
 }
 export interface PutMultiRegionAccessPointPolicyResult {
@@ -2895,6 +2914,7 @@ export const associateAccessGrantsIdentityCenter: API.OperationMethod<
   input: __S(608, __c19, 0) as any as S.Schema<AssociateAccessGrantsIdentityCenterRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<AssociateAccessGrantsIdentityCenterResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccessGrantsIdentityCenter",
@@ -2928,6 +2948,7 @@ export const createAccessGrant: API.OperationMethod<
   input: __S(672, __c21, 0) as any as S.Schema<CreateAccessGrantRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<CreateAccessGrantResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessGrant",
@@ -2957,6 +2978,7 @@ export const createAccessGrantsInstance: API.OperationMethod<
   input: __S(800, __c25, 0) as any as S.Schema<CreateAccessGrantsInstanceRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<CreateAccessGrantsInstanceResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessGrantsInstance",
@@ -2994,6 +3016,7 @@ export const createAccessGrantsLocation: API.OperationMethod<
   input: __S(832, __c26, 0) as any as S.Schema<CreateAccessGrantsLocationRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<CreateAccessGrantsLocationResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessGrantsLocation",
@@ -3040,6 +3063,7 @@ export const createAccessPoint: API.OperationMethod<
   input: __S(864, __c27, 0) as any as S.Schema<CreateAccessPointRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<CreateAccessPointResult>,
   errors: [AccessPointAlreadyOwnedByYou, InvalidRequest],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPoint",
@@ -3083,6 +3107,7 @@ export const createAccessPointForObjectLambda: API.OperationMethod<
     NoSuchAccessPoint,
     ObjectLambdaNotAvailable,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPointForObjectLambda",
@@ -3140,6 +3165,7 @@ export const createBucket: API.OperationMethod<
   input: __S(1089, __c34, 1) as any as S.Schema<CreateBucketRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<CreateBucketResult>,
   errors: [BucketAlreadyExists, BucketAlreadyOwnedByYou],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
@@ -3193,6 +3219,7 @@ export const createJob: API.OperationMethod<
     TooManyRequestsException,
     InvalidRequest,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
@@ -3236,6 +3263,7 @@ export const createMultiRegionAccessPoint: API.OperationMethod<
   input: __S(1280, __c40, 0) as any as S.Schema<CreateMultiRegionAccessPointRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<CreateMultiRegionAccessPointResult>,
   errors: [InvalidRequest],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiRegionAccessPoint",
@@ -3271,6 +3299,7 @@ export const createStorageLensGroup: API.OperationMethod<
   input: __S(1344, __c42, 0) as any as S.Schema<CreateStorageLensGroupRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<CreateStorageLensGroupResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageLensGroup",
@@ -3296,6 +3325,7 @@ export const deleteAccessGrant: API.OperationMethod<
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteAccessGrantRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<DeleteAccessGrantResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessGrant",
@@ -3321,6 +3351,7 @@ export const deleteAccessGrantsInstance: API.OperationMethod<
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteAccessGrantsInstanceRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<DeleteAccessGrantsInstanceResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessGrantsInstance",
@@ -3346,6 +3377,7 @@ export const deleteAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   input: __S(1472, __c46, 0) as any as S.Schema<DeleteAccessGrantsInstanceResourcePolicyRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<DeleteAccessGrantsInstanceResourcePolicyResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessGrantsInstanceResourcePolicy",
@@ -3371,6 +3403,7 @@ export const deleteAccessGrantsLocation: API.OperationMethod<
   input: __S(1504, __c47, 0) as any as S.Schema<DeleteAccessGrantsLocationRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<DeleteAccessGrantsLocationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessGrantsLocation",
@@ -3402,6 +3435,7 @@ export const deleteAccessPoint: API.OperationMethod<
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteAccessPointRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<DeleteAccessPointResponse>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPoint",
@@ -3434,6 +3468,7 @@ export const deleteAccessPointForObjectLambda: API.OperationMethod<
   input: __S(1568, __c49, 0) as any as S.Schema<DeleteAccessPointForObjectLambdaRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<DeleteAccessPointForObjectLambdaResponse>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPointForObjectLambda",
@@ -3466,6 +3501,7 @@ export const deleteAccessPointPolicy: API.OperationMethod<
   input: __S(1600, __c50, 0) as any as S.Schema<DeleteAccessPointPolicyRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<DeleteAccessPointPolicyResponse>,
   errors: [NoSuchAccessPoint, NoSuchAccessPointPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPointPolicy",
@@ -3499,6 +3535,7 @@ export const deleteAccessPointPolicyForObjectLambda: API.OperationMethod<
   input: __S(1632, __c51, 0) as any as S.Schema<DeleteAccessPointPolicyForObjectLambdaRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<DeleteAccessPointPolicyForObjectLambdaResponse>,
   errors: [NoSuchAccessPoint, NoSuchAccessPointPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPointPolicyForObjectLambda",
@@ -3527,6 +3564,7 @@ export const deleteAccessPointScope: API.OperationMethod<
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteAccessPointScopeRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<DeleteAccessPointScopeResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPointScope",
@@ -3562,6 +3600,7 @@ export const deleteBucket: API.OperationMethod<
   input: __S(1696, __c53, 0) as any as S.Schema<DeleteBucketRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<DeleteBucketResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucket",
@@ -3606,6 +3645,7 @@ export const deleteBucketLifecycleConfiguration: API.OperationMethod<
   input: __S(1728, __c54, 0) as any as S.Schema<DeleteBucketLifecycleConfigurationRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<DeleteBucketLifecycleConfigurationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketLifecycleConfiguration",
@@ -3656,6 +3696,7 @@ export const deleteBucketPolicy: API.OperationMethod<
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteBucketPolicyRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<DeleteBucketPolicyResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketPolicy",
@@ -3705,6 +3746,7 @@ export const deleteBucketReplication: API.OperationMethod<
   input: __S(1792, __c56, 0) as any as S.Schema<DeleteBucketReplicationRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<DeleteBucketReplicationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketReplication",
@@ -3742,6 +3784,7 @@ export const deleteBucketTagging: API.OperationMethod<
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteBucketTaggingRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<DeleteBucketTaggingResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketTagging",
@@ -3783,6 +3826,7 @@ export const deleteJobTagging: API.OperationMethod<
   input: __S(1856, __c58, 0) as any as S.Schema<DeleteJobTaggingRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<DeleteJobTaggingResult>,
   errors: [InternalServiceException, NotFoundException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTagging",
@@ -3829,6 +3873,7 @@ export const deleteMultiRegionAccessPoint: API.OperationMethod<
   input: __S(1888, __c59, 0) as any as S.Schema<DeleteMultiRegionAccessPointRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<DeleteMultiRegionAccessPointResult>,
   errors: [NoSuchMultiRegionAccessPoint, InvalidRequest],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiRegionAccessPoint",
@@ -3864,6 +3909,7 @@ export const deletePublicAccessBlock: API.OperationMethod<
   input: __S(1952, __c61, 0) as any as S.Schema<DeletePublicAccessBlockRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<DeletePublicAccessBlockResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicAccessBlock",
@@ -3894,6 +3940,7 @@ export const deleteStorageLensConfiguration: API.OperationMethod<
   input: __S(1984, __c62, 0) as any as S.Schema<DeleteStorageLensConfigurationRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<DeleteStorageLensConfigurationResponse>,
   errors: [NoSuchConfiguration],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageLensConfiguration",
@@ -3925,6 +3972,7 @@ export const deleteStorageLensConfigurationTagging: API.OperationMethod<
   input: __S(2016, __c63, 0) as any as S.Schema<DeleteStorageLensConfigurationTaggingRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<DeleteStorageLensConfigurationTaggingResult>,
   errors: [NoSuchConfiguration],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageLensConfigurationTagging",
@@ -3953,6 +4001,7 @@ export const deleteStorageLensGroup: API.OperationMethod<
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteStorageLensGroupRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<DeleteStorageLensGroupResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageLensGroup",
@@ -3999,6 +4048,7 @@ export const describeJob: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
@@ -4033,6 +4083,7 @@ export const describeMultiRegionAccessPointOperation: API.OperationMethod<
   input: __S(2144, __c67, 0) as any as S.Schema<DescribeMultiRegionAccessPointOperationRequest>,
   output: __S(2152, __c67, 8) as any as S.Schema<DescribeMultiRegionAccessPointOperationResult>,
   errors: [InvalidRequest],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionAccessPointOperation",
@@ -4062,6 +4113,7 @@ export const dissociateAccessGrantsIdentityCenter: API.OperationMethod<
   input: __S(2208, __c69, 0) as any as S.Schema<DissociateAccessGrantsIdentityCenterRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<DissociateAccessGrantsIdentityCenterResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociateAccessGrantsIdentityCenter",
@@ -4087,6 +4139,7 @@ export const getAccessGrant: API.OperationMethod<
   input: __S(2240, __c70, 0) as any as S.Schema<GetAccessGrantRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<GetAccessGrantResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessGrant",
@@ -4114,6 +4167,7 @@ export const getAccessGrantsInstance: API.OperationMethod<
   input: __S(2272, __c71, 0) as any as S.Schema<GetAccessGrantsInstanceRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<GetAccessGrantsInstanceResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessGrantsInstance",
@@ -4143,6 +4197,7 @@ export const getAccessGrantsInstanceForPrefix: API.OperationMethod<
   input: __S(2304, __c72, 0) as any as S.Schema<GetAccessGrantsInstanceForPrefixRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<GetAccessGrantsInstanceForPrefixResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessGrantsInstanceForPrefix",
@@ -4168,6 +4223,7 @@ export const getAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   input: __S(2336, __c73, 0) as any as S.Schema<GetAccessGrantsInstanceResourcePolicyRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<GetAccessGrantsInstanceResourcePolicyResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessGrantsInstanceResourcePolicy",
@@ -4193,6 +4249,7 @@ export const getAccessGrantsLocation: API.OperationMethod<
   input: __S(2368, __c74, 0) as any as S.Schema<GetAccessGrantsLocationRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<GetAccessGrantsLocationResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessGrantsLocation",
@@ -4224,6 +4281,7 @@ export const getAccessPoint: API.OperationMethod<
   input: __S(2400, __c75, 0) as any as S.Schema<GetAccessPointRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<GetAccessPointResult>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPoint",
@@ -4252,6 +4310,7 @@ export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
   input: __S(2432, __c76, 0) as any as S.Schema<GetAccessPointConfigurationForObjectLambdaRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<GetAccessPointConfigurationForObjectLambdaResult>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointConfigurationForObjectLambda",
@@ -4283,6 +4342,7 @@ export const getAccessPointForObjectLambda: API.OperationMethod<
   input: __S(2464, __c77, 0) as any as S.Schema<GetAccessPointForObjectLambdaRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<GetAccessPointForObjectLambdaResult>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointForObjectLambda",
@@ -4310,6 +4370,7 @@ export const getAccessPointPolicy: API.OperationMethod<
   input: __S(2496, __c78, 0) as any as S.Schema<GetAccessPointPolicyRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<GetAccessPointPolicyResult>,
   errors: [NoSuchAccessPoint, NoSuchAccessPointPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointPolicy",
@@ -4343,6 +4404,7 @@ export const getAccessPointPolicyForObjectLambda: API.OperationMethod<
   input: __S(2528, __c79, 0) as any as S.Schema<GetAccessPointPolicyForObjectLambdaRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<GetAccessPointPolicyForObjectLambdaResult>,
   errors: [NoSuchAccessPoint, NoSuchAccessPointPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointPolicyForObjectLambda",
@@ -4371,6 +4433,7 @@ export const getAccessPointPolicyStatus: API.OperationMethod<
   input: __S(2560, __c80, 0) as any as S.Schema<GetAccessPointPolicyStatusRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<GetAccessPointPolicyStatusResult>,
   errors: [NoSuchAccessPoint, NoSuchAccessPointPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointPolicyStatus",
@@ -4394,6 +4457,7 @@ export const getAccessPointPolicyStatusForObjectLambda: API.OperationMethod<
   input: __S(2624, __c82, 0) as any as S.Schema<GetAccessPointPolicyStatusForObjectLambdaRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<GetAccessPointPolicyStatusForObjectLambdaResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointPolicyStatusForObjectLambda",
@@ -4420,6 +4484,7 @@ export const getAccessPointScope: API.OperationMethod<
   input: __S(2656, __c83, 0) as any as S.Schema<GetAccessPointScopeRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<GetAccessPointScopeResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPointScope",
@@ -4461,6 +4526,7 @@ export const getBucket: API.OperationMethod<
   input: __S(2688, __c84, 0) as any as S.Schema<GetBucketRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<GetBucketResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucket",
@@ -4513,6 +4579,7 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   input: __S(2720, __c85, 0) as any as S.Schema<GetBucketLifecycleConfigurationRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<GetBucketLifecycleConfigurationResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLifecycleConfiguration",
@@ -4566,6 +4633,7 @@ export const getBucketPolicy: API.OperationMethod<
   input: __S(2784, __c87, 0) as any as S.Schema<GetBucketPolicyRequest>,
   output: __S(2785, __c87, 1) as any as S.Schema<GetBucketPolicyResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicy",
@@ -4623,6 +4691,7 @@ export const getBucketReplication: API.OperationMethod<
   input: __S(2816, __c88, 0) as any as S.Schema<GetBucketReplicationRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<GetBucketReplicationResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketReplication",
@@ -4667,6 +4736,7 @@ export const getBucketTagging: API.OperationMethod<
   input: __S(2880, __c90, 0) as any as S.Schema<GetBucketTaggingRequest>,
   output: __S(2881, __c90, 1) as any as S.Schema<GetBucketTaggingResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketTagging",
@@ -4717,6 +4787,7 @@ export const getBucketVersioning: API.OperationMethod<
   input: __S(2912, __c91, 0) as any as S.Schema<GetBucketVersioningRequest>,
   output: __S(2913, __c91, 1) as any as S.Schema<GetBucketVersioningResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketVersioning",
@@ -4746,6 +4817,7 @@ export const getDataAccess: API.OperationMethod<
   input: __S(2944, __c92, 0) as any as S.Schema<GetDataAccessRequest>,
   output: __S(2946, __c92, 2) as any as S.Schema<GetDataAccessResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAccess",
@@ -4787,6 +4859,7 @@ export const getJobTagging: API.OperationMethod<
   input: __S(2976, __c93, 0) as any as S.Schema<GetJobTaggingRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<GetJobTaggingResult>,
   errors: [InternalServiceException, NotFoundException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobTagging",
@@ -4824,6 +4897,7 @@ export const getMultiRegionAccessPoint: API.OperationMethod<
   input: __S(3008, __c94, 0) as any as S.Schema<GetMultiRegionAccessPointRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<GetMultiRegionAccessPointResult>,
   errors: [NoSuchMultiRegionAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMultiRegionAccessPoint",
@@ -4858,6 +4932,7 @@ export const getMultiRegionAccessPointPolicy: API.OperationMethod<
   input: __S(3072, __c96, 0) as any as S.Schema<GetMultiRegionAccessPointPolicyRequest>,
   output: __S(3076, __c96, 4) as any as S.Schema<GetMultiRegionAccessPointPolicyResult>,
   errors: [NoSuchMultiRegionAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMultiRegionAccessPointPolicy",
@@ -4893,6 +4968,7 @@ export const getMultiRegionAccessPointPolicyStatus: API.OperationMethod<
   input: __S(3104, __c97, 0) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMultiRegionAccessPointPolicyStatus",
@@ -4930,6 +5006,7 @@ export const getMultiRegionAccessPointRoutes: API.OperationMethod<
   input: __S(3136, __c98, 0) as any as S.Schema<GetMultiRegionAccessPointRoutesRequest>,
   output: __S(3137, __c98, 1) as any as S.Schema<GetMultiRegionAccessPointRoutesResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMultiRegionAccessPointRoutes",
@@ -4962,6 +5039,7 @@ export const getPublicAccessBlock: API.OperationMethod<
   input: __S(3200, __c100, 0) as any as S.Schema<GetPublicAccessBlockRequest>,
   output: __S(3201, __c100, 1) as any as S.Schema<GetPublicAccessBlockOutput>,
   errors: [NoSuchPublicAccessBlockConfiguration],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicAccessBlock",
@@ -4991,6 +5069,7 @@ export const getStorageLensConfiguration: API.OperationMethod<
   input: __S(3232, __c101, 0) as any as S.Schema<GetStorageLensConfigurationRequest>,
   output: __S(3233, __c101, 1) as any as S.Schema<GetStorageLensConfigurationResult>,
   errors: [NoSuchConfiguration],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageLensConfiguration",
@@ -5022,6 +5101,7 @@ export const getStorageLensConfigurationTagging: API.OperationMethod<
   input: __S(3296, __c103, 0) as any as S.Schema<GetStorageLensConfigurationTaggingRequest>,
   output: __S(3297, __c103, 1) as any as S.Schema<GetStorageLensConfigurationTaggingResult>,
   errors: [NoSuchConfiguration],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageLensConfigurationTagging",
@@ -5050,6 +5130,7 @@ export const getStorageLensGroup: API.OperationMethod<
   input: __S(3360, __c105, 0) as any as S.Schema<GetStorageLensGroupRequest>,
   output: __S(3361, __c105, 1) as any as S.Schema<GetStorageLensGroupResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageLensGroup",
@@ -5076,6 +5157,7 @@ export const listAccessGrants: API.PaginatedOperationMethod<
   input: __S(3392, __c106, 0) as any as S.Schema<ListAccessGrantsRequest>,
   output: __S(3395, __c106, 3) as any as S.Schema<ListAccessGrantsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessGrants",
@@ -5107,6 +5189,7 @@ export const listAccessGrantsInstances: API.PaginatedOperationMethod<
   input: __S(3424, __c107, 0) as any as S.Schema<ListAccessGrantsInstancesRequest>,
   output: __S(3427, __c107, 3) as any as S.Schema<ListAccessGrantsInstancesResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessGrantsInstances",
@@ -5138,6 +5221,7 @@ export const listAccessGrantsLocations: API.PaginatedOperationMethod<
   input: __S(3456, __c108, 0) as any as S.Schema<ListAccessGrantsLocationsRequest>,
   output: __S(3459, __c108, 3) as any as S.Schema<ListAccessGrantsLocationsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessGrantsLocations",
@@ -5183,6 +5267,7 @@ export const listAccessPoints: API.PaginatedOperationMethod<
   input: __S(3488, __c109, 0) as any as S.Schema<ListAccessPointsRequest>,
   output: __S(3489, __c109, 1) as any as S.Schema<ListAccessPointsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessPoints",
@@ -5217,6 +5302,7 @@ export const listAccessPointsForDirectoryBuckets: API.PaginatedOperationMethod<
   input: __S(3552, __c111, 0) as any as S.Schema<ListAccessPointsForDirectoryBucketsRequest>,
   output: __S(3553, __c111, 1) as any as S.Schema<ListAccessPointsForDirectoryBucketsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessPointsForDirectoryBuckets",
@@ -5257,6 +5343,7 @@ export const listAccessPointsForObjectLambda: API.PaginatedOperationMethod<
   input: __S(3584, __c112, 0) as any as S.Schema<ListAccessPointsForObjectLambdaRequest>,
   output: __S(3587, __c112, 3) as any as S.Schema<ListAccessPointsForObjectLambdaResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessPointsForObjectLambda",
@@ -5289,6 +5376,7 @@ export const listCallerAccessGrants: API.PaginatedOperationMethod<
   input: __S(3616, __c113, 0) as any as S.Schema<ListCallerAccessGrantsRequest>,
   output: __S(3619, __c113, 3) as any as S.Schema<ListCallerAccessGrantsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCallerAccessGrants",
@@ -5338,6 +5426,7 @@ export const listJobs: API.PaginatedOperationMethod<
   input: __S(3649, __c114, 1) as any as S.Schema<ListJobsRequest>,
   output: __S(3652, __c114, 4) as any as S.Schema<ListJobsResult>,
   errors: [InternalServiceException, InvalidNextTokenException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobs",
@@ -5383,6 +5472,7 @@ export const listMultiRegionAccessPoints: API.PaginatedOperationMethod<
   input: __S(3680, __c115, 0) as any as S.Schema<ListMultiRegionAccessPointsRequest>,
   output: __S(3682, __c115, 2) as any as S.Schema<ListMultiRegionAccessPointsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMultiRegionAccessPoints",
@@ -5417,6 +5507,7 @@ export const listRegionalBuckets: API.PaginatedOperationMethod<
   input: __S(3712, __c116, 0) as any as S.Schema<ListRegionalBucketsRequest>,
   output: __S(3715, __c116, 3) as any as S.Schema<ListRegionalBucketsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegionalBuckets",
@@ -5454,6 +5545,7 @@ export const listStorageLensConfigurations: API.PaginatedOperationMethod<
   input: __S(3744, __c117, 0) as any as S.Schema<ListStorageLensConfigurationsRequest>,
   output: __S(3747, __c117, 3) as any as S.Schema<ListStorageLensConfigurationsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStorageLensConfigurations",
@@ -5484,6 +5576,7 @@ export const listStorageLensGroups: API.PaginatedOperationMethod<
   input: __S(3776, __c118, 0) as any as S.Schema<ListStorageLensGroupsRequest>,
   output: __S(3779, __c118, 3) as any as S.Schema<ListStorageLensGroupsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStorageLensGroups",
@@ -5534,6 +5627,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(3808, __c119, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<ListTagsForResourceResult>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -5559,6 +5653,7 @@ export const putAccessGrantsInstanceResourcePolicy: API.OperationMethod<
   input: __S(3840, __c120, 0) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyRequest>,
   output: __S(3841, __c120, 1) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccessGrantsInstanceResourcePolicy",
@@ -5594,6 +5689,7 @@ export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
     1,
   ) as any as S.Schema<PutAccessPointConfigurationForObjectLambdaResponse>,
   errors: [NoSuchAccessPoint, InvalidRequest],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccessPointConfigurationForObjectLambda",
@@ -5625,6 +5721,7 @@ export const putAccessPointPolicy: API.OperationMethod<
   input: __S(3904, __c122, 0) as any as S.Schema<PutAccessPointPolicyRequest>,
   output: __S(3905, __c122, 1) as any as S.Schema<PutAccessPointPolicyResponse>,
   errors: [NoSuchAccessPoint, MalformedPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccessPointPolicy",
@@ -5658,6 +5755,7 @@ export const putAccessPointPolicyForObjectLambda: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<PutAccessPointPolicyForObjectLambdaRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<PutAccessPointPolicyForObjectLambdaResponse>,
   errors: [NoSuchAccessPoint, MalformedPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccessPointPolicyForObjectLambda",
@@ -5686,6 +5784,7 @@ export const putAccessPointScope: API.OperationMethod<
   input: __S(32, __c1, 0) as any as S.Schema<PutAccessPointScopeRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<PutAccessPointScopeResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccessPointScope",
@@ -5721,6 +5820,7 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   input: __S(65, __c2, 1) as any as S.Schema<PutBucketLifecycleConfigurationRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<PutBucketLifecycleConfigurationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLifecycleConfiguration",
@@ -5772,6 +5872,7 @@ export const putBucketPolicy: API.OperationMethod<
   input: __S(96, __c3, 0) as any as S.Schema<PutBucketPolicyRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<PutBucketPolicyResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketPolicy",
@@ -5865,6 +5966,7 @@ export const putBucketReplication: API.OperationMethod<
   input: __S(128, __c4, 0) as any as S.Schema<PutBucketReplicationRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<PutBucketReplicationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketReplication",
@@ -5940,6 +6042,7 @@ export const putBucketTagging: API.OperationMethod<
   input: __S(161, __c5, 1) as any as S.Schema<PutBucketTaggingRequest>,
   output: __S(162, __c5, 2) as any as S.Schema<PutBucketTaggingResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketTagging",
@@ -6010,6 +6113,7 @@ export const putBucketVersioning: API.OperationMethod<
   input: __S(193, __c6, 1) as any as S.Schema<PutBucketVersioningRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<PutBucketVersioningResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketVersioning",
@@ -6084,6 +6188,7 @@ export const putJobTagging: API.OperationMethod<
     TooManyRequestsException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutJobTagging",
@@ -6123,6 +6228,7 @@ export const putMultiRegionAccessPointPolicy: API.OperationMethod<
   input: __S(256, __c8, 0) as any as S.Schema<PutMultiRegionAccessPointPolicyRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<PutMultiRegionAccessPointPolicyResult>,
   errors: [NoSuchMultiRegionAccessPoint, InvalidRequest],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMultiRegionAccessPointPolicy",
@@ -6159,6 +6265,7 @@ export const putPublicAccessBlock: API.OperationMethod<
   input: __S(288, __c9, 0) as any as S.Schema<PutPublicAccessBlockRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<PutPublicAccessBlockResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPublicAccessBlock",
@@ -6190,6 +6297,7 @@ export const putStorageLensConfiguration: API.OperationMethod<
   input: __S(320, __c10, 0) as any as S.Schema<PutStorageLensConfigurationRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<PutStorageLensConfigurationResponse>,
   errors: [InvalidRequest, MissingBucketLevelActivityMetrics],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStorageLensConfiguration",
@@ -6220,6 +6328,7 @@ export const putStorageLensConfigurationTagging: API.OperationMethod<
   input: __S(352, __c11, 0) as any as S.Schema<PutStorageLensConfigurationTaggingRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<PutStorageLensConfigurationTaggingResult>,
   errors: [NoSuchConfiguration],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStorageLensConfigurationTagging",
@@ -6269,6 +6378,7 @@ export const submitMultiRegionAccessPointRoutes: API.OperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<SubmitMultiRegionAccessPointRoutesRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<SubmitMultiRegionAccessPointRoutesResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitMultiRegionAccessPointRoutes",
@@ -6318,6 +6428,7 @@ export const tagResource: API.OperationMethod<
   input: __S(416, __c13, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<TagResourceResult>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -6368,6 +6479,7 @@ export const untagResource: API.OperationMethod<
   input: __S(449, __c14, 1) as any as S.Schema<UntagResourceRequest>,
   output: __S(450, __c14, 2) as any as S.Schema<UntagResourceResult>,
   errors: [NoSuchAccessPoint],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -6397,6 +6509,7 @@ export const updateAccessGrantsLocation: API.OperationMethod<
   input: __S(480, __c15, 0) as any as S.Schema<UpdateAccessGrantsLocationRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<UpdateAccessGrantsLocationResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessGrantsLocation",
@@ -6448,6 +6561,7 @@ export const updateJobPriority: API.OperationMethod<
     InvalidRequest,
     JobStatusTransitionForbidden,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobPriority",
@@ -6502,6 +6616,7 @@ export const updateJobStatus: API.OperationMethod<
     InvalidRequest,
     JobStatusTransitionForbidden,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobStatus",
@@ -6530,6 +6645,7 @@ export const updateStorageLensGroup: API.OperationMethod<
   input: __S(576, __c18, 0) as any as S.Schema<UpdateStorageLensGroupRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<UpdateStorageLensGroupResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStorageLensGroup",
@@ -6830,7 +6946,7 @@ function __c8(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Details: __S(2176, __c68, 0),
         }).pipe(
           T.all(
@@ -6895,7 +7011,7 @@ function __c10(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          StorageLensConfiguration: __S(3291, __c102, 27),
+          StorageLensConfiguration: __S(3295, __c102, 31),
           Tags: S.optional(__S(3329, __c104, 1)),
         }).pipe(
           T.all(
@@ -7580,7 +7696,7 @@ function __c35(j: number): any {
           ConfirmationRequired: S.optional(S.Boolean),
           Operation: __S(1210, __c37, 26),
           Report: __S(1211, __c37, 27),
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Manifest: S.optional(__S(1215, __c37, 31)),
           Description: S.optional(S.String),
           Priority: S.Number,
@@ -7949,7 +8065,7 @@ function __c40(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Details: __S(1313, __c41, 1),
         }).pipe(
           T.all(
@@ -8556,7 +8672,7 @@ function __c59(j: number): any {
             T.ContextParam("AccountId"),
             T.HostLabel(),
           ),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Details: __S(1920, __c60, 0),
         }).pipe(
           T.all(
@@ -10062,7 +10178,7 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StorageLensConfiguration: S.optional(__S(3291, __c102, 27))
+          StorageLensConfiguration: S.optional(__S(3295, __c102, 31))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StorageLensConfiguration" }),
         }).pipe(ns),
@@ -10220,10 +10336,26 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "StorageLensExpandedPrefixesDataExport" });
     case 26:
+      return S.suspend(() =>
+        S.Struct({ MinDepth: S.optional(S.Number), MaxDepth: S.optional(S.Number) }),
+      ).annotate({ identifier: "StorageLensCostAndUsageReportsSelectionCriteria" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.Boolean, SelectionCriteria: S.optional(__S(3290, __c102, 26)) }),
+      ).annotate({ identifier: "StorageLensCostAndUsageReportsPrefixLevel" });
+    case 28:
+      return S.suspend(() => S.Struct({ PrefixLevel: S.optional(__S(3291, __c102, 27)) })).annotate(
+        { identifier: "StorageLensCostAndUsageReportsPublish" },
+      );
+    case 29:
       return S.suspend(() => S.Struct({ Arn: S.String })).annotate({
         identifier: "StorageLensAwsOrg",
       });
-    case 27:
+    case 30:
+      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
+        identifier: "IntAccessTiers",
+      });
+    case 31:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
@@ -10232,10 +10364,12 @@ function __c102(j: number): any {
           Exclude: S.optional(__S(3281, __c102, 17)),
           DataExport: S.optional(__S(3288, __c102, 24)),
           ExpandedPrefixesDataExport: S.optional(__S(3289, __c102, 25)),
+          CostAndUsageReportsPublish: S.optional(__S(3292, __c102, 28)),
           IsEnabled: S.Boolean,
-          AwsOrg: S.optional(__S(3290, __c102, 26)),
+          AwsOrg: S.optional(__S(3293, __c102, 29)),
           StorageLensArn: S.optional(S.String),
           PrefixDelimiter: S.optional(S.String),
+          IntAccessTiers: S.optional(__S(3294, __c102, 30)),
         }),
       ).annotate({ identifier: "StorageLensConfiguration" });
   }

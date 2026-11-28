@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClickHouseCloudError } from "../errors.ts";
+import { ClickHouseCloudServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   ClickHouseCloudProtocol,
@@ -53,9 +53,177 @@ export class DeletionProtectionNotEnabled
   declare readonly body?: Error400Body | string;
 }
 
+/** Sets the default transaction isolation level for new transactions. */
+export type PgConfigDefaultTransactionIsolation =
+  | "read committed"
+  | "repeatable read"
+  | "serializable";
+/** Sets the minimum SSL/TLS protocol version allowed for client connections. */
+export type PgConfigSslMinProtocolVersion = "TLSv1" | "TLSv1.1" | "TLSv1.2" | "TLSv1.3";
+/** Sets the default compression method for compressible values stored out of line (TOAST). */
+export type PgConfigDefaultToastCompression = "pglz" | "lz4";
+/** Enables the planner's use of parallel hash plans. */
+export type PgConfigEnableParallelHash = "on" | "off";
+/** Selects the method used to perform asynchronous I/O. Postgres 18 and later. */
+export type PgConfigIoMethod = "sync" | "worker" | "io_uring";
+/** Compress full-page writes in WAL. Reduces I/O at the cost of CPU. Options vary by PostgreSQL version. */
+export type PgConfigWalCompression = "off" | "on" | "lz4" | "zstd";
+/** Logs a message when a session waits longer than deadlock_timeout to acquire a lock. */
+export type PgConfigLogLockWaits = "on" | "off";
+/** Postgres [runtime configuration](https://www.postgresql.org/docs/current/runtime-config.html) configuration. */
+export interface PgConfig {
+  /** Sets the maximum number of concurrent connections to the database server. */
+  max_connections?: unknown | undefined;
+  /** Sets the default transaction isolation level for new transactions. */
+  default_transaction_isolation?: PgConfigDefaultTransactionIsolation | (string & {}) | undefined;
+  /** Sets the minimum SSL/TLS protocol version allowed for client connections. */
+  ssl_min_protocol_version?: PgConfigSslMinProtocolVersion | (string & {}) | undefined;
+  /** Sets the default compression method for compressible values stored out of line (TOAST). */
+  default_toast_compression?: PgConfigDefaultToastCompression | (string & {}) | undefined;
+  /** Sets the maximum memory to be used for maintenance operations. */
+  maintenance_work_mem?: unknown | undefined;
+  /** Sets the amount of memory Postgres will use for internal operations like sorting and hashing as part of executing a query. */
+  work_mem?: unknown | undefined;
+  /** Sets the planner's assumption about the total size of data caches. */
+  effective_cache_size?: unknown | undefined;
+  /** Sets the planner's estimate of the cost of a non-sequentially-fetched disk page. Lower values (1.1-1.5) are better for SSDs. */
+  random_page_cost?: unknown | undefined;
+  /** Number of concurrent disk I/O operations the planner expects. Higher values (100-200) benefit SSDs. */
+  effective_io_concurrency?: unknown | undefined;
+  /** Maximum number of background processes the system can support. Includes parallel query workers, logical replication, and more. */
+  max_worker_processes?: unknown | undefined;
+  /** Maximum number of workers that can be used for parallel operations. Cannot exceed max_worker_processes. */
+  max_parallel_workers?: unknown | undefined;
+  /** Maximum number of parallel workers per executor node for parallel queries. Use 0 to disable parallel queries. */
+  max_parallel_workers_per_gather?: unknown | undefined;
+  /** Maximum number of parallel workers for maintenance operations like CREATE INDEX and VACUUM. */
+  max_parallel_maintenance_workers?: unknown | undefined;
+  /** Percent of VM memory reserved for the shared_memory, from 25% to 75%. shared_buffers sized to fit in it. Limited to 50% on VMs with memory less or equal 16GB */
+  shared_memory_percent?: unknown | undefined;
+  /** Sets the maximum memory each session uses for temporary table buffers. */
+  temp_buffers?: unknown | undefined;
+  /** Multiple of work_mem that hash-based operations may use. */
+  hash_mem_multiplier?: unknown | undefined;
+  /** Enables the planner's use of parallel hash plans. */
+  enable_parallel_hash?: PgConfigEnableParallelHash | (string & {}) | undefined;
+  /** Number of concurrent disk I/O operations used for maintenance work such as vacuum. */
+  maintenance_io_concurrency?: unknown | undefined;
+  /** Selects the method used to perform asynchronous I/O. Postgres 18 and later. */
+  io_method?: PgConfigIoMethod | (string & {}) | undefined;
+  /** Number of I/O worker processes used when io_method is worker. Postgres 18 only. */
+  io_workers?: unknown | undefined;
+  /** Minimum number of I/O worker processes kept running when io_method is worker. Postgres 19 and later. */
+  io_min_workers?: unknown | undefined;
+  /** Maximum number of I/O worker processes started when io_method is worker. Postgres 19 and later. */
+  io_max_workers?: unknown | undefined;
+  /** Sleep time between background writer activity rounds. */
+  bgwriter_delay?: unknown | undefined;
+  /** Amount of data written by the background writer after which the OS is asked to flush it to disk. */
+  bgwriter_flush_after?: unknown | undefined;
+  /** Maximum number of buffers the background writer writes per round. */
+  bgwriter_lru_maxpages?: unknown | undefined;
+  /** Multiple of the average recent buffer demand that the background writer cleans per round. */
+  bgwriter_lru_multiplier?: unknown | undefined;
+  /** Abort any statement that runs longer than the specified time. Use 0 to disable. */
+  statement_timeout?: unknown | undefined;
+  /** Abort any statement that waits longer than the specified time while attempting to acquire a lock. Use 0 to disable. */
+  lock_timeout?: unknown | undefined;
+  /** Terminate any session that has been idle for longer than the specified time. Use 0 to disable. */
+  idle_session_timeout?: unknown | undefined;
+  /** Terminate any session that has been idle within an open transaction for longer than the specified time. Use 0 to disable. */
+  idle_in_transaction_session_timeout?: unknown | undefined;
+  /** Terminate any statement that takes more than the specified time, even while active. Use 0 to disable. */
+  transaction_timeout?: unknown | undefined;
+  /** Terminate replication connections that are inactive for longer than this time. Use 0 to disable. */
+  wal_sender_timeout?: unknown | undefined;
+  /** Minimum size of past WAL files kept in pg_wal for standby servers. Use 0 to disable. */
+  wal_keep_size?: unknown | undefined;
+  /** Minimum size to shrink the WAL to. WAL files are recycled rather than removed when below this size. */
+  min_wal_size?: unknown | undefined;
+  /** Maximum size WAL can grow between checkpoints. Larger values improve write performance but increase crash recovery time. */
+  max_wal_size?: unknown | undefined;
+  /** Sets the maximum time between automatic WAL checkpoints. */
+  checkpoint_timeout?: unknown | undefined;
+  /** Specifies the maximum size of WAL files that replication slots are allowed to retain. Use -1 for unlimited. */
+  max_slot_wal_keep_size?: unknown | undefined;
+  /** Compress full-page writes in WAL. Reduces I/O at the cost of CPU. Options vary by PostgreSQL version. */
+  wal_compression?: PgConfigWalCompression | (string & {}) | undefined;
+  /** Sets the number of disk-page buffers in shared memory for WAL. A number without a unit is in 8 kB pages. */
+  wal_buffers?: unknown | undefined;
+  /** Maximum number of replication slots. Standbys and logical replication each use slots. */
+  max_replication_slots?: unknown | undefined;
+  /** Maximum number of simultaneously running WAL sender processes. */
+  max_wal_senders?: unknown | undefined;
+  /** Maximum number of logical replication workers for subscriptions on this server. */
+  max_logical_replication_workers?: unknown | undefined;
+  /** Replication slots reserved for REPACK CONCURRENTLY, separate from max_replication_slots. Postgres 19 and later. */
+  max_repack_replication_slots?: unknown | undefined;
+  /** Maximum number of table synchronization workers per subscription. */
+  max_sync_workers_per_subscription?: unknown | undefined;
+  /** Maximum memory used for logical decoding before changes spill to disk. */
+  logical_decoding_work_mem?: unknown | undefined;
+  /** Maximum number of autovacuum worker processes that can run at the same time. Workers share a single cost-limit budget, so raising this alone may not speed up vacuuming. */
+  autovacuum_max_workers?: unknown | undefined;
+  /** Maximum number of parallel workers a single autovacuum worker can use. 0 (the default) turns parallel autovacuum off. Postgres 19 and later. */
+  autovacuum_max_parallel_workers?: unknown | undefined;
+  /** Minimum delay between autovacuum runs. Lower values make autovacuum check for work more frequently. */
+  autovacuum_naptime?: unknown | undefined;
+  /** Maximum memory each autovacuum worker uses to track dead tuples. Higher values reduce repeated index-vacuum passes on large tables. Use -1 to fall back to maintenance_work_mem. */
+  autovacuum_work_mem?: unknown | undefined;
+  /** Fraction of a table's rows that must change before autovacuum runs. Lower values vacuum large tables more frequently. */
+  autovacuum_vacuum_scale_factor?: unknown | undefined;
+  /** Fraction of a table's rows that must change before autovacuum runs ANALYZE to refresh planner statistics. */
+  autovacuum_analyze_scale_factor?: unknown | undefined;
+  /** Fraction of a table's rows that must be inserted before autovacuum runs. Helps vacuum insert-heavy, rarely-updated tables. */
+  autovacuum_vacuum_insert_scale_factor?: unknown | undefined;
+  /** Minimum number of tuple updates or deletes prior to vacuum. */
+  autovacuum_vacuum_threshold?: unknown | undefined;
+  /** Minimum number of tuple inserts, updates, or deletes prior to analyze. */
+  autovacuum_analyze_threshold?: unknown | undefined;
+  /** Minimum number of tuple inserts prior to vacuum, or -1 to disable insert vacuums. */
+  autovacuum_vacuum_insert_threshold?: unknown | undefined;
+  /** Age at which to autovacuum a table to prevent transaction ID wraparound. */
+  autovacuum_freeze_max_age?: unknown | undefined;
+  /** Cost-accounting limit shared across all autovacuum workers before they pause. Use -1 to inherit vacuum_cost_limit. */
+  autovacuum_vacuum_cost_limit?: unknown | undefined;
+  /** Time autovacuum sleeps when the cost limit is reached. Lower values speed up vacuuming at the cost of more I/O. */
+  autovacuum_vacuum_cost_delay?: unknown | undefined;
+  /** Time in milliseconds a manual VACUUM sleeps when its cost limit is exceeded. 0 disables cost-based delay. */
+  vacuum_cost_delay?: unknown | undefined;
+  /** Logs statements that run at least this many milliseconds. 0 logs all statements; -1 disables. */
+  log_min_duration_statement?: unknown | undefined;
+  /** Logs temporary files of at least this size in kilobytes. 0 logs all temporary files; -1 disables. */
+  log_temp_files?: unknown | undefined;
+  /** Logs a message when a session waits longer than deadlock_timeout to acquire a lock. */
+  log_lock_waits?: PgConfigLogLockWaits | (string & {}) | undefined;
+  /** Maximum bytes of each bind parameter value logged with statements. 0 disables; -1 logs values in full. */
+  log_parameter_max_length?: unknown | undefined;
+  /** Bytes reserved to store the text of the currently running command of each session, shown in pg_stat_activity. */
+  track_activity_query_size?: unknown | undefined;
+}
+/** PgBouncer [runtime configuration](https://www.pgbouncer.org/config.html) configuration. */
+export type PgBouncerConfig = { [key: string]: string | undefined };
+export interface ResourceTagsV1 {
+  /** Tag key. Must be alphanumeric with dashes, underscores and dots. */
+  key: string;
+  /** Tag value. Must be alphanumeric with dashes, underscores and dots. */
+  value?: string | undefined;
+}
+/** Tags associated with the Postgres service. Tag keys starting with "chc_" are reserved for internal use. */
+export type PgTags = Array<ResourceTagsV1>;
+export interface CreatePostgresServiceReadReplicaRequest {
+  /** ID of the organization that owns the Postgres service. */
+  organizationId: string;
+  /** ID of the requested Postgres service. */
+  postgresId: string;
+  name: string;
+  pgConfig?: PgConfig | undefined;
+  pgBouncerConfig?: PgBouncerConfig | undefined;
+  tags?: PgTags | undefined;
+}
 /** The cloud provider for a Postgres service. */
 export type PgProvider = "aws" | "gcp";
-export type PgVersion = "18" | "17";
+export type PgVersion = "19" | "18" | "17";
 /** The VM size for a Postgres service. */
 export type PgSize =
   | "c6gd.large"
@@ -254,14 +422,6 @@ export type PgSize =
 export type PgHaType = "none" | "async" | "sync";
 /** Number of hot standby instances. Accepted values and defaults depend on `haType`: - "none": 0 (default) - "async": 1 (default) - "sync": 1, or 2 (default) When `haType` is updated without `standbyCount`, the default for the new `haType` applies. */
 export type PgStandbyCount = 0 | 1 | 2;
-export interface ResourceTagsV1 {
-  /** Tag key. Must be alphanumeric with dashes, underscores and dots. */
-  key: string;
-  /** Tag value. Must be alphanumeric with dashes, underscores and dots. */
-  value?: string | undefined;
-}
-/** Tags associated with the Postgres service. Tag keys starting with "chc_" are reserved for internal use. */
-export type PgTags = Array<ResourceTagsV1>;
 export interface PostgresIpAccessListEntry {
   /** Rule ID returned by the service. Include it when editing an existing rule; omit it when creating a rule. */
   id?: string | undefined;
@@ -271,166 +431,6 @@ export interface PostgresIpAccessListEntry {
   portRange: string;
   /** Optional description of the access list entry. */
   description?: string | undefined;
-}
-/** IPv4 TCP access rules to apply when creating the service. Omit to allow all IPv4 and IPv6 addresses on Postgres (5432) and PgBouncer (6432). Provide an empty list to block public access. When provided, only these rules are allowed; include separate rules for each required port. */
-export type CreatePostgresServiceRequestIpAccessListList = Array<PostgresIpAccessListEntry>;
-/** Sets the default transaction isolation level for new transactions. */
-export type PgConfigDefaultTransactionIsolation =
-  | "read committed"
-  | "repeatable read"
-  | "serializable";
-/** Sets the minimum SSL/TLS protocol version allowed for client connections. */
-export type PgConfigSslMinProtocolVersion = "TLSv1" | "TLSv1.1" | "TLSv1.2" | "TLSv1.3";
-/** Sets the default compression method for compressible values stored out of line (TOAST). */
-export type PgConfigDefaultToastCompression = "pglz" | "lz4";
-/** Enables the planner's use of parallel hash plans. */
-export type PgConfigEnableParallelHash = "on" | "off";
-/** Selects the method used to perform asynchronous I/O. */
-export type PgConfigIoMethod = "sync" | "worker" | "io_uring";
-/** Compress full-page writes in WAL. Reduces I/O at the cost of CPU. Options vary by PostgreSQL version. */
-export type PgConfigWalCompression = "off" | "on" | "lz4" | "zstd";
-/** Logs a message when a session waits longer than deadlock_timeout to acquire a lock. */
-export type PgConfigLogLockWaits = "on" | "off";
-/** Postgres [runtime configuration](https://www.postgresql.org/docs/current/runtime-config.html) configuration. */
-export interface PgConfig {
-  /** Sets the maximum number of concurrent connections to the database server. */
-  max_connections?: unknown | undefined;
-  /** Sets the default transaction isolation level for new transactions. */
-  default_transaction_isolation?: PgConfigDefaultTransactionIsolation | (string & {}) | undefined;
-  /** Sets the minimum SSL/TLS protocol version allowed for client connections. */
-  ssl_min_protocol_version?: PgConfigSslMinProtocolVersion | (string & {}) | undefined;
-  /** Sets the default compression method for compressible values stored out of line (TOAST). */
-  default_toast_compression?: PgConfigDefaultToastCompression | (string & {}) | undefined;
-  /** Sets the maximum memory to be used for maintenance operations. */
-  maintenance_work_mem?: unknown | undefined;
-  /** Sets the amount of memory Postgres will use for internal operations like sorting and hashing as part of executing a query. */
-  work_mem?: unknown | undefined;
-  /** Sets the planner's assumption about the total size of data caches. */
-  effective_cache_size?: unknown | undefined;
-  /** Sets the planner's estimate of the cost of a non-sequentially-fetched disk page. Lower values (1.1-1.5) are better for SSDs. */
-  random_page_cost?: unknown | undefined;
-  /** Number of concurrent disk I/O operations the planner expects. Higher values (100-200) benefit SSDs. */
-  effective_io_concurrency?: unknown | undefined;
-  /** Maximum number of background processes the system can support. Includes parallel query workers, logical replication, and more. */
-  max_worker_processes?: unknown | undefined;
-  /** Maximum number of workers that can be used for parallel operations. Cannot exceed max_worker_processes. */
-  max_parallel_workers?: unknown | undefined;
-  /** Maximum number of parallel workers per executor node for parallel queries. Use 0 to disable parallel queries. */
-  max_parallel_workers_per_gather?: unknown | undefined;
-  /** Maximum number of parallel workers for maintenance operations like CREATE INDEX and VACUUM. */
-  max_parallel_maintenance_workers?: unknown | undefined;
-  /** Percent of VM memory reserved for the shared_memory, from 25% to 75%. shared_buffers sized to fit in it. Limited to 50% on VMs with memory less or equal 16GB */
-  shared_memory_percent?: unknown | undefined;
-  /** Sets the maximum memory each session uses for temporary table buffers. */
-  temp_buffers?: unknown | undefined;
-  /** Multiple of work_mem that hash-based operations may use. */
-  hash_mem_multiplier?: unknown | undefined;
-  /** Enables the planner's use of parallel hash plans. */
-  enable_parallel_hash?: PgConfigEnableParallelHash | (string & {}) | undefined;
-  /** Number of concurrent disk I/O operations used for maintenance work such as vacuum. */
-  maintenance_io_concurrency?: unknown | undefined;
-  /** Selects the method used to perform asynchronous I/O. */
-  io_method?: PgConfigIoMethod | (string & {}) | undefined;
-  /** Number of I/O worker processes used when io_method is worker. */
-  io_workers?: unknown | undefined;
-  /** Sleep time between background writer activity rounds. */
-  bgwriter_delay?: unknown | undefined;
-  /** Amount of data written by the background writer after which the OS is asked to flush it to disk. */
-  bgwriter_flush_after?: unknown | undefined;
-  /** Maximum number of buffers the background writer writes per round. */
-  bgwriter_lru_maxpages?: unknown | undefined;
-  /** Multiple of the average recent buffer demand that the background writer cleans per round. */
-  bgwriter_lru_multiplier?: unknown | undefined;
-  /** Abort any statement that runs longer than the specified time. Use 0 to disable. */
-  statement_timeout?: unknown | undefined;
-  /** Abort any statement that waits longer than the specified time while attempting to acquire a lock. Use 0 to disable. */
-  lock_timeout?: unknown | undefined;
-  /** Terminate any session that has been idle for longer than the specified time. Use 0 to disable. */
-  idle_session_timeout?: unknown | undefined;
-  /** Terminate any session that has been idle within an open transaction for longer than the specified time. Use 0 to disable. */
-  idle_in_transaction_session_timeout?: unknown | undefined;
-  /** Terminate any statement that takes more than the specified time, even while active. Use 0 to disable. */
-  transaction_timeout?: unknown | undefined;
-  /** Terminate replication connections that are inactive for longer than this time. Use 0 to disable. */
-  wal_sender_timeout?: unknown | undefined;
-  /** Minimum size of past WAL files kept in pg_wal for standby servers. Use 0 to disable. */
-  wal_keep_size?: unknown | undefined;
-  /** Minimum size to shrink the WAL to. WAL files are recycled rather than removed when below this size. */
-  min_wal_size?: unknown | undefined;
-  /** Maximum size WAL can grow between checkpoints. Larger values improve write performance but increase crash recovery time. */
-  max_wal_size?: unknown | undefined;
-  /** Sets the maximum time between automatic WAL checkpoints. */
-  checkpoint_timeout?: unknown | undefined;
-  /** Specifies the maximum size of WAL files that replication slots are allowed to retain. Use -1 for unlimited. */
-  max_slot_wal_keep_size?: unknown | undefined;
-  /** Compress full-page writes in WAL. Reduces I/O at the cost of CPU. Options vary by PostgreSQL version. */
-  wal_compression?: PgConfigWalCompression | (string & {}) | undefined;
-  /** Sets the number of disk-page buffers in shared memory for WAL. A number without a unit is in 8 kB pages. */
-  wal_buffers?: unknown | undefined;
-  /** Maximum number of replication slots. Standbys and logical replication each use slots. */
-  max_replication_slots?: unknown | undefined;
-  /** Maximum number of simultaneously running WAL sender processes. */
-  max_wal_senders?: unknown | undefined;
-  /** Maximum number of logical replication workers for subscriptions on this server. */
-  max_logical_replication_workers?: unknown | undefined;
-  /** Maximum number of table synchronization workers per subscription. */
-  max_sync_workers_per_subscription?: unknown | undefined;
-  /** Maximum memory used for logical decoding before changes spill to disk. */
-  logical_decoding_work_mem?: unknown | undefined;
-  /** Maximum number of autovacuum worker processes that can run at the same time. Workers share a single cost-limit budget, so raising this alone may not speed up vacuuming. */
-  autovacuum_max_workers?: unknown | undefined;
-  /** Minimum delay between autovacuum runs. Lower values make autovacuum check for work more frequently. */
-  autovacuum_naptime?: unknown | undefined;
-  /** Maximum memory each autovacuum worker uses to track dead tuples. Higher values reduce repeated index-vacuum passes on large tables. Use -1 to fall back to maintenance_work_mem. */
-  autovacuum_work_mem?: unknown | undefined;
-  /** Fraction of a table's rows that must change before autovacuum runs. Lower values vacuum large tables more frequently. */
-  autovacuum_vacuum_scale_factor?: unknown | undefined;
-  /** Fraction of a table's rows that must change before autovacuum runs ANALYZE to refresh planner statistics. */
-  autovacuum_analyze_scale_factor?: unknown | undefined;
-  /** Fraction of a table's rows that must be inserted before autovacuum runs. Helps vacuum insert-heavy, rarely-updated tables. */
-  autovacuum_vacuum_insert_scale_factor?: unknown | undefined;
-  /** Minimum number of tuple updates or deletes prior to vacuum. */
-  autovacuum_vacuum_threshold?: unknown | undefined;
-  /** Minimum number of tuple inserts, updates, or deletes prior to analyze. */
-  autovacuum_analyze_threshold?: unknown | undefined;
-  /** Minimum number of tuple inserts prior to vacuum, or -1 to disable insert vacuums. */
-  autovacuum_vacuum_insert_threshold?: unknown | undefined;
-  /** Age at which to autovacuum a table to prevent transaction ID wraparound. */
-  autovacuum_freeze_max_age?: unknown | undefined;
-  /** Cost-accounting limit shared across all autovacuum workers before they pause. Use -1 to inherit vacuum_cost_limit. */
-  autovacuum_vacuum_cost_limit?: unknown | undefined;
-  /** Time autovacuum sleeps when the cost limit is reached. Lower values speed up vacuuming at the cost of more I/O. */
-  autovacuum_vacuum_cost_delay?: unknown | undefined;
-  /** Time in milliseconds a manual VACUUM sleeps when its cost limit is exceeded. 0 disables cost-based delay. */
-  vacuum_cost_delay?: unknown | undefined;
-  /** Logs statements that run at least this many milliseconds. 0 logs all statements; -1 disables. */
-  log_min_duration_statement?: unknown | undefined;
-  /** Logs temporary files of at least this size in kilobytes. 0 logs all temporary files; -1 disables. */
-  log_temp_files?: unknown | undefined;
-  /** Logs a message when a session waits longer than deadlock_timeout to acquire a lock. */
-  log_lock_waits?: PgConfigLogLockWaits | (string & {}) | undefined;
-  /** Maximum bytes of each bind parameter value logged with statements. 0 disables; -1 logs values in full. */
-  log_parameter_max_length?: unknown | undefined;
-  /** Bytes reserved to store the text of the currently running command of each session, shown in pg_stat_activity. */
-  track_activity_query_size?: unknown | undefined;
-}
-/** PgBouncer [runtime configuration](https://www.pgbouncer.org/config.html) configuration. */
-export type PgBouncerConfig = { [key: string]: string | undefined };
-export interface CreatePostgresServiceRequest {
-  /** ID of the organization that will own the service. */
-  organizationId: string;
-  name: string;
-  provider: PgProvider | (string & {});
-  region: string;
-  postgresVersion?: PgVersion | (string & {}) | undefined;
-  size: PgSize | (string & {});
-  haType?: PgHaType | (string & {}) | undefined;
-  standbyCount?: PgStandbyCount | (number & {}) | undefined;
-  tags?: PgTags | undefined;
-  /** IPv4 TCP access rules to apply when creating the service. Omit to allow all IPv4 and IPv6 addresses on Postgres (5432) and PgBouncer (6432). Provide an empty list to block public access. When provided, only these rules are allowed; include separate rules for each required port. */
-  ipAccessList?: CreatePostgresServiceRequestIpAccessListList | undefined;
-  pgConfig?: PgConfig | undefined;
-  pgBouncerConfig?: PgBouncerConfig | undefined;
 }
 /** IPv4 access rules shown in the console. IPv6 rules are not included. Returned when reading or configuring access; omitted from other service updates. */
 export type PostgresServiceIpAccessListList = Array<PostgresIpAccessListEntry>;
@@ -472,16 +472,6 @@ export interface PostgresService {
   deletionProtection?: boolean | undefined;
   /** Earliest point in time the service can be restored to with the restore endpoint. ISO-8601. Only present for a primary service once its first backup has completed. */
   earliestRestoreTime?: string | undefined;
-}
-export interface CreatePostgresServiceReadReplicaRequest {
-  /** ID of the organization that owns the Postgres service. */
-  organizationId: string;
-  /** ID of the requested Postgres service. */
-  postgresId: string;
-  name: string;
-  pgConfig?: PgConfig | undefined;
-  pgBouncerConfig?: PgBouncerConfig | undefined;
-  tags?: PgTags | undefined;
 }
 export interface DeletePostgresServiceRequest {
   /** ID of the organization that owns the Postgres service. */
@@ -942,34 +932,18 @@ export interface Error400Body {
   /** Unique id assigned to every request. UUIDv4 */
   requestId?: string | undefined;
 }
-export type CreatePostgresServiceError = ClickHouseCloudOpError;
-/** Create new Postgres service **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Creates a new Postgres service in the organization and returns it. The service is started asynchronously. */
-export const createPostgresService: API.OperationMethod<
-  CreatePostgresServiceRequest,
-  PostgresService,
-  CreatePostgresServiceError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreatePostgresServiceRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreatePostgresService",
-}));
-
 export type CreatePostgresServiceReadReplicaError = ClickHouseCloudOpError;
-/** Create a read replica for a Postgres service **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Initiate the process to create a new read replica for a Postgres service. */
+/** Create a read replica for a Postgres service Initiate the process to create a new read replica for a Postgres service. */
 export const createPostgresServiceReadReplica: API.OperationMethod<
   CreatePostgresServiceReadReplicaRequest,
   PostgresService,
   CreatePostgresServiceReadReplicaError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreatePostgresServiceReadReplicaRequest>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreatePostgresServiceReadReplicaRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -977,16 +951,17 @@ export const createPostgresServiceReadReplica: API.OperationMethod<
 }));
 
 export type DeletePostgresServiceError = ClickHouseCloudOpError;
-/** Delete a PostgreSQL service **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Deletes a Postgres service that belongs to the organization. Returns 409 if deletion protection is enabled for the service. */
+/** Delete a PostgreSQL service Deletes a Postgres service that belongs to the organization. Returns 409 if deletion protection is enabled for the service. */
 export const deletePostgresService: API.OperationMethod<
   DeletePostgresServiceRequest,
   DeletePostgresServiceResponse,
   DeletePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeletePostgresServiceRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<DeletePostgresServiceResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(112, __c14, 0) as any as S.Schema<DeletePostgresServiceRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<DeletePostgresServiceResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -994,16 +969,17 @@ export const deletePostgresService: API.OperationMethod<
 }));
 
 export type GetPostgresServiceError = ClickHouseCloudOpError;
-/** Get PostgreSQL service details **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns a Postgres service that belongs to the organization */
+/** Get PostgreSQL service details Returns a Postgres service that belongs to the organization */
 export const getPostgresService: API.OperationMethod<
   GetPostgresServiceRequest,
   PostgresService,
   GetPostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetPostgresServiceRequest>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetPostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1011,16 +987,17 @@ export const getPostgresService: API.OperationMethod<
 }));
 
 export type GetPostgresServiceCaCertificatesError = ClickHouseCloudOpError;
-/** Get Postgres CA certs **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Download CA certificates for a PostgreSQL service */
+/** Get Postgres CA certs Download CA certificates for a PostgreSQL service */
 export const getPostgresServiceCaCertificates: API.OperationMethod<
   GetPostgresServiceCaCertificatesRequest,
   GetPostgresServiceCaCertificatesResponse,
   GetPostgresServiceCaCertificatesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetPostgresServiceCaCertificatesRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<GetPostgresServiceCaCertificatesResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(128, __c16, 0) as any as S.Schema<GetPostgresServiceCaCertificatesRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GetPostgresServiceCaCertificatesResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1028,16 +1005,17 @@ export const getPostgresServiceCaCertificates: API.OperationMethod<
 }));
 
 export type GetPostgresServiceConfigError = ClickHouseCloudOpError;
-/** Get PostgreSQL service configuration **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns the configuration data for a Postgres service and its PgBouncer service. */
+/** Get PostgreSQL service configuration Returns the configuration data for a Postgres service and its PgBouncer service. */
 export const getPostgresServiceConfig: API.OperationMethod<
   GetPostgresServiceConfigRequest,
   PostgresInstanceConfig,
   GetPostgresServiceConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetPostgresServiceConfigRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<PostgresInstanceConfig>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(136, __c17, 0) as any as S.Schema<GetPostgresServiceConfigRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<PostgresInstanceConfig>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1045,16 +1023,17 @@ export const getPostgresServiceConfig: API.OperationMethod<
 }));
 
 export type GetPostgresServiceMetricsError = ClickHouseCloudOpError;
-/** Get Postgres time-series metrics **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns bucketed time-series metrics for a PostgreSQL service over the requested window (CPU, memory, disk, network, connections, cache hit ratio, throughput, transactions, wait events, lock waits, and more). Use this to chart or analyze how a service behaved over time. */
+/** Get Postgres time-series metrics Returns bucketed time-series metrics for a PostgreSQL service over the requested window (CPU, memory, disk, network, connections, cache hit ratio, throughput, transactions, wait events, lock waits, and more). Use this to chart or analyze how a service behaved over time. */
 export const getPostgresServiceMetrics: API.OperationMethod<
   GetPostgresServiceMetricsRequest,
   PostgresMetrics,
   GetPostgresServiceMetricsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetPostgresServiceMetricsRequest>,
-  output: __S(167, __c20, 7) as any as S.Schema<PostgresMetrics>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(144, __c18, 0) as any as S.Schema<GetPostgresServiceMetricsRequest>,
+  output: __S(151, __c18, 7) as any as S.Schema<PostgresMetrics>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1062,16 +1041,17 @@ export const getPostgresServiceMetrics: API.OperationMethod<
 }));
 
 export type GetPostgresSlowQueryPatternError = ClickHouseCloudOpError;
-/** Get a Postgres slow query pattern with recent executions **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns aggregate metrics for a single slow query pattern together with its most recent individual executions. */
+/** Get a Postgres slow query pattern with recent executions Returns aggregate metrics for a single slow query pattern together with its most recent individual executions. */
 export const getPostgresSlowQueryPattern: API.OperationMethod<
   GetPostgresSlowQueryPatternRequest,
   PostgresSlowQueryPatternDetail,
   GetPostgresSlowQueryPatternError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetPostgresSlowQueryPatternRequest>,
-  output: __S(171, __c21, 3) as any as S.Schema<PostgresSlowQueryPatternDetail>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(152, __c19, 0) as any as S.Schema<GetPostgresSlowQueryPatternRequest>,
+  output: __S(155, __c19, 3) as any as S.Schema<PostgresSlowQueryPatternDetail>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1079,16 +1059,17 @@ export const getPostgresSlowQueryPattern: API.OperationMethod<
 }));
 
 export type ListPostgresLogsError = ClickHouseCloudOpError;
-/** List Postgres server logs **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns PostgreSQL server log entries for a Postgres service within the given time window, most recent first by default (override with `sort_order`). Results are paginated with `limit`/`offset`; advance `offset` until a page returns fewer than `limit` entries to read the full window. The time range must not exceed 30 days, and `to_date` must be after `from_date`. */
+/** List Postgres server logs Returns PostgreSQL server log entries for a Postgres service within the given time window, most recent first by default (override with `sort_order`). Results are paginated with `limit`/`offset`; advance `offset` until a page returns fewer than `limit` entries to read the full window. The time range must not exceed 30 days, and `to_date` must be after `from_date`. */
 export const listPostgresLogs: API.OperationMethod<
   ListPostgresLogsRequest,
   ListPostgresLogsResponse,
   ListPostgresLogsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListPostgresLogsRequest>,
-  output: __S(187, __c23, 3) as any as S.Schema<ListPostgresLogsResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(168, __c21, 0) as any as S.Schema<ListPostgresLogsRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<ListPostgresLogsResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1096,7 +1077,7 @@ export const listPostgresLogs: API.OperationMethod<
 }));
 
 export type ListPostgresServiceBackupsError = ClickHouseCloudOpError;
-/** List of Postgres service backups **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns a list of the base backups retained for a Postgres service, ordered by last modified date, newest first. Results are capped at `limit` (default and maximum 100) per page. Every response carries `limit`, `totalCount` and `nextCursor`; pass `nextCursor` as the `cursor` query parameter to fetch the next page, repeating until it is null. A Postgres service is recovered to a point in time rather than to a single backup, so restore it with the restore endpoint and a timestamp between the service's `earliestRestoreTime` and now, rather than with a backup key from this list. */
+/** List of Postgres service backups Returns a list of the base backups retained for a Postgres service, ordered by last modified date, newest first. Results are capped at `limit` (default and maximum 100) per page. Every response carries `limit`, `totalCount` and `nextCursor`; pass `nextCursor` as the `cursor` query parameter to fetch the next page, repeating until it is null. A Postgres service is recovered to a point in time rather than to a single backup, so restore it with the restore endpoint and a timestamp between the service's `earliestRestoreTime` and now, rather than with a backup key from this list. */
 export const listPostgresServiceBackups: API.PaginatedOperationMethod<
   ListPostgresServiceBackupsRequest,
   ListPostgresServiceBackupsResponse,
@@ -1105,9 +1086,10 @@ export const listPostgresServiceBackups: API.PaginatedOperationMethod<
   PostgresBackup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListPostgresServiceBackupsRequest>,
-    output: __S(43, __c5, 3) as any as S.Schema<ListPostgresServiceBackupsResponse>,
-    errors: [UnknownClickHouseCloudError],
+    input: __S(176, __c22, 0) as any as S.Schema<ListPostgresServiceBackupsRequest>,
+    output: __S(179, __c22, 3) as any as S.Schema<ListPostgresServiceBackupsResponse>,
+    errors: [],
+    serviceErrors: ClickHouseCloudServiceErrors,
     protocol: ClickHouseCloudPaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1124,16 +1106,17 @@ export const listPostgresServiceBackups: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListPostgresServicesError = ClickHouseCloudOpError;
-/** List of organization Postgres services **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns a list of all Postgres services in the organization. */
+/** List of organization Postgres services Returns a list of all Postgres services in the organization. */
 export const listPostgresServices: API.OperationMethod<
   ListPostgresServicesRequest,
   ListPostgresServicesResponse,
   ListPostgresServicesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListPostgresServicesRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<ListPostgresServicesResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(40, __c5, 0) as any as S.Schema<ListPostgresServicesRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<ListPostgresServicesResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1141,16 +1124,17 @@ export const listPostgresServices: API.OperationMethod<
 }));
 
 export type ListPostgresSlowQueryPatternsError = ClickHouseCloudOpError;
-/** List Postgres slow query patterns **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns aggregate metrics for the slowest query patterns observed on a Postgres service during the given time window. Use this to discover which queries dominate total execution time, CPU, I/O, or WAL generation. */
+/** List Postgres slow query patterns Returns aggregate metrics for the slowest query patterns observed on a Postgres service during the given time window. Use this to discover which queries dominate total execution time, CPU, I/O, or WAL generation. */
 export const listPostgresSlowQueryPatterns: API.OperationMethod<
   ListPostgresSlowQueryPatternsRequest,
   ListPostgresSlowQueryPatternsResponse,
   ListPostgresSlowQueryPatternsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListPostgresSlowQueryPatternsRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<ListPostgresSlowQueryPatternsResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(48, __c6, 0) as any as S.Schema<ListPostgresSlowQueryPatternsRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<ListPostgresSlowQueryPatternsResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1158,16 +1142,17 @@ export const listPostgresSlowQueryPatterns: API.OperationMethod<
 }));
 
 export type ReplacePostgresServiceConfigError = ClickHouseCloudOpError;
-/** Replace Postgres service configuration **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Replace the existing Postgres service and pgBouncer configuration. */
+/** Replace Postgres service configuration Replace the existing Postgres service and pgBouncer configuration. */
 export const replacePostgresServiceConfig: API.OperationMethod<
   ReplacePostgresServiceConfigRequest,
   PostgresInstanceUpdateConfigResponse,
   ReplacePostgresServiceConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ReplacePostgresServiceConfigRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(56, __c7, 0) as any as S.Schema<ReplacePostgresServiceConfigRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1175,16 +1160,17 @@ export const replacePostgresServiceConfig: API.OperationMethod<
 }));
 
 export type RestorePostgresServiceError = ClickHouseCloudOpError;
-/** Restore a Postgres service **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Restore a Postgres database from continuous backup, optionally at a specific point in time. */
+/** Restore a Postgres service Restore a Postgres database from continuous backup, optionally at a specific point in time. */
 export const restorePostgresService: API.OperationMethod<
   RestorePostgresServiceRequest,
   PostgresService,
   RestorePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<RestorePostgresServiceRequest>,
+  input: __S(72, __c9, 0) as any as S.Schema<RestorePostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1192,16 +1178,17 @@ export const restorePostgresService: API.OperationMethod<
 }));
 
 export type UpdatePostgresServiceError = DeletionProtectionNotEnabled | ClickHouseCloudOpError;
-/** Update a PostgreSQL service **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Update a Postgres service that belongs to the organization. **WARNING:** Changing the name also updates the host name and certificates for the service. */
+/** Update a PostgreSQL service Update a Postgres service that belongs to the organization. **WARNING:** Changing the name also updates the host name and certificates for the service. */
 export const updatePostgresService: API.OperationMethod<
   UpdatePostgresServiceRequest,
   PostgresService,
   UpdatePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(91, __c11, 3) as any as S.Schema<UpdatePostgresServiceRequest>,
+  input: __S(83, __c10, 3) as any as S.Schema<UpdatePostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [DeletionProtectionNotEnabled, UnknownClickHouseCloudError],
+  errors: [DeletionProtectionNotEnabled],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1209,16 +1196,17 @@ export const updatePostgresService: API.OperationMethod<
 }));
 
 export type UpdatePostgresServiceConfigError = ClickHouseCloudOpError;
-/** Update Postgres service configuration **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Update the existing Postgres service and pgBouncer configuration. */
+/** Update Postgres service configuration Update the existing Postgres service and pgBouncer configuration. */
 export const updatePostgresServiceConfig: API.OperationMethod<
   UpdatePostgresServiceConfigRequest,
   PostgresInstanceUpdateConfigResponse,
   UpdatePostgresServiceConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdatePostgresServiceConfigRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(88, __c11, 0) as any as S.Schema<UpdatePostgresServiceConfigRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1226,16 +1214,17 @@ export const updatePostgresServiceConfig: API.OperationMethod<
 }));
 
 export type UpdatePostgresServicePasswordError = ClickHouseCloudOpError;
-/** Update Postgres superuser password **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Sets a new password for a Postgres service's superuser account. */
+/** Update Postgres superuser password Sets a new password for a Postgres service's superuser account. */
 export const updatePostgresServicePassword: API.OperationMethod<
   UpdatePostgresServicePasswordRequest,
   PostgresServicePasswordResource,
   UpdatePostgresServicePasswordError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdatePostgresServicePasswordRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<PostgresServicePasswordResource>,
-  errors: [UnknownClickHouseCloudError],
+  input: __S(96, __c12, 0) as any as S.Schema<UpdatePostgresServicePasswordRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<PostgresServicePasswordResource>,
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1243,16 +1232,17 @@ export const updatePostgresServicePassword: API.OperationMethod<
 }));
 
 export type UpdatePostgresServiceStateError = ClickHouseCloudOpError;
-/** Update Postgres service state **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Initiate a process for a Postgres service: * restart: Initiates a service restart * promote: Promotes a read replica to primary * switchover: Switch a primary over to a standby. If there is no standby, replace the primary with a newly provisioned server and switch over to it. */
+/** Update Postgres service state Initiate a process for a Postgres service: * restart: Initiates a service restart * promote: Promotes a read replica to primary * switchover: Switch a primary over to a standby. If there is no standby, replace the primary with a newly provisioned server and switch over to it. */
 export const updatePostgresServiceState: API.OperationMethod<
   UpdatePostgresServiceStateRequest,
   PostgresService,
   UpdatePostgresServiceStateError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<UpdatePostgresServiceStateRequest>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdatePostgresServiceStateRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1278,21 +1268,19 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
+          postgresId: S.String.pipe(T.Label()),
           name: S.String,
-          provider: S.String,
-          region: S.String,
-          postgresVersion: S.optional(S.String),
-          size: S.String,
-          haType: S.optional(S.String),
-          standbyCount: S.optional(S.Number),
-          tags: S.optional(__S(17, __c2, 1)),
-          ipAccessList: S.optional(__S(25, __c3, 1)),
           pgConfig: S.optional(__S(32, __c4, 0)),
           pgBouncerConfig: S.optional(__S(33, __c4, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
         }).pipe(
-          T.Http({ method: "POST", uri: "/v1/organizations/{organizationId}/postgres", code: 200 }),
+          T.Http({
+            method: "POST",
+            uri: "/v1/organizations/{organizationId}/postgres/{postgresId}/readReplica",
+            code: 200,
+          }),
         ),
-      ).annotate({ identifier: "CreatePostgresServiceRequest" });
+      ).annotate({ identifier: "CreatePostgresServiceReadReplicaRequest" });
   }
 }
 function __c2(j: number): any {
@@ -1373,6 +1361,8 @@ function __c4(j: number): any {
           maintenance_io_concurrency: S.optional(S.Unknown),
           io_method: S.optional(S.String),
           io_workers: S.optional(S.Unknown),
+          io_min_workers: S.optional(S.Unknown),
+          io_max_workers: S.optional(S.Unknown),
           bgwriter_delay: S.optional(S.Unknown),
           bgwriter_flush_after: S.optional(S.Unknown),
           bgwriter_lru_maxpages: S.optional(S.Unknown),
@@ -1393,9 +1383,11 @@ function __c4(j: number): any {
           max_replication_slots: S.optional(S.Unknown),
           max_wal_senders: S.optional(S.Unknown),
           max_logical_replication_workers: S.optional(S.Unknown),
+          max_repack_replication_slots: S.optional(S.Unknown),
           max_sync_workers_per_subscription: S.optional(S.Unknown),
           logical_decoding_work_mem: S.optional(S.Unknown),
           autovacuum_max_workers: S.optional(S.Unknown),
+          autovacuum_max_parallel_workers: S.optional(S.Unknown),
           autovacuum_naptime: S.optional(S.Unknown),
           autovacuum_work_mem: S.optional(S.Unknown),
           autovacuum_vacuum_scale_factor: S.optional(S.Unknown),
@@ -1425,46 +1417,6 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
-          postgresId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/postgres/{postgresId}/backups",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPostgresServiceBackupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          status: S.String,
-          lastModified: S.String,
-        }),
-      ).annotate({ identifier: "PostgresBackup" });
-    case 2:
-      return S.Array(__S(41, __c5, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.Number),
-          requestId: S.optional(S.String),
-          result: __S(42, __c5, 2),
-          limit: S.optional(S.Number),
-          totalCount: S.optional(S.NullOr(S.Number)),
-          nextCursor: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ListPostgresServiceBackupsResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}/postgres", code: 200 }),
         ),
@@ -1488,14 +1440,14 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "PostgresServiceListItem" });
     case 2:
-      return S.Array(__S(49, __c6, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
-      return S.suspend(() => __S(50, __c6, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(42, __c5, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresServicesResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1521,14 +1473,14 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListPostgresSlowQueryPatternsRequest" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(160, __c20, 0));
     case 2:
-      return S.suspend(() => __S(57, __c7, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(49, __c6, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresSlowQueryPatternsResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1547,7 +1499,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ReplacePostgresServiceConfigRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1559,7 +1511,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PostgresInstanceUpdateConfigResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1581,7 +1533,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RestorePostgresServiceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1590,12 +1542,12 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "PostgresIpAccessListRuleReference" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           add: S.optional(__S(25, __c3, 1)),
-          remove: S.optional(__S(89, __c11, 1)),
+          remove: S.optional(__S(81, __c10, 1)),
         }),
       ).annotate({ identifier: "PostgresIpAccessListPatch" });
     case 3:
@@ -1603,7 +1555,7 @@ function __c11(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           postgresId: S.String.pipe(T.Label()),
-          ipAccessList: S.optional(__S(90, __c11, 2)),
+          ipAccessList: S.optional(__S(82, __c10, 2)),
           name: S.optional(S.String),
           size: S.optional(S.String),
           haType: S.optional(S.String),
@@ -1620,7 +1572,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdatePostgresServiceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1639,7 +1591,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdatePostgresServiceConfigRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1663,7 +1615,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PostgresServicePasswordResource" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1681,28 +1633,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdatePostgresServiceStateRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          postgresId: S.String.pipe(T.Label()),
-          name: S.String,
-          pgConfig: S.optional(__S(32, __c4, 0)),
-          pgBouncerConfig: S.optional(__S(33, __c4, 1)),
-          tags: S.optional(__S(17, __c2, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/{organizationId}/postgres/{postgresId}/readReplica",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreatePostgresServiceReadReplicaRequest" });
-  }
-}
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1726,7 +1657,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeletePostgresServiceResponse" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1743,7 +1674,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetPostgresServiceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1764,7 +1695,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1788,7 +1719,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PostgresInstanceConfig" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1814,16 +1745,16 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "PostgresMetricDataPoint" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
-          dataPoints: __S(162, __c20, 2),
+          dataPoints: __S(146, __c18, 2),
         }),
       ).annotate({ identifier: "PostgresMetricSeries" });
     case 4:
-      return S.Array(__S(163, __c20, 3));
+      return S.Array(__S(147, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1831,20 +1762,20 @@ function __c20(j: number): any {
           name: S.String,
           unit: S.String,
           description: S.String,
-          series: __S(164, __c20, 4),
+          series: __S(148, __c18, 4),
         }),
       ).annotate({ identifier: "PostgresMetric" });
     case 6:
-      return S.Array(__S(165, __c20, 5));
+      return S.Array(__S(149, __c18, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metrics: __S(166, __c20, 6),
+          metrics: __S(150, __c18, 6),
         }),
       ).annotate({ identifier: "PostgresMetrics" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1914,17 +1845,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "PostgresQueryExecution" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(153, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          aggregate: S.optional(__S(176, __c22, 0)),
-          recentExecutions: __S(170, __c21, 2),
+          aggregate: S.optional(__S(160, __c20, 0)),
+          recentExecutions: __S(154, __c19, 2),
         }),
       ).annotate({ identifier: "PostgresSlowQueryPatternDetail" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1952,7 +1883,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PostgresSlowQueryPattern" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1983,11 +1914,51 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "PostgresLogEntry" });
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
-      return S.suspend(() => __S(186, __c23, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(170, __c21, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresLogsResponse",
       });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          postgresId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/postgres/{postgresId}/backups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPostgresServiceBackupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          status: S.String,
+          lastModified: S.String,
+        }),
+      ).annotate({ identifier: "PostgresBackup" });
+    case 2:
+      return S.Array(__S(177, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.Number),
+          requestId: S.optional(S.String),
+          result: __S(178, __c22, 2),
+          limit: S.optional(S.Number),
+          totalCount: S.optional(S.NullOr(S.Number)),
+          nextCursor: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ListPostgresServiceBackupsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

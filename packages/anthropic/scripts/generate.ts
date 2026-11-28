@@ -68,19 +68,6 @@ const spec: SdkSpec = {
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : undefined,
 
-  // A raw `Blob` response (file and skill downloads, batch results — see
-  // patches/) is returned as the response bytes.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = /*@__PURE__*/ S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Schema<${name}>;`,
-        ]
-      : undefined,
-
   // The spec's `oneOf`s (content blocks, tools, events) are discriminated
   // by a `type` member whose wire name is the TS name, so the TS type is
   // the case union and the schema stays opaque.
@@ -109,9 +96,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "AnthropicOpContext",
     commonErrorType: "AnthropicOpError",
-    // No per-operation error classes: every failure shares one envelope,
-    // so every status rides AnthropicOpError and the protocol picks the class.
-    commonErrorClasses: ["UnknownAnthropicError"],
+    serviceErrors: "AnthropicServiceErrors",
     protocol: "AnthropicProtocol",
     retry: "Retry.Retry",
   },
@@ -132,6 +117,7 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   barrelExportName: camel,
   spec: () => spec,
 });

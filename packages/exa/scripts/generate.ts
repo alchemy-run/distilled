@@ -5,7 +5,8 @@
  *
  * Input:  .generated-specs/{api,team_management}.json  (written by
  *         scripts/convert.ts)
- * Output: src/services/{api,team_management}.ts  +  src/services/index.ts
+ * Output: src/services/{api,team_management}.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for the operations convert marks unstable
  *
  * Exa is plain API-key REST with cursor pagination. Each module calls its
  * own API's protocol: `api` → ExaProtocol, `team_management` →
@@ -92,7 +93,7 @@ const specFor = (model: any): SdkSpec => {
     operationDecl: {
       contextType: "ExaOpContext",
       commonErrorType: "ExaOpError",
-      commonErrorClasses: ["UnknownExaError"],
+      serviceErrors: "ExaServiceErrors",
       protocol,
       retry: "Retry.Retry",
     },
@@ -113,6 +114,7 @@ runGeneratorCli({
   description: "Generate the Exa Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  unstableOutDir: "src/unstable-services",
   patchesDir: false,
   barrelExportName: camel,
   spec: specFor,

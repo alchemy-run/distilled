@@ -64,7 +64,7 @@ const porkbunSpec: SdkSpec = {
   operationDecl: {
     contextType: "PorkbunOpContext",
     commonErrorType: "PorkbunOpError",
-    commonErrorClasses: ["UnknownPorkbunError"],
+    serviceErrors: "PorkbunServiceErrors",
     protocol: "PorkbunProtocol",
     retry: "Retry.Retry",
   },

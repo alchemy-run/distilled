@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -81,7 +81,7 @@ export interface BotPropertiesInput {
   /** The Application Insights key */
   developerAppInsightKey?: string | undefined;
   /** The Application Insights Api Key */
-  developerAppInsightsApiKey?: string | undefined;
+  developerAppInsightsApiKey?: string | Redacted.Redacted<string> | undefined;
   /** The Application Insights App Id */
   developerAppInsightsApplicationId?: string | undefined;
   /** Collection of LUIS App Ids */
@@ -109,7 +109,7 @@ export interface BotPropertiesInput {
   /** The hint (e.g. keyVault secret resourceId) on how to fetch the app secret */
   appPasswordHint?: string | Redacted.Redacted<string> | undefined;
   /** Publishing credentials of the resource */
-  publishingCredentials?: string | undefined;
+  publishingCredentials?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateBotRequest {
   /** Azure Subscription ID. */
@@ -240,7 +240,7 @@ export interface BotProperties {
   /** The Application Insights key */
   developerAppInsightKey?: string | undefined;
   /** The Application Insights Api Key */
-  developerAppInsightsApiKey?: string | undefined;
+  developerAppInsightsApiKey?: string | Redacted.Redacted<string> | undefined;
   /** The Application Insights App Id */
   developerAppInsightsApplicationId?: string | undefined;
   /** Collection of LUIS App Ids */
@@ -262,7 +262,7 @@ export interface BotProperties {
   /** Whether the bot is developerAppInsightsApiKey set */
   isDeveloperAppInsightsApiKeySet?: boolean | undefined;
   /** Token used to migrate non Azure bot to azure subscription */
-  migrationToken?: string | undefined;
+  migrationToken?: string | Redacted.Redacted<string> | undefined;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean | undefined;
   /** The channel schema transformation version for the bot */
@@ -278,7 +278,7 @@ export interface BotProperties {
   /** Provisioning state of the resource */
   provisioningState?: string | undefined;
   /** Publishing credentials of the resource */
-  publishingCredentials?: string | undefined;
+  publishingCredentials?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateBotResponse {
   /** Specifies the resource ID. */
@@ -467,7 +467,7 @@ export interface FacebookChannelPropertiesInput {
   /** Facebook application id */
   appId: string;
   /** Facebook application secret. Value only returned through POST to the action Channel List API, otherwise empty. */
-  appSecret?: string | undefined;
+  appSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -721,7 +721,7 @@ export interface SmsChannelProperties {
   /** The Sms account SID. Value only returned through POST to the action Channel List API, otherwise empty. */
   accountSID: string;
   /** The Sms auth token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  authToken?: string | undefined;
+  authToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is validated for the bot */
   isValidated?: boolean | undefined;
   /** Whether this channel is enabled for the bot */
@@ -747,7 +747,7 @@ export interface SlackChannelPropertiesInput {
   /** The Slack client secret. Value only returned through POST to the action Channel List API, otherwise empty. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The Slack verification token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** The Slack permission scopes. */
   scopes?: string | undefined;
   /** The Slack landing page Url */
@@ -755,7 +755,7 @@ export interface SlackChannelPropertiesInput {
   /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
   registerBeforeOAuthFlow?: boolean | undefined;
   /** The Slack signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -775,9 +775,9 @@ export type LineChannelInputChannelName = "LineChannel";
 /** The properties corresponding to a line channel registration */
 export interface LineRegistrationInput {
   /** Secret for the line channel registration */
-  channelSecret?: string | undefined;
+  channelSecret?: string | Redacted.Redacted<string> | undefined;
   /** Access token for the line channel registration */
-  channelAccessToken?: string | undefined;
+  channelAccessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The list of line channel registrations */
 export type LineChannelPropertiesInputLineRegistrationsList = Array<LineRegistrationInput>;
@@ -806,7 +806,7 @@ export interface DirectLineSpeechChannelProperties {
   /** The cognitive service region with this channel registration. */
   cognitiveServiceRegion?: string | null | undefined;
   /** The cognitive service subscription key to use with this channel registration. */
-  cognitiveServiceSubscriptionKey?: string | null | undefined;
+  cognitiveServiceSubscriptionKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Whether this channel is enabled or not. */
   isEnabled?: boolean | undefined;
   /** Custom speech model id (optional). */
@@ -849,7 +849,7 @@ export interface TelephonyPhoneNumbers {
   /** The endpoint of ACS. */
   acsEndpoint?: string | null | undefined;
   /** The secret of ACS. */
-  acsSecret?: string | null | undefined;
+  acsSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** The resource id of ACS. */
   acsResourceId?: string | null | undefined;
   /** The subscription key of cognitive service. */
@@ -1024,13 +1024,13 @@ export type FacebookChannelPropertiesPagesList = Array<FacebookPage>;
 /** The parameters to provide for the Facebook channel. */
 export interface FacebookChannelProperties {
   /** Verify token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  verifyToken?: string | undefined;
+  verifyToken?: string | Redacted.Redacted<string> | undefined;
   /** The list of Facebook pages */
   pages?: FacebookChannelPropertiesPagesList | undefined;
   /** Facebook application id */
   appId: string;
   /** Facebook application secret. Value only returned through POST to the action Channel List API, otherwise empty. */
-  appSecret?: string | undefined;
+  appSecret?: string | Redacted.Redacted<string> | undefined;
   /** Callback Url */
   callbackUrl?: string | undefined;
   /** Whether this channel is enabled for the bot */
@@ -1256,7 +1256,7 @@ export interface SlackChannelProperties {
   /** The Slack client secret. Value only returned through POST to the action Channel List API, otherwise empty. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The Slack verification token. Value only returned through POST to the action Channel List API, otherwise empty. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** The Slack permission scopes. */
   scopes?: string | undefined;
   /** The Slack landing page Url */
@@ -1270,7 +1270,7 @@ export interface SlackChannelProperties {
   /** Whether this channel is validated for the bot */
   IsValidated?: boolean | undefined;
   /** The Slack signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -1294,9 +1294,9 @@ export interface LineRegistration {
   /** Id generated for the line channel registration */
   generatedId?: string | undefined;
   /** Secret for the line channel registration */
-  channelSecret?: string | undefined;
+  channelSecret?: string | Redacted.Redacted<string> | undefined;
   /** Access token for the line channel registration */
-  channelAccessToken?: string | undefined;
+  channelAccessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The list of line channel registrations */
 export type LineChannelPropertiesLineRegistrationsList = Array<LineRegistration>;
@@ -1758,6 +1758,8 @@ export interface ListBotByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the Bot resource group in the user subscription. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type BotTagsMap = { [key: string]: string | undefined };
@@ -1793,7 +1795,7 @@ export interface BotResponseList {
   /** The link used to get the next page of bot service resources. */
   nextLink?: string | undefined;
   /** Gets the list of bot service results and their properties. */
-  value?: BotResponseListValueList | undefined;
+  value: BotResponseListValueList;
 }
 export interface ListBotConnectionByBotServiceRequest {
   /** Azure Subscription ID. */
@@ -1802,6 +1804,8 @@ export interface ListBotConnectionByBotServiceRequest {
   resourceGroupName: string;
   /** The name of the Bot resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type ConnectionSettingTagsMap = { [key: string]: string | undefined };
@@ -1837,7 +1841,7 @@ export interface ConnectionSettingResponseList {
   /** The link used to get the next page of bot service connection setting resources. */
   nextLink?: string | undefined;
   /** Gets the list of bot service connection settings and their properties. */
-  value?: ConnectionSettingResponseListValueList | undefined;
+  value: ConnectionSettingResponseListValueList;
 }
 export interface ListBotConnectionServiceProvidersRequest {
   /** Azure Subscription ID. */
@@ -1940,6 +1944,8 @@ export interface ListBotConnectionWithSecretsResponse {
 export interface ListBotsRequest {
   /** Azure Subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListChannelByResourceGroupRequest {
   /** Azure Subscription ID. */
@@ -1948,6 +1954,8 @@ export interface ListChannelByResourceGroupRequest {
   resourceGroupName: string;
   /** The name of the Bot resource. */
   resourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type BotChannelTagsMap = { [key: string]: string | undefined };
@@ -1983,7 +1991,7 @@ export interface ChannelResponseList {
   /** The link used to get the next page of bot service channel resources. */
   nextLink?: string | undefined;
   /** Gets the list of bot service channel results and their properties. */
-  value?: ChannelResponseListValueList | undefined;
+  value: ChannelResponseListValueList;
 }
 export type ListChannelWithKeysRequestChannelName =
   | "AlexaChannel"
@@ -2076,7 +2084,10 @@ export interface ListChannelWithKeysResponse {
   /** Changed time of the resource */
   changedTime?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The operation supported by Bot Service Management. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
@@ -2106,7 +2117,7 @@ export interface OperationEntityListResult {
   /** The link used to get the next page of operations. */
   nextLink?: string | undefined;
   /** The list of operations. */
-  value?: OperationEntityListResultValueList | undefined;
+  value: OperationEntityListResultValueList;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** Azure Subscription ID. */
@@ -2123,7 +2134,7 @@ export type ListPrivateEndpointConnectionsResponseValueList =
   Array<BotPropertiesPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionsResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsResponseValueList | undefined;
+  value: ListPrivateEndpointConnectionsResponseValueList;
 }
 export interface ListPrivateLinkResourceByBotResourceRequest {
   /** Azure Subscription ID. */
@@ -2384,7 +2395,8 @@ export const CreateBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateBotRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<CreateBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2401,7 +2413,8 @@ export const CreateBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateBotConnectionRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<CreateBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2418,7 +2431,8 @@ export const CreateChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<CreateChannelRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CreateChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2435,7 +2449,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1185, __c37, 1) as any as S.Schema<CreatePrivateEndpointConnectionRequest>,
   output: __S(163, __c5, 3) as any as S.Schema<CreatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2452,7 +2467,8 @@ export const DeleteBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteBotRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2469,7 +2485,8 @@ export const DeleteBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<DeleteBotConnectionRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2486,7 +2503,8 @@ export const DeleteChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteChannelRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2503,7 +2521,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2520,7 +2539,8 @@ export const EmailCreateSignInUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<EmailCreateSignInUrlRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<CreateEmailSignInUrlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2537,7 +2557,8 @@ export const GetBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetBotRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<GetBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2554,7 +2575,8 @@ export const GetBotCheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetBotCheckNameAvailabilityRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<CheckNameAvailabilityResponseBody>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2571,7 +2593,8 @@ export const GetBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetBotConnectionRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<GetBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2588,7 +2611,8 @@ export const GetChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetChannelRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GetChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2605,7 +2629,8 @@ export const GetHostSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetHostSettingsRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<HostSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2622,7 +2647,8 @@ export const GetOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetOperationResultRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<OperationResultsDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2639,7 +2665,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(163, __c5, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2656,7 +2683,8 @@ export const GetQnAMakerEndpointKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetQnAMakerEndpointKeyRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<QnAMakerEndpointKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2665,37 +2693,53 @@ export const GetQnAMakerEndpointKey: API.OperationMethod<
 
 export type ListBotByResourceGroupError = AzureOpError;
 /** Returns all the resources of a particular type belonging to a resource group */
-export const ListBotByResourceGroup: API.OperationMethod<
+export const ListBotByResourceGroup: API.PaginatedOperationMethod<
   ListBotByResourceGroupRequest,
   BotResponseList,
   ListBotByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Bot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListBotByResourceGroupRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<BotResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBotByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBotConnectionByBotServiceError = AzureOpError;
 /** Returns all the Connection Settings registered to a particular BotService resource */
-export const ListBotConnectionByBotService: API.OperationMethod<
+export const ListBotConnectionByBotService: API.PaginatedOperationMethod<
   ListBotConnectionByBotServiceRequest,
   ConnectionSettingResponseList,
   ListBotConnectionByBotServiceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConnectionSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListBotConnectionByBotServiceRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<ConnectionSettingResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBotConnectionByBotService",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBotConnectionServiceProvidersError = AzureOpError;
 /** Lists the available Service Providers for creating Connection Settings */
@@ -2707,7 +2751,8 @@ export const ListBotConnectionServiceProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListBotConnectionServiceProvidersRequest>,
   output: __S(680, __c21, 8) as any as S.Schema<ServiceProviderResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2724,7 +2769,8 @@ export const ListBotConnectionWithSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListBotConnectionWithSecretsRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<ListBotConnectionWithSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2733,37 +2779,53 @@ export const ListBotConnectionWithSecrets: API.OperationMethod<
 
 export type ListBotsError = AzureOpError;
 /** Returns all the resources of a particular type belonging to a subscription. */
-export const ListBots: API.OperationMethod<
+export const ListBots: API.PaginatedOperationMethod<
   ListBotsRequest,
   BotResponseList,
   ListBotsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Bot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListBotsRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<BotResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBots",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListChannelByResourceGroupError = AzureOpError;
 /** Returns all the Channel registrations of a particular BotService resource */
-export const ListChannelByResourceGroup: API.OperationMethod<
+export const ListChannelByResourceGroup: API.PaginatedOperationMethod<
   ListChannelByResourceGroupRequest,
   ChannelResponseList,
   ListChannelByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BotChannel
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListChannelByResourceGroupRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<ChannelResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListChannelByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListChannelWithKeysError = AzureOpError;
 /** Lists a Channel registration for a Bot Service including secrets */
@@ -2775,7 +2837,8 @@ export const ListChannelWithKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListChannelWithKeysRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<ListChannelWithKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2784,37 +2847,48 @@ export const ListChannelWithKeys: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all the available BotService operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationEntityListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationEntity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<OperationEntityListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** List all the private endpoint connections associated with the Bot. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   ListPrivateEndpointConnectionsResponse,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BotPropertiesPrivateEndpointConnectionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByBotResourceError = AzureOpError;
 /** Gets the private link resources that need to be created for a Bot. */
@@ -2826,7 +2900,8 @@ export const ListPrivateLinkResourceByBotResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListPrivateLinkResourceByBotResourceRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<ListPrivateLinkResourceByBotResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2843,7 +2918,8 @@ export const RegenerateDirectLineKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<RegenerateDirectLineKeysRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<RegenerateDirectLineKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2860,7 +2936,8 @@ export const UpdateBot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<UpdateBotRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<UpdateBotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2877,7 +2954,8 @@ export const UpdateBotConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateBotConnectionRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<UpdateBotConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2894,7 +2972,8 @@ export const UpdateChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<UpdateChannelRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<UpdateChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2973,7 +3052,7 @@ function __c4(j: number): any {
           msaAppTenantId: S.optional(S.String),
           msaAppMSIResourceId: S.optional(S.String),
           developerAppInsightKey: S.optional(S.String),
-          developerAppInsightsApiKey: S.optional(S.String),
+          developerAppInsightsApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           developerAppInsightsApplicationId: S.optional(S.String),
           luisAppIds: S.optional(__S(64, __c2, 0)),
           luisKey: S.optional(S.String),
@@ -2987,7 +3066,7 @@ function __c4(j: number): any {
           storageResourceId: S.optional(S.String),
           openWithHint: S.optional(S.String),
           appPasswordHint: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          publishingCredentials: S.optional(S.String),
+          publishingCredentials: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BotPropertiesInput" });
   }
@@ -3054,7 +3133,7 @@ function __c7(j: number): any {
           configuredChannels: S.optional(__S(64, __c2, 0)),
           enabledChannels: S.optional(__S(64, __c2, 0)),
           developerAppInsightKey: S.optional(S.String),
-          developerAppInsightsApiKey: S.optional(S.String),
+          developerAppInsightsApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           developerAppInsightsApplicationId: S.optional(S.String),
           luisAppIds: S.optional(__S(64, __c2, 0)),
           luisKey: S.optional(S.String),
@@ -3065,7 +3144,7 @@ function __c7(j: number): any {
           publicNetworkAccess: S.optional(S.String),
           isStreamingSupported: S.optional(S.Boolean),
           isDeveloperAppInsightsApiKeySet: S.optional(S.Boolean),
-          migrationToken: S.optional(S.String),
+          migrationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           disableLocalAuth: S.optional(S.Boolean),
           schemaTransformationVersion: S.optional(S.NullOr(S.String)),
           storageResourceId: S.optional(S.String),
@@ -3073,7 +3152,7 @@ function __c7(j: number): any {
           openWithHint: S.optional(S.String),
           appPasswordHint: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
-          publishingCredentials: S.optional(S.String),
+          publishingCredentials: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BotProperties" });
     case 1:
@@ -3358,12 +3437,14 @@ function __c18(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices",
             code: 200,
             apiVersion: "2022-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBotByResourceGroupRequest" });
@@ -3377,7 +3458,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(608, __c19, 0)),
+          value: __S(608, __c19, 0),
         }),
       ).annotate({ identifier: "BotResponseList" });
   }
@@ -3390,12 +3471,14 @@ function __c20(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections",
             code: 200,
             apiVersion: "2022-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBotConnectionByBotServiceRequest" });
@@ -3405,7 +3488,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(641, __c20, 1)),
+          value: __S(641, __c20, 1),
         }),
       ).annotate({ identifier: "ConnectionSettingResponseList" });
   }
@@ -3574,7 +3657,7 @@ function __c23(j: number): any {
         S.Struct({
           phone: S.String,
           accountSID: S.String,
-          authToken: S.optional(S.String),
+          authToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isValidated: S.optional(S.Boolean),
           isEnabled: S.Boolean,
         }),
@@ -3584,7 +3667,9 @@ function __c23(j: number): any {
         S.Struct({
           cognitiveServiceResourceId: S.optional(S.String),
           cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
-          cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
+          cognitiveServiceSubscriptionKey: S.optional(
+            S.NullOr(S.String).pipe(T.SensitiveValue({})),
+          ),
           isEnabled: S.optional(S.Boolean),
           customVoiceDeploymentId: S.optional(S.String),
           customSpeechModelId: S.optional(S.String),
@@ -3597,7 +3682,7 @@ function __c23(j: number): any {
           id: S.optional(S.String),
           phoneNumber: S.optional(S.String),
           acsEndpoint: S.optional(S.NullOr(S.String)),
-          acsSecret: S.optional(S.NullOr(S.String)),
+          acsSecret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           acsResourceId: S.optional(S.NullOr(S.String)),
           cognitiveServiceSubscriptionKey: S.optional(S.NullOr(S.String)),
           cognitiveServiceRegion: S.optional(S.NullOr(S.String)),
@@ -3655,10 +3740,10 @@ function __c23(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          verifyToken: S.optional(S.String),
+          verifyToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           pages: S.optional(__S(737, __c23, 1)),
           appId: S.String,
-          appSecret: S.optional(S.String),
+          appSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           callbackUrl: S.optional(S.String),
           isEnabled: S.Boolean,
         }),
@@ -3809,14 +3894,14 @@ function __c23(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verificationToken: S.optional(S.String),
+          verificationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.String),
           landingPageUrl: S.optional(S.String),
           redirectAction: S.optional(S.String),
           lastSubmissionId: S.optional(S.String),
           registerBeforeOAuthFlow: S.optional(S.Boolean),
           IsValidated: S.optional(S.Boolean),
-          signingSecret: S.optional(S.String),
+          signingSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "SlackChannelProperties" });
@@ -3838,8 +3923,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           generatedId: S.optional(S.String),
-          channelSecret: S.optional(S.String),
-          channelAccessToken: S.optional(S.String),
+          channelSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          channelAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LineRegistration" });
     case 2:
@@ -3948,7 +4033,7 @@ function __c26(j: number): any {
         S.Struct({
           pages: S.optional(__S(737, __c23, 1)),
           appId: S.String,
-          appSecret: S.optional(S.String),
+          appSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "FacebookChannelPropertiesInput" });
@@ -4083,11 +4168,11 @@ function __c26(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verificationToken: S.optional(S.String),
+          verificationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.String),
           landingPageUrl: S.optional(S.String),
           registerBeforeOAuthFlow: S.optional(S.Boolean),
-          signingSecret: S.optional(S.String),
+          signingSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "SlackChannelPropertiesInput" });
@@ -4103,8 +4188,8 @@ function __c26(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          channelSecret: S.optional(S.String),
-          channelAccessToken: S.optional(S.String),
+          channelSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          channelAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LineRegistrationInput" });
     case 20:
@@ -4192,12 +4277,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/botServices",
             code: 200,
             apiVersion: "2022-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBotsRequest" });
@@ -4211,12 +4298,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels",
             code: 200,
             apiVersion: "2022-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListChannelByResourceGroupRequest" });
@@ -4226,7 +4315,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(929, __c29, 1)),
+          value: __S(929, __c29, 1),
         }),
       ).annotate({ identifier: "ChannelResponseList" });
   }
@@ -4290,12 +4379,15 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.BotService/operations",
             code: 200,
             apiVersion: "2022-09-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -4323,7 +4415,7 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(995, __c31, 3)),
+          value: __S(995, __c31, 3),
         }),
       ).annotate({ identifier: "OperationEntityListResult" });
   }
@@ -4348,7 +4440,7 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(192, __c6, 0)),
+          value: __S(192, __c6, 0),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsResponse" });
   }

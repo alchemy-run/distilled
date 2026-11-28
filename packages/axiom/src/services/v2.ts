@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAxiomError } from "../errors.ts";
+import { AxiomServiceErrors } from "../errors.ts";
 import { AxiomProtocol, type AxiomOpError, type AxiomOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -34,8 +34,7 @@ export class BadRequest
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
-          /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           S.String,
         ]),
       ),
@@ -44,7 +43,7 @@ export class BadRequest
     [{ status: 400 }],
   )
 {
-  declare readonly body?: DashboardError | DatasetsError | Error400Body | string;
+  declare readonly body?: DashboardError | DatasetsError | string;
 }
 
 export class Conflict
@@ -53,18 +52,14 @@ export class Conflict
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
-          S.String,
-        ]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   )
 {
-  declare readonly body?: DashboardError | DatasetsError | string;
+  declare readonly body?: DashboardError | string;
 }
 
 export class Forbidden
@@ -73,7 +68,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(144, __c18, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -90,9 +85,9 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(32, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(144, __c18, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           S.String,
         ]),
       ),
@@ -947,82 +942,6 @@ export interface DashboardWriteResponse {
   overwritten?: boolean | undefined;
   status: DashboardWriteResponseStatus;
 }
-/** The kind of the dataset */
-export type CreateDatasetRequestKind =
-  | "otel:metrics:v1"
-  | "otel:traces:v1"
-  | "otel:logs:v1"
-  | "axiom:events:v1";
-/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-export type CreateDatasetRequestLabelIdsList = Array<string>;
-export interface CreateDatasetRequest {
-  /** Referrer slug */
-  referrer?: string | undefined;
-  /** Dataset description */
-  description?: string | undefined;
-  /** Edge deployment of the dataset */
-  edgeDeployment?: string | undefined;
-  /** The kind of the dataset */
-  kind?: CreateDatasetRequestKind | (string & {}) | undefined;
-  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-  labelIds?: CreateDatasetRequestLabelIdsList | undefined;
-  /** Dataset unique name */
-  name: string;
-  /** Number of days to retain data in the dataset */
-  retentionDays?: number | undefined;
-  /** Ignored. Axiom derives this value from `retentionDays`. */
-  useRetentionPeriod?: boolean | undefined;
-}
-/** The kind of the dataset */
-export type DatasetKind = "otel:metrics:v1" | "otel:traces:v1" | "otel:logs:v1" | "axiom:events:v1";
-/** IDs of labels assigned to this dataset. */
-export type DatasetLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type DatasetLabelNamesList = Array<string>;
-/** Resolved labels assigned to this dataset. */
-export type DatasetLabelsList = Array<Label>;
-export type DatasetMapFieldsList = Array<string>;
-export interface Dataset {
-  /** Whether this dataset has write access */
-  canWrite?: boolean | undefined;
-  /** The RFC3339-formatted time when the dataset was created. */
-  created: string;
-  /** true when the MCP server created this dataset */
-  createdByAgent?: boolean | undefined;
-  /** Dataset description */
-  description: string;
-  /** Edge deployment of the dataset */
-  edgeDeployment?: string | undefined;
-  /** URL of the edge deployment */
-  edgeDeploymentUrl?: string | undefined;
-  /** Dataset ID */
-  id: string;
-  /** The kind of the dataset */
-  kind: DatasetKind;
-  /** IDs of labels assigned to this dataset. */
-  labelIds: DatasetLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: DatasetLabelNamesList;
-  /** Resolved labels assigned to this dataset. */
-  labels?: DatasetLabelsList | undefined;
-  mapFields?: DatasetMapFieldsList | undefined;
-  /** Unique dataset name */
-  name: string;
-  /** Number of unused fields a vacuum can reclaim, when the dataset is a vacuum candidate */
-  reclaimableFields?: number | undefined;
-  /** Number of days to retain data in the dataset */
-  retentionDays?: number | undefined;
-  /** ID of the org that shared this resource, if it's shared */
-  sharedByOrg?: string | undefined;
-  /** The RFC3339-formatted time when the dataset was last updated. */
-  updatedAt: string;
-  /** Whether to use the retention period */
-  useRetentionPeriod?: boolean | undefined;
-  /** Whether the dataset has unused fields that a vacuum can reclaim */
-  vacuumCandidate?: boolean | undefined;
-  /** Name of the dataset creator */
-  who: string;
-}
 /** List of user IDs that are assigned to this group */
 export type CreateGroupRequestMembersList = Array<string>;
 /** IDs of the roles assigned to the group. Use a custom role ID or a built-in role ID: `axiom-owner`, `axiom-admin`, `axiom-user`, `axiom-read-only`, or `axiom-none`. */
@@ -1081,335 +1000,6 @@ export interface CreateMapFieldRequest {
 /** A map field, described by a name */
 export interface MapField {
   name: string;
-}
-/** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-export type CreateMonitorRequestNotifierIdsList = Array<string>;
-/** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-export type CreateMonitorRequestOperator =
-  | "Below"
-  | "BelowOrEqual"
-  | "Above"
-  | "AboveOrEqual"
-  | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type CreateMonitorRequestType = "Threshold" | "MatchEvent" | "AnomalyDetection";
-/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-export type CreateMonitorRequestLabelIdsList = Array<string>;
-export interface CreateMonitorRequest {
-  /** Whether to alert when no data is received */
-  alertOnNoData?: boolean | undefined;
-  /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string | undefined;
-  /** Name of the column to monitor */
-  columnName?: string | undefined;
-  /** Number of days to compare for anomaly detection */
-  compareDays?: number | undefined;
-  /** Detailed description of the monitor's purpose */
-  description?: string | undefined;
-  /** Whether the monitor is currently disabled */
-  disabled?: boolean | undefined;
-  /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null | undefined;
-  /** Whether to include a query chart in triggered notifications */
-  includeChart?: boolean | undefined;
-  /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number | undefined;
-  /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string | undefined;
-  /** Name of the monitor */
-  name: string;
-  /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: CreateMonitorRequestNotifierIdsList | undefined;
-  /** Whether to group notifications */
-  notifyByGroup?: boolean | undefined;
-  /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean | undefined;
-  /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: CreateMonitorRequestOperator | (string & {}) | undefined;
-  /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number | undefined;
-  /** Whether the alert can be manually resolved */
-  resolvable?: boolean | undefined;
-  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
-  secondDelay?: number | undefined;
-  /** Whether to skip resolved alerts */
-  skipResolved?: boolean | undefined;
-  /** Threshold value for triggering the alert */
-  threshold?: number | undefined;
-  /** Tolerance percentage for anomaly detection */
-  tolerance?: number | undefined;
-  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
-  triggerAfterNPositiveResults?: number | undefined;
-  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
-  triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-  type: CreateMonitorRequestType | (string & {});
-  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-  labelIds?: CreateMonitorRequestLabelIdsList | undefined;
-}
-/** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-export type CreateMonitorResponseNotifierIdsList = Array<string>;
-/** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-export type CreateMonitorResponseOperator =
-  | "Below"
-  | "BelowOrEqual"
-  | "Above"
-  | "AboveOrEqual"
-  | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type CreateMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
-/** Dataset names referenced by the monitor query. */
-export type CreateMonitorResponseDatasetsList = Array<string>;
-/** IDs of labels assigned to this monitor. */
-export type CreateMonitorResponseLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type CreateMonitorResponseLabelNamesList = Array<string>;
-/** Resolved labels assigned to this monitor. */
-export type CreateMonitorResponseLabelsList = Array<Label>;
-export interface CreateMonitorResponse {
-  /** Whether to alert when no data is received */
-  alertOnNoData?: boolean | undefined;
-  /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string | undefined;
-  /** Name of the column to monitor */
-  columnName?: string | undefined;
-  /** Number of days to compare for anomaly detection */
-  compareDays?: number | undefined;
-  /** Detailed description of the monitor's purpose */
-  description?: string | undefined;
-  /** Whether the monitor is currently disabled */
-  disabled?: boolean | undefined;
-  /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null | undefined;
-  /** Whether to include a query chart in triggered notifications */
-  includeChart?: boolean | undefined;
-  /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number | undefined;
-  /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string | undefined;
-  /** Name of the monitor */
-  name: string;
-  /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: CreateMonitorResponseNotifierIdsList | undefined;
-  /** Whether to group notifications */
-  notifyByGroup?: boolean | undefined;
-  /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean | undefined;
-  /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: CreateMonitorResponseOperator | undefined;
-  /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number | undefined;
-  /** Whether the alert can be manually resolved */
-  resolvable?: boolean | undefined;
-  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
-  secondDelay?: number | undefined;
-  /** Whether to skip resolved alerts */
-  skipResolved?: boolean | undefined;
-  /** Threshold value for triggering the alert */
-  threshold?: number | undefined;
-  /** Tolerance percentage for anomaly detection */
-  tolerance?: number | undefined;
-  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
-  triggerAfterNPositiveResults?: number | undefined;
-  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
-  triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-  type: CreateMonitorResponseType;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this monitor */
-  createdByAgent?: boolean | undefined;
-  /** Dataset names referenced by the monitor query. */
-  datasets?: CreateMonitorResponseDatasetsList | undefined;
-  /** Unique identifier for the monitor */
-  id: string;
-  /** IDs of labels assigned to this monitor. */
-  labelIds: CreateMonitorResponseLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: CreateMonitorResponseLabelNamesList;
-  /** Resolved labels assigned to this monitor. */
-  labels?: CreateMonitorResponseLabelsList | undefined;
-  /** Most recent error encountered while evaluating the monitor. */
-  lastError?: string | undefined;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
-}
-/** Amp Orb webhook. The receiving plugin must accept {"text": "<monitor summary>"}. */
-export interface AmpConfig {
-  /** Secret HTTPS URL from the Amp plugin createWebhook registration. Returned encrypted on reads; submit it unchanged to retain it on updates. */
-  webhookUrl: string;
-}
-/** Published ChatGPT Workspace Agent API channel. Axiom sends {"input": "<monitor summary>"}. */
-export interface ChatGPTWorkspaceAgentConfig {
-  /** ChatGPT access token with the Workspace Agents scope */
-  token: string;
-  /** API channel trigger ID beginning with agtch_ */
-  triggerId: string;
-}
-/** Claude Code routine. Axiom sends a fixed text body when the monitor fires. */
-export interface ClaudeCodeConfig {
-  /** Routine ID from a Claude Code API trigger */
-  routineId: string;
-  /** Bearer token for the routine */
-  token: string;
-}
-/** Cursor automation webhook. Axiom sends a fixed context body when the monitor fires. */
-export interface CursorConfig {
-  /** Bearer token for the automation webhook */
-  token: string;
-  /** Automation webhook URL from a Cursor automation */
-  webhookUrl: string;
-}
-/** HTTP headers to include in the request */
-export type CustomNotifierConfigHeadersMap = { [key: string]: string | undefined };
-/** Sensitive HTTP headers (tokens, keys) that should be masked in logs */
-export type CustomNotifierConfigSecretHeadersMap = {
-  [key: string]: string | Redacted.Redacted<string> | undefined;
-};
-/** Configuration for custom webhook notifications with flexible headers and body template. Supports variable substitution in the body template using {{.Variable}} syntax. */
-export interface CustomNotifierConfig {
-  /** Template for the webhook body, supports variable substitution */
-  body: string;
-  /** HTTP headers to include in the request */
-  headers?: CustomNotifierConfigHeadersMap | undefined;
-  /** Sensitive HTTP headers (tokens, keys) that should be masked in logs */
-  secretHeaders?: CustomNotifierConfigSecretHeadersMap | undefined;
-  /** Custom webhook endpoint URL */
-  url: string;
-}
-/** Go templates that replace the title and body of the notifier's default message. An empty field keeps the default. Variables include {{.Title}}, {{.Body}}, {{.Name}}, {{.Action}}, {{.Value}}, {{.Threshold}}, {{.Labels}}, {{.Groups}} and {{.MatchedEvent}}. If a template fails when a notification is sent, the default message is sent and the delivery records the error. */
-export interface MessageTemplate {
-  /** Template for the message body */
-  body?: string | undefined;
-  /** Template for the message title */
-  title?: string | undefined;
-}
-/** Configuration for Discord notifications using bot token */
-export interface DiscordConfig {
-  /** Discord channel ID to send notifications */
-  discordChannel?: string | undefined;
-  /** Discord bot token for authentication */
-  discordToken?: string | Redacted.Redacted<string> | undefined;
-  messageTemplate?: MessageTemplate | undefined;
-}
-/** Configuration for Discord notifications using webhooks */
-export interface DiscordWebhookConfig {
-  /** Discord webhook URL */
-  discordWebhookUrl?: string | Redacted.Redacted<string> | undefined;
-  messageTemplate?: MessageTemplate | undefined;
-}
-/** List of email addresses to receive notifications */
-export type EmailConfigEmailsList = Array<string>;
-/** Configuration for email notifications */
-export interface EmailConfig {
-  /** List of email addresses to receive notifications */
-  emails?: EmailConfigEmailsList | undefined;
-  messageTemplate?: MessageTemplate | undefined;
-}
-/** Configuration for Jira Service Management Ops alerts using an API integration */
-export interface JiraServiceManagementConfig {
-  /** API key of the Jira Service Management API integration */
-  apiKey: string | Redacted.Redacted<string>;
-}
-/** Configuration for Microsoft Teams notifications */
-export interface MicrosoftTeamsConfig {
-  messageTemplate?: MessageTemplate | undefined;
-  /** Microsoft Teams webhook URL */
-  microsoftTeamsUrl?: string | Redacted.Redacted<string> | undefined;
-}
-/** Configuration for OpsGenie integration */
-export interface OpsGenieConfig {
-  /** OpsGenie API key for authentication */
-  apiKey?: string | Redacted.Redacted<string> | undefined;
-  /** Whether to use EU region endpoints */
-  isEU?: boolean | undefined;
-}
-/** Configuration for PagerDuty integration */
-export interface PagerDutyConfig {
-  /** PagerDuty integration key for routing alerts */
-  routingKey?: string | Redacted.Redacted<string> | undefined;
-  /** PagerDuty API token for additional functionality */
-  token?: string | Redacted.Redacted<string> | undefined;
-}
-/** Configuration for Slack notifications using incoming webhooks */
-export interface SlackConfig {
-  messageTemplate?: MessageTemplate | undefined;
-  /** Slack incoming webhook URL */
-  slackUrl?: string | Redacted.Redacted<string> | undefined;
-}
-/** Configuration for simple webhook notifications */
-export interface WebhookConfig {
-  /** Webhook endpoint URL */
-  url?: string | undefined;
-}
-/** Configuration options for different notification channels. Only one channel should be configured per notifier. */
-export interface NotifierProperties {
-  amp?: AmpConfig | undefined;
-  chatgptWorkspaceAgent?: ChatGPTWorkspaceAgentConfig | undefined;
-  claudeCode?: ClaudeCodeConfig | undefined;
-  cursor?: CursorConfig | undefined;
-  customWebhook?: CustomNotifierConfig | undefined;
-  discord?: DiscordConfig | undefined;
-  discordWebhook?: DiscordWebhookConfig | undefined;
-  email?: EmailConfig | undefined;
-  jiraServiceManagement?: JiraServiceManagementConfig | undefined;
-  microsoftTeams?: MicrosoftTeamsConfig | undefined;
-  opsgenie?: OpsGenieConfig | undefined;
-  pagerduty?: PagerDutyConfig | undefined;
-  slack?: SlackConfig | undefined;
-  webhook?: WebhookConfig | undefined;
-}
-/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-export type CreateNotifierRequestLabelIdsList = Array<string>;
-export interface CreateNotifierRequest {
-  /** true when the MCP server created this notifier */
-  createdByAgent?: boolean | undefined;
-  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
-  disabled?: boolean | undefined;
-  /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string | undefined;
-  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
-  lastError?: string | undefined;
-  /** Human-readable name for the notifier */
-  name: string;
-  properties: NotifierProperties;
-  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-  labelIds?: CreateNotifierRequestLabelIdsList | undefined;
-}
-/** IDs of labels assigned to this notifier. */
-export type CreateNotifierResponseLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type CreateNotifierResponseLabelNamesList = Array<string>;
-/** Resolved labels assigned to this notifier. */
-export type CreateNotifierResponseLabelsList = Array<Label>;
-export interface CreateNotifierResponse {
-  /** Timestamp when the notifier was created */
-  createdAt?: string | undefined;
-  /** Email or ID of the user who created the notifier */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this notifier */
-  createdByAgent?: boolean | undefined;
-  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
-  disabled?: boolean | undefined;
-  /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string | undefined;
-  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
-  lastError?: string | undefined;
-  /** Human-readable name for the notifier */
-  name: string;
-  properties: NotifierProperties;
-  /** Timestamp when the notifier was last updated */
-  updatedAt?: string | undefined;
-  /** Unique identifier for the notifier */
-  id?: string | undefined;
-  /** IDs of labels assigned to this notifier. */
-  labelIds: CreateNotifierResponseLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: CreateNotifierResponseLabelNamesList;
-  /** Resolved labels assigned to this notifier. */
-  labels?: CreateNotifierResponseLabelsList | undefined;
 }
 export interface CreateOrgRequest {
   /** The default edge deployment of the organization. */
@@ -1743,31 +1333,6 @@ export interface CreateStarredResponse {
   who: string;
   id: string;
 }
-export interface CreateUserRequest {
-  /** Email address of the new user */
-  email: string;
-  /** Full name of the new user */
-  name: string;
-  /** Role to assign to the new user */
-  role: string;
-}
-/** Detailed information about a user's role */
-export interface UserDetailsRole {
-  /** Unique identifier for the role */
-  id: string;
-  /** Human-readable name of the role */
-  name: string;
-}
-/** Represents a user in the system */
-export interface User {
-  /** User's email address */
-  email: string;
-  /** Unique identifier for the user */
-  id: string;
-  /** User's full name */
-  name: string;
-  role?: UserDetailsRole | undefined;
-}
 /** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
 export type CreateViewRequestDatasetsList = Array<string>;
 export interface CreateViewRequest {
@@ -1838,26 +1403,6 @@ export interface DeleteDashboardRequest {
   uid: string;
 }
 export interface DeleteDashboardResponse {}
-export interface DeleteDatasetRequest {
-  dataset_id: string;
-}
-export interface JobCreateResponse {
-  jobID: string;
-}
-export type DeleteDatasetFieldsRequestFieldsList = Array<string>;
-export interface DeleteDatasetFieldsRequest {
-  dataset_id: string;
-  fields: DeleteDatasetFieldsRequestFieldsList;
-}
-export type DeleteDatasetFieldsResultFieldsList = Array<string>;
-export interface DeleteDatasetFieldsResult {
-  fields?: DeleteDatasetFieldsResultFieldsList | undefined;
-  jobId?: string | undefined;
-}
-export interface DeleteFieldForDatasetRequest {
-  dataset_id: string;
-  field_id: string;
-}
 export interface DeleteGroupRequest {
   /** Unique identifier of the group to delete */
   id: string;
@@ -1872,16 +1417,6 @@ export interface DeleteMapFieldRequest {
   map_field_name: string;
 }
 export interface DeleteMapFieldResponse {}
-export interface DeleteMonitorRequest {
-  /** Monitor ID. */
-  id: string;
-}
-export interface DeleteMonitorResponse {}
-export interface DeleteNotifierRequest {
-  /** Notifier ID. */
-  id: string;
-}
-export interface DeleteNotifierResponse {}
 export interface DeleteRoleRequest {
   /** Unique identifier of the role to delete */
   id: string;
@@ -1942,35 +1477,12 @@ export interface APIToken {
 export interface GetAPITokensRequest {}
 export type GetAPITokensResponseBodyList = Array<APIToken>;
 export type GetAPITokensResponse = GetAPITokensResponseBodyList;
-export interface GetCurrentUserRequest {}
 export type GetDashboardRequestExclude = "labels";
 export interface GetDashboardRequest {
   uid: string;
   /** Exclude resolved label objects from the dashboard response. The labelIds field is still returned. */
   exclude?: GetDashboardRequestExclude | (string & {}) | undefined;
 }
-export type GetDatasetRequestExclude = "labels";
-export interface GetDatasetRequest {
-  dataset_id: string;
-  /** Exclude resolved label objects from the dataset response. The labelIds and labelNames fields are still returned. */
-  exclude?: GetDatasetRequestExclude | (string & {}) | undefined;
-}
-export type GetDatasetsRequestExclude = "labels";
-export type GetDatasetsRequestLabelList = Array<string>;
-export type GetDatasetsRequestLabelMatch = "any" | "all";
-export type GetDatasetsRequestLabelIdsList = Array<string>;
-export interface GetDatasetsRequest {
-  /** Exclude resolved label objects from each dataset response. The labelIds and labelNames fields are still returned. */
-  exclude?: GetDatasetsRequestExclude | (string & {}) | undefined;
-  /** Filter by label names in your organization. Repeat the parameter for multiple names, for example ?label=prod&label=team-a. Names match case-insensitively after whitespace normalization; duplicates count once. Commas are part of a name, not separators. Reading resources never creates missing labels. */
-  label?: GetDatasetsRequestLabelList | undefined;
-  /** How to combine label names: any (the default) requires at least one requested label on a resource; all requires every requested label on that same resource. For example, ?label=prod&label=team-a matches either label, while ?label=prod&label=team-a&labelMatch=all requires both. Unknown names have no matches with any and make all return no resources. Without label parameters, labelMatch has no effect. */
-  labelMatch?: GetDatasetsRequestLabelMatch | (string & {}) | undefined;
-  /** Return datasets assigned every specified label ID. When combined with label names, both filters must match; labelMatch applies only to names. */
-  labelIds?: GetDatasetsRequestLabelIdsList | undefined;
-}
-export type GetDatasetsResponseBodyList = Array<Dataset>;
-export type GetDatasetsResponse = GetDatasetsResponseBodyList;
 export interface GetFieldForDatasetRequest {
   dataset_id: string;
   field_id: string;
@@ -2063,8 +1575,8 @@ export type GetMonitorResponseOperator =
   | "Above"
   | "AboveOrEqual"
   | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type GetMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
+/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data - NewValues: Alerts when the trackedValue column of the query result holds a value not seen within lookbackDays. Each run queries the last rangeMinutes, which defaults to intervalMinutes and cannot be less. Sends one notification per new value. */
+export type GetMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection" | "NewValues";
 /** Dataset names referenced by the monitor query. */
 export type GetMonitorResponseDatasetsList = Array<string>;
 /** IDs of labels assigned to this monitor. */
@@ -2078,6 +1590,8 @@ export interface GetMonitorResponse {
   alertOnNoData?: boolean | undefined;
   /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
   aplQuery?: string | undefined;
+  /** NewValues monitors only. Before the first evaluation, the values the query returns over this many days are recorded as seen, so they do not alert. Must not exceed lookbackDays. 0 disables the backfill. */
+  backfillDays?: number | undefined;
   /** Name of the column to monitor */
   columnName?: string | undefined;
   /** Number of days to compare for anomaly detection */
@@ -2092,6 +1606,8 @@ export interface GetMonitorResponse {
   includeChart?: boolean | undefined;
   /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
   intervalMinutes?: number | undefined;
+  /** NewValues monitors only. A value counts as new when it was not seen in this many days. */
+  lookbackDays?: number | undefined;
   /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
   mplQuery?: string | undefined;
   /** Name of the monitor */
@@ -2116,11 +1632,13 @@ export interface GetMonitorResponse {
   threshold?: number | undefined;
   /** Tolerance percentage for anomaly detection */
   tolerance?: number | undefined;
+  /** NewValues monitors only, and required for them. The column of the query result whose values are checked for new ones. */
+  trackedValue?: string | undefined;
   /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
   triggerAfterNPositiveResults?: number | undefined;
   /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
   triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
+  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data - NewValues: Alerts when the trackedValue column of the query result holds a value not seen within lookbackDays. Each run queries the last rangeMinutes, which defaults to intervalMinutes and cannot be less. Sends one notification per new value. */
   type: GetMonitorResponseType;
   /** Timestamp when the monitor was created */
   createdAt?: string | undefined;
@@ -2143,222 +1661,6 @@ export interface GetMonitorResponse {
   /** Timestamp when the monitor was last updated */
   updatedAt?: string | undefined;
 }
-export interface GetMonitorHistoryRequest {
-  /** Monitor ID. */
-  id: string;
-  /** Start of the time range (RFC 3339). */
-  startTime: string;
-  /** End of the time range (RFC 3339). Must not be before `startTime`. */
-  endTime: string;
-}
-/** `open` if the notification reported that the monitor triggered, `closed` if it reported that the monitor resolved */
-export type AlertHistoryState = "open" | "closed";
-/** A notification sent for a monitor. */
-export interface AlertHistory {
-  /** ID of the monitor */
-  checkId: string;
-  /** Title of the notification: `Triggered: ` or `Resolved: ` followed by the monitor name */
-  name: string;
-  /** `open` if the notification reported that the monitor triggered, `closed` if it reported that the monitor resolved */
-  state: AlertHistoryState;
-  /** Time the delivery was recorded, after any retries */
-  timestamp: string;
-}
-export type GetMonitorHistoryResponseBodyList = Array<AlertHistory>;
-export type GetMonitorHistoryResponse = GetMonitorHistoryResponseBodyList;
-export type GetMonitorsRequestExclude = "labels";
-export type GetMonitorsRequestLabelList = Array<string>;
-export type GetMonitorsRequestLabelMatch = "any" | "all";
-export type GetMonitorsRequestLabelIdsList = Array<string>;
-export interface GetMonitorsRequest {
-  /** Exclude resolved label objects from each monitor response. The labelIds and labelNames fields are still returned. */
-  exclude?: GetMonitorsRequestExclude | (string & {}) | undefined;
-  /** Filter by label names in your organization. Repeat the parameter for multiple names, for example ?label=prod&label=team-a. Names match case-insensitively after whitespace normalization; duplicates count once. Commas are part of a name, not separators. Reading resources never creates missing labels. */
-  label?: GetMonitorsRequestLabelList | undefined;
-  /** How to combine label names: any (the default) requires at least one requested label on a resource; all requires every requested label on that same resource. For example, ?label=prod&label=team-a matches either label, while ?label=prod&label=team-a&labelMatch=all requires both. Unknown names have no matches with any and make all return no resources. Without label parameters, labelMatch has no effect. */
-  labelMatch?: GetMonitorsRequestLabelMatch | (string & {}) | undefined;
-  /** Return monitors assigned every specified label ID. When combined with label names, both filters must match; labelMatch applies only to names. */
-  labelIds?: GetMonitorsRequestLabelIdsList | undefined;
-}
-/** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-export type MonitorWithIdNotifierIdsList = Array<string>;
-/** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-export type MonitorWithIdOperator =
-  | "Below"
-  | "BelowOrEqual"
-  | "Above"
-  | "AboveOrEqual"
-  | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type MonitorWithIdType = "Threshold" | "MatchEvent" | "AnomalyDetection";
-/** Dataset names referenced by the monitor query. */
-export type MonitorWithIdDatasetsList = Array<string>;
-/** IDs of labels assigned to this monitor. */
-export type MonitorWithIdLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type MonitorWithIdLabelNamesList = Array<string>;
-/** Resolved labels assigned to this monitor. */
-export type MonitorWithIdLabelsList = Array<Label>;
-/** Monitor configuration with its unique identifier */
-export interface MonitorWithId {
-  /** Whether to alert when no data is received */
-  alertOnNoData?: boolean | undefined;
-  /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string | undefined;
-  /** Name of the column to monitor */
-  columnName?: string | undefined;
-  /** Number of days to compare for anomaly detection */
-  compareDays?: number | undefined;
-  /** Detailed description of the monitor's purpose */
-  description?: string | undefined;
-  /** Whether the monitor is currently disabled */
-  disabled?: boolean | undefined;
-  /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null | undefined;
-  /** Whether to include a query chart in triggered notifications */
-  includeChart?: boolean | undefined;
-  /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number | undefined;
-  /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string | undefined;
-  /** Name of the monitor */
-  name: string;
-  /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: MonitorWithIdNotifierIdsList | undefined;
-  /** Whether to group notifications */
-  notifyByGroup?: boolean | undefined;
-  /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean | undefined;
-  /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: MonitorWithIdOperator | undefined;
-  /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number | undefined;
-  /** Whether the alert can be manually resolved */
-  resolvable?: boolean | undefined;
-  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
-  secondDelay?: number | undefined;
-  /** Whether to skip resolved alerts */
-  skipResolved?: boolean | undefined;
-  /** Threshold value for triggering the alert */
-  threshold?: number | undefined;
-  /** Tolerance percentage for anomaly detection */
-  tolerance?: number | undefined;
-  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
-  triggerAfterNPositiveResults?: number | undefined;
-  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
-  triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-  type: MonitorWithIdType;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this monitor */
-  createdByAgent?: boolean | undefined;
-  /** Dataset names referenced by the monitor query. */
-  datasets?: MonitorWithIdDatasetsList | undefined;
-  /** Unique identifier for the monitor */
-  id: string;
-  /** IDs of labels assigned to this monitor. */
-  labelIds: MonitorWithIdLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: MonitorWithIdLabelNamesList;
-  /** Resolved labels assigned to this monitor. */
-  labels?: MonitorWithIdLabelsList | undefined;
-  /** Most recent error encountered while evaluating the monitor. */
-  lastError?: string | undefined;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
-}
-export type GetMonitorsResponseBodyList = Array<MonitorWithId>;
-export type GetMonitorsResponse = GetMonitorsResponseBodyList;
-export type GetNotifierRequestExclude = "labels";
-export interface GetNotifierRequest {
-  /** Notifier ID. */
-  id: string;
-  /** Exclude resolved label objects from the notifier response. The labelIds and labelNames fields are still returned. */
-  exclude?: GetNotifierRequestExclude | (string & {}) | undefined;
-}
-/** IDs of labels assigned to this notifier. */
-export type GetNotifierResponseLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type GetNotifierResponseLabelNamesList = Array<string>;
-/** Resolved labels assigned to this notifier. */
-export type GetNotifierResponseLabelsList = Array<Label>;
-export interface GetNotifierResponse {
-  /** Timestamp when the notifier was created */
-  createdAt?: string | undefined;
-  /** Email or ID of the user who created the notifier */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this notifier */
-  createdByAgent?: boolean | undefined;
-  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
-  disabled?: boolean | undefined;
-  /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string | undefined;
-  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
-  lastError?: string | undefined;
-  /** Human-readable name for the notifier */
-  name: string;
-  properties: NotifierProperties;
-  /** Timestamp when the notifier was last updated */
-  updatedAt?: string | undefined;
-  /** Unique identifier for the notifier */
-  id?: string | undefined;
-  /** IDs of labels assigned to this notifier. */
-  labelIds: GetNotifierResponseLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: GetNotifierResponseLabelNamesList;
-  /** Resolved labels assigned to this notifier. */
-  labels?: GetNotifierResponseLabelsList | undefined;
-}
-export type GetNotifiersRequestExclude = "labels";
-export type GetNotifiersRequestLabelList = Array<string>;
-export type GetNotifiersRequestLabelMatch = "any" | "all";
-export interface GetNotifiersRequest {
-  /** Exclude resolved label objects from each notifier response. The labelIds and labelNames fields are still returned. */
-  exclude?: GetNotifiersRequestExclude | (string & {}) | undefined;
-  /** Filter by label names in your organization. Repeat the parameter for multiple names, for example ?label=prod&label=team-a. Names match case-insensitively after whitespace normalization; duplicates count once. Commas are part of a name, not separators. Reading resources never creates missing labels. */
-  label?: GetNotifiersRequestLabelList | undefined;
-  /** How to combine label names: any (the default) requires at least one requested label on a resource; all requires every requested label on that same resource. For example, ?label=prod&label=team-a matches either label, while ?label=prod&label=team-a&labelMatch=all requires both. Unknown names have no matches with any and make all return no resources. Without label parameters, labelMatch has no effect. */
-  labelMatch?: GetNotifiersRequestLabelMatch | (string & {}) | undefined;
-}
-/** IDs of labels assigned to this notifier. */
-export type NotifierWithIdLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type NotifierWithIdLabelNamesList = Array<string>;
-/** Resolved labels assigned to this notifier. */
-export type NotifierWithIdLabelsList = Array<Label>;
-/** Notifier configuration with its unique identifier */
-export interface NotifierWithId {
-  /** Timestamp when the notifier was created */
-  createdAt?: string | undefined;
-  /** Email or ID of the user who created the notifier */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this notifier */
-  createdByAgent?: boolean | undefined;
-  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
-  disabled?: boolean | undefined;
-  /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string | undefined;
-  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
-  lastError?: string | undefined;
-  /** Human-readable name for the notifier */
-  name: string;
-  properties: NotifierProperties;
-  /** Timestamp when the notifier was last updated */
-  updatedAt?: string | undefined;
-  /** Unique identifier for the notifier */
-  id?: string | undefined;
-  /** IDs of labels assigned to this notifier. */
-  labelIds: NotifierWithIdLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: NotifierWithIdLabelNamesList;
-  /** Resolved labels assigned to this notifier. */
-  labels?: NotifierWithIdLabelsList | undefined;
-}
-export type GetNotifiersResponseBodyList = Array<NotifierWithId>;
-export type GetNotifiersResponse = GetNotifiersResponseBodyList;
 export interface GetOrgRequest {
   id: string;
 }
@@ -2421,12 +1723,6 @@ export interface StarredQueryWithId {
 }
 export type GetStarredQueriesResponseBodyList = Array<StarredQueryWithId>;
 export type GetStarredQueriesResponse = GetStarredQueriesResponseBodyList;
-export interface GetUserRequest {
-  id: string;
-}
-export interface GetUsersRequest {}
-export type GetUsersResponseBodyList = Array<User>;
-export type GetUsersResponse = GetUsersResponseBodyList;
 export interface GetViewRequest {
   /** Name of the view */
   id: string;
@@ -2617,18 +1913,10 @@ export interface RegenerateAPITokenResponse {
   viewCapabilities?: ViewCapabilities | undefined;
   token?: string | Redacted.Redacted<string> | undefined;
 }
-export interface RemoveUserFromOrgRequest {
-  id: string;
-}
-export interface RemoveUserFromOrgResponse {}
 export type ReplaceLabelAssignmentsRequestLabelIdsList = Array<string>;
 export interface ReplaceLabelAssignmentsRequest {
   labelIds: ReplaceLabelAssignmentsRequestLabelIdsList;
   target: LabelAssignmentTarget;
-}
-export interface TrimDatasetRequest {
-  dataset_id: string;
-  maxDuration: string;
 }
 /** array<string> of dataset names for which the annotation appears on charts */
 export type UpdateAnnotationRequestDatasetsList = Array<string>;
@@ -2650,10 +1938,6 @@ export interface UpdateAnnotationRequest {
   /** URL relevant for the event marked by the annotation. For example, link to GitHub pull request. */
   url?: string | undefined;
 }
-export interface UpdateCurrentUserRequest {
-  /** New name for the user */
-  name: string;
-}
 /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
 export type UpdateDashboardRequestLabelIdsList = Array<string>;
 /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
@@ -2667,18 +1951,6 @@ export interface UpdateDashboardRequest {
   overwrite?: boolean | undefined;
   /** Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number). */
   version?: UpdateDashboardRequestVersion | undefined;
-}
-/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-export type UpdateDatasetRequestLabelIdsList = Array<string>;
-export interface UpdateDatasetRequest {
-  dataset_id: string;
-  description?: string | undefined;
-  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-  labelIds?: UpdateDatasetRequestLabelIdsList | undefined;
-  /** Number of days to retain data in the dataset */
-  retentionDays?: number | undefined;
-  /** Ignored. Axiom derives this value from `retentionDays`. */
-  useRetentionPeriod?: boolean | undefined;
 }
 export interface UpdateFieldForDatasetRequest {
   dataset_id: string;
@@ -2739,214 +2011,6 @@ export interface UpdateMapFieldsRequest {
   body: MapFields;
 }
 export type UpdateMapFieldsResponse = MapFields;
-/** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-export type UpdateMonitorRequestNotifierIdsList = Array<string>;
-/** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-export type UpdateMonitorRequestOperator =
-  | "Below"
-  | "BelowOrEqual"
-  | "Above"
-  | "AboveOrEqual"
-  | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type UpdateMonitorRequestType = "Threshold" | "MatchEvent" | "AnomalyDetection";
-/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-export type UpdateMonitorRequestLabelIdsList = Array<string>;
-export interface UpdateMonitorRequest {
-  /** Monitor ID. */
-  id: string;
-  /** Whether to alert when no data is received */
-  alertOnNoData?: boolean | undefined;
-  /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string | undefined;
-  /** Name of the column to monitor */
-  columnName?: string | undefined;
-  /** Number of days to compare for anomaly detection */
-  compareDays?: number | undefined;
-  /** Detailed description of the monitor's purpose */
-  description?: string | undefined;
-  /** Whether the monitor is currently disabled */
-  disabled?: boolean | undefined;
-  /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null | undefined;
-  /** Whether to include a query chart in triggered notifications */
-  includeChart?: boolean | undefined;
-  /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number | undefined;
-  /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string | undefined;
-  /** Name of the monitor */
-  name: string;
-  /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: UpdateMonitorRequestNotifierIdsList | undefined;
-  /** Whether to group notifications */
-  notifyByGroup?: boolean | undefined;
-  /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean | undefined;
-  /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: UpdateMonitorRequestOperator | (string & {}) | undefined;
-  /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number | undefined;
-  /** Whether the alert can be manually resolved */
-  resolvable?: boolean | undefined;
-  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
-  secondDelay?: number | undefined;
-  /** Whether to skip resolved alerts */
-  skipResolved?: boolean | undefined;
-  /** Threshold value for triggering the alert */
-  threshold?: number | undefined;
-  /** Tolerance percentage for anomaly detection */
-  tolerance?: number | undefined;
-  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
-  triggerAfterNPositiveResults?: number | undefined;
-  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
-  triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-  type: UpdateMonitorRequestType | (string & {});
-  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-  labelIds?: UpdateMonitorRequestLabelIdsList | undefined;
-}
-/** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-export type UpdateMonitorResponseNotifierIdsList = Array<string>;
-/** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-export type UpdateMonitorResponseOperator =
-  | "Below"
-  | "BelowOrEqual"
-  | "Above"
-  | "AboveOrEqual"
-  | "AboveOrBelow";
-/** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-export type UpdateMonitorResponseType = "Threshold" | "MatchEvent" | "AnomalyDetection";
-/** Dataset names referenced by the monitor query. */
-export type UpdateMonitorResponseDatasetsList = Array<string>;
-/** IDs of labels assigned to this monitor. */
-export type UpdateMonitorResponseLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type UpdateMonitorResponseLabelNamesList = Array<string>;
-/** Resolved labels assigned to this monitor. */
-export type UpdateMonitorResponseLabelsList = Array<Label>;
-export interface UpdateMonitorResponse {
-  /** Whether to alert when no data is received */
-  alertOnNoData?: boolean | undefined;
-  /** APL (Axiom Processing Language) query string used for monitoring. This query defines what data to analyze and how to process it. At least one of aplQuery or mplQuery must be provided. */
-  aplQuery?: string | undefined;
-  /** Name of the column to monitor */
-  columnName?: string | undefined;
-  /** Number of days to compare for anomaly detection */
-  compareDays?: number | undefined;
-  /** Detailed description of the monitor's purpose */
-  description?: string | undefined;
-  /** Whether the monitor is currently disabled */
-  disabled?: boolean | undefined;
-  /** Timestamp until when the monitor should remain disabled */
-  disabledUntil?: string | null | undefined;
-  /** Whether to include a query chart in triggered notifications */
-  includeChart?: boolean | undefined;
-  /** How frequently the monitor should run, in minutes. Minimum value is 1 minute. */
-  intervalMinutes?: number | undefined;
-  /** MPL (Metrics Processing Language) query string for metrics-based monitoring. Use this as an alternative to aplQuery for metrics datasets. At least one of aplQuery or mplQuery must be provided. */
-  mplQuery?: string | undefined;
-  /** Name of the monitor */
-  name: string;
-  /** List of notifier IDs that will receive alerts. Notifiers can be email, Slack, webhook endpoints, etc. */
-  notifierIds?: UpdateMonitorResponseNotifierIdsList | undefined;
-  /** Whether to group notifications */
-  notifyByGroup?: boolean | undefined;
-  /** Whether to send notifications on every check */
-  notifyEveryRun?: boolean | undefined;
-  /** Comparison operator for threshold checks: - Below: Trigger when value < threshold - BelowOrEqual: Trigger when value <= threshold - Above: Trigger when value > threshold - AboveOrEqual: Trigger when value >= threshold - AboveOrBelow: Trigger when value is outside a range */
-  operator?: UpdateMonitorResponseOperator | undefined;
-  /** Time window to evaluate in each check, in minutes. For example, "last 5 minutes of data" */
-  rangeMinutes?: number | undefined;
-  /** Whether the alert can be manually resolved */
-  resolvable?: boolean | undefined;
-  /** Number of seconds to move each run's query window into the past, so data that arrives late is included. For example, with a value of 300, a run at 10:05 queries up to 10:00. */
-  secondDelay?: number | undefined;
-  /** Whether to skip resolved alerts */
-  skipResolved?: boolean | undefined;
-  /** Threshold value for triggering the alert */
-  threshold?: number | undefined;
-  /** Tolerance percentage for anomaly detection */
-  tolerance?: number | undefined;
-  /** Number of runs among the last `triggerFromNRuns` runs, including the current one, that must meet the trigger condition for the monitor to trigger. The current run must always meet it. For example, set both fields to 3 to trigger only after 3 consecutive runs meet the condition. If unset or 0, the first run that meets the condition triggers. Values above `triggerFromNRuns` are lowered to it when the monitor is saved. Applies to Threshold and AnomalyDetection monitors. */
-  triggerAfterNPositiveResults?: number | undefined;
-  /** Number of most recent runs, including the current one, that the monitor looks at when deciding whether to trigger. Has no effect unless `triggerAfterNPositiveResults` is also set. Applies to Threshold and AnomalyDetection monitors. */
-  triggerFromNRuns?: number | undefined;
-  /** Type of monitoring check to perform: - Threshold: Compares a numeric value against a threshold - MatchEvent: Looks for specific events or patterns - AnomalyDetection: Identifies unusual patterns based on historical data */
-  type: UpdateMonitorResponseType;
-  /** Timestamp when the monitor was created */
-  createdAt?: string | undefined;
-  /** ID of the user who created the monitor */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this monitor */
-  createdByAgent?: boolean | undefined;
-  /** Dataset names referenced by the monitor query. */
-  datasets?: UpdateMonitorResponseDatasetsList | undefined;
-  /** Unique identifier for the monitor */
-  id: string;
-  /** IDs of labels assigned to this monitor. */
-  labelIds: UpdateMonitorResponseLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: UpdateMonitorResponseLabelNamesList;
-  /** Resolved labels assigned to this monitor. */
-  labels?: UpdateMonitorResponseLabelsList | undefined;
-  /** Most recent error encountered while evaluating the monitor. */
-  lastError?: string | undefined;
-  /** Timestamp when the monitor was last updated */
-  updatedAt?: string | undefined;
-}
-/** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-export type UpdateNotifierRequestLabelIdsList = Array<string>;
-export interface UpdateNotifierRequest {
-  /** Notifier ID. */
-  id: string;
-  /** true when the MCP server created this notifier */
-  createdByAgent?: boolean | undefined;
-  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
-  disabled?: boolean | undefined;
-  /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string | undefined;
-  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
-  lastError?: string | undefined;
-  /** Human-readable name for the notifier */
-  name: string;
-  properties: NotifierProperties;
-  /** Existing label IDs; replaces assignments when supplied, clears with [], and preserves them when omitted or null. */
-  labelIds?: UpdateNotifierRequestLabelIdsList | undefined;
-}
-/** IDs of labels assigned to this notifier. */
-export type UpdateNotifierResponseLabelIdsList = Array<string>;
-/** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-export type UpdateNotifierResponseLabelNamesList = Array<string>;
-/** Resolved labels assigned to this notifier. */
-export type UpdateNotifierResponseLabelsList = Array<Label>;
-export interface UpdateNotifierResponse {
-  /** Timestamp when the notifier was created */
-  createdAt?: string | undefined;
-  /** Email or ID of the user who created the notifier */
-  createdBy?: string | undefined;
-  /** true when the MCP server created this notifier */
-  createdByAgent?: boolean | undefined;
-  /** Whether repeated delivery failures disabled the notifier. False when a user snoozed it with disabledUntil. Ignored on requests */
-  disabled?: boolean | undefined;
-  /** ISO timestamp until which the notifier is disabled (null if enabled) */
-  disabledUntil?: string | undefined;
-  /** The delivery error that disabled the notifier. Empty for email notifiers and when disabled is false. Ignored on requests */
-  lastError?: string | undefined;
-  /** Human-readable name for the notifier */
-  name: string;
-  properties: NotifierProperties;
-  /** Timestamp when the notifier was last updated */
-  updatedAt?: string | undefined;
-  /** Unique identifier for the notifier */
-  id?: string | undefined;
-  /** IDs of labels assigned to this notifier. */
-  labelIds: UpdateNotifierResponseLabelIdsList;
-  /** Names of assigned labels, including with exclude=labels; [] when unassigned. */
-  labelNames: UpdateNotifierResponseLabelNamesList;
-  /** Resolved labels assigned to this notifier. */
-  labels?: UpdateNotifierResponseLabelsList | undefined;
-}
 export interface UpdateOrgRequest {
   id: string;
   name: string;
@@ -3003,11 +2067,6 @@ export interface UpdateStarredResponse {
   who: string;
   id: string;
 }
-export interface UpdateUserRoleRequest {
-  id: string;
-  /** Role identifier to assign to the user */
-  role: string;
-}
 /** Datasets the view queries. Axiom derives this from `aplQuery` and ignores it in requests. */
 export type UpdateViewRequestDatasetsList = Array<string>;
 export interface UpdateViewRequest {
@@ -3053,6 +2112,9 @@ export interface UpdateVirtualFieldResponse {
 export interface VacuumDatasetRequest {
   dataset_id: string;
 }
+export interface JobCreateResponse {
+  jobID: string;
+}
 export interface DashboardError {
   code: string;
   currentVersion?: number | undefined;
@@ -3066,12 +2128,11 @@ export interface DatasetsError {
   /** Error message. */
   message?: string | undefined;
 }
-export interface Error400Body {
+export interface Error403Body {
   code?: string | undefined;
   message?: string | undefined;
 }
-export type Error403Body = Error400Body;
-export type Error404Body = Error400Body;
+export type Error404Body = Error403Body;
 export type CreateAnnotationError = BadRequest | UnprocessableEntity | AxiomOpError;
 /** Creates an annotation on one or more existing datasets. If you omit `time`, Axiom uses the time of the request. `time` can't be in the future. */
 export const createAnnotation: API.OperationMethod<
@@ -3080,9 +2141,10 @@ export const createAnnotation: API.OperationMethod<
   CreateAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<CreateAnnotationRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
-  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
+  input: __S(440, __c55, 0) as any as S.Schema<CreateAnnotationRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<Annotation>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3097,9 +2159,10 @@ export const createAPIToken: API.OperationMethod<
   CreateAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CreateAPITokenRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<CreateAPITokenResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  input: __S(544, __c68, 0) as any as S.Schema<CreateAPITokenRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<CreateAPITokenResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3114,36 +2177,14 @@ export const createDashboard: API.OperationMethod<
   CreateDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<CreateDashboardRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
-  errors: [BadRequest, Conflict, UnknownAxiomError],
+  input: __S(624, __c78, 0) as any as S.Schema<CreateDashboardRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<DashboardWriteResponse>,
+  errors: [BadRequest, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDashboard",
-}));
-
-export type CreateDatasetError =
-  | BadRequest
-  | BadRequest
-  | UnprocessableEntity
-  | Forbidden
-  | Conflict
-  | AxiomOpError;
-/** Create dataset Creates a dataset. The `name` must be unique in your organization, and `retentionDays` can't exceed the retention window of your plan. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
-export const createDataset: API.OperationMethod<
-  CreateDatasetRequest,
-  Dataset,
-  CreateDatasetError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
-  errors: [BadRequest, BadRequest, UnprocessableEntity, Forbidden, Conflict, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateDataset",
 }));
 
 export type CreateGroupError = UnprocessableEntity | AxiomOpError;
@@ -3154,9 +2195,10 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<CreateGroupResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  input: __S(664, __c83, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(672, __c84, 0) as any as S.Schema<CreateGroupResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3171,9 +2213,10 @@ export const createLabel: API.OperationMethod<
   CreateLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateLabelRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<LabelSummary>,
-  errors: [BadRequest, Conflict, UnknownAxiomError],
+  input: __S(680, __c85, 0) as any as S.Schema<CreateLabelRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<LabelSummary>,
+  errors: [BadRequest, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3188,56 +2231,24 @@ export const createMapField: API.OperationMethod<
   CreateMapFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateMapFieldRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<MapField>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(16, __c2, 0) as any as S.Schema<CreateMapFieldRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<MapField>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateMapField",
 }));
 
-export type CreateMonitorError = UnprocessableEntity | AxiomOpError;
-/** Creates a monitor. Axiom runs the monitor's query once before saving it and rejects the request if the query fails, for example because it's invalid or references a dataset that doesn't exist. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
-export const createMonitor: API.OperationMethod<
-  CreateMonitorRequest,
-  CreateMonitorResponse,
-  CreateMonitorError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateMonitorRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<CreateMonitorResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateMonitor",
-}));
-
-export type CreateNotifierError = UnprocessableEntity | AxiomOpError;
-/** Creates a notifier. Set exactly one channel under `properties`, such as `slack`, `email`, or `webhook`. Returns `400` if the channel type isn't enabled for your organization. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
-export const createNotifier: API.OperationMethod<
-  CreateNotifierRequest,
-  CreateNotifierResponse,
-  CreateNotifierError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateNotifierRequest>,
-  output: __S(337, __c10, 17) as any as S.Schema<CreateNotifierResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateNotifier",
-}));
-
 export type CreateOrgError = BadRequest | AxiomOpError;
 /** Creates an organization on the Personal plan with the authenticated user as its owner. Requires a personal access token (PAT). */
 export const createOrg: API.OperationMethod<CreateOrgRequest, Org, CreateOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(352, __c11, 0) as any as S.Schema<CreateOrgRequest>,
-    output: __S(386, __c12, 2) as any as S.Schema<Org>,
-    errors: [BadRequest, UnknownAxiomError],
+    input: __S(24, __c3, 0) as any as S.Schema<CreateOrgRequest>,
+    output: __S(34, __c4, 2) as any as S.Schema<Org>,
+    errors: [BadRequest],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3252,9 +2263,10 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<CreateRoleResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  input: __S(40, __c5, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateRoleResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3269,30 +2281,14 @@ export const createStarred: API.OperationMethod<
   CreateStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateStarredRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<CreateStarredResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  input: __S(56, __c7, 0) as any as S.Schema<CreateStarredRequest>,
+  output: __S(69, __c8, 5) as any as S.Schema<CreateStarredResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateStarred",
-}));
-
-export type CreateUserError = BadRequest | UnprocessableEntity | AxiomOpError;
-/** Adds a user to the organization with the given role and sends them an invite email. If the email address already belongs to an Axiom account, Axiom keeps its existing name. API tokens can't assign the `owner` role. */
-export const createUser: API.OperationMethod<
-  CreateUserRequest,
-  User,
-  CreateUserError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateUser",
 }));
 
 export type CreateViewError = UnprocessableEntity | AxiomOpError;
@@ -3303,9 +2299,10 @@ export const createView: API.OperationMethod<
   CreateViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<View>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  input: __S(72, __c9, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<View>,
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3320,9 +2317,10 @@ export const createVirtualField: API.OperationMethod<
   CreateVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateVirtualFieldRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CreateVirtualFieldResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  input: __S(88, __c11, 0) as any as S.Schema<CreateVirtualFieldRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<CreateVirtualFieldResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3337,9 +2335,10 @@ export const deleteAnnotation: API.OperationMethod<
   DeleteAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteAnnotationRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteAnnotationResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  input: __S(104, __c13, 0) as any as S.Schema<DeleteAnnotationRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteAnnotationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3354,9 +2353,10 @@ export const deleteAPIToken: API.OperationMethod<
   DeleteAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteAPITokenRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteAPITokenResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteAPITokenRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteAPITokenResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3371,64 +2371,14 @@ export const deleteDashboard: API.OperationMethod<
   DeleteDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteDashboardRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteDashboardResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteDashboardRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteDashboardResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDashboard",
-}));
-
-export type DeleteDatasetError = Forbidden | NotFound | NotFound | AxiomOpError;
-/** Delete dataset Deletes a dataset and queues the permanent deletion of its data. For a dataset shared with your organization, removes it from your organization only. Returns the ID of the deletion job. */
-export const deleteDataset: API.OperationMethod<
-  DeleteDatasetRequest,
-  JobCreateResponse,
-  DeleteDatasetError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [Forbidden, NotFound, NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteDataset",
-}));
-
-export type DeleteDatasetFieldsError = BadRequest | Forbidden | NotFound | AxiomOpError;
-/** Delete fields from a dataset Queues the deletion of the listed fields from the dataset schema. Deleted values stay in storage but can't be queried, and ingesting a deleted field again recreates it. You can delete fields once every 5 minutes per dataset. */
-export const deleteDatasetFields: API.OperationMethod<
-  DeleteDatasetFieldsRequest,
-  DeleteDatasetFieldsResult,
-  DeleteDatasetFieldsError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteDatasetFieldsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteDatasetFields",
-}));
-
-export type DeleteFieldForDatasetError = BadRequest | Forbidden | NotFound | AxiomOpError;
-/** Delete a field from a dataset Queues the deletion of a field from the dataset schema. Deleted values stay in storage but can't be queried, and ingesting the field again recreates it. You can delete fields once every 5 minutes per dataset. */
-export const deleteFieldForDataset: API.OperationMethod<
-  DeleteFieldForDatasetRequest,
-  DeleteDatasetFieldsResult,
-  DeleteFieldForDatasetError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteFieldForDatasetRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteFieldForDataset",
 }));
 
 export type DeleteGroupError = NotFound | AxiomOpError;
@@ -3439,9 +2389,10 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteGroupResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3456,9 +2407,10 @@ export const deleteLabel: API.OperationMethod<
   DeleteLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteLabelRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteLabelResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteLabelRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteLabelResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3473,47 +2425,14 @@ export const deleteMapField: API.OperationMethod<
   DeleteMapFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteMapFieldRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteMapFieldResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteMapFieldRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteMapFieldResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteMapField",
-}));
-
-export type DeleteMonitorError = NotFound | AxiomOpError;
-/** Permanently deletes a monitor and removes its label assignments. The caller needs query access to the monitor's datasets. */
-export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorRequest,
-  DeleteMonitorResponse,
-  DeleteMonitorError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteMonitorRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteMonitor",
-}));
-
-export type DeleteNotifierError = NotFound | AxiomOpError;
-/** Permanently deletes a notifier and removes its label assignments. Returns `400` if any monitor still uses the notifier. */
-export const deleteNotifier: API.OperationMethod<
-  DeleteNotifierRequest,
-  DeleteNotifierResponse,
-  DeleteNotifierError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteNotifierRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteNotifierResponse>,
-  errors: [NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteNotifier",
 }));
 
 export type DeleteRoleError = NotFound | AxiomOpError;
@@ -3524,9 +2443,10 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteRoleResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteRoleResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3541,9 +2461,10 @@ export const deleteStarred: API.OperationMethod<
   DeleteStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteStarredRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteStarredResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteStarredRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteStarredResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3558,9 +2479,10 @@ export const deleteView: API.OperationMethod<
   DeleteViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteViewRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteViewResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteViewRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteViewResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3575,9 +2497,10 @@ export const deleteVirtualField: API.OperationMethod<
   DeleteVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3592,9 +2515,10 @@ export const getAnnotation: API.OperationMethod<
   GetAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetAnnotationRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  input: __S(200, __c25, 0) as any as S.Schema<GetAnnotationRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<Annotation>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3609,9 +2533,10 @@ export const getAnnotations: API.OperationMethod<
   GetAnnotationsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetAnnotationsRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  input: __S(208, __c26, 0) as any as S.Schema<GetAnnotationsRequest>,
+  output: __S(210, __c26, 2) as any as S.Schema<GetAnnotationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3626,9 +2551,10 @@ export const getAPIToken: API.OperationMethod<
   GetAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetAPITokenRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<APIToken>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(216, __c27, 0) as any as S.Schema<GetAPITokenRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<APIToken>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3643,30 +2569,14 @@ export const getAPITokens: API.OperationMethod<
   GetAPITokensError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetAPITokensRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<GetAPITokensResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(232, __c29, 0) as any as S.Schema<GetAPITokensRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<GetAPITokensResponse>,
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAPITokens",
-}));
-
-export type GetCurrentUserError = Forbidden | AxiomOpError;
-/** Retrieves the user who owns the personal access token (PAT) used to authenticate. API tokens aren't supported. The response includes `role` only when the `X-AXIOM-ORG-ID` header is set. */
-export const getCurrentUser: API.OperationMethod<
-  GetCurrentUserRequest,
-  User,
-  GetCurrentUserError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [Forbidden, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetCurrentUser",
 }));
 
 export type GetDashboardError = NotFound | AxiomOpError;
@@ -3677,47 +2587,14 @@ export const getDashboard: API.OperationMethod<
   GetDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetDashboardRequest>,
-  output: __S(2854, __c89, 6) as any as S.Schema<DashboardResource>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(240, __c30, 0) as any as S.Schema<GetDashboardRequest>,
+  output: __S(646, __c80, 6) as any as S.Schema<DashboardResource>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDashboard",
-}));
-
-export type GetDatasetError = Forbidden | NotFound | AxiomOpError;
-/** Get dataset by ID Retrieves a dataset by its name. */
-export const getDataset: API.OperationMethod<
-  GetDatasetRequest,
-  Dataset,
-  GetDatasetError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
-  errors: [Forbidden, NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDataset",
-}));
-
-export type GetDatasetsError = BadRequest | Forbidden | AxiomOpError;
-/** Get list of datasets Lists the datasets you can read, including datasets shared with your organization, sorted by name. Returns all matching datasets in one response without pagination. */
-export const getDatasets: API.OperationMethod<
-  GetDatasetsRequest,
-  GetDatasetsResponse,
-  GetDatasetsError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetDatasetsRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<GetDatasetsResponse>,
-  errors: [BadRequest, Forbidden, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDatasets",
 }));
 
 export type GetFieldForDatasetError = NotFound | AxiomOpError;
@@ -3728,9 +2605,10 @@ export const getFieldForDataset: API.OperationMethod<
   GetFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetFieldForDatasetRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<DatasetField>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(248, __c31, 0) as any as S.Schema<GetFieldForDatasetRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<DatasetField>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3745,9 +2623,10 @@ export const getFieldsForDataset: API.OperationMethod<
   GetFieldsForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, NotFound, UnknownAxiomError],
+  input: __S(264, __c33, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
+  output: __S(266, __c33, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
+  errors: [BadRequest, Forbidden, NotFound, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3762,9 +2641,10 @@ export const getGroupById: API.OperationMethod<
   GetGroupByIdError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetGroupByIdRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<GetGroupByIdResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(272, __c34, 0) as any as S.Schema<GetGroupByIdRequest>,
+  output: __S(672, __c84, 0) as any as S.Schema<GetGroupByIdResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3779,9 +2659,10 @@ export const getLabel: API.OperationMethod<
   GetLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetLabelRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<LabelDetails>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  input: __S(280, __c35, 0) as any as S.Schema<GetLabelRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<LabelDetails>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3796,9 +2677,10 @@ export const getMapFields: API.OperationMethod<
   GetMapFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetMapFieldsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<GetMapFieldsResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(304, __c38, 0) as any as S.Schema<GetMapFieldsRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<GetMapFieldsResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3813,90 +2695,24 @@ export const getMonitor: API.OperationMethod<
   GetMonitorError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetMonitorRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<GetMonitorResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(320, __c40, 0) as any as S.Schema<GetMonitorRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<GetMonitorResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMonitor",
 }));
 
-export type GetMonitorHistoryError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Lists the notifications sent for the monitor between `startTime` and `endTime`. Each delivery is a separate item: one per notifier, and one per recipient for email notifiers. Failed deliveries are included. State changes that sent no notification, for example while the monitor had no notifiers, aren't listed. The caller needs query access to the monitor's datasets. */
-export const getMonitorHistory: API.OperationMethod<
-  GetMonitorHistoryRequest,
-  GetMonitorHistoryResponse,
-  GetMonitorHistoryError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetMonitorHistoryRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<GetMonitorHistoryResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetMonitorHistory",
-}));
-
-export type GetMonitorsError = BadRequest | AxiomOpError;
-/** Lists monitors in the organization, sorted by name. Only returns monitors that query at least one dataset visible to the caller. Labels are resolved unless `exclude=labels`. */
-export const getMonitors: API.OperationMethod<
-  GetMonitorsRequest,
-  GetMonitorsResponse,
-  GetMonitorsError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetMonitorsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<GetMonitorsResponse>,
-  errors: [BadRequest, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetMonitors",
-}));
-
-export type GetNotifierError = NotFound | AxiomOpError;
-/** Retrieves a notifier by ID. Labels are resolved unless `exclude=labels`. */
-export const getNotifier: API.OperationMethod<
-  GetNotifierRequest,
-  GetNotifierResponse,
-  GetNotifierError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetNotifierRequest>,
-  output: __S(337, __c10, 17) as any as S.Schema<GetNotifierResponse>,
-  errors: [NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetNotifier",
-}));
-
-export type GetNotifiersError = BadRequest | AxiomOpError;
-/** Lists all notifiers in the organization, sorted by name. Labels are resolved unless `exclude=labels`. */
-export const getNotifiers: API.OperationMethod<
-  GetNotifiersRequest,
-  GetNotifiersResponse,
-  GetNotifiersError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetNotifiersRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<GetNotifiersResponse>,
-  errors: [BadRequest, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetNotifiers",
-}));
-
 export type GetOrgError = NotFound | AxiomOpError;
 /** Retrieves an organization the authenticated user is a member of, including its plan and license limits. Requires a personal access token (PAT). */
 export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2144, __c67, 0) as any as S.Schema<GetOrgRequest>,
-    output: __S(386, __c12, 2) as any as S.Schema<Org>,
-    errors: [NotFound, UnknownAxiomError],
+    input: __S(328, __c41, 0) as any as S.Schema<GetOrgRequest>,
+    output: __S(34, __c4, 2) as any as S.Schema<Org>,
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3911,9 +2727,10 @@ export const getOrgs: API.OperationMethod<
   GetOrgsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetOrgsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<GetOrgsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(336, __c42, 0) as any as S.Schema<GetOrgsRequest>,
+  output: __S(338, __c42, 2) as any as S.Schema<GetOrgsResponse>,
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3928,9 +2745,10 @@ export const getRoleById: API.OperationMethod<
   GetRoleByIdError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetRoleByIdRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<GetRoleByIdResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(344, __c43, 0) as any as S.Schema<GetRoleByIdRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<GetRoleByIdResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3945,9 +2763,10 @@ export const getStarred: API.OperationMethod<
   GetStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetStarredRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<GetStarredResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(352, __c44, 0) as any as S.Schema<GetStarredRequest>,
+  output: __S(69, __c8, 5) as any as S.Schema<GetStarredResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3962,52 +2781,24 @@ export const getStarredQueries: API.OperationMethod<
   GetStarredQueriesError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<GetStarredQueriesRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<GetStarredQueriesResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  input: __S(360, __c45, 0) as any as S.Schema<GetStarredQueriesRequest>,
+  output: __S(362, __c45, 2) as any as S.Schema<GetStarredQueriesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStarredQueries",
 }));
 
-export type GetUserError = NotFound | AxiomOpError;
-/** Retrieves a member of the organization by user ID, including their role. */
-export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, AxiomOpContext> =
-  /*@__PURE__*/ API.make(() => ({
-    input: __S(2304, __c72, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(577, __c18, 1) as any as S.Schema<User>,
-    errors: [NotFound, UnknownAxiomError],
-    protocol: AxiomProtocol,
-    retry: Retry.Retry,
-    telemetry: TELEMETRY,
-    span: "GetUser",
-  }));
-
-export type GetUsersError = AxiomOpError;
-/** Lists all members of the organization, including each member's role. */
-export const getUsers: API.OperationMethod<
-  GetUsersRequest,
-  GetUsersResponse,
-  GetUsersError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<GetUsersResponse>,
-  errors: [UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUsers",
-}));
-
 export type GetViewError = NotFound | AxiomOpError;
 /** Retrieves a view by its name. */
 export const getView: API.OperationMethod<GetViewRequest, View, GetViewError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2464, __c77, 0) as any as S.Schema<GetViewRequest>,
-    output: __S(640, __c20, 0) as any as S.Schema<View>,
-    errors: [NotFound, UnknownAxiomError],
+    input: __S(368, __c46, 0) as any as S.Schema<GetViewRequest>,
+    output: __S(80, __c10, 0) as any as S.Schema<View>,
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4022,9 +2813,10 @@ export const getViews: API.OperationMethod<
   GetViewsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetViewsRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<GetViewsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(376, __c47, 0) as any as S.Schema<GetViewsRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<GetViewsResponse>,
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4039,9 +2831,10 @@ export const getVirtualField: API.OperationMethod<
   GetVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetVirtualFieldRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<GetVirtualFieldResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(384, __c48, 0) as any as S.Schema<GetVirtualFieldRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetVirtualFieldResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4056,9 +2849,10 @@ export const getVirtualFields: API.OperationMethod<
   GetVirtualFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetVirtualFieldsRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<GetVirtualFieldsResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(392, __c49, 0) as any as S.Schema<GetVirtualFieldsRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<GetVirtualFieldsResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4073,9 +2867,10 @@ export const listDashboards: API.OperationMethod<
   ListDashboardsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListDashboardsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<ListDashboardsResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  input: __S(400, __c50, 0) as any as S.Schema<ListDashboardsRequest>,
+  output: __S(402, __c50, 2) as any as S.Schema<ListDashboardsResponse>,
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4090,9 +2885,10 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<ListGroupsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(408, __c51, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(410, __c51, 2) as any as S.Schema<ListGroupsResponse>,
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4107,9 +2903,10 @@ export const listLabelAssignments: API.OperationMethod<
   ListLabelAssignmentsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListLabelAssignmentsRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<ListLabelAssignmentsResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
+  input: __S(416, __c52, 0) as any as S.Schema<ListLabelAssignmentsRequest>,
+  output: __S(418, __c52, 2) as any as S.Schema<ListLabelAssignmentsResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4124,9 +2921,10 @@ export const listLabels: API.OperationMethod<
   ListLabelsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListLabelsRequest>,
-  output: __S(2722, __c85, 2) as any as S.Schema<ListLabelsResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(432, __c54, 0) as any as S.Schema<ListLabelsRequest>,
+  output: __S(434, __c54, 2) as any as S.Schema<ListLabelsResponse>,
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4141,9 +2939,10 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<ListRolesResponse>,
-  errors: [UnknownAxiomError],
+  input: __S(464, __c58, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(466, __c58, 2) as any as S.Schema<ListRolesResponse>,
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4158,9 +2957,10 @@ export const patchDashboardChart: API.OperationMethod<
   PatchDashboardChartError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2785, __c87, 1) as any as S.Schema<PatchDashboardChartRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  input: __S(473, __c59, 1) as any as S.Schema<PatchDashboardChartRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<DashboardWriteResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4175,9 +2975,10 @@ export const provisionOrg: API.OperationMethod<
   ProvisionOrgError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ProvisionOrgRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<ProvisionOrgResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  input: __S(480, __c60, 0) as any as S.Schema<ProvisionOrgRequest>,
+  output: __S(481, __c60, 1) as any as S.Schema<ProvisionOrgResponse>,
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4192,30 +2993,14 @@ export const regenerateAPIToken: API.OperationMethod<
   RegenerateAPITokenError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3009, __c94, 1) as any as S.Schema<RegenerateAPITokenRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<RegenerateAPITokenResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(489, __c61, 1) as any as S.Schema<RegenerateAPITokenRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<RegenerateAPITokenResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RegenerateAPIToken",
-}));
-
-export type RemoveUserFromOrgError = NotFound | AxiomOpError;
-/** Removes a user from the organization without deleting their Axiom account. You can't remove the organization's last member. With a personal access token (PAT), only owners can remove an owner. */
-export const removeUserFromOrg: API.OperationMethod<
-  RemoveUserFromOrgRequest,
-  RemoveUserFromOrgResponse,
-  RemoveUserFromOrgError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<RemoveUserFromOrgRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<RemoveUserFromOrgResponse>,
-  errors: [NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RemoveUserFromOrg",
 }));
 
 export type ReplaceLabelAssignmentsError =
@@ -4231,30 +3016,14 @@ export const replaceLabelAssignments: API.OperationMethod<
   ReplaceLabelAssignmentsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ReplaceLabelAssignmentsRequest>,
-  output: __S(2688, __c84, 0) as any as S.Schema<LabelAssignmentResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(496, __c62, 0) as any as S.Schema<ReplaceLabelAssignmentsRequest>,
+  output: __S(424, __c53, 0) as any as S.Schema<LabelAssignmentResult>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceLabelAssignments",
-}));
-
-export type TrimDatasetError = Forbidden | NotFound | AxiomOpError;
-/** Trim dataset by duration Queues a job that deletes data older than `maxDuration` from an events, logs, or metrics dataset, and returns the job ID. Deletion runs asynchronously. */
-export const trimDataset: API.OperationMethod<
-  TrimDatasetRequest,
-  JobCreateResponse,
-  TrimDatasetError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<TrimDatasetRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [Forbidden, NotFound, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "TrimDataset",
 }));
 
 export type UpdateAnnotationError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
@@ -4265,30 +3034,14 @@ export const updateAnnotation: API.OperationMethod<
   UpdateAnnotationError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateAnnotationRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(504, __c63, 0) as any as S.Schema<UpdateAnnotationRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<Annotation>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAnnotation",
-}));
-
-export type UpdateCurrentUserError = BadRequest | AxiomOpError;
-/** Updates the name of the user who owns the personal access token (PAT) used to authenticate. API tokens aren't supported. The response doesn't include `role`. */
-export const updateCurrentUser: API.OperationMethod<
-  UpdateCurrentUserRequest,
-  User,
-  UpdateCurrentUserError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateCurrentUserRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [BadRequest, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateCurrentUser",
 }));
 
 export type UpdateDashboardError = BadRequest | Conflict | AxiomOpError;
@@ -4299,36 +3052,14 @@ export const updateDashboard: API.OperationMethod<
   UpdateDashboardError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateDashboardRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
-  errors: [BadRequest, Conflict, UnknownAxiomError],
+  input: __S(512, __c64, 0) as any as S.Schema<UpdateDashboardRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<DashboardWriteResponse>,
+  errors: [BadRequest, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDashboard",
-}));
-
-export type UpdateDatasetError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | NotFound
-  | UnprocessableEntity
-  | AxiomOpError;
-/** Update dataset Updates the `description` and `retentionDays` of a dataset. Both values are replaced, so omitting `description` clears it, and omitting `retentionDays` or setting it to `0` applies your plan's default retention. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
-export const updateDataset: API.OperationMethod<
-  UpdateDatasetRequest,
-  Dataset,
-  UpdateDatasetError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<UpdateDatasetRequest>,
-  output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
-  errors: [BadRequest, Forbidden, NotFound, NotFound, UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateDataset",
 }));
 
 export type UpdateFieldForDatasetError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -4339,9 +3070,10 @@ export const updateFieldForDataset: API.OperationMethod<
   UpdateFieldForDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<DatasetField>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(520, __c65, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<DatasetField>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4356,9 +3088,10 @@ export const updateGroup: API.OperationMethod<
   UpdateGroupError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(3712, __c116, 0) as any as S.Schema<UpdateGroupResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(528, __c66, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(672, __c84, 0) as any as S.Schema<UpdateGroupResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4373,9 +3106,10 @@ export const updateLabel: API.OperationMethod<
   UpdateLabelError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateLabelRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<LabelSummary>,
-  errors: [BadRequest, NotFound, Conflict, UnknownAxiomError],
+  input: __S(536, __c67, 0) as any as S.Schema<UpdateLabelRequest>,
+  output: __S(696, __c87, 0) as any as S.Schema<LabelSummary>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4390,56 +3124,24 @@ export const updateMapFields: API.OperationMethod<
   UpdateMapFieldsError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateMapFieldsRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<UpdateMapFieldsResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  input: __S(568, __c71, 0) as any as S.Schema<UpdateMapFieldsRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<UpdateMapFieldsResponse>,
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateMapFields",
 }));
 
-export type UpdateMonitorError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Replaces a monitor's configuration with the request body, so omitted fields reset to their defaults. Axiom runs the new query once before saving, and the update clears the monitor's current alert state. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
-export const updateMonitor: API.OperationMethod<
-  UpdateMonitorRequest,
-  UpdateMonitorResponse,
-  UpdateMonitorError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<UpdateMonitorRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<UpdateMonitorResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateMonitor",
-}));
-
-export type UpdateNotifierError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Replaces a notifier's name, channel `properties`, and `disabledUntil` with the request body, so omitted fields are cleared. `labelIds` replaces assignments when supplied; [] clears them. Omitted or null `labelIds` preserves assignments on updates and creates an unlabeled resource on creation. IDs must belong to existing labels in your organization and are validated before saving. */
-export const updateNotifier: API.OperationMethod<
-  UpdateNotifierRequest,
-  UpdateNotifierResponse,
-  UpdateNotifierError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UpdateNotifierRequest>,
-  output: __S(337, __c10, 17) as any as S.Schema<UpdateNotifierResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateNotifier",
-}));
-
 export type UpdateOrgError = NotFound | AxiomOpError;
 /** Renames an organization and returns the updated organization. Requires a personal access token (PAT) of an owner of the organization. */
 export const updateOrg: API.OperationMethod<UpdateOrgRequest, Org, UpdateOrgError, AxiomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(3520, __c110, 0) as any as S.Schema<UpdateOrgRequest>,
-    output: __S(386, __c12, 2) as any as S.Schema<Org>,
-    errors: [NotFound, UnknownAxiomError],
+    input: __S(576, __c72, 0) as any as S.Schema<UpdateOrgRequest>,
+    output: __S(34, __c4, 2) as any as S.Schema<Org>,
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4454,9 +3156,10 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<UpdateRoleResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(584, __c73, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateRoleResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4471,30 +3174,14 @@ export const updateStarred: API.OperationMethod<
   UpdateStarredError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateStarredRequest>,
-  output: __S(516, __c16, 4) as any as S.Schema<UpdateStarredResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(592, __c74, 0) as any as S.Schema<UpdateStarredRequest>,
+  output: __S(69, __c8, 5) as any as S.Schema<UpdateStarredResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateStarred",
-}));
-
-export type UpdateUserRoleError = NotFound | UnprocessableEntity | AxiomOpError;
-/** Changes the role of a member of the organization and returns the updated user. You can't change your own role. Only owners using a personal access token (PAT) can assign `owner` or change an owner's role. */
-export const updateUserRole: API.OperationMethod<
-  UpdateUserRoleRequest,
-  User,
-  UpdateUserRoleError,
-  AxiomOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdateUserRoleRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
-  protocol: AxiomProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateUserRole",
 }));
 
 export type UpdateViewError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -4505,9 +3192,10 @@ export const updateView: API.OperationMethod<
   UpdateViewError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<UpdateViewRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<View>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(600, __c75, 0) as any as S.Schema<UpdateViewRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<View>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4522,9 +3210,10 @@ export const updateVirtualField: API.OperationMethod<
   UpdateVirtualFieldError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  input: __S(608, __c76, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4539,9 +3228,10 @@ export const vacuumDataset: API.OperationMethod<
   VacuumDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<VacuumDatasetRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
+  input: __S(616, __c77, 0) as any as S.Schema<VacuumDatasetRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<JobCreateResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4561,7 +3251,11 @@ function __c0(j: number): any {
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DashboardError" });
-    case 1:
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
@@ -4570,58 +3264,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DatasetsError" });
   }
 }
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Error400Body" });
-  }
-}
 function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          color: S.optional(__S(2912, __c91, 0)),
-          description: S.optional(S.NullOr(S.String)),
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/labels", code: 200 })),
-      ).annotate({ identifier: "CreateLabelRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dashboards: S.Number,
-          datasets: S.Number,
-          monitors: S.Number,
-          notifiers: S.Number,
-          total: S.Number,
-        }),
-      ).annotate({ identifier: "LabelResourcesCount" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          color: __S(2912, __c91, 0),
-          description: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          name: S.String,
-          resources_count: __S(96, __c3, 0),
-        }),
-      ).annotate({ identifier: "LabelSummary" });
-  }
-}
-function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4638,254 +3281,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "MapField" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alertOnNoData: S.optional(S.Boolean),
-          aplQuery: S.optional(S.String),
-          columnName: S.optional(S.String),
-          compareDays: S.optional(S.Number),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.NullOr(S.String)),
-          includeChart: S.optional(S.Boolean),
-          intervalMinutes: S.optional(S.Number),
-          mplQuery: S.optional(S.String),
-          name: S.String,
-          notifierIds: S.optional(__S(2016, __c63, 0)),
-          notifyByGroup: S.optional(S.Boolean),
-          notifyEveryRun: S.optional(S.Boolean),
-          operator: S.optional(S.String),
-          rangeMinutes: S.optional(S.Number),
-          resolvable: S.optional(S.Boolean),
-          secondDelay: S.optional(S.Number),
-          skipResolved: S.optional(S.Boolean),
-          threshold: S.optional(S.Number),
-          tolerance: S.optional(S.Number),
-          triggerAfterNPositiveResults: S.optional(S.Number),
-          triggerFromNRuns: S.optional(S.Number),
-          type: S.String,
-          labelIds: S.optional(__S(2016, __c63, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/monitors", code: 200 })),
-      ).annotate({ identifier: "CreateMonitorRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alertOnNoData: S.optional(S.Boolean),
-          aplQuery: S.optional(S.String),
-          columnName: S.optional(S.String),
-          compareDays: S.optional(S.Number),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.NullOr(S.String)),
-          includeChart: S.optional(S.Boolean),
-          intervalMinutes: S.optional(S.Number),
-          mplQuery: S.optional(S.String),
-          name: S.String,
-          notifierIds: S.optional(__S(2016, __c63, 0)),
-          notifyByGroup: S.optional(S.Boolean),
-          notifyEveryRun: S.optional(S.Boolean),
-          operator: S.optional(S.String),
-          rangeMinutes: S.optional(S.Number),
-          resolvable: S.optional(S.Boolean),
-          secondDelay: S.optional(S.Number),
-          skipResolved: S.optional(S.Boolean),
-          threshold: S.optional(S.Number),
-          tolerance: S.optional(S.Number),
-          triggerAfterNPositiveResults: S.optional(S.Number),
-          triggerFromNRuns: S.optional(S.Number),
-          type: S.String,
-          createdAt: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          createdByAgent: S.optional(S.Boolean),
-          datasets: S.optional(__S(2016, __c63, 0)),
-          id: S.String,
-          labelIds: __S(2016, __c63, 0),
-          labelNames: __S(2016, __c63, 0),
-          labels: S.optional(__S(2945, __c92, 1)),
-          lastError: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateMonitorResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdByAgent: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.String),
-          lastError: S.optional(S.String),
-          name: S.String,
-          properties: __S(336, __c10, 16),
-          labelIds: S.optional(__S(2016, __c63, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/notifiers", code: 200 })),
-      ).annotate({ identifier: "CreateNotifierRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookUrl: S.String,
-        }),
-      ).annotate({ identifier: "AmpConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String,
-          triggerId: S.String,
-        }),
-      ).annotate({ identifier: "ChatGPTWorkspaceAgentConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          routineId: S.String,
-          token: S.String,
-        }),
-      ).annotate({ identifier: "ClaudeCodeConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String,
-          webhookUrl: S.String,
-        }),
-      ).annotate({ identifier: "CursorConfig" });
-    case 4:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.String,
-          headers: S.optional(__S(288, __c9, 0)),
-          secretHeaders: S.optional(__S(324, __c10, 4)),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "CustomNotifierConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MessageTemplate" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          discordChannel: S.optional(S.String),
-          discordToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          messageTemplate: S.optional(__S(326, __c10, 6)),
-        }),
-      ).annotate({ identifier: "DiscordConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          discordWebhookUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          messageTemplate: S.optional(__S(326, __c10, 6)),
-        }),
-      ).annotate({ identifier: "DiscordWebhookConfig" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          emails: S.optional(__S(2016, __c63, 0)),
-          messageTemplate: S.optional(__S(326, __c10, 6)),
-        }),
-      ).annotate({ identifier: "EmailConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          apiKey: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "JiraServiceManagementConfig" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          messageTemplate: S.optional(__S(326, __c10, 6)),
-          microsoftTeamsUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "MicrosoftTeamsConfig" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          isEU: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "OpsGenieConfig" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          routingKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "PagerDutyConfig" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          messageTemplate: S.optional(__S(326, __c10, 6)),
-          slackUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "SlackConfig" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WebhookConfig" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          amp: S.optional(__S(320, __c10, 0)),
-          chatgptWorkspaceAgent: S.optional(__S(321, __c10, 1)),
-          claudeCode: S.optional(__S(322, __c10, 2)),
-          cursor: S.optional(__S(323, __c10, 3)),
-          customWebhook: S.optional(__S(325, __c10, 5)),
-          discord: S.optional(__S(327, __c10, 7)),
-          discordWebhook: S.optional(__S(328, __c10, 8)),
-          email: S.optional(__S(329, __c10, 9)),
-          jiraServiceManagement: S.optional(__S(330, __c10, 10)),
-          microsoftTeams: S.optional(__S(331, __c10, 11)),
-          opsgenie: S.optional(__S(332, __c10, 12)),
-          pagerduty: S.optional(__S(333, __c10, 13)),
-          slack: S.optional(__S(334, __c10, 14)),
-          webhook: S.optional(__S(335, __c10, 15)),
-        }),
-      ).annotate({ identifier: "NotifierProperties" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          createdByAgent: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.String),
-          lastError: S.optional(S.String),
-          name: S.String,
-          properties: __S(336, __c10, 16),
-          updatedAt: S.optional(S.String),
-          id: S.optional(S.String),
-          labelIds: __S(2016, __c63, 0),
-          labelNames: __S(2016, __c63, 0),
-          labels: S.optional(__S(2945, __c92, 1)),
-        }),
-      ).annotate({ identifier: "CreateNotifierResponse" });
-  }
-}
-function __c11(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4896,7 +3292,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateOrgRequest" });
   }
 }
-function __c12(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Boolean);
@@ -4907,9 +3303,9 @@ function __c12(j: number): any {
           billingPeriodEnd: S.optional(S.String),
           billingPeriodStart: S.optional(S.String),
           defaultEdgeDeployment: S.optional(S.String),
-          edgeDeployments: S.optional(__S(2016, __c63, 0)),
+          edgeDeployments: S.optional(__S(456, __c57, 0)),
           expiresAt: S.optional(S.NullOr(S.String)),
-          features: S.optional(__S(384, __c12, 0)),
+          features: S.optional(__S(32, __c4, 0)),
           id: S.String,
           issuedAt: S.optional(S.String),
           issuedTo: S.optional(S.String),
@@ -4926,7 +3322,7 @@ function __c12(j: number): any {
           storageAllowanceGB: S.optional(S.Number),
           tier: S.String,
           validFrom: S.optional(S.String),
-          withAuths: S.optional(__S(2016, __c63, 0)),
+          withAuths: S.optional(__S(456, __c57, 0)),
         }),
       ).annotate({ identifier: "License" });
     case 2:
@@ -4936,7 +3332,7 @@ function __c12(j: number): any {
           firstFailedPayment: S.optional(S.String),
           id: S.String,
           lastUsageSync: S.String,
-          license: __S(385, __c12, 1),
+          license: __S(33, __c4, 1),
           metaCreated: S.optional(S.String),
           metaModified: S.optional(S.String),
           metaVersion: S.optional(S.String),
@@ -4950,64 +3346,66 @@ function __c12(j: number): any {
       ).annotate({ identifier: "Org" });
   }
 }
-function __c13(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
+          datasetCapabilities: S.optional(__S(554, __c69, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(2016, __c63, 0)),
+          members: S.optional(__S(456, __c57, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2403, __c75, 3)),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
+          orgCapabilities: S.optional(__S(555, __c69, 3)),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/roles", code: 200 })),
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c14(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
+          datasetCapabilities: S.optional(__S(554, __c69, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(2016, __c63, 0)),
+          members: S.optional(__S(456, __c57, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2403, __c75, 3)),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
+          orgCapabilities: S.optional(__S(555, __c69, 3)),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
           id: S.String,
         }),
       ).annotate({ identifier: "CreateRoleResponse" });
   }
 }
-function __c15(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(288, __c9, 0),
+          metadata: __S(64, __c8, 0),
           name: S.String,
-          query: __S(515, __c16, 3),
+          query: __S(68, __c8, 4),
           who: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/apl-starred-queries", code: 200 })),
       ).annotate({ identifier: "CreateStarredRequest" });
   }
 }
-function __c16(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           desc: S.optional(S.Boolean),
           field: S.optional(S.String),
         }),
       ).annotate({ identifier: "APLRequestWithOptionsDefaultOrder" });
-    case 1:
-      return S.Array(__S(512, __c16, 0));
     case 2:
+      return S.Array(__S(65, __c8, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           disableCache: S.optional(S.Boolean),
@@ -5027,75 +3425,43 @@ function __c16(j: number): any {
           timeSeriesView: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryOptions" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           apl: S.String,
           cursor: S.optional(S.String),
           defaultLimit: S.optional(S.Number),
-          defaultOrder: S.optional(__S(513, __c16, 1)),
+          defaultOrder: S.optional(__S(66, __c8, 2)),
           endTime: S.optional(S.String),
           includeCursor: S.optional(S.Boolean),
           includeCursorField: S.optional(S.Boolean),
-          libraries: S.optional(__S(2016, __c63, 0)),
-          queryOptions: S.optional(__S(514, __c16, 2)),
+          libraries: S.optional(__S(456, __c57, 0)),
+          queryOptions: S.optional(__S(67, __c8, 3)),
           startTime: S.optional(S.String),
           variables: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "APLRequestWithOptions" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(288, __c9, 0),
+          metadata: __S(64, __c8, 0),
           name: S.String,
-          query: __S(515, __c16, 3),
+          query: __S(68, __c8, 4),
           who: S.String,
           id: S.String,
         }),
       ).annotate({ identifier: "CreateStarredResponse" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.String,
-          name: S.String,
-          role: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/users", code: 200 })),
-      ).annotate({ identifier: "CreateUserRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "UserDetailsRole" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.String,
-          id: S.String,
-          name: S.String,
-          role: S.optional(__S(576, __c18, 0)),
-        }),
-      ).annotate({ identifier: "User" });
-  }
-}
-function __c19(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           aplQuery: S.String,
-          datasets: S.optional(__S(2016, __c63, 0)),
+          datasets: S.optional(__S(456, __c57, 0)),
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           edgeDeploymentUrl: S.optional(S.String),
@@ -5106,13 +3472,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c20(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           aplQuery: S.String,
-          datasets: S.optional(__S(2016, __c63, 0)),
+          datasets: S.optional(__S(456, __c57, 0)),
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           edgeDeploymentUrl: S.optional(S.String),
@@ -5123,7 +3489,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "View" });
   }
 }
-function __c21(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5138,7 +3504,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateVirtualFieldRequest" });
   }
 }
-function __c22(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5154,7 +3520,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateVirtualFieldResponse" });
   }
 }
-function __c23(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5164,13 +3530,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationRequest" });
   }
 }
-function __c24(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAnnotationResponse" });
   }
 }
-function __c25(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5180,7 +3546,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteAPITokenRequest" });
   }
 }
-function __c26(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5190,68 +3556,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteDashboardRequest" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v2/datasets/{dataset_id}", code: 200 })),
-      ).annotate({ identifier: "DeleteDatasetRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          jobID: S.String,
-        }),
-      ).annotate({ identifier: "JobCreateResponse" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-          fields: __S(2016, __c63, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/delete-fields", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteDatasetFieldsRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(__S(2016, __c63, 0)),
-          jobId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteDatasetFieldsResult" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-          field_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v2/datasets/{dataset_id}/fields/{field_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteFieldForDatasetRequest" });
-  }
-}
-function __c32(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5261,7 +3566,18 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c33(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error403Body" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5271,7 +3587,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteLabelRequest" });
   }
 }
-function __c34(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5288,27 +3604,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteMapFieldRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v2/monitors/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteMonitorRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v2/notifiers/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteNotifierRequest" });
-  }
-}
-function __c37(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5318,7 +3614,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c38(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5328,7 +3624,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteStarredRequest" });
   }
 }
-function __c39(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5338,7 +3634,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteViewRequest" });
   }
 }
-function __c40(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5348,7 +3644,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteVirtualFieldRequest" });
   }
 }
-function __c41(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5358,25 +3654,25 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetAnnotationRequest" });
   }
 }
-function __c42(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasets: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
+          datasets: S.optional(__S(456, __c57, 0).pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/annotations", code: 200 })),
       ).annotate({ identifier: "GetAnnotationsRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
-      return S.suspend(() => __S(1345, __c42, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(209, __c26, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAnnotationsResponse",
       });
   }
 }
-function __c43(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5386,49 +3682,41 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetAPITokenRequest" });
   }
 }
-function __c44(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiLastUsed: S.optional(S.NullOr(S.String)),
           auditIdentity: S.optional(S.String),
-          datasetCapabilities: __S(2402, __c75, 2),
+          datasetCapabilities: __S(554, __c69, 2),
           description: S.optional(S.String),
           expiresAt: S.optional(S.NullOr(S.String)),
           id: S.String,
           ingestLastUsed: S.optional(S.NullOr(S.String)),
           name: S.String,
-          orgCapabilities: __S(2403, __c75, 3),
+          orgCapabilities: __S(555, __c69, 3),
           samlAuthenticated: S.optional(S.Boolean),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
         }),
       ).annotate({ identifier: "APIToken" });
   }
 }
-function __c45(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/tokens", code: 200 })),
       ).annotate({ identifier: "GetAPITokensRequest" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
-      return S.suspend(() => __S(1441, __c45, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(233, __c29, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAPITokensResponse",
       });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/user", code: 200 })),
-      ).annotate({ identifier: "GetCurrentUserRequest" });
-  }
-}
-function __c47(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5439,37 +3727,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetDashboardRequest" });
   }
 }
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-          exclude: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/datasets/{dataset_id}", code: 200 })),
-      ).annotate({ identifier: "GetDatasetRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exclude: S.optional(S.String.pipe(T.Query())),
-          label: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
-          labelMatch: S.optional(S.String.pipe(T.Query())),
-          labelIds: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/datasets", code: 200 })),
-      ).annotate({ identifier: "GetDatasetsRequest" });
-    case 1:
-      return S.Array(__S(3328, __c104, 0));
-    case 2:
-      return S.suspend(() => __S(1569, __c49, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetDatasetsResponse",
-      });
-  }
-}
-function __c50(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5482,7 +3740,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetFieldForDatasetRequest" });
   }
 }
-function __c51(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5496,7 +3754,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DatasetField" });
   }
 }
-function __c52(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5505,14 +3763,14 @@ function __c52(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/datasets/{dataset_id}/fields", code: 200 })),
       ).annotate({ identifier: "GetFieldsForDatasetRequest" });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(256, __c32, 0));
     case 2:
-      return S.suspend(() => __S(1665, __c52, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(265, __c33, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFieldsForDatasetResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5522,7 +3780,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetGroupByIdRequest" });
   }
 }
-function __c54(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5533,23 +3791,23 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assigned_resources: __S(1760, __c55, 0),
-          color: __S(2912, __c91, 0),
+          assigned_resources: __S(288, __c36, 0),
+          color: __S(656, __c82, 0),
           description: S.optional(S.NullOr(S.String)),
           id: S.String,
           name: S.String,
-          resources_count: __S(96, __c3, 0),
+          resources_count: __S(688, __c86, 0),
         }),
       ).annotate({ identifier: "LabelDetails" });
   }
 }
-function __c55(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(296, __c37, 0));
   }
 }
-function __c56(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5562,7 +3820,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "LabelAssignedResource" });
   }
 }
-function __c57(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5572,15 +3830,15 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetMapFieldsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(2016, __c63, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(456, __c57, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMapFieldsResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5589,123 +3847,51 @@ function __c59(j: number): any {
           exclude: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/monitors/{id}", code: 200 })),
       ).annotate({ identifier: "GetMonitorRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          startTime: S.String.pipe(T.Query()),
-          endTime: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/monitors/{id}/history", code: 200 })),
-      ).annotate({ identifier: "GetMonitorHistoryRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          checkId: S.String,
+          alertOnNoData: S.optional(S.Boolean),
+          aplQuery: S.optional(S.String),
+          backfillDays: S.optional(S.Number),
+          columnName: S.optional(S.String),
+          compareDays: S.optional(S.Number),
+          description: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          disabledUntil: S.optional(S.NullOr(S.String)),
+          includeChart: S.optional(S.Boolean),
+          intervalMinutes: S.optional(S.Number),
+          lookbackDays: S.optional(S.Number),
+          mplQuery: S.optional(S.String),
           name: S.String,
-          state: S.String,
-          timestamp: S.String,
-        }),
-      ).annotate({ identifier: "AlertHistory" });
-    case 2:
-      return S.Array(__S(1921, __c60, 1));
-    case 3:
-      return S.suspend(() => __S(1922, __c60, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetMonitorHistoryResponse",
-      });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasets: __S(2016, __c63, 0),
-          description: S.optional(S.String),
-          endTime: S.optional(S.String),
-          time: S.optional(S.String),
-          title: S.optional(S.String),
+          notifierIds: S.optional(__S(456, __c57, 0)),
+          notifyByGroup: S.optional(S.Boolean),
+          notifyEveryRun: S.optional(S.Boolean),
+          operator: S.optional(S.String),
+          rangeMinutes: S.optional(S.Number),
+          resolvable: S.optional(S.Boolean),
+          secondDelay: S.optional(S.Number),
+          skipResolved: S.optional(S.Boolean),
+          threshold: S.optional(S.Number),
+          tolerance: S.optional(S.Number),
+          trackedValue: S.optional(S.String),
+          triggerAfterNPositiveResults: S.optional(S.Number),
+          triggerFromNRuns: S.optional(S.Number),
           type: S.String,
-          url: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/annotations", code: 200 })),
-      ).annotate({ identifier: "CreateAnnotationRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasets: __S(2016, __c63, 0),
-          description: S.optional(S.String),
-          endTime: S.optional(S.NullOr(S.String)),
+          createdAt: S.optional(S.String),
+          createdBy: S.optional(S.String),
+          createdByAgent: S.optional(S.Boolean),
+          datasets: S.optional(__S(456, __c57, 0)),
           id: S.String,
-          time: S.String,
-          title: S.optional(S.String),
-          type: S.String,
-          url: S.optional(S.String),
+          labelIds: __S(456, __c57, 0),
+          labelNames: __S(456, __c57, 0),
+          labels: S.optional(__S(633, __c79, 1)),
+          lastError: S.optional(S.String),
+          updatedAt: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Annotation" });
+      ).annotate({ identifier: "GetMonitorResponse" });
   }
 }
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exclude: S.optional(S.String.pipe(T.Query())),
-          label: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
-          labelMatch: S.optional(S.String.pipe(T.Query())),
-          labelIds: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/monitors", code: 200 })),
-      ).annotate({ identifier: "GetMonitorsRequest" });
-    case 1:
-      return S.Array(__S(224, __c7, 0));
-    case 2:
-      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetMonitorsResponse",
-      });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          exclude: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/notifiers/{id}", code: 200 })),
-      ).annotate({ identifier: "GetNotifierRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          exclude: S.optional(S.String.pipe(T.Query())),
-          label: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
-          labelMatch: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/notifiers", code: 200 })),
-      ).annotate({ identifier: "GetNotifiersRequest" });
-    case 1:
-      return S.Array(__S(337, __c10, 17));
-    case 2:
-      return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNotifiersResponse",
-      });
-  }
-}
-function __c67(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5715,21 +3901,21 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetOrgRequest" });
   }
 }
-function __c68(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/orgs", code: 200 })),
       ).annotate({ identifier: "GetOrgsRequest" });
     case 1:
-      return S.Array(__S(386, __c12, 2));
+      return S.Array(__S(34, __c4, 2));
     case 2:
-      return S.suspend(() => __S(2177, __c68, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(337, __c42, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgsResponse",
       });
   }
 }
-function __c69(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5739,7 +3925,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetRoleByIdRequest" });
   }
 }
-function __c70(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5749,7 +3935,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetStarredRequest" });
   }
 }
-function __c71(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5762,123 +3948,14 @@ function __c71(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/apl-starred-queries", code: 200 })),
       ).annotate({ identifier: "GetStarredQueriesRequest" });
     case 1:
-      return S.Array(__S(516, __c16, 4));
+      return S.Array(__S(69, __c8, 5));
     case 2:
-      return S.suspend(() => __S(2273, __c71, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(361, __c45, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetStarredQueriesResponse",
       });
   }
 }
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/users/{id}", code: 200 })),
-      ).annotate({ identifier: "GetUserRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/users", code: 200 })),
-      ).annotate({ identifier: "GetUsersRequest" });
-    case 1:
-      return S.Array(__S(577, __c18, 1));
-    case 2:
-      return S.suspend(() => __S(2337, __c73, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetUsersResponse",
-      });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          name: S.String,
-          orgCapabilities: S.optional(__S(2403, __c75, 3)),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens", code: 200 })),
-      ).annotate({ identifier: "CreateAPITokenRequest" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ingest: S.optional(__S(2400, __c75, 0)),
-          query: S.optional(__S(2400, __c75, 0)),
-          share: S.optional(__S(2400, __c75, 0)),
-          starredQueries: S.optional(__S(2400, __c75, 0)),
-          trim: S.optional(__S(2400, __c75, 0)),
-          vacuum: S.optional(__S(2400, __c75, 0)),
-          virtualFields: S.optional(__S(2400, __c75, 0)),
-        }),
-      ).annotate({ identifier: "DatasetCapabilitiesValue" });
-    case 2:
-      return S.Record(S.String, __S(2401, __c75, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(2400, __c75, 0)),
-          apiTokens: S.optional(__S(2400, __c75, 0)),
-          auditLog: S.optional(__S(2400, __c75, 0)),
-          billing: S.optional(__S(2400, __c75, 0)),
-          dashboards: S.optional(__S(2400, __c75, 0)),
-          datasets: S.optional(__S(2400, __c75, 0)),
-          endpoints: S.optional(__S(2400, __c75, 0)),
-          integrations: S.optional(__S(2400, __c75, 0)),
-          labels: S.optional(__S(2400, __c75, 0)),
-          monitors: S.optional(__S(2400, __c75, 0)),
-          notifiers: S.optional(__S(2400, __c75, 0)),
-          rbac: S.optional(__S(2400, __c75, 0)),
-          sharedAccessKeys: S.optional(__S(2400, __c75, 0)),
-          users: S.optional(__S(2400, __c75, 0)),
-          views: S.optional(__S(2400, __c75, 0)),
-        }),
-      ).annotate({ identifier: "OrgCapabilities" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          query: S.optional(__S(2400, __c75, 0)),
-          share: S.optional(__S(2400, __c75, 0)),
-        }),
-      ).annotate({ identifier: "ViewCapabilitiesValue" });
-    case 5:
-      return S.Record(S.String, __S(2404, __c75, 4));
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiLastUsed: S.optional(S.NullOr(S.String)),
-          auditIdentity: S.optional(S.String),
-          datasetCapabilities: __S(2402, __c75, 2),
-          description: S.optional(S.String),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          ingestLastUsed: S.optional(S.NullOr(S.String)),
-          name: S.String,
-          orgCapabilities: __S(2403, __c75, 3),
-          samlAuthenticated: S.optional(S.Boolean),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "CreateAPITokenResponse" });
-  }
-}
-function __c77(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5888,21 +3965,21 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetViewRequest" });
   }
 }
-function __c78(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/views", code: 200 })),
       ).annotate({ identifier: "GetViewsRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
-      return S.suspend(() => __S(2497, __c78, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetViewsResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5912,7 +3989,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetVirtualFieldRequest" });
   }
 }
-function __c80(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5921,14 +3998,14 @@ function __c80(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/vfields", code: 200 })),
       ).annotate({ identifier: "GetVirtualFieldsRequest" });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
-      return S.suspend(() => __S(2561, __c80, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(393, __c49, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetVirtualFieldsResponse",
       });
   }
 }
-function __c81(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5936,59 +4013,59 @@ function __c81(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           exclude: S.optional(S.String.pipe(T.Query())),
-          labelIds: S.optional(__S(2016, __c63, 0).pipe(T.Query())),
+          labelIds: S.optional(__S(456, __c57, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/dashboards", code: 200 })),
       ).annotate({ identifier: "ListDashboardsRequest" });
     case 1:
-      return S.Array(__S(2854, __c89, 6));
+      return S.Array(__S(646, __c80, 6));
     case 2:
-      return S.suspend(() => __S(2593, __c81, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(401, __c50, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDashboardsResponse",
       });
   }
 }
-function __c82(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/groups", code: 200 })),
       ).annotate({ identifier: "ListGroupsRequest" });
     case 1:
-      return S.Array(__S(3712, __c116, 0));
+      return S.Array(__S(672, __c84, 0));
     case 2:
-      return S.suspend(() => __S(2625, __c82, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(409, __c51, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupsResponse",
       });
   }
 }
-function __c83(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targets: __S(1760, __c55, 0),
+          targets: __S(288, __c36, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/labels/assignments", code: 200 })),
       ).annotate({ identifier: "ListLabelAssignmentsRequest" });
     case 1:
-      return S.Array(__S(2688, __c84, 0));
+      return S.Array(__S(424, __c53, 0));
     case 2:
-      return S.suspend(() => __S(2657, __c83, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(417, __c52, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLabelAssignmentsResponse",
       });
   }
 }
-function __c84(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labelIds: __S(2016, __c63, 0),
-          target: __S(1792, __c56, 0),
+          labelIds: __S(456, __c57, 0),
+          target: __S(296, __c37, 0),
         }),
       ).annotate({ identifier: "LabelAssignmentResult" });
   }
 }
-function __c85(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5997,28 +4074,67 @@ function __c85(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/labels", code: 200 })),
       ).annotate({ identifier: "ListLabelsRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(696, __c87, 0));
     case 2:
-      return S.suspend(() => __S(2721, __c85, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(433, __c54, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLabelsResponse",
       });
   }
 }
-function __c86(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasets: __S(456, __c57, 0),
+          description: S.optional(S.String),
+          endTime: S.optional(S.String),
+          time: S.optional(S.String),
+          title: S.optional(S.String),
+          type: S.String,
+          url: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/annotations", code: 200 })),
+      ).annotate({ identifier: "CreateAnnotationRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasets: __S(456, __c57, 0),
+          description: S.optional(S.String),
+          endTime: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          time: S.String,
+          title: S.optional(S.String),
+          type: S.String,
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Annotation" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/rbac/roles", code: 200 })),
       ).annotate({ identifier: "ListRolesRequest" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(48, __c6, 0));
     case 2:
-      return S.suspend(() => __S(2753, __c86, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRolesResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -6027,7 +4143,7 @@ function __c87(j: number): any {
         S.Struct({
           uid: S.String.pipe(T.Label()),
           chartId: S.String.pipe(T.Label()),
-          chart: __S(2784, __c87, 0),
+          chart: __S(472, __c59, 0),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           version: S.optional(S.Number),
@@ -6037,129 +4153,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "PatchDashboardChartRequest" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dashboard: __S(2853, __c89, 5),
-          labelIds: S.optional(__S(2016, __c63, 0)),
-          message: S.optional(S.String),
-          overwrite: S.optional(S.Boolean),
-          uid: S.optional(S.String),
-          version: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/dashboards", code: 200 })),
-      ).annotate({ identifier: "CreateDashboardRequest" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          i: S.String,
-          x: S.Number,
-          y: S.NullOr(S.Number),
-          w: S.Number,
-          h: S.Number,
-          minW: S.optional(S.Number),
-          minH: S.optional(S.Number),
-          maxW: S.optional(S.Number),
-          maxH: S.optional(S.Number),
-          static: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LayoutItem" });
-    case 2:
-      return S.Array(__S(2849, __c89, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          title: S.String,
-          defaultCollapsed: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Section" });
-    case 4:
-      return S.Array(__S(2851, __c89, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          owner: S.String,
-          description: S.optional(S.String),
-          charts: __S(2848, __c89, 0),
-          layout: __S(2850, __c89, 2),
-          sections: S.optional(__S(2852, __c89, 4)),
-          refreshTime: S.Number,
-          schemaVersion: S.Number,
-          against: S.optional(S.String),
-          againstTimestamp: S.optional(S.String),
-          timeWindowStart: S.String,
-          timeWindowEnd: S.String,
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Dashboard" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.optional(S.NullOr(S.String)),
-          createdBy: S.optional(S.NullOr(S.String)),
-          dashboard: __S(2853, __c89, 5),
-          id: S.String,
-          labelIds: __S(2016, __c63, 0),
-          labelNames: S.optional(__S(2016, __c63, 0)),
-          labels: S.optional(__S(2945, __c92, 1)),
-          type: S.String,
-          uid: S.String,
-          updatedAt: S.optional(S.NullOr(S.String)),
-          updatedBy: S.optional(S.NullOr(S.String)),
-          updatedByAgent: S.optional(S.Boolean),
-          version: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "DashboardResource" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dashboard: __S(2854, __c89, 6),
-          overwritten: S.optional(S.Boolean),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "DashboardWriteResponse" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "LabelColor" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          color: __S(2912, __c91, 0),
-          description: S.optional(S.NullOr(S.String)),
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "Label" });
-    case 1:
-      return S.Array(__S(2944, __c92, 0));
-  }
-}
-function __c93(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6181,17 +4175,17 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ProvisionOrgResponse" });
   }
 }
-function __c94(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
+          datasetCapabilities: S.optional(__S(554, __c69, 2)),
           description: S.optional(S.String),
           expiresAt: S.optional(S.NullOr(S.String)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2403, __c75, 3)),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
+          orgCapabilities: S.optional(__S(555, __c69, 3)),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
         }),
       ).annotate({ identifier: "CreateAPIToken2" });
     case 1:
@@ -6199,51 +4193,30 @@ function __c94(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           existingTokenExpiresAt: S.String,
-          newToken: S.optional(__S(3008, __c94, 0)),
+          newToken: S.optional(__S(488, __c61, 0)),
           newTokenExpiresAt: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/tokens/{id}/regenerate", code: 200 })),
       ).annotate({ identifier: "RegenerateAPITokenRequest" });
   }
 }
-function __c95(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v2/users/{id}", code: 200 })),
-      ).annotate({ identifier: "RemoveUserFromOrgRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labelIds: __S(2016, __c63, 0),
-          target: __S(1792, __c56, 0),
+          labelIds: __S(456, __c57, 0),
+          target: __S(296, __c37, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/labels/assignments", code: 200 })),
       ).annotate({ identifier: "ReplaceLabelAssignmentsRequest" });
   }
 }
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-          maxDuration: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/trim", code: 200 })),
-      ).annotate({ identifier: "TrimDatasetRequest" });
-  }
-}
-function __c98(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          datasets: S.optional(__S(2016, __c63, 0)),
+          datasets: S.optional(__S(456, __c57, 0)),
           description: S.optional(S.String),
           endTime: S.optional(S.String),
           time: S.optional(S.String),
@@ -6254,24 +4227,14 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateAnnotationRequest" });
   }
 }
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/user", code: 200 })),
-      ).annotate({ identifier: "UpdateCurrentUserRequest" });
-  }
-}
-function __c100(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
-          dashboard: __S(2853, __c89, 5),
-          labelIds: S.optional(__S(2016, __c63, 0)),
+          dashboard: __S(645, __c80, 5),
+          labelIds: S.optional(__S(456, __c57, 0)),
           message: S.optional(S.String),
           overwrite: S.optional(S.Boolean),
           version: S.optional(S.Unknown),
@@ -6279,21 +4242,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateDashboardRequest" });
   }
 }
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataset_id: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          labelIds: S.optional(__S(2016, __c63, 0)),
-          retentionDays: S.optional(S.Number),
-          useRetentionPeriod: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/datasets/{dataset_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateDatasetRequest" });
-  }
-}
-function __c102(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6311,143 +4260,130 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateFieldForDatasetRequest" });
   }
 }
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          referrer: S.optional(S.String.pipe(T.Query())),
-          description: S.optional(S.String),
-          edgeDeployment: S.optional(S.String),
-          kind: S.optional(S.String),
-          labelIds: S.optional(__S(2016, __c63, 0)),
-          name: S.String,
-          retentionDays: S.optional(S.Number),
-          useRetentionPeriod: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/datasets", code: 200 })),
-      ).annotate({ identifier: "CreateDatasetRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          canWrite: S.optional(S.Boolean),
-          created: S.String,
-          createdByAgent: S.optional(S.Boolean),
-          description: S.String,
-          edgeDeployment: S.optional(S.String),
-          edgeDeploymentUrl: S.optional(S.String),
-          id: S.String,
-          kind: S.String,
-          labelIds: __S(2016, __c63, 0),
-          labelNames: __S(2016, __c63, 0),
-          labels: S.optional(__S(2945, __c92, 1)),
-          mapFields: S.optional(__S(2016, __c63, 0)),
-          name: S.String,
-          reclaimableFields: S.optional(S.Number),
-          retentionDays: S.optional(S.Number),
-          sharedByOrg: S.optional(S.String),
-          updatedAt: S.String,
-          useRetentionPeriod: S.optional(S.Boolean),
-          vacuumCandidate: S.optional(S.Boolean),
-          who: S.String,
-        }),
-      ).annotate({ identifier: "Dataset" });
-  }
-}
-function __c105(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          members: S.optional(__S(2016, __c63, 0)),
+          members: S.optional(__S(456, __c57, 0)),
           name: S.String,
-          roles: S.optional(__S(2016, __c63, 0)),
+          roles: S.optional(__S(456, __c57, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/rbac/groups/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c106(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          color: S.optional(__S(2912, __c91, 0)),
+          color: S.optional(__S(656, __c82, 0)),
           description: S.optional(S.NullOr(S.String)),
           name: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/v2/labels/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLabelRequest" });
   }
 }
-function __c107(j: number): any {
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasetCapabilities: S.optional(__S(554, __c69, 2)),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          orgCapabilities: S.optional(__S(555, __c69, 3)),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/tokens", code: 200 })),
+      ).annotate({ identifier: "CreateAPITokenRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingest: S.optional(__S(552, __c69, 0)),
+          query: S.optional(__S(552, __c69, 0)),
+          share: S.optional(__S(552, __c69, 0)),
+          starredQueries: S.optional(__S(552, __c69, 0)),
+          trim: S.optional(__S(552, __c69, 0)),
+          vacuum: S.optional(__S(552, __c69, 0)),
+          virtualFields: S.optional(__S(552, __c69, 0)),
+        }),
+      ).annotate({ identifier: "DatasetCapabilitiesValue" });
+    case 2:
+      return S.Record(S.String, __S(553, __c69, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          annotations: S.optional(__S(552, __c69, 0)),
+          apiTokens: S.optional(__S(552, __c69, 0)),
+          auditLog: S.optional(__S(552, __c69, 0)),
+          billing: S.optional(__S(552, __c69, 0)),
+          dashboards: S.optional(__S(552, __c69, 0)),
+          datasets: S.optional(__S(552, __c69, 0)),
+          endpoints: S.optional(__S(552, __c69, 0)),
+          integrations: S.optional(__S(552, __c69, 0)),
+          labels: S.optional(__S(552, __c69, 0)),
+          monitors: S.optional(__S(552, __c69, 0)),
+          notifiers: S.optional(__S(552, __c69, 0)),
+          rbac: S.optional(__S(552, __c69, 0)),
+          sharedAccessKeys: S.optional(__S(552, __c69, 0)),
+          users: S.optional(__S(552, __c69, 0)),
+          views: S.optional(__S(552, __c69, 0)),
+        }),
+      ).annotate({ identifier: "OrgCapabilities" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.optional(__S(552, __c69, 0)),
+          share: S.optional(__S(552, __c69, 0)),
+        }),
+      ).annotate({ identifier: "ViewCapabilitiesValue" });
+    case 5:
+      return S.Record(S.String, __S(556, __c69, 4));
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiLastUsed: S.optional(S.NullOr(S.String)),
+          auditIdentity: S.optional(S.String),
+          datasetCapabilities: __S(554, __c69, 2),
+          description: S.optional(S.String),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          ingestLastUsed: S.optional(S.NullOr(S.String)),
+          name: S.String,
+          orgCapabilities: __S(555, __c69, 3),
+          samlAuthenticated: S.optional(S.Boolean),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateAPITokenResponse" });
+  }
+}
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String.pipe(T.Label()),
-          body: __S(2016, __c63, 0).pipe(T.HttpBody()),
+          body: __S(456, __c57, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/datasets/{dataset_id}/mapfields", code: 200 })),
       ).annotate({ identifier: "UpdateMapFieldsRequest" });
   }
 }
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          alertOnNoData: S.optional(S.Boolean),
-          aplQuery: S.optional(S.String),
-          columnName: S.optional(S.String),
-          compareDays: S.optional(S.Number),
-          description: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.NullOr(S.String)),
-          includeChart: S.optional(S.Boolean),
-          intervalMinutes: S.optional(S.Number),
-          mplQuery: S.optional(S.String),
-          name: S.String,
-          notifierIds: S.optional(__S(2016, __c63, 0)),
-          notifyByGroup: S.optional(S.Boolean),
-          notifyEveryRun: S.optional(S.Boolean),
-          operator: S.optional(S.String),
-          rangeMinutes: S.optional(S.Number),
-          resolvable: S.optional(S.Boolean),
-          secondDelay: S.optional(S.Number),
-          skipResolved: S.optional(S.Boolean),
-          threshold: S.optional(S.Number),
-          tolerance: S.optional(S.Number),
-          triggerAfterNPositiveResults: S.optional(S.Number),
-          triggerFromNRuns: S.optional(S.Number),
-          type: S.String,
-          labelIds: S.optional(__S(2016, __c63, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/monitors/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateMonitorRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          createdByAgent: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          disabledUntil: S.optional(S.String),
-          lastError: S.optional(S.String),
-          name: S.String,
-          properties: __S(336, __c10, 16),
-          labelIds: S.optional(__S(2016, __c63, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/notifiers/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateNotifierRequest" });
-  }
-}
-function __c110(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6458,23 +4394,23 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateOrgRequest" });
   }
 }
-function __c111(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          datasetCapabilities: S.optional(__S(2402, __c75, 2)),
+          datasetCapabilities: S.optional(__S(554, __c69, 2)),
           description: S.optional(S.String),
-          members: S.optional(__S(2016, __c63, 0)),
+          members: S.optional(__S(456, __c57, 0)),
           name: S.String,
-          orgCapabilities: S.optional(__S(2403, __c75, 3)),
-          viewCapabilities: S.optional(__S(2405, __c75, 5)),
+          orgCapabilities: S.optional(__S(555, __c69, 3)),
+          viewCapabilities: S.optional(__S(557, __c69, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/rbac/roles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c112(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6482,33 +4418,22 @@ function __c112(j: number): any {
           id: S.String.pipe(T.Label()),
           dataset: S.optional(S.String),
           kind: S.String,
-          metadata: __S(288, __c9, 0),
+          metadata: __S(64, __c8, 0),
           name: S.String,
-          query: __S(515, __c16, 3),
+          query: __S(68, __c8, 4),
           who: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/v2/apl-starred-queries/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateStarredRequest" });
   }
 }
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          role: S.String,
-        }).pipe(T.Http({ method: "PUT", uri: "/v2/users/{id}/role", code: 200 })),
-      ).annotate({ identifier: "UpdateUserRoleRequest" });
-  }
-}
-function __c114(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           aplQuery: S.String,
-          datasets: S.optional(__S(2016, __c63, 0)),
+          datasets: S.optional(__S(456, __c57, 0)),
           description: S.optional(S.String),
           edgeDeployment: S.optional(S.String),
           edgeDeploymentUrl: S.optional(S.String),
@@ -6519,35 +4444,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateViewRequest" });
   }
 }
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          members: S.optional(__S(2016, __c63, 0)),
-          name: S.String,
-          roles: S.optional(__S(2016, __c63, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/groups", code: 200 })),
-      ).annotate({ identifier: "CreateGroupRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          isManaged: S.optional(S.Boolean),
-          members: S.optional(__S(2016, __c63, 0)),
-          name: S.String,
-          roles: S.optional(__S(2016, __c63, 0)),
-          id: S.String,
-        }),
-      ).annotate({ identifier: "CreateGroupResponse" });
-  }
-}
-function __c117(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6563,7 +4460,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateVirtualFieldRequest" });
   }
 }
-function __c118(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6571,6 +4468,202 @@ function __c118(j: number): any {
           dataset_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/v2/datasets/{dataset_id}/vacuum", code: 200 })),
       ).annotate({ identifier: "VacuumDatasetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobID: S.String,
+        }),
+      ).annotate({ identifier: "JobCreateResponse" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dashboard: __S(645, __c80, 5),
+          labelIds: S.optional(__S(456, __c57, 0)),
+          message: S.optional(S.String),
+          overwrite: S.optional(S.Boolean),
+          uid: S.optional(S.String),
+          version: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/dashboards", code: 200 })),
+      ).annotate({ identifier: "CreateDashboardRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: __S(656, __c82, 0),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "Label" });
+    case 1:
+      return S.Array(__S(632, __c79, 0));
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          i: S.String,
+          x: S.Number,
+          y: S.NullOr(S.Number),
+          w: S.Number,
+          h: S.Number,
+          minW: S.optional(S.Number),
+          minH: S.optional(S.Number),
+          maxW: S.optional(S.Number),
+          maxH: S.optional(S.Number),
+          static: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LayoutItem" });
+    case 2:
+      return S.Array(__S(641, __c80, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          defaultCollapsed: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Section" });
+    case 4:
+      return S.Array(__S(643, __c80, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          owner: S.String,
+          description: S.optional(S.String),
+          charts: __S(640, __c80, 0),
+          layout: __S(642, __c80, 2),
+          sections: S.optional(__S(644, __c80, 4)),
+          refreshTime: S.Number,
+          schemaVersion: S.Number,
+          against: S.optional(S.String),
+          againstTimestamp: S.optional(S.String),
+          timeWindowStart: S.String,
+          timeWindowEnd: S.String,
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Dashboard" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.optional(S.NullOr(S.String)),
+          createdBy: S.optional(S.NullOr(S.String)),
+          dashboard: __S(645, __c80, 5),
+          id: S.String,
+          labelIds: __S(456, __c57, 0),
+          labelNames: S.optional(__S(456, __c57, 0)),
+          labels: S.optional(__S(633, __c79, 1)),
+          type: S.String,
+          uid: S.String,
+          updatedAt: S.optional(S.NullOr(S.String)),
+          updatedBy: S.optional(S.NullOr(S.String)),
+          updatedByAgent: S.optional(S.Boolean),
+          version: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "DashboardResource" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dashboard: __S(646, __c80, 6),
+          overwritten: S.optional(S.Boolean),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "DashboardWriteResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "LabelColor" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          members: S.optional(__S(456, __c57, 0)),
+          name: S.String,
+          roles: S.optional(__S(456, __c57, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/rbac/groups", code: 200 })),
+      ).annotate({ identifier: "CreateGroupRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          isManaged: S.optional(S.Boolean),
+          members: S.optional(__S(456, __c57, 0)),
+          name: S.String,
+          roles: S.optional(__S(456, __c57, 0)),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "CreateGroupResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.optional(__S(656, __c82, 0)),
+          description: S.optional(S.NullOr(S.String)),
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/labels", code: 200 })),
+      ).annotate({ identifier: "CreateLabelRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dashboards: S.Number,
+          datasets: S.Number,
+          monitors: S.Number,
+          notifiers: S.Number,
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "LabelResourcesCount" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          color: __S(656, __c82, 0),
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          name: S.String,
+          resources_count: __S(688, __c86, 0),
+        }),
+      ).annotate({ identifier: "LabelSummary" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

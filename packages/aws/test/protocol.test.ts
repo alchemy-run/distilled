@@ -3,9 +3,7 @@
  * the same request on the wire and the same result or error, for operations
  * of every wire protocol, with and without strict validation.
  */
-import * as API from "@distilled.cloud/core/api";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
-import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -100,9 +98,11 @@ const run = async (
   };
 };
 
-const protocol = Effect.runSync(
-  Effect.scoped(Effect.map(Layer.build(AwsProtocol), (ctx) => Context.get(ctx, API.Protocol))),
-);
+const protocol = AwsProtocol;
+
+/** The classes an operation's service declares (`op.errors` is the operation's own). */
+const serviceErrorsOf = (op: any): ReadonlyArray<any> =>
+  op[Symbol.for("@distilled.cloud/core/api/OperationState")].configFn().serviceErrors ?? [];
 
 /** The operation through encode -> HttpClient -> decode, as before `call`. */
 const viaEncodeDecode = (op: any, input: unknown) => {
@@ -112,10 +112,12 @@ const viaEncodeDecode = (op: any, input: unknown) => {
     errors: op.errors,
     operationName: op.operationName,
   };
+  // What `API.make` hands a protocol: the operation's classes, then its service's.
+  const errors = [...op.errors, ...serviceErrorsOf(op)];
   return Effect.flatMap(HttpClient.HttpClient, (client) =>
     Effect.flatMap(protocol.encode({ input, inputAst: op.input.ast, config }), (request) =>
       Effect.flatMap(client.execute(request), (response) =>
-        protocol.decode({ response, outputAst: op.output.ast, errors: op.errors, config }),
+        protocol.decode({ response, outputAst: op.output.ast, errors, config }),
       ),
     ),
   );

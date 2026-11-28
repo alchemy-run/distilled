@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Effect SDK.
  *
  * Input:  .generated-specs/neon.json  (written by scripts/convert.ts)
- * Output: src/services/neon.ts  +  src/services/index.ts
+ * Output: src/services/neon.ts  +  src/services/index.ts, and the operations
+ *         convert marks unstable in src/unstable-services/neon.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Neon's provider spec.
@@ -64,17 +65,6 @@ const neonSpec: SdkSpec = {
 
   shapeOverride: ({ name, def }) => {
     if (
-      def.type === "structure" &&
-      Object.keys(def.members ?? {}).length === 1 &&
-      def.members.body?.target === "smithy.api#Blob" &&
-      RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-    ) {
-      return [
-        `export type ${name} = Uint8Array;`,
-        `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
-      ];
-    }
-    if (
       def.type !== "enum" ||
       (!name.includes("Trigger") &&
         ![
@@ -114,7 +104,7 @@ const neonSpec: SdkSpec = {
   operationDecl: {
     contextType: "NeonOpContext",
     commonErrorType: "NeonOpError",
-    commonErrorClasses: ["UnknownNeonError"],
+    serviceErrors: "NeonServiceErrors",
     protocol: "NeonProtocol",
     retry: "Retry.Retry",
   },
@@ -138,5 +128,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => neonSpec,
 });

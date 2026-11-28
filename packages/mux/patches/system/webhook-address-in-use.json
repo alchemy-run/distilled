@@ -1,0 +1,31 @@
+{
+  "description": "Mux allows one webhook per address per environment, and the spec documents the conflict only as a generic 400. createWebhook with an address already in use returned 400 `{\"error\":{\"type\":\"bad_request\",\"messages\":[\"A webhook with this address already exists in this environment.\"]}}` on 2026-11-25. A typed `WebhookAddressInUse` lets callers tell it from other bad requests. updateWebhook can move a webhook onto a taken address, so it gets the same class.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.system#WebhookAddressInUse",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "distilled.errors#categories": ["AlreadyExistsError"],
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 400, "message": { "includes": "webhook with this address already exists" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.system#CreateWebhook/errors/-",
+      "value": { "target": "com.mux.system#WebhookAddressInUse" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.system#UpdateWebhook/errors/-",
+      "value": { "target": "com.mux.system#WebhookAddressInUse" }
+    }
+  ]
+}

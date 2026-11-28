@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -99,6 +100,12 @@ export class AccessDeniedException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
+  ).pipe(C.withConflictError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
@@ -182,9 +189,14 @@ export type RuleDescription = string;
 export type RuleType = "OrganizationRule" | "AccountRule" | (string & {});
 export type RuleApplyOrder = "BeforeAccountRules" | "AfterAccountRules" | (string & {});
 export type OrganizationConfigurationAccountIds = string[];
+export type OrganizationalUnitId = string;
+export type OrganizationConfigurationOrganizationalUnitIds = string[];
 export interface OrganizationConfiguration {
   ruleApplyOrder?: RuleApplyOrder | undefined;
   accountIds?: string[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
+  excludedOrganizationalUnitIds?: string[] | undefined;
+  excludedAccountIds?: string[] | undefined;
 }
 export type RecommendedActionType =
   | "SnapshotAndDeleteUnattachedEbsVolume"
@@ -302,6 +314,17 @@ export interface DeleteAutomationRuleRequest {
   clientToken?: string | undefined;
 }
 export interface DeleteAutomationRuleResponse {}
+export type OrganizationTarget =
+  | { accountId: string; organizationalUnitId?: undefined }
+  | { accountId?: undefined; organizationalUnitId: string };
+export type OrganizationEnrollmentConfigurationType = "OrganizationRuleMode" | (string & {});
+export type OrganizationEnrollmentConfigurationTypes = OrganizationEnrollmentConfigurationType[];
+export interface DeleteOrganizationEnrollmentConfigurationRequest {
+  target: OrganizationTarget;
+  configurationTypes: OrganizationEnrollmentConfigurationType[];
+  clientToken?: string | undefined;
+}
+export interface DeleteOrganizationEnrollmentConfigurationResponse {}
 export interface DisassociateAccountsRequest {
   accountIds: string[];
   clientToken?: string | undefined;
@@ -381,21 +404,34 @@ export interface GetAutomationRuleResponse {
 export interface GetEnrollmentConfigurationRequest {}
 export type EnrollmentStatus = "Active" | "Inactive" | "Pending" | "Failed" | (string & {});
 export type OrganizationRuleMode = "AnyAllowed" | "NoneAllowed" | (string & {});
+export type OrganizationEnrollmentConfigurationStatus = "Active" | "Inactive" | (string & {});
 export interface GetEnrollmentConfigurationResponse {
   status: EnrollmentStatus;
   statusReason?: string | undefined;
   organizationRuleMode?: OrganizationRuleMode | undefined;
   lastUpdatedTimestamp?: Date | undefined;
+  organizationEnrollmentConfigurationStatus?: OrganizationEnrollmentConfigurationStatus | undefined;
 }
 export type NextToken = string;
 export interface ListAccountsRequest {
   maxResults?: number | undefined;
   nextToken?: string | undefined;
 }
+export type OrganizationRuleModeSourceType =
+  | "Applied"
+  | "Inherited"
+  | "Direct"
+  | "Default"
+  | (string & {});
+export interface OrganizationRuleModeSource {
+  sourceType: OrganizationRuleModeSourceType;
+  sourceTargetId?: string | undefined;
+}
 export interface AccountInfo {
   accountId: string;
   status: EnrollmentStatus;
   organizationRuleMode: OrganizationRuleMode;
+  organizationRuleModeSource?: OrganizationRuleModeSource | undefined;
   statusReason?: string | undefined;
   lastUpdatedTimestamp: Date;
 }
@@ -412,8 +448,10 @@ export interface AutomationEventFilter {
   values: string[];
 }
 export type AutomationEventFilterList = AutomationEventFilter[];
+export type OrganizationalUnitIds = string[];
 export interface ListAutomationEventsRequest {
   filters?: AutomationEventFilter[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
   startTimeInclusive?: Date | undefined;
   endTimeExclusive?: Date | undefined;
   maxResults?: number | undefined;
@@ -471,6 +509,7 @@ export interface ListAutomationEventStepsResponse {
 }
 export interface ListAutomationEventSummariesRequest {
   filters?: AutomationEventFilter[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
   startDateInclusive?: string | undefined;
   endDateExclusive?: string | undefined;
   maxResults?: number | undefined;
@@ -503,6 +542,9 @@ export interface ListAutomationEventSummariesResponse {
 }
 export interface OrganizationScope {
   accountIds?: string[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
+  excludedOrganizationalUnitIds?: string[] | undefined;
+  excludedAccountIds?: string[] | undefined;
 }
 export interface ListAutomationRulePreviewRequest {
   ruleType: RuleType;
@@ -597,6 +639,39 @@ export interface ListAutomationRulesResponse {
   automationRules?: AutomationRule[] | undefined;
   nextToken?: string | undefined;
 }
+export interface ListOrganizationalUnitsRequest {
+  organizationalUnitIds?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export type AutoEnrollMemberAccounts = "All" | "None" | (string & {});
+export interface OrganizationalUnitInfo {
+  organizationalUnitId: string;
+  autoEnrollMemberAccounts: AutoEnrollMemberAccounts;
+  organizationRuleMode: OrganizationRuleMode;
+  organizationRuleModeSource: OrganizationRuleModeSource;
+}
+export type OrganizationalUnitInfoList = OrganizationalUnitInfo[];
+export interface ListOrganizationalUnitsResponse {
+  organizationalUnits: OrganizationalUnitInfo[];
+  nextToken?: string | undefined;
+}
+export type OrganizationTargetType = "Account" | "OrganizationalUnit" | (string & {});
+export interface ListOrganizationEnrollmentConfigurationsRequest {
+  targetType?: OrganizationTargetType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface OrganizationEnrollmentConfiguration {
+  targetId: string;
+  targetType: OrganizationTargetType;
+  organizationRuleMode?: OrganizationRuleMode | undefined;
+}
+export type OrganizationEnrollmentConfigurations = OrganizationEnrollmentConfiguration[];
+export interface ListOrganizationEnrollmentConfigurationsResponse {
+  organizationEnrollmentConfigurations: OrganizationEnrollmentConfiguration[];
+  nextToken?: string | undefined;
+}
 export type RecommendedActionFilterName = string;
 export interface RecommendedActionFilter {
   name: string;
@@ -605,6 +680,7 @@ export interface RecommendedActionFilter {
 export type RecommendedActionFilterList = RecommendedActionFilter[];
 export interface ListRecommendedActionsRequest {
   filters?: RecommendedActionFilter[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
   maxResults?: number | undefined;
   nextToken?: string | undefined;
 }
@@ -632,6 +708,7 @@ export interface ListRecommendedActionsResponse {
 }
 export interface ListRecommendedActionSummariesRequest {
   filters?: RecommendedActionFilter[] | undefined;
+  organizationalUnitIds?: string[] | undefined;
   maxResults?: number | undefined;
   nextToken?: string | undefined;
 }
@@ -654,6 +731,12 @@ export interface ListTagsForResourceRequest {
 export interface ListTagsForResourceResponse {
   tags?: Tag[] | undefined;
 }
+export interface PutOrganizationEnrollmentConfigurationRequest {
+  target: OrganizationTarget;
+  organizationRuleMode?: OrganizationRuleMode | undefined;
+  clientToken?: string | undefined;
+}
+export interface PutOrganizationEnrollmentConfigurationResponse {}
 export interface RollbackAutomationEventRequest {
   eventId: string;
   clientToken?: string | undefined;
@@ -739,6 +822,8 @@ export type AssociateAccountsError =
 /**
  * Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that account. If the member account has not previously enabled the Automation feature, the association process automatically enables it.
  *
+ * Requests that include an account to which an organization enrollment configuration applies are rejected.
+ *
  * Only the management account or a delegated administrator can perform this action.
  */
 export const associateAccounts: API.OperationMethod<
@@ -761,6 +846,7 @@ export const associateAccounts: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccounts",
@@ -805,6 +891,7 @@ export const createAutomationRule: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
@@ -847,11 +934,57 @@ export const deleteAutomationRule: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRule",
   telemetry: TELEMETRY,
   span: "DeleteAutomationRule",
+}));
+
+export type DeleteOrganizationEnrollmentConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes the specified configuration types from an organization enrollment configuration. After deletion, Automation stays enabled for affected accounts and earlier account associations aren't restored. Affected accounts inherit the organization rule mode from the closest parent that has an organization enrollment configuration, or get None allowed if no parent has one.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const deleteOrganizationEnrollmentConfiguration: API.OperationMethod<
+  DeleteOrganizationEnrollmentConfigurationRequest & RegionInput,
+  DeleteOrganizationEnrollmentConfigurationResponse,
+  DeleteOrganizationEnrollmentConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(80, __c10, 0) as any as S.Schema<DeleteOrganizationEnrollmentConfigurationRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<DeleteOrganizationEnrollmentConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteOrganizationEnrollmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationEnrollmentConfiguration",
 }));
 
 export type DisassociateAccountsError =
@@ -867,7 +1000,9 @@ export type DisassociateAccountsError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account.
+ * Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) can't create automation rules for that account.
+ *
+ * Requests that include an account to which an organization enrollment configuration applies are rejected.
  *
  * Only the management account or a delegated administrator can perform this action.
  */
@@ -877,7 +1012,7 @@ export const disassociateAccounts: API.OperationMethod<
   DisassociateAccountsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DisassociateAccountsRequest>,
+  input: __S(96, __c12, 0) as any as S.Schema<DisassociateAccountsRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DisassociateAccountsResponse>,
   errors: [
     AccessDeniedException,
@@ -891,6 +1026,7 @@ export const disassociateAccounts: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccounts",
@@ -917,8 +1053,8 @@ export const getAutomationEvent: API.OperationMethod<
   GetAutomationEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetAutomationEventRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<GetAutomationEventResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetAutomationEventRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<GetAutomationEventResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -929,6 +1065,7 @@ export const getAutomationEvent: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationEvent",
@@ -955,8 +1092,8 @@ export const getAutomationRule: API.OperationMethod<
   GetAutomationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetAutomationRuleRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetAutomationRuleResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetAutomationRuleRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<GetAutomationRuleResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -967,6 +1104,7 @@ export const getAutomationRule: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRule",
@@ -993,8 +1131,8 @@ export const getEnrollmentConfiguration: API.OperationMethod<
   GetEnrollmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetEnrollmentConfigurationRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<GetEnrollmentConfigurationResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetEnrollmentConfigurationRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<GetEnrollmentConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1005,6 +1143,7 @@ export const getEnrollmentConfiguration: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnrollmentConfiguration",
@@ -1034,8 +1173,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListAccountsRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<ListAccountsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListAccountsRequest>,
+  output: __S(147, __c18, 3) as any as S.Schema<ListAccountsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1046,6 +1185,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccounts",
@@ -1078,8 +1218,8 @@ export const listAutomationEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListAutomationEventsRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<ListAutomationEventsResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListAutomationEventsRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<ListAutomationEventsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1089,6 +1229,7 @@ export const listAutomationEvents: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationEvents",
@@ -1122,8 +1263,8 @@ export const listAutomationEventSteps: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationEventStep
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListAutomationEventStepsRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<ListAutomationEventStepsResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListAutomationEventStepsRequest>,
+  output: __S(179, __c22, 3) as any as S.Schema<ListAutomationEventStepsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1134,6 +1275,7 @@ export const listAutomationEventSteps: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationEventSteps",
@@ -1166,8 +1308,8 @@ export const listAutomationEventSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationEventSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListAutomationEventSummariesRequest>,
-  output: __S(165, __c20, 5) as any as S.Schema<ListAutomationEventSummariesResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListAutomationEventSummariesRequest>,
+  output: __S(189, __c23, 5) as any as S.Schema<ListAutomationEventSummariesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1177,6 +1319,7 @@ export const listAutomationEventSummaries: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationEventSummaries",
@@ -1209,8 +1352,8 @@ export const listAutomationRulePreview: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PreviewResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListAutomationRulePreviewRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ListAutomationRulePreviewResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListAutomationRulePreviewRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<ListAutomationRulePreviewResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1220,6 +1363,7 @@ export const listAutomationRulePreview: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRulePreview",
@@ -1252,8 +1396,8 @@ export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PreviewResultSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListAutomationRulePreviewSummariesRequest>,
-  output: __S(193, __c24, 1) as any as S.Schema<ListAutomationRulePreviewSummariesResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<ListAutomationRulePreviewSummariesRequest>,
+  output: __S(217, __c27, 1) as any as S.Schema<ListAutomationRulePreviewSummariesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1263,6 +1407,7 @@ export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRulePreviewSummaries",
@@ -1295,8 +1440,8 @@ export const listAutomationRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListAutomationRulesRequest>,
-  output: __S(211, __c26, 3) as any as S.Schema<ListAutomationRulesResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<ListAutomationRulesRequest>,
+  output: __S(235, __c29, 3) as any as S.Schema<ListAutomationRulesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1306,6 +1451,7 @@ export const listAutomationRules: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRules",
@@ -1319,6 +1465,98 @@ export const listAutomationRules: API.PaginatedOperationMethod<
   span: "ListAutomationRules",
 })) as any;
 
+export type ListOrganizationalUnitsError =
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists the organization root and organizational units (OUs), including whether an applicable organization enrollment configuration enables Automation for member accounts and the effective organization rule mode for each root or OU.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const listOrganizationalUnits: API.PaginatedOperationMethod<
+  ListOrganizationalUnitsRequest & RegionInput,
+  ListOrganizationalUnitsResponse,
+  ListOrganizationalUnitsError,
+  Credentials | HttpClient.HttpClient,
+  OrganizationalUnitInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(240, __c30, 0) as any as S.Schema<ListOrganizationalUnitsRequest>,
+  output: __S(243, __c30, 3) as any as S.Schema<ListOrganizationalUnitsResponse>,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListOrganizationalUnits",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "organizationalUnits",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationalUnits",
+})) as any;
+
+export type ListOrganizationEnrollmentConfigurationsError =
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists the organization enrollment configurations that are stored directly on accounts, organizational units (OUs), and the organization root.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ */
+export const listOrganizationEnrollmentConfigurations: API.PaginatedOperationMethod<
+  ListOrganizationEnrollmentConfigurationsRequest & RegionInput,
+  ListOrganizationEnrollmentConfigurationsResponse,
+  ListOrganizationEnrollmentConfigurationsError,
+  Credentials | HttpClient.HttpClient,
+  OrganizationEnrollmentConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(248, __c31, 0) as any as S.Schema<ListOrganizationEnrollmentConfigurationsRequest>,
+  output: __S(251, __c31, 3) as any as S.Schema<ListOrganizationEnrollmentConfigurationsResponse>,
+  errors: [
+    AccessDeniedException,
+    ForbiddenException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListOrganizationEnrollmentConfigurations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "organizationEnrollmentConfigurations",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationEnrollmentConfigurations",
+})) as any;
+
 export type ListRecommendedActionsError =
   | AccessDeniedException
   | ForbiddenException
@@ -1329,9 +1567,9 @@ export type ListRecommendedActionsError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Lists the recommended actions based that match specified filters.
+ * Lists the recommended actions that match the specified filters.
  *
- * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
+ * Management accounts and delegated administrators can retrieve recommended actions for member accounts that are associated using `AssociateAccounts` or have an applicable organization enrollment configuration with `organizationRuleMode` set to `AnyAllowed`.
  */
 export const listRecommendedActions: API.PaginatedOperationMethod<
   ListRecommendedActionsRequest & RegionInput,
@@ -1340,8 +1578,8 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecommendedAction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListRecommendedActionsRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<ListRecommendedActionsResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<ListRecommendedActionsRequest>,
+  output: __S(257, __c32, 1) as any as S.Schema<ListRecommendedActionsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1351,6 +1589,7 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecommendedActions",
@@ -1376,7 +1615,7 @@ export type ListRecommendedActionSummariesError =
 /**
  * Provides a summary of recommended actions based on specified filters.
  *
- * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
+ * Management accounts and delegated administrators can retrieve recommended action summaries for member accounts that are associated using `AssociateAccounts` or have an applicable organization enrollment configuration with `organizationRuleMode` set to `AnyAllowed`.
  */
 export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
   ListRecommendedActionSummariesRequest & RegionInput,
@@ -1385,8 +1624,8 @@ export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecommendedActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListRecommendedActionSummariesRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<ListRecommendedActionSummariesResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<ListRecommendedActionSummariesRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<ListRecommendedActionSummariesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1396,6 +1635,7 @@ export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecommendedActionSummaries",
@@ -1428,8 +1668,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1440,11 +1680,59 @@ export const listTagsForResource: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
+}));
+
+export type PutOrganizationEnrollmentConfigurationError =
+  | AccessDeniedException
+  | ConflictException
+  | ForbiddenException
+  | IdempotencyTokenInUseException
+  | IdempotentParameterMismatchException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates or updates an organization enrollment configuration. The organization enrollment configuration sets the organization rule mode on the specified account, organizational unit (OU), or organization root and enables Automation for affected member accounts that have opted in to Compute Optimizer, including accounts that join later. Changes on an OU or the organization root can take up to 5 minutes. Organization enrollment configurations take precedence over settings made by `AssociateAccounts` and `DisassociateAccounts`. You must specify at least one configuration in the request.
+ *
+ * Only the management account or a delegated administrator can perform this action.
+ *
+ * Organization enrollment configurations can't be created for the management account.
+ */
+export const putOrganizationEnrollmentConfiguration: API.OperationMethod<
+  PutOrganizationEnrollmentConfigurationRequest & RegionInput,
+  PutOrganizationEnrollmentConfigurationResponse,
+  PutOrganizationEnrollmentConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(280, __c35, 0) as any as S.Schema<PutOrganizationEnrollmentConfigurationRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<PutOrganizationEnrollmentConfigurationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    ForbiddenException,
+    IdempotencyTokenInUseException,
+    IdempotentParameterMismatchException,
+    InternalServerException,
+    InvalidParameterValueException,
+    OptInRequiredException,
+    ServiceUnavailableException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutOrganizationEnrollmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutOrganizationEnrollmentConfiguration",
 }));
 
 export type RollbackAutomationEventError =
@@ -1462,7 +1750,7 @@ export type RollbackAutomationEventError =
 /**
  * Initiates a rollback for a completed automation event.
  *
- * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
+ * Management accounts and delegated administrators can initiate a rollback for events belonging to member accounts that are associated using `AssociateAccounts` or have an applicable organization enrollment configuration with `organizationRuleMode` set to `AnyAllowed`.
  */
 export const rollbackAutomationEvent: API.OperationMethod<
   RollbackAutomationEventRequest & RegionInput,
@@ -1470,8 +1758,8 @@ export const rollbackAutomationEvent: API.OperationMethod<
   RollbackAutomationEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<RollbackAutomationEventRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<RollbackAutomationEventResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<RollbackAutomationEventRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<RollbackAutomationEventResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1484,6 +1772,7 @@ export const rollbackAutomationEvent: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackAutomationEvent",
@@ -1507,7 +1796,7 @@ export type StartAutomationEventError =
 /**
  * Initiates a one-time, on-demand automation for the specified recommended action.
  *
- * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
+ * Management accounts and delegated administrators can initiate recommended actions for member accounts that are associated using `AssociateAccounts` or have an applicable organization enrollment configuration with `organizationRuleMode` set to `AnyAllowed`.
  */
 export const startAutomationEvent: API.OperationMethod<
   StartAutomationEventRequest & RegionInput,
@@ -1515,8 +1804,8 @@ export const startAutomationEvent: API.OperationMethod<
   StartAutomationEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<StartAutomationEventRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<StartAutomationEventResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<StartAutomationEventRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<StartAutomationEventResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1530,6 +1819,7 @@ export const startAutomationEvent: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationEvent",
@@ -1558,7 +1848,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(304, __c38, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -1572,6 +1862,7 @@ export const tagResource: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1600,7 +1891,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(312, __c39, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -1614,6 +1905,7 @@ export const untagResource: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1642,8 +1934,8 @@ export const updateAutomationRule: API.OperationMethod<
   UpdateAutomationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<UpdateAutomationRuleRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<UpdateAutomationRuleResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<UpdateAutomationRuleRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<UpdateAutomationRuleResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1656,6 +1948,7 @@ export const updateAutomationRule: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRule",
@@ -1685,8 +1978,8 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   UpdateEnrollmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpdateEnrollmentConfigurationRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<UpdateEnrollmentConfigurationResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateEnrollmentConfigurationRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<UpdateEnrollmentConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1700,6 +1993,7 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentConfiguration",
@@ -1743,11 +2037,11 @@ function __c3(j: number): any {
           ruleType: S.String,
           organizationConfiguration: S.optional(__S(56, __c7, 0)),
           priority: S.optional(S.String),
-          recommendedActionTypes: __S(40, __c5, 0),
+          recommendedActionTypes: __S(32, __c4, 0),
           criteria: S.optional(__S(55, __c6, 7)),
           schedule: __S(57, __c7, 1),
           status: S.String,
-          tags: S.optional(__S(33, __c4, 1)),
+          tags: S.optional(__S(41, __c5, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAutomationRuleRequest" });
@@ -1762,11 +2056,11 @@ function __c3(j: number): any {
           ruleRevision: S.optional(S.Number),
           organizationConfiguration: S.optional(__S(56, __c7, 0)),
           priority: S.optional(S.String),
-          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          recommendedActionTypes: S.optional(__S(32, __c4, 0)),
           criteria: S.optional(__S(55, __c6, 7)),
           schedule: S.optional(__S(57, __c7, 1)),
           status: S.optional(S.String),
-          tags: S.optional(__S(33, __c4, 1)),
+          tags: S.optional(__S(41, __c5, 1)),
           createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "CreateAutomationRuleResponse" });
@@ -1775,17 +2069,17 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
-        identifier: "Tag",
-      });
-    case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(S.String);
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(40, __c5, 0));
   }
 }
 function __c6(j: number): any {
@@ -1833,7 +2127,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ruleApplyOrder: S.optional(S.String), accountIds: S.optional(__S(8, __c1, 0)) }),
+        S.Struct({
+          ruleApplyOrder: S.optional(S.String),
+          accountIds: S.optional(__S(8, __c1, 0)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
+          excludedOrganizationalUnitIds: S.optional(__S(8, __c1, 0)),
+          excludedAccountIds: S.optional(__S(8, __c1, 0)),
+        }),
       ).annotate({ identifier: "OrganizationConfiguration" });
     case 1:
       return S.suspend(() =>
@@ -1868,13 +2168,34 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          target: __S(88, __c11, 0),
+          configurationTypes: __S(32, __c4, 0),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteOrganizationEnrollmentConfigurationRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ accountId: S.String }),
+        /*@__PURE__*/ S.Struct({ organizationalUnitId: S.String }),
+      ]);
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           accountIds: __S(8, __c1, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DisassociateAccountsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1884,7 +2205,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetAutomationEventRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1903,12 +2224,12 @@ function __c12(j: number): any {
           resourceType: S.optional(S.String),
           createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+          estimatedMonthlySavings: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "GetAutomationEventResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1921,7 +2242,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "EstimatedMonthlySavings" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1941,18 +2262,18 @@ function __c14(j: number): any {
           accountId: S.optional(S.String),
           organizationConfiguration: S.optional(__S(56, __c7, 0)),
           priority: S.optional(S.String),
-          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          recommendedActionTypes: S.optional(__S(32, __c4, 0)),
           criteria: S.optional(__S(55, __c6, 7)),
           schedule: S.optional(__S(57, __c7, 1)),
           status: S.optional(S.String),
-          tags: S.optional(__S(33, __c4, 1)),
+          tags: S.optional(__S(41, __c5, 1)),
           createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "GetAutomationRuleResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1967,11 +2288,12 @@ function __c15(j: number): any {
           statusReason: S.optional(S.String),
           organizationRuleMode: S.optional(S.String),
           lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          organizationEnrollmentConfigurationStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetEnrollmentConfigurationResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1985,24 +2307,34 @@ function __c16(j: number): any {
           accountId: S.String,
           status: S.String,
           organizationRuleMode: S.String,
+          organizationRuleModeSource: S.optional(__S(152, __c19, 0)),
           statusReason: S.optional(S.String),
           lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "AccountInfo" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ accounts: __S(130, __c16, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ accounts: __S(146, __c18, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ sourceType: S.String, sourceTargetId: S.optional(S.String) }),
+      ).annotate({ identifier: "OrganizationRuleModeSource" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(145, __c18, 1)),
+          filters: S.optional(__S(169, __c21, 1)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
           startTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           endTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           maxResults: S.optional(S.Number),
@@ -2010,27 +2342,27 @@ function __c17(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListAutomationEventsRequest" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          automationEvents: S.optional(__S(137, __c17, 1)),
+          automationEvents: S.optional(__S(161, __c20, 1)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutomationEventsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, values: __S(8, __c1, 0) })).annotate({
         identifier: "AutomationEventFilter",
       });
     case 1:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(168, __c21, 0));
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2050,26 +2382,27 @@ function __c19(j: number): any {
           resourceId: S.optional(S.String),
           startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+          estimatedMonthlySavings: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "AutomationEventStep" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(177, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          automationEventSteps: S.optional(__S(154, __c19, 2)),
+          automationEventSteps: S.optional(__S(178, __c22, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutomationEventStepsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(145, __c18, 1)),
+          filters: S.optional(__S(169, __c21, 1)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
           startDateInclusive: S.optional(S.String),
           endDateExclusive: S.optional(S.String),
           maxResults: S.optional(S.Number),
@@ -2087,37 +2420,37 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           automationEventCount: S.optional(S.Number),
-          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+          estimatedMonthlySavings: S.optional(__S(120, __c15, 0)),
         }),
       ).annotate({ identifier: "SummaryTotals" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          dimensions: S.optional(__S(33, __c4, 1)),
-          timePeriod: S.optional(__S(161, __c20, 1)),
-          total: S.optional(__S(162, __c20, 2)),
+          dimensions: S.optional(__S(41, __c5, 1)),
+          timePeriod: S.optional(__S(185, __c23, 1)),
+          total: S.optional(__S(186, __c23, 2)),
         }),
       ).annotate({ identifier: "AutomationEventSummary" });
     case 4:
-      return S.Array(__S(163, __c20, 3));
+      return S.Array(__S(187, __c23, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          automationEventSummaries: S.optional(__S(164, __c20, 4)),
+          automationEventSummaries: S.optional(__S(188, __c23, 4)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutomationEventSummariesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ruleType: S.String,
-          organizationScope: S.optional(__S(176, __c22, 0)),
-          recommendedActionTypes: __S(40, __c5, 0),
+          organizationScope: S.optional(__S(200, __c25, 0)),
+          recommendedActionTypes: __S(32, __c4, 0),
           criteria: S.optional(__S(55, __c6, 7)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
@@ -2126,21 +2459,26 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          previewResults: S.optional(__S(188, __c23, 4)),
+          previewResults: S.optional(__S(212, __c26, 4)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutomationRulePreviewResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ accountIds: S.optional(__S(8, __c1, 0)) })).annotate({
-        identifier: "OrganizationScope",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          accountIds: S.optional(__S(8, __c1, 0)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
+          excludedOrganizationalUnitIds: S.optional(__S(8, __c1, 0)),
+          excludedAccountIds: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "OrganizationScope" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2152,11 +2490,11 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "EbsVolumeConfiguration" });
     case 1:
-      return S.suspend(() => S.Struct({ configuration: S.optional(__S(184, __c23, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ configuration: S.optional(__S(208, __c26, 0)) })).annotate({
         identifier: "EbsVolume",
       });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ ebsVolume: __S(185, __c23, 1) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ ebsVolume: __S(209, __c26, 1) })]);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2169,26 +2507,26 @@ function __c23(j: number): any {
           lookBackPeriodInDays: S.optional(S.Number),
           recommendedActionType: S.optional(S.String),
           currentResourceSummary: S.optional(S.String),
-          currentResourceDetails: S.optional(__S(186, __c23, 2)),
+          currentResourceDetails: S.optional(__S(210, __c26, 2)),
           recommendedResourceSummary: S.optional(S.String),
-          recommendedResourceDetails: S.optional(__S(186, __c23, 2)),
+          recommendedResourceDetails: S.optional(__S(210, __c26, 2)),
           restartNeeded: S.optional(S.Boolean),
-          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
-          resourceTags: S.optional(__S(33, __c4, 1)),
+          estimatedMonthlySavings: S.optional(__S(120, __c15, 0)),
+          resourceTags: S.optional(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "PreviewResult" });
     case 4:
-      return S.Array(__S(187, __c23, 3));
+      return S.Array(__S(211, __c26, 3));
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ruleType: S.String,
-          organizationScope: S.optional(__S(176, __c22, 0)),
-          recommendedActionTypes: __S(40, __c5, 0),
+          organizationScope: S.optional(__S(200, __c25, 0)),
+          recommendedActionTypes: __S(32, __c4, 0),
           criteria: S.optional(__S(55, __c6, 7)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
@@ -2197,32 +2535,32 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          previewResultSummaries: S.optional(__S(202, __c25, 2)),
+          previewResultSummaries: S.optional(__S(226, __c28, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutomationRulePreviewSummariesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ recommendedActionCount: S.Number, estimatedMonthlySavings: __S(104, __c13, 0) }),
+        S.Struct({ recommendedActionCount: S.Number, estimatedMonthlySavings: __S(120, __c15, 0) }),
       ).annotate({ identifier: "RulePreviewTotal" });
     case 1:
-      return S.suspend(() => S.Struct({ key: S.String, total: __S(200, __c25, 0) })).annotate({
+      return S.suspend(() => S.Struct({ key: S.String, total: __S(224, __c28, 0) })).annotate({
         identifier: "PreviewResultSummary",
       });
     case 2:
-      return S.Array(__S(201, __c25, 1));
+      return S.Array(__S(225, __c28, 1));
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(145, __c18, 1)),
+          filters: S.optional(__S(169, __c21, 1)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2239,7 +2577,7 @@ function __c26(j: number): any {
           accountId: S.optional(S.String),
           organizationConfiguration: S.optional(__S(56, __c7, 0)),
           priority: S.optional(S.String),
-          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          recommendedActionTypes: S.optional(__S(32, __c4, 0)),
           schedule: S.optional(__S(57, __c7, 1)),
           status: S.optional(S.String),
           createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2247,22 +2585,79 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "AutomationRule" });
     case 2:
-      return S.Array(__S(209, __c26, 1));
+      return S.Array(__S(233, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          automationRules: S.optional(__S(210, __c26, 2)),
+          automationRules: S.optional(__S(234, __c29, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAutomationRulesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(145, __c18, 1)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListOrganizationalUnitsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          organizationalUnitId: S.String,
+          autoEnrollMemberAccounts: S.String,
+          organizationRuleMode: S.String,
+          organizationRuleModeSource: __S(152, __c19, 0),
+        }),
+      ).annotate({ identifier: "OrganizationalUnitInfo" });
+    case 2:
+      return S.Array(__S(241, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ organizationalUnits: __S(242, __c30, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListOrganizationalUnitsResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targetType: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListOrganizationEnrollmentConfigurationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          targetId: S.String,
+          targetType: S.String,
+          organizationRuleMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OrganizationEnrollmentConfiguration" });
+    case 2:
+      return S.Array(__S(249, __c31, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          organizationEnrollmentConfigurations: __S(250, __c31, 2),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListOrganizationEnrollmentConfigurationsResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(169, __c21, 1)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2270,18 +2665,19 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          recommendedActions: S.optional(__S(188, __c23, 4)),
+          recommendedActions: S.optional(__S(212, __c26, 4)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRecommendedActionsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(145, __c18, 1)),
+          filters: S.optional(__S(169, __c21, 1)),
+          organizationalUnitIds: S.optional(__S(8, __c1, 0)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2289,13 +2685,13 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          recommendedActionSummaries: S.optional(__S(202, __c25, 2)),
+          recommendedActionSummaries: S.optional(__S(226, __c28, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRecommendedActionSummariesResponse" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2304,12 +2700,24 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(33, __c4, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(41, __c5, 1)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          target: __S(88, __c11, 0),
+          organizationRuleMode: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PutOrganizationEnrollmentConfigurationRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2324,7 +2732,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RollbackAutomationEventResponse" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2343,20 +2751,20 @@ function __c31(j: number): any {
       ).annotate({ identifier: "StartAutomationEventResponse" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String,
           ruleRevision: S.Number,
-          tags: __S(33, __c4, 1),
+          tags: __S(41, __c5, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2369,7 +2777,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2381,7 +2789,7 @@ function __c34(j: number): any {
           ruleType: S.optional(S.String),
           organizationConfiguration: S.optional(__S(56, __c7, 0)),
           priority: S.optional(S.String),
-          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          recommendedActionTypes: S.optional(__S(32, __c4, 0)),
           criteria: S.optional(__S(55, __c6, 7)),
           schedule: S.optional(__S(57, __c7, 1)),
           status: S.optional(S.String),
@@ -2398,7 +2806,7 @@ function __c34(j: number): any {
           ruleType: S.optional(S.String),
           organizationConfiguration: S.optional(__S(56, __c7, 0)),
           priority: S.optional(S.String),
-          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          recommendedActionTypes: S.optional(__S(32, __c4, 0)),
           criteria: S.optional(__S(55, __c6, 7)),
           schedule: S.optional(__S(57, __c7, 1)),
           status: S.optional(S.String),
@@ -2408,7 +2816,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateAutomationRuleResponse" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

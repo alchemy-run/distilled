@@ -2,7 +2,7 @@
  * GitHub credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl, userAgent }` per
- * request; the protocol layer formats the `Authorization: Bearer <token>`
+ * request; the protocol formats the `Authorization: Bearer <token>`
  * header from it.
  *
  * The token may be a personal access token (classic or fine-grained), a
@@ -43,10 +43,12 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<
-    Credentials,
-    Effect.Effect<Config, ConfigError | GithubAppAuthError>
-  >()("GithubCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, GithubAppAuthError>>()(
+    "GithubCredentials",
+  ) {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's
@@ -63,20 +65,27 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "GITHUB_TOKEN (or GH_TOKEN) environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "GITHUB_TOKEN (or GH_TOKEN) environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ token, apiBaseUrl, userAgent }) => ({
+        token: Redacted.make(token),
+        apiBaseUrl,
+        userAgent,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ token, apiBaseUrl, userAgent }) => ({
-      token: Redacted.make(token),
-      apiBaseUrl,
-      userAgent,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

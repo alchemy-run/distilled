@@ -1,0 +1,12 @@
+{
+  "description": "The spec leaves `data` optional on `WebhookResponse`, the envelope that createWebhook, getWebhook and updateWebhook return, while every other Mux response envelope requires it. Mux always sends it: createWebhook, getWebhook and updateWebhook on 2026-11-25 each returned `{\"data\": {\"id\": \u2026, \"address\": \u2026, \"enabled\": \u2026, \"created_at\": \u2026}}`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.system#WebhookResponse/members/data/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

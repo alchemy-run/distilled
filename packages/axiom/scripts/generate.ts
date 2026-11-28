@@ -60,7 +60,7 @@ const axiomSpec: SdkSpec = {
   operationDecl: {
     contextType: "AxiomOpContext",
     commonErrorType: "AxiomOpError",
-    commonErrorClasses: ["UnknownAxiomError"],
+    serviceErrors: "AxiomServiceErrors",
     protocol: "AxiomProtocol",
     retry: "Retry.Retry",
   },
@@ -84,5 +84,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => axiomSpec,
 });

@@ -20,9 +20,16 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Axiom's pipeline
  * config. `scripts/generate.ts` compiles the models into src/services.
+ *
+ * Axiom marks preview operations `x-axiom-preview: true` (only in v2). Each
+ * one is marked `smithy.api#unstable`, so generate writes it to
+ * `unstable/v2` and the other operations to the stable `v2` module.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+
+/** An operation Axiom marks preview. */
+const isPreview = (op: Record<string, any>): boolean => op["x-axiom-preview"] === true;
 
 const root = path.resolve(import.meta.dirname, "..");
 const specsDir = "specs/spec-mirror-axiom/specs/restapi/versions";
@@ -100,6 +107,7 @@ for (const version of VERSIONS) {
       // v0 parity: includeOperationErrors=true with the default status→class
       // map and default error statuses (401/429/500/503 covered globally).
       skipDeprecated: true,
+      unstableOperation: isPreview,
       // Field deletion answers `202 Accepted` with a DeleteDatasetFieldsResult body.
       successStatuses: ["200", "201", "202", "204"],
     },

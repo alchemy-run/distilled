@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Okta credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Dual-mode auth:
  *
  *   SSWS API token -> `Authorization: SSWS <apiToken>`
@@ -28,9 +28,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "OktaCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OktaCredentials") {}
 
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -63,28 +61,34 @@ export const fromAccessToken = (config: {
 /**
  * Reads OKTA_API_TOKEN + OKTA_ORG_URL (required) and OKTA_AUTH_SCHEME
  * (optional, `SSWS` or `Bearer`; default SSWS).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiToken = process.env.OKTA_API_TOKEN;
-    const apiBaseUrl = process.env.OKTA_ORG_URL;
-    const scheme = process.env.OKTA_AUTH_SCHEME;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiToken = process.env.OKTA_API_TOKEN;
+      const apiBaseUrl = process.env.OKTA_ORG_URL;
+      const scheme = process.env.OKTA_AUTH_SCHEME;
 
-    if (!apiToken || !apiBaseUrl) {
-      return yield* new ConfigError({
-        message: "OKTA_API_TOKEN and OKTA_ORG_URL environment variables are required",
-      });
-    }
+      if (!apiToken || !apiBaseUrl) {
+        return yield* new ConfigError({
+          message: "OKTA_API_TOKEN and OKTA_ORG_URL environment variables are required",
+        });
+      }
 
-    const authScheme: AuthScheme = scheme === "Bearer" || scheme === "SSWS" ? scheme : "SSWS";
+      const authScheme: AuthScheme = scheme === "Bearer" || scheme === "SSWS" ? scheme : "SSWS";
 
-    return {
-      apiToken: Redacted.make(apiToken),
-      apiBaseUrl: stripTrailingSlash(apiBaseUrl),
-      authScheme,
-    };
-  }),
+      return {
+        apiToken: Redacted.make(apiToken),
+        apiBaseUrl: stripTrailingSlash(apiBaseUrl),
+        authScheme,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );
 
 /** Auth headers for a resolved credentials config. */

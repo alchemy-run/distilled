@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Boat credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  */
 import * as Context from "effect/Context";
@@ -27,9 +27,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "BoatCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("BoatCredentials") {}
 
 /** Layer from a redacted API key + optional base URL / default org. */
 export const fromApiKey = (config: {
@@ -50,23 +48,29 @@ export const fromApiKey = (config: {
  * Reads `BOAT_API_KEY` (required), `BOAT_API_BASE_URL` (optional) and
  * `BOAT_ORG` (optional default org). `BOAT_API_BASE` is accepted as the
  * vendor-docs alias for the base URL.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.BOAT_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.BOAT_API_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "BOAT_API_KEY environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "BOAT_API_KEY environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl:
-        process.env.BOAT_API_BASE_URL ?? process.env.BOAT_API_BASE ?? DEFAULT_API_BASE_URL,
-      org: process.env.BOAT_ORG || undefined,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl:
+          process.env.BOAT_API_BASE_URL ?? process.env.BOAT_API_BASE ?? DEFAULT_API_BASE_URL,
+        org: process.env.BOAT_ORG || undefined,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

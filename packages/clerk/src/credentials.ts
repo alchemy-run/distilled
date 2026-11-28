@@ -4,7 +4,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Clerk credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Clerk authenticates Backend API calls with a
  * secret key as `Authorization: Bearer <secret>` and versions the API with
  * the `Clerk-API-Version` header.
@@ -25,9 +25,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "ClerkCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("ClerkCredentials") {}
 
 /** Layer from a redacted secret key + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -44,24 +42,32 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads CLERK_SECRET_KEY (required), CLERK_API_BASE_URL, CLERK_API_VERSION. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads CLERK_SECRET_KEY (required), CLERK_API_BASE_URL, CLERK_API_VERSION.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.CLERK_SECRET_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.CLERK_SECRET_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "CLERK_SECRET_KEY environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "CLERK_SECRET_KEY environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.CLERK_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-      apiVersion: process.env.CLERK_API_VERSION ?? DEFAULT_API_VERSION,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: process.env.CLERK_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+        apiVersion: process.env.CLERK_API_VERSION ?? DEFAULT_API_VERSION,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );
 
 /**
@@ -82,10 +88,9 @@ export interface PlatformConfig {
  * Resolves Platform credentials per request, independently of Backend credentials.
  */
 export class PlatformCredentials
-  extends /*@__PURE__*/ Context.Service<
-    PlatformCredentials,
-    Effect.Effect<PlatformConfig, ConfigError>
-  >()("ClerkPlatformCredentials") {}
+  extends /*@__PURE__*/ Context.Service<PlatformCredentials, Effect.Effect<PlatformConfig>>()(
+    "ClerkPlatformCredentials",
+  ) {}
 
 /**
  * Builds a Platform credential layer from a redacted bearer token and optional URL.
@@ -107,25 +112,31 @@ export const platformFromApiKey = (config: {
 /**
  * Reads CLERK_PLATFORM_API_KEY and optional CLERK_PLATFORM_API_URL per request.
  * Missing or unreadable configuration fails with ConfigError; tokens stay redacted.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const PlatformCredentialsFromEnv: Layer.Layer<PlatformCredentials> =
-  /*@__PURE__*/ Layer.succeed(
+export const PlatformCredentialsFromEnv: Layer.Layer<PlatformCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
     PlatformCredentials,
-    /*@__PURE__*/ EffectConfig.all({
-      apiKey: /*@__PURE__*/ EffectConfig.Redacted("CLERK_PLATFORM_API_KEY"),
-      apiBaseUrl: /*@__PURE__*/ EffectConfig.String("CLERK_PLATFORM_API_URL").pipe(
-        /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_PLATFORM_API_BASE_URL),
+    /*@__PURE__*/ Effect.map(
+      /*@__PURE__*/ EffectConfig.all({
+        apiKey: /*@__PURE__*/ EffectConfig.Redacted("CLERK_PLATFORM_API_KEY"),
+        apiBaseUrl: /*@__PURE__*/ EffectConfig.String("CLERK_PLATFORM_API_URL").pipe(
+          /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_PLATFORM_API_BASE_URL),
+        ),
+      }).pipe(
+        /*@__PURE__*/ Effect.mapError(
+          () =>
+            new ConfigError({
+              message: "Unable to read CLERK_PLATFORM_API_KEY or CLERK_PLATFORM_API_URL",
+            }),
+        ),
+        /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
+          apiKey,
+          apiBaseUrl: apiBaseUrl || DEFAULT_PLATFORM_API_BASE_URL,
+        })),
       ),
-    }).pipe(
-      /*@__PURE__*/ Effect.mapError(
-        () =>
-          new ConfigError({
-            message: "Unable to read CLERK_PLATFORM_API_KEY or CLERK_PLATFORM_API_URL",
-          }),
-      ),
-      /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
-        apiKey,
-        apiBaseUrl: apiBaseUrl || DEFAULT_PLATFORM_API_BASE_URL,
-      })),
+      (config) => Effect.succeed(config),
     ),
   );

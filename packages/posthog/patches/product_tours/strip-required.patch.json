@@ -131,22 +131,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.product_tours#GenerateResponse/members/steps/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.product_tours#GenerateStepResponse/members/step_id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.product_tours#GenerateStepResponse/members/title/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.product_tours#GenerateStepResponse/members/description/traits"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.product_tours#ProductToursPublishDraftCreateRequest/members/name/traits"
     }
   ]

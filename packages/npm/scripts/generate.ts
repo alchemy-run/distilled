@@ -49,19 +49,6 @@ const spec: SdkSpec = {
     },
   ],
 
-  // A bare binary response body (`application/octet-stream`) is the
-  // response itself, read as bytes by the REST protocol.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = /*@__PURE__*/ S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Schema<${name}>;`,
-        ]
-      : undefined,
-
   // Sensitive strings (the tokens `createToken` and `exchangeOidcToken`
   // answer with): Redacted on the way out, `string | Redacted` accepted on
   // the way in.
@@ -86,7 +73,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "NpmOpContext",
     commonErrorType: "NpmOpError",
-    commonErrorClasses: ["UnknownNpmError"],
+    serviceErrors: "NpmServiceErrors",
     protocol: "NpmProtocol",
     retry: "Retry.Retry",
   },

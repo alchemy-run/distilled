@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -150,7 +150,7 @@ export type OtlpLogSinkBearerCredentialsType = "bearer";
 /** Bearer token authentication credentials for OTLP. */
 export interface OtlpLogSinkBearerCredentials {
   /** The bearer token used to authenticate against your OTLP endpoint. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Defines bearer token authentication. */
   type: OtlpLogSinkBearerCredentialsType;
 }
@@ -299,8 +299,12 @@ export interface CreateDistributionRequest {
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
   blockedIps?: CreateDistributionRequestBlockedIpsList | undefined;
   cacheConfig?: CacheConfigCreate | undefined;
+  /** Configures a custom origin path to serve when the origin returns a 404 Not Found status (e.g. index.html or /404.html). Must not contain a URL scheme. */
+  custom404ErrorResponse?: string | undefined;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
   defaultCacheDuration?: string | undefined;
+  /** Configures the default root object served when a request targets the root path '/' of the distribution (e.g. index.html or /index.html). Must not contain a URL scheme. */
+  defaultRootObject?: string | undefined;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader?: boolean | undefined;
   /** While optional, it is greatly encouraged to provide an `intentId`. This is used to deduplicate requests. If multiple POST-Requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped. */
@@ -393,8 +397,12 @@ export interface Config {
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
   blockedIps: ConfigBlockedIpsList;
   cacheConfig: CacheConfig;
+  /** Configures a custom origin path to serve when the origin returns a 404 Not Found status (e.g. index.html or /404.html). Must not contain a URL scheme. */
+  custom404ErrorResponse?: string | null | undefined;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
   defaultCacheDuration?: string | null | undefined;
+  /** Configures the default root object served when a request targets the root path '/' of the distribution (e.g. index.html or /index.html). Must not contain a URL scheme. */
+  defaultRootObject?: string | null | undefined;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader: boolean;
   /** Labels are key-value string pairs that can be attached to a distribution. */
@@ -973,8 +981,12 @@ export interface ConfigPatch {
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
   blockedIps?: ConfigPatchBlockedIpsList | undefined;
   cacheConfig?: CacheConfigPatch | undefined;
+  /** Configures a custom origin path to serve when the origin returns a 404 Not Found status (e.g. index.html or /404.html). Must not contain a URL scheme. Setting to null removes the custom 404 error response. */
+  custom404ErrorResponse?: string | null | undefined;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
   defaultCacheDuration?: string | null | undefined;
+  /** Configures the default root object served when a request targets the root path '/' of the distribution (e.g. index.html or /index.html). Must not contain a URL scheme. Setting to null removes the default root object. */
+  defaultRootObject?: string | null | undefined;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader?: boolean | undefined;
   /** Labels are key-value string pairs that can be attached to a distribution. JSON Merge Patch is supported, meaning setting a key to null will remove it. */
@@ -1075,7 +1087,8 @@ export const createDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<CreateDistributionRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<CreateDistributionResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1092,7 +1105,8 @@ export const deleteCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteCustomDomainRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<DeleteCustomDomainResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1109,7 +1123,8 @@ export const deleteDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteDistributionRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<DeleteDistributionResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1126,7 +1141,8 @@ export const findCachePaths: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<FindCachePathsRequest>,
   output: __S(307, __c19, 3) as any as S.Schema<FindCachePathsResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1143,7 +1159,8 @@ export const getCacheInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetCacheInfoRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<GetCacheInfoResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1160,7 +1177,8 @@ export const getCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetCustomDomainRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<GetCustomDomainResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1177,7 +1195,8 @@ export const getDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetDistributionRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<GetDistributionResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1194,7 +1213,8 @@ export const getLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetLogsRequest>,
   output: __S(20, __c1, 4) as any as S.Schema<GetLogsResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1211,7 +1231,8 @@ export const getLogsSearchFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetLogsSearchFiltersRequest>,
   output: __S(37, __c2, 5) as any as S.Schema<GetLogsSearchFiltersResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1228,7 +1249,8 @@ export const getStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetStatisticsRequest>,
   output: __S(53, __c3, 5) as any as S.Schema<GetStatisticsResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1245,7 +1267,8 @@ export const listDistributions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListDistributionsRequest>,
   output: __S(66, __c4, 2) as any as S.Schema<ListDistributionsResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1262,7 +1285,8 @@ export const listWafCollections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListWafCollectionsRequest>,
   output: __S(87, __c5, 7) as any as S.Schema<ListWafCollectionsResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1279,7 +1303,8 @@ export const patchDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(101, __c6, 5) as any as S.Schema<PatchDistributionRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<PatchDistributionResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1296,7 +1321,8 @@ export const purgeCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<PurgeCacheRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<PurgeCacheResponse2>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1313,7 +1339,8 @@ export const putCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<PutCustomDomainRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<PutCustomDomainResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1642,7 +1669,9 @@ function __c6(j: number): any {
           blockedCountries: S.optional(__S(208, __c13, 0)),
           blockedIps: S.optional(__S(208, __c13, 0)),
           cacheConfig: S.optional(__S(160, __c10, 0)),
+          custom404ErrorResponse: S.optional(S.NullOr(S.String)),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
+          defaultRootObject: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.optional(S.Boolean),
           labels: S.optional(__S(96, __c6, 0)),
           logSink: S.optional(S.NullOr(S.Unknown)),
@@ -1734,7 +1763,9 @@ function __c9(j: number): any {
           blockedCountries: S.optional(__S(208, __c13, 0)),
           blockedIps: S.optional(__S(208, __c13, 0)),
           cacheConfig: S.optional(__S(160, __c10, 0)),
+          custom404ErrorResponse: S.optional(S.String),
           defaultCacheDuration: S.optional(S.String),
+          defaultRootObject: S.optional(S.String),
           forwardHostHeader: S.optional(S.Boolean),
           intentId: S.optional(S.String),
           labels: S.optional(__S(192, __c12, 0)),
@@ -1875,7 +1906,9 @@ function __c14(j: number): any {
           blockedCountries: __S(208, __c13, 0),
           blockedIps: __S(208, __c13, 0),
           cacheConfig: __S(232, __c14, 8),
+          custom404ErrorResponse: S.optional(S.NullOr(S.String)),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
+          defaultRootObject: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.Boolean,
           labels: S.optional(__S(192, __c12, 0)),
           logSink: S.optional(S.Unknown),

@@ -16,17 +16,28 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Axiom from "@distilled.cloud/axiom";
 
 const program = Effect.gen(function* () {
-  const result = yield* Axiom.getDatasets({});
+  const result = yield* Axiom.listDashboards({});
   return result;
 });
 
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Axiom.CredentialsFromEnv,
-  Axiom.AxiomProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Preview operations
+
+Axiom marks some v2 operations preview (`x-axiom-preview: true` in its
+OpenAPI spec): datasets, monitors, notifiers and users. Those operations are
+not on the package root; they import from `unstable/`:
+
+```ts
+import * as AxiomPreview from "@distilled.cloud/axiom/unstable/v2";
+
+const datasets = yield* AxiomPreview.getDatasets({});
 ```
 
 ## Auth

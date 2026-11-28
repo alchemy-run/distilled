@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNetBirdError } from "../errors.ts";
+import { NetBirdServiceErrors } from "../errors.ts";
 import { NetBirdProtocol, type NetBirdOpError, type NetBirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1296,50 +1296,6 @@ export interface CreateOktaScimIntegrationResponse {
   auth_token: string | Redacted.Redacted<string>;
   /** Timestamp of the last synchronization */
   last_synced_at: string;
-}
-/** Identifies the type of workload the job will execute. Currently only `"bundle"` is supported. */
-export type WorkloadType = "bundle";
-/** These parameters control what gets included in the bundle and how it is processed. */
-export interface BundleParameters {
-  /** Whether to generate a bundle for the given timeframe. */
-  bundle_for: boolean;
-  /** Time period in minutes for which to generate the bundle. */
-  bundle_for_time: number;
-  /** Maximum number of log files to include in the bundle. */
-  log_file_count: number;
-  /** Whether sensitive data should be anonymized in the bundle. */
-  anonymize: boolean;
-  /** How much the anonymizer redacts. "default" (or empty) keeps internal IP ranges, "strict" also anonymizes them. */
-  anonymize_level?: string | undefined;
-  /** Service URL the client requests an upload URL from before uploading the bundle. Empty selects the default upload server. */
-  upload_url?: string | undefined;
-}
-export interface BundleWorkloadRequest {
-  type: WorkloadType | (string & {});
-  parameters: BundleParameters;
-}
-export interface CreatePeerJobRequest {
-  /** The unique identifier of a peer */
-  peerId: string;
-  workload: BundleWorkloadRequest;
-}
-export type JobResponseStatus = "pending" | "succeeded" | "failed";
-export interface BundleResult {
-  upload_key?: string | Redacted.Redacted<string> | null | undefined;
-}
-export interface BundleWorkloadResponse {
-  type: WorkloadType;
-  parameters: BundleParameters;
-  result: BundleResult;
-}
-export interface JobResponse {
-  id: string;
-  created_at: string;
-  completed_at?: string | null | undefined;
-  triggered_by: string;
-  status: JobResponseStatus;
-  failed_reason?: string | null | undefined;
-  workload: BundleWorkloadResponse;
 }
 /** List of temporary access rules */
 export type CreatePeerTemporaryAccessRequestRulesList = Array<string>;
@@ -2804,139 +2760,6 @@ export interface GetDnsZoneRecordResponse {
   ttl: number;
 }
 export interface GetEDRIntegrationRequest {}
-export type GetEventNetworkTrafficRequestType =
-  | "TYPE_UNKNOWN"
-  | "TYPE_START"
-  | "TYPE_END"
-  | "TYPE_DROP";
-export type GetEventNetworkTrafficRequestConnectionType = "P2P" | "ROUTED";
-export type GetEventNetworkTrafficRequestDirection = "INGRESS" | "EGRESS" | "DIRECTION_UNKNOWN";
-export interface GetEventNetworkTrafficRequest {
-  /** Page number */
-  page?: number | undefined;
-  /** Number of items per page */
-  page_size?: number | undefined;
-  /** Filter by user ID */
-  user_id?: string | undefined;
-  /** Filter by reporter ID */
-  reporter_id?: string | undefined;
-  /** Filter by source endpoint ID */
-  source_id?: string | undefined;
-  /** Filter by destination endpoint ID */
-  destination_id?: string | undefined;
-  /** Filter by protocol */
-  protocol?: number | undefined;
-  /** Filter by event type */
-  type?: GetEventNetworkTrafficRequestType | (string & {}) | undefined;
-  /** Filter by connection type */
-  connection_type?: GetEventNetworkTrafficRequestConnectionType | (string & {}) | undefined;
-  /** Filter by direction */
-  direction?: GetEventNetworkTrafficRequestDirection | (string & {}) | undefined;
-  /** Case-insensitive partial match on user email, source/destination names, and source/destination addresses */
-  search?: string | undefined;
-  /** Start date for filtering events (ISO 8601 format, e.g., 2024-01-01T00:00:00Z). */
-  start_date?: string | undefined;
-  /** End date for filtering events (ISO 8601 format, e.g., 2024-01-31T23:59:59Z). */
-  end_date?: string | undefined;
-}
-export interface NetworkTrafficLocation {
-  /** Name of the city (if known). */
-  city_name: string;
-  /** ISO country code (if known). */
-  country_code: string;
-}
-export interface NetworkTrafficEndpoint {
-  /** ID of this endpoint (e.g., peer ID or resource ID). */
-  id: string;
-  /** Type of the endpoint object (e.g., UNKNOWN, PEER, HOST_RESOURCE). */
-  type: string;
-  /** Name is the name of the endpoint object (e.g., a peer name). */
-  name: string;
-  geo_location: NetworkTrafficLocation;
-  /** Operating system of the peer, if applicable. */
-  os: string | null;
-  /** IP address (and possibly port) in string form. */
-  address: string;
-  /** DNS label/name if available. */
-  dns_label: string | null;
-}
-export interface NetworkTrafficUser {
-  /** UserID is the ID of the user that initiated the event (can be empty as not every event is user-initiated). */
-  id: string;
-  /** Email of the user who initiated the event (if any). */
-  email: string;
-  /** Name of the user who initiated the event (if any). */
-  name: string;
-}
-export interface NetworkTrafficPolicy {
-  /** ID of the policy that allowed this event. */
-  id: string;
-  /** Name of the policy that allowed this event. */
-  name: string;
-}
-export interface NetworkTrafficICMP {
-  /** ICMP type (if applicable). */
-  type: number;
-  /** ICMP code (if applicable). */
-  code: number;
-}
-export interface NetworkTrafficSubEvent {
-  /** Type of the event (e.g., TYPE_UNKNOWN, TYPE_START, TYPE_END, TYPE_DROP). */
-  type: string;
-  /** Timestamp of the event as sent by the peer. */
-  timestamp: string;
-}
-/** List of events that are correlated to this flow (e.g., start, end). */
-export type NetworkTrafficEventEventsList = Array<NetworkTrafficSubEvent>;
-export interface NetworkTrafficEvent {
-  /** FlowID is the ID of the connection flow. Not unique because it can be the same for multiple events (e.g., start and end of the connection). */
-  flow_id: string;
-  /** ID of the reporter of the event (e.g., the peer that reported the event). */
-  reporter_id: string;
-  source: NetworkTrafficEndpoint;
-  destination: NetworkTrafficEndpoint;
-  user: NetworkTrafficUser;
-  policy: NetworkTrafficPolicy;
-  icmp: NetworkTrafficICMP;
-  /** Protocol is the protocol of the traffic (e.g. 1 = ICMP, 6 = TCP, 17 = UDP, etc.). */
-  protocol: number;
-  /** Direction of the traffic (e.g. DIRECTION_UNKNOWN, INGRESS, EGRESS). */
-  direction: string;
-  /** Number of bytes received. */
-  rx_bytes: number;
-  /** Number of packets received. */
-  rx_packets: number;
-  /** Number of bytes transmitted. */
-  tx_bytes: number;
-  /** Number of packets transmitted. */
-  tx_packets: number;
-  /** Number of start events. */
-  num_of_starts: number;
-  /** Number of end events. */
-  num_of_ends: number;
-  /** Number of drop events. */
-  num_of_drops: number;
-  /** Timestamp of the start of the aggregation window. */
-  window_start: string;
-  /** Timestamp of the end of the aggregation window. */
-  window_end: string;
-  /** List of events that are correlated to this flow (e.g., start, end). */
-  events: NetworkTrafficEventEventsList;
-}
-/** List of network traffic events */
-export type NetworkTrafficEventsResponseDataList = Array<NetworkTrafficEvent>;
-export interface NetworkTrafficEventsResponse {
-  /** List of network traffic events */
-  data: NetworkTrafficEventsResponseDataList;
-  /** Current page number */
-  page: number;
-  /** Number of items per page */
-  page_size: number;
-  /** Total number of event records available */
-  total_records: number;
-  /** Total number of pages available */
-  total_pages: number;
-}
 export type GetEventProxyRequestSortBy =
   | "timestamp"
   | "url"
@@ -3408,12 +3231,6 @@ export interface GetPeerResponse {
   /** Indicates whether the peer is ephemeral or not */
   ephemeral: boolean;
   local_flags?: PeerLocalFlags | undefined;
-}
-export interface GetPeerJobRequest {
-  /** The unique identifier of a peer */
-  peerId: string;
-  /** The unique identifier of a job */
-  jobId: string;
 }
 export interface GetPolicyRequest {
   /** The unique identifier of a policy */
@@ -4271,12 +4088,6 @@ export interface AccessiblePeer {
 }
 export type ListPeerAccessiblePeersResponseBodyList = Array<AccessiblePeer>;
 export type ListPeerAccessiblePeersResponse = ListPeerAccessiblePeersResponseBodyList;
-export interface ListPeerJobsRequest {
-  /** The unique identifier of a peer */
-  peerId: string;
-}
-export type ListPeerJobsResponseBodyList = Array<JobResponse>;
-export type ListPeerJobsResponse = ListPeerJobsResponseBodyList;
 export interface ListPeersRequest {
   /** Filter peers by name */
   name?: string | undefined;
@@ -5644,9 +5455,10 @@ export const acceptUsersInvite: API.OperationMethod<
   AcceptUsersInviteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<AcceptUsersInviteRequest>,
-  output: __S(3585, __c224, 1) as any as S.Schema<UserInviteAcceptResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownNetBirdError],
+  input: __S(3488, __c218, 0) as any as S.Schema<AcceptUsersInviteRequest>,
+  output: __S(3489, __c218, 1) as any as S.Schema<UserInviteAcceptResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5661,13 +5473,14 @@ export const activateIntegrationsBillingAwsMarketplace: API.OperationMethod<
   ActivateIntegrationsBillingAwsMarketplaceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c238, 0) as any as S.Schema<ActivateIntegrationsBillingAwsMarketplaceRequest>,
+  input: __S(3712, __c232, 0) as any as S.Schema<ActivateIntegrationsBillingAwsMarketplaceRequest>,
   output: __S(
-    3824,
-    __c239,
+    3728,
+    __c233,
     0,
   ) as any as S.Schema<ActivateIntegrationsBillingAwsMarketplaceResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5682,9 +5495,10 @@ export const approveUser: API.OperationMethod<
   ApproveUserError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c250, 0) as any as S.Schema<ApproveUserRequest>,
-  output: __S(4019, __c251, 3) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3904, __c244, 0) as any as S.Schema<ApproveUserRequest>,
+  output: __S(3923, __c245, 3) as any as S.Schema<User>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5699,9 +5513,10 @@ export const bypassCompliance: API.OperationMethod<
   BypassComplianceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4208, __c263, 0) as any as S.Schema<BypassComplianceRequest>,
-  output: __S(4224, __c264, 0) as any as S.Schema<BypassResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4112, __c257, 0) as any as S.Schema<BypassComplianceRequest>,
+  output: __S(4128, __c258, 0) as any as S.Schema<BypassResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5716,9 +5531,10 @@ export const createAgentNetworkBudgetRule: API.OperationMethod<
   CreateAgentNetworkBudgetRuleError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4400, __c275, 0) as any as S.Schema<CreateAgentNetworkBudgetRuleRequest>,
-  output: __S(4432, __c277, 0) as any as S.Schema<AgentNetworkBudgetRule>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4304, __c269, 0) as any as S.Schema<CreateAgentNetworkBudgetRuleRequest>,
+  output: __S(4336, __c271, 0) as any as S.Schema<AgentNetworkBudgetRule>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5739,7 +5555,8 @@ export const createAgentNetworkCatalogProviderModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateAgentNetworkCatalogProviderModelRequest>,
   output: __S(35, __c2, 3) as any as S.Schema<AgentNetworkModelDiscoveryResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5756,7 +5573,8 @@ export const createAgentNetworkGuardrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreateAgentNetworkGuardrailRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<AgentNetworkGuardrail>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5773,7 +5591,8 @@ export const createAgentNetworkPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<CreateAgentNetworkPolicyRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<AgentNetworkPolicy>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5795,7 +5614,8 @@ export const createAgentNetworkProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateAgentNetworkProviderRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<AgentNetworkProvider>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5817,7 +5637,8 @@ export const createAgentNetworkSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CreateAgentNetworkSettingsRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<AgentNetworkSettings>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5832,9 +5653,10 @@ export const createAzureIntegration: API.OperationMethod<
   CreateAzureIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateAzureIntegrationRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<CreateAzureIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(1056, __c66, 0) as any as S.Schema<CreateAzureIntegrationRequest>,
+  output: __S(1072, __c67, 0) as any as S.Schema<CreateAzureIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5851,7 +5673,8 @@ export const createDnsNameserver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<CreateDnsNameserverRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<CreateDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5868,7 +5691,8 @@ export const createDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<CreateDnsZoneRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<CreateDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5885,7 +5709,8 @@ export const createDnsZoneRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<CreateDnsZoneRecordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<CreateDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5902,7 +5727,8 @@ export const createEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<CreateEDRIntegrationRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<EDRIntuneResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5917,9 +5743,10 @@ export const createFalconEDRIntegration: API.OperationMethod<
   CreateFalconEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<CreateFalconEDRIntegrationRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<EDRFalconResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(2096, __c131, 0) as any as S.Schema<CreateFalconEDRIntegrationRequest>,
+  output: __S(2112, __c132, 0) as any as S.Schema<EDRFalconResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5934,9 +5761,10 @@ export const createFleetDMEDRIntegration: API.OperationMethod<
   CreateFleetDMEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<CreateFleetDMEDRIntegrationRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<EDRFleetDMResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(2288, __c143, 0) as any as S.Schema<CreateFleetDMEDRIntegrationRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<EDRFleetDMResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5953,7 +5781,8 @@ export const createGoogleIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<CreateGoogleIntegrationRequest>,
   output: __S(2528, __c158, 0) as any as S.Schema<CreateGoogleIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5968,9 +5797,10 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<CreateGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2704, __c169, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<CreateGroupResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5985,9 +5815,10 @@ export const createHuntressEDRIntegration: API.OperationMethod<
   CreateHuntressEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<CreateHuntressEDRIntegrationRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<EDRHuntressResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(2752, __c172, 0) as any as S.Schema<CreateHuntressEDRIntegrationRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<EDRHuntressResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6002,9 +5833,10 @@ export const createIdentityProvider: API.OperationMethod<
   CreateIdentityProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<CreateIdentityProviderRequest>,
-  output: __S(2880, __c180, 0) as any as S.Schema<IdentityProvider>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2784, __c174, 0) as any as S.Schema<CreateIdentityProviderRequest>,
+  output: __S(2800, __c175, 0) as any as S.Schema<IdentityProvider>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6019,9 +5851,10 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<CreateIntegrationRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<IntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(2816, __c176, 0) as any as S.Schema<CreateIntegrationRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<IntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6036,9 +5869,10 @@ export const createIntegrationAgentNetworkManagedProxy: API.OperationMethod<
   CreateIntegrationAgentNetworkManagedProxyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<CreateIntegrationAgentNetworkManagedProxyRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<AgentNetworkManagedProxy>,
-  errors: [Forbidden, Conflict, UnknownNetBirdError],
+  input: __S(2848, __c178, 0) as any as S.Schema<CreateIntegrationAgentNetworkManagedProxyRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<AgentNetworkManagedProxy>,
+  errors: [Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6054,16 +5888,17 @@ export const createIntegrationBillingAwsMarketplaceEnrich: API.OperationMethod<
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2960,
-    __c185,
+    2880,
+    __c180,
     0,
   ) as any as S.Schema<CreateIntegrationBillingAwsMarketplaceEnrichRequest>,
   output: __S(
-    3824,
-    __c239,
+    3728,
+    __c233,
     0,
   ) as any as S.Schema<CreateIntegrationBillingAwsMarketplaceEnrichResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6078,9 +5913,10 @@ export const createIntegrationBillingCheckout: API.OperationMethod<
   CreateIntegrationBillingCheckoutError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<CreateIntegrationBillingCheckoutRequest>,
-  output: __S(2992, __c187, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(2896, __c181, 0) as any as S.Schema<CreateIntegrationBillingCheckoutRequest>,
+  output: __S(2912, __c182, 0) as any as S.Schema<CheckoutResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6095,9 +5931,10 @@ export const createIntegrationMspTenant: API.OperationMethod<
   CreateIntegrationMspTenantError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<CreateIntegrationMspTenantRequest>,
-  output: __S(3026, __c189, 2) as any as S.Schema<TenantResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2928, __c183, 0) as any as S.Schema<CreateIntegrationMspTenantRequest>,
+  output: __S(2946, __c184, 2) as any as S.Schema<TenantResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6112,9 +5949,10 @@ export const createIntegrationMspTenantDns: API.OperationMethod<
   CreateIntegrationMspTenantDnsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<CreateIntegrationMspTenantDnsRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<CreateIntegrationMspTenantDnsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(2960, __c185, 0) as any as S.Schema<CreateIntegrationMspTenantDnsRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<CreateIntegrationMspTenantDnsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6133,9 +5971,10 @@ export const createIntegrationMspTenantSubscription: API.OperationMethod<
   CreateIntegrationMspTenantSubscriptionError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<CreateIntegrationMspTenantSubscriptionRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<CreateIntegrationMspTenantSubscriptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(2976, __c186, 0) as any as S.Schema<CreateIntegrationMspTenantSubscriptionRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<CreateIntegrationMspTenantSubscriptionResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6150,9 +5989,10 @@ export const createNetwork: API.OperationMethod<
   CreateNetworkError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<CreateNetworkRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<CreateNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2992, __c187, 0) as any as S.Schema<CreateNetworkRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<CreateNetworkResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6167,9 +6007,10 @@ export const createNetworkResource: API.OperationMethod<
   CreateNetworkResourceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<CreateNetworkResourceRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<CreateNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3024, __c189, 0) as any as S.Schema<CreateNetworkResourceRequest>,
+  output: __S(3040, __c190, 0) as any as S.Schema<CreateNetworkResourceResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6184,9 +6025,10 @@ export const createNetworkRouter: API.OperationMethod<
   CreateNetworkRouterError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<CreateNetworkRouterRequest>,
-  output: __S(3168, __c198, 0) as any as S.Schema<CreateNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3072, __c192, 0) as any as S.Schema<CreateNetworkRouterRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<CreateNetworkRouterResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6201,9 +6043,10 @@ export const createNotificationChannel: API.OperationMethod<
   CreateNotificationChannelError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<CreateNotificationChannelRequest>,
-  output: __S(3200, __c200, 0) as any as S.Schema<NotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3104, __c194, 0) as any as S.Schema<CreateNotificationChannelRequest>,
+  output: __S(3120, __c195, 0) as any as S.Schema<NotificationChannelResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6218,30 +6061,14 @@ export const createOktaScimIntegration: API.OperationMethod<
   CreateOktaScimIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<CreateOktaScimIntegrationRequest>,
-  output: __S(3232, __c202, 0) as any as S.Schema<CreateOktaScimIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(3136, __c196, 0) as any as S.Schema<CreateOktaScimIntegrationRequest>,
+  output: __S(3152, __c197, 0) as any as S.Schema<CreateOktaScimIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOktaScimIntegration",
-}));
-
-export type CreatePeerJobError = BadRequest | Forbidden | NetBirdOpError;
-/** Create Job Create a new job for a given peer */
-export const createPeerJob: API.OperationMethod<
-  CreatePeerJobRequest,
-  JobResponse,
-  CreatePeerJobError,
-  NetBirdOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3249, __c203, 1) as any as S.Schema<CreatePeerJobRequest>,
-  output: __S(3267, __c204, 3) as any as S.Schema<JobResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
-  protocol: NetBirdProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreatePeerJob",
 }));
 
 export type CreatePeerTemporaryAccessError = BadRequest | Forbidden | NetBirdOpError;
@@ -6252,9 +6079,10 @@ export const createPeerTemporaryAccess: API.OperationMethod<
   CreatePeerTemporaryAccessError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<CreatePeerTemporaryAccessRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<PeerTemporaryAccessResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3168, __c198, 0) as any as S.Schema<CreatePeerTemporaryAccessRequest>,
+  output: __S(3169, __c198, 1) as any as S.Schema<PeerTemporaryAccessResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6269,9 +6097,10 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(3317, __c207, 5) as any as S.Schema<CreatePolicyResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(3184, __c199, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(3205, __c200, 5) as any as S.Schema<CreatePolicyResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6286,9 +6115,10 @@ export const createPostureCheck: API.OperationMethod<
   CreatePostureCheckError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<CreatePostureCheckRequest>,
-  output: __S(3372, __c210, 12) as any as S.Schema<PostureCheck>,
-  errors: [UnknownNetBirdError],
+  input: __S(3232, __c202, 0) as any as S.Schema<CreatePostureCheckRequest>,
+  output: __S(3260, __c203, 12) as any as S.Schema<PostureCheck>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6303,9 +6133,10 @@ export const createReverseProxyDomain: API.OperationMethod<
   CreateReverseProxyDomainError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<CreateReverseProxyDomainRequest>,
-  output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3264, __c204, 0) as any as S.Schema<CreateReverseProxyDomainRequest>,
+  output: __S(3292, __c205, 12) as any as S.Schema<Service>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6320,9 +6151,10 @@ export const createReverseProxyProxyToken: API.OperationMethod<
   CreateReverseProxyProxyTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<CreateReverseProxyProxyTokenRequest>,
-  output: __S(3409, __c213, 1) as any as S.Schema<CreateReverseProxyProxyTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3296, __c206, 0) as any as S.Schema<CreateReverseProxyProxyTokenRequest>,
+  output: __S(3297, __c206, 1) as any as S.Schema<CreateReverseProxyProxyTokenResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6337,9 +6169,10 @@ export const createReverseProxyService: API.OperationMethod<
   CreateReverseProxyServiceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<CreateReverseProxyServiceRequest>,
-  output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownNetBirdError],
+  input: __S(3312, __c207, 0) as any as S.Schema<CreateReverseProxyServiceRequest>,
+  output: __S(3292, __c205, 12) as any as S.Schema<Service>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6354,9 +6187,10 @@ export const createRoute: API.OperationMethod<
   CreateRouteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<CreateRouteRequest>,
-  output: __S(3456, __c216, 0) as any as S.Schema<CreateRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3328, __c208, 0) as any as S.Schema<CreateRouteRequest>,
+  output: __S(3344, __c209, 0) as any as S.Schema<CreateRouteResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6371,9 +6205,10 @@ export const createSCIMIntegration: API.OperationMethod<
   CreateSCIMIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<CreateSCIMIntegrationRequest>,
-  output: __S(3488, __c218, 0) as any as S.Schema<CreateSCIMIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(3360, __c210, 0) as any as S.Schema<CreateSCIMIntegrationRequest>,
+  output: __S(3376, __c211, 0) as any as S.Schema<CreateSCIMIntegrationResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6388,9 +6223,10 @@ export const createSentinelOneEDRIntegration: API.OperationMethod<
   CreateSentinelOneEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<CreateSentinelOneEDRIntegrationRequest>,
-  output: __S(3521, __c220, 1) as any as S.Schema<EDRSentinelOneResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(3392, __c212, 0) as any as S.Schema<CreateSentinelOneEDRIntegrationRequest>,
+  output: __S(3409, __c213, 1) as any as S.Schema<EDRSentinelOneResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6405,9 +6241,10 @@ export const createSetup: API.OperationMethod<
   CreateSetupError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<CreateSetupRequest>,
-  output: __S(3537, __c221, 1) as any as S.Schema<SetupResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(3424, __c214, 0) as any as S.Schema<CreateSetupRequest>,
+  output: __S(3425, __c214, 1) as any as S.Schema<SetupResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6422,9 +6259,10 @@ export const createSetupKey: API.OperationMethod<
   CreateSetupKeyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<CreateSetupKeyRequest>,
-  output: __S(3568, __c223, 0) as any as S.Schema<CreateSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3440, __c215, 0) as any as S.Schema<CreateSetupKeyRequest>,
+  output: __S(3456, __c216, 0) as any as S.Schema<CreateSetupKeyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6439,9 +6277,10 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(4019, __c251, 3) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3472, __c217, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(3923, __c245, 3) as any as S.Schema<User>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6461,9 +6300,10 @@ export const createUserInvite: API.OperationMethod<
   CreateUserInviteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<CreateUserInviteRequest>,
-  output: __S(3632, __c227, 0) as any as S.Schema<UserInvite>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  input: __S(3504, __c219, 0) as any as S.Schema<CreateUserInviteRequest>,
+  output: __S(3520, __c220, 0) as any as S.Schema<UserInvite>,
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6478,9 +6318,10 @@ export const createUserToken: API.OperationMethod<
   CreateUserTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c228, 0) as any as S.Schema<CreateUserTokenRequest>,
-  output: __S(3649, __c228, 1) as any as S.Schema<PersonalAccessTokenGenerated>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3536, __c221, 0) as any as S.Schema<CreateUserTokenRequest>,
+  output: __S(3537, __c221, 1) as any as S.Schema<PersonalAccessTokenGenerated>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6495,9 +6336,10 @@ export const deleteAccount: API.OperationMethod<
   DeleteAccountError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c230, 0) as any as S.Schema<DeleteAccountRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3568, __c223, 0) as any as S.Schema<DeleteAccountRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteAccountResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6512,9 +6354,10 @@ export const deleteAgentNetworkBudgetRule: API.OperationMethod<
   DeleteAgentNetworkBudgetRuleError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<DeleteAgentNetworkBudgetRuleRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteAgentNetworkBudgetRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3584, __c224, 0) as any as S.Schema<DeleteAgentNetworkBudgetRuleRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteAgentNetworkBudgetRuleResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6529,9 +6372,10 @@ export const deleteAgentNetworkGuardrail: API.OperationMethod<
   DeleteAgentNetworkGuardrailError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3728, __c233, 0) as any as S.Schema<DeleteAgentNetworkGuardrailRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkGuardrailResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3616, __c226, 0) as any as S.Schema<DeleteAgentNetworkGuardrailRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteAgentNetworkGuardrailResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6546,9 +6390,10 @@ export const deleteAgentNetworkPolicy: API.OperationMethod<
   DeleteAgentNetworkPolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c234, 0) as any as S.Schema<DeleteAgentNetworkPolicyRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3632, __c227, 0) as any as S.Schema<DeleteAgentNetworkPolicyRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteAgentNetworkPolicyResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6563,9 +6408,10 @@ export const deleteAgentNetworkProvider: API.OperationMethod<
   DeleteAgentNetworkProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3760, __c235, 0) as any as S.Schema<DeleteAgentNetworkProviderRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3648, __c228, 0) as any as S.Schema<DeleteAgentNetworkProviderRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteAgentNetworkProviderResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6580,9 +6426,10 @@ export const deleteAgentNetworkSettings: API.OperationMethod<
   DeleteAgentNetworkSettingsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<DeleteAgentNetworkSettingsRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkSettingsResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3664, __c229, 0) as any as S.Schema<DeleteAgentNetworkSettingsRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteAgentNetworkSettingsResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6597,9 +6444,10 @@ export const deleteAzureIntegration: API.OperationMethod<
   DeleteAzureIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3792, __c237, 0) as any as S.Schema<DeleteAzureIntegrationRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteAzureIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3680, __c230, 0) as any as S.Schema<DeleteAzureIntegrationRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteAzureIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6614,9 +6462,10 @@ export const deleteDnsNameserver: API.OperationMethod<
   DeleteDnsNameserverError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c240, 0) as any as S.Schema<DeleteDnsNameserverRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3696, __c231, 0) as any as S.Schema<DeleteDnsNameserverRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteDnsNameserverResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6631,9 +6480,10 @@ export const deleteDnsZone: API.OperationMethod<
   DeleteDnsZoneError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3856, __c241, 0) as any as S.Schema<DeleteDnsZoneRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3744, __c234, 0) as any as S.Schema<DeleteDnsZoneRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteDnsZoneResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6648,9 +6498,10 @@ export const deleteDnsZoneRecord: API.OperationMethod<
   DeleteDnsZoneRecordError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c242, 0) as any as S.Schema<DeleteDnsZoneRecordRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3760, __c235, 0) as any as S.Schema<DeleteDnsZoneRecordRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteDnsZoneRecordResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6665,9 +6516,10 @@ export const deleteEDRIntuneIntegration: API.OperationMethod<
   DeleteEDRIntuneIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3888, __c243, 0) as any as S.Schema<DeleteEDRIntuneIntegrationRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteEDRIntuneIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3776, __c236, 0) as any as S.Schema<DeleteEDRIntuneIntegrationRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteEDRIntuneIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6682,9 +6534,10 @@ export const deleteEventStreamingIntegration: API.OperationMethod<
   DeleteEventStreamingIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c244, 0) as any as S.Schema<DeleteEventStreamingIntegrationRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteEventStreamingIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3792, __c237, 0) as any as S.Schema<DeleteEventStreamingIntegrationRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteEventStreamingIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6699,9 +6552,10 @@ export const deleteGoogleIntegration: API.OperationMethod<
   DeleteGoogleIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3920, __c245, 0) as any as S.Schema<DeleteGoogleIntegrationRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteGoogleIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3808, __c238, 0) as any as S.Schema<DeleteGoogleIntegrationRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteGoogleIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6716,9 +6570,10 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c246, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3824, __c239, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteGroupResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6733,9 +6588,10 @@ export const deleteIdentityProvider: API.OperationMethod<
   DeleteIdentityProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3952, __c247, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3840, __c240, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6750,9 +6606,10 @@ export const deleteIntegrationEdrFalcon: API.OperationMethod<
   DeleteIntegrationEdrFalconError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<DeleteIntegrationEdrFalconRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteIntegrationEdrFalconResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3856, __c241, 0) as any as S.Schema<DeleteIntegrationEdrFalconRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteIntegrationEdrFalconResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6767,9 +6624,10 @@ export const deleteIntegrationEdrFleetdm: API.OperationMethod<
   DeleteIntegrationEdrFleetdmError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<DeleteIntegrationEdrFleetdmRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteIntegrationEdrFleetdmResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3872, __c242, 0) as any as S.Schema<DeleteIntegrationEdrFleetdmRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteIntegrationEdrFleetdmResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6784,9 +6642,10 @@ export const deleteIntegrationEdrHuntress: API.OperationMethod<
   DeleteIntegrationEdrHuntressError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4048, __c253, 0) as any as S.Schema<DeleteIntegrationEdrHuntressRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteIntegrationEdrHuntressResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3888, __c243, 0) as any as S.Schema<DeleteIntegrationEdrHuntressRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteIntegrationEdrHuntressResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6801,9 +6660,10 @@ export const deleteIntegrationEdrSentinelone: API.OperationMethod<
   DeleteIntegrationEdrSentineloneError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c254, 0) as any as S.Schema<DeleteIntegrationEdrSentineloneRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteIntegrationEdrSentineloneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(3952, __c247, 0) as any as S.Schema<DeleteIntegrationEdrSentineloneRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteIntegrationEdrSentineloneResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6818,9 +6678,10 @@ export const deleteIntegrationMspTenant: API.OperationMethod<
   DeleteIntegrationMspTenantError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4080, __c255, 0) as any as S.Schema<DeleteIntegrationMspTenantRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteIntegrationMspTenantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(3968, __c248, 0) as any as S.Schema<DeleteIntegrationMspTenantRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteIntegrationMspTenantResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6835,9 +6696,10 @@ export const deleteNetwork: API.OperationMethod<
   DeleteNetworkError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c256, 0) as any as S.Schema<DeleteNetworkRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(3984, __c249, 0) as any as S.Schema<DeleteNetworkRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteNetworkResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6852,9 +6714,10 @@ export const deleteNetworkResource: API.OperationMethod<
   DeleteNetworkResourceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4112, __c257, 0) as any as S.Schema<DeleteNetworkResourceRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4000, __c250, 0) as any as S.Schema<DeleteNetworkResourceRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteNetworkResourceResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6869,9 +6732,10 @@ export const deleteNetworkRouter: API.OperationMethod<
   DeleteNetworkRouterError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c258, 0) as any as S.Schema<DeleteNetworkRouterRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4016, __c251, 0) as any as S.Schema<DeleteNetworkRouterRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteNetworkRouterResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6886,9 +6750,10 @@ export const deleteNotificationChannel: API.OperationMethod<
   DeleteNotificationChannelError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4144, __c259, 0) as any as S.Schema<DeleteNotificationChannelRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteNotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4032, __c252, 0) as any as S.Schema<DeleteNotificationChannelRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteNotificationChannelResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6903,9 +6768,10 @@ export const deleteOktaScimIntegration: API.OperationMethod<
   DeleteOktaScimIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c260, 0) as any as S.Schema<DeleteOktaScimIntegrationRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteOktaScimIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(4048, __c253, 0) as any as S.Schema<DeleteOktaScimIntegrationRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteOktaScimIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6920,9 +6786,10 @@ export const deletePeer: API.OperationMethod<
   DeletePeerError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4176, __c261, 0) as any as S.Schema<DeletePeerRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeletePeerResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4064, __c254, 0) as any as S.Schema<DeletePeerRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeletePeerResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6937,9 +6804,10 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c262, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4080, __c255, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeletePolicyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6954,9 +6822,10 @@ export const deletePostureCheck: API.OperationMethod<
   DeletePostureCheckError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4240, __c265, 0) as any as S.Schema<DeletePostureCheckRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeletePostureCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4096, __c256, 0) as any as S.Schema<DeletePostureCheckRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeletePostureCheckResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6971,9 +6840,10 @@ export const deleteReverseProxyCluster: API.OperationMethod<
   DeleteReverseProxyClusterError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c266, 0) as any as S.Schema<DeleteReverseProxyClusterRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyClusterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4144, __c259, 0) as any as S.Schema<DeleteReverseProxyClusterRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteReverseProxyClusterResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6988,9 +6858,10 @@ export const deleteReverseProxyDomain: API.OperationMethod<
   DeleteReverseProxyDomainError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4272, __c267, 0) as any as S.Schema<DeleteReverseProxyDomainRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4160, __c260, 0) as any as S.Schema<DeleteReverseProxyDomainRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteReverseProxyDomainResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7005,9 +6876,10 @@ export const deleteReverseProxyProxyToken: API.OperationMethod<
   DeleteReverseProxyProxyTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c268, 0) as any as S.Schema<DeleteReverseProxyProxyTokenRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyProxyTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4176, __c261, 0) as any as S.Schema<DeleteReverseProxyProxyTokenRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteReverseProxyProxyTokenResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7022,9 +6894,10 @@ export const deleteReverseProxyService: API.OperationMethod<
   DeleteReverseProxyServiceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4304, __c269, 0) as any as S.Schema<DeleteReverseProxyServiceRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4192, __c262, 0) as any as S.Schema<DeleteReverseProxyServiceRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteReverseProxyServiceResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7039,9 +6912,10 @@ export const deleteRoute: API.OperationMethod<
   DeleteRouteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c270, 0) as any as S.Schema<DeleteRouteRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4208, __c263, 0) as any as S.Schema<DeleteRouteRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteRouteResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7056,9 +6930,10 @@ export const deleteSCIMIntegration: API.OperationMethod<
   DeleteSCIMIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4336, __c271, 0) as any as S.Schema<DeleteSCIMIntegrationRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<DeleteSCIMIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(4224, __c264, 0) as any as S.Schema<DeleteSCIMIntegrationRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<DeleteSCIMIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7073,9 +6948,10 @@ export const deleteSetupKey: API.OperationMethod<
   DeleteSetupKeyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c272, 0) as any as S.Schema<DeleteSetupKeyRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4240, __c265, 0) as any as S.Schema<DeleteSetupKeyRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteSetupKeyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7090,9 +6966,10 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4368, __c273, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4256, __c266, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteUserResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7107,9 +6984,10 @@ export const deleteUserInvite: API.OperationMethod<
   DeleteUserInviteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c274, 0) as any as S.Schema<DeleteUserInviteRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserInviteResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4272, __c267, 0) as any as S.Schema<DeleteUserInviteRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteUserInviteResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7124,9 +7002,10 @@ export const deleteUserReject: API.OperationMethod<
   DeleteUserRejectError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c278, 0) as any as S.Schema<DeleteUserRejectRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserRejectResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4288, __c268, 0) as any as S.Schema<DeleteUserRejectRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteUserRejectResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7141,9 +7020,10 @@ export const deleteUserToken: API.OperationMethod<
   DeleteUserTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4464, __c279, 0) as any as S.Schema<DeleteUserTokenRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(4352, __c272, 0) as any as S.Schema<DeleteUserTokenRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<DeleteUserTokenResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7158,9 +7038,10 @@ export const getAgentNetworkAccessLogs: API.OperationMethod<
   GetAgentNetworkAccessLogsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c280, 0) as any as S.Schema<GetAgentNetworkAccessLogsRequest>,
-  output: __S(4481, __c280, 1) as any as S.Schema<AgentNetworkAccessLogsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(4368, __c273, 0) as any as S.Schema<GetAgentNetworkAccessLogsRequest>,
+  output: __S(4369, __c273, 1) as any as S.Schema<AgentNetworkAccessLogsResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7175,9 +7056,10 @@ export const getAgentNetworkAccessLogSessions: API.OperationMethod<
   GetAgentNetworkAccessLogSessionsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c282, 0) as any as S.Schema<GetAgentNetworkAccessLogSessionsRequest>,
-  output: __S(4515, __c282, 3) as any as S.Schema<AgentNetworkAccessLogSessionsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(4400, __c275, 0) as any as S.Schema<GetAgentNetworkAccessLogSessionsRequest>,
+  output: __S(4403, __c275, 3) as any as S.Schema<AgentNetworkAccessLogSessionsResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7192,9 +7074,10 @@ export const getAgentNetworkBudgetRule: API.OperationMethod<
   GetAgentNetworkBudgetRuleError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<GetAgentNetworkBudgetRuleRequest>,
-  output: __S(4432, __c277, 0) as any as S.Schema<AgentNetworkBudgetRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(4416, __c276, 0) as any as S.Schema<GetAgentNetworkBudgetRuleRequest>,
+  output: __S(4336, __c271, 0) as any as S.Schema<AgentNetworkBudgetRule>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7209,9 +7092,10 @@ export const getAgentNetworkGuardrail: API.OperationMethod<
   GetAgentNetworkGuardrailError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c284, 0) as any as S.Schema<GetAgentNetworkGuardrailRequest>,
+  input: __S(4432, __c277, 0) as any as S.Schema<GetAgentNetworkGuardrailRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<AgentNetworkGuardrail>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7226,9 +7110,10 @@ export const getAgentNetworkPolicy: API.OperationMethod<
   GetAgentNetworkPolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<GetAgentNetworkPolicyRequest>,
+  input: __S(4448, __c278, 0) as any as S.Schema<GetAgentNetworkPolicyRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<AgentNetworkPolicy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7243,9 +7128,10 @@ export const getAgentNetworkProvider: API.OperationMethod<
   GetAgentNetworkProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<GetAgentNetworkProviderRequest>,
+  input: __S(4464, __c279, 0) as any as S.Schema<GetAgentNetworkProviderRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<AgentNetworkProvider>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7260,9 +7146,10 @@ export const getAgentNetworkSettings: API.OperationMethod<
   GetAgentNetworkSettingsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4592, __c287, 0) as any as S.Schema<GetAgentNetworkSettingsRequest>,
+  input: __S(4480, __c280, 0) as any as S.Schema<GetAgentNetworkSettingsRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<AgentNetworkSettings>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7277,9 +7164,10 @@ export const getAllAzureIntegrations: API.OperationMethod<
   GetAllAzureIntegrationsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c288, 0) as any as S.Schema<GetAllAzureIntegrationsRequest>,
-  output: __S(4610, __c288, 2) as any as S.Schema<GetAllAzureIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(4496, __c281, 0) as any as S.Schema<GetAllAzureIntegrationsRequest>,
+  output: __S(4498, __c281, 2) as any as S.Schema<GetAllAzureIntegrationsResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7294,9 +7182,10 @@ export const getAllGoogleIntegrations: API.OperationMethod<
   GetAllGoogleIntegrationsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetAllGoogleIntegrationsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<GetAllGoogleIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(4512, __c282, 0) as any as S.Schema<GetAllGoogleIntegrationsRequest>,
+  output: __S(4514, __c282, 2) as any as S.Schema<GetAllGoogleIntegrationsResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7311,9 +7200,10 @@ export const getAllIntegrations: API.OperationMethod<
   GetAllIntegrationsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetAllIntegrationsRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<GetAllIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(48, __c3, 0) as any as S.Schema<GetAllIntegrationsRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<GetAllIntegrationsResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7328,9 +7218,10 @@ export const getAllOktaScimIntegrations: API.OperationMethod<
   GetAllOktaScimIntegrationsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetAllOktaScimIntegrationsRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<GetAllOktaScimIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(64, __c4, 0) as any as S.Schema<GetAllOktaScimIntegrationsRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<GetAllOktaScimIntegrationsResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7345,9 +7236,10 @@ export const getAllSCIMIntegrations: API.OperationMethod<
   GetAllSCIMIntegrationsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetAllSCIMIntegrationsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetAllSCIMIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(80, __c5, 0) as any as S.Schema<GetAllSCIMIntegrationsRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<GetAllSCIMIntegrationsResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7362,9 +7254,10 @@ export const getAzureIntegration: API.OperationMethod<
   GetAzureIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetAzureIntegrationRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<GetAzureIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(96, __c6, 0) as any as S.Schema<GetAzureIntegrationRequest>,
+  output: __S(1072, __c67, 0) as any as S.Schema<GetAzureIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7379,9 +7272,10 @@ export const getAzureIntegrationLogs: API.OperationMethod<
   GetAzureIntegrationLogsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetAzureIntegrationLogsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<GetAzureIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(112, __c7, 0) as any as S.Schema<GetAzureIntegrationLogsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<GetAzureIntegrationLogsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7396,9 +7290,10 @@ export const getDnsNameserver: API.OperationMethod<
   GetDnsNameserverError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetDnsNameserverRequest>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetDnsNameserverRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<GetDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7413,9 +7308,10 @@ export const getDnsZone: API.OperationMethod<
   GetDnsZoneError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetDnsZoneRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetDnsZoneRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<GetDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7430,9 +7326,10 @@ export const getDnsZoneRecord: API.OperationMethod<
   GetDnsZoneRecordError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetDnsZoneRecordRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetDnsZoneRecordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<GetDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7447,30 +7344,14 @@ export const getEDRIntegration: API.OperationMethod<
   GetEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetEDRIntegrationRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetEDRIntegrationRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<EDRIntuneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEDRIntegration",
-}));
-
-export type GetEventNetworkTrafficError = BadRequest | Forbidden | NetBirdOpError;
-/** List all Traffic Events Returns a list of all network traffic events */
-export const getEventNetworkTraffic: API.OperationMethod<
-  GetEventNetworkTrafficRequest,
-  NetworkTrafficEventsResponse,
-  GetEventNetworkTrafficError,
-  NetBirdOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetEventNetworkTrafficRequest>,
-  output: __S(265, __c16, 9) as any as S.Schema<NetworkTrafficEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
-  protocol: NetBirdProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetEventNetworkTraffic",
 }));
 
 export type GetEventProxyError = Forbidden | NetBirdOpError;
@@ -7481,9 +7362,10 @@ export const getEventProxy: API.OperationMethod<
   GetEventProxyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetEventProxyRequest>,
-  output: __S(275, __c17, 3) as any as S.Schema<ProxyAccessLogsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(208, __c13, 0) as any as S.Schema<GetEventProxyRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<ProxyAccessLogsResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7498,9 +7380,10 @@ export const getGoogleIntegration: API.OperationMethod<
   GetGoogleIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetGoogleIntegrationRequest>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetGoogleIntegrationRequest>,
   output: __S(2528, __c158, 0) as any as S.Schema<GetGoogleIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7515,9 +7398,10 @@ export const getGoogleIntegrationLogs: API.OperationMethod<
   GetGoogleIntegrationLogsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetGoogleIntegrationLogsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<GetGoogleIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(272, __c17, 0) as any as S.Schema<GetGoogleIntegrationLogsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<GetGoogleIntegrationLogsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7532,9 +7416,10 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<GetGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(288, __c18, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<GetGroupResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7549,9 +7434,10 @@ export const getIdentityProvider: API.OperationMethod<
   GetIdentityProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetIdentityProviderRequest>,
-  output: __S(2880, __c180, 0) as any as S.Schema<IdentityProvider>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(304, __c19, 0) as any as S.Schema<GetIdentityProviderRequest>,
+  output: __S(2800, __c175, 0) as any as S.Schema<IdentityProvider>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7566,9 +7452,10 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<InstanceStatus>,
-  errors: [UnknownNetBirdError],
+  input: __S(320, __c20, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<InstanceStatus>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7583,9 +7470,10 @@ export const getInstanceVersion: API.OperationMethod<
   GetInstanceVersionError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetInstanceVersionRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<InstanceVersionInfo>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(336, __c21, 0) as any as S.Schema<GetInstanceVersionRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<InstanceVersionInfo>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7600,9 +7488,10 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<IntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(352, __c22, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<IntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7617,9 +7506,10 @@ export const getIntegrationAgentNetworkManagedProxy: API.OperationMethod<
   GetIntegrationAgentNetworkManagedProxyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetIntegrationAgentNetworkManagedProxyRequest>,
-  output: __S(2944, __c184, 0) as any as S.Schema<AgentNetworkManagedProxy>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(368, __c23, 0) as any as S.Schema<GetIntegrationAgentNetworkManagedProxyRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<AgentNetworkManagedProxy>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7634,9 +7524,10 @@ export const getIntegrationBillingInvoiceCsv: API.OperationMethod<
   GetIntegrationBillingInvoiceCsvError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetIntegrationBillingInvoiceCsvRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<GetIntegrationBillingInvoiceCsvResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(384, __c24, 0) as any as S.Schema<GetIntegrationBillingInvoiceCsvRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<GetIntegrationBillingInvoiceCsvResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7651,9 +7542,10 @@ export const getIntegrationBillingInvoicePdf: API.OperationMethod<
   GetIntegrationBillingInvoicePdfError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetIntegrationBillingInvoicePdfRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<InvoicePDFResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(400, __c25, 0) as any as S.Schema<GetIntegrationBillingInvoicePdfRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<InvoicePDFResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7668,9 +7560,10 @@ export const getIntegrationBillingPortal: API.OperationMethod<
   GetIntegrationBillingPortalError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetIntegrationBillingPortalRequest>,
-  output: __S(2992, __c187, 0) as any as S.Schema<PortalResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(448, __c28, 0) as any as S.Schema<GetIntegrationBillingPortalRequest>,
+  output: __S(2912, __c182, 0) as any as S.Schema<PortalResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7685,9 +7578,10 @@ export const getIntegrationBillingSubscription: API.OperationMethod<
   GetIntegrationBillingSubscriptionError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetIntegrationBillingSubscriptionRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<Subscription>,
-  errors: [NotFound, UnknownNetBirdError],
+  input: __S(464, __c29, 0) as any as S.Schema<GetIntegrationBillingSubscriptionRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<Subscription>,
+  errors: [NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7702,9 +7596,10 @@ export const getIntegrationBillingUsage: API.OperationMethod<
   GetIntegrationBillingUsageError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetIntegrationBillingUsageRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<UsageStats>,
-  errors: [UnknownNetBirdError],
+  input: __S(480, __c30, 0) as any as S.Schema<GetIntegrationBillingUsageRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<UsageStats>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7719,9 +7614,10 @@ export const getIntegrationEdrFalcon: API.OperationMethod<
   GetIntegrationEdrFalconError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetIntegrationEdrFalconRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<EDRFalconResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(496, __c31, 0) as any as S.Schema<GetIntegrationEdrFalconRequest>,
+  output: __S(2112, __c132, 0) as any as S.Schema<EDRFalconResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7736,9 +7632,10 @@ export const getIntegrationEdrFleetdm: API.OperationMethod<
   GetIntegrationEdrFleetdmError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetIntegrationEdrFleetdmRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<EDRFleetDMResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(512, __c32, 0) as any as S.Schema<GetIntegrationEdrFleetdmRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<EDRFleetDMResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7753,9 +7650,10 @@ export const getIntegrationEdrHuntress: API.OperationMethod<
   GetIntegrationEdrHuntressError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetIntegrationEdrHuntressRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<EDRHuntressResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(528, __c33, 0) as any as S.Schema<GetIntegrationEdrHuntressRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<EDRHuntressResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7770,9 +7668,10 @@ export const getIntegrationEdrSentinelone: API.OperationMethod<
   GetIntegrationEdrSentineloneError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetIntegrationEdrSentineloneRequest>,
-  output: __S(3521, __c220, 1) as any as S.Schema<EDRSentinelOneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(544, __c34, 0) as any as S.Schema<GetIntegrationEdrSentineloneRequest>,
+  output: __S(3409, __c213, 1) as any as S.Schema<EDRSentinelOneResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7787,9 +7686,10 @@ export const getLocationCountryCities: API.OperationMethod<
   GetLocationCountryCitiesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetLocationCountryCitiesRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<City>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(560, __c35, 0) as any as S.Schema<GetLocationCountryCitiesRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<City>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7804,9 +7704,10 @@ export const getNetwork: API.OperationMethod<
   GetNetworkError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetNetworkRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<GetNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(576, __c36, 0) as any as S.Schema<GetNetworkRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<GetNetworkResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7821,9 +7722,10 @@ export const getNetworkResource: API.OperationMethod<
   GetNetworkResourceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetNetworkResourceRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<GetNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(592, __c37, 0) as any as S.Schema<GetNetworkResourceRequest>,
+  output: __S(3040, __c190, 0) as any as S.Schema<GetNetworkResourceResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7838,9 +7740,10 @@ export const getNetworkRouter: API.OperationMethod<
   GetNetworkRouterError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetNetworkRouterRequest>,
-  output: __S(3168, __c198, 0) as any as S.Schema<GetNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(656, __c41, 0) as any as S.Schema<GetNetworkRouterRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<GetNetworkRouterResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7855,9 +7758,10 @@ export const getNotificationChannel: API.OperationMethod<
   GetNotificationChannelError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetNotificationChannelRequest>,
-  output: __S(3200, __c200, 0) as any as S.Schema<NotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(672, __c42, 0) as any as S.Schema<GetNotificationChannelRequest>,
+  output: __S(3120, __c195, 0) as any as S.Schema<NotificationChannelResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7872,9 +7776,10 @@ export const getOktaScimIntegration: API.OperationMethod<
   GetOktaScimIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetOktaScimIntegrationRequest>,
-  output: __S(3232, __c202, 0) as any as S.Schema<GetOktaScimIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(688, __c43, 0) as any as S.Schema<GetOktaScimIntegrationRequest>,
+  output: __S(3152, __c197, 0) as any as S.Schema<GetOktaScimIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7889,9 +7794,10 @@ export const getOktaScimIntegrationLogs: API.OperationMethod<
   GetOktaScimIntegrationLogsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetOktaScimIntegrationLogsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<GetOktaScimIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(704, __c44, 0) as any as S.Schema<GetOktaScimIntegrationLogsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<GetOktaScimIntegrationLogsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7906,30 +7812,14 @@ export const getPeer: API.OperationMethod<
   GetPeerError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetPeerRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<GetPeerResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(720, __c45, 0) as any as S.Schema<GetPeerRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<GetPeerResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPeer",
-}));
-
-export type GetPeerJobError = BadRequest | Forbidden | NetBirdOpError;
-/** Get Job Retrieve details of a specific job */
-export const getPeerJob: API.OperationMethod<
-  GetPeerJobRequest,
-  JobResponse,
-  GetPeerJobError,
-  NetBirdOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetPeerJobRequest>,
-  output: __S(3267, __c204, 3) as any as S.Schema<JobResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
-  protocol: NetBirdProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetPeerJob",
 }));
 
 export type GetPolicyError = BadRequest | Forbidden | NetBirdOpError;
@@ -7940,9 +7830,10 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(3317, __c207, 5) as any as S.Schema<GetPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(768, __c48, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(3205, __c200, 5) as any as S.Schema<GetPolicyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7957,9 +7848,10 @@ export const getPostureCheck: API.OperationMethod<
   GetPostureCheckError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetPostureCheckRequest>,
-  output: __S(3372, __c210, 12) as any as S.Schema<PostureCheck>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(784, __c49, 0) as any as S.Schema<GetPostureCheckRequest>,
+  output: __S(3260, __c203, 12) as any as S.Schema<PostureCheck>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7974,9 +7866,10 @@ export const getReverseProxyDomainValidate: API.OperationMethod<
   GetReverseProxyDomainValidateError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetReverseProxyDomainValidateRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<GetReverseProxyDomainValidateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(800, __c50, 0) as any as S.Schema<GetReverseProxyDomainValidateRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<GetReverseProxyDomainValidateResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7991,9 +7884,10 @@ export const getReverseProxyService: API.OperationMethod<
   GetReverseProxyServiceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetReverseProxyServiceRequest>,
-  output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(816, __c51, 0) as any as S.Schema<GetReverseProxyServiceRequest>,
+  output: __S(3292, __c205, 12) as any as S.Schema<Service>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8008,9 +7902,10 @@ export const getRoute: API.OperationMethod<
   GetRouteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetRouteRequest>,
-  output: __S(3456, __c216, 0) as any as S.Schema<GetRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(832, __c52, 0) as any as S.Schema<GetRouteRequest>,
+  output: __S(3344, __c209, 0) as any as S.Schema<GetRouteResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8025,9 +7920,10 @@ export const getSCIMIntegration: API.OperationMethod<
   GetSCIMIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetSCIMIntegrationRequest>,
-  output: __S(3488, __c218, 0) as any as S.Schema<GetSCIMIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(880, __c55, 0) as any as S.Schema<GetSCIMIntegrationRequest>,
+  output: __S(3376, __c211, 0) as any as S.Schema<GetSCIMIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8042,9 +7938,10 @@ export const getSCIMIntegrationLogs: API.OperationMethod<
   GetSCIMIntegrationLogsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<GetSCIMIntegrationLogsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<GetSCIMIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(896, __c56, 0) as any as S.Schema<GetSCIMIntegrationLogsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<GetSCIMIntegrationLogsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8059,9 +7956,10 @@ export const getSetupKey: API.OperationMethod<
   GetSetupKeyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetSetupKeyRequest>,
-  output: __S(3568, __c223, 0) as any as S.Schema<GetSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(912, __c57, 0) as any as S.Schema<GetSetupKeyRequest>,
+  output: __S(3456, __c216, 0) as any as S.Schema<GetSetupKeyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8076,9 +7974,10 @@ export const getUserCurrent: API.OperationMethod<
   GetUserCurrentError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetUserCurrentRequest>,
-  output: __S(4019, __c251, 3) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(928, __c58, 0) as any as S.Schema<GetUserCurrentRequest>,
+  output: __S(3923, __c245, 3) as any as S.Schema<User>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8093,9 +7992,10 @@ export const getUserInvite: API.OperationMethod<
   GetUserInviteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<GetUserInviteRequest>,
-  output: __S(993, __c62, 1) as any as S.Schema<UserInviteInfo>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(944, __c59, 0) as any as S.Schema<GetUserInviteRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<UserInviteInfo>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8110,9 +8010,10 @@ export const getUserToken: API.OperationMethod<
   GetUserTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetUserTokenRequest>,
-  output: __S(3664, __c229, 0) as any as S.Schema<PersonalAccessToken>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(960, __c60, 0) as any as S.Schema<GetUserTokenRequest>,
+  output: __S(3552, __c222, 0) as any as S.Schema<PersonalAccessToken>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8127,9 +8028,10 @@ export const inviteIntegrationsMspTenant: API.OperationMethod<
   InviteIntegrationsMspTenantError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<InviteIntegrationsMspTenantRequest>,
-  output: __S(3026, __c189, 2) as any as S.Schema<TenantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(976, __c61, 0) as any as S.Schema<InviteIntegrationsMspTenantRequest>,
+  output: __S(2946, __c184, 2) as any as S.Schema<TenantResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8144,9 +8046,10 @@ export const inviteUser: API.OperationMethod<
   InviteUserError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<InviteUserRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<InviteUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(992, __c62, 0) as any as S.Schema<InviteUserRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<InviteUserResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8161,9 +8064,10 @@ export const listAccounts: API.OperationMethod<
   ListAccountsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListAccountsRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<ListAccountsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1008, __c63, 0) as any as S.Schema<ListAccountsRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<ListAccountsResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8178,9 +8082,10 @@ export const listAgentNetworkAgentConfig: API.OperationMethod<
   ListAgentNetworkAgentConfigError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListAgentNetworkAgentConfigRequest>,
-  output: __S(1123, __c70, 3) as any as S.Schema<AgentNetworkAgentConfig>,
-  errors: [UnknownNetBirdError],
+  input: __S(1040, __c65, 0) as any as S.Schema<ListAgentNetworkAgentConfigRequest>,
+  output: __S(1043, __c65, 3) as any as S.Schema<AgentNetworkAgentConfig>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8195,9 +8100,10 @@ export const listAgentNetworkBudgetRules: API.OperationMethod<
   ListAgentNetworkBudgetRulesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListAgentNetworkBudgetRulesRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<ListAgentNetworkBudgetRulesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1088, __c68, 0) as any as S.Schema<ListAgentNetworkBudgetRulesRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<ListAgentNetworkBudgetRulesResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8212,9 +8118,10 @@ export const listAgentNetworkCatalogProviders: API.OperationMethod<
   ListAgentNetworkCatalogProvidersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListAgentNetworkCatalogProvidersRequest>,
-  output: __S(1162, __c72, 10) as any as S.Schema<ListAgentNetworkCatalogProvidersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1104, __c69, 0) as any as S.Schema<ListAgentNetworkCatalogProvidersRequest>,
+  output: __S(1114, __c69, 10) as any as S.Schema<ListAgentNetworkCatalogProvidersResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8229,9 +8136,10 @@ export const listAgentNetworkConsumption: API.OperationMethod<
   ListAgentNetworkConsumptionError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListAgentNetworkConsumptionRequest>,
-  output: __S(1171, __c73, 3) as any as S.Schema<ListAgentNetworkConsumptionResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1120, __c70, 0) as any as S.Schema<ListAgentNetworkConsumptionRequest>,
+  output: __S(1123, __c70, 3) as any as S.Schema<ListAgentNetworkConsumptionResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8246,9 +8154,10 @@ export const listAgentNetworkGuardrails: API.OperationMethod<
   ListAgentNetworkGuardrailsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListAgentNetworkGuardrailsRequest>,
-  output: __S(1186, __c74, 2) as any as S.Schema<ListAgentNetworkGuardrailsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1136, __c71, 0) as any as S.Schema<ListAgentNetworkGuardrailsRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<ListAgentNetworkGuardrailsResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8263,9 +8172,10 @@ export const listAgentNetworkPolicies: API.OperationMethod<
   ListAgentNetworkPoliciesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListAgentNetworkPoliciesRequest>,
-  output: __S(1202, __c75, 2) as any as S.Schema<ListAgentNetworkPoliciesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1152, __c72, 0) as any as S.Schema<ListAgentNetworkPoliciesRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<ListAgentNetworkPoliciesResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8280,9 +8190,10 @@ export const listAgentNetworkProviders: API.OperationMethod<
   ListAgentNetworkProvidersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListAgentNetworkProvidersRequest>,
-  output: __S(1218, __c76, 2) as any as S.Schema<ListAgentNetworkProvidersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1168, __c73, 0) as any as S.Schema<ListAgentNetworkProvidersRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<ListAgentNetworkProvidersResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8297,9 +8208,10 @@ export const listAgentNetworkUsageOverview: API.OperationMethod<
   ListAgentNetworkUsageOverviewError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListAgentNetworkUsageOverviewRequest>,
-  output: __S(1235, __c77, 3) as any as S.Schema<ListAgentNetworkUsageOverviewResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1184, __c74, 0) as any as S.Schema<ListAgentNetworkUsageOverviewRequest>,
+  output: __S(1187, __c74, 3) as any as S.Schema<ListAgentNetworkUsageOverviewResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8314,9 +8226,10 @@ export const listBypassedPeers: API.OperationMethod<
   ListBypassedPeersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListBypassedPeersRequest>,
-  output: __S(1282, __c80, 2) as any as S.Schema<ListBypassedPeersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1200, __c75, 0) as any as S.Schema<ListBypassedPeersRequest>,
+  output: __S(1202, __c75, 2) as any as S.Schema<ListBypassedPeersResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8331,9 +8244,10 @@ export const listDnsNameservers: API.OperationMethod<
   ListDnsNameserversError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListDnsNameserversRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<ListDnsNameserversResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1216, __c76, 0) as any as S.Schema<ListDnsNameserversRequest>,
+  output: __S(1218, __c76, 2) as any as S.Schema<ListDnsNameserversResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8348,9 +8262,10 @@ export const listDnsSettings: API.OperationMethod<
   ListDnsSettingsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListDnsSettingsRequest>,
-  output: __S(3712, __c232, 0) as any as S.Schema<ListDnsSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1232, __c77, 0) as any as S.Schema<ListDnsSettingsRequest>,
+  output: __S(3600, __c225, 0) as any as S.Schema<ListDnsSettingsResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8365,9 +8280,10 @@ export const listDnsZoneRecords: API.OperationMethod<
   ListDnsZoneRecordsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListDnsZoneRecordsRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<ListDnsZoneRecordsResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(1280, __c80, 0) as any as S.Schema<ListDnsZoneRecordsRequest>,
+  output: __S(1281, __c80, 1) as any as S.Schema<ListDnsZoneRecordsResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8382,9 +8298,10 @@ export const listDnsZones: API.OperationMethod<
   ListDnsZonesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListDnsZonesRequest>,
-  output: __S(1346, __c84, 2) as any as S.Schema<ListDnsZonesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1296, __c81, 0) as any as S.Schema<ListDnsZonesRequest>,
+  output: __S(1298, __c81, 2) as any as S.Schema<ListDnsZonesResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8399,9 +8316,10 @@ export const listEventAudit: API.OperationMethod<
   ListEventAuditError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListEventAuditRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<ListEventAuditResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1312, __c82, 0) as any as S.Schema<ListEventAuditRequest>,
+  output: __S(1315, __c82, 3) as any as S.Schema<ListEventAuditResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8416,9 +8334,10 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(1377, __c86, 1) as any as S.Schema<ListGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(1328, __c83, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<ListGroupsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8433,9 +8352,10 @@ export const listIdentityProviders: API.OperationMethod<
   ListIdentityProvidersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListIdentityProvidersRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<ListIdentityProvidersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1344, __c84, 0) as any as S.Schema<ListIdentityProvidersRequest>,
+  output: __S(1346, __c84, 2) as any as S.Schema<ListIdentityProvidersResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8450,9 +8370,10 @@ export const listIntegrationBillingInvoices: API.OperationMethod<
   ListIntegrationBillingInvoicesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListIntegrationBillingInvoicesRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<ListIntegrationBillingInvoicesResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(1360, __c85, 0) as any as S.Schema<ListIntegrationBillingInvoicesRequest>,
+  output: __S(1363, __c85, 3) as any as S.Schema<ListIntegrationBillingInvoicesResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8467,9 +8388,10 @@ export const listIntegrationBillingPlans: API.OperationMethod<
   ListIntegrationBillingPlansError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListIntegrationBillingPlansRequest>,
-  output: __S(1429, __c89, 5) as any as S.Schema<ListIntegrationBillingPlansResponse>,
-  errors: [UnknownNetBirdError],
+  input: __S(1376, __c86, 0) as any as S.Schema<ListIntegrationBillingPlansRequest>,
+  output: __S(1381, __c86, 5) as any as S.Schema<ListIntegrationBillingPlansResponse>,
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8484,9 +8406,10 @@ export const listIntegrationMspTenants: API.OperationMethod<
   ListIntegrationMspTenantsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListIntegrationMspTenantsRequest>,
-  output: __S(1506, __c94, 2) as any as S.Schema<ListIntegrationMspTenantsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1392, __c87, 0) as any as S.Schema<ListIntegrationMspTenantsRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<ListIntegrationMspTenantsResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8501,9 +8424,10 @@ export const listLocationCountries: API.OperationMethod<
   ListLocationCountriesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListLocationCountriesRequest>,
-  output: __S(1521, __c95, 1) as any as S.Schema<ListLocationCountriesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1408, __c88, 0) as any as S.Schema<ListLocationCountriesRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<ListLocationCountriesResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8518,9 +8442,10 @@ export const listNetworkResources: API.OperationMethod<
   ListNetworkResourcesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListNetworkResourcesRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<ListNetworkResourcesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1424, __c89, 0) as any as S.Schema<ListNetworkResourcesRequest>,
+  output: __S(1426, __c89, 2) as any as S.Schema<ListNetworkResourcesResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8535,9 +8460,10 @@ export const listNetworkRouters: API.OperationMethod<
   ListNetworkRoutersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListNetworkRoutersRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<ListNetworkRoutersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1504, __c94, 0) as any as S.Schema<ListNetworkRoutersRequest>,
+  output: __S(1521, __c95, 1) as any as S.Schema<ListNetworkRoutersResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8552,9 +8478,10 @@ export const listNetworkRouters2: API.OperationMethod<
   ListNetworkRouters2Error,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListNetworkRouters2Request>,
-  output: __S(1569, __c98, 1) as any as S.Schema<ListNetworkRoutersResponse2>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1536, __c96, 0) as any as S.Schema<ListNetworkRouters2Request>,
+  output: __S(1521, __c95, 1) as any as S.Schema<ListNetworkRoutersResponse2>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8569,9 +8496,10 @@ export const listNetworks: API.OperationMethod<
   ListNetworksError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListNetworksRequest>,
-  output: __S(1602, __c100, 2) as any as S.Schema<ListNetworksResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1552, __c97, 0) as any as S.Schema<ListNetworksRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<ListNetworksResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8586,9 +8514,10 @@ export const listNotificationChannels: API.OperationMethod<
   ListNotificationChannelsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListNotificationChannelsRequest>,
-  output: __S(1618, __c101, 2) as any as S.Schema<ListNotificationChannelsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(1568, __c98, 0) as any as S.Schema<ListNotificationChannelsRequest>,
+  output: __S(1570, __c98, 2) as any as S.Schema<ListNotificationChannelsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8603,9 +8532,10 @@ export const listNotificationEventTypes: API.OperationMethod<
   ListNotificationEventTypesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListNotificationEventTypesRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<ListNotificationEventTypesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(1584, __c99, 0) as any as S.Schema<ListNotificationEventTypesRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<ListNotificationEventTypesResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8620,30 +8550,14 @@ export const listPeerAccessiblePeers: API.OperationMethod<
   ListPeerAccessiblePeersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListPeerAccessiblePeersRequest>,
-  output: __S(1651, __c103, 3) as any as S.Schema<ListPeerAccessiblePeersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1600, __c100, 0) as any as S.Schema<ListPeerAccessiblePeersRequest>,
+  output: __S(1603, __c100, 3) as any as S.Schema<ListPeerAccessiblePeersResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPeerAccessiblePeers",
-}));
-
-export type ListPeerJobsError = BadRequest | Forbidden | NetBirdOpError;
-/** List Jobs Retrieve all jobs for a given peer */
-export const listPeerJobs: API.OperationMethod<
-  ListPeerJobsRequest,
-  ListPeerJobsResponse,
-  ListPeerJobsError,
-  NetBirdOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListPeerJobsRequest>,
-  output: __S(1666, __c104, 2) as any as S.Schema<ListPeerJobsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
-  protocol: NetBirdProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListPeerJobs",
 }));
 
 export type ListPeersError = BadRequest | Forbidden | NetBirdOpError;
@@ -8654,9 +8568,10 @@ export const listPeers: API.OperationMethod<
   ListPeersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListPeersRequest>,
-  output: __S(1699, __c106, 3) as any as S.Schema<ListPeersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1616, __c101, 0) as any as S.Schema<ListPeersRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<ListPeersResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8671,9 +8586,10 @@ export const listPolicies: API.OperationMethod<
   ListPoliciesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<ListPoliciesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1632, __c102, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(1634, __c102, 2) as any as S.Schema<ListPoliciesResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8688,9 +8604,10 @@ export const listPostureChecks: API.OperationMethod<
   ListPostureChecksError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListPostureChecksRequest>,
-  output: __S(1730, __c108, 2) as any as S.Schema<ListPostureChecksResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1648, __c103, 0) as any as S.Schema<ListPostureChecksRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<ListPostureChecksResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8705,9 +8622,10 @@ export const listReverseProxyClusters: API.OperationMethod<
   ListReverseProxyClustersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListReverseProxyClustersRequest>,
-  output: __S(1747, __c109, 3) as any as S.Schema<ListReverseProxyClustersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1664, __c104, 0) as any as S.Schema<ListReverseProxyClustersRequest>,
+  output: __S(1667, __c104, 3) as any as S.Schema<ListReverseProxyClustersResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8722,9 +8640,10 @@ export const listReverseProxyDomains: API.OperationMethod<
   ListReverseProxyDomainsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListReverseProxyDomainsRequest>,
-  output: __S(1763, __c110, 3) as any as S.Schema<ListReverseProxyDomainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(1696, __c106, 0) as any as S.Schema<ListReverseProxyDomainsRequest>,
+  output: __S(1699, __c106, 3) as any as S.Schema<ListReverseProxyDomainsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8739,9 +8658,10 @@ export const listReverseProxyProxyTokens: API.OperationMethod<
   ListReverseProxyProxyTokensError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ListReverseProxyProxyTokensRequest>,
-  output: __S(1779, __c111, 3) as any as S.Schema<ListReverseProxyProxyTokensResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1712, __c107, 0) as any as S.Schema<ListReverseProxyProxyTokensRequest>,
+  output: __S(1715, __c107, 3) as any as S.Schema<ListReverseProxyProxyTokensResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8756,9 +8676,10 @@ export const listReverseProxyServices: API.OperationMethod<
   ListReverseProxyServicesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListReverseProxyServicesRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<ListReverseProxyServicesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1728, __c108, 0) as any as S.Schema<ListReverseProxyServicesRequest>,
+  output: __S(1730, __c108, 2) as any as S.Schema<ListReverseProxyServicesResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8773,9 +8694,10 @@ export const listRoutes: API.OperationMethod<
   ListRoutesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListRoutesRequest>,
-  output: __S(1810, __c113, 2) as any as S.Schema<ListRoutesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1744, __c109, 0) as any as S.Schema<ListRoutesRequest>,
+  output: __S(1746, __c109, 2) as any as S.Schema<ListRoutesResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8790,9 +8712,10 @@ export const listSetupKeys: API.OperationMethod<
   ListSetupKeysError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListSetupKeysRequest>,
-  output: __S(1826, __c114, 2) as any as S.Schema<ListSetupKeysResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1760, __c110, 0) as any as S.Schema<ListSetupKeysRequest>,
+  output: __S(1762, __c110, 2) as any as S.Schema<ListSetupKeysResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8807,9 +8730,10 @@ export const listUserInvites: API.OperationMethod<
   ListUserInvitesError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListUserInvitesRequest>,
-  output: __S(1842, __c115, 2) as any as S.Schema<ListUserInvitesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(1776, __c111, 0) as any as S.Schema<ListUserInvitesRequest>,
+  output: __S(1778, __c111, 2) as any as S.Schema<ListUserInvitesResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8824,9 +8748,10 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(1954, __c122, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1792, __c112, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(1794, __c112, 2) as any as S.Schema<ListUsersResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8841,9 +8766,10 @@ export const listUserTokens: API.OperationMethod<
   ListUserTokensError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListUserTokensRequest>,
-  output: __S(1970, __c123, 2) as any as S.Schema<ListUserTokensResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1808, __c113, 0) as any as S.Schema<ListUserTokensRequest>,
+  output: __S(1810, __c113, 2) as any as S.Schema<ListUserTokensResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8858,9 +8784,10 @@ export const putAccount: API.OperationMethod<
   PutAccountError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c124, 1) as any as S.Schema<PutAccountRequest>,
-  output: __S(1108, __c69, 4) as any as S.Schema<Account>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(1825, __c114, 1) as any as S.Schema<PutAccountRequest>,
+  output: __S(1028, __c64, 4) as any as S.Schema<Account>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8875,9 +8802,10 @@ export const putAgentNetworkBudgetRule: API.OperationMethod<
   PutAgentNetworkBudgetRuleError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<PutAgentNetworkBudgetRuleRequest>,
-  output: __S(4432, __c277, 0) as any as S.Schema<AgentNetworkBudgetRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(1840, __c115, 0) as any as S.Schema<PutAgentNetworkBudgetRuleRequest>,
+  output: __S(4336, __c271, 0) as any as S.Schema<AgentNetworkBudgetRule>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8897,9 +8825,10 @@ export const putAgentNetworkGuardrail: API.OperationMethod<
   PutAgentNetworkGuardrailError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<PutAgentNetworkGuardrailRequest>,
+  input: __S(1936, __c121, 0) as any as S.Schema<PutAgentNetworkGuardrailRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<AgentNetworkGuardrail>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8919,9 +8848,10 @@ export const putAgentNetworkPolicy: API.OperationMethod<
   PutAgentNetworkPolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<PutAgentNetworkPolicyRequest>,
+  input: __S(1952, __c122, 0) as any as S.Schema<PutAgentNetworkPolicyRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<AgentNetworkPolicy>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8942,9 +8872,10 @@ export const putAgentNetworkProvider: API.OperationMethod<
   PutAgentNetworkProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<PutAgentNetworkProviderRequest>,
+  input: __S(1968, __c123, 0) as any as S.Schema<PutAgentNetworkProviderRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<AgentNetworkProvider>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8964,9 +8895,10 @@ export const putAgentNetworkSettings: API.OperationMethod<
   PutAgentNetworkSettingsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<PutAgentNetworkSettingsRequest>,
+  input: __S(1984, __c124, 0) as any as S.Schema<PutAgentNetworkSettingsRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<AgentNetworkSettings>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8981,9 +8913,10 @@ export const putDnsNameserver: API.OperationMethod<
   PutDnsNameserverError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<PutDnsNameserverRequest>,
+  input: __S(2000, __c125, 0) as any as S.Schema<PutDnsNameserverRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<PutDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8998,9 +8931,10 @@ export const putDnsSettings: API.OperationMethod<
   PutDnsSettingsError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<PutDnsSettingsRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<DNSSettings>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2016, __c126, 0) as any as S.Schema<PutDnsSettingsRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<DNSSettings>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9015,9 +8949,10 @@ export const putDnsZone: API.OperationMethod<
   PutDnsZoneError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<PutDnsZoneRequest>,
+  input: __S(2032, __c127, 0) as any as S.Schema<PutDnsZoneRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<PutDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9032,9 +8967,10 @@ export const putDnsZoneRecord: API.OperationMethod<
   PutDnsZoneRecordError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<PutDnsZoneRecordRequest>,
+  input: __S(2048, __c128, 0) as any as S.Schema<PutDnsZoneRecordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<PutDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9049,9 +8985,10 @@ export const putGroup: API.OperationMethod<
   PutGroupError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<PutGroupRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<PutGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2064, __c129, 0) as any as S.Schema<PutGroupRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<PutGroupResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9066,9 +9003,10 @@ export const putIdentityProvider: API.OperationMethod<
   PutIdentityProviderError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<PutIdentityProviderRequest>,
-  output: __S(2880, __c180, 0) as any as S.Schema<IdentityProvider>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2080, __c130, 0) as any as S.Schema<PutIdentityProviderRequest>,
+  output: __S(2800, __c175, 0) as any as S.Schema<IdentityProvider>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9083,9 +9021,10 @@ export const putIntegrationBillingSubscription: API.OperationMethod<
   PutIntegrationBillingSubscriptionError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<PutIntegrationBillingSubscriptionRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<PutIntegrationBillingSubscriptionResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  input: __S(2128, __c133, 0) as any as S.Schema<PutIntegrationBillingSubscriptionRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<PutIntegrationBillingSubscriptionResponse>,
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9100,9 +9039,10 @@ export const putIntegrationMspTenant: API.OperationMethod<
   PutIntegrationMspTenantError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<PutIntegrationMspTenantRequest>,
-  output: __S(3026, __c189, 2) as any as S.Schema<TenantResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2144, __c134, 0) as any as S.Schema<PutIntegrationMspTenantRequest>,
+  output: __S(2946, __c184, 2) as any as S.Schema<TenantResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9117,9 +9057,10 @@ export const putIntegrationMspTenantInvite: API.OperationMethod<
   PutIntegrationMspTenantInviteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<PutIntegrationMspTenantInviteRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<PutIntegrationMspTenantInviteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(2160, __c135, 0) as any as S.Schema<PutIntegrationMspTenantInviteRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<PutIntegrationMspTenantInviteResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9134,9 +9075,10 @@ export const putNetwork: API.OperationMethod<
   PutNetworkError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<PutNetworkRequest>,
-  output: __S(3088, __c193, 0) as any as S.Schema<PutNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2176, __c136, 0) as any as S.Schema<PutNetworkRequest>,
+  output: __S(3008, __c188, 0) as any as S.Schema<PutNetworkResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9151,9 +9093,10 @@ export const putNetworkResource: API.OperationMethod<
   PutNetworkResourceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<PutNetworkResourceRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<PutNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2192, __c137, 0) as any as S.Schema<PutNetworkResourceRequest>,
+  output: __S(3040, __c190, 0) as any as S.Schema<PutNetworkResourceResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9168,9 +9111,10 @@ export const putNetworkRouter: API.OperationMethod<
   PutNetworkRouterError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<PutNetworkRouterRequest>,
-  output: __S(3168, __c198, 0) as any as S.Schema<PutNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2208, __c138, 0) as any as S.Schema<PutNetworkRouterRequest>,
+  output: __S(3088, __c193, 0) as any as S.Schema<PutNetworkRouterResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9185,9 +9129,10 @@ export const putPeer: API.OperationMethod<
   PutPeerError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<PutPeerRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<PutPeerResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2224, __c139, 0) as any as S.Schema<PutPeerRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<PutPeerResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9202,9 +9147,10 @@ export const putPolicy: API.OperationMethod<
   PutPolicyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<PutPolicyRequest>,
-  output: __S(3317, __c207, 5) as any as S.Schema<PutPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2240, __c140, 0) as any as S.Schema<PutPolicyRequest>,
+  output: __S(3205, __c200, 5) as any as S.Schema<PutPolicyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9219,9 +9165,10 @@ export const putPostureCheck: API.OperationMethod<
   PutPostureCheckError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<PutPostureCheckRequest>,
-  output: __S(3372, __c210, 12) as any as S.Schema<PostureCheck>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2256, __c141, 0) as any as S.Schema<PutPostureCheckRequest>,
+  output: __S(3260, __c203, 12) as any as S.Schema<PostureCheck>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9241,9 +9188,10 @@ export const putReverseProxyService: API.OperationMethod<
   PutReverseProxyServiceError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<PutReverseProxyServiceRequest>,
-  output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNetBirdError],
+  input: __S(2272, __c142, 0) as any as S.Schema<PutReverseProxyServiceRequest>,
+  output: __S(3292, __c205, 12) as any as S.Schema<Service>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9258,9 +9206,10 @@ export const putRoute: API.OperationMethod<
   PutRouteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<PutRouteRequest>,
-  output: __S(3456, __c216, 0) as any as S.Schema<PutRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2320, __c145, 0) as any as S.Schema<PutRouteRequest>,
+  output: __S(3344, __c209, 0) as any as S.Schema<PutRouteResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9275,9 +9224,10 @@ export const putSetupKey: API.OperationMethod<
   PutSetupKeyError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<PutSetupKeyRequest>,
-  output: __S(3568, __c223, 0) as any as S.Schema<PutSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2336, __c146, 0) as any as S.Schema<PutSetupKeyRequest>,
+  output: __S(3456, __c216, 0) as any as S.Schema<PutSetupKeyResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9288,9 +9238,10 @@ export type PutUserError = BadRequest | Forbidden | NetBirdOpError;
 /** Update a User Update information about a User */
 export const putUser: API.OperationMethod<PutUserRequest, User, PutUserError, NetBirdOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2432, __c152, 0) as any as S.Schema<PutUserRequest>,
-    output: __S(4019, __c251, 3) as any as S.Schema<User>,
-    errors: [BadRequest, Forbidden, UnknownNetBirdError],
+    input: __S(2352, __c147, 0) as any as S.Schema<PutUserRequest>,
+    output: __S(3923, __c245, 3) as any as S.Schema<User>,
+    errors: [BadRequest, Forbidden],
+    serviceErrors: NetBirdServiceErrors,
     protocol: NetBirdProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9305,9 +9256,10 @@ export const putUserPassword: API.OperationMethod<
   PutUserPasswordError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<PutUserPasswordRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<PutUserPasswordResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  input: __S(2368, __c148, 0) as any as S.Schema<PutUserPasswordRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<PutUserPasswordResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9322,9 +9274,10 @@ export const regenerateOktaScimToken: API.OperationMethod<
   RegenerateOktaScimTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<RegenerateOktaScimTokenRequest>,
-  output: __S(2480, __c155, 0) as any as S.Schema<ScimTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2384, __c149, 0) as any as S.Schema<RegenerateOktaScimTokenRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<ScimTokenResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9339,9 +9292,10 @@ export const regenerateSCIMToken: API.OperationMethod<
   RegenerateSCIMTokenError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<RegenerateSCIMTokenRequest>,
-  output: __S(2480, __c155, 0) as any as S.Schema<ScimTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2416, __c151, 0) as any as S.Schema<RegenerateSCIMTokenRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<ScimTokenResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9361,9 +9315,10 @@ export const regenerateUsersInvite: API.OperationMethod<
   RegenerateUsersInviteError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<RegenerateUsersInviteRequest>,
-  output: __S(2545, __c159, 1) as any as S.Schema<UserInviteRegenerateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownNetBirdError],
+  input: __S(2432, __c152, 0) as any as S.Schema<RegenerateUsersInviteRequest>,
+  output: __S(2433, __c152, 1) as any as S.Schema<UserInviteRegenerateResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9378,9 +9333,10 @@ export const revokeBypass: API.OperationMethod<
   RevokeBypassError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<RevokeBypassRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<RevokeBypassResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  input: __S(2448, __c153, 0) as any as S.Schema<RevokeBypassRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<RevokeBypassResponse>,
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9395,9 +9351,10 @@ export const syncAzureIntegration: API.OperationMethod<
   SyncAzureIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<SyncAzureIntegrationRequest>,
-  output: __S(2592, __c162, 0) as any as S.Schema<SyncResult>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2464, __c154, 0) as any as S.Schema<SyncAzureIntegrationRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<SyncResult>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9412,9 +9369,10 @@ export const syncGoogleIntegration: API.OperationMethod<
   SyncGoogleIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<SyncGoogleIntegrationRequest>,
-  output: __S(2592, __c162, 0) as any as S.Schema<SyncResult>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2496, __c156, 0) as any as S.Schema<SyncGoogleIntegrationRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<SyncResult>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9429,9 +9387,10 @@ export const unlinkIntegrationsMspTenant: API.OperationMethod<
   UnlinkIntegrationsMspTenantError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<UnlinkIntegrationsMspTenantRequest>,
-  output: __S(3824, __c239, 0) as any as S.Schema<UnlinkIntegrationsMspTenantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(2544, __c159, 0) as any as S.Schema<UnlinkIntegrationsMspTenantRequest>,
+  output: __S(3728, __c233, 0) as any as S.Schema<UnlinkIntegrationsMspTenantResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9446,9 +9405,10 @@ export const updateAzureIntegration: API.OperationMethod<
   UpdateAzureIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<UpdateAzureIntegrationRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<UpdateAzureIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2560, __c160, 0) as any as S.Schema<UpdateAzureIntegrationRequest>,
+  output: __S(1072, __c67, 0) as any as S.Schema<UpdateAzureIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9463,9 +9423,10 @@ export const updateEDRIntegration: API.OperationMethod<
   UpdateEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<UpdateEDRIntegrationRequest>,
+  input: __S(2576, __c161, 0) as any as S.Schema<UpdateEDRIntegrationRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<EDRIntuneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9480,9 +9441,10 @@ export const updateFalconEDRIntegration: API.OperationMethod<
   UpdateFalconEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<UpdateFalconEDRIntegrationRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<EDRFalconResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2592, __c162, 0) as any as S.Schema<UpdateFalconEDRIntegrationRequest>,
+  output: __S(2112, __c132, 0) as any as S.Schema<EDRFalconResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9497,9 +9459,10 @@ export const updateFleetDMEDRIntegration: API.OperationMethod<
   UpdateFleetDMEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<UpdateFleetDMEDRIntegrationRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<EDRFleetDMResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2608, __c163, 0) as any as S.Schema<UpdateFleetDMEDRIntegrationRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<EDRFleetDMResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9514,9 +9477,10 @@ export const updateGoogleIntegration: API.OperationMethod<
   UpdateGoogleIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<UpdateGoogleIntegrationRequest>,
+  input: __S(2624, __c164, 0) as any as S.Schema<UpdateGoogleIntegrationRequest>,
   output: __S(2528, __c158, 0) as any as S.Schema<UpdateGoogleIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9531,9 +9495,10 @@ export const updateHuntressEDRIntegration: API.OperationMethod<
   UpdateHuntressEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<UpdateHuntressEDRIntegrationRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<EDRHuntressResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2640, __c165, 0) as any as S.Schema<UpdateHuntressEDRIntegrationRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<EDRHuntressResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9548,9 +9513,10 @@ export const updateIntegration: API.OperationMethod<
   UpdateIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<UpdateIntegrationRequest>,
-  output: __S(2912, __c182, 0) as any as S.Schema<IntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2656, __c166, 0) as any as S.Schema<UpdateIntegrationRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<IntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9565,9 +9531,10 @@ export const updateNotificationChannel: API.OperationMethod<
   UpdateNotificationChannelError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<UpdateNotificationChannelRequest>,
-  output: __S(3200, __c200, 0) as any as S.Schema<NotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  input: __S(2672, __c167, 0) as any as S.Schema<UpdateNotificationChannelRequest>,
+  output: __S(3120, __c195, 0) as any as S.Schema<NotificationChannelResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9582,9 +9549,10 @@ export const updateOktaScimIntegration: API.OperationMethod<
   UpdateOktaScimIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<UpdateOktaScimIntegrationRequest>,
-  output: __S(3232, __c202, 0) as any as S.Schema<UpdateOktaScimIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2688, __c168, 0) as any as S.Schema<UpdateOktaScimIntegrationRequest>,
+  output: __S(3152, __c197, 0) as any as S.Schema<UpdateOktaScimIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9599,9 +9567,10 @@ export const updateSCIMIntegration: API.OperationMethod<
   UpdateSCIMIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<UpdateSCIMIntegrationRequest>,
-  output: __S(3488, __c218, 0) as any as S.Schema<UpdateSCIMIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2720, __c170, 0) as any as S.Schema<UpdateSCIMIntegrationRequest>,
+  output: __S(3376, __c211, 0) as any as S.Schema<UpdateSCIMIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9616,9 +9585,10 @@ export const updateSentinelOneEDRIntegration: API.OperationMethod<
   UpdateSentinelOneEDRIntegrationError,
   NetBirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<UpdateSentinelOneEDRIntegrationRequest>,
-  output: __S(3521, __c220, 1) as any as S.Schema<EDRSentinelOneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  input: __S(2736, __c171, 0) as any as S.Schema<UpdateSentinelOneEDRIntegrationRequest>,
+  output: __S(3409, __c213, 1) as any as S.Schema<EDRSentinelOneResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9686,33 +9656,17 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/integrations/google-idp", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetAllGoogleIntegrationsRequest" });
-    case 1:
-      return S.Array(__S(2528, __c158, 0));
-    case 2:
-      return S.suspend(() => __S(49, __c3, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetAllGoogleIntegrationsResponse",
-      });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/event-streaming", code: 200 })),
       ).annotate({ identifier: "GetAllIntegrationsRequest" });
     case 1:
-      return S.Array(__S(2912, __c182, 0));
+      return S.Array(__S(2832, __c177, 0));
     case 2:
-      return S.suspend(() => __S(65, __c4, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(49, __c3, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllIntegrationsResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9721,28 +9675,28 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "GetAllOktaScimIntegrationsRequest" });
     case 1:
-      return S.Array(__S(3232, __c202, 0));
+      return S.Array(__S(3152, __c197, 0));
     case 2:
-      return S.suspend(() => __S(81, __c5, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(65, __c4, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllOktaScimIntegrationsResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/integrations/scim-idp", code: 200 })),
       ).annotate({ identifier: "GetAllSCIMIntegrationsRequest" });
     case 1:
-      return S.Array(__S(3488, __c218, 0));
+      return S.Array(__S(3376, __c211, 0));
     case 2:
-      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(81, __c5, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllSCIMIntegrationsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9752,7 +9706,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetAzureIntegrationRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9762,7 +9716,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetAzureIntegrationLogsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9774,14 +9728,14 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "IdpIntegrationSyncLog" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(128, __c8, 0));
     case 2:
-      return S.suspend(() => __S(145, __c9, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(129, __c8, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAzureIntegrationLogsResponse",
       });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9791,7 +9745,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetDnsNameserverRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9801,7 +9755,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDnsZoneRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9814,7 +9768,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetDnsZoneRecordRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9824,156 +9778,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetEDRIntegrationRequest" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          checks: __S(242, __c15, 2),
-        }).pipe(T.Http({ method: "POST", uri: "/api/agent-network/guardrails", code: 200 })),
-      ).annotate({ identifier: "CreateAgentNetworkGuardrailRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          models: __S(4032, __c252, 0),
-        }),
-      ).annotate({ identifier: "AgentNetworkGuardrailChecksModelAllowlist" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          redact_pii: S.Boolean,
-        }),
-      ).annotate({ identifier: "AgentNetworkGuardrailChecksPromptCapture" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          model_allowlist: __S(240, __c15, 0),
-          prompt_capture: __S(241, __c15, 1),
-        }),
-      ).annotate({ identifier: "AgentNetworkGuardrailChecks" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.String,
-          checks: __S(242, __c15, 2),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "AgentNetworkGuardrail" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number.pipe(T.Query())),
-          page_size: S.optional(S.Number.pipe(T.Query())),
-          user_id: S.optional(S.String.pipe(T.Query())),
-          reporter_id: S.optional(S.String.pipe(T.Query())),
-          source_id: S.optional(S.String.pipe(T.Query())),
-          destination_id: S.optional(S.String.pipe(T.Query())),
-          protocol: S.optional(S.Number.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          connection_type: S.optional(S.String.pipe(T.Query())),
-          direction: S.optional(S.String.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          start_date: S.optional(S.String.pipe(T.Query())),
-          end_date: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/events/network-traffic", code: 200 })),
-      ).annotate({ identifier: "GetEventNetworkTrafficRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          city_name: S.String,
-          country_code: S.String,
-        }),
-      ).annotate({ identifier: "NetworkTrafficLocation" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          geo_location: __S(257, __c16, 1),
-          os: S.NullOr(S.String),
-          address: S.String,
-          dns_label: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "NetworkTrafficEndpoint" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          email: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "NetworkTrafficUser" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.Number,
-          code: S.Number,
-        }),
-      ).annotate({ identifier: "NetworkTrafficICMP" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          timestamp: S.String,
-        }),
-      ).annotate({ identifier: "NetworkTrafficSubEvent" });
-    case 6:
-      return S.Array(__S(261, __c16, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          flow_id: S.String,
-          reporter_id: S.String,
-          source: __S(258, __c16, 2),
-          destination: __S(258, __c16, 2),
-          user: __S(259, __c16, 3),
-          policy: __S(1904, __c119, 0),
-          icmp: __S(260, __c16, 4),
-          protocol: S.Number,
-          direction: S.String,
-          rx_bytes: S.Number,
-          rx_packets: S.Number,
-          tx_bytes: S.Number,
-          tx_packets: S.Number,
-          num_of_starts: S.Number,
-          num_of_ends: S.Number,
-          num_of_drops: S.Number,
-          window_start: S.String,
-          window_end: S.String,
-          events: __S(262, __c16, 6),
-        }),
-      ).annotate({ identifier: "NetworkTrafficEvent" });
-    case 8:
-      return S.Array(__S(263, __c16, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(264, __c16, 8),
-          page: S.Number,
-          page_size: S.Number,
-          total_records: S.Number,
-          total_pages: S.Number,
-        }),
-      ).annotate({ identifier: "NetworkTrafficEventsResponse" });
-  }
-}
-function __c17(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10021,11 +9826,11 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ProxyAccessLog" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(274, __c17, 2),
+          data: __S(210, __c13, 2),
           page: S.Number,
           page_size: S.Number,
           total_records: S.Number,
@@ -10034,7 +9839,55 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ProxyAccessLogsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          checks: __S(242, __c15, 2),
+        }).pipe(T.Http({ method: "POST", uri: "/api/agent-network/guardrails", code: 200 })),
+      ).annotate({ identifier: "CreateAgentNetworkGuardrailRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          models: __S(3936, __c246, 0),
+        }),
+      ).annotate({ identifier: "AgentNetworkGuardrailChecksModelAllowlist" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          redact_pii: S.Boolean,
+        }),
+      ).annotate({ identifier: "AgentNetworkGuardrailChecksPromptCapture" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          model_allowlist: __S(240, __c15, 0),
+          prompt_capture: __S(241, __c15, 1),
+        }),
+      ).annotate({ identifier: "AgentNetworkGuardrailChecks" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.String,
+          checks: __S(242, __c15, 2),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "AgentNetworkGuardrail" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10044,7 +9897,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetGoogleIntegrationRequest" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10056,7 +9909,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetGoogleIntegrationLogsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10066,7 +9919,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10076,7 +9929,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderRequest" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10090,7 +9943,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "InstanceStatus" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10107,7 +9960,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "InstanceVersionInfo" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10117,7 +9970,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetIntegrationRequest" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10131,42 +9984,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetIntegrationAgentNetworkManagedProxyRequest" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          source_groups: __S(4032, __c252, 0),
-          destination_provider_ids: __S(4032, __c252, 0),
-          guardrail_ids: S.optional(__S(4032, __c252, 0)),
-          limits: S.optional(__S(4418, __c276, 2)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/agent-network/policies", code: 200 })),
-      ).annotate({ identifier: "CreateAgentNetworkPolicyRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.String,
-          enabled: S.Boolean,
-          source_groups: __S(4032, __c252, 0),
-          destination_provider_ids: __S(4032, __c252, 0),
-          guardrail_ids: __S(4032, __c252, 0),
-          limits: __S(4418, __c276, 2),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "AgentNetworkPolicy" });
-  }
-}
-function __c28(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10178,7 +9996,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetIntegrationBillingInvoiceCsvRequest" });
   }
 }
-function __c29(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10196,7 +10014,42 @@ function __c29(j: number): any {
       ).annotate({ identifier: "InvoicePDFResponse" });
   }
 }
-function __c30(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          source_groups: __S(3936, __c246, 0),
+          destination_provider_ids: __S(3936, __c246, 0),
+          guardrail_ids: S.optional(__S(3936, __c246, 0)),
+          limits: S.optional(__S(4322, __c270, 2)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/agent-network/policies", code: 200 })),
+      ).annotate({ identifier: "CreateAgentNetworkPolicyRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.String,
+          enabled: S.Boolean,
+          source_groups: __S(3936, __c246, 0),
+          destination_provider_ids: __S(3936, __c246, 0),
+          guardrail_ids: __S(3936, __c246, 0),
+          limits: __S(4322, __c270, 2),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "AgentNetworkPolicy" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10206,7 +10059,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetIntegrationBillingPortalRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10221,7 +10074,7 @@ function __c31(j: number): any {
           plan_tier: S.String,
           price_id: S.String,
           remaining_trial: S.optional(S.Number),
-          features: S.optional(__S(4032, __c252, 0)),
+          features: S.optional(__S(3936, __c246, 0)),
           currency: S.String,
           price: S.Number,
           provider: S.String,
@@ -10230,7 +10083,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10249,7 +10102,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UsageStats" });
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10259,7 +10112,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetIntegrationEdrFalconRequest" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10269,7 +10122,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetIntegrationEdrFleetdmRequest" });
   }
 }
-function __c35(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10279,7 +10132,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetIntegrationEdrHuntressRequest" });
   }
 }
-function __c36(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10289,7 +10142,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetIntegrationEdrSentineloneRequest" });
   }
 }
-function __c37(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10306,6 +10159,33 @@ function __c37(j: number): any {
           city_name: S.String,
         }),
       ).annotate({ identifier: "City" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          networkId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/networks/{networkId}", code: 200 })),
+      ).annotate({ identifier: "GetNetworkRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          networkId: S.String.pipe(T.Label()),
+          resourceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/networks/{networkId}/resources/{resourceId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNetworkResourceRequest" });
   }
 }
 function __c38(j: number): any {
@@ -10375,33 +10255,6 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           networkId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/networks/{networkId}", code: 200 })),
-      ).annotate({ identifier: "GetNetworkRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          networkId: S.String.pipe(T.Label()),
-          resourceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/networks/{networkId}/resources/{resourceId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetNetworkResourceRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          networkId: S.String.pipe(T.Label()),
           routerId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/networks/{networkId}/routers/{routerId}", code: 200 }),
@@ -10409,7 +10262,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetNetworkRouterRequest" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10425,7 +10278,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetNotificationChannelRequest" });
   }
 }
-function __c45(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10435,7 +10288,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetOktaScimIntegrationRequest" });
   }
 }
-function __c46(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10447,7 +10300,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetOktaScimIntegrationLogsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10457,7 +10310,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetPeerRequest" });
   }
 }
-function __c48(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10467,7 +10320,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "NetworkAddress" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(736, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10486,7 +10339,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PeerLocalFlags" });
   }
 }
-function __c49(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10496,7 +10349,7 @@ function __c49(j: number): any {
           created_at: S.String,
           ip: S.String,
           ipv6: S.optional(S.String),
-          network_addresses: S.optional(__S(769, __c48, 1)),
+          network_addresses: S.optional(__S(737, __c46, 1)),
           connection_ip: S.String,
           connected: S.Boolean,
           last_seen: S.String,
@@ -10504,7 +10357,7 @@ function __c49(j: number): any {
           kernel_version: S.String,
           geoname_id: S.Number,
           version: S.String,
-          groups: __S(3137, __c196, 1),
+          groups: __S(3057, __c191, 1),
           ssh_enabled: S.Boolean,
           user_id: S.String,
           hostname: S.String,
@@ -10519,25 +10372,14 @@ function __c49(j: number): any {
           country_code: S.String,
           city_name: S.String,
           serial_number: S.String,
-          extra_dns_labels: __S(4032, __c252, 0),
+          extra_dns_labels: __S(3936, __c246, 0),
           ephemeral: S.Boolean,
-          local_flags: S.optional(__S(770, __c48, 2)),
+          local_flags: S.optional(__S(738, __c46, 2)),
         }),
       ).annotate({ identifier: "GetPeerResponse" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          peerId: S.String.pipe(T.Label()),
-          jobId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/peers/{peerId}/jobs/{jobId}", code: 200 })),
-      ).annotate({ identifier: "GetPeerJobRequest" });
-  }
-}
-function __c51(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10547,7 +10389,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c52(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10555,6 +10397,44 @@ function __c52(j: number): any {
           postureCheckId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/api/posture-checks/{postureCheckId}", code: 200 })),
       ).annotate({ identifier: "GetPostureCheckRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/reverse-proxies/domains/{domainId}/validate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetReverseProxyDomainValidateRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/reverse-proxies/services/{serviceId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetReverseProxyServiceRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          routeId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/routes/{routeId}", code: 200 })),
+      ).annotate({ identifier: "GetRouteRequest" });
   }
 }
 function __c53(j: number): any {
@@ -10595,50 +10475,12 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domainId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/reverse-proxies/domains/{domainId}/validate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetReverseProxyDomainValidateRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/reverse-proxies/services/{serviceId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetReverseProxyServiceRequest" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          routeId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/routes/{routeId}", code: 200 })),
-      ).annotate({ identifier: "GetRouteRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/api/integrations/scim-idp/{id}", code: 200 })),
       ).annotate({ identifier: "GetSCIMIntegrationRequest" });
   }
 }
-function __c59(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10648,7 +10490,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetSCIMIntegrationLogsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10658,7 +10500,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetSetupKeyRequest" });
   }
 }
-function __c61(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10666,7 +10508,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetUserCurrentRequest" });
   }
 }
-function __c62(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10686,7 +10528,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UserInviteInfo" });
   }
 }
-function __c63(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10697,7 +10539,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetUserTokenRequest" });
   }
 }
-function __c64(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10709,43 +10551,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "InviteIntegrationsMspTenantRequest" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
-          connector_id: S.optional(S.String),
-          client_secret: S.String.pipe(T.SensitiveValue({})),
-          client_id: S.String,
-          tenant_id: S.String,
-          sync_interval: S.optional(S.Number),
-          host: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/azure-idp", code: 200 })),
-      ).annotate({ identifier: "CreateAzureIntegrationRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          group_prefixes: __S(4032, __c252, 0),
-          user_group_prefixes: __S(4032, __c252, 0),
-          connector_id: S.optional(S.String),
-          id: S.Number,
-          client_id: S.String,
-          tenant_id: S.String,
-          sync_interval: S.Number,
-          host: S.String,
-          last_synced_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateAzureIntegrationResponse" });
-  }
-}
-function __c67(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10755,21 +10561,21 @@ function __c67(j: number): any {
       ).annotate({ identifier: "InviteUserRequest" });
   }
 }
-function __c68(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/accounts", code: 200 })),
       ).annotate({ identifier: "ListAccountsRequest" });
     case 1:
-      return S.Array(__S(1108, __c69, 4));
+      return S.Array(__S(1028, __c64, 4));
     case 2:
-      return S.suspend(() => __S(1089, __c68, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1009, __c63, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAccountsResponse",
       });
   }
 }
-function __c69(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10777,7 +10583,7 @@ function __c69(j: number): any {
           peer_approval_enabled: S.Boolean,
           user_approval_required: S.Boolean,
           network_traffic_logs_enabled: S.Boolean,
-          network_traffic_logs_groups: __S(4032, __c252, 0),
+          network_traffic_logs_groups: __S(3936, __c246, 0),
           network_traffic_packet_counter_enabled: S.Boolean,
         }),
       ).annotate({ identifier: "AccountExtraSettings" });
@@ -10798,25 +10604,25 @@ function __c69(j: number): any {
           groups_propagation_enabled: S.optional(S.Boolean),
           jwt_groups_enabled: S.optional(S.Boolean),
           jwt_groups_claim_name: S.optional(S.String),
-          jwt_allow_groups: S.optional(__S(4032, __c252, 0)),
+          jwt_allow_groups: S.optional(__S(3936, __c246, 0)),
           routing_peer_dns_resolution_enabled: S.optional(S.Boolean),
           dns_domain: S.optional(S.String),
           network_range: S.optional(S.String),
           network_range_v6: S.optional(S.String),
           peer_expose_enabled: S.Boolean,
-          peer_expose_groups: __S(4032, __c252, 0),
-          extra: S.optional(__S(1104, __c69, 0)),
+          peer_expose_groups: __S(3936, __c246, 0),
+          extra: S.optional(__S(1024, __c64, 0)),
           lazy_connection_enabled: S.optional(S.Boolean),
           auto_update_version: S.optional(S.String),
           auto_update_always: S.optional(S.Boolean),
           metrics_push_enabled: S.optional(S.Boolean),
           peer_hostname_collision_rejected: S.optional(S.Boolean),
           agent_network_only: S.optional(S.Boolean),
-          dashboard_features: S.optional(__S(1105, __c69, 1)),
+          dashboard_features: S.optional(__S(1025, __c64, 1)),
           embedded_idp_enabled: S.optional(S.Boolean),
           local_auth_disabled: S.optional(S.Boolean),
           local_mfa_enabled: S.optional(S.Boolean),
-          ipv6_enabled_groups: S.optional(__S(4032, __c252, 0)),
+          ipv6_enabled_groups: S.optional(__S(3936, __c246, 0)),
         }),
       ).annotate({ identifier: "AccountSettings" });
     case 3:
@@ -10830,17 +10636,17 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          settings: __S(1106, __c69, 2),
+          settings: __S(1026, __c64, 2),
           domain: S.String,
           domain_category: S.String,
           created_at: S.String,
           created_by: S.String,
-          onboarding: __S(1107, __c69, 3),
+          onboarding: __S(1027, __c64, 3),
         }),
       ).annotate({ identifier: "Account" });
   }
 }
-function __c70(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10855,22 +10661,58 @@ function __c70(j: number): any {
           catalog_id: S.String,
           api_flavor: S.String,
           all_models_allowed: S.Boolean,
-          models: __S(4032, __c252, 0),
+          models: __S(3936, __c246, 0),
         }),
       ).annotate({ identifier: "AgentNetworkAgentConfigProvider" });
     case 2:
-      return S.Array(__S(1121, __c70, 1));
+      return S.Array(__S(1041, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           configured: S.Boolean,
           endpoint: S.String,
-          providers: __S(1122, __c70, 2),
+          providers: __S(1042, __c65, 2),
         }),
       ).annotate({ identifier: "AgentNetworkAgentConfig" });
   }
 }
-function __c71(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
+          connector_id: S.optional(S.String),
+          client_secret: S.String.pipe(T.SensitiveValue({})),
+          client_id: S.String,
+          tenant_id: S.String,
+          sync_interval: S.optional(S.Number),
+          host: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/azure-idp", code: 200 })),
+      ).annotate({ identifier: "CreateAzureIntegrationRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          group_prefixes: __S(3936, __c246, 0),
+          user_group_prefixes: __S(3936, __c246, 0),
+          connector_id: S.optional(S.String),
+          id: S.Number,
+          client_id: S.String,
+          tenant_id: S.String,
+          sync_interval: S.Number,
+          host: S.String,
+          last_synced_at: S.String,
+        }),
+      ).annotate({ identifier: "CreateAzureIntegrationResponse" });
+  }
+}
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10879,14 +10721,14 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListAgentNetworkBudgetRulesRequest" });
     case 1:
-      return S.Array(__S(4432, __c277, 0));
+      return S.Array(__S(4336, __c271, 0));
     case 2:
-      return S.suspend(() => __S(1137, __c71, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1089, __c68, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkBudgetRulesResponse",
       });
   }
 }
-function __c72(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10901,7 +10743,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "AgentNetworkCatalogExtraHeader" });
     case 2:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(1105, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10922,8 +10764,8 @@ function __c72(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          header_pair: S.optional(__S(1155, __c72, 3)),
-          json_metadata: S.optional(__S(1156, __c72, 4)),
+          header_pair: S.optional(__S(1107, __c69, 3)),
+          json_metadata: S.optional(__S(1108, __c69, 4)),
         }),
       ).annotate({ identifier: "AgentNetworkCatalogIdentityInjection" });
     case 6:
@@ -10940,7 +10782,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "AgentNetworkCatalogModel" });
     case 7:
-      return S.Array(__S(1158, __c72, 6));
+      return S.Array(__S(1110, __c69, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -10952,21 +10794,21 @@ function __c72(j: number): any {
           default_content_type: S.String,
           brand_color: S.String,
           kind: S.String,
-          extra_headers: S.optional(__S(1154, __c72, 2)),
-          identity_injection: S.optional(__S(1157, __c72, 5)),
-          pricing_surfaces: S.optional(__S(4032, __c252, 0)),
-          models: __S(1159, __c72, 7),
+          extra_headers: S.optional(__S(1106, __c69, 2)),
+          identity_injection: S.optional(__S(1109, __c69, 5)),
+          pricing_surfaces: S.optional(__S(3936, __c246, 0)),
+          models: __S(1111, __c69, 7),
         }),
       ).annotate({ identifier: "AgentNetworkCatalogProvider" });
     case 9:
-      return S.Array(__S(1160, __c72, 8));
+      return S.Array(__S(1112, __c69, 8));
     case 10:
-      return S.suspend(() => __S(1161, __c72, 9).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1113, __c69, 9).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkCatalogProvidersResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10988,14 +10830,14 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "AgentNetworkConsumption" });
     case 2:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(1121, __c70, 1));
     case 3:
-      return S.suspend(() => __S(1170, __c73, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1122, __c70, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkConsumptionResponse",
       });
   }
 }
-function __c74(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11006,12 +10848,12 @@ function __c74(j: number): any {
     case 1:
       return S.Array(__S(243, __c15, 3));
     case 2:
-      return S.suspend(() => __S(1185, __c74, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1137, __c71, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkGuardrailsResponse",
       });
   }
 }
-function __c75(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11020,12 +10862,12 @@ function __c75(j: number): any {
     case 1:
       return S.Array(__S(432, __c27, 0));
     case 2:
-      return S.suspend(() => __S(1201, __c75, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1153, __c72, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkPoliciesResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11036,12 +10878,12 @@ function __c76(j: number): any {
     case 1:
       return S.Array(__S(642, __c40, 2));
     case 2:
-      return S.suspend(() => __S(1217, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1169, __c73, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkProvidersResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11051,9 +10893,9 @@ function __c77(j: number): any {
           end_date: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
           session_id: S.optional(S.String.pipe(T.Query())),
-          group_id: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
-          provider_id: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
-          model: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
+          group_id: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
+          provider_id: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
+          model: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/agent-network/usage/overview", code: 200 })),
       ).annotate({ identifier: "ListAgentNetworkUsageOverviewRequest" });
     case 1:
@@ -11074,11 +10916,47 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "AgentNetworkUsageBucket" });
     case 2:
-      return S.Array(__S(1233, __c77, 1));
+      return S.Array(__S(1185, __c74, 1));
     case 3:
-      return S.suspend(() => __S(1234, __c77, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1186, __c74, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentNetworkUsageOverviewResponse",
       });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/peers/edr/bypassed", code: 200 })),
+      ).annotate({ identifier: "ListBypassedPeersRequest" });
+    case 1:
+      return S.Array(__S(4128, __c258, 0));
+    case 2:
+      return S.suspend(() => __S(1201, __c75, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListBypassedPeersResponse",
+      });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/dns/nameservers", code: 200 })),
+      ).annotate({ identifier: "ListDnsNameserversRequest" });
+    case 1:
+      return S.Array(__S(1266, __c79, 2));
+    case 2:
+      return S.suspend(() => __S(1217, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDnsNameserversResponse",
+      });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/dns/settings", code: 200 })),
+      ).annotate({ identifier: "ListDnsSettingsRequest" });
   }
 }
 function __c78(j: number): any {
@@ -11090,9 +10968,9 @@ function __c78(j: number): any {
           description: S.String,
           nameservers: __S(1265, __c79, 1),
           enabled: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           primary: S.Boolean,
-          domains: __S(4032, __c252, 0),
+          domains: __S(3936, __c246, 0),
           search_domains_enabled: S.Boolean,
         }).pipe(T.Http({ method: "POST", uri: "/api/dns/nameservers", code: 200 })),
       ).annotate({ identifier: "CreateDnsNameserverRequest" });
@@ -11118,51 +10996,15 @@ function __c79(j: number): any {
           description: S.String,
           nameservers: __S(1265, __c79, 1),
           enabled: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           primary: S.Boolean,
-          domains: __S(4032, __c252, 0),
+          domains: __S(3936, __c246, 0),
           search_domains_enabled: S.Boolean,
         }),
       ).annotate({ identifier: "CreateDnsNameserverResponse" });
   }
 }
 function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/peers/edr/bypassed", code: 200 })),
-      ).annotate({ identifier: "ListBypassedPeersRequest" });
-    case 1:
-      return S.Array(__S(4224, __c264, 0));
-    case 2:
-      return S.suspend(() => __S(1281, __c80, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListBypassedPeersResponse",
-      });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/dns/nameservers", code: 200 })),
-      ).annotate({ identifier: "ListDnsNameserversRequest" });
-    case 1:
-      return S.Array(__S(1266, __c79, 2));
-    case 2:
-      return S.suspend(() => __S(1297, __c81, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDnsNameserversResponse",
-      });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/dns/settings", code: 200 })),
-      ).annotate({ identifier: "ListDnsSettingsRequest" });
-  }
-}
-function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11176,7 +11018,7 @@ function __c83(j: number): any {
       });
   }
 }
-function __c84(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11185,12 +11027,12 @@ function __c84(j: number): any {
     case 1:
       return S.Array(__S(1472, __c92, 0));
     case 2:
-      return S.suspend(() => __S(1345, __c84, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1297, __c81, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDnsZonesResponse",
       });
   }
 }
-function __c85(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11211,14 +11053,14 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "Event" });
     case 2:
-      return S.Array(__S(1361, __c85, 1));
+      return S.Array(__S(1313, __c82, 1));
     case 3:
-      return S.suspend(() => __S(1362, __c85, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1314, __c82, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventAuditResponse",
       });
   }
 }
-function __c86(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11227,26 +11069,26 @@ function __c86(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/groups", code: 200 })),
       ).annotate({ identifier: "ListGroupsRequest" });
     case 1:
-      return S.suspend(() => __S(1936, __c121, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1920, __c120, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupsResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/identity-providers", code: 200 })),
       ).annotate({ identifier: "ListIdentityProvidersRequest" });
     case 1:
-      return S.Array(__S(2880, __c180, 0));
+      return S.Array(__S(2800, __c175, 0));
     case 2:
-      return S.suspend(() => __S(1393, __c87, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1345, __c84, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIdentityProvidersResponse",
       });
   }
 }
-function __c88(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11264,14 +11106,14 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "InvoiceResponse" });
     case 2:
-      return S.Array(__S(1409, __c88, 1));
+      return S.Array(__S(1361, __c85, 1));
     case 3:
-      return S.suspend(() => __S(1410, __c88, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1362, __c85, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIntegrationBillingInvoicesResponse",
       });
   }
 }
-function __c89(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11289,22 +11131,66 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "Price" });
     case 2:
-      return S.Array(__S(1425, __c89, 1));
+      return S.Array(__S(1377, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.String,
-          features: __S(4032, __c252, 0),
-          prices: __S(1426, __c89, 2),
+          features: __S(3936, __c246, 0),
+          prices: __S(1378, __c86, 2),
           free: S.Boolean,
         }),
       ).annotate({ identifier: "Product" });
     case 4:
-      return S.Array(__S(1427, __c89, 3));
+      return S.Array(__S(1379, __c86, 3));
     case 5:
-      return S.suspend(() => __S(1428, __c89, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1380, __c86, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIntegrationBillingPlansResponse",
+      });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/integrations/msp/tenants", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListIntegrationMspTenantsRequest" });
+    case 1:
+      return S.Array(__S(2946, __c184, 2));
+    case 2:
+      return S.suspend(() => __S(1393, __c87, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListIntegrationMspTenantsResponse",
+      });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/locations/countries", code: 200 })),
+      ).annotate({ identifier: "ListLocationCountriesRequest" });
+    case 1:
+      return S.suspend(() => __S(3936, __c246, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLocationCountriesResponse",
+      });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          networkId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/networks/{networkId}/resources", code: 200 })),
+      ).annotate({ identifier: "ListNetworkResourcesRequest" });
+    case 1:
+      return S.Array(__S(3040, __c190, 0));
+    case 2:
+      return S.suspend(() => __S(1425, __c89, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListNetworkResourcesResponse",
       });
   }
 }
@@ -11317,7 +11203,7 @@ function __c90(j: number): any {
           domain: S.String,
           enabled: S.optional(S.Boolean),
           enable_search_domain: S.Boolean,
-          distribution_groups: __S(4032, __c252, 0),
+          distribution_groups: __S(3936, __c246, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/dns/zones", code: 200 })),
       ).annotate({ identifier: "CreateDnsZoneRequest" });
   }
@@ -11339,7 +11225,7 @@ function __c92(j: number): any {
           domain: S.String,
           enabled: S.Boolean,
           enable_search_domain: S.Boolean,
-          distribution_groups: __S(4032, __c252, 0),
+          distribution_groups: __S(3936, __c246, 0),
         }),
       ).annotate({ identifier: "CreateDnsZoneResponse" });
   }
@@ -11362,27 +11248,19 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/integrations/msp/tenants", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListIntegrationMspTenantsRequest" });
-    case 1:
-      return S.Array(__S(3026, __c189, 2));
-    case 2:
-      return S.suspend(() => __S(1505, __c94, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListIntegrationMspTenantsResponse",
-      });
+        S.Struct({
+          networkId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/networks/{networkId}/routers", code: 200 })),
+      ).annotate({ identifier: "ListNetworkRoutersRequest" });
   }
 }
 function __c95(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/locations/countries", code: 200 })),
-      ).annotate({ identifier: "ListLocationCountriesRequest" });
+      return S.Array(__S(3088, __c193, 0));
     case 1:
-      return S.suspend(() => __S(4032, __c252, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListLocationCountriesResponse",
+      return S.suspend(() => __S(1520, __c95, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListNetworkRoutersResponse",
       });
   }
 }
@@ -11390,61 +11268,25 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/networks/{networkId}/resources", code: 200 })),
-      ).annotate({ identifier: "ListNetworkResourcesRequest" });
-    case 1:
-      return S.Array(__S(3120, __c195, 0));
-    case 2:
-      return S.suspend(() => __S(1537, __c96, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListNetworkResourcesResponse",
-      });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/networks/routers", code: 200 })),
+      ).annotate({ identifier: "ListNetworkRouters2Request" });
   }
 }
 function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          networkId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/networks/{networkId}/routers", code: 200 })),
-      ).annotate({ identifier: "ListNetworkRoutersRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3168, __c198, 0));
-    case 1:
-      return S.suspend(() => __S(1568, __c98, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListNetworkRoutersResponse",
-      });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/networks/routers", code: 200 })),
-      ).annotate({ identifier: "ListNetworkRouters2Request" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/networks", code: 200 })),
       ).annotate({ identifier: "ListNetworksRequest" });
     case 1:
-      return S.Array(__S(3088, __c193, 0));
+      return S.Array(__S(3008, __c188, 0));
     case 2:
-      return S.suspend(() => __S(1601, __c100, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1553, __c97, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNetworksResponse",
       });
   }
 }
-function __c101(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11453,14 +11295,14 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "ListNotificationChannelsRequest" });
     case 1:
-      return S.Array(__S(3200, __c200, 0));
+      return S.Array(__S(3120, __c195, 0));
     case 2:
-      return S.suspend(() => __S(1617, __c101, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1569, __c98, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNotificationChannelsResponse",
       });
   }
 }
-function __c102(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11474,7 +11316,7 @@ function __c102(j: number): any {
       });
   }
 }
-function __c103(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11500,44 +11342,14 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "AccessiblePeer" });
     case 2:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(1601, __c100, 1));
     case 3:
-      return S.suspend(() => __S(1650, __c103, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1602, __c100, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPeerAccessiblePeersResponse",
       });
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          peerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/peers/{peerId}/jobs", code: 200 })),
-      ).annotate({ identifier: "ListPeerJobsRequest" });
-    case 1:
-      return S.Array(__S(3267, __c204, 3));
-    case 2:
-      return S.suspend(() => __S(1665, __c104, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListPeerJobsResponse",
-      });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          zoneId: S.String.pipe(T.Label()),
-          name: S.String,
-          type: S.String,
-          content: S.String,
-          ttl: S.Number,
-        }).pipe(T.Http({ method: "POST", uri: "/api/dns/zones/{zoneId}/records", code: 200 })),
-      ).annotate({ identifier: "CreateDnsZoneRecordRequest" });
-  }
-}
-function __c106(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11555,7 +11367,7 @@ function __c106(j: number): any {
           created_at: S.String,
           ip: S.String,
           ipv6: S.optional(S.String),
-          network_addresses: S.optional(__S(769, __c48, 1)),
+          network_addresses: S.optional(__S(737, __c46, 1)),
           connection_ip: S.String,
           connected: S.Boolean,
           last_seen: S.String,
@@ -11563,7 +11375,7 @@ function __c106(j: number): any {
           kernel_version: S.String,
           geoname_id: S.Number,
           version: S.String,
-          groups: __S(3137, __c196, 1),
+          groups: __S(3057, __c191, 1),
           ssh_enabled: S.Boolean,
           user_id: S.String,
           hostname: S.String,
@@ -11578,49 +11390,49 @@ function __c106(j: number): any {
           country_code: S.String,
           city_name: S.String,
           serial_number: S.String,
-          extra_dns_labels: __S(4032, __c252, 0),
+          extra_dns_labels: __S(3936, __c246, 0),
           ephemeral: S.Boolean,
-          local_flags: S.optional(__S(770, __c48, 2)),
+          local_flags: S.optional(__S(738, __c46, 2)),
           accessible_peers_count: S.Number,
         }),
       ).annotate({ identifier: "PeerBatch" });
     case 2:
-      return S.Array(__S(1697, __c106, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
-      return S.suspend(() => __S(1698, __c106, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1618, __c101, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPeersResponse",
       });
   }
 }
-function __c107(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/policies", code: 200 })),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(3317, __c207, 5));
+      return S.Array(__S(3205, __c200, 5));
     case 2:
-      return S.suspend(() => __S(1713, __c107, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1633, __c102, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPoliciesResponse",
       });
   }
 }
-function __c108(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/posture-checks", code: 200 })),
       ).annotate({ identifier: "ListPostureChecksRequest" });
     case 1:
-      return S.Array(__S(3372, __c210, 12));
+      return S.Array(__S(3260, __c203, 12));
     case 2:
-      return S.suspend(() => __S(1729, __c108, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1649, __c103, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostureChecksResponse",
       });
   }
 }
-function __c109(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11643,14 +11455,28 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "ProxyCluster" });
     case 2:
-      return S.Array(__S(1745, __c109, 1));
+      return S.Array(__S(1665, __c104, 1));
     case 3:
-      return S.suspend(() => __S(1746, __c109, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1666, __c104, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReverseProxyClustersResponse",
       });
   }
 }
-function __c110(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label()),
+          name: S.String,
+          type: S.String,
+          content: S.String,
+          ttl: S.Number,
+        }).pipe(T.Http({ method: "POST", uri: "/api/dns/zones/{zoneId}/records", code: 200 })),
+      ).annotate({ identifier: "CreateDnsZoneRecordRequest" });
+  }
+}
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11673,14 +11499,14 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "ReverseProxyDomain" });
     case 2:
-      return S.Array(__S(1761, __c110, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 3:
-      return S.suspend(() => __S(1762, __c110, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1698, __c106, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReverseProxyDomainsResponse",
       });
   }
 }
-function __c111(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11700,14 +11526,14 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "ProxyToken" });
     case 2:
-      return S.Array(__S(1777, __c111, 1));
+      return S.Array(__S(1713, __c107, 1));
     case 3:
-      return S.suspend(() => __S(1778, __c111, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1714, __c107, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReverseProxyProxyTokensResponse",
       });
   }
 }
-function __c112(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11716,10 +11542,68 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "ListReverseProxyServicesRequest" });
     case 1:
-      return S.Array(__S(3404, __c212, 12));
+      return S.Array(__S(3292, __c205, 12));
+    case 2:
+      return S.suspend(() => __S(1729, __c108, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReverseProxyServicesResponse",
+      });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/routes", code: 200 })),
+      ).annotate({ identifier: "ListRoutesRequest" });
+    case 1:
+      return S.Array(__S(3344, __c209, 0));
+    case 2:
+      return S.suspend(() => __S(1745, __c109, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListRoutesResponse",
+      });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/setup-keys", code: 200 })),
+      ).annotate({ identifier: "ListSetupKeysRequest" });
+    case 1:
+      return S.Array(__S(3456, __c216, 0));
+    case 2:
+      return S.suspend(() => __S(1761, __c110, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSetupKeysResponse",
+      });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/users/invites", code: 200 })),
+      ).annotate({ identifier: "ListUserInvitesRequest" });
+    case 1:
+      return S.Array(__S(3520, __c220, 0));
+    case 2:
+      return S.suspend(() => __S(1777, __c111, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListUserInvitesResponse",
+      });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          service_user: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/users", code: 200 })),
+      ).annotate({ identifier: "ListUsersRequest" });
+    case 1:
+      return S.Array(__S(3923, __c245, 3));
     case 2:
       return S.suspend(() => __S(1793, __c112, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListReverseProxyServicesResponse",
+        identifier: "ListUsersResponse",
       });
   }
 }
@@ -11727,13 +11611,15 @@ function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/routes", code: 200 })),
-      ).annotate({ identifier: "ListRoutesRequest" });
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/users/{userId}/tokens", code: 200 })),
+      ).annotate({ identifier: "ListUserTokensRequest" });
     case 1:
-      return S.Array(__S(3456, __c216, 0));
+      return S.Array(__S(3552, __c222, 0));
     case 2:
       return S.suspend(() => __S(1809, __c113, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListRoutesResponse",
+        identifier: "ListUserTokensResponse",
       });
   }
 }
@@ -11741,28 +11627,59 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/setup-keys", code: 200 })),
-      ).annotate({ identifier: "ListSetupKeysRequest" });
+        S.Struct({
+          peer_login_expiration_enabled: S.Boolean,
+          peer_login_expiration: S.Number,
+          peer_inactivity_expiration_enabled: S.Boolean,
+          peer_inactivity_expiration: S.Number,
+          regular_users_view_blocked: S.Boolean,
+          groups_propagation_enabled: S.optional(S.Boolean),
+          jwt_groups_enabled: S.optional(S.Boolean),
+          jwt_groups_claim_name: S.optional(S.String),
+          jwt_allow_groups: S.optional(__S(3936, __c246, 0)),
+          routing_peer_dns_resolution_enabled: S.optional(S.Boolean),
+          dns_domain: S.optional(S.String),
+          network_range: S.optional(S.String),
+          network_range_v6: S.optional(S.String),
+          peer_expose_enabled: S.Boolean,
+          peer_expose_groups: __S(3936, __c246, 0),
+          extra: S.optional(__S(1024, __c64, 0)),
+          lazy_connection_enabled: S.optional(S.Boolean),
+          auto_update_version: S.optional(S.String),
+          auto_update_always: S.optional(S.Boolean),
+          metrics_push_enabled: S.optional(S.Boolean),
+          peer_hostname_collision_rejected: S.optional(S.Boolean),
+          agent_network_only: S.optional(S.Boolean),
+          dashboard_features: S.optional(__S(1025, __c64, 1)),
+          local_mfa_enabled: S.optional(S.Boolean),
+          ipv6_enabled_groups: S.optional(__S(3936, __c246, 0)),
+        }),
+      ).annotate({ identifier: "AccountSettingsInput" });
     case 1:
-      return S.Array(__S(3568, __c223, 0));
-    case 2:
-      return S.suspend(() => __S(1825, __c114, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSetupKeysResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label()),
+          settings: __S(1824, __c114, 0),
+          onboarding: S.optional(__S(1027, __c64, 3)),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/accounts/{accountId}", code: 200 })),
+      ).annotate({ identifier: "PutAccountRequest" });
   }
 }
 function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/users/invites", code: 200 })),
-      ).annotate({ identifier: "ListUserInvitesRequest" });
-    case 1:
-      return S.Array(__S(3632, __c227, 0));
-    case 2:
-      return S.suspend(() => __S(1841, __c115, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListUserInvitesResponse",
-      });
+        S.Struct({
+          ruleId: S.String.pipe(T.Label()),
+          name: S.String,
+          enabled: S.optional(S.Boolean),
+          target_groups: S.optional(__S(3936, __c246, 0)),
+          target_users: S.optional(__S(3936, __c246, 0)),
+          limits: __S(4322, __c270, 2),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/agent-network/budget-rules/{ruleId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "PutAgentNetworkBudgetRuleRequest" });
   }
 }
 function __c116(j: number): any {
@@ -11773,7 +11690,7 @@ function __c116(j: number): any {
           client_id: S.String,
           tenant_id: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
@@ -11794,7 +11711,7 @@ function __c117(j: number): any {
           updated_at: S.String,
           client_id: S.String,
           tenant_id: S.String,
-          groups: __S(1936, __c121, 0),
+          groups: __S(1920, __c120, 0),
           last_synced_interval: S.Number,
           sync_interval: S.Number,
           enabled: S.Boolean,
@@ -11822,15 +11739,11 @@ function __c119(j: number): any {
           name: S.String,
         }),
       ).annotate({ identifier: "PeerMinimum" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1904, __c119, 0));
     case 1:
-      return S.Array(__S(1888, __c118, 0));
+      return S.Array(__S(1904, __c119, 0));
     case 2:
+      return S.Array(__S(1888, __c118, 0));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -11838,110 +11751,19 @@ function __c120(j: number): any {
           peers_count: S.Number,
           resources_count: S.Number,
           issued: S.optional(S.String),
-          peers: S.NullOr(__S(1920, __c120, 0)),
-          resources: S.NullOr(__S(1921, __c120, 1)),
+          peers: S.NullOr(__S(1905, __c119, 1)),
+          resources: S.NullOr(__S(1906, __c119, 2)),
         }),
       ).annotate({ identifier: "Group" });
   }
 }
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1907, __c119, 3));
+  }
+}
 function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1922, __c120, 2));
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          service_user: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/users", code: 200 })),
-      ).annotate({ identifier: "ListUsersRequest" });
-    case 1:
-      return S.Array(__S(4019, __c251, 3));
-    case 2:
-      return S.suspend(() => __S(1953, __c122, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListUsersResponse",
-      });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/users/{userId}/tokens", code: 200 })),
-      ).annotate({ identifier: "ListUserTokensRequest" });
-    case 1:
-      return S.Array(__S(3664, __c229, 0));
-    case 2:
-      return S.suspend(() => __S(1969, __c123, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListUserTokensResponse",
-      });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          peer_login_expiration_enabled: S.Boolean,
-          peer_login_expiration: S.Number,
-          peer_inactivity_expiration_enabled: S.Boolean,
-          peer_inactivity_expiration: S.Number,
-          regular_users_view_blocked: S.Boolean,
-          groups_propagation_enabled: S.optional(S.Boolean),
-          jwt_groups_enabled: S.optional(S.Boolean),
-          jwt_groups_claim_name: S.optional(S.String),
-          jwt_allow_groups: S.optional(__S(4032, __c252, 0)),
-          routing_peer_dns_resolution_enabled: S.optional(S.Boolean),
-          dns_domain: S.optional(S.String),
-          network_range: S.optional(S.String),
-          network_range_v6: S.optional(S.String),
-          peer_expose_enabled: S.Boolean,
-          peer_expose_groups: __S(4032, __c252, 0),
-          extra: S.optional(__S(1104, __c69, 0)),
-          lazy_connection_enabled: S.optional(S.Boolean),
-          auto_update_version: S.optional(S.String),
-          auto_update_always: S.optional(S.Boolean),
-          metrics_push_enabled: S.optional(S.Boolean),
-          peer_hostname_collision_rejected: S.optional(S.Boolean),
-          agent_network_only: S.optional(S.Boolean),
-          dashboard_features: S.optional(__S(1105, __c69, 1)),
-          local_mfa_enabled: S.optional(S.Boolean),
-          ipv6_enabled_groups: S.optional(__S(4032, __c252, 0)),
-        }),
-      ).annotate({ identifier: "AccountSettingsInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label()),
-          settings: __S(1984, __c124, 0),
-          onboarding: S.optional(__S(1107, __c69, 3)),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/accounts/{accountId}", code: 200 })),
-      ).annotate({ identifier: "PutAccountRequest" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ruleId: S.String.pipe(T.Label()),
-          name: S.String,
-          enabled: S.optional(S.Boolean),
-          target_groups: S.optional(__S(4032, __c252, 0)),
-          target_users: S.optional(__S(4032, __c252, 0)),
-          limits: __S(4418, __c276, 2),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/agent-network/budget-rules/{ruleId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "PutAgentNetworkBudgetRuleRequest" });
-  }
-}
-function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11956,7 +11778,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "PutAgentNetworkGuardrailRequest" });
   }
 }
-function __c127(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11965,17 +11787,17 @@ function __c127(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          source_groups: __S(4032, __c252, 0),
-          destination_provider_ids: __S(4032, __c252, 0),
-          guardrail_ids: S.optional(__S(4032, __c252, 0)),
-          limits: S.optional(__S(4418, __c276, 2)),
+          source_groups: __S(3936, __c246, 0),
+          destination_provider_ids: __S(3936, __c246, 0),
+          guardrail_ids: S.optional(__S(3936, __c246, 0)),
+          limits: S.optional(__S(4322, __c270, 2)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/agent-network/policies/{policyId}", code: 200 }),
         ),
       ).annotate({ identifier: "PutAgentNetworkPolicyRequest" });
   }
 }
-function __c128(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11998,7 +11820,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "PutAgentNetworkProviderRequest" });
   }
 }
-function __c129(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12013,7 +11835,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "PutAgentNetworkSettingsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12023,67 +11845,31 @@ function __c130(j: number): any {
           description: S.String,
           nameservers: __S(1265, __c79, 1),
           enabled: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           primary: S.Boolean,
-          domains: __S(4032, __c252, 0),
+          domains: __S(3936, __c246, 0),
           search_domains_enabled: S.Boolean,
         }).pipe(T.Http({ method: "PUT", uri: "/api/dns/nameservers/{nsgroupId}", code: 200 })),
       ).annotate({ identifier: "PutDnsNameserverRequest" });
   }
 }
-function __c131(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disabled_management_groups: __S(4032, __c252, 0),
+          disabled_management_groups: __S(3936, __c246, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/dns/settings", code: 200 })),
       ).annotate({ identifier: "PutDnsSettingsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          disabled_management_groups: __S(4032, __c252, 0),
+          disabled_management_groups: __S(3936, __c246, 0),
         }),
       ).annotate({ identifier: "DNSSettings" });
   }
 }
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String,
-          secret: S.String.pipe(T.SensitiveValue({})),
-          cloud_id: S.String,
-          groups: __S(4032, __c252, 0),
-          zta_score_threshold: S.Number,
-          sync_interval: S.optional(S.Number),
-          enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/edr/falcon", code: 200 })),
-      ).annotate({ identifier: "CreateFalconEDRIntegrationRequest" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          account_id: S.String,
-          last_synced_at: S.String,
-          created_by: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-          cloud_id: S.String,
-          groups: __S(1936, __c121, 0),
-          zta_score_threshold: S.Number,
-          sync_interval: S.Number,
-          enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "EDRFalconResponse" });
-  }
-}
-function __c134(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12093,12 +11879,12 @@ function __c134(j: number): any {
           domain: S.String,
           enabled: S.optional(S.Boolean),
           enable_search_domain: S.Boolean,
-          distribution_groups: __S(4032, __c252, 0),
+          distribution_groups: __S(3936, __c246, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/dns/zones/{zoneId}", code: 200 })),
       ).annotate({ identifier: "PutDnsZoneRequest" });
   }
 }
-function __c135(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12115,20 +11901,20 @@ function __c135(j: number): any {
       ).annotate({ identifier: "PutDnsZoneRecordRequest" });
   }
 }
-function __c136(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.String.pipe(T.Label()),
           name: S.String,
-          peers: S.optional(__S(4032, __c252, 0)),
-          resources: S.optional(__S(1921, __c120, 1)),
+          peers: S.optional(__S(3936, __c246, 0)),
+          resources: S.optional(__S(1906, __c119, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/groups/{groupId}", code: 200 })),
       ).annotate({ identifier: "PutGroupRequest" });
   }
 }
-function __c137(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12143,7 +11929,43 @@ function __c137(j: number): any {
       ).annotate({ identifier: "PutIdentityProviderRequest" });
   }
 }
-function __c138(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+          secret: S.String.pipe(T.SensitiveValue({})),
+          cloud_id: S.String,
+          groups: __S(3936, __c246, 0),
+          zta_score_threshold: S.Number,
+          sync_interval: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/edr/falcon", code: 200 })),
+      ).annotate({ identifier: "CreateFalconEDRIntegrationRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          account_id: S.String,
+          last_synced_at: S.String,
+          created_by: S.String,
+          created_at: S.String,
+          updated_at: S.String,
+          cloud_id: S.String,
+          groups: __S(1920, __c120, 0),
+          zta_score_threshold: S.Number,
+          sync_interval: S.Number,
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "EDRFalconResponse" });
+  }
+}
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12156,19 +11978,19 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PutIntegrationBillingSubscriptionRequest" });
   }
 }
-function __c139(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.String,
-          groups: __S(3025, __c189, 1),
+          groups: __S(2945, __c184, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/api/integrations/msp/tenants/{id}", code: 200 })),
       ).annotate({ identifier: "PutIntegrationMspTenantRequest" });
   }
 }
-function __c140(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12181,7 +12003,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PutIntegrationMspTenantInviteRequest" });
   }
 }
-function __c141(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12193,7 +12015,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "PutNetworkRequest" });
   }
 }
-function __c142(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12204,7 +12026,7 @@ function __c142(j: number): any {
           description: S.optional(S.String),
           address: S.String,
           enabled: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -12215,7 +12037,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "PutNetworkResourceRequest" });
   }
 }
-function __c143(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12223,7 +12045,7 @@ function __c143(j: number): any {
           networkId: S.String.pipe(T.Label()),
           routerId: S.String.pipe(T.Label()),
           peer: S.optional(S.String),
-          peer_groups: S.optional(__S(4032, __c252, 0)),
+          peer_groups: S.optional(__S(3936, __c246, 0)),
           metric: S.Number,
           masquerade: S.Boolean,
           enabled: S.Boolean,
@@ -12233,56 +12055,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "PutNetworkRouterRequest" });
   }
 }
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          api_url: S.String,
-          api_token: S.String.pipe(T.SensitiveValue({})),
-          groups: __S(4032, __c252, 0),
-          last_synced_interval: S.Number,
-          sync_interval: S.optional(S.Number),
-          enabled: S.optional(S.Boolean),
-          match_attributes: __S(2321, __c145, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/edr/fleetdm", code: 200 })),
-      ).annotate({ identifier: "CreateFleetDMEDRIntegrationRequest" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          disk_encryption_enabled: S.optional(S.Boolean),
-          failing_policies_count_max: S.optional(S.Number),
-          vulnerable_software_count_max: S.optional(S.Number),
-          status_online: S.optional(S.Boolean),
-          required_policies: S.optional(__S(2320, __c145, 0)),
-        }),
-      ).annotate({ identifier: "FleetDMMatchAttributes" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          account_id: S.String,
-          api_url: S.String,
-          last_synced_at: S.String,
-          created_by: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-          groups: __S(1936, __c121, 0),
-          last_synced_interval: S.Number,
-          sync_interval: S.Number,
-          enabled: S.Boolean,
-          match_attributes: __S(2321, __c145, 1),
-        }),
-      ).annotate({ identifier: "EDRFleetDMResponse" });
-  }
-}
-function __c146(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12299,7 +12072,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "PutPeerRequest" });
   }
 }
-function __c147(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12308,13 +12081,13 @@ function __c147(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           enabled: S.Boolean,
-          source_posture_checks: S.optional(__S(4032, __c252, 0)),
-          rules: __S(3329, __c208, 1),
+          source_posture_checks: S.optional(__S(3936, __c246, 0)),
+          rules: __S(3217, __c201, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/api/policies/{policyId}", code: 200 })),
       ).annotate({ identifier: "PutPolicyRequest" });
   }
 }
-function __c148(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12322,12 +12095,12 @@ function __c148(j: number): any {
           postureCheckId: S.String.pipe(T.Label()),
           name: S.String,
           description: S.String,
-          checks: S.optional(__S(3371, __c210, 11)),
+          checks: S.optional(__S(3259, __c203, 11)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/posture-checks/{postureCheckId}", code: 200 })),
       ).annotate({ identifier: "PutPostureCheckRequest" });
   }
 }
-function __c149(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12337,21 +12110,70 @@ function __c149(j: number): any {
           domain: S.String,
           mode: S.optional(S.String),
           listen_port: S.optional(S.Number),
-          targets: S.optional(__S(3394, __c212, 2)),
+          targets: S.optional(__S(3282, __c205, 2)),
           enabled: S.Boolean,
           pass_host_header: S.optional(S.Boolean),
           rewrite_redirects: S.optional(S.Boolean),
-          auth: S.optional(__S(3401, __c212, 9)),
-          access_restrictions: S.optional(__S(3402, __c212, 10)),
+          auth: S.optional(__S(3289, __c205, 9)),
+          access_restrictions: S.optional(__S(3290, __c205, 10)),
           private: S.optional(S.Boolean),
-          access_groups: S.optional(__S(4032, __c252, 0)),
+          access_groups: S.optional(__S(3936, __c246, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/reverse-proxies/services/{serviceId}", code: 200 }),
         ),
       ).annotate({ identifier: "PutReverseProxyServiceRequest" });
   }
 }
-function __c150(j: number): any {
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          api_url: S.String,
+          api_token: S.String.pipe(T.SensitiveValue({})),
+          groups: __S(3936, __c246, 0),
+          last_synced_interval: S.Number,
+          sync_interval: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+          match_attributes: __S(2305, __c144, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/edr/fleetdm", code: 200 })),
+      ).annotate({ identifier: "CreateFleetDMEDRIntegrationRequest" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          disk_encryption_enabled: S.optional(S.Boolean),
+          failing_policies_count_max: S.optional(S.Number),
+          vulnerable_software_count_max: S.optional(S.Number),
+          status_online: S.optional(S.Boolean),
+          required_policies: S.optional(__S(2304, __c144, 0)),
+        }),
+      ).annotate({ identifier: "FleetDMMatchAttributes" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          account_id: S.String,
+          api_url: S.String,
+          last_synced_at: S.String,
+          created_by: S.String,
+          created_at: S.String,
+          updated_at: S.String,
+          groups: __S(1920, __c120, 0),
+          last_synced_interval: S.Number,
+          sync_interval: S.Number,
+          enabled: S.Boolean,
+          match_attributes: __S(2305, __c144, 1),
+        }),
+      ).annotate({ identifier: "EDRFleetDMResponse" });
+  }
+}
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12361,45 +12183,45 @@ function __c150(j: number): any {
           network_id: S.String,
           enabled: S.Boolean,
           peer: S.optional(S.String),
-          peer_groups: S.optional(__S(4032, __c252, 0)),
+          peer_groups: S.optional(__S(3936, __c246, 0)),
           network: S.optional(S.String),
-          domains: S.optional(__S(4032, __c252, 0)),
+          domains: S.optional(__S(3936, __c246, 0)),
           metric: S.Number,
           masquerade: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           keep_route: S.Boolean,
-          access_control_groups: S.optional(__S(4032, __c252, 0)),
+          access_control_groups: S.optional(__S(3936, __c246, 0)),
           skip_auto_apply: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/api/routes/{routeId}", code: 200 })),
       ).annotate({ identifier: "PutRouteRequest" });
   }
 }
-function __c151(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String.pipe(T.Label()),
           revoked: S.Boolean,
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/setup-keys/{keyId}", code: 200 })),
       ).annotate({ identifier: "PutSetupKeyRequest" });
   }
 }
-function __c152(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
           role: S.String,
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
           is_blocked: S.Boolean,
         }).pipe(T.Http({ method: "PUT", uri: "/api/users/{userId}", code: 200 })),
       ).annotate({ identifier: "PutUserRequest" });
   }
 }
-function __c153(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12411,7 +12233,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "PutUserPasswordRequest" });
   }
 }
-function __c154(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12423,7 +12245,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "RegenerateOktaScimTokenRequest" });
   }
 }
-function __c155(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12433,7 +12255,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ScimTokenResponse" });
   }
 }
-function __c156(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12445,39 +12267,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "RegenerateSCIMTokenRequest" });
   }
 }
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
-          connector_id: S.optional(S.String),
-          service_account_key: S.String.pipe(T.SensitiveValue({})),
-          customer_id: S.String,
-          sync_interval: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/google-idp", code: 200 })),
-      ).annotate({ identifier: "CreateGoogleIntegrationRequest" });
-  }
-}
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          group_prefixes: __S(4032, __c252, 0),
-          user_group_prefixes: __S(4032, __c252, 0),
-          connector_id: S.optional(S.String),
-          id: S.Number,
-          customer_id: S.String,
-          sync_interval: S.Number,
-          last_synced_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateGoogleIntegrationResponse" });
-  }
-}
-function __c159(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12497,7 +12287,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "UserInviteRegenerateResponse" });
   }
 }
-function __c160(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12507,7 +12297,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "RevokeBypassRequest" });
   }
 }
-function __c161(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12519,7 +12309,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "SyncAzureIntegrationRequest" });
   }
 }
-function __c162(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12529,7 +12319,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "SyncResult" });
   }
 }
-function __c163(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12541,7 +12331,39 @@ function __c163(j: number): any {
       ).annotate({ identifier: "SyncGoogleIntegrationRequest" });
   }
 }
-function __c164(j: number): any {
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
+          connector_id: S.optional(S.String),
+          service_account_key: S.String.pipe(T.SensitiveValue({})),
+          customer_id: S.String,
+          sync_interval: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/api/integrations/google-idp", code: 200 })),
+      ).annotate({ identifier: "CreateGoogleIntegrationRequest" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          group_prefixes: __S(3936, __c246, 0),
+          user_group_prefixes: __S(3936, __c246, 0),
+          connector_id: S.optional(S.String),
+          id: S.Number,
+          customer_id: S.String,
+          sync_interval: S.Number,
+          last_synced_at: S.String,
+        }),
+      ).annotate({ identifier: "CreateGoogleIntegrationResponse" });
+  }
+}
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12554,15 +12376,15 @@ function __c164(j: number): any {
       ).annotate({ identifier: "UnlinkIntegrationsMspTenantRequest" });
   }
 }
-function __c165(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
           connector_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           client_id: S.optional(S.String),
@@ -12572,7 +12394,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "UpdateAzureIntegrationRequest" });
   }
 }
-function __c166(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12580,7 +12402,7 @@ function __c166(j: number): any {
           client_id: S.String,
           tenant_id: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
@@ -12588,7 +12410,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "UpdateEDRIntegrationRequest" });
   }
 }
-function __c167(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12596,7 +12418,7 @@ function __c167(j: number): any {
           client_id: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
           cloud_id: S.String,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           zta_score_threshold: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
@@ -12604,31 +12426,31 @@ function __c167(j: number): any {
       ).annotate({ identifier: "UpdateFalconEDRIntegrationRequest" });
   }
 }
-function __c168(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           api_url: S.String,
           api_token: S.String.pipe(T.SensitiveValue({})),
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          match_attributes: __S(2321, __c145, 1),
+          match_attributes: __S(2305, __c144, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/api/integrations/edr/fleetdm", code: 200 })),
       ).annotate({ identifier: "UpdateFleetDMEDRIntegrationRequest" });
   }
 }
-function __c169(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
           connector_id: S.optional(S.String),
           service_account_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customer_id: S.optional(S.String),
@@ -12637,35 +12459,23 @@ function __c169(j: number): any {
       ).annotate({ identifier: "UpdateGoogleIntegrationRequest" });
   }
 }
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          peers: S.optional(__S(4032, __c252, 0)),
-          resources: S.optional(__S(1921, __c120, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/groups", code: 200 })),
-      ).annotate({ identifier: "CreateGroupRequest" });
-  }
-}
-function __c171(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           api_key: S.String.pipe(T.SensitiveValue({})),
           api_secret: S.String.pipe(T.SensitiveValue({})),
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          match_attributes: __S(2848, __c178, 0),
+          match_attributes: __S(2768, __c173, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/integrations/edr/huntress", code: 200 })),
       ).annotate({ identifier: "UpdateHuntressEDRIntegrationRequest" });
   }
 }
-function __c172(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12678,7 +12488,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationRequest" });
   }
 }
-function __c173(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12686,7 +12496,7 @@ function __c173(j: number): any {
           channelId: S.String.pipe(T.Label()),
           type: S.String,
           target: S.optional(S.Unknown),
-          event_types: __S(4032, __c252, 0),
+          event_types: __S(3936, __c246, 0),
           enabled: S.Boolean,
         }).pipe(
           T.Http({
@@ -12698,68 +12508,80 @@ function __c173(j: number): any {
       ).annotate({ identifier: "UpdateNotificationChannelRequest" });
   }
 }
-function __c174(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
           connector_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/api/integrations/okta-scim-idp/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateOktaScimIntegrationRequest" });
   }
 }
-function __c175(j: number): any {
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          peers: S.optional(__S(3936, __c246, 0)),
+          resources: S.optional(__S(1906, __c119, 2)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/groups", code: 200 })),
+      ).annotate({ identifier: "CreateGroupRequest" });
+  }
+}
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
           enabled: S.optional(S.Boolean),
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
           connector_id: S.optional(S.String),
           prefix: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/api/integrations/scim-idp/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSCIMIntegrationRequest" });
   }
 }
-function __c176(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           api_token: S.String.pipe(T.SensitiveValue({})),
           api_url: S.String,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          match_attributes: __S(3520, __c220, 0),
+          match_attributes: __S(3408, __c213, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/integrations/edr/sentinelone", code: 200 })),
       ).annotate({ identifier: "UpdateSentinelOneEDRIntegrationRequest" });
   }
 }
-function __c177(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           api_key: S.String.pipe(T.SensitiveValue({})),
           api_secret: S.String.pipe(T.SensitiveValue({})),
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          match_attributes: __S(2848, __c178, 0),
+          match_attributes: __S(2768, __c173, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/integrations/edr/huntress", code: 200 })),
       ).annotate({ identifier: "CreateHuntressEDRIntegrationRequest" });
   }
 }
-function __c178(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12779,16 +12601,16 @@ function __c178(j: number): any {
           created_by: S.String,
           created_at: S.String,
           updated_at: S.String,
-          groups: __S(1936, __c121, 0),
+          groups: __S(1920, __c120, 0),
           last_synced_interval: S.Number,
           sync_interval: S.Number,
           enabled: S.Boolean,
-          match_attributes: __S(2848, __c178, 0),
+          match_attributes: __S(2768, __c173, 0),
         }),
       ).annotate({ identifier: "EDRHuntressResponse" });
   }
 }
-function __c179(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12802,7 +12624,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "CreateIdentityProviderRequest" });
   }
 }
-function __c180(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12816,7 +12638,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "IdentityProvider" });
   }
 }
-function __c181(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12828,7 +12650,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreateIntegrationRequest" });
   }
 }
-function __c182(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12844,7 +12666,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "IntegrationResponse" });
   }
 }
-function __c183(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12858,7 +12680,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "CreateIntegrationAgentNetworkManagedProxyRequest" });
   }
 }
-function __c184(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12872,7 +12694,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "AgentNetworkManagedProxy" });
   }
 }
-function __c185(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12888,7 +12710,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "CreateIntegrationBillingAwsMarketplaceEnrichRequest" });
   }
 }
-function __c186(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12900,7 +12722,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "CreateIntegrationBillingCheckoutRequest" });
   }
 }
-function __c187(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12911,19 +12733,19 @@ function __c187(j: number): any {
       ).annotate({ identifier: "CheckoutResponse" });
   }
 }
-function __c188(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           domain: S.String,
-          groups: __S(3025, __c189, 1),
+          groups: __S(2945, __c184, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/integrations/msp/tenants", code: 200 })),
       ).annotate({ identifier: "CreateIntegrationMspTenantRequest" });
   }
 }
-function __c189(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12933,14 +12755,14 @@ function __c189(j: number): any {
         }),
       ).annotate({ identifier: "TenantGroupResponse" });
     case 1:
-      return S.Array(__S(3024, __c189, 0));
+      return S.Array(__S(2944, __c184, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           domain: S.String,
-          groups: __S(3025, __c189, 1),
+          groups: __S(2945, __c184, 1),
           activated_at: S.optional(S.String),
           dns_challenge: S.String,
           created_at: S.String,
@@ -12951,7 +12773,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "TenantResponse" });
   }
 }
-function __c190(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12963,7 +12785,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "CreateIntegrationMspTenantDnsRequest" });
   }
 }
-function __c191(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12980,7 +12802,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "CreateIntegrationMspTenantSubscriptionRequest" });
   }
 }
-function __c192(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12991,23 +12813,23 @@ function __c192(j: number): any {
       ).annotate({ identifier: "CreateNetworkRequest" });
   }
 }
-function __c193(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          routers: __S(4032, __c252, 0),
+          routers: __S(3936, __c246, 0),
           routing_peers_count: S.Number,
-          resources: __S(4032, __c252, 0),
-          policies: __S(4032, __c252, 0),
+          resources: __S(3936, __c246, 0),
+          policies: __S(3936, __c246, 0),
           name: S.String,
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateNetworkResponse" });
   }
 }
-function __c194(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13017,19 +12839,19 @@ function __c194(j: number): any {
           description: S.optional(S.String),
           address: S.String,
           enabled: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/networks/{networkId}/resources", code: 200 })),
       ).annotate({ identifier: "CreateNetworkResourceRequest" });
   }
 }
-function __c195(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           type: S.String,
-          groups: __S(3137, __c196, 1),
+          groups: __S(3057, __c191, 1),
           name: S.String,
           description: S.optional(S.String),
           address: S.String,
@@ -13038,7 +12860,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "CreateNetworkResourceResponse" });
   }
 }
-function __c196(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13051,17 +12873,17 @@ function __c196(j: number): any {
         }),
       ).annotate({ identifier: "GroupMinimum" });
     case 1:
-      return S.Array(__S(3136, __c196, 0));
+      return S.Array(__S(3056, __c191, 0));
   }
 }
-function __c197(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           networkId: S.String.pipe(T.Label()),
           peer: S.optional(S.String),
-          peer_groups: S.optional(__S(4032, __c252, 0)),
+          peer_groups: S.optional(__S(3936, __c246, 0)),
           metric: S.Number,
           masquerade: S.Boolean,
           enabled: S.Boolean,
@@ -13069,14 +12891,14 @@ function __c197(j: number): any {
       ).annotate({ identifier: "CreateNetworkRouterRequest" });
   }
 }
-function __c198(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           peer: S.optional(S.String),
-          peer_groups: S.optional(__S(4032, __c252, 0)),
+          peer_groups: S.optional(__S(3936, __c246, 0)),
           metric: S.Number,
           masquerade: S.Boolean,
           enabled: S.Boolean,
@@ -13084,14 +12906,14 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CreateNetworkRouterResponse" });
   }
 }
-function __c199(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           target: S.optional(S.Unknown),
-          event_types: __S(4032, __c252, 0),
+          event_types: __S(3936, __c246, 0),
           enabled: S.Boolean,
         }).pipe(
           T.Http({ method: "POST", uri: "/api/integrations/notifications/channels", code: 200 }),
@@ -13099,7 +12921,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CreateNotificationChannelRequest" });
   }
 }
-function __c200(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13107,33 +12929,33 @@ function __c200(j: number): any {
           id: S.String,
           type: S.String,
           target: S.optional(S.Unknown),
-          event_types: __S(4032, __c252, 0),
+          event_types: __S(3936, __c246, 0),
           enabled: S.Boolean,
         }),
       ).annotate({ identifier: "NotificationChannelResponse" });
   }
 }
-function __c201(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
           connector_id: S.optional(S.String),
           connection_name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/integrations/okta-scim-idp", code: 200 })),
       ).annotate({ identifier: "CreateOktaScimIntegrationRequest" });
   }
 }
-function __c202(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          group_prefixes: __S(4032, __c252, 0),
-          user_group_prefixes: __S(4032, __c252, 0),
+          group_prefixes: __S(3936, __c246, 0),
+          user_group_prefixes: __S(3936, __c246, 0),
           connector_id: S.optional(S.String),
           id: S.Number,
           auth_token: S.String.pipe(T.SensitiveValue({})),
@@ -13142,66 +12964,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "CreateOktaScimIntegrationResponse" });
   }
 }
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          parameters: __S(3264, __c204, 0),
-        }),
-      ).annotate({ identifier: "BundleWorkloadRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          peerId: S.String.pipe(T.Label()),
-          workload: __S(3248, __c203, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/api/peers/{peerId}/jobs", code: 200 })),
-      ).annotate({ identifier: "CreatePeerJobRequest" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bundle_for: S.Boolean,
-          bundle_for_time: S.Number,
-          log_file_count: S.Number,
-          anonymize: S.Boolean,
-          anonymize_level: S.optional(S.String),
-          upload_url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BundleParameters" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          upload_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "BundleResult" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          parameters: __S(3264, __c204, 0),
-          result: __S(3265, __c204, 1),
-        }),
-      ).annotate({ identifier: "BundleWorkloadResponse" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          created_at: S.String,
-          completed_at: S.optional(S.NullOr(S.String)),
-          triggered_by: S.String,
-          status: S.String,
-          failed_reason: S.optional(S.NullOr(S.String)),
-          workload: __S(3266, __c204, 2),
-        }),
-      ).annotate({ identifier: "JobResponse" });
-  }
-}
-function __c205(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13209,7 +12972,7 @@ function __c205(j: number): any {
           peerId: S.String.pipe(T.Label()),
           name: S.String,
           wg_pub_key: S.String,
-          rules: __S(4032, __c252, 0),
+          rules: __S(3936, __c246, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/peers/{peerId}/temporary-access", code: 200 })),
       ).annotate({ identifier: "CreatePeerTemporaryAccessRequest" });
     case 1:
@@ -13217,12 +12980,12 @@ function __c205(j: number): any {
         S.Struct({
           name: S.String,
           id: S.String,
-          rules: __S(4032, __c252, 0),
+          rules: __S(3936, __c246, 0),
         }),
       ).annotate({ identifier: "PeerTemporaryAccessResponse" });
   }
 }
-function __c206(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13230,13 +12993,13 @@ function __c206(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           enabled: S.Boolean,
-          source_posture_checks: S.optional(__S(4032, __c252, 0)),
-          rules: __S(3329, __c208, 1),
+          source_posture_checks: S.optional(__S(3936, __c246, 0)),
+          rules: __S(3217, __c201, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/policies", code: 200 })),
       ).annotate({ identifier: "CreatePolicyRequest" });
   }
 }
-function __c207(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13246,9 +13009,9 @@ function __c207(j: number): any {
         }),
       ).annotate({ identifier: "RulePortRange" });
     case 1:
-      return S.Array(__S(3312, __c207, 0));
+      return S.Array(__S(3200, __c200, 0));
     case 2:
-      return S.Record(S.String, __S(4032, __c252, 0));
+      return S.Record(S.String, __S(3936, __c246, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13258,18 +13021,18 @@ function __c207(j: number): any {
           action: S.String,
           bidirectional: S.Boolean,
           protocol: S.String,
-          ports: S.optional(__S(4032, __c252, 0)),
-          port_ranges: S.optional(__S(3313, __c207, 1)),
-          authorized_groups: S.optional(__S(3314, __c207, 2)),
+          ports: S.optional(__S(3936, __c246, 0)),
+          port_ranges: S.optional(__S(3201, __c200, 1)),
+          authorized_groups: S.optional(__S(3202, __c200, 2)),
           id: S.optional(S.String),
-          sources: S.optional(S.NullOr(__S(3137, __c196, 1))),
+          sources: S.optional(S.NullOr(__S(3057, __c191, 1))),
           sourceResource: S.optional(__S(1888, __c118, 0)),
-          destinations: S.optional(S.NullOr(__S(3137, __c196, 1))),
+          destinations: S.optional(S.NullOr(__S(3057, __c191, 1))),
           destinationResource: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "PolicyRule" });
     case 4:
-      return S.Array(__S(3315, __c207, 3));
+      return S.Array(__S(3203, __c200, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13277,13 +13040,13 @@ function __c207(j: number): any {
           description: S.optional(S.String),
           enabled: S.Boolean,
           id: S.optional(S.String),
-          source_posture_checks: S.NullOr(__S(4032, __c252, 0)),
-          rules: __S(3316, __c207, 4),
+          source_posture_checks: S.NullOr(__S(3936, __c246, 0)),
+          rules: __S(3204, __c200, 4),
         }),
       ).annotate({ identifier: "CreatePolicyResponse" });
   }
 }
-function __c208(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13294,33 +13057,33 @@ function __c208(j: number): any {
           action: S.String,
           bidirectional: S.Boolean,
           protocol: S.String,
-          ports: S.optional(__S(4032, __c252, 0)),
-          port_ranges: S.optional(__S(3313, __c207, 1)),
-          authorized_groups: S.optional(__S(3314, __c207, 2)),
+          ports: S.optional(__S(3936, __c246, 0)),
+          port_ranges: S.optional(__S(3201, __c200, 1)),
+          authorized_groups: S.optional(__S(3202, __c200, 2)),
           id: S.optional(S.String),
-          sources: S.optional(__S(4032, __c252, 0)),
+          sources: S.optional(__S(3936, __c246, 0)),
           sourceResource: S.optional(__S(1888, __c118, 0)),
-          destinations: S.optional(__S(4032, __c252, 0)),
+          destinations: S.optional(__S(3936, __c246, 0)),
           destinationResource: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "PolicyRuleUpdate" });
     case 1:
-      return S.Array(__S(3328, __c208, 0));
+      return S.Array(__S(3216, __c201, 0));
   }
 }
-function __c209(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.String,
-          checks: S.optional(__S(3371, __c210, 11)),
+          checks: S.optional(__S(3259, __c203, 11)),
         }).pipe(T.Http({ method: "POST", uri: "/api/posture-checks", code: 200 })),
       ).annotate({ identifier: "CreatePostureCheckRequest" });
   }
 }
-function __c210(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13337,11 +13100,11 @@ function __c210(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          android: S.optional(__S(3360, __c210, 0)),
-          darwin: S.optional(__S(3360, __c210, 0)),
-          ios: S.optional(__S(3360, __c210, 0)),
-          linux: S.optional(__S(3361, __c210, 1)),
-          windows: S.optional(__S(3361, __c210, 1)),
+          android: S.optional(__S(3248, __c203, 0)),
+          darwin: S.optional(__S(3248, __c203, 0)),
+          ios: S.optional(__S(3248, __c203, 0)),
+          linux: S.optional(__S(3249, __c203, 1)),
+          windows: S.optional(__S(3249, __c203, 1)),
         }),
       ).annotate({ identifier: "OSVersionCheck" });
     case 3:
@@ -13352,18 +13115,18 @@ function __c210(j: number): any {
         }),
       ).annotate({ identifier: "Location" });
     case 4:
-      return S.Array(__S(3363, __c210, 3));
+      return S.Array(__S(3251, __c203, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          locations: __S(3364, __c210, 4),
+          locations: __S(3252, __c203, 4),
           action: S.String,
         }),
       ).annotate({ identifier: "GeoLocationCheck" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ranges: __S(4032, __c252, 0),
+          ranges: __S(3936, __c246, 0),
           action: S.String,
         }),
       ).annotate({ identifier: "PeerNetworkRangeCheck" });
@@ -13376,28 +13139,28 @@ function __c210(j: number): any {
         }),
       ).annotate({ identifier: "Process" });
     case 8:
-      return S.Array(__S(3367, __c210, 7));
+      return S.Array(__S(3255, __c203, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          processes: __S(3368, __c210, 8),
+          processes: __S(3256, __c203, 8),
         }),
       ).annotate({ identifier: "ProcessCheck" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          ca_certificates: __S(4032, __c252, 0),
+          ca_certificates: __S(3936, __c246, 0),
         }),
       ).annotate({ identifier: "CertificateCheck" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          nb_version_check: S.optional(__S(3360, __c210, 0)),
-          os_version_check: S.optional(__S(3362, __c210, 2)),
-          geo_location_check: S.optional(__S(3365, __c210, 5)),
-          peer_network_range_check: S.optional(__S(3366, __c210, 6)),
-          process_check: S.optional(__S(3369, __c210, 9)),
-          certificate_check: S.optional(__S(3370, __c210, 10)),
+          nb_version_check: S.optional(__S(3248, __c203, 0)),
+          os_version_check: S.optional(__S(3250, __c203, 2)),
+          geo_location_check: S.optional(__S(3253, __c203, 5)),
+          peer_network_range_check: S.optional(__S(3254, __c203, 6)),
+          process_check: S.optional(__S(3257, __c203, 9)),
+          certificate_check: S.optional(__S(3258, __c203, 10)),
         }),
       ).annotate({ identifier: "Checks" });
     case 12:
@@ -13406,12 +13169,12 @@ function __c210(j: number): any {
           id: S.String,
           name: S.String,
           description: S.optional(S.String),
-          checks: __S(3371, __c210, 11),
+          checks: __S(3259, __c203, 11),
         }),
       ).annotate({ identifier: "PostureCheck" });
   }
 }
-function __c211(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13422,7 +13185,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "CreateReverseProxyDomainRequest" });
   }
 }
-function __c212(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13447,11 +13210,11 @@ function __c212(j: number): any {
           host: S.optional(S.String),
           port: S.Number,
           enabled: S.Boolean,
-          options: S.optional(__S(3392, __c212, 0)),
+          options: S.optional(__S(3280, __c205, 0)),
         }),
       ).annotate({ identifier: "ServiceTarget" });
     case 2:
-      return S.Array(__S(3393, __c212, 1));
+      return S.Array(__S(3281, __c205, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13470,7 +13233,7 @@ function __c212(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          distribution_groups: S.optional(__S(4032, __c252, 0)),
+          distribution_groups: S.optional(__S(3936, __c246, 0)),
         }),
       ).annotate({ identifier: "BearerAuthConfig" });
     case 6:
@@ -13488,24 +13251,24 @@ function __c212(j: number): any {
         }),
       ).annotate({ identifier: "HeaderAuthConfig" });
     case 8:
-      return S.Array(__S(3399, __c212, 7));
+      return S.Array(__S(3287, __c205, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          password_auth: S.optional(__S(3395, __c212, 3)),
-          pin_auth: S.optional(__S(3396, __c212, 4)),
-          bearer_auth: S.optional(__S(3397, __c212, 5)),
-          link_auth: S.optional(__S(3398, __c212, 6)),
-          header_auths: S.optional(__S(3400, __c212, 8)),
+          password_auth: S.optional(__S(3283, __c205, 3)),
+          pin_auth: S.optional(__S(3284, __c205, 4)),
+          bearer_auth: S.optional(__S(3285, __c205, 5)),
+          link_auth: S.optional(__S(3286, __c205, 6)),
+          header_auths: S.optional(__S(3288, __c205, 8)),
         }),
       ).annotate({ identifier: "ServiceAuthConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          allowed_cidrs: S.optional(__S(4032, __c252, 0)),
-          blocked_cidrs: S.optional(__S(4032, __c252, 0)),
-          allowed_countries: S.optional(__S(4032, __c252, 0)),
-          blocked_countries: S.optional(__S(4032, __c252, 0)),
+          allowed_cidrs: S.optional(__S(3936, __c246, 0)),
+          blocked_cidrs: S.optional(__S(3936, __c246, 0)),
+          allowed_countries: S.optional(__S(3936, __c246, 0)),
+          blocked_countries: S.optional(__S(3936, __c246, 0)),
           crowdsec_mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessRestrictions" });
@@ -13527,21 +13290,21 @@ function __c212(j: number): any {
           listen_port: S.optional(S.Number),
           port_auto_assigned: S.optional(S.Boolean),
           proxy_cluster: S.optional(S.String),
-          targets: __S(3394, __c212, 2),
+          targets: __S(3282, __c205, 2),
           enabled: S.Boolean,
           terminated: S.optional(S.Boolean),
           pass_host_header: S.optional(S.Boolean),
           rewrite_redirects: S.optional(S.Boolean),
-          auth: __S(3401, __c212, 9),
-          access_restrictions: S.optional(__S(3402, __c212, 10)),
-          meta: __S(3403, __c212, 11),
+          auth: __S(3289, __c205, 9),
+          access_restrictions: S.optional(__S(3290, __c205, 10)),
+          meta: __S(3291, __c205, 11),
           private: S.optional(S.Boolean),
-          access_groups: S.optional(__S(4032, __c252, 0)),
+          access_groups: S.optional(__S(3936, __c246, 0)),
         }),
       ).annotate({ identifier: "Service" });
   }
 }
-function __c213(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13564,7 +13327,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CreateReverseProxyProxyTokenResponse" });
   }
 }
-function __c214(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13573,19 +13336,19 @@ function __c214(j: number): any {
           domain: S.String,
           mode: S.optional(S.String),
           listen_port: S.optional(S.Number),
-          targets: S.optional(__S(3394, __c212, 2)),
+          targets: S.optional(__S(3282, __c205, 2)),
           enabled: S.Boolean,
           pass_host_header: S.optional(S.Boolean),
           rewrite_redirects: S.optional(S.Boolean),
-          auth: S.optional(__S(3401, __c212, 9)),
-          access_restrictions: S.optional(__S(3402, __c212, 10)),
+          auth: S.optional(__S(3289, __c205, 9)),
+          access_restrictions: S.optional(__S(3290, __c205, 10)),
           private: S.optional(S.Boolean),
-          access_groups: S.optional(__S(4032, __c252, 0)),
+          access_groups: S.optional(__S(3936, __c246, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/reverse-proxies/services", code: 200 })),
       ).annotate({ identifier: "CreateReverseProxyServiceRequest" });
   }
 }
-function __c215(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13594,20 +13357,20 @@ function __c215(j: number): any {
           network_id: S.String,
           enabled: S.Boolean,
           peer: S.optional(S.String),
-          peer_groups: S.optional(__S(4032, __c252, 0)),
+          peer_groups: S.optional(__S(3936, __c246, 0)),
           network: S.optional(S.String),
-          domains: S.optional(__S(4032, __c252, 0)),
+          domains: S.optional(__S(3936, __c246, 0)),
           metric: S.Number,
           masquerade: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           keep_route: S.Boolean,
-          access_control_groups: S.optional(__S(4032, __c252, 0)),
+          access_control_groups: S.optional(__S(3936, __c246, 0)),
           skip_auto_apply: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/routes", code: 200 })),
       ).annotate({ identifier: "CreateRouteRequest" });
   }
 }
-function __c216(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13618,26 +13381,26 @@ function __c216(j: number): any {
           network_id: S.String,
           enabled: S.Boolean,
           peer: S.optional(S.String),
-          peer_groups: S.optional(__S(4032, __c252, 0)),
+          peer_groups: S.optional(__S(3936, __c246, 0)),
           network: S.optional(S.String),
-          domains: S.optional(__S(4032, __c252, 0)),
+          domains: S.optional(__S(3936, __c246, 0)),
           metric: S.Number,
           masquerade: S.Boolean,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           keep_route: S.Boolean,
-          access_control_groups: S.optional(__S(4032, __c252, 0)),
+          access_control_groups: S.optional(__S(3936, __c246, 0)),
           skip_auto_apply: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateRouteResponse" });
   }
 }
-function __c217(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          group_prefixes: S.optional(__S(4032, __c252, 0)),
-          user_group_prefixes: S.optional(__S(4032, __c252, 0)),
+          group_prefixes: S.optional(__S(3936, __c246, 0)),
+          user_group_prefixes: S.optional(__S(3936, __c246, 0)),
           connector_id: S.optional(S.String),
           prefix: S.String,
           provider: S.String,
@@ -13645,14 +13408,14 @@ function __c217(j: number): any {
       ).annotate({ identifier: "CreateSCIMIntegrationRequest" });
   }
 }
-function __c218(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          group_prefixes: __S(4032, __c252, 0),
-          user_group_prefixes: __S(4032, __c252, 0),
+          group_prefixes: __S(3936, __c246, 0),
+          user_group_prefixes: __S(3936, __c246, 0),
           connector_id: S.optional(S.String),
           id: S.Number,
           prefix: S.String,
@@ -13663,23 +13426,23 @@ function __c218(j: number): any {
       ).annotate({ identifier: "CreateSCIMIntegrationResponse" });
   }
 }
-function __c219(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           api_token: S.String.pipe(T.SensitiveValue({})),
           api_url: S.String,
-          groups: __S(4032, __c252, 0),
+          groups: __S(3936, __c246, 0),
           last_synced_interval: S.Number,
           sync_interval: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          match_attributes: __S(3520, __c220, 0),
+          match_attributes: __S(3408, __c213, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/integrations/edr/sentinelone", code: 200 })),
       ).annotate({ identifier: "CreateSentinelOneEDRIntegrationRequest" });
   }
 }
-function __c220(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13704,16 +13467,16 @@ function __c220(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           api_url: S.String,
-          groups: __S(1936, __c121, 0),
+          groups: __S(1920, __c120, 0),
           last_synced_interval: S.Number,
-          match_attributes: __S(3520, __c220, 0),
+          match_attributes: __S(3408, __c213, 0),
           sync_interval: S.Number,
           enabled: S.Boolean,
         }),
       ).annotate({ identifier: "EDRSentinelOneResponse" });
   }
 }
-function __c221(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13735,7 +13498,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "SetupResponse" });
   }
 }
-function __c222(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13743,7 +13506,7 @@ function __c222(j: number): any {
           name: S.String,
           type: S.String,
           expires_in: S.Number,
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
           usage_limit: S.Number,
           ephemeral: S.optional(S.Boolean),
           allow_extra_dns_labels: S.optional(S.Boolean),
@@ -13751,7 +13514,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "CreateSetupKeyRequest" });
   }
 }
-function __c223(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13765,7 +13528,7 @@ function __c223(j: number): any {
           used_times: S.Number,
           last_used: S.String,
           state: S.String,
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
           updated_at: S.String,
           usage_limit: S.Number,
           ephemeral: S.Boolean,
@@ -13775,7 +13538,21 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateSetupKeyResponse" });
   }
 }
-function __c224(j: number): any {
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+          name: S.optional(S.String),
+          role: S.String,
+          auto_groups: __S(3936, __c246, 0),
+          is_service_user: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/api/users", code: 200 })),
+      ).annotate({ identifier: "CreateUserRequest" });
+  }
+}
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13792,21 +13569,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "UserInviteAcceptResponse" });
   }
 }
-function __c225(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.String),
-          name: S.optional(S.String),
-          role: S.String,
-          auto_groups: __S(4032, __c252, 0),
-          is_service_user: S.Boolean,
-        }).pipe(T.Http({ method: "POST", uri: "/api/users", code: 200 })),
-      ).annotate({ identifier: "CreateUserRequest" });
-  }
-}
-function __c226(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13814,13 +13577,13 @@ function __c226(j: number): any {
           email: S.String,
           name: S.String,
           role: S.String,
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
           expires_in: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/users/invites", code: 200 })),
       ).annotate({ identifier: "CreateUserInviteRequest" });
   }
 }
-function __c227(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13829,7 +13592,7 @@ function __c227(j: number): any {
           email: S.String,
           name: S.String,
           role: S.String,
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
           expires_at: S.String,
           created_at: S.String,
           expired: S.Boolean,
@@ -13838,7 +13601,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "UserInvite" });
   }
 }
-function __c228(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13852,12 +13615,12 @@ function __c228(j: number): any {
       return S.suspend(() =>
         S.Struct({
           plain_token: S.String.pipe(T.SensitiveValue({})),
-          personal_access_token: __S(3664, __c229, 0),
+          personal_access_token: __S(3552, __c222, 0),
         }),
       ).annotate({ identifier: "PersonalAccessTokenGenerated" });
   }
 }
-function __c229(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13872,7 +13635,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "PersonalAccessToken" });
   }
 }
-function __c230(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13882,7 +13645,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "DeleteAccountRequest" });
   }
 }
-function __c231(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13894,7 +13657,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "DeleteAgentNetworkBudgetRuleRequest" });
   }
 }
-function __c232(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -13902,7 +13665,7 @@ function __c232(j: number): any {
       });
   }
 }
-function __c233(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13918,7 +13681,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "DeleteAgentNetworkGuardrailRequest" });
   }
 }
-function __c234(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13930,7 +13693,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "DeleteAgentNetworkPolicyRequest" });
   }
 }
-function __c235(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13942,7 +13705,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "DeleteAgentNetworkProviderRequest" });
   }
 }
-function __c236(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13952,7 +13715,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "DeleteAgentNetworkSettingsRequest" });
   }
 }
-function __c237(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13962,7 +13725,17 @@ function __c237(j: number): any {
       ).annotate({ identifier: "DeleteAzureIntegrationRequest" });
   }
 }
-function __c238(j: number): any {
+function __c231(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nsgroupId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/dns/nameservers/{nsgroupId}", code: 200 })),
+      ).annotate({ identifier: "DeleteDnsNameserverRequest" });
+  }
+}
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13978,7 +13751,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "ActivateIntegrationsBillingAwsMarketplaceRequest" });
   }
 }
-function __c239(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -13986,17 +13759,7 @@ function __c239(j: number): any {
       });
   }
 }
-function __c240(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nsgroupId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/dns/nameservers/{nsgroupId}", code: 200 })),
-      ).annotate({ identifier: "DeleteDnsNameserverRequest" });
-  }
-}
-function __c241(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14006,7 +13769,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "DeleteDnsZoneRequest" });
   }
 }
-function __c242(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14023,7 +13786,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "DeleteDnsZoneRecordRequest" });
   }
 }
-function __c243(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14033,7 +13796,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "DeleteEDRIntuneIntegrationRequest" });
   }
 }
-function __c244(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14043,7 +13806,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "DeleteEventStreamingIntegrationRequest" });
   }
 }
-function __c245(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14053,7 +13816,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "DeleteGoogleIntegrationRequest" });
   }
 }
-function __c246(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14063,7 +13826,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c247(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14073,7 +13836,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "DeleteIdentityProviderRequest" });
   }
 }
-function __c248(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14083,7 +13846,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationEdrFalconRequest" });
   }
 }
-function __c249(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14093,7 +13856,17 @@ function __c249(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationEdrFleetdmRequest" });
   }
 }
-function __c250(j: number): any {
+function __c243(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "DELETE", uri: "/api/integrations/edr/huntress", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteIntegrationEdrHuntressRequest" });
+  }
+}
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14103,17 +13876,17 @@ function __c250(j: number): any {
       ).annotate({ identifier: "ApproveUserRequest" });
   }
 }
-function __c251(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Boolean);
     case 1:
-      return S.Record(S.String, __S(4016, __c251, 0));
+      return S.Record(S.String, __S(3920, __c245, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           is_restricted: S.Boolean,
-          modules: __S(4017, __c251, 1),
+          modules: __S(3921, __c245, 1),
         }),
       ).annotate({ identifier: "UserPermissions" });
     case 3:
@@ -14126,35 +13899,25 @@ function __c251(j: number): any {
           role: S.String,
           status: S.String,
           last_login: S.optional(S.String),
-          auto_groups: __S(4032, __c252, 0),
+          auto_groups: __S(3936, __c246, 0),
           is_current: S.optional(S.Boolean),
           is_service_user: S.optional(S.Boolean),
           is_blocked: S.Boolean,
           pending_approval: S.Boolean,
           issued: S.optional(S.String),
           idp_id: S.optional(S.String),
-          permissions: S.optional(__S(4018, __c251, 2)),
+          permissions: S.optional(__S(3922, __c245, 2)),
         }),
       ).annotate({ identifier: "User" });
   }
 }
-function __c252(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c253(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "DELETE", uri: "/api/integrations/edr/huntress", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteIntegrationEdrHuntressRequest" });
-  }
-}
-function __c254(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14164,7 +13927,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationEdrSentineloneRequest" });
   }
 }
-function __c255(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14174,7 +13937,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationMspTenantRequest" });
   }
 }
-function __c256(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14184,7 +13947,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "DeleteNetworkRequest" });
   }
 }
-function __c257(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14201,7 +13964,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "DeleteNetworkResourceRequest" });
   }
 }
-function __c258(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14218,7 +13981,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "DeleteNetworkRouterRequest" });
   }
 }
-function __c259(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14234,7 +13997,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "DeleteNotificationChannelRequest" });
   }
 }
-function __c260(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14246,7 +14009,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "DeleteOktaScimIntegrationRequest" });
   }
 }
-function __c261(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14256,7 +14019,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "DeletePeerRequest" });
   }
 }
-function __c262(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14266,27 +14029,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c263(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          peer_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/peers/{peer_id}/edr/bypass", code: 200 })),
-      ).annotate({ identifier: "BypassComplianceRequest" });
-  }
-}
-function __c264(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          peer_id: S.String,
-        }),
-      ).annotate({ identifier: "BypassResponse" });
-  }
-}
-function __c265(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14298,7 +14041,27 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeletePostureCheckRequest" });
   }
 }
-function __c266(j: number): any {
+function __c257(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          peer_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/peers/{peer_id}/edr/bypass", code: 200 })),
+      ).annotate({ identifier: "BypassComplianceRequest" });
+  }
+}
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          peer_id: S.String,
+        }),
+      ).annotate({ identifier: "BypassResponse" });
+  }
+}
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14314,7 +14077,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteReverseProxyClusterRequest" });
   }
 }
-function __c267(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14326,7 +14089,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DeleteReverseProxyDomainRequest" });
   }
 }
-function __c268(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14342,7 +14105,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "DeleteReverseProxyProxyTokenRequest" });
   }
 }
-function __c269(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14354,7 +14117,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "DeleteReverseProxyServiceRequest" });
   }
 }
-function __c270(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14364,7 +14127,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "DeleteRouteRequest" });
   }
 }
-function __c271(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14374,7 +14137,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "DeleteSCIMIntegrationRequest" });
   }
 }
-function __c272(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14384,7 +14147,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "DeleteSetupKeyRequest" });
   }
 }
-function __c273(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14394,7 +14157,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c274(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14404,21 +14167,31 @@ function __c274(j: number): any {
       ).annotate({ identifier: "DeleteUserInviteRequest" });
   }
 }
-function __c275(j: number): any {
+function __c268(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/users/{userId}/reject", code: 200 })),
+      ).annotate({ identifier: "DeleteUserRejectRequest" });
+  }
+}
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           enabled: S.optional(S.Boolean),
-          target_groups: S.optional(__S(4032, __c252, 0)),
-          target_users: S.optional(__S(4032, __c252, 0)),
-          limits: __S(4418, __c276, 2),
+          target_groups: S.optional(__S(3936, __c246, 0)),
+          target_users: S.optional(__S(3936, __c246, 0)),
+          limits: __S(4322, __c270, 2),
         }).pipe(T.Http({ method: "POST", uri: "/api/agent-network/budget-rules", code: 200 })),
       ).annotate({ identifier: "CreateAgentNetworkBudgetRuleRequest" });
   }
 }
-function __c276(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14441,13 +14214,13 @@ function __c276(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token_limit: __S(4416, __c276, 0),
-          budget_limit: __S(4417, __c276, 1),
+          token_limit: __S(4320, __c270, 0),
+          budget_limit: __S(4321, __c270, 1),
         }),
       ).annotate({ identifier: "AgentNetworkPolicyLimits" });
   }
 }
-function __c277(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14455,26 +14228,16 @@ function __c277(j: number): any {
           id: S.String,
           name: S.String,
           enabled: S.Boolean,
-          target_groups: __S(4032, __c252, 0),
-          target_users: __S(4032, __c252, 0),
-          limits: __S(4418, __c276, 2),
+          target_groups: __S(3936, __c246, 0),
+          target_users: __S(3936, __c246, 0),
+          limits: __S(4322, __c270, 2),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "AgentNetworkBudgetRule" });
   }
 }
-function __c278(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/users/{userId}/reject", code: 200 })),
-      ).annotate({ identifier: "DeleteUserRejectRequest" });
-  }
-}
-function __c279(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14487,7 +14250,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteUserTokenRequest" });
   }
 }
-function __c280(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14499,9 +14262,9 @@ function __c280(j: number): any {
           search: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
           session_id: S.optional(S.String.pipe(T.Query())),
-          group_id: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
-          provider_id: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
-          model: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
+          group_id: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
+          provider_id: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
+          model: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
           decision: S.optional(S.String.pipe(T.Query())),
           path: S.optional(S.String.pipe(T.Query())),
           start_date: S.optional(S.String.pipe(T.Query())),
@@ -14511,7 +14274,7 @@ function __c280(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4497, __c281, 1),
+          data: __S(4385, __c274, 1),
           page: S.Number,
           page_size: S.Number,
           total_records: S.Number,
@@ -14520,7 +14283,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "AgentNetworkAccessLogsResponse" });
   }
 }
-function __c281(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14554,16 +14317,16 @@ function __c281(j: number): any {
           output_cost_usd: S.Number,
           cache_cost_usd: S.Number,
           stream: S.optional(S.Boolean),
-          group_ids: S.optional(__S(4032, __c252, 0)),
+          group_ids: S.optional(__S(3936, __c246, 0)),
           request_prompt: S.optional(S.String),
           response_completion: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentNetworkAccessLog" });
     case 1:
-      return S.Array(__S(4496, __c281, 0));
+      return S.Array(__S(4384, __c274, 0));
   }
 }
-function __c282(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14575,9 +14338,9 @@ function __c282(j: number): any {
           search: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
           session_id: S.optional(S.String.pipe(T.Query())),
-          group_id: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
-          provider_id: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
-          model: S.optional(__S(4032, __c252, 0).pipe(T.Query())),
+          group_id: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
+          provider_id: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
+          model: S.optional(__S(3936, __c246, 0).pipe(T.Query())),
           decision: S.optional(S.String.pipe(T.Query())),
           path: S.optional(S.String.pipe(T.Query())),
           start_date: S.optional(S.String.pipe(T.Query())),
@@ -14591,7 +14354,7 @@ function __c282(j: number): any {
         S.Struct({
           session_id: S.optional(S.String),
           user_id: S.optional(S.String),
-          group_ids: S.optional(__S(4032, __c252, 0)),
+          group_ids: S.optional(__S(3936, __c246, 0)),
           started_at: S.String,
           ended_at: S.String,
           request_count: S.Number,
@@ -14606,18 +14369,18 @@ function __c282(j: number): any {
           cache_creation_cost_usd: S.Number,
           output_cost_usd: S.Number,
           cache_cost_usd: S.Number,
-          providers: S.optional(__S(4032, __c252, 0)),
-          models: S.optional(__S(4032, __c252, 0)),
+          providers: S.optional(__S(3936, __c246, 0)),
+          models: S.optional(__S(3936, __c246, 0)),
           decision: S.String,
-          entries: __S(4497, __c281, 1),
+          entries: __S(4385, __c274, 1),
         }),
       ).annotate({ identifier: "AgentNetworkAccessLogSession" });
     case 2:
-      return S.Array(__S(4513, __c282, 1));
+      return S.Array(__S(4401, __c275, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4514, __c282, 2),
+          data: __S(4402, __c275, 2),
           page: S.Number,
           page_size: S.Number,
           total_records: S.Number,
@@ -14626,7 +14389,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "AgentNetworkAccessLogSessionsResponse" });
   }
 }
-function __c283(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14638,7 +14401,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "GetAgentNetworkBudgetRuleRequest" });
   }
 }
-function __c284(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14650,7 +14413,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "GetAgentNetworkGuardrailRequest" });
   }
 }
-function __c285(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14662,7 +14425,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetAgentNetworkPolicyRequest" });
   }
 }
-function __c286(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14674,7 +14437,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetAgentNetworkProviderRequest" });
   }
 }
-function __c287(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14682,17 +14445,33 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetAgentNetworkSettingsRequest" });
   }
 }
-function __c288(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/integrations/azure-idp", code: 200 })),
       ).annotate({ identifier: "GetAllAzureIntegrationsRequest" });
     case 1:
-      return S.Array(__S(1056, __c66, 0));
+      return S.Array(__S(1072, __c67, 0));
     case 2:
-      return S.suspend(() => __S(4609, __c288, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4497, __c281, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllAzureIntegrationsResponse",
+      });
+  }
+}
+function __c282(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/integrations/google-idp", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetAllGoogleIntegrationsRequest" });
+    case 1:
+      return S.Array(__S(2528, __c158, 0));
+    case 2:
+      return S.suspend(() => __S(4513, __c282, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetAllGoogleIntegrationsResponse",
       });
   }
 }

@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -431,7 +432,8 @@ export interface TeamDeploymentStorageRollout {
   /** When the customer chose "keep my retention" before reduce day. */
   retentionOptOutAt?: number | undefined;
 }
-export type TeamDisableHardAutoBlocks = number | boolean;
+/** Directory Sync source, using existing local connection and organization authority rules. */
+export type TeamDirectorySyncSource = "none" | "organization" | "team";
 /** Require production secrets to use a different value than preview or development. */
 export type TeamDisjunctiveProductionSecretPolicy = "default" | "off" | "on";
 /** Controls who can request access to protected deployments. */
@@ -495,6 +497,8 @@ export interface TeamMembershipJoinedFrom {
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
 export type TeamMembershipRole =
@@ -748,7 +752,10 @@ export interface Team {
   deploymentStorageRollout?: TeamDeploymentStorageRollout | undefined;
   /** A short description of the Team. */
   description: string | null;
-  disableHardAutoBlocks?: TeamDisableHardAutoBlocks | undefined;
+  /** Directory Sync source, using existing local connection and organization authority rules. */
+  directorySyncSource: TeamDirectorySyncSource;
+  /** Provider type of the directory selected by directorySyncSource. */
+  directorySyncType?: string | undefined;
   /** Default for projects in the team. When `true`, projects in this team will not emit GitHub repository-dispatch events on deployment events unless the project explicitly overrides this setting via `project.gitProviderOptions.disableRepositoryDispatchEvents`. */
   disableRepositoryDispatchEvents?: boolean | undefined;
   /** Require production secrets to use a different value than preview or development. */
@@ -861,6 +868,8 @@ export interface GetTeamAccessRequestResponseJoinedFrom {
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
 export interface GetTeamAccessRequestResponse {
@@ -1018,8 +1027,15 @@ export interface GetTeamMembersResponseMembersItemJoinedFrom {
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
+/** The source controlling this member's team access and roles. Individual permissions may have a different source. This does not replace authorization checks. */
+export type GetTeamMembersResponseMembersItemMembershipSource =
+  | "direct"
+  | "organization-directory"
+  | "team-directory";
 export type GetTeamMembersResponseMembersItemProjectsItemRole =
   | "ADMIN"
   | "PROJECT_DEVELOPER"
@@ -1065,6 +1081,8 @@ export interface GetTeamMembersResponseMembersItem {
   isEnterpriseManaged?: boolean | undefined;
   /** Map with information about the members origin if they joined by requesting access. */
   joinedFrom?: GetTeamMembersResponseMembersItemJoinedFrom | undefined;
+  /** The source controlling this member's team access and roles. Individual permissions may have a different source. This does not replace authorization checks. */
+  membershipSource: GetTeamMembersResponseMembersItemMembershipSource;
   /** The name of this user. */
   name?: string | undefined;
   /** Array of project memberships */
@@ -1108,6 +1126,13 @@ export interface Pagination {
   /** Timestamp that must be used to request the previous page. */
   prev: number | null;
 }
+export type GetTeamsResponseBodyCase0TeamsList = Array<Team>;
+export interface GetTeamsResponseBodyCase0 {
+  pagination: Pagination;
+  teams: GetTeamsResponseBodyCase0TeamsList;
+}
+/** Directory Sync source, using existing local connection and organization authority rules. */
+export type TeamLimitedDirectorySyncSource = "none" | "organization" | "team";
 export type TeamLimitedLimitedByItem = "invalidated" | "mfa" | "scope";
 export type TeamLimitedLimitedByList = Array<TeamLimitedLimitedByItem>;
 export type TeamLimitedMembershipEntitlementsItem = TeamMembershipEntitlementsItem;
@@ -1145,6 +1170,8 @@ export interface TeamLimitedMembershipJoinedFrom {
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
 export type TeamLimitedMembershipRole =
@@ -1254,6 +1281,10 @@ export interface TeamLimited {
   avatar: string | null;
   /** UNIX timestamp (in milliseconds) when the Team was created. */
   createdAt: number;
+  /** Directory Sync source, using existing local connection and organization authority rules. */
+  directorySyncSource: TeamLimitedDirectorySyncSource;
+  /** Provider type of the directory selected by directorySyncSource. */
+  directorySyncType?: string | undefined;
   /** The Team's unique identifier. */
   id: string;
   /** Property indicating that this Team data contains only limited information, due to the authentication token missing privileges to read the full Team data or due to team having MFA enforced and the user not having MFA enabled. Re-login with the Team's configured SAML Single Sign-On provider in order to upgrade the authentication token with the necessary privileges. */
@@ -1272,12 +1303,15 @@ export interface TeamLimited {
   /** The Team's slug, which is unique across the Vercel platform. */
   slug: string;
 }
-export type GetTeamsResponseTeamsItem = Team | TeamLimited;
-export type GetTeamsResponseTeamsList = Array<GetTeamsResponseTeamsItem>;
-export interface GetTeamsResponse {
+export type GetTeamsResponseBodyCase1TeamsItem = Team | TeamLimited;
+export type GetTeamsResponseBodyCase1TeamsList = Array<GetTeamsResponseBodyCase1TeamsItem>;
+/** A paginated list of teams. */
+export interface GetTeamsResponseBodyCase1 {
   pagination: Pagination;
-  teams: GetTeamsResponseTeamsList;
+  teams: GetTeamsResponseBodyCase1TeamsList;
 }
+export type GetTeamsResponseBody = GetTeamsResponseBodyCase0 | GetTeamsResponseBodyCase1;
+export type GetTeamsResponse = GetTeamsResponseBody;
 /** The role of the user to invite */
 export type InviteUserToTeamRequestBodyItemRole =
   | "OWNER"
@@ -1468,6 +1502,8 @@ export interface RequestAccessToTeamResponseJoinedFrom {
   repoId?: string | undefined;
   repoPath?: string | undefined;
   ssoConnectedAt?: number | undefined;
+  /** How `ssoUserId` and `idpUserId` were made; absent when unknown. */
+  ssoIdFingerprint?: string | undefined;
   ssoUserId?: string | undefined;
 }
 export interface RequestAccessToTeamResponse {
@@ -1941,6 +1977,7 @@ export const createTeam: API.OperationMethod<
   input: __S(514, __c16, 2) as any as S.Schema<CreateTeamRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<CreateTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1958,6 +1995,7 @@ export const createTeamDsyncRole: API.OperationMethod<
   input: __S(545, __c17, 1) as any as S.Schema<CreateTeamDsyncRoleRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<CreateTeamDsyncRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1975,6 +2013,7 @@ export const deleteMicrofrontendsGroup: API.OperationMethod<
   input: __S(576, __c18, 0) as any as S.Schema<DeleteMicrofrontendsGroupRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<DeleteMicrofrontendsGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1998,6 +2037,7 @@ export const deleteTeam: API.OperationMethod<
   input: __S(610, __c19, 2) as any as S.Schema<DeleteTeamRequest>,
   output: __S(611, __c19, 3) as any as S.Schema<DeleteTeamResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2015,6 +2055,7 @@ export const deleteTeamInviteCode: API.OperationMethod<
   input: __S(640, __c20, 0) as any as S.Schema<DeleteTeamInviteCodeRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteTeamInviteCodeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2028,6 +2069,7 @@ export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, Ve
     input: __S(0, __c0, 0) as any as S.Schema<GetTeamRequest>,
     output: __S(129, __c4, 1) as any as S.Schema<Team>,
     errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: VercelServiceErrors,
     protocol: VercelProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2035,7 +2077,7 @@ export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, Ve
   }));
 
 export type GetTeamAccessRequestError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Get access request status Check the status of a join request. It'll respond with a 404 if the request has been declined. If no `userId` path segment was provided, this endpoint will instead return the status of the authenticated user. */
+/** Get access request status Check the status of a join request. It'll respond with a 404 if the request has been declined or enabled directory reads suppress access. If no `userId` path segment was provided, this endpoint will instead return the status of the authenticated user. */
 export const getTeamAccessRequest: API.OperationMethod<
   GetTeamAccessRequestRequest,
   GetTeamAccessRequestResponse,
@@ -2045,6 +2087,7 @@ export const getTeamAccessRequest: API.OperationMethod<
   input: __S(160, __c5, 0) as any as S.Schema<GetTeamAccessRequestRequest>,
   output: __S(162, __c5, 2) as any as S.Schema<GetTeamAccessRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2062,14 +2105,15 @@ export const getTeamMembers: API.OperationMethod<
   input: __S(224, __c7, 0) as any as S.Schema<GetTeamMembersRequest>,
   output: __S(234, __c7, 10) as any as S.Schema<GetTeamMembersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTeamMembers",
 }));
 
-export type GetTeamsError = BadRequest | Forbidden | VercelOpError;
-/** List all teams Get a paginated list of all the Teams the authenticated User is a member of. */
+export type GetTeamsError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List all teams Get a paginated list of all the Teams the authenticated User is a member of. An app-principal token needs `read:team` and lists only the team it is bound to. */
 export const getTeams: API.OperationMethod<
   GetTeamsRequest,
   GetTeamsResponse,
@@ -2077,8 +2121,9 @@ export const getTeams: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetTeamsRequest>,
-  output: __S(259, __c8, 3) as any as S.Schema<GetTeamsResponse>,
-  errors: [BadRequest, Forbidden],
+  output: __S(257, __c8, 1) as any as S.Schema<GetTeamsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2096,6 +2141,7 @@ export const inviteUserToTeam: API.OperationMethod<
   input: __S(292, __c9, 4) as any as S.Schema<InviteUserToTeamRequest>,
   output: __S(293, __c9, 5) as any as S.Schema<InvitedTeamMember>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2113,14 +2159,15 @@ export const joinTeam: API.OperationMethod<
   input: __S(320, __c10, 0) as any as S.Schema<JoinTeamRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<JoinTeamResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "JoinTeam",
 }));
 
-export type RemoveTeamMemberError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Remove a Team Member Remove a Team Member from the Team, or dismiss a user that requested access, or leave a team. Directory Sync members can be removed when their directory email is absent or does not match the user's primary or verified secondary emails. */
+export type RemoveTeamMemberError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
+/** Remove a Team Member Remove a Team Member from the Team, or dismiss a user that requested access, or leave a team. Organization-directory-managed access must be removed through the organization's identity provider; local removal returns `organization_directory_managed`. Directory Sync members can be removed when their directory email is absent or does not match the user's primary or verified secondary emails. Removing or leaving is refused when it would leave the Team's organization without an organization admin. */
 export const removeTeamMember: API.OperationMethod<
   RemoveTeamMemberRequest,
   RemoveTeamMemberResponse,
@@ -2129,7 +2176,8 @@ export const removeTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<RemoveTeamMemberRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<RemoveTeamMemberResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2137,7 +2185,7 @@ export const removeTeamMember: API.OperationMethod<
 }));
 
 export type RequestAccessToTeamError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Request access to a team Request access to a team as a member. An owner has to approve the request. Only 100 users can request access to a team at the same time. */
+/** Request access to a team Request access to a team as a member. An owner has to approve the request. Only 100 users can request access to a team at the same time. Organization-directory access must be granted through the directory administrator. */
 export const requestAccessToTeam: API.OperationMethod<
   RequestAccessToTeamRequest,
   RequestAccessToTeamResponse,
@@ -2147,6 +2195,7 @@ export const requestAccessToTeam: API.OperationMethod<
   input: __S(385, __c12, 1) as any as S.Schema<RequestAccessToTeamRequest>,
   output: __S(387, __c12, 3) as any as S.Schema<RequestAccessToTeamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2164,6 +2213,7 @@ export const updateMicrofrontendsGroup: API.OperationMethod<
   input: __S(416, __c13, 0) as any as S.Schema<UpdateMicrofrontendsGroupRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<UpdateMicrofrontendsGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2187,6 +2237,7 @@ export const updateTeam: API.OperationMethod<
   input: __S(457, __c14, 9) as any as S.Schema<UpdateTeamRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<Team>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2200,7 +2251,7 @@ export type UpdateTeamMemberError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Update a Team Member Update the membership of a Team Member on the Team specified by `teamId`, such as changing the _role_ of the member, or confirming a request to join the Team for an unconfirmed member. The authenticated user must be an `OWNER` of the Team. */
+/** Update a Team Member Update the membership of a Team Member on the Team specified by `teamId`, such as changing the _role_ of the member, or confirming a request to join the Team for an unconfirmed member. Organization-directory-managed team access and roles must be changed through the organization's identity provider. Unsupported changes return `organization_directory_managed`; supported local assignments remain editable. The authenticated user must be an `OWNER` of the Team. An update that would leave the Team's organization without an organization admin is refused. */
 export const updateTeamMember: API.OperationMethod<
   UpdateTeamMemberRequest,
   UpdateTeamMemberResponse,
@@ -2210,6 +2261,7 @@ export const updateTeamMember: API.OperationMethod<
   input: __S(483, __c15, 3) as any as S.Schema<UpdateTeamMemberRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<UpdateTeamMemberResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2383,6 +2435,7 @@ function __c3(j: number): any {
           repoId: S.optional(S.String),
           repoPath: S.optional(S.String),
           ssoConnectedAt: S.optional(S.Number),
+          ssoIdFingerprint: S.optional(S.String),
           ssoUserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TeamMembershipJoinedFrom" });
@@ -2504,7 +2557,8 @@ function __c4(j: number): any {
             deploymentPolicy: S.optional(__S(112, __c3, 16)),
             deploymentStorageRollout: S.optional(__S(113, __c3, 17)),
             description: S.NullOr(S.String),
-            disableHardAutoBlocks: S.optional(S.Unknown),
+            directorySyncSource: S.String,
+            directorySyncType: S.optional(S.String),
             disableRepositoryDispatchEvents: S.optional(S.Boolean),
             disjunctiveProductionSecretPolicy: S.optional(S.NullOr(S.String)),
             dpAccessRequestsMode: S.optional(S.String),
@@ -2566,6 +2620,7 @@ function __c5(j: number): any {
           repoId: S.optional(S.String),
           repoPath: S.optional(S.String),
           ssoConnectedAt: S.optional(S.Number),
+          ssoIdFingerprint: S.optional(S.String),
           ssoUserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTeamAccessRequestResponseJoinedFrom" });
@@ -2643,6 +2698,7 @@ function __c7(j: number): any {
           repoId: S.optional(S.String),
           repoPath: S.optional(S.String),
           ssoConnectedAt: S.optional(S.Number),
+          ssoIdFingerprint: S.optional(S.String),
           ssoUserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTeamMembersResponseMembersItemJoinedFrom" });
@@ -2669,6 +2725,7 @@ function __c7(j: number): any {
           gitlab: S.optional(__S(192, __c6, 0)),
           isEnterpriseManaged: S.optional(S.Boolean),
           joinedFrom: S.optional(__S(228, __c7, 4)),
+          membershipSource: S.String,
           name: S.optional(S.String),
           projects: S.optional(__S(230, __c7, 6)),
           role: S.String,
@@ -2708,22 +2765,9 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/teams", code: 200 })),
       ).annotate({ identifier: "GetTeamsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.NullOr(S.Number),
-          prev: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "Pagination" });
-    case 2:
-      return S.Array(S.Unknown);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          pagination: __S(257, __c8, 1),
-          teams: __S(258, __c8, 2),
-        }),
-      ).annotate({ identifier: "GetTeamsResponse" });
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetTeamsResponse",
+      });
   }
 }
 function __c9(j: number): any {
@@ -2835,6 +2879,7 @@ function __c12(j: number): any {
           repoId: S.optional(S.String),
           repoPath: S.optional(S.String),
           ssoConnectedAt: S.optional(S.Number),
+          ssoIdFingerprint: S.optional(S.String),
           ssoUserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RequestAccessToTeamResponseJoinedFrom" });

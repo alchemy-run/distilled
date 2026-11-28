@@ -21,6 +21,11 @@
  *      out. The trait is derived from the OpenAPI operation, so an endpoint
  *      that stops paging upstream stops being stamped.
  *
+ * An operation Exa publishes as beta (`x-exa-lifecycle: beta`, or an
+ * `x-exa-beta-flag` it must send in `Exa-Beta`) is marked
+ * `smithy.api#unstable`, so generate writes it to
+ * `src/unstable-services/<module>.ts`. `deprecated` is not beta.
+ *
  * Then `finalizeConvert` applies the patches and the verbNoun names.
  * `scripts/generate.ts` compiles the models into src/services.
  */
@@ -167,6 +172,8 @@ await runOpenApiConvert({
     // Batches require an `Exa-Beta` header, so header parameters are inputs.
     headerParams: true,
     operationNames: OPERATION_NAMES,
+    unstableOperation: (op) =>
+      op["x-exa-lifecycle"] === "beta" || op["x-exa-beta-flag"] !== undefined,
   },
 });
 

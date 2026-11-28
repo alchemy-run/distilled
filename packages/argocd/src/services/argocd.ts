@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownArgocdError } from "../errors.ts";
+import { ArgocdServiceErrors } from "../errors.ts";
 import { ArgocdProtocol, type ArgocdOpError, type ArgocdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -956,7 +956,7 @@ export interface CreateAccountServiceTokenRequest {
   id?: string | undefined;
 }
 export interface AccountCreateTokenResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateApplicationServiceRequest {
   upsert?: boolean | undefined;
@@ -1566,7 +1566,7 @@ export interface V1alpha1TLSClientConfig {
 export interface V1alpha1ClusterConfig {
   awsAuthConfig?: V1alpha1AWSAuthConfig | undefined;
   /** Server requires Bearer authentication. This client will not attempt to use refresh tokens for an OAuth2 flow. TODO: demonstrate an OAuth2 compatible client. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Burst allows extra queries to accumulate for a rapid burst of requests to this cluster. */
   burst?: number | undefined;
   /** DisableCompression bypasses automatic GZip compression requests to the server. */
@@ -1822,29 +1822,29 @@ export interface CreateProjectServiceTokenRequest {
 }
 /** ProjectTokenResponse wraps the created token or returns an empty string if deleted. */
 export interface ProjectProjectTokenResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateRepoCredsServiceRepositoryCredentialsRequest {
   /** Whether to create in upsert mode. */
   upsert?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -1856,22 +1856,22 @@ export interface CreateRepoCredsServiceRepositoryCredentialsRequest {
 export interface V1alpha1RepoCreds {
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -1885,22 +1885,22 @@ export interface CreateRepoCredsServiceWriteRepositoryCredentialsRequest {
   upsert?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -1916,9 +1916,9 @@ export interface CreateRepositoryServiceRepositoryRequest {
   credsOnly?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -1926,11 +1926,11 @@ export interface CreateRepositoryServiceRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -1943,7 +1943,7 @@ export interface CreateRepositoryServiceRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -1956,9 +1956,9 @@ export interface CreateRepositoryServiceRepositoryRequest {
 export interface V1alpha1Repository {
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -1966,11 +1966,11 @@ export interface V1alpha1Repository {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -1983,7 +1983,7 @@ export interface V1alpha1Repository {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -2000,9 +2000,9 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
   credsOnly?: boolean | undefined;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -2010,11 +2010,11 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -2027,7 +2027,7 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -2039,12 +2039,12 @@ export interface CreateRepositoryServiceWriteRepositoryRequest {
 }
 export interface CreateSessionServiceRequest {
   password?: string | Redacted.Redacted<string> | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   username?: string | undefined;
 }
 /** SessionResponse wraps the created token or returns an empty string if deleted. */
 export interface SessionSessionResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteAccountServiceTokenRequest {
   name: string;
@@ -2553,6 +2553,7 @@ export interface ClusterSettings {
   plugins?: ClusterSettingsPluginsList | undefined;
   resourceOverrides?: ClusterSettingsResourceOverridesMap | undefined;
   resourceViewEnabled?: boolean | undefined;
+  ssoAutoLogin?: boolean | undefined;
   statusBadgeEnabled?: boolean | undefined;
   statusBadgeRootUrl?: string | undefined;
   syncWithReplaceAllowed?: boolean | undefined;
@@ -3054,22 +3055,22 @@ export interface UpdateRepoCredsServiceRepositoryCredentialsRequest {
   creds_url: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -3083,22 +3084,22 @@ export interface UpdateRepoCredsServiceWriteRepositoryCredentialsRequest {
   creds_url: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
   insecureOCIForceHttp?: boolean | undefined;
   noProxy?: string | undefined;
   password?: string | Redacted.Redacted<string> | undefined;
   proxy?: string | undefined;
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
@@ -3112,9 +3113,9 @@ export interface UpdateRepositoryServiceRepositoryRequest {
   repo_repo: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -3122,11 +3123,11 @@ export interface UpdateRepositoryServiceRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -3139,7 +3140,7 @@ export interface UpdateRepositoryServiceRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -3154,9 +3155,9 @@ export interface UpdateRepositoryServiceWriteRepositoryRequest {
   repo_repo: string;
   azureActiveDirectoryEndpoint?: string | undefined;
   azureServicePrincipalClientId?: string | undefined;
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   azureServicePrincipalTenantId?: string | undefined;
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
   depth?: number | undefined;
@@ -3164,11 +3165,11 @@ export interface UpdateRepositoryServiceWriteRepositoryRequest {
   enableLfs?: boolean | undefined;
   enableOCI?: boolean | undefined;
   forceHttpBasicAuth?: boolean | undefined;
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   githubAppEnterpriseBaseUrl?: string | undefined;
   githubAppID?: number | undefined;
   githubAppInstallationID?: number | undefined;
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   inheritedCreds?: boolean | undefined;
   insecure?: boolean | undefined;
   insecureIgnoreHostKey?: boolean | undefined;
@@ -3181,7 +3182,7 @@ export interface UpdateRepositoryServiceWriteRepositoryRequest {
   proxy?: string | undefined;
   repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   tlsClientCertData?: string | undefined;
   tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
@@ -3197,9 +3198,9 @@ export interface ValidateRepositoryServiceAccessRequest {
   /** Username for accessing repo. */
   username?: string | undefined;
   /** Password for accessing repo. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private key data for accessing SSH repository. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to skip certificate or host key validation. */
   insecure?: boolean | undefined;
   /** TLS client cert data for accessing HTTPS repository. */
@@ -3213,7 +3214,7 @@ export interface ValidateRepositoryServiceAccessRequest {
   /** Whether helm-oci support should be enabled for this repo. */
   enableOci?: boolean | undefined;
   /** Github App Private Key PEM data. */
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Github App ID of the app used to access the repo. */
   githubAppID?: string | undefined;
   /** Github App Installation ID of the installed GitHub App. */
@@ -3225,19 +3226,19 @@ export interface ValidateRepositoryServiceAccessRequest {
   /** Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity. */
   project?: string | undefined;
   /** Google Cloud Platform service account key. */
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to force HTTP basic auth. */
   forceHttpBasicAuth?: boolean | undefined;
   /** Whether to use azure workload identity for authentication. */
   useAzureWorkloadIdentity?: boolean | undefined;
   /** BearerToken contains the bearer token used for Git auth at the repo server. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether https should be disabled for an OCI repo. */
   insecureOciForceHttp?: boolean | undefined;
   /** Azure Service Principal Client ID. */
   azureServicePrincipalClientId?: string | undefined;
   /** Azure Service Principal Client Secret. */
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Azure Service Principal Tenant ID. */
   azureServicePrincipalTenantId?: string | undefined;
   /** Azure Active Directory Endpoint. */
@@ -3251,9 +3252,9 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** Username for accessing repo. */
   username?: string | undefined;
   /** Password for accessing repo. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private key data for accessing SSH repository. */
-  sshPrivateKey?: string | undefined;
+  sshPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to skip certificate or host key validation. */
   insecure?: boolean | undefined;
   /** TLS client cert data for accessing HTTPS repository. */
@@ -3267,7 +3268,7 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** Whether helm-oci support should be enabled for this repo. */
   enableOci?: boolean | undefined;
   /** Github App Private Key PEM data. */
-  githubAppPrivateKey?: string | undefined;
+  githubAppPrivateKey?: string | Redacted.Redacted<string> | undefined;
   /** Github App ID of the app used to access the repo. */
   githubAppID?: string | undefined;
   /** Github App Installation ID of the installed GitHub App. */
@@ -3279,19 +3280,19 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity. */
   project?: string | undefined;
   /** Google Cloud Platform service account key. */
-  gcpServiceAccountKey?: string | undefined;
+  gcpServiceAccountKey?: string | Redacted.Redacted<string> | undefined;
   /** Whether to force HTTP basic auth. */
   forceHttpBasicAuth?: boolean | undefined;
   /** Whether to use azure workload identity for authentication. */
   useAzureWorkloadIdentity?: boolean | undefined;
   /** BearerToken contains the bearer token used for Git auth at the repo server. */
-  bearerToken?: string | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether https should be disabled for an OCI repo. */
   insecureOciForceHttp?: boolean | undefined;
   /** Azure Service Principal Client ID. */
   azureServicePrincipalClientId?: string | undefined;
   /** Azure Service Principal Client Secret. */
-  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Azure Service Principal Tenant ID. */
   azureServicePrincipalTenantId?: string | undefined;
   /** Azure Active Directory Endpoint. */
@@ -3389,7 +3390,8 @@ export const accountServiceCanI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccountServiceCanIRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AccountCanIResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3406,7 +3408,8 @@ export const applicationServiceManagedResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ApplicationServiceManagedResourcesRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<ApplicationManagedResourcesResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3423,7 +3426,8 @@ export const applicationServicePodLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ApplicationServicePodLogsRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<ApplicationServicePodLogsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3440,7 +3444,8 @@ export const applicationServicePodLogs2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ApplicationServicePodLogs2Request>,
   output: __S(1057, __c33, 1) as any as S.Schema<ApplicationServicePodLogs2Response>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3457,7 +3462,8 @@ export const applicationServiceResourceTree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ApplicationServiceResourceTreeRequest>,
   output: __S(1958, __c61, 6) as any as S.Schema<V1alpha1ApplicationTree>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3474,7 +3480,8 @@ export const applicationServiceRevisionChartDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ApplicationServiceRevisionChartDetailsRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<V1alpha1ChartDetails>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3491,7 +3498,8 @@ export const applicationServiceRevisionMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ApplicationServiceRevisionMetadataRequest>,
   output: __S(3012, __c94, 4) as any as S.Schema<V1alpha1RevisionMetadata>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3508,7 +3516,8 @@ export const applicationServiceRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<ApplicationServiceRollbackRequest>,
   output: __S(3703, __c115, 23) as any as S.Schema<V1alpha1Application>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3525,7 +3534,8 @@ export const applicationServiceServerSideDiff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ApplicationServiceServerSideDiffRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<ApplicationApplicationServerSideDiffResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3542,7 +3552,8 @@ export const applicationSetServiceResourceTree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<ApplicationSetServiceResourceTreeRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<V1alpha1ApplicationSetTree>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3559,7 +3570,8 @@ export const createAccountServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateAccountServiceTokenRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<AccountCreateTokenResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3576,7 +3588,8 @@ export const createApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<CreateApplicationServiceRequest>,
   output: __S(3703, __c115, 23) as any as S.Schema<V1alpha1Application>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3593,7 +3606,8 @@ export const createApplicationSetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreateApplicationSetServiceRequest>,
   output: __S(508, __c15, 28) as any as S.Schema<V1alpha1ApplicationSet>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3610,7 +3624,8 @@ export const createCertificateServiceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<CreateCertificateServiceCertificateRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<V1alpha1RepositoryCertificateList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3627,7 +3642,8 @@ export const createClusterService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<CreateClusterServiceRequest>,
   output: __S(678, __c21, 6) as any as S.Schema<V1alpha1Cluster>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3644,7 +3660,8 @@ export const createGPGKeyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<CreateGPGKeyServiceRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<GpgkeyGnuPGPublicKeyCreateResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3661,7 +3678,8 @@ export const createProjectService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<CreateProjectServiceRequest>,
   output: __S(889, __c27, 25) as any as S.Schema<V1alpha1AppProject>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3678,7 +3696,8 @@ export const createProjectServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<CreateProjectServiceTokenRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ProjectProjectTokenResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3695,7 +3714,8 @@ export const createRepoCredsServiceRepositoryCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CreateRepoCredsServiceRepositoryCredentialsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<V1alpha1RepoCreds>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3716,7 +3736,8 @@ export const createRepoCredsServiceWriteRepositoryCredentials: API.OperationMeth
     0,
   ) as any as S.Schema<CreateRepoCredsServiceWriteRepositoryCredentialsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<V1alpha1RepoCreds>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3733,7 +3754,8 @@ export const createRepositoryServiceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CreateRepositoryServiceRepositoryRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<V1alpha1Repository>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3750,7 +3772,8 @@ export const createRepositoryServiceWriteRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<CreateRepositoryServiceWriteRepositoryRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<V1alpha1Repository>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3767,7 +3790,8 @@ export const createSessionService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CreateSessionServiceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<SessionSessionResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3784,7 +3808,8 @@ export const deleteAccountServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteAccountServiceTokenRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteAccountServiceTokenResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3801,7 +3826,8 @@ export const deleteApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<DeleteApplicationServiceRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteApplicationServiceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3818,7 +3844,8 @@ export const deleteApplicationServiceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteApplicationServiceResourceRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteApplicationServiceResourceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3835,7 +3862,8 @@ export const deleteApplicationSetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeleteApplicationSetServiceRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<ApplicationsetApplicationSetResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3852,7 +3880,8 @@ export const deleteCertificateServiceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteCertificateServiceCertificateRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<V1alpha1RepositoryCertificateList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3869,7 +3898,8 @@ export const deleteClusterService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteClusterServiceRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteClusterServiceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3886,7 +3916,8 @@ export const deleteGPGKeyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeleteGPGKeyServiceRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteGPGKeyServiceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3903,7 +3934,8 @@ export const deleteProjectService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteProjectServiceRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteProjectServiceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3920,7 +3952,8 @@ export const deleteProjectServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectServiceTokenRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteProjectServiceTokenResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3941,7 +3974,8 @@ export const deleteRepoCredsServiceRepositoryCredentials: API.OperationMethod<
     __c40,
     0,
   ) as any as S.Schema<DeleteRepoCredsServiceRepositoryCredentialsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3966,7 +4000,8 @@ export const deleteRepoCredsServiceWriteRepositoryCredentials: API.OperationMeth
     __c40,
     0,
   ) as any as S.Schema<DeleteRepoCredsServiceWriteRepositoryCredentialsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3983,7 +4018,8 @@ export const deleteRepositoryServiceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteRepositoryServiceRepositoryRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteRepositoryServiceRepositoryResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4000,7 +4036,8 @@ export const deleteRepositoryServiceWriteRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<DeleteRepositoryServiceWriteRepositoryRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DeleteRepositoryServiceWriteRepositoryResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4017,7 +4054,8 @@ export const deleteSessionService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<DeleteSessionServiceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<SessionSessionResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4034,7 +4072,8 @@ export const generateApplicationSetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GenerateApplicationSetServiceRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<ApplicationsetApplicationSetGenerateResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4051,7 +4090,8 @@ export const getAccountServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetAccountServiceAccountRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<AccountAccount>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4068,7 +4108,8 @@ export const getApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetApplicationServiceRequest>,
   output: __S(3703, __c115, 23) as any as S.Schema<V1alpha1Application>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4085,7 +4126,8 @@ export const getApplicationServiceApplicationSyncWindows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetApplicationServiceApplicationSyncWindowsRequest>,
   output: __S(2147, __c67, 3) as any as S.Schema<ApplicationApplicationSyncWindowsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4102,7 +4144,8 @@ export const getApplicationServiceManifests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetApplicationServiceManifestsRequest>,
   output: __S(2208, __c69, 0) as any as S.Schema<RepositoryManifestResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4119,7 +4162,8 @@ export const getApplicationServiceManifestsWithFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2242, __c70, 2) as any as S.Schema<GetApplicationServiceManifestsWithFilesRequest>,
   output: __S(2208, __c69, 0) as any as S.Schema<RepositoryManifestResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4136,7 +4180,8 @@ export const getApplicationServiceOCIMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetApplicationServiceOCIMetadataRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<V1alpha1OCIMetadata>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4153,7 +4198,8 @@ export const getApplicationServiceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetApplicationServiceResourceRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<ApplicationApplicationResourceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4170,7 +4216,8 @@ export const getApplicationSetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<GetApplicationSetServiceRequest>,
   output: __S(508, __c15, 28) as any as S.Schema<V1alpha1ApplicationSet>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4187,7 +4234,8 @@ export const getClusterService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetClusterServiceRequest>,
   output: __S(678, __c21, 6) as any as S.Schema<V1alpha1Cluster>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4204,7 +4252,8 @@ export const getGPGKeyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetGPGKeyServiceRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<V1alpha1GnuPGPublicKey>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4221,7 +4270,8 @@ export const getProjectService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetProjectServiceRequest>,
   output: __S(889, __c27, 25) as any as S.Schema<V1alpha1AppProject>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4238,7 +4288,8 @@ export const getProjectServiceDetailedProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetProjectServiceDetailedProjectRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<ProjectDetailedProjectsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4255,7 +4306,8 @@ export const getProjectServiceGlobalProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetProjectServiceGlobalProjectsRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<ProjectGlobalProjectsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4272,7 +4324,8 @@ export const getProjectServiceSyncWindowsState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetProjectServiceSyncWindowsStateRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<ProjectSyncWindowsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4289,7 +4342,8 @@ export const getRepositoryService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetRepositoryServiceRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<V1alpha1Repository>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4306,7 +4360,8 @@ export const getRepositoryServiceAppDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetRepositoryServiceAppDetailsRequest>,
   output: __S(2758, __c86, 6) as any as S.Schema<RepositoryRepoAppDetailsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4323,7 +4378,8 @@ export const getRepositoryServiceHelmCharts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GetRepositoryServiceHelmChartsRequest>,
   output: __S(2787, __c87, 3) as any as S.Schema<RepositoryHelmChartsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4340,7 +4396,8 @@ export const getRepositoryServiceWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<GetRepositoryServiceWriteRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<V1alpha1Repository>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4357,7 +4414,8 @@ export const getSessionServiceUserInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetSessionServiceUserInfoRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<SessionGetUserInfoResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4374,7 +4432,8 @@ export const getSettingsService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<GetSettingsServiceRequest>,
   output: __S(2900, __c90, 20) as any as S.Schema<ClusterSettings>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4391,7 +4450,8 @@ export const getSettingsServicePlugins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetSettingsServicePluginsRequest>,
   output: __S(2945, __c92, 1) as any as S.Schema<ClusterSettingsPluginsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4408,7 +4468,8 @@ export const invalidateClusterServiceCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<InvalidateClusterServiceCacheRequest>,
   output: __S(678, __c21, 6) as any as S.Schema<V1alpha1Cluster>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4425,7 +4486,8 @@ export const listAccountServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListAccountServiceAccountsRequest>,
   output: __S(3074, __c96, 2) as any as S.Schema<AccountAccountsList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4442,7 +4504,8 @@ export const listApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListApplicationServiceRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<V1alpha1ApplicationList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4459,7 +4522,8 @@ export const listApplicationServiceLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<ListApplicationServiceLinksRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<ApplicationLinksResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4476,7 +4540,8 @@ export const listApplicationServiceResourceActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListApplicationServiceResourceActionsRequest>,
   output: __S(3203, __c100, 3) as any as S.Schema<ApplicationResourceActionsListResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4493,7 +4558,8 @@ export const listApplicationServiceResourceEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListApplicationServiceResourceEventsRequest>,
   output: __S(3270, __c102, 6) as any as S.Schema<EventsEventList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4510,7 +4576,8 @@ export const listApplicationServiceResourceLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListApplicationServiceResourceLinksRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<ApplicationLinksResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4527,7 +4594,8 @@ export const listApplicationSetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ListApplicationSetServiceRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<V1alpha1ApplicationSetList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4544,7 +4612,8 @@ export const listApplicationSetServiceResourceEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListApplicationSetServiceResourceEventsRequest>,
   output: __S(3270, __c102, 6) as any as S.Schema<EventsEventList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4561,7 +4630,8 @@ export const listCertificateServiceCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<ListCertificateServiceCertificatesRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<V1alpha1RepositoryCertificateList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4578,7 +4648,8 @@ export const listClusterService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<ListClusterServiceRequest>,
   output: __S(3425, __c107, 1) as any as S.Schema<V1alpha1ClusterList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4595,7 +4666,8 @@ export const listGPGKeyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListGPGKeyServiceRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<V1alpha1GnuPGPublicKeyList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4612,7 +4684,8 @@ export const listNotificationServiceServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ListNotificationServiceServicesRequest>,
   output: __S(3776, __c118, 0) as any as S.Schema<NotificationServiceList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4629,7 +4702,8 @@ export const listNotificationServiceTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListNotificationServiceTemplatesRequest>,
   output: __S(3776, __c118, 0) as any as S.Schema<NotificationTemplateList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4646,7 +4720,8 @@ export const listNotificationServiceTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ListNotificationServiceTriggersRequest>,
   output: __S(3776, __c118, 0) as any as S.Schema<NotificationTriggerList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4663,7 +4738,8 @@ export const listProjectService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<ListProjectServiceRequest>,
   output: __S(3873, __c121, 1) as any as S.Schema<V1alpha1AppProjectList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4680,7 +4756,8 @@ export const listProjectServiceEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ListProjectServiceEventsRequest>,
   output: __S(3270, __c102, 6) as any as S.Schema<EventsEventList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4697,7 +4774,8 @@ export const listProjectServiceLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListProjectServiceLinksRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<ApplicationLinksResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4714,7 +4792,8 @@ export const listRepoCredsServiceRepositoryCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListRepoCredsServiceRepositoryCredentialsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<V1alpha1RepoCredsList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4735,7 +4814,8 @@ export const listRepoCredsServiceWriteRepositoryCredentials: API.OperationMethod
     0,
   ) as any as S.Schema<ListRepoCredsServiceWriteRepositoryCredentialsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<V1alpha1RepoCredsList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4752,7 +4832,8 @@ export const listRepositoryServiceApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ListRepositoryServiceAppsRequest>,
   output: __S(4067, __c127, 3) as any as S.Schema<RepositoryRepoAppsResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4768,7 +4849,8 @@ export const listRepositoryServiceOCITags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<ListRepositoryServiceOCITagsRequest>,
   output: __S(4160, __c130, 0) as any as S.Schema<RepositoryRefs>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4784,7 +4866,8 @@ export const listRepositoryServiceRefs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<ListRepositoryServiceRefsRequest>,
   output: __S(4160, __c130, 0) as any as S.Schema<RepositoryRefs>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4801,7 +4884,8 @@ export const listRepositoryServiceRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ListRepositoryServiceRepositoriesRequest>,
   output: __S(4256, __c133, 0) as any as S.Schema<V1alpha1RepositoryList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4818,7 +4902,8 @@ export const listRepositoryServiceWriteRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<ListRepositoryServiceWriteRepositoriesRequest>,
   output: __S(4256, __c133, 0) as any as S.Schema<V1alpha1RepositoryList>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4835,7 +4920,8 @@ export const patchApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<PatchApplicationServiceRequest>,
   output: __S(3703, __c115, 23) as any as S.Schema<V1alpha1Application>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4852,7 +4938,8 @@ export const patchApplicationServiceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<PatchApplicationServiceResourceRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<ApplicationApplicationResourceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4869,7 +4956,8 @@ export const rotateClusterServiceAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<RotateClusterServiceAuthRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<RotateClusterServiceAuthResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4886,7 +4974,8 @@ export const runApplicationServiceResourceAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<RunApplicationServiceResourceActionRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<RunApplicationServiceResourceActionResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4903,7 +4992,8 @@ export const runApplicationServiceResourceActionV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<RunApplicationServiceResourceActionV2Request>,
   output: __S(1280, __c40, 0) as any as S.Schema<RunApplicationServiceResourceActionV2Response>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4920,7 +5010,8 @@ export const syncApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4481, __c140, 1) as any as S.Schema<SyncApplicationServiceRequest>,
   output: __S(3703, __c115, 23) as any as S.Schema<V1alpha1Application>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4937,7 +5028,8 @@ export const terminateApplicationServiceOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<TerminateApplicationServiceOperationRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<TerminateApplicationServiceOperationResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4954,7 +5046,8 @@ export const updateAccountServicePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<UpdateAccountServicePasswordRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<UpdateAccountServicePasswordResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4971,7 +5064,8 @@ export const updateApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<UpdateApplicationServiceRequest>,
   output: __S(3703, __c115, 23) as any as S.Schema<V1alpha1Application>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4988,7 +5082,8 @@ export const updateApplicationServiceSpec: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<UpdateApplicationServiceSpecRequest>,
   output: __S(3661, __c114, 13) as any as S.Schema<V1alpha1ApplicationSpec>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5005,7 +5100,8 @@ export const updateClusterService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<UpdateClusterServiceRequest>,
   output: __S(678, __c21, 6) as any as S.Schema<V1alpha1Cluster>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5022,7 +5118,8 @@ export const updateProjectService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<UpdateProjectServiceRequest>,
   output: __S(889, __c27, 25) as any as S.Schema<V1alpha1AppProject>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5043,7 +5140,8 @@ export const updateRepoCredsServiceRepositoryCredentials: API.OperationMethod<
     0,
   ) as any as S.Schema<UpdateRepoCredsServiceRepositoryCredentialsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<V1alpha1RepoCreds>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5064,7 +5162,8 @@ export const updateRepoCredsServiceWriteRepositoryCredentials: API.OperationMeth
     0,
   ) as any as S.Schema<UpdateRepoCredsServiceWriteRepositoryCredentialsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<V1alpha1RepoCreds>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5081,7 +5180,8 @@ export const updateRepositoryServiceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<UpdateRepositoryServiceRepositoryRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<V1alpha1Repository>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5098,7 +5198,8 @@ export const updateRepositoryServiceWriteRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<UpdateRepositoryServiceWriteRepositoryRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<V1alpha1Repository>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5115,7 +5216,8 @@ export const validateRepositoryServiceAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<ValidateRepositoryServiceAccessRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<ValidateRepositoryServiceAccessResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5132,7 +5234,8 @@ export const validateRepositoryServiceWriteAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ValidateRepositoryServiceWriteAccessRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<ValidateRepositoryServiceWriteAccessResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5149,7 +5252,8 @@ export const versionServiceVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<VersionServiceVersionRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<VersionVersionMessage>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5166,7 +5270,8 @@ export const watchApplicationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<WatchApplicationServiceRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<WatchApplicationServiceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5183,7 +5288,8 @@ export const watchApplicationServiceResourceTree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<WatchApplicationServiceResourceTreeRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<WatchApplicationServiceResourceTreeResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5199,7 +5305,8 @@ export const watchApplicationSetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<WatchApplicationSetServiceRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<WatchApplicationSetServiceResponse>,
-  errors: [UnknownArgocdError],
+  errors: [],
+  serviceErrors: ArgocdServiceErrors,
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5300,7 +5407,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AccountCreateTokenResponse" });
   }
@@ -5312,27 +5419,29 @@ function __c5(j: number): any {
         S.Struct({
           repo: S.String.pipe(T.Label()),
           username: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String.pipe(T.Query())),
-          sshPrivateKey: S.optional(S.String.pipe(T.Query())),
+          password: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
+          sshPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecure: S.optional(S.Boolean.pipe(T.Query())),
           tlsClientCertData: S.optional(S.String.pipe(T.Query())),
           tlsClientCertKey: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
           enableOci: S.optional(S.Boolean.pipe(T.Query())),
-          githubAppPrivateKey: S.optional(S.String.pipe(T.Query())),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           githubAppID: S.optional(S.String.pipe(T.Query())),
           githubAppInstallationID: S.optional(S.String.pipe(T.Query())),
           githubAppEnterpriseBaseUrl: S.optional(S.String.pipe(T.Query())),
           proxy: S.optional(S.String.pipe(T.Query())),
           project: S.optional(S.String.pipe(T.Query())),
-          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query())),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           forceHttpBasicAuth: S.optional(S.Boolean.pipe(T.Query())),
           useAzureWorkloadIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          bearerToken: S.optional(S.String.pipe(T.Query())),
+          bearerToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecureOciForceHttp: S.optional(S.Boolean.pipe(T.Query())),
           azureServicePrincipalClientId: S.optional(S.String.pipe(T.Query())),
-          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.Query())),
+          azureServicePrincipalClientSecret: S.optional(
+            S.String.pipe(T.Query(), T.SensitiveValue({})),
+          ),
           azureServicePrincipalTenantId: S.optional(S.String.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
@@ -5347,27 +5456,29 @@ function __c6(j: number): any {
         S.Struct({
           repo: S.String.pipe(T.Label()),
           username: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String.pipe(T.Query())),
-          sshPrivateKey: S.optional(S.String.pipe(T.Query())),
+          password: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
+          sshPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecure: S.optional(S.Boolean.pipe(T.Query())),
           tlsClientCertData: S.optional(S.String.pipe(T.Query())),
           tlsClientCertKey: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
           enableOci: S.optional(S.Boolean.pipe(T.Query())),
-          githubAppPrivateKey: S.optional(S.String.pipe(T.Query())),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           githubAppID: S.optional(S.String.pipe(T.Query())),
           githubAppInstallationID: S.optional(S.String.pipe(T.Query())),
           githubAppEnterpriseBaseUrl: S.optional(S.String.pipe(T.Query())),
           proxy: S.optional(S.String.pipe(T.Query())),
           project: S.optional(S.String.pipe(T.Query())),
-          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query())),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           forceHttpBasicAuth: S.optional(S.Boolean.pipe(T.Query())),
           useAzureWorkloadIdentity: S.optional(S.Boolean.pipe(T.Query())),
-          bearerToken: S.optional(S.String.pipe(T.Query())),
+          bearerToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           insecureOciForceHttp: S.optional(S.Boolean.pipe(T.Query())),
           azureServicePrincipalClientId: S.optional(S.String.pipe(T.Query())),
-          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.Query())),
+          azureServicePrincipalClientSecret: S.optional(
+            S.String.pipe(T.Query(), T.SensitiveValue({})),
+          ),
           azureServicePrincipalTenantId: S.optional(S.String.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String.pipe(T.Query())),
           body: S.String.pipe(T.HttpBody()),
@@ -6166,7 +6277,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           awsAuthConfig: S.optional(__S(672, __c21, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           burst: S.optional(S.Number),
           disableCompression: S.optional(S.Boolean),
           execProviderConfig: S.optional(__S(673, __c21, 1)),
@@ -6478,21 +6589,21 @@ function __c29(j: number): any {
           upsert: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6510,21 +6621,21 @@ function __c30(j: number): any {
         S.Struct({
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6543,21 +6654,21 @@ function __c31(j: number): any {
           upsert: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6654,19 +6765,19 @@ function __c35(j: number): any {
           credsOnly: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -6677,7 +6788,7 @@ function __c35(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6695,19 +6806,19 @@ function __c36(j: number): any {
         S.Struct({
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -6718,7 +6829,7 @@ function __c36(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6738,19 +6849,19 @@ function __c37(j: number): any {
           credsOnly: S.optional(S.Boolean.pipe(T.Query())),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -6761,7 +6872,7 @@ function __c37(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -6778,7 +6889,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/session", code: 200 })),
       ).annotate({ identifier: "CreateSessionServiceRequest" });
@@ -7845,6 +7956,7 @@ function __c90(j: number): any {
           plugins: S.optional(__S(2912, __c91, 0)),
           resourceOverrides: S.optional(__S(2899, __c90, 19)),
           resourceViewEnabled: S.optional(S.Boolean),
+          ssoAutoLogin: S.optional(S.Boolean),
           statusBadgeEnabled: S.optional(S.Boolean),
           statusBadgeRootUrl: S.optional(S.String),
           syncWithReplaceAllowed: S.optional(S.Boolean),
@@ -9377,21 +9489,21 @@ function __c148(j: number): any {
           creds_url: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -9410,21 +9522,21 @@ function __c149(j: number): any {
           creds_url: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           insecureOCIForceHttp: S.optional(S.Boolean),
           noProxy: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           proxy: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -9443,19 +9555,19 @@ function __c150(j: number): any {
           repo_repo: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -9466,7 +9578,7 @@ function __c150(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),
@@ -9485,19 +9597,19 @@ function __c151(j: number): any {
           repo_repo: S.String.pipe(T.Label()),
           azureActiveDirectoryEndpoint: S.optional(S.String),
           azureServicePrincipalClientId: S.optional(S.String),
-          azureServicePrincipalClientSecret: S.optional(S.String),
+          azureServicePrincipalClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           azureServicePrincipalTenantId: S.optional(S.String),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionState: S.optional(__S(640, __c20, 0)),
           depth: S.optional(S.Number),
           enableLfs: S.optional(S.Boolean),
           enableOCI: S.optional(S.Boolean),
           forceHttpBasicAuth: S.optional(S.Boolean),
-          gcpServiceAccountKey: S.optional(S.String),
+          gcpServiceAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           githubAppEnterpriseBaseUrl: S.optional(S.String),
           githubAppID: S.optional(S.Number),
           githubAppInstallationID: S.optional(S.Number),
-          githubAppPrivateKey: S.optional(S.String),
+          githubAppPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           inheritedCreds: S.optional(S.Boolean),
           insecure: S.optional(S.Boolean),
           insecureIgnoreHostKey: S.optional(S.Boolean),
@@ -9508,7 +9620,7 @@ function __c151(j: number): any {
           project: S.optional(S.String),
           proxy: S.optional(S.String),
           repo: S.optional(S.String),
-          sshPrivateKey: S.optional(S.String),
+          sshPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tlsClientCertData: S.optional(S.String),
           tlsClientCertKey: S.optional(S.String),
           type: S.optional(S.String),

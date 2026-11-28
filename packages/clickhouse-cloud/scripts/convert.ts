@@ -28,8 +28,10 @@
  * names of union arms the spec leaves anonymous, are patches in
  * `patches/<model>/`.
  *
- * Operations tagged Beta upstream (ClickStack, Postgres, BYOC, UDFs, …) are
- * kept: they are part of the published API.
+ * Operations badged Beta upstream (`x-badges: [{ name: "Beta" }]`) are kept:
+ * they are part of the published API. Each one is marked
+ * `smithy.api#unstable`, so generate writes it to the tag's module under
+ * `unstable/`, and the tag's other operations to the stable module.
  *
  * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
  * compiles the already-patched models.
@@ -339,6 +341,10 @@ if (missing.length) {
 console.log(`🔧 ${unwrapped} response envelope(s) unwrapped to their \`result\``);
 
 // ---- 4. Bucket paths by tag ------------------------------------------------
+/** The docs' Beta badge on an operation. */
+const isBeta = (op: Record<string, any>): boolean =>
+  Array.isArray(op["x-badges"]) && op["x-badges"].some((badge: any) => badge?.name === "Beta");
+
 const buckets = new Map<string, Record<string, Record<string, unknown>>>();
 for (const [pathTemplate, pathItem] of Object.entries<Record<string, any>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
@@ -391,6 +397,7 @@ for (const slug of [...buckets.keys()].sort()) {
       successStatuses: ["200", "201"],
       operationNames: OPERATION_NAMES,
       statusToErrorClass: {},
+      unstableOperation: isBeta,
     },
   );
 

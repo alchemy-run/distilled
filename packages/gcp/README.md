@@ -16,7 +16,7 @@ npm install @distilled.cloud/gcp effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Storage from "@distilled.cloud/gcp/storage_v1";
-import { CredentialsFromEnv, GcpProtocol } from "@distilled.cloud/gcp";
+import { CredentialsFromEnv } from "@distilled.cloud/gcp";
 
 const program = Effect.gen(function* () {
   const result = yield* Storage.listBuckets({ project: "acme" });
@@ -26,7 +26,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   CredentialsFromEnv,
-  GcpProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -53,10 +52,10 @@ service account key:
 ```ts
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
-import { fromApplicationDefault, GcpProtocol } from "@distilled.cloud/gcp";
+import { fromApplicationDefault } from "@distilled.cloud/gcp";
 import * as Storage from "@distilled.cloud/gcp/storage_v1";
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, fromApplicationDefault(), GcpProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, fromApplicationDefault());
 
 Storage.listBuckets({ project: "acme" }).pipe(Effect.provide(Live), Effect.runPromise);
 ```
@@ -95,7 +94,7 @@ access token is cached and exchanged again five minutes before it expires.
 import { Effect, Layer, Redacted } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { getVercelOidcToken } from "@vercel/oidc";
-import { fromWorkloadIdentity, GcpProtocol } from "@distilled.cloud/gcp";
+import { fromWorkloadIdentity } from "@distilled.cloud/gcp";
 
 const Credentials = fromWorkloadIdentity({
   audience:
@@ -105,7 +104,7 @@ const Credentials = fromWorkloadIdentity({
   subjectToken: Effect.promise(() => getVercelOidcToken()).pipe(Effect.map(Redacted.make)),
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Credentials, GcpProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Credentials);
 ```
 
 - `audience` is the pool provider's resource name, prefixed with
@@ -117,3 +116,38 @@ const Live = Layer.mergeAll(FetchHttpClient.layer, Credentials, GcpProtocol);
   Pass `urn:ietf:params:oauth:token-type:saml2` for SAML.
 - `scopes` default to `cloud-platform`, and `tokenLifetimeSeconds` to 3600.
 - A failed exchange fails the operation with `GCPCredentialsError`.
+
+### Acting as a Google Workspace user
+
+Some Workspace calls, such as Gmail's send-as settings or creating a shared
+drive, only work when a service account acts as a user of the domain
+(domain-wide delegation). A Workspace admin first allows the service
+account's client ID for the scopes you request. Then pass the user's email as
+`subject`:
+
+- with a key file: `fromServiceAccountKey({ clientEmail, privateKey, scopes, subject })`;
+- without one: `fromImpersonatedServiceAccount`, which asks IAM Credentials
+  to sign the token with the credentials you already have. `source` needs
+  `roles/iam.serviceAccountTokenCreator` on the service account.
+
+```ts
+import { Effect } from "effect";
+import { fromImpersonatedServiceAccount, fromMetadataServer } from "@distilled.cloud/gcp";
+import { createUsersSettingsSendAs } from "@distilled.cloud/gcp/gmail_v1";
+
+const asAna = fromImpersonatedServiceAccount({
+  source: fromMetadataServer(), // e.g. Cloud Run's own service account
+  serviceAccountEmail: "workspace-bot@acme.iam.gserviceaccount.com",
+  subject: "ana@example.com",
+  scopes: ["https://www.googleapis.com/auth/gmail.settings.sharing"],
+});
+
+const program = createUsersSettingsSendAs({
+  userId: "ana@example.com",
+  sendAsEmail: "sales@example.com",
+}).pipe(Effect.provide(asAna));
+```
+
+Each layer caches its own token, so keep one layer per user. Without
+`subject`, `fromImpersonatedServiceAccount` returns the service account's own
+token.

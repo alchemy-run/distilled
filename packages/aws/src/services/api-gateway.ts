@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -180,9 +181,36 @@ export interface ApiKey {
   stageKeys?: string[] | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
-export type AuthorizerType = "TOKEN" | "REQUEST" | "COGNITO_USER_POOLS" | (string & {});
+export type AuthorizerType = "TOKEN" | "REQUEST" | "COGNITO_USER_POOLS" | "JWT" | (string & {});
 export type ProviderARN = string;
 export type ListOfARNs = string[];
+export type JwtClaimFormat = "SINGLE_STRING" | (string & {});
+export interface JwtAdditionalClaim {
+  claimName: string;
+  format: JwtClaimFormat;
+  required?: boolean | undefined;
+  expectedValues?: string[] | undefined;
+}
+export type ListOfJwtAdditionalClaim = JwtAdditionalClaim[];
+export interface JwtIssuerInput {
+  issuer: string;
+  audiences: string[];
+  additionalClaims?: JwtAdditionalClaim[] | undefined;
+}
+export type ListOfJwtIssuerInput = JwtIssuerInput[];
+export type JwtSigningAlgorithm =
+  | "RS256"
+  | "RS384"
+  | "RS512"
+  | "ES256"
+  | "ES384"
+  | "ES512"
+  | (string & {});
+export type ListOfJwtSigningAlgorithm = JwtSigningAlgorithm[];
+export interface JwtConfigurationInput {
+  issuers: JwtIssuerInput[];
+  defaultAlgorithms: JwtSigningAlgorithm[];
+}
 export interface CreateAuthorizerRequest {
   restApiId: string;
   name: string;
@@ -194,6 +222,18 @@ export interface CreateAuthorizerRequest {
   identitySource?: string | undefined;
   identityValidationExpression?: string | undefined;
   authorizerResultTtlInSeconds?: number | undefined;
+  jwtConfiguration?: JwtConfigurationInput | undefined;
+}
+export interface JwtIssuer {
+  issuer?: string | undefined;
+  audiences?: string[] | undefined;
+  additionalClaims?: JwtAdditionalClaim[] | undefined;
+  jwksUri?: string | undefined;
+}
+export type ListOfJwtIssuer = JwtIssuer[];
+export interface JwtConfiguration {
+  issuers?: JwtIssuer[] | undefined;
+  defaultAlgorithms?: JwtSigningAlgorithm[] | undefined;
 }
 export interface Authorizer {
   id?: string | undefined;
@@ -206,6 +246,7 @@ export interface Authorizer {
   identitySource?: string | undefined;
   identityValidationExpression?: string | undefined;
   authorizerResultTtlInSeconds?: number | undefined;
+  jwtConfiguration?: JwtConfiguration | undefined;
 }
 export interface CreateBasePathMappingRequest {
   domainName: string;
@@ -1487,6 +1528,7 @@ export const createApiKey: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
@@ -1511,8 +1553,8 @@ export const createAuthorizer: API.OperationMethod<
   CreateAuthorizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<CreateAuthorizerRequest>,
-  output: __S(1056, __c132, 0) as any as S.Schema<Authorizer>,
+  input: __S(1051, __c131, 3) as any as S.Schema<CreateAuthorizerRequest>,
+  output: __S(1069, __c133, 5) as any as S.Schema<Authorizer>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1521,6 +1563,7 @@ export const createAuthorizer: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthorizer",
@@ -1545,8 +1588,8 @@ export const createBasePathMapping: API.OperationMethod<
   CreateBasePathMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<CreateBasePathMappingRequest>,
-  output: __S(1168, __c146, 0) as any as S.Schema<BasePathMapping>,
+  input: __S(1168, __c146, 0) as any as S.Schema<CreateBasePathMappingRequest>,
+  output: __S(1176, __c147, 0) as any as S.Schema<BasePathMapping>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1555,6 +1598,7 @@ export const createBasePathMapping: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBasePathMapping",
@@ -1591,6 +1635,7 @@ export const createDeployment: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
@@ -1625,6 +1670,7 @@ export const createDocumentationPart: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentationPart",
@@ -1659,6 +1705,7 @@ export const createDocumentationVersion: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentationVersion",
@@ -1691,6 +1738,7 @@ export const createDomainName: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
@@ -1724,6 +1772,7 @@ export const createDomainNameAccessAssociation: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainNameAccessAssociation",
@@ -1758,6 +1807,7 @@ export const createModel: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
@@ -1792,6 +1842,7 @@ export const createRequestValidator: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRequestValidator",
@@ -1826,6 +1877,7 @@ export const createResource: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
@@ -1858,6 +1910,7 @@ export const createRestApi: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestApi",
@@ -1892,6 +1945,7 @@ export const createStage: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
@@ -1926,6 +1980,7 @@ export const createUsagePlan: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsagePlan",
@@ -1960,6 +2015,7 @@ export const createUsagePlanKey: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsagePlanKey",
@@ -1992,6 +2048,7 @@ export const createVpcLink: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcLink",
@@ -2024,6 +2081,7 @@ export const deleteApiKey: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
@@ -2056,6 +2114,7 @@ export const deleteAuthorizer: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthorizer",
@@ -2088,6 +2147,7 @@ export const deleteBasePathMapping: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBasePathMapping",
@@ -2120,6 +2180,7 @@ export const deleteClientCertificate: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientCertificate",
@@ -2154,6 +2215,7 @@ export const deleteDeployment: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
@@ -2186,6 +2248,7 @@ export const deleteDocumentationPart: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentationPart",
@@ -2218,6 +2281,7 @@ export const deleteDocumentationVersion: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentationVersion",
@@ -2250,6 +2314,7 @@ export const deleteDomainName: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
@@ -2267,7 +2332,7 @@ export type DeleteDomainNameAccessAssociationError =
 /**
  * Deletes the DomainNameAccessAssociation resource.
  *
- * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
+ * Only the Amazon Web Services account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another Amazon Web Services account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
  */
 export const deleteDomainNameAccessAssociation: API.OperationMethod<
   DeleteDomainNameAccessAssociationRequest & RegionInput,
@@ -2284,6 +2349,7 @@ export const deleteDomainNameAccessAssociation: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainNameAccessAssociation",
@@ -2316,6 +2382,7 @@ export const deleteGatewayResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayResponse",
@@ -2348,6 +2415,7 @@ export const deleteIntegration: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
@@ -2380,6 +2448,7 @@ export const deleteIntegrationResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationResponse",
@@ -2405,6 +2474,7 @@ export const deleteMethod: API.OperationMethod<
   input: __S(624, __c78, 0) as any as S.Schema<DeleteMethodRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<DeleteMethodResponse>,
   errors: [ConflictException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMethod",
@@ -2437,6 +2507,7 @@ export const deleteMethodResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMethodResponse",
@@ -2469,6 +2540,7 @@ export const deleteModel: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
@@ -2501,6 +2573,7 @@ export const deleteRequestValidator: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRequestValidator",
@@ -2533,6 +2606,7 @@ export const deleteResource: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
@@ -2565,6 +2639,7 @@ export const deleteRestApi: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestApi",
@@ -2599,6 +2674,7 @@ export const deleteStage: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
@@ -2631,6 +2707,7 @@ export const deleteUsagePlan: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsagePlan",
@@ -2663,6 +2740,7 @@ export const deleteUsagePlanKey: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsagePlanKey",
@@ -2695,6 +2773,7 @@ export const deleteVpcLink: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcLink",
@@ -2729,6 +2808,7 @@ export const flushStageAuthorizersCache: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushStageAuthorizersCache",
@@ -2763,6 +2843,7 @@ export const flushStageCache: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushStageCache",
@@ -2795,6 +2876,7 @@ export const generateClientCertificate: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateClientCertificate",
@@ -2820,6 +2902,7 @@ export const getAccount: API.OperationMethod<
   input: __S(736, __c92, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(744, __c93, 0) as any as S.Schema<Account>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
@@ -2845,6 +2928,7 @@ export const getApiKey: API.OperationMethod<
   input: __S(752, __c94, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(952, __c119, 0) as any as S.Schema<ApiKey>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKey",
@@ -2871,6 +2955,7 @@ export const getApiKeys: API.PaginatedOperationMethod<
   input: __S(760, __c95, 0) as any as S.Schema<GetApiKeysRequest>,
   output: __S(762, __c95, 2) as any as S.Schema<ApiKeys>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKeys",
@@ -2900,8 +2985,9 @@ export const getAuthorizer: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<GetAuthorizerRequest>,
-  output: __S(1056, __c132, 0) as any as S.Schema<Authorizer>,
+  output: __S(1069, __c133, 5) as any as S.Schema<Authorizer>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizer",
@@ -2927,6 +3013,7 @@ export const getAuthorizers: API.OperationMethod<
   input: __S(776, __c97, 0) as any as S.Schema<GetAuthorizersRequest>,
   output: __S(778, __c97, 2) as any as S.Schema<Authorizers>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizers",
@@ -2950,8 +3037,9 @@ export const getBasePathMapping: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<GetBasePathMappingRequest>,
-  output: __S(1168, __c146, 0) as any as S.Schema<BasePathMapping>,
+  output: __S(1176, __c147, 0) as any as S.Schema<BasePathMapping>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBasePathMapping",
@@ -2978,6 +3066,7 @@ export const getBasePathMappings: API.PaginatedOperationMethod<
   input: __S(792, __c99, 0) as any as S.Schema<GetBasePathMappingsRequest>,
   output: __S(794, __c99, 2) as any as S.Schema<BasePathMappings>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBasePathMappings",
@@ -3009,6 +3098,7 @@ export const getClientCertificate: API.OperationMethod<
   input: __S(800, __c100, 0) as any as S.Schema<GetClientCertificateRequest>,
   output: __S(728, __c91, 0) as any as S.Schema<ClientCertificate>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientCertificate",
@@ -3035,6 +3125,7 @@ export const getClientCertificates: API.PaginatedOperationMethod<
   input: __S(808, __c101, 0) as any as S.Schema<GetClientCertificatesRequest>,
   output: __S(810, __c101, 2) as any as S.Schema<ClientCertificates>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientCertificates",
@@ -3073,6 +3164,7 @@ export const getDeployment: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
@@ -3106,6 +3198,7 @@ export const getDeployments: API.PaginatedOperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployments",
@@ -3137,6 +3230,7 @@ export const getDocumentationPart: API.OperationMethod<
   input: __S(832, __c104, 0) as any as S.Schema<GetDocumentationPartRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<DocumentationPart>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationPart",
@@ -3162,6 +3256,7 @@ export const getDocumentationParts: API.OperationMethod<
   input: __S(840, __c105, 0) as any as S.Schema<GetDocumentationPartsRequest>,
   output: __S(842, __c105, 2) as any as S.Schema<DocumentationParts>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationParts",
@@ -3186,6 +3281,7 @@ export const getDocumentationVersion: API.OperationMethod<
   input: __S(848, __c106, 0) as any as S.Schema<GetDocumentationVersionRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<DocumentationVersion>,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationVersion",
@@ -3211,6 +3307,7 @@ export const getDocumentationVersions: API.OperationMethod<
   input: __S(856, __c107, 0) as any as S.Schema<GetDocumentationVersionsRequest>,
   output: __S(858, __c107, 2) as any as S.Schema<DocumentationVersions>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationVersions",
@@ -3236,6 +3333,7 @@ export const getDomainName: API.OperationMethod<
   input: __S(864, __c108, 0) as any as S.Schema<GetDomainNameRequest>,
   output: __S(321, __c40, 1) as any as S.Schema<DomainName>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
@@ -3261,6 +3359,7 @@ export const getDomainNameAccessAssociations: API.OperationMethod<
   input: __S(872, __c109, 0) as any as S.Schema<GetDomainNameAccessAssociationsRequest>,
   output: __S(874, __c109, 2) as any as S.Schema<DomainNameAccessAssociations>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainNameAccessAssociations",
@@ -3287,6 +3386,7 @@ export const getDomainNames: API.PaginatedOperationMethod<
   input: __S(880, __c110, 0) as any as S.Schema<GetDomainNamesRequest>,
   output: __S(882, __c110, 2) as any as S.Schema<DomainNames>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainNames",
@@ -3327,6 +3427,7 @@ export const getExport: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
@@ -3352,6 +3453,7 @@ export const getGatewayResponse: API.OperationMethod<
   input: __S(904, __c113, 0) as any as S.Schema<GetGatewayResponseRequest>,
   output: __S(912, __c114, 0) as any as S.Schema<GatewayResponse>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayResponse",
@@ -3377,6 +3479,7 @@ export const getGatewayResponses: API.OperationMethod<
   input: __S(920, __c115, 0) as any as S.Schema<GetGatewayResponsesRequest>,
   output: __S(922, __c115, 2) as any as S.Schema<GatewayResponses>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayResponses",
@@ -3402,6 +3505,7 @@ export const getIntegration: API.OperationMethod<
   input: __S(928, __c116, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(402, __c50, 2) as any as S.Schema<Integration>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
@@ -3427,6 +3531,7 @@ export const getIntegrationResponse: API.OperationMethod<
   input: __S(968, __c121, 0) as any as S.Schema<GetIntegrationResponseRequest>,
   output: __S(392, __c49, 0) as any as S.Schema<IntegrationResponse>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationResponse",
@@ -3451,6 +3556,7 @@ export const getMethod: API.OperationMethod<
   input: __S(976, __c122, 0) as any as S.Schema<GetMethodRequest>,
   output: __S(417, __c52, 1) as any as S.Schema<Method>,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMethod",
@@ -3475,6 +3581,7 @@ export const getMethodResponse: API.OperationMethod<
   input: __S(984, __c123, 0) as any as S.Schema<GetMethodResponseRequest>,
   output: __S(409, __c51, 1) as any as S.Schema<MethodResponse>,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMethodResponse",
@@ -3500,6 +3607,7 @@ export const getModel: API.OperationMethod<
   input: __S(992, __c124, 0) as any as S.Schema<GetModelRequest>,
   output: __S(360, __c45, 0) as any as S.Schema<Model>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModel",
@@ -3526,6 +3634,7 @@ export const getModels: API.PaginatedOperationMethod<
   input: __S(1000, __c125, 0) as any as S.Schema<GetModelsRequest>,
   output: __S(1002, __c125, 2) as any as S.Schema<Models>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModels",
@@ -3557,6 +3666,7 @@ export const getModelTemplate: API.OperationMethod<
   input: __S(1008, __c126, 0) as any as S.Schema<GetModelTemplateRequest>,
   output: __S(1009, __c126, 1) as any as S.Schema<Template>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelTemplate",
@@ -3582,6 +3692,7 @@ export const getRequestValidator: API.OperationMethod<
   input: __S(1016, __c127, 0) as any as S.Schema<GetRequestValidatorRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<RequestValidator>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestValidator",
@@ -3607,6 +3718,7 @@ export const getRequestValidators: API.OperationMethod<
   input: __S(1024, __c128, 0) as any as S.Schema<GetRequestValidatorsRequest>,
   output: __S(1026, __c128, 2) as any as S.Schema<RequestValidators>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestValidators",
@@ -3631,6 +3743,7 @@ export const getResource: API.OperationMethod<
   input: __S(1032, __c129, 0) as any as S.Schema<GetResourceRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<Resource>,
   errors: [NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
@@ -3657,6 +3770,7 @@ export const getResources: API.PaginatedOperationMethod<
   input: __S(1040, __c130, 0) as any as S.Schema<GetResourcesRequest>,
   output: __S(1042, __c130, 2) as any as S.Schema<Resources>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResources",
@@ -3685,9 +3799,10 @@ export const getRestApi: API.OperationMethod<
   GetRestApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<GetRestApiRequest>,
+  input: __S(1072, __c134, 0) as any as S.Schema<GetRestApiRequest>,
   output: __S(440, __c55, 0) as any as S.Schema<RestApi>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestApi",
@@ -3711,9 +3826,10 @@ export const getRestApis: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RestApi
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<GetRestApisRequest>,
-  output: __S(1074, __c134, 2) as any as S.Schema<RestApis>,
+  input: __S(1080, __c135, 0) as any as S.Schema<GetRestApisRequest>,
+  output: __S(1082, __c135, 2) as any as S.Schema<RestApis>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestApis",
@@ -3744,7 +3860,7 @@ export const getSdk: API.OperationMethod<
   GetSdkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<GetSdkRequest>,
+  input: __S(1088, __c136, 0) as any as S.Schema<GetSdkRequest>,
   output: __S(896, __c112, 0) as any as S.Schema<SdkResponse>,
   errors: [
     BadRequestException,
@@ -3754,6 +3870,7 @@ export const getSdk: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdk",
@@ -3776,9 +3893,10 @@ export const getSdkType: API.OperationMethod<
   GetSdkTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<GetSdkTypeRequest>,
-  output: __S(1098, __c137, 2) as any as S.Schema<SdkType>,
+  input: __S(1096, __c137, 0) as any as S.Schema<GetSdkTypeRequest>,
+  output: __S(1106, __c138, 2) as any as S.Schema<SdkType>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdkType",
@@ -3801,9 +3919,10 @@ export const getSdkTypes: API.OperationMethod<
   GetSdkTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<GetSdkTypesRequest>,
-  output: __S(1106, __c138, 2) as any as S.Schema<SdkTypes>,
+  input: __S(1112, __c139, 0) as any as S.Schema<GetSdkTypesRequest>,
+  output: __S(1114, __c139, 2) as any as S.Schema<SdkTypes>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdkTypes",
@@ -3828,7 +3947,7 @@ export const getStage: API.OperationMethod<
   GetStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<GetStageRequest>,
+  input: __S(1120, __c140, 0) as any as S.Schema<GetStageRequest>,
   output: __S(460, __c57, 4) as any as S.Schema<Stage>,
   errors: [
     BadRequestException,
@@ -3838,6 +3957,7 @@ export const getStage: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
@@ -3862,8 +3982,8 @@ export const getStages: API.OperationMethod<
   GetStagesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<GetStagesRequest>,
-  output: __S(1122, __c140, 2) as any as S.Schema<Stages>,
+  input: __S(1128, __c141, 0) as any as S.Schema<GetStagesRequest>,
+  output: __S(1130, __c141, 2) as any as S.Schema<Stages>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -3872,6 +3992,7 @@ export const getStages: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStages",
@@ -3894,9 +4015,10 @@ export const getTags: API.OperationMethod<
   GetTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<GetTagsRequest>,
-  output: __S(1129, __c141, 1) as any as S.Schema<Tags>,
+  input: __S(1136, __c142, 0) as any as S.Schema<GetTagsRequest>,
+  output: __S(1137, __c142, 1) as any as S.Schema<Tags>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
@@ -3920,9 +4042,10 @@ export const getUsage: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<GetUsageRequest>,
-  output: __S(1147, __c143, 3) as any as S.Schema<Usage>,
+  input: __S(1144, __c143, 0) as any as S.Schema<GetUsageRequest>,
+  output: __S(1155, __c144, 3) as any as S.Schema<Usage>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsage",
@@ -3951,9 +4074,10 @@ export const getUsagePlan: API.OperationMethod<
   GetUsagePlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<GetUsagePlanRequest>,
+  input: __S(1160, __c145, 0) as any as S.Schema<GetUsagePlanRequest>,
   output: __S(484, __c60, 4) as any as S.Schema<UsagePlan>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlan",
@@ -3976,9 +4100,10 @@ export const getUsagePlanKey: API.OperationMethod<
   GetUsagePlanKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<GetUsagePlanKeyRequest>,
+  input: __S(1184, __c148, 0) as any as S.Schema<GetUsagePlanKeyRequest>,
   output: __S(496, __c62, 0) as any as S.Schema<UsagePlanKey>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlanKey",
@@ -4002,9 +4127,10 @@ export const getUsagePlanKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UsagePlanKey
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<GetUsagePlanKeysRequest>,
-  output: __S(1186, __c148, 2) as any as S.Schema<UsagePlanKeys>,
+  input: __S(1192, __c149, 0) as any as S.Schema<GetUsagePlanKeysRequest>,
+  output: __S(1194, __c149, 2) as any as S.Schema<UsagePlanKeys>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlanKeys",
@@ -4034,9 +4160,10 @@ export const getUsagePlans: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UsagePlan
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<GetUsagePlansRequest>,
-  output: __S(1194, __c149, 2) as any as S.Schema<UsagePlans>,
+  input: __S(1200, __c150, 0) as any as S.Schema<GetUsagePlansRequest>,
+  output: __S(1202, __c150, 2) as any as S.Schema<UsagePlans>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlans",
@@ -4065,9 +4192,10 @@ export const getVpcLink: API.OperationMethod<
   GetVpcLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<GetVpcLinkRequest>,
+  input: __S(1208, __c151, 0) as any as S.Schema<GetVpcLinkRequest>,
   output: __S(512, __c64, 0) as any as S.Schema<VpcLink>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcLink",
@@ -4091,9 +4219,10 @@ export const getVpcLinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VpcLink
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<GetVpcLinksRequest>,
-  output: __S(1210, __c151, 2) as any as S.Schema<VpcLinks>,
+  input: __S(1216, __c152, 0) as any as S.Schema<GetVpcLinksRequest>,
+  output: __S(1218, __c152, 2) as any as S.Schema<VpcLinks>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcLinks",
@@ -4124,8 +4253,8 @@ export const importApiKeys: API.OperationMethod<
   ImportApiKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<ImportApiKeysRequest>,
-  output: __S(1224, __c153, 0) as any as S.Schema<ApiKeyIds>,
+  input: __S(1224, __c153, 0) as any as S.Schema<ImportApiKeysRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<ApiKeyIds>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4134,6 +4263,7 @@ export const importApiKeys: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApiKeys",
@@ -4158,8 +4288,8 @@ export const importDocumentationParts: API.OperationMethod<
   ImportDocumentationPartsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<ImportDocumentationPartsRequest>,
-  output: __S(1224, __c153, 0) as any as S.Schema<DocumentationPartIds>,
+  input: __S(1240, __c155, 0) as any as S.Schema<ImportDocumentationPartsRequest>,
+  output: __S(1232, __c154, 0) as any as S.Schema<DocumentationPartIds>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4168,6 +4298,7 @@ export const importDocumentationParts: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDocumentationParts",
@@ -4192,7 +4323,7 @@ export const importRestApi: API.OperationMethod<
   ImportRestApiError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<ImportRestApiRequest>,
+  input: __S(1248, __c156, 0) as any as S.Schema<ImportRestApiRequest>,
   output: __S(440, __c55, 0) as any as S.Schema<RestApi>,
   errors: [
     BadRequestException,
@@ -4202,6 +4333,7 @@ export const importRestApi: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportRestApi",
@@ -4226,7 +4358,7 @@ export const putGatewayResponse: API.OperationMethod<
   PutGatewayResponseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<PutGatewayResponseRequest>,
+  input: __S(1256, __c157, 0) as any as S.Schema<PutGatewayResponseRequest>,
   output: __S(912, __c114, 0) as any as S.Schema<GatewayResponse>,
   errors: [
     BadRequestException,
@@ -4236,6 +4368,7 @@ export const putGatewayResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGatewayResponse",
@@ -4260,7 +4393,7 @@ export const putIntegration: API.OperationMethod<
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<PutIntegrationRequest>,
+  input: __S(1264, __c158, 0) as any as S.Schema<PutIntegrationRequest>,
   output: __S(402, __c50, 2) as any as S.Schema<Integration>,
   errors: [
     BadRequestException,
@@ -4270,6 +4403,7 @@ export const putIntegration: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
@@ -4304,6 +4438,7 @@ export const putIntegrationResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegrationResponse",
@@ -4338,6 +4473,7 @@ export const putMethod: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMethod",
@@ -4372,6 +4508,7 @@ export const putMethodResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMethodResponse",
@@ -4407,6 +4544,7 @@ export const putRestApi: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestApi",
@@ -4424,7 +4562,7 @@ export type RejectDomainNameAccessAssociationError =
 /**
  * Rejects a domain name access association with a private custom domain name.
  *
- * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
+ * To reject a domain name access association with an access association source in another Amazon Web Services account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
  */
 export const rejectDomainNameAccessAssociation: API.OperationMethod<
   RejectDomainNameAccessAssociationRequest & RegionInput,
@@ -4441,6 +4579,7 @@ export const rejectDomainNameAccessAssociation: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDomainNameAccessAssociation",
@@ -4475,6 +4614,7 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4500,6 +4640,7 @@ export const testInvokeAuthorizer: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<TestInvokeAuthorizerRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<TestInvokeAuthorizerResponse>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeAuthorizer",
@@ -4525,6 +4666,7 @@ export const testInvokeMethod: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<TestInvokeMethodRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<TestInvokeMethodResponse>,
   errors: [BadRequestException, NotFoundException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeMethod",
@@ -4559,6 +4701,7 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4593,6 +4736,7 @@ export const updateAccount: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccount",
@@ -4627,6 +4771,7 @@ export const updateApiKey: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
@@ -4643,7 +4788,7 @@ export type UpdateAuthorizerError =
   | UnauthorizedException
   | CommonErrors;
 /**
- * Updates an existing Authorizer resource.
+ * Updates an existing Authorizer resource. For a `JWT` authorizer, the only JWT patch operation is `replace` on the path `/jwtConfiguration`. Its value is the complete configuration as a JSON string in the `JwtConfigurationInput` shape. This replaces the entire configuration; nothing from the previous configuration is retained. A `replace` operation on the path `/type` is supported in both directions.
  */
 export const updateAuthorizer: API.OperationMethod<
   UpdateAuthorizerRequest & RegionInput,
@@ -4652,7 +4797,7 @@ export const updateAuthorizer: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<UpdateAuthorizerRequest>,
-  output: __S(1056, __c132, 0) as any as S.Schema<Authorizer>,
+  output: __S(1069, __c133, 5) as any as S.Schema<Authorizer>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4661,6 +4806,7 @@ export const updateAuthorizer: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthorizer",
@@ -4686,7 +4832,7 @@ export const updateBasePathMapping: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<UpdateBasePathMappingRequest>,
-  output: __S(1168, __c146, 0) as any as S.Schema<BasePathMapping>,
+  output: __S(1176, __c147, 0) as any as S.Schema<BasePathMapping>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4695,6 +4841,7 @@ export const updateBasePathMapping: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBasePathMapping",
@@ -4729,6 +4876,7 @@ export const updateClientCertificate: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClientCertificate",
@@ -4765,6 +4913,7 @@ export const updateDeployment: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
@@ -4799,6 +4948,7 @@ export const updateDocumentationPart: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentationPart",
@@ -4833,6 +4983,7 @@ export const updateDocumentationVersion: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentationVersion",
@@ -4867,6 +5018,7 @@ export const updateDomainName: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
@@ -4901,6 +5053,7 @@ export const updateGatewayResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayResponse",
@@ -4935,6 +5088,7 @@ export const updateIntegration: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
@@ -4969,6 +5123,7 @@ export const updateIntegrationResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationResponse",
@@ -5001,6 +5156,7 @@ export const updateMethod: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMethod",
@@ -5035,6 +5191,7 @@ export const updateMethodResponse: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMethodResponse",
@@ -5069,6 +5226,7 @@ export const updateModel: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
@@ -5103,6 +5261,7 @@ export const updateRequestValidator: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRequestValidator",
@@ -5135,6 +5294,7 @@ export const updateResource: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
@@ -5169,6 +5329,7 @@ export const updateRestApi: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestApi",
@@ -5203,6 +5364,7 @@ export const updateStage: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
@@ -5228,7 +5390,7 @@ export const updateUsage: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<UpdateUsageRequest>,
-  output: __S(1147, __c143, 3) as any as S.Schema<Usage>,
+  output: __S(1155, __c144, 3) as any as S.Schema<Usage>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5237,6 +5399,7 @@ export const updateUsage: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsage",
@@ -5271,6 +5434,7 @@ export const updateUsagePlan: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsagePlan",
@@ -5305,6 +5469,7 @@ export const updateVpcLink: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcLink",
@@ -6199,7 +6364,7 @@ function __c38(j: number): any {
           certificateArn: S.optional(S.String),
           regionalCertificateName: S.optional(S.String),
           regionalCertificateArn: S.optional(S.String),
-          endpointConfiguration: S.optional(__S(313, __c39, 1)),
+          endpointConfiguration: S.optional(__S(312, __c39, 0)),
           tags: S.optional(__S(944, __c118, 0)),
           securityPolicy: S.optional(S.String),
           endpointAccessMode: S.optional(S.String),
@@ -6216,11 +6381,9 @@ function __c38(j: number): any {
 function __c39(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(312, __c39, 0)),
+          types: S.optional(__S(1056, __c132, 0)),
           ipAddressType: S.optional(S.String),
           vpcEndpointIds: S.optional(__S(960, __c120, 0)),
         }),
@@ -6252,7 +6415,7 @@ function __c40(j: number): any {
           regionalCertificateArn: S.optional(S.String),
           distributionDomainName: S.optional(S.String),
           distributionHostedZoneId: S.optional(S.String),
-          endpointConfiguration: S.optional(__S(313, __c39, 1)),
+          endpointConfiguration: S.optional(__S(312, __c39, 0)),
           domainNameStatus: S.optional(S.String),
           domainNameStatusMessage: S.optional(S.String),
           securityPolicy: S.optional(S.String),
@@ -6526,7 +6689,7 @@ function __c54(j: number): any {
           binaryMediaTypes: S.optional(__S(960, __c120, 0)),
           minimumCompressionSize: S.optional(S.Number),
           apiKeySource: S.optional(S.String),
-          endpointConfiguration: S.optional(__S(313, __c39, 1)),
+          endpointConfiguration: S.optional(__S(312, __c39, 0)),
           policy: S.optional(S.String),
           tags: S.optional(__S(944, __c118, 0)),
           disableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -6550,7 +6713,7 @@ function __c55(j: number): any {
           binaryMediaTypes: S.optional(__S(960, __c120, 0)),
           minimumCompressionSize: S.optional(S.Number),
           apiKeySource: S.optional(S.String),
-          endpointConfiguration: S.optional(__S(313, __c39, 1)),
+          endpointConfiguration: S.optional(__S(312, __c39, 0)),
           policy: S.optional(S.String),
           tags: S.optional(__S(944, __c118, 0)),
           disableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -7420,7 +7583,7 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "GetAuthorizersRequest" });
     case 1:
-      return S.Array(__S(1056, __c132, 0));
+      return S.Array(__S(1069, __c133, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7472,7 +7635,7 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "GetBasePathMappingsRequest" });
     case 1:
-      return S.Array(__S(1168, __c146, 0));
+      return S.Array(__S(1176, __c147, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8204,6 +8367,20 @@ function __c131(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          issuer: S.String,
+          audiences: __S(960, __c120, 0),
+          additionalClaims: S.optional(__S(1065, __c133, 1)),
+        }),
+      ).annotate({ identifier: "JwtIssuerInput" });
+    case 1:
+      return S.Array(__S(1048, __c131, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ issuers: __S(1049, __c131, 1), defaultAlgorithms: __S(1056, __c132, 0) }),
+      ).annotate({ identifier: "JwtConfigurationInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           restApiId: S.String.pipe(T.HttpLabel("restApiId")),
           name: S.String,
           type: S.String,
@@ -8214,6 +8391,7 @@ function __c131(j: number): any {
           identitySource: S.optional(S.String),
           identityValidationExpression: S.optional(S.String),
           authorizerResultTtlInSeconds: S.optional(S.Number),
+          jwtConfiguration: S.optional(__S(1050, __c131, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/restapis/{restApiId}/authorizers" }),
@@ -8230,6 +8408,41 @@ function __c131(j: number): any {
 function __c132(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          claimName: S.String,
+          format: S.String,
+          required: S.optional(S.Boolean),
+          expectedValues: S.optional(__S(960, __c120, 0)),
+        }),
+      ).annotate({ identifier: "JwtAdditionalClaim" });
+    case 1:
+      return S.Array(__S(1064, __c133, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          issuer: S.optional(S.String),
+          audiences: S.optional(__S(960, __c120, 0)),
+          additionalClaims: S.optional(__S(1065, __c133, 1)),
+          jwksUri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JwtIssuer" });
+    case 3:
+      return S.Array(__S(1066, __c133, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          issuers: S.optional(__S(1067, __c133, 3)),
+          defaultAlgorithms: S.optional(__S(1056, __c132, 0)),
+        }),
+      ).annotate({ identifier: "JwtConfiguration" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -8242,11 +8455,12 @@ function __c132(j: number): any {
           identitySource: S.optional(S.String),
           identityValidationExpression: S.optional(S.String),
           authorizerResultTtlInSeconds: S.optional(S.Number),
+          jwtConfiguration: S.optional(__S(1068, __c133, 4)),
         }),
       ).annotate({ identifier: "Authorizer" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8263,7 +8477,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetRestApiRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8277,13 +8491,13 @@ function __c134(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1073, __c134, 1)),
+          items: S.optional(__S(1081, __c135, 1)),
           position: S.optional(S.String).pipe(T.HttpQuery("position")),
         }).pipe(S.encodeKeys({ items: "item" })),
       ).annotate({ identifier: "RestApis" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8308,7 +8522,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetSdkRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8318,7 +8532,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetSdkTypeRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8331,19 +8545,19 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "SdkConfigurationProperty" });
     case 1:
-      return S.Array(__S(1096, __c137, 0));
+      return S.Array(__S(1104, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           friendlyName: S.optional(S.String),
           description: S.optional(S.String),
-          configurationProperties: S.optional(__S(1097, __c137, 1)),
+          configurationProperties: S.optional(__S(1105, __c138, 1)),
         }),
       ).annotate({ identifier: "SdkType" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8353,14 +8567,14 @@ function __c138(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/sdktypes" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSdkTypesRequest" });
     case 1:
-      return S.Array(__S(1098, __c137, 2));
+      return S.Array(__S(1106, __c138, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(1105, __c138, 1)) }).pipe(S.encodeKeys({ items: "item" })),
+        S.Struct({ items: S.optional(__S(1113, __c139, 1)) }).pipe(S.encodeKeys({ items: "item" })),
       ).annotate({ identifier: "SdkTypes" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8380,7 +8594,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetStageRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8401,12 +8615,12 @@ function __c140(j: number): any {
     case 1:
       return S.Array(__S(460, __c57, 4));
     case 2:
-      return S.suspend(() => S.Struct({ item: S.optional(__S(1121, __c140, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ item: S.optional(__S(1129, __c141, 1)) })).annotate({
         identifier: "Stages",
       });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8431,7 +8645,7 @@ function __c141(j: number): any {
       });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8455,27 +8669,27 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetUsageRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
-      return S.Array(__S(1144, __c143, 0));
+      return S.Array(__S(1152, __c144, 0));
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(1145, __c143, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1153, __c144, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
         S.Struct({
           usagePlanId: S.optional(S.String),
           startDate: S.optional(S.String),
           endDate: S.optional(S.String),
-          items: S.optional(__S(1146, __c143, 2)),
+          items: S.optional(__S(1154, __c144, 2)),
           position: S.optional(S.String).pipe(T.HttpQuery("position")),
         }).pipe(S.encodeKeys({ items: "values" })),
       ).annotate({ identifier: "Usage" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8492,7 +8706,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetUsagePlanRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8515,7 +8729,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CreateBasePathMappingRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8527,7 +8741,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "BasePathMapping" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8547,7 +8761,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetUsagePlanKeyRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8572,13 +8786,13 @@ function __c148(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1185, __c148, 1)),
+          items: S.optional(__S(1193, __c149, 1)),
           position: S.optional(S.String).pipe(T.HttpQuery("position")),
         }).pipe(S.encodeKeys({ items: "item" })),
       ).annotate({ identifier: "UsagePlanKeys" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8593,13 +8807,13 @@ function __c149(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1193, __c149, 1)),
+          items: S.optional(__S(1201, __c150, 1)),
           position: S.optional(S.String).pipe(T.HttpQuery("position")),
         }).pipe(S.encodeKeys({ items: "item" })),
       ).annotate({ identifier: "UsagePlans" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8616,7 +8830,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetVpcLinkRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8630,13 +8844,13 @@ function __c151(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1209, __c151, 1)),
+          items: S.optional(__S(1217, __c152, 1)),
           position: S.optional(S.String).pipe(T.HttpQuery("position")),
         }).pipe(S.encodeKeys({ items: "item" })),
       ).annotate({ identifier: "VpcLinks" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8657,7 +8871,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "ImportApiKeysRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8668,7 +8882,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ApiKeyIds" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8690,7 +8904,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ImportDocumentationPartsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8711,7 +8925,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ImportRestApiRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8734,7 +8948,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "PutGatewayResponseRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

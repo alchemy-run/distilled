@@ -52,8 +52,10 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "aws" },
   { package: "axiom" },
   { package: "azure" },
+  { package: "bitbucket" },
   { package: "boat-dev" },
   { package: "boxd" },
+  { package: "browserbase" },
   // celld publishes no API description: its models are hand-written in
   // spec-repos/celld/models/ and shipped by the mirror.
   { package: "celld" },
@@ -94,6 +96,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "infisical" },
   { package: "inngest" },
   { package: "intercom" },
+  { package: "jira" },
   { package: "kubernetes" },
   { package: "launchdarkly" },
   { package: "linear" },
@@ -101,9 +104,11 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "meilisearch" },
   { package: "mercury" },
   { package: "metabase" },
+  { package: "microsoft-graph" },
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
+  { package: "mollie" },
   { package: "mux" },
   { package: "namespacelabs" },
   { package: "neon" },
@@ -142,6 +147,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   // of the docs.slack.dev reference pages.
   { package: "slack" },
   { package: "spacetimedb" },
+  { package: "sproutboat" },
   { package: "stackit" },
   { package: "squarespace" },
   { package: "starburst-galaxy" },
@@ -159,6 +165,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "turso" },
   { package: "twitch" },
   { package: "typesense" },
+  { package: "unifi" },
   { package: "unkey" },
   { package: "vanta" },
   { package: "vercel" },
@@ -185,6 +192,7 @@ type ScaffoldEntry = readonly [source: string, target: string];
 export const SHARED: readonly ScaffoldEntry[] = [
   ["gitignore", ".gitignore"],
   ["tsconfig.json", ".meta/tsconfig.json"],
+  ["report-issues.ts", ".meta/report-issues.ts"],
   ["update-specs.yml", ".github/workflows/update-specs.yml"],
 ];
 

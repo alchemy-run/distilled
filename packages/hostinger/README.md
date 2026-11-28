@@ -23,10 +23,20 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Hostinger.CredentialsFromEnv,
-  Hostinger.HostingerProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Experimental operations
+
+The VPS Docker Manager operations, which the spec marks `x-scalar-stability: experimental`, are not
+in the root export. Import them from `unstable/`:
+
+```ts
+import * as HostingerExperimental from "@distilled.cloud/hostinger/unstable/hostinger";
+
+const projects = yield* HostingerExperimental.vPSGetProjectListV1({ virtualMachineId: 1 });
 ```
 
 ## Auth

@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * DigitalOcean credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). A Personal Access Token is sent as
  * `Authorization: Bearer <apiKey>`.
  */
@@ -32,7 +32,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "DigitalOceanCredentials",
   ) {}
 
@@ -63,33 +63,39 @@ export const fromApiKey = (config: {
  * DIGITALOCEAN_API_BASE_URL (optional), and the Spaces keys from
  * SPACES_ACCESS_KEY_ID and SPACES_SECRET_ACCESS_KEY (optional). DIGITALOCEAN_TOKEN is what the
  * Terraform provider reads; `doctl` uses DIGITALOCEAN_ACCESS_TOKEN.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey =
-      process.env.DIGITALOCEAN_TOKEN ??
-      process.env.DIGITALOCEAN_ACCESS_TOKEN ??
-      process.env.DIGITALOCEAN_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey =
+        process.env.DIGITALOCEAN_TOKEN ??
+        process.env.DIGITALOCEAN_ACCESS_TOKEN ??
+        process.env.DIGITALOCEAN_API_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message:
-          "DIGITALOCEAN_TOKEN, DIGITALOCEAN_ACCESS_TOKEN or DIGITALOCEAN_API_KEY environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message:
+            "DIGITALOCEAN_TOKEN, DIGITALOCEAN_ACCESS_TOKEN or DIGITALOCEAN_API_KEY environment variable is required",
+        });
+      }
 
-    const spacesAccessKeyId = process.env.SPACES_ACCESS_KEY_ID;
-    const spacesSecretAccessKey = process.env.SPACES_SECRET_ACCESS_KEY;
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.DIGITALOCEAN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-      spacesAccessKeyId: spacesAccessKeyId ? Redacted.make(spacesAccessKeyId) : undefined,
-      spacesSecretAccessKey: spacesSecretAccessKey
-        ? Redacted.make(spacesSecretAccessKey)
-        : undefined,
-    };
-  }),
+      const spacesAccessKeyId = process.env.SPACES_ACCESS_KEY_ID;
+      const spacesSecretAccessKey = process.env.SPACES_SECRET_ACCESS_KEY;
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: process.env.DIGITALOCEAN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+        spacesAccessKeyId: spacesAccessKeyId ? Redacted.make(spacesAccessKeyId) : undefined,
+        spacesSecretAccessKey: spacesSecretAccessKey
+          ? Redacted.make(spacesSecretAccessKey)
+          : undefined,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );
 
 /**
@@ -104,10 +110,9 @@ export interface FunctionsConfig {
 }
 
 export class FunctionsCredentials
-  extends /*@__PURE__*/ Context.Service<
-    FunctionsCredentials,
-    Effect.Effect<FunctionsConfig, ConfigError>
-  >()("DigitalOceanFunctionsCredentials") {}
+  extends /*@__PURE__*/ Context.Service<FunctionsCredentials, Effect.Effect<FunctionsConfig>>()(
+    "DigitalOceanFunctionsCredentials",
+  ) {}
 
 /** Layer for one namespace's OpenWhisk API. */
 export const fromFunctionsKey = (config: FunctionsConfig): Layer.Layer<FunctionsCredentials> =>

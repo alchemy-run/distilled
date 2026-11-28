@@ -23,10 +23,21 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   DigitalOcean.CredentialsFromEnv,
-  DigitalOcean.DigitalOceanProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Public Preview APIs
+
+DigitalOcean labels some API groups `[Public Preview]` in its OpenAPI tags:
+MicroVMs, VPC Subnets, VPC Routes and Harness Runtime Workspaces. Their
+operations are not on the package root; they import from `unstable/`:
+
+```ts
+import * as DigitalOceanUnstable from "@distilled.cloud/digitalocean/unstable/digitalocean";
+
+const subnets = yield* DigitalOceanUnstable.listVpcSubnets({ vpc_uuid });
 ```
 
 ## Auth

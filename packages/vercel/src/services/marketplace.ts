@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -138,9 +139,15 @@ export interface GetAccountInfoResponseContact {
   email: string;
   name?: string | undefined;
 }
+/** Up to 3 contacts for the integration. `contact` comes first, followed by the confirmed owners of the team, longest-standing first. For a personal account, the account owner. */
+export type GetAccountInfoResponseContactsItem = GetAccountInfoResponseContact;
+/** Up to 3 contacts for the integration. `contact` comes first, followed by the confirmed owners of the team, longest-standing first. For a personal account, the account owner. */
+export type GetAccountInfoResponseContactsList = Array<GetAccountInfoResponseContact>;
 export interface GetAccountInfoResponse {
   /** The best contact for the integration, which can change as team members and their roles change. */
   contact: GetAccountInfoResponseContact | null;
+  /** Up to 3 contacts for the integration. `contact` comes first, followed by the confirmed owners of the team, longest-standing first. For a personal account, the account owner. */
+  contacts: GetAccountInfoResponseContactsList;
   /** The name of the team the installation is tied to. */
   name?: string | undefined;
   /** A URL linking to the installation in the Vercel Dashboard. */
@@ -557,7 +564,7 @@ export interface ImportResourceRequestSecretsItemEnvironmentOverrides {
 }
 export interface ImportResourceRequestSecretsItem {
   name: string;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   prefix?: string | undefined;
   /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
   environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides | undefined;
@@ -644,7 +651,7 @@ export interface ReplaceInstallationsByIntegrationConfigurationIdResourcesByReso
 }
 export interface RevokeInstallationCredentialRequest {
   integrationConfigurationId: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   client_secret: string | Redacted.Redacted<string>;
   client_id?: string | undefined;
 }
@@ -966,8 +973,14 @@ export type UpdateResourceRequestExtrasMap = { [key: string]: unknown | undefine
 /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
 export type UpdateResourceRequestSecretsCase0ItemEnvironmentOverrides =
   ImportResourceRequestSecretsItemEnvironmentOverrides;
-export type UpdateResourceRequestSecretsCase0Item = ImportResourceRequestSecretsItem;
-export type UpdateResourceRequestSecretsCase0List = Array<ImportResourceRequestSecretsItem>;
+export interface UpdateResourceRequestSecretsCase0Item {
+  name: string;
+  value: string;
+  prefix?: string | undefined;
+  /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
+  environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides | undefined;
+}
+export type UpdateResourceRequestSecretsCase0List = Array<UpdateResourceRequestSecretsCase0Item>;
 /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
 export type UpdateResourceRequestSecretsCase1SecretsItemEnvironmentOverrides =
   ImportResourceRequestSecretsItemEnvironmentOverrides;
@@ -1070,6 +1083,7 @@ export const createEvent: API.OperationMethod<
   input: __S(416, __c26, 0) as any as S.Schema<CreateEventRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<CreateEventResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1099,6 +1113,7 @@ export const createInstallationsByIntegrationConfigurationIdResourcesByResourceI
     0,
   ) as any as S.Schema<CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1128,6 +1143,7 @@ export const deleteInstallationResourceExperimentationItem: API.OperationMethod<
     0,
   ) as any as S.Schema<DeleteInstallationResourceExperimentationItemResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1145,6 +1161,7 @@ export const deleteIntegrationResource: API.OperationMethod<
   input: __S(480, __c30, 0) as any as S.Schema<DeleteIntegrationResourceRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<DeleteIntegrationResourceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1152,7 +1169,7 @@ export const deleteIntegrationResource: API.OperationMethod<
 }));
 
 export type FinalizeInstallationError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Finalize Installation This endpoint allows the partner to mark an installation as finalized. This means you will not send any more invoices for the installation. Use this after a customer has requested uninstall and you have sent any remaining invoices. This will allow the uninstall process to proceed immediately after all invoices have been paid. <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. */
+/** Finalize Installation This endpoint allows the partner to mark an installation as finalized. This means you will not send any more invoices for the installation. Use this after a customer has requested uninstall and you have sent any remaining invoices. This will allow the uninstall process to proceed immediately after all invoices have been paid. */
 export const finalizeInstallation: API.OperationMethod<
   FinalizeInstallationRequest,
   FinalizeInstallationResponse,
@@ -1162,6 +1179,7 @@ export const finalizeInstallation: API.OperationMethod<
   input: __S(496, __c31, 0) as any as S.Schema<FinalizeInstallationRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<FinalizeInstallationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1177,8 +1195,9 @@ export const getAccountInfo: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetAccountInfoRequest>,
-  output: __S(514, __c32, 2) as any as S.Schema<GetAccountInfoResponse>,
+  output: __S(515, __c32, 3) as any as S.Schema<GetAccountInfoResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1208,6 +1227,7 @@ export const getInstallationResourceExperimentationGlobalConfig: API.OperationMe
     1,
   ) as any as S.Schema<GetInstallationResourceExperimentationGlobalConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1225,6 +1245,7 @@ export const getIntegrationResource: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<GetIntegrationResourceRequest>,
   output: __S(41, __c2, 9) as any as S.Schema<GetIntegrationResourceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1242,6 +1263,7 @@ export const getIntegrationResources: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<GetIntegrationResourcesRequest>,
   output: __S(86, __c5, 6) as any as S.Schema<GetIntegrationResourcesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1259,6 +1281,7 @@ export const getInvoice: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(102, __c6, 6) as any as S.Schema<GetInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1276,6 +1299,7 @@ export const getMember: API.OperationMethod<
   input: __S(112, __c7, 0) as any as S.Schema<GetMemberRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<GetMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1305,6 +1329,7 @@ export const headInstallationResourceExperimentationGlobalConfig: API.OperationM
     0,
   ) as any as S.Schema<HeadInstallationResourceExperimentationGlobalConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1322,6 +1347,7 @@ export const importResource: API.OperationMethod<
   input: __S(149, __c9, 5) as any as S.Schema<ImportResourceRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<ImportResourceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1352,6 +1378,7 @@ export const replaceInstallationsByIntegrationConfigurationIdResourcesByResource
     1,
   ) as any as S.Schema<ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1374,6 +1401,7 @@ export const revokeInstallationCredential: API.OperationMethod<
   input: __S(240, __c15, 0) as any as S.Schema<RevokeInstallationCredentialRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<RevokeInstallationCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,6 +1424,7 @@ export const rotateInstallationCredential: API.OperationMethod<
   input: __S(256, __c16, 0) as any as S.Schema<RotateInstallationCredentialRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<RotateInstallationCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1403,7 +1432,7 @@ export const rotateInstallationCredential: API.OperationMethod<
 }));
 
 export type SubmitBillingDataError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Submit Billing Data Sends the billing and usage data. The partner should do this at least once a day and ideally once per hour. <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. */
+/** Submit Billing Data Sends the billing and usage data. The partner should do this at least once a day and ideally once per hour. */
 export const submitBillingData: API.OperationMethod<
   SubmitBillingDataRequest,
   SubmitBillingDataResponse,
@@ -1413,6 +1442,7 @@ export const submitBillingData: API.OperationMethod<
   input: __S(274, __c17, 2) as any as S.Schema<SubmitBillingDataRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<SubmitBillingDataResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1420,7 +1450,7 @@ export const submitBillingData: API.OperationMethod<
 }));
 
 export type SubmitInvoiceError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
-/** Submit Invoice This endpoint allows the partner to submit an invoice to Vercel. The invoice is created in Vercel's billing system and sent to the customer. Depending on the type of billing plan, the invoice can be sent at a time of signup, at the start of the billing period, or at the end of the billing period.<br/> <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. <br/> There are several limitations to the invoice submission:<br/> <br/> 1. A resource can only be billed once per the billing period and the billing plan.<br/> 2. The billing plan used to bill the resource must have been active for this resource during the billing period.<br/> 3. The billing plan used must be a subscription plan.<br/> 4. The interim usage data must be sent hourly for all types of subscriptions. See [Send subscription billing and usage data](#send-subscription-billing-and-usage-data) API on how to send interim billing and usage data.<br/> 5. If provided, `externalId` must be unique for the installation.<br/> */
+/** Submit Invoice This endpoint allows the partner to submit an invoice to Vercel. The invoice is created in Vercel's billing system and sent to the customer. Depending on the type of billing plan, the invoice can be sent at a time of signup, at the start of the billing period, or at the end of the billing period.<br/> <br/> There are several limitations to the invoice submission:<br/> <br/> 1. A resource can only be billed once per the billing period and the billing plan.<br/> 2. The billing plan used to bill the resource must have been active for this resource during the billing period.<br/> 3. The billing plan used must be a subscription plan.<br/> 4. The interim usage data must be sent hourly for all types of subscriptions. See [Send subscription billing and usage data](#send-subscription-billing-and-usage-data) API on how to send interim billing and usage data.<br/> 5. If provided, `externalId` must be unique for the installation.<br/> */
 export const submitInvoice: API.OperationMethod<
   SubmitInvoiceRequest,
   SubmitInvoiceResponse,
@@ -1430,6 +1460,7 @@ export const submitInvoice: API.OperationMethod<
   input: __S(309, __c19, 5) as any as S.Schema<SubmitInvoiceRequest>,
   output: __S(310, __c19, 6) as any as S.Schema<SubmitInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1437,7 +1468,7 @@ export const submitInvoice: API.OperationMethod<
 }));
 
 export type SubmitPrepaymentBalancesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Submit Prepayment Balances Sends the prepayment balances. The partner should do this at least once a day and ideally once per hour. <br/> Use the `credentials.access_token` we provided in the [Upsert Installation](#upsert-installation) body to authorize this request. */
+/** Submit Prepayment Balances Sends the prepayment balances. The partner should do this at least once a day and ideally once per hour. */
 export const submitPrepaymentBalances: API.OperationMethod<
   SubmitPrepaymentBalancesRequest,
   SubmitPrepaymentBalancesResponse,
@@ -1447,6 +1478,7 @@ export const submitPrepaymentBalances: API.OperationMethod<
   input: __S(322, __c20, 2) as any as S.Schema<SubmitPrepaymentBalancesRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<SubmitPrepaymentBalancesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1464,6 +1496,7 @@ export const updateInstallation: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<UpdateInstallationRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<UpdateInstallationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1493,6 +1526,7 @@ export const updateInstallationsByIntegrationConfigurationIdResourcesByResourceI
     0,
   ) as any as S.Schema<UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1510,6 +1544,7 @@ export const updateInvoice: API.OperationMethod<
   input: __S(369, __c23, 1) as any as S.Schema<UpdateInvoiceRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<UpdateInvoiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1527,6 +1562,7 @@ export const updateResource: API.OperationMethod<
   input: __S(389, __c24, 5) as any as S.Schema<UpdateResourceRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<UpdateResourceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1549,6 +1585,7 @@ export const updateResourceSecretsById: API.OperationMethod<
   input: __S(400, __c25, 0) as any as S.Schema<UpdateResourceSecretsByIdRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<UpdateResourceSecretsByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2003,7 +2040,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           prefix: S.optional(S.String),
           environmentOverrides: S.optional(__S(208, __c13, 0)),
         }),
@@ -2039,7 +2076,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationConfigurationId: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           client_secret: S.String.pipe(T.SensitiveValue({})),
           client_id: S.optional(S.String),
         }).pipe(
@@ -2509,9 +2546,12 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "GetAccountInfoResponseContact" });
     case 2:
+      return S.Array(__S(513, __c32, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           contact: S.NullOr(__S(513, __c32, 1)),
+          contacts: __S(514, __c32, 2),
           name: S.optional(S.String),
           url: S.String,
         }),

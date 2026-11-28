@@ -31,7 +31,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   ClickHouseCloud.CredentialsFromEnv,
-  ClickHouseCloud.ClickHouseCloudProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
@@ -83,11 +82,22 @@ class.
 
 ## Services
 
-One module per API tag: `service`, `apiKeys`, `backup`, `snapshot`,
-`clickPipes`, `clickStack`, `postgres`, `organization` (including BYOC
-infrastructure), `roleManagement`, `userManagement`, `notifications`,
-`billing`, `prometheus`, `queryApiEndpoints`, `savedQueries` and `udf`.
-Many ClickStack, Postgres, BYOC and UDF operations are marked Beta upstream.
+One module per API tag: `service`, `apiKeys`, `backup`, `clickPipes`,
+`organization` (including BYOC infrastructure), `roleManagement`,
+`userManagement`, `billing`, `prometheus`, `queryApiEndpoints`,
+`savedQueries` and `udf`.
+
+ClickHouse Cloud marks every operation of `clickStack`, `postgres`,
+`notifications` and `snapshot` Beta, so those modules import from
+`unstable/`:
+
+```ts
+import * as Postgres from "@distilled.cloud/clickhouse-cloud/unstable/postgres";
+import * as ClickStack from "@distilled.cloud/clickhouse-cloud/unstable/click_stack";
+```
+
+Some operations in the other modules (BYOC infrastructure in `organization`,
+for example) are Beta too; their modules stay on the stable path.
 
 Operations return the `result` of the API's `{ status, requestId, result }`
 envelope. A cursor-paginated list (`listApiKeys`, `listClickPipes`, `listUdfs`,

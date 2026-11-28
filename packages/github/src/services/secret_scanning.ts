@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { GithubServiceErrors } from "../errors.ts";
 import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -864,7 +865,41 @@ export interface ListOrgCustomPatternsRequest {
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   after?: string | undefined;
 }
-export type ListOrgCustomPatternsResponseBodyList = Array<SecretScanningCustomPattern>;
+/** The state of the custom pattern. */
+export type SecretScanningCustomPatternWithDryRunState = "published" | "unpublished";
+/** List of regexes that the secret must match. */
+export type SecretScanningCustomPatternWithDryRunMustMatchList = Array<string>;
+/** List of regexes that the secret must not match. */
+export type SecretScanningCustomPatternWithDryRunMustNotMatchList = Array<string>;
+/** A custom pattern for secret scanning. */
+export interface SecretScanningCustomPatternWithDryRun {
+  /** The ID of the custom pattern. */
+  id: number;
+  /** The name of the custom pattern. */
+  name: string;
+  /** The regular expression of the custom pattern. */
+  pattern: string;
+  /** A URL-friendly identifier for the custom pattern, derived from its name. */
+  slug: string;
+  /** The state of the custom pattern. */
+  state: SecretScanningCustomPatternWithDryRunState;
+  /** Whether push protection is enabled for this custom pattern. */
+  push_protection_enabled: boolean;
+  /** The start delimiter regex for the custom pattern. */
+  start_delimiter?: string | null | undefined;
+  /** The end delimiter regex for the custom pattern. */
+  end_delimiter?: string | null | undefined;
+  /** List of regexes that the secret must match. */
+  must_match?: SecretScanningCustomPatternWithDryRunMustMatchList | null | undefined;
+  /** List of regexes that the secret must not match. */
+  must_not_match?: SecretScanningCustomPatternWithDryRunMustNotMatchList | null | undefined;
+  custom_pattern_version?: string | null | undefined;
+  /** The date and time the custom pattern was created in ISO 8601 format. */
+  created_at?: string | undefined;
+  /** The date and time the custom pattern was last updated in ISO 8601 format. */
+  updated_at?: string | undefined;
+}
+export type ListOrgCustomPatternsResponseBodyList = Array<SecretScanningCustomPatternWithDryRun>;
 export type ListOrgCustomPatternsResponse = ListOrgCustomPatternsResponseBodyList;
 export interface ListOrgPatternConfigsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -942,7 +977,7 @@ export interface ListRepoCustomPatternsRequest {
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   after?: string | undefined;
 }
-export type ListRepoCustomPatternsResponseBodyList = Array<SecretScanningCustomPattern>;
+export type ListRepoCustomPatternsResponseBodyList = Array<SecretScanningCustomPatternWithDryRun>;
 export type ListRepoCustomPatternsResponse = ListRepoCustomPatternsResponseBodyList;
 /** Sets the validity of the secret scanning alert. Can be `active`, `inactive`, or `null` to clear the override. */
 export type UpdateAlertRequestValidity = "active" | "inactive";
@@ -1062,6 +1097,7 @@ export const bulkCreateOrgCustomPatterns: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<BulkCreateOrgCustomPatternsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<BulkCreateOrgCustomPatternsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1079,6 +1115,7 @@ export const bulkCreateRepoCustomPatterns: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<BulkCreateRepoCustomPatternsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<BulkCreateRepoCustomPatternsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1096,6 +1133,7 @@ export const bulkDeleteOrgCustomPatterns: API.OperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<BulkDeleteOrgCustomPatternsRequest>,
   output: __S(114, __c14, 2) as any as S.Schema<BulkDeleteOrgCustomPatternsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1113,6 +1151,7 @@ export const bulkDeleteRepoCustomPatterns: API.OperationMethod<
   input: __S(120, __c15, 0) as any as S.Schema<BulkDeleteRepoCustomPatternsRequest>,
   output: __S(114, __c14, 2) as any as S.Schema<BulkDeleteRepoCustomPatternsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1130,6 +1169,7 @@ export const createPushProtectionBypass: API.OperationMethod<
   input: __S(128, __c16, 0) as any as S.Schema<CreatePushProtectionBypassRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<SecretScanningPushProtectionBypass>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1147,6 +1187,7 @@ export const getAlert: API.OperationMethod<
   input: __S(136, __c17, 0) as any as S.Schema<GetAlertRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<SecretScanningAlertWithMetadata>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1164,6 +1205,7 @@ export const getScanHistory: API.OperationMethod<
   input: __S(160, __c20, 0) as any as S.Schema<GetScanHistoryRequest>,
   output: __S(165, __c20, 5) as any as S.Schema<SecretScanningScanHistory>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1183,6 +1225,7 @@ export const listAlertsForOrg: API.PaginatedOperationMethod<
     input: __S(168, __c21, 0) as any as S.Schema<ListAlertsForOrgRequest>,
     output: __S(172, __c21, 4) as any as S.Schema<ListAlertsForOrgResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1205,6 +1248,7 @@ export const listAlertsForRepo: API.PaginatedOperationMethod<
     input: __S(176, __c22, 0) as any as S.Schema<ListAlertsForRepoRequest>,
     output: __S(179, __c22, 3) as any as S.Schema<ListAlertsForRepoResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1227,6 +1271,7 @@ export const listLocationsForAlert: API.PaginatedOperationMethod<
     input: __S(184, __c23, 0) as any as S.Schema<ListLocationsForAlertRequest>,
     output: __S(187, __c23, 3) as any as S.Schema<ListLocationsForAlertResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1247,6 +1292,7 @@ export const listOrgCustomPatterns: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<ListOrgCustomPatternsRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ListOrgCustomPatternsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1264,6 +1310,7 @@ export const listOrgPatternConfigs: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<ListOrgPatternConfigsRequest>,
   output: __S(59, __c7, 3) as any as S.Schema<SecretScanningPatternConfiguration>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1281,6 +1328,7 @@ export const listRepoCustomPatterns: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<ListRepoCustomPatternsRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ListRepoCustomPatternsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1298,6 +1346,7 @@ export const updateAlert: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<UpdateAlertRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<SecretScanningAlertWithMetadata>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1315,6 +1364,7 @@ export const updateOrgCustomPattern: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<UpdateOrgCustomPatternRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<SecretScanningCustomPattern>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1332,6 +1382,7 @@ export const updateOrgPatternConfigs: API.OperationMethod<
   input: __S(92, __c11, 4) as any as S.Schema<UpdateOrgPatternConfigsRequest>,
   output: __S(93, __c11, 5) as any as S.Schema<UpdateOrgPatternConfigsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1349,6 +1400,7 @@ export const updateRepoCustomPattern: API.OperationMethod<
   input: __S(96, __c12, 0) as any as S.Schema<UpdateRepoCustomPatternRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<SecretScanningCustomPattern>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

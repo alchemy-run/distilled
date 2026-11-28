@@ -11,11 +11,13 @@ import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import * as API from "../src/api.ts";
 import * as Category from "../src/category.ts";
 import {
+  API_ERRORS,
   BadGateway,
   BadRequest,
   Conflict,
@@ -28,7 +30,8 @@ import {
   TooManyRequests,
   Unauthorized,
 } from "../src/errors.ts";
-import { makeRestProtocol } from "../src/protocol-rest.ts";
+import { restProtocol } from "../src/protocol-rest.ts";
+import type { Protocol } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
@@ -44,7 +47,7 @@ class UnknownTestError extends Schema.TaggedError<UnknownTestError>()("UnknownTe
   message: Schema.String,
 }) {}
 
-const TestProtocol = makeRestProtocol<{}>({
+const TestProtocol = restProtocol({
   credentials: Effect.succeed({}),
   baseUrl: () => "https://api.test",
   headers: () => ({}),
@@ -60,6 +63,7 @@ const operation = (method: "GET" | "POST", retry?: typeof TestRetry): Call =>
   API.make(() => ({
     input: S.Struct({}).pipe(T.Http({ method, uri: "/thing" })),
     output: Output,
+    serviceErrors: API_ERRORS,
     protocol: TestProtocol,
     ...(retry ? { retry } : {}),
   })) as unknown as Call;
@@ -69,6 +73,7 @@ const getThing = operation("GET", TestRetry);
 const getTuned = API.make(() => ({
   input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
   output: Output,
+  serviceErrors: API_ERRORS,
   protocol: TestProtocol,
   retry: TestRetry,
   retryPolicy: { maxAttempts: 4, baseMs: 100 },
@@ -343,6 +348,32 @@ describe("distilled.retry#policy override", () => {
   });
 });
 
+describe("stream request bodies", () => {
+  const putBlob = API.make(() => ({
+    input: S.Struct({ body: S.Unknown.pipe(T.HttpBody()) }).pipe(
+      T.Http({ method: "PUT", uri: "/blob", bodyMediaType: "application/octet-stream" }),
+    ),
+    output: Output,
+    serviceErrors: API_ERRORS,
+    protocol: TestProtocol,
+    retry: TestRetry,
+  })) as unknown as Call;
+
+  test("a call with a stream body is sent once: a stream cannot be sent again", async () => {
+    const { attempts, layer } = scripted(failTimes(2, () => status(503)));
+    const result = await runVirtual(putBlob({ body: Stream.make(new Uint8Array([1])) }), layer);
+    expect(result._tag).toBe("Failure");
+    expect(attempts).toHaveLength(1);
+  });
+
+  test("the same call with a bytes body is retried", async () => {
+    const { attempts, layer } = scripted(failTimes(2, () => status(503)));
+    const result = await runVirtual(putBlob({ body: new Uint8Array([1]) }), layer);
+    expect(result._tag).toBe("Success");
+    expect(attempts).toHaveLength(3);
+  });
+});
+
 describe("retry budget", () => {
   test("a bucket starts with 100 tokens: 7 transient retries, then the call fails at once", async () => {
     const http = scripted(() => status(503));
@@ -387,7 +418,7 @@ describe("retry budget", () => {
     // A protocol with its own `call` bypasses `send`: no host is
     // recorded and no success would refill a bucket.
     let attempts = 0;
-    const RawProtocol = Layer.succeed(API.Protocol, {
+    const RawProtocol: Protocol<ServiceUnavailable> = {
       encode: () => Effect.die("unused"),
       decode: () => Effect.die("unused"),
       call: () =>
@@ -395,7 +426,7 @@ describe("retry budget", () => {
           attempts++;
           return Effect.fail(new ServiceUnavailable({ message: "" }));
         }),
-    } as any);
+    };
     const rawCall = API.make(() => ({
       input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
       output: Output,

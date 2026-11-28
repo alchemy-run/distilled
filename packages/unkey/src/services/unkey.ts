@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUnkeyError } from "../errors.ts";
+import { UnkeyServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { UnkeyProtocol, type UnkeyOpError, type UnkeyOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -339,6 +339,15 @@ export interface CliGetDeviceLoginRequest {
 }
 /** Permissions the signed-in member's role allows. The approval page starts with all of them selected. */
 export type V2CliGetDeviceLoginResponseDataGrantablePermissionsList = Array<string>;
+/** Present only when an MCP client started the login through OAuth. Skip the code comparison and send the browser to the decision's redirectUrl. */
+export interface V2CliDeviceLoginOAuth {
+  /** The client's self-reported name. Show clientHost next to it. */
+  clientName: string;
+  /** Host that vouches for the client. For a client metadata document, the host serving it. For a registered client, the host the authorization code is sent to. */
+  clientHost: string;
+  /** URL of the MCP server the session will be used with. */
+  resource: string;
+}
 export interface V2CliGetDeviceLoginResponseData {
   userCode: string;
   /** Label sent by the CLI. The requester chooses it, so do not trust it. */
@@ -357,17 +366,26 @@ export interface V2CliGetDeviceLoginResponseData {
   createdAt: number;
   /** Unix millisecond expiry. */
   expiresAt: number;
+  oauth?: V2CliDeviceLoginOAuth | undefined;
 }
 export interface V2CliGetDeviceLoginResponseBody {
   meta: Meta;
   data: V2CliGetDeviceLoginResponseData;
 }
 export interface CliListSessionsRequest {}
+/** How the session started. cli is `unkey login`. mcp is an MCP client that signed in with OAuth. */
+export type V2CliSessionKind = "cli" | "mcp";
 export type V2CliListSessionsSessionPermissionsList = Array<string>;
 export interface V2CliListSessionsSession {
   id: string;
   userId: string;
+  kind: V2CliSessionKind;
+  /** The CLI machine's name, or the MCP client's self-reported name. */
   deviceName?: string | undefined;
+  /** Host that vouches for the MCP client. For a client metadata document, the host serving it. For a registered client, the host the authorization code was sent to. Absent for CLI sessions. */
+  clientHost?: string | undefined;
+  /** URL of the MCP server an mcp session is bound to. Absent for CLI sessions. */
+  resource?: string | undefined;
   permissions: V2CliListSessionsSessionPermissionsList;
   createdAt: number;
   lastUsedAt: number;
@@ -550,7 +568,7 @@ export interface V2IdentitiesCreateIdentityResponseBody {
 export type CreateKeyRequestMetaMap = { [key: string]: unknown | undefined };
 /** Assigns existing roles to this key for permission management through role-based access control. Roles must already exist in your workspace before assignment. During verification, all permissions from assigned roles are checked against requested permissions. Roles provide a convenient way to group permissions and apply consistent access patterns across multiple keys. */
 export type CreateKeyRequestRolesList = Array<string>;
-/** Grants specific permissions directly to this key without requiring role membership. Wildcard permissions like `documents.*` grant access to all sub-permissions including `documents.read` and `documents.write`. Direct permissions supplement any permissions inherited from assigned roles. */
+/** Grants specific permissions directly to this key without requiring role membership. Each entry is a permission ID or slug. IDs are matched first, then slugs. An entry that matches no permission creates a permission with that slug. Wildcard permissions like `documents.*` grant access to all sub-permissions including `documents.read` and `documents.write`. Direct permissions supplement any permissions inherited from assigned roles. */
 export type CreateKeyRequestPermissionsList = Array<string>;
 /** Defines time-based rate limits that protect against abuse by controlling request frequency. Unlike credits which track total usage, rate limits reset automatically after each window expires. Multiple rate limits can control different operation types with separate thresholds and windows. Essential for preventing API abuse while maintaining good performance for legitimate usage. */
 export type CreateKeyRequestRatelimitsList = Array<RatelimitRequest>;
@@ -569,7 +587,7 @@ export interface CreateKeyRequest {
   meta?: CreateKeyRequestMetaMap | undefined;
   /** Assigns existing roles to this key for permission management through role-based access control. Roles must already exist in your workspace before assignment. During verification, all permissions from assigned roles are checked against requested permissions. Roles provide a convenient way to group permissions and apply consistent access patterns across multiple keys. */
   roles?: CreateKeyRequestRolesList | undefined;
-  /** Grants specific permissions directly to this key without requiring role membership. Wildcard permissions like `documents.*` grant access to all sub-permissions including `documents.read` and `documents.write`. Direct permissions supplement any permissions inherited from assigned roles. */
+  /** Grants specific permissions directly to this key without requiring role membership. Each entry is a permission ID or slug. IDs are matched first, then slugs. An entry that matches no permission creates a permission with that slug. Wildcard permissions like `documents.*` grant access to all sub-permissions including `documents.read` and `documents.write`. Direct permissions supplement any permissions inherited from assigned roles. */
   permissions?: CreateKeyRequestPermissionsList | undefined;
   /** Sets when this key automatically expires as a Unix timestamp in milliseconds. Verification fails with code=EXPIRED immediately after this time passes. Omitting this field creates a permanent key that never expires. Avoid setting timestamps in the past as they immediately invalidate the key. Keys expire based on server time, not client time, which prevents timezone-related issues. Essential for trial periods, temporary access, and security compliance requiring key rotation. */
   expires?: number | undefined;
@@ -1070,9 +1088,9 @@ export interface App {
   git?: AppGit | undefined;
   /** The configured OCI image source. Omitted when the app is not OCI-sourced. */
   oci?: AppOCI | undefined;
-  /** The identifier of the deployment currently serving this app. Omitted if the app has no active deployment yet. */
+  /** Deprecated. Use `currentDeploymentId` on the environment instead; each environment has its own live deployment. This field is the deployment currently serving the app's production environment. Omitted if that environment has no live deployment yet. */
   currentDeploymentId?: string | undefined;
-  /** Whether the app is currently serving a rolled-back deployment rather than its latest one. */
+  /** Deprecated. Use `isRolledBack` on the environment instead; each environment is rolled back on its own. This field reports whether the app's production environment is serving a rolled-back deployment rather than its latest one. */
   isRolledBack: boolean;
   /** Whether delete protection is enabled for this app. When true, the app cannot be deleted until protection is disabled. */
   deleteProtection: boolean;
@@ -1260,7 +1278,7 @@ export interface GetDomainRequest {
   /** Identifies a domain by its Unkey ID or by its name. Pass a 'dom_'-prefixed ID, or a fully qualified domain name such as 'api.acme.com' without a scheme, port, or path. You can give an internationalized name in Unicode or Punycode form. Both forms address the same domain. Domain names are unique per workspace, so the name alone addresses the domain. You do not need to supply a project, app, or environment. */
   domain: string;
 }
-/** The verification status of the domain. - `pending`: the domain is created. No DNS check has completed yet. - `verifying`: Unkey checks the DNS records approximately each minute. - `verified`: the domain is verified. Unkey has configured routing and requested a certificate. - `failed`: the required DNS records did not appear within 24 hours. Fix the records, then retry verification. */
+/** The verification status of the domain. - `pending`: the domain is created. No DNS check has completed yet. - `verifying`: Unkey checks the DNS records approximately each minute. - `verified`: the domain is verified. Unkey has configured routing and requested a certificate. - `failed`: verification stopped. `verificationError` says why, for example the records did not appear within 24 hours. Fix the cause, then retry verification. */
 export type DomainStatus = "pending" | "verifying" | "verified" | "failed";
 /** The DNS records this domain needs. Create each record at your DNS provider. Each record has a `verified` flag. The flag shows whether Unkey has read that record back, so it tells you which records are still missing. */
 export type DomainDnsRecordsList = Array<DnsRecord>;
@@ -1274,7 +1292,6 @@ export interface Domain {
   appId: string;
   /** The environment this domain serves. Traffic to the domain reaches whatever is currently deployed to this environment. */
   environmentId: string;
-  /** The verification status of the domain. - `pending`: the domain is created. No DNS check has completed yet. - `verifying`: Unkey checks the DNS records approximately each minute. - `verified`: the domain is verified. Unkey has configured routing and requested a certificate. - `failed`: the required DNS records did not appear within 24 hours. Fix the records, then retry verification. */
   status: DomainStatus;
   /** Why the most recent verification attempt did not succeed, in plain language. Omitted while verification is progressing normally. */
   verificationError?: string | undefined;
@@ -1343,6 +1360,10 @@ export interface Environment {
   description: string;
   /** How deployments in this environment participate in the deployment lifecycle. */
   kind: EnvironmentKind;
+  /** The identifier of the deployment currently serving this environment. Omitted if the environment has no live deployment yet. */
+  currentDeploymentId?: string | undefined;
+  /** Whether this environment is serving a rolled-back deployment rather than its latest one. New deployments do not replace a rolled-back deployment until one is promoted. Always returned. */
+  isRolledBack?: boolean | undefined;
   /** Whether delete protection is enabled for this environment. When true, the environment cannot be deleted until protection is disabled. */
   deleteProtection: boolean;
   /** Unix timestamp in milliseconds when the environment was created. */
@@ -1443,12 +1464,12 @@ export interface V2GithubInstallAppResponseBody {
   meta: Meta;
   data: V2GithubInstallAppResponseData;
 }
-/** Grants additional permissions to the key through direct assignment or automatic creation. Duplicate permissions are ignored automatically, making this operation idempotent. Adding permissions never removes existing permissions or role-based permissions. Any permissions that do not exist will be auto created if the root key has permissions, otherwise this operation will fail with a 403 error. */
+/** Grants additional permissions to the key through direct assignment or automatic creation. Duplicate permissions are ignored automatically, making this operation idempotent. Adding permissions never removes existing permissions or role-based permissions. To create missing permission slugs, your root key must also have `write` on `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*` in the key's project. Without this grant, the operation fails with a 403 error if your root key can read the key, or a 404 error otherwise. */
 export type KeysAddPermissionsRequestPermissionsList = Array<string>;
 export interface KeysAddPermissionsRequest {
   /** Specifies which key receives the additional permissions using the database identifier returned from `keys.createKey`. Do not confuse this with the actual API key string that users include in requests. */
   keyId: string;
-  /** Grants additional permissions to the key through direct assignment or automatic creation. Duplicate permissions are ignored automatically, making this operation idempotent. Adding permissions never removes existing permissions or role-based permissions. Any permissions that do not exist will be auto created if the root key has permissions, otherwise this operation will fail with a 403 error. */
+  /** Grants additional permissions to the key through direct assignment or automatic creation. Duplicate permissions are ignored automatically, making this operation idempotent. Adding permissions never removes existing permissions or role-based permissions. To create missing permission slugs, your root key must also have `write` on `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*` in the key's project. Without this grant, the operation fails with a 403 error if your root key can read the key, or a 404 error otherwise. */
   permissions: KeysAddPermissionsRequestPermissionsList;
 }
 export interface Permission {
@@ -1537,12 +1558,12 @@ export interface V2KeysRerollKeyResponseBody {
   meta: Meta;
   data: V2KeysRerollKeyResponseData;
 }
-/** The permissions to set for this key. This is a complete replacement operation - it overwrites all existing direct permissions with this new set. Key behaviors: - Providing an empty array removes all direct permissions from the key - This only affects direct permissions - permissions granted through roles are not affected - All existing direct permissions not included in this list will be removed Any permissions that do not exist will be auto created if the root key has permissions, otherwise this operation will fail with a 403 error. */
+/** The permissions to set for this key. This is a complete replacement operation - it overwrites all existing direct permissions with this new set. Key behaviors: - Providing an empty array removes all direct permissions from the key - This only affects direct permissions - permissions granted through roles are not affected - All existing direct permissions not included in this list will be removed To create missing permission slugs in the key's project, your root key must also have `unkey:v1:{workspace_id}:projects/{project_id}/rbac/permissions/*#write`. Without this grant, the operation returns HTTP 403. Setting existing permissions does not require this additional grant. */
 export type KeysSetPermissionsRequestPermissionsList = Array<string>;
 export interface KeysSetPermissionsRequest {
   /** Specifies which key receives the additional permissions using the database identifier returned from `keys.createKey`. Do not confuse this with the actual API key string that users include in requests. */
   keyId: string;
-  /** The permissions to set for this key. This is a complete replacement operation - it overwrites all existing direct permissions with this new set. Key behaviors: - Providing an empty array removes all direct permissions from the key - This only affects direct permissions - permissions granted through roles are not affected - All existing direct permissions not included in this list will be removed Any permissions that do not exist will be auto created if the root key has permissions, otherwise this operation will fail with a 403 error. */
+  /** The permissions to set for this key. This is a complete replacement operation - it overwrites all existing direct permissions with this new set. Key behaviors: - Providing an empty array removes all direct permissions from the key - This only affects direct permissions - permissions granted through roles are not affected - All existing direct permissions not included in this list will be removed To create missing permission slugs in the key's project, your root key must also have `unkey:v1:{workspace_id}:projects/{project_id}/rbac/permissions/*#write`. Without this grant, the operation returns HTTP 403. Setting existing permissions does not require this additional grant. */
   permissions: KeysSetPermissionsRequestPermissionsList;
 }
 /** Complete list of all permissions now directly assigned to the key after the set operation has completed. The response includes: - The comprehensive, updated set of direct permissions (reflecting the complete replacement) - Both ID and name for each permission for easy reference Important notes: - This only shows direct permissions, not those granted through roles - An empty array means the key has no direct permissions assigned - For a complete permission picture including roles, use keys.getKey instead */
@@ -1762,9 +1783,13 @@ export interface LoginCliDecideDeviceRequest {
   /** Permissions to grant. Each permission must be within the caller's role. */
   permissions?: LoginCliDecideDeviceRequestPermissionsList | undefined;
 }
+export interface V2CliDecideDeviceLoginResponseData {
+  /** Where to send the browser after an OAuth login is decided. It carries the authorization code or the access_denied error to the client. Absent for CLI logins. */
+  redirectUrl?: string | undefined;
+}
 export interface V2CliDecideDeviceLoginResponseBody {
   meta: Meta;
-  data: unknown;
+  data: V2CliDecideDeviceLoginResponseData;
 }
 /** Filters by the time of the event, in Unix milliseconds. Every bound is combined with AND. Rows older than the workspace's retention are never returned or counted, whatever the bounds. */
 export interface TimeFilter {
@@ -1989,14 +2014,14 @@ export interface V2PermissionsCreatePermissionResponseBody {
   meta: Meta;
   data: V2PermissionsCreatePermissionResponseData;
 }
-/** Permission slugs to attach to the role. Existing permissions are reused. Missing permissions are created automatically when the root key has `rbac.*.create_permission`. Omit this field or provide an empty array to create the role without permissions. */
+/** Permission slugs to attach to the role. Existing permissions are reused. Missing permissions are created automatically when the root key has `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*#write` for the authenticated workspace and its default project. Omit this field or provide an empty array to create the role without permissions. */
 export type PermissionsCreateRoleRequestPermissionsList = Array<string>;
 export interface PermissionsCreateRoleRequest {
   /** The unique name for this role. Must be unique within your workspace and clearly indicate the role's purpose. Use descriptive names like 'admin', 'editor', or 'Billing Manager'. Examples: 'admin.billing', 'support.readonly', 'developer.api', 'Billing Manager' */
   name: string;
   /** Provides comprehensive documentation of what this role encompasses and what access it grants. Include information about the intended use case, what permissions should be assigned, and any important considerations. This internal documentation helps team members understand role boundaries and security implications. Not visible to end users - designed for administration teams and access control audits. Consider documenting: - The role's intended purpose and scope - What types of users should receive this role - What permissions are typically associated with it - Any security considerations or limitations - Related roles that might be used together */
   description?: string | undefined;
-  /** Permission slugs to attach to the role. Existing permissions are reused. Missing permissions are created automatically when the root key has `rbac.*.create_permission`. Omit this field or provide an empty array to create the role without permissions. */
+  /** Permission slugs to attach to the role. Existing permissions are reused. Missing permissions are created automatically when the root key has `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*#write` for the authenticated workspace and its default project. Omit this field or provide an empty array to create the role without permissions. */
   permissions?: PermissionsCreateRoleRequestPermissionsList | undefined;
 }
 export interface V2PermissionsCreateRoleResponseData {
@@ -2104,19 +2129,115 @@ export interface V2PermissionsUpdateRoleResponseBody {
   meta: Meta;
   data: V2PermissionsUpdateRoleResponseData;
 }
-export type PortalCreateSessionRequestScopesItem = "keys:read" | "keys:reroll" | "analytics:read";
-/** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling and usage analytics are both reached from the keys page, so `keys:reroll` and `analytics:read` each require `keys:read` in the same session; requesting either without it is rejected. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
+export interface PortalCreateDomainRequest {
+  portal: string;
+  /** Fully qualified domain name to attach to the portal, without a scheme, port, or path. Must be unique across your workspace: a name already attached to a portal or to an environment cannot be attached again. */
+  domain: string;
+}
+/** Every DNS record needed to finish setting up this domain, ready to create at your provider. One record routes traffic to the portal and one proves ownership. Create all of them. */
+export type V2PortalCreateDomainResponseDataDnsRecordsList = Array<DnsRecord>;
+export interface V2PortalCreateDomainResponseData {
+  domainId: string;
+  /** Every DNS record needed to finish setting up this domain, ready to create at your provider. One record routes traffic to the portal and one proves ownership. Create all of them. */
+  dnsRecords: V2PortalCreateDomainResponseDataDnsRecordsList;
+  domainConnect?: DomainConnect | undefined;
+}
+export interface V2PortalCreateDomainResponseBody {
+  meta: Meta;
+  data: V2PortalCreateDomainResponseData;
+}
+export interface V2PortalCreateKeyRatelimit {
+  /** The name of a rate limit the policy defines. */
+  name: string;
+  /** Operations allowed per window. At most the policy's limit. */
+  limit: number;
+  /** Window length in milliseconds. At least the policy's duration. */
+  duration: number;
+}
+/** Tightens rate limits the policy defines. Each entry must name a policy rate limit and may only lower its limit or lengthen its duration. Policy rate limits left out are applied at the policy's values. */
+export type PortalCreateKeyRequestRatelimitsList = Array<V2PortalCreateKeyRatelimit>;
+/** Optional permission slugs the policy allows. Permissions the policy requires are always attached. */
+export type PortalCreateKeyRequestPermissionsList = Array<string>;
+/** Optional role names the policy allows. Roles the policy requires are always attached. */
+export type PortalCreateKeyRequestRolesList = Array<string>;
+export interface PortalCreateKeyRequest {
+  /** A label for the key, shown to the end user and in the dashboard. */
+  name?: string | undefined;
+  /** Tightens rate limits the policy defines. Each entry must name a policy rate limit and may only lower its limit or lengthen its duration. Policy rate limits left out are applied at the policy's values. */
+  ratelimits?: PortalCreateKeyRequestRatelimitsList | undefined;
+  /** How long the key lives, in milliseconds from creation. At least one hour, and at most the policy's maximum lifetime. Omitted, the key lives for the policy's maximum lifetime, or never expires when the policy sets none. */
+  expiresIn?: number | undefined;
+  /** Optional permission slugs the policy allows. Permissions the policy requires are always attached. */
+  permissions?: PortalCreateKeyRequestPermissionsList | undefined;
+  /** Optional role names the policy allows. Roles the policy requires are always attached. */
+  roles?: PortalCreateKeyRequestRolesList | undefined;
+}
+export type PortalCreateSessionRequestScopesItem =
+  | "keys:read"
+  | "keys:reroll"
+  | "keys:create"
+  | "analytics:read";
+/** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling, key creation, and usage analytics are all reached from the keys page, so `keys:reroll`, `keys:create`, and `analytics:read` each require `keys:read` in the same session; requesting any of them without it is rejected. `keys:create` lets the end user create keys for themselves, bounded by the `keyCreation` policy, which it requires. It is not available on a portal mapped to an app. Created keys never carry credits, so do not grant it if you bill on credits. Created keys are ordinary keys in your keyspace: they keep working after the session ends, until they expire or you revoke them. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
 export type PortalCreateSessionRequestScopesList = Array<
   PortalCreateSessionRequestScopesItem | (string & {})
 >;
+export interface V2PortalCreateSessionKeyCreationRatelimit {
+  /** The name verifications use to check this rate limit. */
+  name: string;
+  /** The most operations allowed per window. */
+  limit: number;
+  /** The window length, in milliseconds. */
+  duration: number;
+  /** Whether the rate limit applies to every verification of the key automatically. */
+  autoApply?: boolean | undefined;
+}
+/** Rate limits every created key receives. Names must be unique within the policy. The end user may lower a limit or lengthen a duration when creating a key, never the reverse. */
+export type V2PortalCreateSessionKeyCreationRatelimitsList =
+  Array<V2PortalCreateSessionKeyCreationRatelimit>;
+/** Permission slugs attached to every created key. */
+export type V2PortalCreateSessionKeyCreationPermissionsRequiredList = Array<string>;
+/** Permission slugs the end user may opt into. */
+export type V2PortalCreateSessionKeyCreationPermissionsAllowedList = Array<string>;
+/** Permissions created keys must or may carry. Every slug must already exist in the portal's project. */
+export interface V2PortalCreateSessionKeyCreationPermissions {
+  /** Permission slugs attached to every created key. */
+  required?: V2PortalCreateSessionKeyCreationPermissionsRequiredList | undefined;
+  /** Permission slugs the end user may opt into. */
+  allowed?: V2PortalCreateSessionKeyCreationPermissionsAllowedList | undefined;
+}
+/** Role names attached to every created key. */
+export type V2PortalCreateSessionKeyCreationRolesRequiredList = Array<string>;
+/** Role names the end user may opt into. */
+export type V2PortalCreateSessionKeyCreationRolesAllowedList = Array<string>;
+/** Roles created keys must or may carry. Every role must already exist in the portal's project. */
+export interface V2PortalCreateSessionKeyCreationRoles {
+  /** Role names attached to every created key. */
+  required?: V2PortalCreateSessionKeyCreationRolesRequiredList | undefined;
+  /** Role names the end user may opt into. */
+  allowed?: V2PortalCreateSessionKeyCreationRolesAllowedList | undefined;
+}
+/** What the end user may create through the portal. Required with the `keys:create` scope and rejected without it. The policy is fixed for the session's lifetime. Created keys never carry credits, so do not grant `keys:create` if you bill on credits. Created keys are recoverable when the keyspace stores encrypted keys, and not recoverable otherwise. This differs from `keys.createKey`, where recoverability is opt-in per key. */
+export interface V2PortalCreateSessionKeyCreation {
+  /** The most live keys the end user may hold in the keyspace. Keys you issue to the end user outside the portal count toward it. Disabled keys count; expired and deleted keys do not. */
+  maxKeys: number;
+  /** Rate limits every created key receives. Names must be unique within the policy. The end user may lower a limit or lengthen a duration when creating a key, never the reverse. */
+  ratelimits?: V2PortalCreateSessionKeyCreationRatelimitsList | undefined;
+  /** The longest a created key may live, in milliseconds. At least one hour and at most ten years. When omitted, the end user may create keys that never expire. */
+  maxLifetime?: number | undefined;
+  permissions?: V2PortalCreateSessionKeyCreationPermissions | undefined;
+  roles?: V2PortalCreateSessionKeyCreationRoles | undefined;
+}
 export interface PortalCreateSessionRequest {
   portal: string;
   /** The end user's identifier in the customer's system. Accepts arbitrary string values (user IDs, emails, UUIDs, etc.). */
   externalId: string;
-  /** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling and usage analytics are both reached from the keys page, so `keys:reroll` and `analytics:read` each require `keys:read` in the same session; requesting either without it is rejected. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
+  /** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling, key creation, and usage analytics are all reached from the keys page, so `keys:reroll`, `keys:create`, and `analytics:read` each require `keys:read` in the same session; requesting any of them without it is rejected. `keys:create` lets the end user create keys for themselves, bounded by the `keyCreation` policy, which it requires. It is not available on a portal mapped to an app. Created keys never carry credits, so do not grant it if you bill on credits. Created keys are ordinary keys in your keyspace: they keep working after the session ends, until they expire or you revoke them. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
   scopes: PortalCreateSessionRequestScopesList;
+  keyCreation?: V2PortalCreateSessionKeyCreation | undefined;
   /** Absolute URL the end user is sent back to when they leave the portal, or when their session expires mid-visit. Set per session rather than per portal, so one portal can serve several entry points and return each user to the page they came from. When omitted, the portal shows no return link. */
   returnUrl?: string | undefined;
+  /** A verified custom domain of this portal to build the session URL on, so end users stay on your domain. The domain must be verified on this portal; any other value is rejected. When omitted, the URL uses Unkey's portal host. */
+  hostname?: string | undefined;
 }
 export interface V2PortalCreateSessionResponseData {
   /** The portal session's identifier. Not a credential: it is safe to log and to store against your own records of the end user's visit. */
@@ -2128,9 +2249,19 @@ export interface V2PortalCreateSessionResponseBody {
   meta: Meta;
   data: V2PortalCreateSessionResponseData;
 }
+export interface PortalDeleteDomainRequest {
+  portal: string;
+  domainId: string;
+}
+export interface V2PortalDeleteDomainResponseBody {
+  meta: Meta;
+  data: unknown;
+}
 export interface PortalExchangeCodeRequest {
   /** The exchange code carried by the portal URL from `portal.createSession`. Must be valid, unexpired, and not previously redeemed. */
   code: string;
+  /** The domain the end user is visiting, such as `developers.example.com`. The code only works on Unkey's portal domain or on one of this portal's verified custom domains. */
+  host: string;
 }
 export interface V2PortalExchangeCodeResponseData {
   /** The portal access token. Store this as an httpOnly cookie for subsequent portal requests. */
@@ -2141,6 +2272,34 @@ export interface V2PortalExchangeCodeResponseData {
 export interface V2PortalExchangeCodeResponseBody {
   meta: Meta;
   data: V2PortalExchangeCodeResponseData;
+}
+export interface PortalGetDomainRequest {
+  portal: string;
+  domainId: string;
+}
+/** The DNS records this domain needs. Create each record at your DNS provider. Each record has a `verified` flag showing whether Unkey has read that record back. */
+export type PortalDomainDnsRecordsList = Array<DnsRecord>;
+export interface PortalDomain {
+  /** The portal domain's ID. Pass it as `domainId` to the other portal domain operations. */
+  id: string;
+  /** The portal this domain serves. */
+  portalId: string;
+  /** Fully qualified domain name attached to the portal. */
+  domain: string;
+  status: DomainStatus;
+  /** Why the most recent verification attempt did not succeed, in plain language. Omitted while verification is progressing normally. */
+  verificationError?: string | undefined;
+  /** The DNS records this domain needs. Create each record at your DNS provider. Each record has a `verified` flag showing whether Unkey has read that record back. */
+  dnsRecords: PortalDomainDnsRecordsList;
+  domainConnect?: DomainConnect | undefined;
+  /** Unix timestamp in milliseconds when the domain was created. */
+  createdAt: number;
+  /** Unix timestamp in milliseconds of the last change to this domain. Omitted if it has never changed. */
+  updatedAt?: number | undefined;
+}
+export interface V2PortalGetDomainResponseBody {
+  meta: Meta;
+  data: PortalDomain;
 }
 export interface PortalGetVerificationsRequest {
   /** Start of the query window as a unix timestamp in milliseconds (inclusive). */
@@ -2187,6 +2346,16 @@ export interface V2PortalGetVerificationsResponseBody {
   /** One entry per key the end user has verifications for in the window, each zero-filled across the whole window and ordered by time ascending. Sum them to get the account-wide series. Keys with no verifications anywhere in the window are omitted. Entries come from the verification events themselves, so a `keyId` may name a key that has since been deleted and will not appear in `portal.listKeys`; render those totals without assuming the key is still listable. */
   keys: V2PortalGetVerificationsResponseBodyKeysList;
 }
+export interface PortalListDomainsRequest {
+  portal: string;
+}
+/** Every domain attached to the portal, verified or not, sorted by ID. Empty when the portal has no domains. */
+export type V2PortalListDomainsResponseBodyDataList = Array<PortalDomain>;
+export interface V2PortalListDomainsResponseBody {
+  meta: Meta;
+  /** Every domain attached to the portal, verified or not, sorted by ID. Empty when the portal has no domains. */
+  data: V2PortalListDomainsResponseBodyDataList;
+}
 export interface PortalListKeysRequest {
   /** Maximum number of keys to return per request. Balance between response size and number of pagination calls needed. */
   limit?: number | undefined;
@@ -2195,10 +2364,46 @@ export interface PortalListKeysRequest {
 }
 /** Array of the portal end user's API keys. */
 export type V2PortalListKeysResponseData = Array<KeyResponseData>;
+export interface V2PortalListKeysKeyCreationRatelimit {
+  /** The rate limit's name. */
+  name: string;
+  /** The most operations allowed per window. */
+  limit: number;
+  /** The shortest window length, in milliseconds. */
+  duration: number;
+}
+/** Rate limits every created key receives. A create request may lower a limit or lengthen a duration, never the reverse. */
+export type V2PortalListKeysKeyCreationRatelimitsList = Array<V2PortalListKeysKeyCreationRatelimit>;
+/** Attached to every created key. */
+export type V2PortalListKeysKeyCreationAllowanceRequiredList = Array<string>;
+/** The end user may opt into these. */
+export type V2PortalListKeysKeyCreationAllowanceAllowedList = Array<string>;
+export interface V2PortalListKeysKeyCreationAllowance {
+  /** Attached to every created key. */
+  required: V2PortalListKeysKeyCreationAllowanceRequiredList;
+  /** The end user may opt into these. */
+  allowed: V2PortalListKeysKeyCreationAllowanceAllowedList;
+}
+/** What the end user may create through `portal.createKey`. Present only when the session may create keys. */
+export interface V2PortalListKeysKeyCreation {
+  /** The most live keys the end user may hold in the keyspace. */
+  maxKeys: number;
+  /** How many live keys the end user holds in the keyspace now. Disabled keys count; expired and deleted keys do not. Creation is refused once this reaches `maxKeys`. */
+  liveKeyCount: number;
+  /** Rate limits every created key receives. A create request may lower a limit or lengthen a duration, never the reverse. */
+  ratelimits: V2PortalListKeysKeyCreationRatelimitsList;
+  /** The longest a created key may live, in milliseconds. Omitted, keys may be created without an expiry. */
+  maxLifetime?: number | undefined;
+  /** Permission slugs created keys must or may carry. */
+  permissions: V2PortalListKeysKeyCreationAllowance;
+  /** Role names created keys must or may carry. */
+  roles: V2PortalListKeysKeyCreationAllowance;
+}
 export interface V2PortalListKeysResponseBody {
   meta: Meta;
   data: V2PortalListKeysResponseData;
   pagination: Pagination;
+  keyCreation?: V2PortalListKeysKeyCreation | undefined;
 }
 export interface PortalListSessionsRequest {
   portal: string;
@@ -2260,6 +2465,11 @@ export interface V2PortalRevokeSessionResponseBody {
   meta: Meta;
   data: V2PortalRevokeSessionResponseData;
 }
+export interface PortalVerifyDomainRequest {
+  portal: string;
+  domainId: string;
+}
+export interface PortalVerifyDomainResponse {}
 export interface RatelimitCreateNamespaceRequest {
   /** The name of the namespace, unique within your workspace. Names are case-sensitive. Pass it as `namespace` to `ratelimit.limit` and the override endpoints. */
   name: string;
@@ -2316,33 +2526,37 @@ export interface V2RatelimitGetOverrideResponseBody {
   meta: Meta;
   data: RatelimitOverride;
 }
+/** Configure when this check persists its cost. - `IF_ALLOWED`: counts the cost only if it fits. - `ALWAYS`: counts the cost even if it does not fit, such as for usage that already happened. - `NEVER`: counts nothing and only reports whether the cost fits. This is the same behavior as setting a cost of 0. */
+export type RatelimitLimitRequestRecord = "IF_ALLOWED" | "ALWAYS" | "NEVER";
 export interface RatelimitLimitRequest {
   /** The id or name of the namespace. */
   namespace: string;
-  /** Sets how much of the rate limit quota this request consumes, enabling weighted rate limiting. Use higher values for resource-intensive operations and 0 for tracking without limiting. When accumulated cost exceeds the limit within the duration window, subsequent requests are rejected. Essential for implementing fair usage policies and preventing resource abuse through expensive operations. */
+  /** Sets how much of the rate limit quota this request consumes, enabling weighted rate limiting. Use higher values for resource-intensive operations and 0 for tracking without limiting. A cost greater than the limit that applies, including the limit of a matching override, never fits: the check is denied and `retryAfter` is one duration. */
   cost?: number | undefined;
-  /** Sets the rate limit window duration in milliseconds after which the counter resets. Shorter durations enable faster recovery but may be less effective against sustained abuse. Common values include 60000 (1 minute), 3600000 (1 hour), and 86400000 (24 hours). Balance user experience with protection needs when choosing window sizes. */
+  /** Sets the rate limit duration in milliseconds. It must be at least 10000 (10 seconds) and at most 86400000 (24 hours). Common values include 10000 (10 seconds), 60000 (1 minute), 3600000 (1 hour), and 86400000 (24 hours). */
   duration: number;
-  /** Defines the scope of rate limiting by identifying the entity being limited. Use user IDs for per-user limits, IP addresses for anonymous limiting, or API key IDs for per-key limits. Accepts letters, numbers, underscores, dots, colons, slashes, and hyphens for flexible identifier formats. The same identifier can be used across different namespaces to apply multiple rate limit types. Choose identifiers that provide appropriate granularity for your rate limiting strategy. */
+  /** Defines the scope of rate limiting by identifying the entity being limited. Use user IDs for per-user limits, IP addresses for anonymous limiting, or API key IDs for per-key limits. The same identifier can be used across different namespaces to apply multiple rate limit types. Choose identifiers that provide appropriate granularity for your rate limiting strategy. */
   identifier: string;
-  /** Sets the maximum operations allowed within the duration window before requests are rejected. When this limit is reached, subsequent requests fail with `RATE_LIMITED` until the window resets. Balance user experience with resource protection when setting limits for different user tiers. Consider system capacity, business requirements, and fair usage policies in limit determination. */
+  /** Configure when this check persists its cost. - `IF_ALLOWED`: counts the cost only if it fits. - `ALWAYS`: counts the cost even if it does not fit, such as for usage that already happened. - `NEVER`: counts nothing and only reports whether the cost fits. This is the same behavior as setting a cost of 0. */
+  record?: RatelimitLimitRequestRecord | (string & {}) | undefined;
+  /** Sets the maximum cost allowed per duration before requests are rejected. Balance user experience with resource protection when setting limits for different user tiers. */
   limit: number;
 }
-export interface V2RatelimitLimitResponseData {
-  /** The maximum number of operations allowed within the time window. This reflects either the default limit specified in the request or an override limit if one exists for this identifier. This value helps clients understand their total quota for the current window. */
+export interface V3RatelimitLimitResponseData {
+  /** The limit that applied: the limit from the request, or the limit of a matching override. An override with a duration under 10000 milliseconds reports its limit scaled to 10000 milliseconds. */
   limit: number;
-  /** The number of operations remaining in the current window before the rate limit is exceeded. Applications should use this value to: - Implement client-side throttling before hitting limits - Display usage information to end users - Trigger alerts when approaching limits - Adjust request patterns based on available capacity When this reaches zero, requests will be rejected until the window resets. */
+  /** The cost that still fits now, rounded down. Usage decays continuously, so this value grows again without a fixed reset time. */
   remaining: number;
-  /** The Unix timestamp in milliseconds when the rate limit window will reset and 'remaining' will return to 'limit'. This timestamp enables clients to: - Calculate and display wait times to users - Implement intelligent retry mechanisms - Schedule requests to resume after the reset - Implement exponential backoff when needed The reset time is based on a sliding window from the first request in the current window. */
-  reset: number;
-  /** Whether the request passed the rate limit check. If true, the request is allowed to proceed. If false, the request has exceeded the rate limit and should be blocked or rejected. You MUST check this field to determine if the request should proceed, as the endpoint always returns `HTTP 200` even when rate limited. */
-  success: boolean;
-  /** If a rate limit override was applied for this identifier, this field contains the ID of the override that was used. Empty when no override is in effect. This can be useful for: - Debugging which override rule was matched - Tracking the effects of specific overrides - Understanding why limits differ from default values */
+  /** How many milliseconds to wait until the same cost fits, if nothing else is counted. It is 0 when the request is allowed. */
+  retryAfter: number;
+  /** Whether the request is allowed. If true, the request may proceed. If false, the request has exceeded the rate limit and should be blocked or rejected. You MUST check this field to determine if the request should proceed, as the endpoint always returns `HTTP 200` even when rate limited. */
+  allowed: boolean;
+  /** If a rate limit override was applied for this identifier, this field contains the ID of the override that was used. Empty when no override is in effect. */
   overrideId?: string | undefined;
 }
-export interface V2RatelimitLimitResponseBody {
+export interface V3RatelimitLimitResponseBody {
   meta: Meta;
-  data: V2RatelimitLimitResponseData;
+  data: V3RatelimitLimitResponseData;
 }
 export interface RatelimitListNamespacesRequest {
   /** Maximum number of namespaces to return per request. Omit this field to receive up to 100 namespaces. */
@@ -2374,51 +2588,57 @@ export interface V2RatelimitListOverridesResponseBody {
   data: V2RatelimitListOverridesResponseData;
   pagination: Pagination;
 }
-export interface V2RatelimitLimitRequestBody {
+/** Configure when this check persists its cost. - `IF_ALLOWED`: counts the cost only if it fits. - `ALWAYS`: counts the cost even if it does not fit, such as for usage that already happened. - `NEVER`: counts nothing and only reports whether the cost fits. This is the same behavior as setting a cost of 0. */
+export type V3RatelimitLimitRequestBodyRecord = "IF_ALLOWED" | "ALWAYS" | "NEVER";
+export interface V3RatelimitLimitRequestBody {
   /** The id or name of the namespace. */
   namespace: string;
-  /** Sets how much of the rate limit quota this request consumes, enabling weighted rate limiting. Use higher values for resource-intensive operations and 0 for tracking without limiting. When accumulated cost exceeds the limit within the duration window, subsequent requests are rejected. Essential for implementing fair usage policies and preventing resource abuse through expensive operations. */
+  /** Sets how much of the rate limit quota this request consumes, enabling weighted rate limiting. Use higher values for resource-intensive operations and 0 for tracking without limiting. A cost greater than the limit that applies, including the limit of a matching override, never fits: the check is denied and `retryAfter` is one duration. */
   cost?: number | undefined;
-  /** Sets the rate limit window duration in milliseconds after which the counter resets. Shorter durations enable faster recovery but may be less effective against sustained abuse. Common values include 60000 (1 minute), 3600000 (1 hour), and 86400000 (24 hours). Balance user experience with protection needs when choosing window sizes. */
+  /** Sets the rate limit duration in milliseconds. It must be at least 10000 (10 seconds) and at most 86400000 (24 hours). Common values include 10000 (10 seconds), 60000 (1 minute), 3600000 (1 hour), and 86400000 (24 hours). */
   duration: number;
-  /** Defines the scope of rate limiting by identifying the entity being limited. Use user IDs for per-user limits, IP addresses for anonymous limiting, or API key IDs for per-key limits. Accepts letters, numbers, underscores, dots, colons, slashes, and hyphens for flexible identifier formats. The same identifier can be used across different namespaces to apply multiple rate limit types. Choose identifiers that provide appropriate granularity for your rate limiting strategy. */
+  /** Defines the scope of rate limiting by identifying the entity being limited. Use user IDs for per-user limits, IP addresses for anonymous limiting, or API key IDs for per-key limits. The same identifier can be used across different namespaces to apply multiple rate limit types. Choose identifiers that provide appropriate granularity for your rate limiting strategy. */
   identifier: string;
-  /** Sets the maximum operations allowed within the duration window before requests are rejected. When this limit is reached, subsequent requests fail with `RATE_LIMITED` until the window resets. Balance user experience with resource protection when setting limits for different user tiers. Consider system capacity, business requirements, and fair usage policies in limit determination. */
+  /** Configure when this check persists its cost. - `IF_ALLOWED`: counts the cost only if it fits. - `ALWAYS`: counts the cost even if it does not fit, such as for usage that already happened. - `NEVER`: counts nothing and only reports whether the cost fits. This is the same behavior as setting a cost of 0. */
+  record?: V3RatelimitLimitRequestBodyRecord | (string & {}) | undefined;
+  /** Sets the maximum cost allowed per duration before requests are rejected. Balance user experience with resource protection when setting limits for different user tiers. */
   limit: number;
 }
 /** Array of rate limit checks to perform. Each check must have a different combination of namespace, identifier and duration. A repeated combination returns a 400 error with `invalid_input` before any namespace is created. */
-export type V2RatelimitMultiLimitRequestBody = Array<V2RatelimitLimitRequestBody>;
+export type V3RatelimitMultiLimitRequestBody = Array<V3RatelimitLimitRequestBody>;
 export interface RatelimitMultiLimitRequest {
-  body: V2RatelimitMultiLimitRequestBody;
+  body: V3RatelimitMultiLimitRequestBody;
 }
-export interface V2RatelimitMultiLimitCheck {
+export interface V3RatelimitMultiLimitCheck {
   /** The namespace this rate limit result corresponds to. Use this field to correlate the response with the request when checking multiple rate limits. */
   namespace: string;
   /** The identifier this rate limit result corresponds to. Use this field to correlate the response with the request when checking multiple rate limits. */
   identifier: string;
-  /** The maximum number of operations allowed within the time window. This reflects either the default limit specified in the request or an override limit if one exists for this identifier. This value helps clients understand their total quota for the current window. */
+  /** The limit that applied: the limit from the request, or the limit of a matching override. An override with a duration under 10000 milliseconds reports its limit scaled to 10000 milliseconds. */
   limit: number;
-  /** The number of operations remaining in the current window before the rate limit is exceeded. Applications should use this value to: - Implement client-side throttling before hitting limits - Display usage information to end users - Trigger alerts when approaching limits - Adjust request patterns based on available capacity When this reaches zero, requests will be rejected until the window resets. */
+  /** The cost that still fits for this check now, rounded down. It includes this check's cost if it was counted. */
   remaining: number;
-  /** The Unix timestamp in milliseconds when the rate limit window will reset and 'remaining' will return to 'limit'. This timestamp enables clients to: - Calculate and display wait times to users - Implement intelligent retry mechanisms - Schedule requests to resume after the reset - Implement exponential backoff when needed The reset time is based on a sliding window from the first request in the current window. */
-  reset: number;
-  /** Whether the request passed the rate limit check. If true, the request is allowed to proceed. If false, the request has exceeded the rate limit and should be blocked or rejected. You MUST check this field to determine if the request should proceed, as the endpoint always returns `HTTP 200` even when rate limited. */
-  passed: boolean;
-  /** If a rate limit override was applied for this identifier, this field contains the ID of the override that was used. Empty when no override is in effect. This can be useful for: - Debugging which override rule was matched - Tracking the effects of specific overrides - Understanding why limits differ from default values */
+  /** How many milliseconds to wait until this check's cost fits, if nothing else is counted. It is 0 when this check fits, even if another check failed. */
+  retryAfter: number;
+  /** Whether this check fits on its own. The request is allowed only when the top-level `allowed` is true. */
+  allowed: boolean;
+  /** If a rate limit override was applied for this identifier, this field contains the ID of the override that was used. Empty when no override is in effect. */
   overrideId?: string | undefined;
 }
-/** Array of individual rate limit check results, one for each rate limit check in the request */
-export type V2RatelimitMultiLimitResponseDataLimitsList = Array<V2RatelimitMultiLimitCheck>;
+/** Array of individual rate limit check results, one for each rate limit check in the request, in the same order. */
+export type V3RatelimitMultiLimitResponseDataLimitsList = Array<V3RatelimitMultiLimitCheck>;
 /** Container for multi-limit rate limit check results */
-export interface V2RatelimitMultiLimitResponseData {
-  /** Overall success indicator for all rate limit checks. This is true if ALL individual rate limit checks passed (all have success: true), and false if ANY check failed. Use this as a quick indicator to determine if the request should proceed. */
-  passed: boolean;
-  /** Array of individual rate limit check results, one for each rate limit check in the request */
-  limits: V2RatelimitMultiLimitResponseDataLimitsList;
+export interface V3RatelimitMultiLimitResponseData {
+  /** True if every check fits. Then the cost of every check was counted, except for checks with `record` set to `NEVER`. False if any check does not fit. Then only the costs of checks with `record` set to `ALWAYS` were counted. */
+  allowed: boolean;
+  /** How many milliseconds to wait until every check fits, if nothing else is counted. It is the largest `retryAfter` of the checks, and 0 when `allowed` is true. */
+  retryAfter: number;
+  /** Array of individual rate limit check results, one for each rate limit check in the request, in the same order. */
+  limits: V3RatelimitMultiLimitResponseDataLimitsList;
 }
-export interface V2RatelimitMultiLimitResponseBody {
+export interface V3RatelimitMultiLimitResponseBody {
   meta: Meta;
-  data: V2RatelimitMultiLimitResponseData;
+  data: V3RatelimitMultiLimitResponseData;
 }
 export interface RatelimitSetOverrideRequest {
   /** The ID or name of the rate limit namespace. */
@@ -2534,7 +2754,7 @@ export interface V2RootKeysListKeysResponseBody {
 export interface RootKeysRerollKeyRequest {
   /** Root key identifier returned by rootKeys.createKey or rootKeys.listKeys. */
   keyId: string;
-  /** Milliseconds until the original root key expires. Use 0 to revoke it immediately. Use null to keep the original key's current expiration. This value never extends an existing expiration. */
+  /** Milliseconds until the original root key expires. Use 0 to revoke it. Revocation can take up to 30 seconds to take effect. Use null to keep the original key's current expiration. This value never extends an existing expiration. */
   expiration: number | null;
 }
 export interface V2RootKeysRerollKeyResponseData {
@@ -2560,6 +2780,8 @@ export interface RootKeysUpdateKeyRequest {
   name?: string | null | undefined;
   /** Whether the root key can authenticate. Omit to keep the current state. */
   enabled?: boolean | undefined;
+  /** New expiration as Unix milliseconds, strictly in the future. Set null to remove the expiration. Omit to keep the current expiration. Expiring root-key callers must set an expiry no later than their own and cannot remove it. */
+  expires?: number | null | undefined;
   /** Complete replacement permission set. Every permission must be a supported URN in the authenticated workspace and within the caller's permissions. Omit to keep the current permissions. */
   permissions?: RootKeysUpdateKeyRequestPermissionsList | undefined;
 }
@@ -3036,9 +3258,10 @@ export const analyticsGetGatewayRequests: API.OperationMethod<
   AnalyticsGetGatewayRequestsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<AnalyticsGetGatewayRequestsRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetGatewayRequestsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  input: __S(3040, __c95, 0) as any as S.Schema<AnalyticsGetGatewayRequestsRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<V2AnalyticsGetGatewayRequestsResponseBody>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3057,9 +3280,10 @@ export const analyticsGetRatelimits: API.OperationMethod<
   AnalyticsGetRatelimitsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<AnalyticsGetRatelimitsRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetRatelimitsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  input: __S(3648, __c114, 0) as any as S.Schema<AnalyticsGetRatelimitsRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<V2AnalyticsGetRatelimitsResponseBody>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3071,16 +3295,17 @@ export type AnalyticsGetRuntimeLogsError =
   | Forbidden
   | UnprocessableEntity
   | UnkeyOpError;
-/** Query runtime log data A query can use only the public alias `runtime_logs_v1`. CTEs, subqueries, UNION, and EXCEPT are permitted. The root key must have the `project.*.read_runtime_logs` permission. Unkey limits each query to the workspace of the root key. To get the logs of one project, app, environment, or deployment, add a filter on `project_id`, `app_id`, `environment_id`, or `deployment_id`. The workspace retention period and the workspace query limits apply. For the table, the columns, and more query examples, see [Query runtime logs](/platform/analytics/get-runtime-logs). */
+/** Query runtime log data A query can use only the public alias `runtime_logs_v1`. CTEs, subqueries, UNION, and EXCEPT are permitted. The root key must have the `project.*.read_runtime_logs` permission. Unkey limits each query to the workspace of the root key. To get the logs of one project, app, environment, or deployment, add a filter on `project_id`, `app_id`, `environment_id`, or `deployment_id`. The workspace retention period and the workspace query limits apply. For the table, the columns, and more query examples, see [Query runtime logs](https://www.unkey.com/docs/compute/observe/analytics-api). */
 export const analyticsGetRuntimeLogs: API.OperationMethod<
   AnalyticsGetRuntimeLogsRequest,
   V2AnalyticsGetRuntimeLogsResponseBody,
   AnalyticsGetRuntimeLogsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<AnalyticsGetRuntimeLogsRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetRuntimeLogsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  input: __S(4032, __c126, 0) as any as S.Schema<AnalyticsGetRuntimeLogsRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<V2AnalyticsGetRuntimeLogsResponseBody>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3099,9 +3324,10 @@ export const analyticsGetVerifications: API.OperationMethod<
   AnalyticsGetVerificationsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<AnalyticsGetVerificationsRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<V2AnalyticsGetVerificationsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  input: __S(4416, __c138, 0) as any as S.Schema<AnalyticsGetVerificationsRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<V2AnalyticsGetVerificationsResponseBody>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3116,9 +3342,10 @@ export const apisCreateApi: API.OperationMethod<
   ApisCreateApiError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ApisCreateApiRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<V2ApisCreateApiResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(4832, __c151, 0) as any as S.Schema<ApisCreateApiRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<V2ApisCreateApiResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3135,7 +3362,8 @@ export const apisDeleteApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ApisDeleteApiRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2ApisDeleteApiResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3152,7 +3380,8 @@ export const apisGetApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ApisGetApiRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<V2ApisGetApiResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3169,9 +3398,10 @@ export const apisListKeys: API.PaginatedOperationMethod<
   KeyResponseData
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(768, __c24, 0) as any as S.Schema<ApisListKeysRequest>,
-    output: __S(993, __c31, 1) as any as S.Schema<V2ApisListKeysResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(832, __c26, 0) as any as S.Schema<ApisListKeysRequest>,
+    output: __S(833, __c26, 1) as any as S.Schema<V2ApisListKeysResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3195,9 +3425,10 @@ export const authorizeDeployment: API.OperationMethod<
   AuthorizeDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<AuthorizeDeploymentRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<AuthorizeDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(1216, __c38, 0) as any as S.Schema<AuthorizeDeploymentRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<AuthorizeDeploymentResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3212,9 +3443,10 @@ export const cancelDeployment: API.OperationMethod<
   CancelDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CancelDeploymentRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<CancelDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(1280, __c40, 0) as any as S.Schema<CancelDeploymentRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<CancelDeploymentResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3229,9 +3461,10 @@ export const cliExchangeToken: API.OperationMethod<
   CliExchangeTokenError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CliExchangeTokenRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<V2CliExchangeTokenResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(1312, __c41, 0) as any as S.Schema<CliExchangeTokenRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<V2CliExchangeTokenResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3246,9 +3479,10 @@ export const cliGetDeviceLogin: API.OperationMethod<
   CliGetDeviceLoginError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CliGetDeviceLoginRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<V2CliGetDeviceLoginResponseBody>,
-  errors: [BadRequest, UnknownUnkeyError],
+  input: __S(1344, __c42, 0) as any as S.Schema<CliGetDeviceLoginRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<V2CliGetDeviceLoginResponseBody>,
+  errors: [BadRequest],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3256,16 +3490,17 @@ export const cliGetDeviceLogin: API.OperationMethod<
 }));
 
 export type CliListSessionsError = Forbidden | UnkeyOpError;
-/** List CLI sessions Lists CLI sessions in the caller's workspace. A member sees their own sessions. An admin sees every session. Requires a dashboard session or a CLI access token. Root keys are rejected. This endpoint takes no request body. */
+/** List CLI and MCP sessions Lists CLI and MCP sessions in the caller's workspace. A member sees their own sessions. An admin sees every session. Requires a dashboard session or a CLI access token. Root keys are rejected. This endpoint takes no request body. */
 export const cliListSessions: API.OperationMethod<
   CliListSessionsRequest,
   V2CliListSessionsResponseBody,
   CliListSessionsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CliListSessionsRequest>,
-  output: __S(1188, __c37, 4) as any as S.Schema<V2CliListSessionsResponseBody>,
-  errors: [Forbidden, UnknownUnkeyError],
+  input: __S(1376, __c43, 0) as any as S.Schema<CliListSessionsRequest>,
+  output: __S(1380, __c43, 4) as any as S.Schema<V2CliListSessionsResponseBody>,
+  errors: [Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3280,9 +3515,10 @@ export const cliRevokeSession: API.OperationMethod<
   CliRevokeSessionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<CliRevokeSessionRequest>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CliRevokeSessionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2CliRevokeSessionResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3297,9 +3533,10 @@ export const cliStartDeviceLogin: API.OperationMethod<
   CliStartDeviceLoginError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CliStartDeviceLoginRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<V2CliStartDeviceLoginResponseBody>,
-  errors: [BadRequest, UnknownUnkeyError],
+  input: __S(1440, __c45, 0) as any as S.Schema<CliStartDeviceLoginRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<V2CliStartDeviceLoginResponseBody>,
+  errors: [BadRequest],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3314,9 +3551,10 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreateAppRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<V2AppsCreateAppResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(1472, __c46, 0) as any as S.Schema<CreateAppRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<V2AppsCreateAppResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3324,16 +3562,17 @@ export const createApp: API.OperationMethod<
 }));
 
 export type CreateDeploymentV3Error = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Create deployment Create a deployment for an app in a project. Omit the source to use the app's configured default. A Git app builds its default branch. An OCI app deploys its default image. Optionally provide one source override: - `oci`: deploy a prebuilt OCI image without a build. Mutable tags are resolved to immutable digests before rollout. - `git`: build and deploy from the app's connected GitHub repository, a branch, a specific commit, or a fork commit. Requires the app to have a repository connected. - `deployment`: re-run an existing deployment by its id. Git deployments rebuild from the recorded commit; OCI deployments reuse the recorded resolved image. Returns immediately with a `deploymentId`. The build and rollout run asynchronously. Poll `deployments.getDeployment` to watch status until it is ready. **Authentication**: requires a root key with permission to create deployments. */
+/** Create deployment Create a deployment for an app in a project. Omit the source to use the app's configured default. A Git app builds its default branch. An OCI app deploys its default image. Optionally provide one source override: - `oci`: deploy a prebuilt OCI image without a build. Mutable tags are resolved to immutable digests before rollout. - `git`: build and deploy from the app's connected GitHub repository, a branch, a specific commit, or a fork commit. Requires the app to have a repository connected. - `deployment`: re-run an existing deployment by its id. Git deployments rebuild from the recorded commit; OCI deployments reuse the recorded resolved image. Returns immediately with a `deploymentId`. The build and rollout run asynchronously. Poll `deployments.getDeployment` to watch status until it is ready. **Authentication**: requires a root key with `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>/deployments/*#write`. Wildcards can replace resource IDs to grant access across a wider scope. */
 export const createDeploymentV3: API.OperationMethod<
   CreateDeploymentV3Request,
   V3DeploymentsCreateDeploymentResponseBody,
   CreateDeploymentV3Error,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1378, __c43, 2) as any as S.Schema<CreateDeploymentV3Request>,
-  output: __S(1379, __c43, 3) as any as S.Schema<V3DeploymentsCreateDeploymentResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(1570, __c49, 2) as any as S.Schema<CreateDeploymentV3Request>,
+  output: __S(1571, __c49, 3) as any as S.Schema<V3DeploymentsCreateDeploymentResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3348,9 +3587,10 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<V2DomainsCreateDomainResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(1600, __c50, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<V2DomainsCreateDomainResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3358,16 +3598,17 @@ export const createDomain: API.OperationMethod<
 }));
 
 export type CreateIdentityError = BadRequest | Forbidden | Conflict | UnkeyOpError;
-/** Create Identity Create an identity to group multiple API keys under a single entity. Identities enable shared rate limits and metadata across all associated keys. Perfect for users with multiple devices, organizations with multiple API keys, or when you need unified rate limiting across different services. **Important** Requires `identity.*.create_identity` permission */
+/** Create Identity Create an identity to group multiple API keys under a single entity. Identities enable shared rate limits and metadata across all associated keys. Perfect for users with multiple devices, organizations with multiple API keys, or when you need unified rate limiting across different services. **Important** Requires `unkey:v1:<workspaceId>:projects/<projectId>/identities/*#write` for the workspace's default project. */
 export const createIdentity: API.OperationMethod<
   CreateIdentityRequest,
   V2IdentitiesCreateIdentityResponseBody,
   CreateIdentityError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CreateIdentityRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<V2IdentitiesCreateIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateIdentityRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<V2IdentitiesCreateIdentityResponseBody>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3375,16 +3616,17 @@ export const createIdentity: API.OperationMethod<
 }));
 
 export type CreateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Create API key Create a new API key for user authentication and authorization. Use this endpoint when users sign up, upgrade subscription tiers, or need additional keys. Keys are cryptographically secure and unique to the specified API namespace. **Important**: Store the returned key securely. Unless you create a recoverable key, the plaintext cannot be retrieved later. Recoverable keys require key encryption and permission to decrypt them. **Common use cases:** - Generate keys for new user registrations - Create additional keys for different applications - Issue keys with specific permissions or limits **Required Permissions** Your credential needs one of: - `api.*.create_key` (create keys in any API) - `api.<api_id>.create_key` (create keys in specific API) - `unkey:v1:<workspace_id>:keyspaces/*#create_key` (create keys in any keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>#create_key` (create keys in a specific keyspace) */
+/** Create API key Create a new API key for user authentication and authorization. Use this endpoint when users sign up, upgrade subscription tiers, or need additional keys. Keys are cryptographically secure and unique to the specified API namespace. **Important**: Store the returned key securely. Unless you create a recoverable key, the plaintext cannot be retrieved later. Recoverable keys require key encryption and permission to decrypt them. **Common use cases:** - Generate keys for new user registrations - Create additional keys for different applications - Issue keys with specific permissions or limits **Required Permissions** Your credential needs `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#write` for the target keyspace. Use the keyspace's project ID, not the API's project ID if they differ. A grant with wildcard project or keyspace segments can cover multiple keyspaces in the authorized workspace. Recoverable keys use the same write permission. They also require the keyspace to support key encryption. Without write permission, this endpoint returns 404 to hide whether the API exists. If your credential can read the keyspace, it returns 403 and names the missing write permission instead. */
 export const createKey: API.OperationMethod<
   CreateKeyRequest,
   V2KeysCreateKeyResponseBody,
   CreateKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<CreateKeyRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<V2KeysCreateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateKeyRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<V2KeysCreateKeyResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3392,16 +3634,17 @@ export const createKey: API.OperationMethod<
 }));
 
 export type CreatePortalError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
-/** Create portal Create a portal for one app or keyspace in your workspace. Unreleased and subject to change without notice. Send exactly one of `keyspaceId` or `appId`. That resource must belong to your workspace, and it can back only one portal, so a second portal for the same resource is a **409**. `displayName` is what your end users see. It is yours to set and change independently of the resource the portal serves. **Required Permissions** Your root key must have `portal.*.create_portal`. A grant scoped to a specific portal id does not authorize creation, because the id does not exist yet. */
+/** Create portal Create a portal for one app or keyspace in your workspace. Unreleased and subject to change without notice. Send exactly one of `keyspaceId` or `appId`. That resource must belong to your workspace, and it can back only one portal, so a second portal for the same resource is a **409**. `displayName` is what your end users see. It is yours to set and change independently of the resource the portal serves. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/portals/*#write` for the project that owns the app or keyspace. A grant scoped to a specific portal ID does not authorize creation, because the ID does not exist yet. You must also have read permission on the resource the portal serves: - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>#read` for an app. - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>#read` for a keyspace. Broader grants that cover these resources and actions also authorize the request. A missing permission returns **403**. An app or keyspace outside your workspace returns **404**, the same as a resource that does not exist. */
 export const createPortal: API.OperationMethod<
   CreatePortalRequest,
   V2PortalCreatePortalResponseBody,
   CreatePortalError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<CreatePortalRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<V2PortalCreatePortalResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(1824, __c57, 0) as any as S.Schema<CreatePortalRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<V2PortalCreatePortalResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3416,9 +3659,10 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<V2ProjectsCreateProjectResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  input: __S(1856, __c58, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<V2ProjectsCreateProjectResponseBody>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3433,9 +3677,10 @@ export const deleteApp: API.OperationMethod<
   DeleteAppError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<DeleteAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteAppResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3443,16 +3688,17 @@ export const deleteApp: API.OperationMethod<
 }));
 
 export type DeleteDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete domain Delete a custom domain from your workspace. Address the domain by its id or by its name. Names are unique per workspace, so `api.acme.com` is enough. Unkey stops serving the domain. Later requests fail with a certificate error. The DNS records at your provider stay in place. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.delete_domain` (to delete domains in any environment) - `environment.<environment_id>.delete_domain` (to delete domains in a specific environment) */
+/** Delete domain Delete a custom domain from your workspace. Address the domain by its id or by its name. Names are unique per workspace, so `api.acme.com` is enough. Unkey stops serving the domain. Later requests fail with a certificate error. The DNS records at your provider stay in place. **Required Permissions** Your root key must have `delete` permission on the domain: `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>/domains/<domain_id>#delete`. Use `*` in place of resource IDs to grant access to all matching domains in your workspace. */
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   V2DomainsDeleteDomainResponseBody,
   DeleteDomainError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DeleteDomainRequest>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2DomainsDeleteDomainResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3467,9 +3713,10 @@ export const deleteIdentity: API.OperationMethod<
   DeleteIdentityError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteIdentityRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<V2IdentitiesDeleteIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(1952, __c61, 0) as any as S.Schema<DeleteIdentityRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<V2IdentitiesDeleteIdentityResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3477,16 +3724,17 @@ export const deleteIdentity: API.OperationMethod<
 }));
 
 export type DeleteKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete API keys Delete API keys from user accounts or for cleanup purposes. Use this for user-requested key revocation, account deletion workflows, or cleaning up unused keys. Keys are immediately invalidated. Two modes: soft delete (default, preserves audit records) and permanent delete. **Important**: For temporary access control, use `updateKey` with `enabled: false` instead of deletion. **Required Permissions** Your credential must have one of the following permissions: - `api.*.delete_key` (to delete keys in any API) - `api.<api_id>.delete_key` (to delete keys in a specific API) - `unkey:v1:<workspace_id>:keyspaces/*\/keys/*#delete_key` (to delete keys in any keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/*#delete_key` (to delete keys in a specific keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/<key_id>#delete_key` (to delete a specific key) */
+/** Delete API keys Delete API keys from user accounts or for cleanup purposes. Use this for user-requested key revocation, account deletion workflows, or cleaning up unused keys. Keys are immediately invalidated. Two modes: soft delete (default, preserves audit records) and permanent delete. **Important**: For temporary access control, use `updateKey` with `enabled: false` instead of deletion. **Required Permissions** Your credential must have one of the following permissions: - `unkey:v1:<workspace_id>:projects/*\/keyspaces/*\/keys/*#delete` (to delete keys in any project) - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/*\/keys/*#delete` (to delete keys in a specific project) - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#delete` (to delete keys in a specific keyspace) - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#delete` (to delete a specific key) */
 export const deleteKey: API.OperationMethod<
   DeleteKeyRequest,
   V2KeysDeleteKeyResponseBody,
   DeleteKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteKeyRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2KeysDeleteKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3494,16 +3742,17 @@ export const deleteKey: API.OperationMethod<
 }));
 
 export type DeletePortalError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete portal Delete a portal and revoke the sessions it minted. Unreleased and subject to change without notice. Its end users lose access rather than keeping it until their tokens expire. Revocation is not instantaneous: session lookups are cached briefly, so a request already in flight may still succeed. The app or keyspace it served is untouched, and its slug becomes free for a new portal. **Required Permissions** Your root key must have `delete` permission on `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>`. A broader grant, such as `unkey:v1:<workspace_id>:**#delete`, also permits deletion. A root key that cannot read the portal gets **404**. One that can read it but lacks the permission gets **403**. */
+/** Delete portal Delete a portal and revoke the sessions it minted. Unreleased and subject to change without notice. Its end users lose access rather than keeping it until their tokens expire. Revocation is not instantaneous: session lookups are cached briefly, so a request already in flight may still succeed. The app or keyspace it served is untouched, and its slug becomes free for a new portal. Its custom domains are deleted with it: they stop serving and their DNS records can be removed. Their certificates are not revoked. **Required Permissions** Your root key must have `delete` permission on `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>`. A broader grant, such as `unkey:v1:<workspace_id>:**#delete`, also permits deletion. A root key that cannot read the portal gets **404**. One that can read it but lacks the permission gets **403**. */
 export const deletePortal: API.OperationMethod<
   DeletePortalRequest,
   V2PortalDeletePortalResponseBody,
   DeletePortalError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeletePortalRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeletePortalRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2PortalDeletePortalResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3511,16 +3760,17 @@ export const deletePortal: API.OperationMethod<
 }));
 
 export type DeleteProjectError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete project Delete an existing project in your workspace, identified by its id. Deletion is asynchronous and eventually consistent. The project and all of its associated resources (apps, environments, deployments, custom domains) are torn down by a background workflow. A successful response indicates the deletion was enqueued, not that every resource has already been removed. Projects with delete protection enabled cannot be deleted until protection is disabled. **Required Permissions** Your root key must have one of the following permissions: - `project.*.delete_project` (to delete any project) - `project.<project_id>.delete_project` (to delete a specific project) */
+/** Delete project Delete an existing project in your workspace, identified by its id. Deletion is asynchronous and eventually consistent. The project and all of its associated resources (apps, environments, deployments, custom domains) are torn down by a background workflow. A successful response indicates the deletion was enqueued, not that every resource has already been removed. Projects with delete protection enabled cannot be deleted until protection is disabled. **Required Permissions** Your root key must have one of the following permissions: - `unkey:v1:<workspace_id>:projects/*#delete` (to delete any project in the workspace) - `unkey:v1:<workspace_id>:projects/<project_id>#delete` (to delete a specific project) */
 export const deleteProject: API.OperationMethod<
   DeleteProjectRequest,
   DeleteProjectResponse,
   DeleteProjectError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeleteProjectResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3537,9 +3787,10 @@ export const deploymentsListBuildLogs: API.PaginatedOperationMethod<
   BuildLogEntry
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1856, __c58, 0) as any as S.Schema<DeploymentsListBuildLogsRequest>,
-    output: __S(1859, __c58, 3) as any as S.Schema<V2DeploymentsListBuildLogsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(2080, __c65, 0) as any as S.Schema<DeploymentsListBuildLogsRequest>,
+    output: __S(2083, __c65, 3) as any as S.Schema<V2DeploymentsListBuildLogsResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3563,9 +3814,10 @@ export const deploymentsPromoteDeployment: API.OperationMethod<
   DeploymentsPromoteDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DeploymentsPromoteDeploymentRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<DeploymentsPromoteDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2112, __c66, 0) as any as S.Schema<DeploymentsPromoteDeploymentRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeploymentsPromoteDeploymentResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3580,9 +3832,10 @@ export const deploymentsRollbackDeployment: API.OperationMethod<
   DeploymentsRollbackDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DeploymentsRollbackDeploymentRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<DeploymentsRollbackDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2144, __c67, 0) as any as S.Schema<DeploymentsRollbackDeploymentRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DeploymentsRollbackDeploymentResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3594,16 +3847,17 @@ export type EnvironmentsSetEnvironmentVariablesError =
   | Forbidden
   | NotFound
   | UnkeyOpError;
-/** Set environment variables Create or update environment variables for an environment in a single atomic request. By default this is an upsert: each variable in the payload is created if new or fully overwritten if the key already exists, and any variable not in the payload is left untouched. This lets you change one variable without re-sending the others, which matters for write-only secrets you can no longer read back. Set `prune: true` to make it a full replace instead: after upserting, every variable not in the payload is deleted. Sending `prune: true` with an empty `variables` list resets the environment by deleting every variable. Each variable is written exactly as sent, never merged, so omitted optional fields fall back to their defaults rather than the previous value. Values are always encrypted at rest. Set `kind: recoverable` to allow a value to be read back; it defaults to `writeonly`, which can never be read back through the API. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.set_environment_variables` (for any environment) - `environment.<environment_id>.set_environment_variables` (for a specific environment) */
+/** Set environment variables Create or update environment variables for an environment in a single atomic request. By default this is an upsert: each variable in the payload is created if new or fully overwritten if the key already exists, and any variable not in the payload is left untouched. This lets you change one variable without re-sending the others, which matters for write-only secrets you can no longer read back. Set `prune: true` to make it a full replace instead: after upserting, every variable not in the payload is deleted. Sending `prune: true` with an empty `variables` list resets the environment by deleting every variable. Each variable is written exactly as sent, never merged, so omitted optional fields fall back to their defaults rather than the previous value. Values are always encrypted at rest. Set `kind: recoverable` to allow a value to be read back; it defaults to `writeonly`, which can never be read back through the API. **Required Permissions** Your root key must have `write` on the environment's variable collection: `unkey:v1:{workspace_id}:projects/{project_id}/apps/{app_id}/environments/{environment_id}/variables/*#write`. When `prune` is true, it must also have `delete` on the same collection: `unkey:v1:{workspace_id}:projects/{project_id}/apps/{app_id}/environments/{environment_id}/variables/*#delete`. */
 export const environmentsSetEnvironmentVariables: API.OperationMethod<
   EnvironmentsSetEnvironmentVariablesRequest,
   V2EnvironmentsSetEnvironmentVariablesResponseBody,
   EnvironmentsSetEnvironmentVariablesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1954, __c61, 2) as any as S.Schema<EnvironmentsSetEnvironmentVariablesRequest>,
+  input: __S(2178, __c68, 2) as any as S.Schema<EnvironmentsSetEnvironmentVariablesRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2EnvironmentsSetEnvironmentVariablesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3611,16 +3865,17 @@ export const environmentsSetEnvironmentVariables: API.OperationMethod<
 }));
 
 export type EnvironmentsUpdateSettingsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Update environment settings Update the build, runtime, and regional settings for an environment. All settings fields are optional. Omit a field to leave it unchanged. For nullable fields (`dockerfile`, `healthcheck`, `openapiSpecPath`), send null to clear the value. When `regions` is present it replaces the full set of regions for the environment. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.update_environment` (to update any environment) - `environment.<environment_id>.update_environment` (to update a specific environment) */
+/** Update environment settings Update the build, runtime, and regional settings for an environment. All settings fields are optional. Omit a field to leave it unchanged. For nullable fields (`dockerfile`, `healthcheck`, `openapiSpecPath`), send null to clear the value. When `regions` is present it replaces the full set of regions for the environment. **Required Permissions** Your root key must have `#write` permission on the environment, for example: - `unkey:v1:<workspace_id>:projects/*\/apps/*\/environments/*#write` (any environment in your workspace) - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>#write` (a specific environment) */
 export const environmentsUpdateSettings: API.OperationMethod<
   EnvironmentsUpdateSettingsRequest,
   V2EnvironmentsUpdateSettingsResponseBody,
   EnvironmentsUpdateSettingsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<EnvironmentsUpdateSettingsRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<EnvironmentsUpdateSettingsRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2EnvironmentsUpdateSettingsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3635,9 +3890,10 @@ export const gatewayListPolicies: API.OperationMethod<
   GatewayListPoliciesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GatewayListPoliciesRequest>,
-  output: __S(2083, __c65, 3) as any as S.Schema<V2GatewayListPoliciesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2304, __c72, 0) as any as S.Schema<GatewayListPoliciesRequest>,
+  output: __S(2307, __c72, 3) as any as S.Schema<V2GatewayListPoliciesResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3645,16 +3901,17 @@ export const gatewayListPolicies: API.OperationMethod<
 }));
 
 export type GatewaySetPoliciesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Set policies Replace an environment's gateway policies in a single atomic request. Policies run at the edge before requests reach your app: verify API keys, rate limit, block requests outright, or validate them against your OpenAPI spec. Policies are an ordered list: the gateway evaluates them top to bottom and the first rejection short-circuits the request. Each policy sets exactly one of `keyauth`, `ratelimit`, `firewall` or `openapi`, plus optional `match` expressions restricting which requests it applies to. Every call is a full replace: the environment's policies become exactly the request list in the given order, and the server generates a fresh id for each one. An empty list removes all policies. The operation is atomic: if any policy is invalid, nothing is written. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.set_policies` (for any environment) - `environment.<environment_id>.set_policies` (for a specific environment) */
+/** Set policies Replace an environment's gateway policies in a single atomic request. Policies run at the edge before requests reach your app: verify API keys, rate limit, block requests outright, or validate them against your OpenAPI spec. Policies are an ordered list: the gateway evaluates them top to bottom and the first rejection short-circuits the request. Each policy sets exactly one of `keyauth`, `ratelimit`, `firewall` or `openapi`, plus optional `match` expressions restricting which requests it applies to. Every call is a full replace: the environment's policies become exactly the request list in the given order, and the server generates a fresh id for each one. An empty list removes all policies. The operation is atomic: if any policy is invalid, nothing is written. **Required Permissions** Your root key must have both permissions on the target environment's gateway policies: - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>/gateway/policies/*#write` - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>/gateway/policies/*#delete` Replace the placeholders with resource IDs. Wildcard grants can cover multiple resources, but access remains limited to the root key's workspace. */
 export const gatewaySetPolicies: API.OperationMethod<
   GatewaySetPoliciesRequest,
   V2GatewaySetPoliciesResponseBody,
   GatewaySetPoliciesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2178, __c68, 2) as any as S.Schema<GatewaySetPoliciesRequest>,
+  input: __S(2402, __c75, 2) as any as S.Schema<GatewaySetPoliciesRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2GatewaySetPoliciesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3662,16 +3919,17 @@ export const gatewaySetPolicies: API.OperationMethod<
 }));
 
 export type GatewayUpdatePolicyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Update policy Update a single policy in place without resending the environment's full policy list. The policy keeps its id and its position in the evaluation order, and all other policies are untouched. Omitted fields keep their stored values; at least one updatable field must be provided. Setting `match` to null removes all match expressions so the policy applies to every request. Providing one of `keyauth`, `ratelimit`, `firewall` or `openapi` replaces the policy's rule entirely, including switching its type; at most one may be set. Policy ids are regenerated whenever `gateway.setPolicies` replaces the list, so fetch current ids via `gateway.listPolicies` first. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.update_policy` (for any environment) - `environment.<environment_id>.update_policy` (for a specific environment) */
+/** Update policy Update a single policy in place without resending the environment's full policy list. The policy keeps its id and its position in the evaluation order, and all other policies are untouched. Omitted fields keep their stored values; at least one updatable field must be provided. Setting `match` to null removes all match expressions so the policy applies to every request. Providing one of `keyauth`, `ratelimit`, `firewall` or `openapi` replaces the policy's rule entirely, including switching its type; at most one may be set. Policy ids are regenerated whenever `gateway.setPolicies` replaces the list, so fetch current ids via `gateway.listPolicies` first. **Required Permissions** Your root key must have `write` permission on the policy: `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>/gateway/policies/<policy_id>#write`. Use `*` in place of a resource ID to grant access to all resources at that level. */
 export const gatewayUpdatePolicy: API.OperationMethod<
   GatewayUpdatePolicyRequest,
   V2GatewayUpdatePolicyResponseBody,
   GatewayUpdatePolicyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GatewayUpdatePolicyRequest>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GatewayUpdatePolicyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2GatewayUpdatePolicyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3686,9 +3944,10 @@ export const getApp: API.OperationMethod<
   GetAppError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetAppRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<V2AppsGetAppResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2464, __c77, 0) as any as S.Schema<GetAppRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<V2AppsGetAppResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3703,9 +3962,10 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<V2DeploymentsGetDeploymentResponseBody>,
-  errors: [BadRequest, NotFound, UnknownUnkeyError],
+  input: __S(2560, __c80, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<V2DeploymentsGetDeploymentResponseBody>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3720,9 +3980,10 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<V2DomainsGetDomainResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2624, __c82, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<V2DomainsGetDomainResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3737,9 +3998,10 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetEnvironmentRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<V2EnvironmentsGetEnvironmentResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2688, __c84, 0) as any as S.Schema<GetEnvironmentRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<V2EnvironmentsGetEnvironmentResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3754,9 +4016,10 @@ export const getIdentity: API.OperationMethod<
   GetIdentityError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetIdentityRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<V2IdentitiesGetIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2752, __c86, 0) as any as S.Schema<GetIdentityRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<V2IdentitiesGetIdentityResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3771,9 +4034,10 @@ export const getKey: API.OperationMethod<
   GetKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetKeyRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<V2KeysGetKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2784, __c87, 0) as any as S.Schema<GetKeyRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<V2KeysGetKeyResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3788,9 +4052,10 @@ export const getPortal: API.OperationMethod<
   GetPortalError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetPortalRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<V2PortalGetPortalResponseBody>,
-  errors: [BadRequest, NotFound, UnknownUnkeyError],
+  input: __S(2848, __c89, 0) as any as S.Schema<GetPortalRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<V2PortalGetPortalResponseBody>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3805,9 +4070,10 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<V2ProjectsGetProjectResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(2912, __c91, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<V2ProjectsGetProjectResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3815,16 +4081,17 @@ export const getProject: API.OperationMethod<
 }));
 
 export type GithubInstallAppError = BadRequest | Forbidden | UnkeyOpError;
-/** Install GitHub App Start installing the Unkey GitHub App for your workspace. Returns a GitHub App install URL: open it in a browser to install the app and grant repository access. After installation GitHub returns to Unkey, which binds the installation to your workspace and lands you in the workspace settings. Installation is workspace-wide and takes no parameters. Once installed, link repositories to individual apps with the `git` field on `apps.createApp` and `apps.updateApp`. **Required Permissions** Your root key must have the following permission: - `workspace.*.install_github` */
+/** Install GitHub App Start installing the Unkey GitHub App for your workspace. Returns a GitHub App install URL: open it in a browser to install the app and grant repository access. After installation GitHub returns to Unkey, which binds the installation to your workspace and lands you in the workspace settings. Installation is workspace-wide and takes no parameters. Once installed, link repositories to individual apps with the `git` field on `apps.createApp` and `apps.updateApp`. **Required Permissions** Your root key must have the following permission: - `unkey:v1:<workspace_id>:github/apps/*#write` Replace `<workspace_id>` with the authenticated workspace ID. */
 export const githubInstallApp: API.OperationMethod<
   GithubInstallAppRequest,
   V2GithubInstallAppResponseBody,
   GithubInstallAppError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<GithubInstallAppRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<V2GithubInstallAppResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(3008, __c94, 0) as any as S.Schema<GithubInstallAppRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<V2GithubInstallAppResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3832,16 +4099,17 @@ export const githubInstallApp: API.OperationMethod<
 }));
 
 export type KeysAddPermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Add key permissions Add permissions to a key without affecting existing permissions. Use this for privilege upgrades, enabling new features, or plan changes that grant additional capabilities. Permissions granted through roles remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) **Side Effects** Invalidates the key cache for immediate effect, and makes permissions available for verification within 30 seconds across all regions. */
+/** Add key permissions Add permissions to a key without affecting existing permissions. Use this for privilege upgrades, enabling new features, or plan changes that grant additional capabilities. Permissions granted through roles remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have `write` on `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>`. To create missing permission slugs, it must also have `write` on `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*`. Adding existing permissions does not require this additional grant. **Side Effects** Invalidates the key cache for immediate effect, and makes permissions available for verification within 30 seconds across all regions. */
 export const keysAddPermissions: API.OperationMethod<
   KeysAddPermissionsRequest,
   V2KeysAddPermissionsResponseBody,
   KeysAddPermissionsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<KeysAddPermissionsRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<V2KeysAddPermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3136, __c98, 0) as any as S.Schema<KeysAddPermissionsRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<V2KeysAddPermissionsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3849,16 +4117,17 @@ export const keysAddPermissions: API.OperationMethod<
 }));
 
 export type KeysAddRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Add key roles Add roles to a key without affecting existing roles or permissions. Use this for privilege upgrades, enabling new feature sets, or subscription changes that grant additional role-based capabilities. Direct permissions remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) **Side Effects** Invalidates the key cache for immediate effect, and makes role assignments available for verification within 30 seconds across all regions. */
+/** Add key roles Add roles to a key without affecting existing roles or permissions. Use this for privilege upgrades, enabling new feature sets, or subscription changes that grant additional role-based capabilities. Direct permissions remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#write` for the target key. Wildcard grants that cover this resource and action also work. **Side Effects** Invalidates the key cache for immediate effect, and makes role assignments available for verification within 30 seconds across all regions. */
 export const keysAddRoles: API.OperationMethod<
   KeysAddRolesRequest,
   V2KeysAddRolesResponseBody,
   KeysAddRolesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<KeysAddRolesRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<V2KeysAddRolesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3264, __c102, 0) as any as S.Schema<KeysAddRolesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<V2KeysAddRolesResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3866,16 +4135,17 @@ export const keysAddRoles: API.OperationMethod<
 }));
 
 export type KeysRemovePermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Remove key permissions Remove permissions from a key without affecting existing roles or other permissions. Use this for privilege downgrades, removing temporary access, or plan changes that revoke specific capabilities. Permissions granted through roles remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) **Side Effects** Invalidates the key cache for immediate effect, and makes permission changes available for verification within 30 seconds across all regions. */
+/** Remove key permissions Remove permissions from a key without affecting existing roles or other permissions. Use this for privilege downgrades, removing temporary access, or plan changes that revoke specific capabilities. Permissions granted through roles remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#write` for the target key. Wildcard grants that include the target key also authorize this operation. **Side Effects** Invalidates the key cache for immediate effect, and makes permission changes available for verification within 30 seconds across all regions. */
 export const keysRemovePermissions: API.OperationMethod<
   KeysRemovePermissionsRequest,
   V2KeysRemovePermissionsResponseBody,
   KeysRemovePermissionsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<KeysRemovePermissionsRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<V2KeysRemovePermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3392, __c106, 0) as any as S.Schema<KeysRemovePermissionsRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<V2KeysRemovePermissionsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3883,16 +4153,17 @@ export const keysRemovePermissions: API.OperationMethod<
 }));
 
 export type KeysRemoveRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Remove key roles Remove roles from a key without affecting direct permissions or other roles. Use this for privilege downgrades, removing temporary access, or subscription changes that revoke specific role-based capabilities. Direct permissions remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) **Side Effects** Invalidates the key cache for immediate effect, and makes role changes available for verification within 30 seconds across all regions. */
+/** Remove key roles Remove roles from a key without affecting direct permissions or other roles. Use this for privilege downgrades, removing temporary access, or subscription changes that revoke specific role-based capabilities. Direct permissions remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have the following permission for the target key: - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#write` **Side Effects** Invalidates the key cache for immediate effect, and makes role changes available for verification within 30 seconds across all regions. */
 export const keysRemoveRoles: API.OperationMethod<
   KeysRemoveRolesRequest,
   V2KeysRemoveRolesResponseBody,
   KeysRemoveRolesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<KeysRemoveRolesRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<V2KeysRemoveRolesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3424, __c107, 0) as any as S.Schema<KeysRemoveRolesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<V2KeysRemoveRolesResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3900,16 +4171,17 @@ export const keysRemoveRoles: API.OperationMethod<
 }));
 
 export type KeysRerollKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Reroll Key Generate a new API key while preserving the configuration from an existing key. This operation creates a fresh key with a new token while maintaining all settings from the original key: - Permissions and roles - Custom metadata - Rate limit configurations - Identity associations - Remaining credits - Recovery settings **Key Generation:** - The system attempts to extract the prefix from the original key - If prefix extraction fails, the default API prefix is used - Key length follows the API's default byte configuration (or 16 bytes if not specified) **Original Key Handling:** - The original key will be revoked after the duration specified in `expiration` - Set `expiration` to 0 to revoke immediately - This allows for graceful key rotation with an overlap period Common use cases include: - Rotating keys for security compliance - Issuing replacement keys for compromised credentials - Creating backup keys with identical permissions **Important:** Analytics and usage metrics are tracked at both the key level AND identity level. If the original key has an identity, the new key will inherit it, allowing you to track usage across both individual keys and the overall identity. **Required Permissions** Your credential must have: - `api.*.create_key` or `api.<api_id>.create_key` - `unkey:v1:<workspace_id>:keyspaces/*#create_key` or `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>#create_key` - `api.*.encrypt_key` or `api.<api_id>.encrypt_key` (only when the original key is recoverable) - `unkey:v1:<workspace_id>:keyspaces/*\/keys/*#encrypt_key` or `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/*#encrypt_key` (only when the original key is recoverable) */
+/** Reroll Key Generate a new API key while preserving the configuration from an existing key. This operation creates a fresh key with a new token while maintaining all settings from the original key: - Permissions and roles - Custom metadata - Rate limit configurations - Identity associations - Remaining credits - Recovery settings **Key Generation:** - The system attempts to extract the prefix from the original key - If prefix extraction fails, the default API prefix is used - Key length follows the API's default byte configuration (or 16 bytes if not specified) **Original Key Handling:** - The original key will be revoked after the duration specified in `expiration` - Set `expiration` to 0 to revoke immediately - This allows for graceful key rotation with an overlap period Common use cases include: - Rotating keys for security compliance - Issuing replacement keys for compromised credentials - Creating backup keys with identical permissions **Important:** Analytics and usage metrics are tracked at both the key level AND identity level. If the original key has an identity, the new key will inherit it, allowing you to track usage across both individual keys and the overall identity. **Required Permissions** Your credential must grant `write` on the original key: `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#write`. A matching wildcard grant also satisfies this requirement. The same permission applies to recoverable keys. */
 export const keysRerollKey: API.OperationMethod<
   KeysRerollKeyRequest,
   V2KeysRerollKeyResponseBody,
   KeysRerollKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<KeysRerollKeyRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<V2KeysRerollKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3456, __c108, 0) as any as S.Schema<KeysRerollKeyRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<V2KeysRerollKeyResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3917,16 +4189,17 @@ export const keysRerollKey: API.OperationMethod<
 }));
 
 export type KeysSetPermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Set key permissions Replace all permissions on a key with the specified set in a single atomic operation. Use this to synchronize with external systems, reset permissions to a known state, or apply standardized permission templates. Permissions granted through roles remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) **Side Effects** Invalidates the key cache for immediate effect, and makes permission changes available for verification within 30 seconds across all regions. */
+/** Set key permissions Replace all permissions on a key with the specified set in a single atomic operation. Use this to synchronize with external systems, reset permissions to a known state, or apply standardized permission templates. Permissions granted through roles remain unchanged. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have `write` on the target key: - `unkey:v1:{workspace_id}:projects/{project_id}/keyspaces/{keyspace_id}/keys/{key_id}#write` When any requested permission slug does not exist in the key's project, your root key must also have: - `unkey:v1:{workspace_id}:projects/{project_id}/rbac/permissions/*#write` Use the keyspace ID, not the API ID. You can use wildcard resource IDs to grant access to multiple resources. **Side Effects** Invalidates the key cache for immediate effect, and makes permission changes available for verification within 30 seconds across all regions. */
 export const keysSetPermissions: API.OperationMethod<
   KeysSetPermissionsRequest,
   V2KeysSetPermissionsResponseBody,
   KeysSetPermissionsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<KeysSetPermissionsRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<V2KeysSetPermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3488, __c109, 0) as any as S.Schema<KeysSetPermissionsRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<V2KeysSetPermissionsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3934,16 +4207,17 @@ export const keysSetPermissions: API.OperationMethod<
 }));
 
 export type KeysSetRolesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Set key roles Replace all roles on a key with the specified set in a single atomic operation. Use this to synchronize with external systems, reset roles to a known state, or apply standardized role templates. Direct permissions are never affected. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) **Side Effects** Invalidates the key cache for immediate effect, and makes role changes available for verification within 30 seconds across all regions. */
+/** Set key roles Replace all roles on a key with the specified set in a single atomic operation. Use this to synchronize with external systems, reset roles to a known state, or apply standardized role templates. Direct permissions are never affected. **Important**: Changes take effect immediately with up to 30-second edge propagation. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#write` for the target key. A wildcard grant that covers the target key also authorizes this operation. **Side Effects** Invalidates the key cache for immediate effect, and makes role changes available for verification within 30 seconds across all regions. */
 export const keysSetRoles: API.OperationMethod<
   KeysSetRolesRequest,
   V2KeysSetRolesResponseBody,
   KeysSetRolesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<KeysSetRolesRequest>,
-  output: __S(3072, __c96, 0) as any as S.Schema<V2KeysSetRolesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3520, __c110, 0) as any as S.Schema<KeysSetRolesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<V2KeysSetRolesResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3958,9 +4232,10 @@ export const keysUpdateCredits: API.OperationMethod<
   KeysUpdateCreditsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<KeysUpdateCreditsRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<V2KeysUpdateCreditsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3552, __c111, 0) as any as S.Schema<KeysUpdateCreditsRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<V2KeysUpdateCreditsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3975,9 +4250,10 @@ export const keysWhoami: API.OperationMethod<
   KeysWhoamiError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<KeysWhoamiRequest>,
-  output: __S(2592, __c81, 0) as any as S.Schema<V2KeysWhoamiResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3584, __c112, 0) as any as S.Schema<KeysWhoamiRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<V2KeysWhoamiResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3994,9 +4270,10 @@ export const listApps: API.PaginatedOperationMethod<
   App
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3392, __c106, 0) as any as S.Schema<ListAppsRequest>,
-    output: __S(3394, __c106, 2) as any as S.Schema<V2AppsListAppsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(3616, __c113, 0) as any as S.Schema<ListAppsRequest>,
+    output: __S(3618, __c113, 2) as any as S.Schema<V2AppsListAppsResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4022,9 +4299,10 @@ export const listDeployments: API.PaginatedOperationMethod<
   Deployment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3456, __c108, 0) as any as S.Schema<ListDeploymentsRequest>,
-    output: __S(3458, __c108, 2) as any as S.Schema<V2DeploymentsListDeploymentsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(3680, __c115, 0) as any as S.Schema<ListDeploymentsRequest>,
+    output: __S(3682, __c115, 2) as any as S.Schema<V2DeploymentsListDeploymentsResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4050,9 +4328,10 @@ export const listDomains: API.PaginatedOperationMethod<
   Domain
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3488, __c109, 0) as any as S.Schema<ListDomainsRequest>,
-    output: __S(3490, __c109, 2) as any as S.Schema<V2DomainsListDomainsResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(3712, __c116, 0) as any as S.Schema<ListDomainsRequest>,
+    output: __S(3714, __c116, 2) as any as S.Schema<V2DomainsListDomainsResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4076,9 +4355,10 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<V2EnvironmentsListEnvironmentsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(3744, __c117, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(3746, __c117, 2) as any as S.Schema<V2EnvironmentsListEnvironmentsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4095,13 +4375,14 @@ export const listEnvironmentVariables: API.PaginatedOperationMethod<
   EnvironmentVariable
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3552, __c111, 0) as any as S.Schema<ListEnvironmentVariablesRequest>,
+    input: __S(3776, __c118, 0) as any as S.Schema<ListEnvironmentVariablesRequest>,
     output: __S(
-      3555,
-      __c111,
+      3779,
+      __c118,
       3,
     ) as any as S.Schema<V2EnvironmentsListEnvironmentVariablesResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4127,9 +4408,10 @@ export const listIdentities: API.PaginatedOperationMethod<
   Identity
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3584, __c112, 0) as any as S.Schema<ListIdentitiesRequest>,
-    output: __S(3586, __c112, 2) as any as S.Schema<V2IdentitiesListIdentitiesResponseBody>,
-    errors: [BadRequest, Forbidden, UnknownUnkeyError],
+    input: __S(3808, __c119, 0) as any as S.Schema<ListIdentitiesRequest>,
+    output: __S(3810, __c119, 2) as any as S.Schema<V2IdentitiesListIdentitiesResponseBody>,
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4155,9 +4437,10 @@ export const listPermissions: API.PaginatedOperationMethod<
   Permission
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3616, __c113, 0) as any as S.Schema<ListPermissionsRequest>,
-    output: __S(3617, __c113, 1) as any as S.Schema<V2PermissionsListPermissionsResponseBody>,
-    errors: [BadRequest, Forbidden, UnknownUnkeyError],
+    input: __S(3840, __c120, 0) as any as S.Schema<ListPermissionsRequest>,
+    output: __S(3841, __c120, 1) as any as S.Schema<V2PermissionsListPermissionsResponseBody>,
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4183,9 +4466,10 @@ export const listProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3648, __c114, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(3650, __c114, 2) as any as S.Schema<V2ProjectsListProjectsResponseBody>,
-    errors: [BadRequest, Forbidden, UnknownUnkeyError],
+    input: __S(3872, __c121, 0) as any as S.Schema<ListProjectsRequest>,
+    output: __S(3874, __c121, 2) as any as S.Schema<V2ProjectsListProjectsResponseBody>,
+    errors: [BadRequest, Forbidden],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4209,9 +4493,10 @@ export const liveness: API.OperationMethod<
   LivenessError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<LivenessRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<V2LivenessResponseBody>,
-  errors: [UnknownUnkeyError],
+  input: __S(3904, __c122, 0) as any as S.Schema<LivenessRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<V2LivenessResponseBody>,
+  errors: [],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4219,16 +4504,17 @@ export const liveness: API.OperationMethod<
 }));
 
 export type LoginCliDecideDeviceError = BadRequest | Forbidden | UnkeyOpError;
-/** Decide CLI device login Approves or denies a device login using the signed-in dashboard user's session. Approval requires permissions. Denial must not include permissions and prevents token issuance. Every permission must fit inside the caller's role. Any member can approve, not only admins. The CLI session is created later, when the CLI polls, with this set or a narrower one if the member's role changed. */
+/** Decide CLI device login Approves or denies a device login using the signed-in dashboard user's session. Approval requires permissions. Denial must not include permissions and prevents token issuance. Every permission must fit inside the caller's role. Any member can approve, not only admins. The CLI session is created later, when the CLI polls, with this set or a narrower one if the member's role changed. For a login an MCP client started through OAuth, the response carries redirectUrl and the session is created when the client redeems the authorization code. */
 export const loginCliDecideDevice: API.OperationMethod<
   LoginCliDecideDeviceRequest,
   V2CliDecideDeviceLoginResponseBody,
   LoginCliDecideDeviceError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<LoginCliDecideDeviceRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<V2CliDecideDeviceLoginResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(3936, __c123, 0) as any as S.Schema<LoginCliDecideDeviceRequest>,
+  output: __S(3938, __c123, 2) as any as S.Schema<V2CliDecideDeviceLoginResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4247,9 +4533,10 @@ export const logsGetApiRequestMetrics: API.OperationMethod<
   LogsGetApiRequestMetricsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3745, __c117, 1) as any as S.Schema<LogsGetApiRequestMetricsRequest>,
-  output: __S(3748, __c117, 4) as any as S.Schema<V2LogsGetApiRequestMetricsResponseBody>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+  input: __S(3969, __c124, 1) as any as S.Schema<LogsGetApiRequestMetricsRequest>,
+  output: __S(3972, __c124, 4) as any as S.Schema<V2LogsGetApiRequestMetricsResponseBody>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4266,9 +4553,10 @@ export const logsListApiRequests: API.PaginatedOperationMethod<
   ApiRequestLog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(3842, __c120, 2) as any as S.Schema<LogsListApiRequestsRequest>,
-    output: __S(3845, __c120, 5) as any as S.Schema<V2LogsListApiRequestsResponseBody>,
-    errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownUnkeyError],
+    input: __S(4066, __c127, 2) as any as S.Schema<LogsListApiRequestsRequest>,
+    output: __S(4069, __c127, 5) as any as S.Schema<V2LogsListApiRequestsResponseBody>,
+    errors: [BadRequest, Forbidden, UnprocessableEntity],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4285,16 +4573,17 @@ export const logsListApiRequests: API.PaginatedOperationMethod<
 ) as any;
 
 export type MigrateKeysError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Migrate API key(s) Returns HTTP 200 even on partial success; hashes that could not be migrated are listed under `data.failed`. **Required Permissions** Your root key must have one of the following permissions for basic key information: - `api.*.create_key` (to migrate keys to any API) - `api.<api_id>.create_key` (to migrate keys to a specific API) */
+/** Migrate API key(s) Returns HTTP 200 even on partial success; hashes that could not be migrated are listed under `data.failed`. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#write` for the target keyspace in its project and workspace. */
 export const migrateKeys: API.OperationMethod<
   MigrateKeysRequest,
   V2KeysMigrateKeysResponseBody,
   MigrateKeysError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3874, __c121, 2) as any as S.Schema<MigrateKeysRequest>,
-  output: __S(3878, __c121, 6) as any as S.Schema<V2KeysMigrateKeysResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(4098, __c128, 2) as any as S.Schema<MigrateKeysRequest>,
+  output: __S(4102, __c128, 6) as any as S.Schema<V2KeysMigrateKeysResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4302,16 +4591,17 @@ export const migrateKeys: API.OperationMethod<
 }));
 
 export type PermissionsCreatePermissionError = BadRequest | Forbidden | Conflict | UnkeyOpError;
-/** Create permission Create a new permission to define specific actions or capabilities in your RBAC system. Permissions can be assigned directly to API keys or included in roles. Use hierarchical naming patterns like `documents.read`, `admin.users.delete`, or `billing.invoices.create` for clear organization. **Important:** Permission slugs must be unique within the workspace. Names do not need to be unique. Once created, permissions are immediately available for assignment. **Required Permissions** Your root key must have the following permission: - `rbac.*.create_permission` */
+/** Create permission Create a new permission to define specific actions or capabilities in your RBAC system. Permissions can be assigned directly to API keys or included in roles. Use hierarchical naming patterns like `documents.read`, `admin.users.delete`, or `billing.invoices.create` for clear organization. **Important:** Permission slugs must be unique within the workspace. Names do not need to be unique. Once created, permissions are immediately available for assignment. **Required Permissions** Your root key must have the following permission: - `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*#write` Use your workspace ID and its default project ID. A wildcard project grant also authorizes this operation. */
 export const permissionsCreatePermission: API.OperationMethod<
   PermissionsCreatePermissionRequest,
   V2PermissionsCreatePermissionResponseBody,
   PermissionsCreatePermissionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<PermissionsCreatePermissionRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<V2PermissionsCreatePermissionResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  input: __S(4128, __c129, 0) as any as S.Schema<PermissionsCreatePermissionRequest>,
+  output: __S(4130, __c129, 2) as any as S.Schema<V2PermissionsCreatePermissionResponseBody>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4319,16 +4609,17 @@ export const permissionsCreatePermission: API.OperationMethod<
 }));
 
 export type PermissionsCreateRoleError = BadRequest | Forbidden | Conflict | UnkeyOpError;
-/** Create role Create a new role to group related permissions for easier management. Roles enable consistent permission assignment across multiple API keys. Permission slugs supplied in `permissions` are attached during creation. Missing permissions are created automatically. **Important:** Role names must be unique within the workspace. Once created, roles are immediately available for assignment. **Required Permissions** Your root key must always have: - `rbac.*.create_role` When `permissions` is not empty, it must also have: - `rbac.*.add_permission_to_role` When any requested permission slug does not exist, it must also have: - `rbac.*.create_permission` */
+/** Create role Create a new role to group related permissions for easier management. Roles enable consistent permission assignment across multiple API keys. Permission slugs supplied in `permissions` are attached during creation. Missing permissions are created automatically. **Important:** Role names must be unique within the workspace. Once created, roles are immediately available for assignment. **Required Permissions** Your root key must always have: - `unkey:v1:<workspace_id>:projects/<project_id>/rbac/roles/*#write` When any requested permission slug does not exist, it must also have: - `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*#write` Both grants must cover the authenticated workspace and its default project. Attaching existing permissions requires only role write access. */
 export const permissionsCreateRole: API.OperationMethod<
   PermissionsCreateRoleRequest,
   V2PermissionsCreateRoleResponseBody,
   PermissionsCreateRoleError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<PermissionsCreateRoleRequest>,
-  output: __S(3938, __c123, 2) as any as S.Schema<V2PermissionsCreateRoleResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  input: __S(4160, __c130, 0) as any as S.Schema<PermissionsCreateRoleRequest>,
+  output: __S(4162, __c130, 2) as any as S.Schema<V2PermissionsCreateRoleResponseBody>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4336,16 +4627,17 @@ export const permissionsCreateRole: API.OperationMethod<
 }));
 
 export type PermissionsDeletePermissionError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete permission Remove a permission from your workspace. This also removes the permission from all API keys and roles. **Important:** This operation cannot be undone and immediately affects all API keys and roles that had this permission assigned. **Required Permissions** Your root key must have the following permission: - `rbac.*.delete_permission` */
+/** Delete permission Remove a permission from your workspace. This also removes the permission from all API keys and roles. **Important:** This operation cannot be undone and immediately affects all API keys and roles that had this permission assigned. **Required Permissions** Your root key must have the following permission: - `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/<permission_id>#delete` */
 export const permissionsDeletePermission: API.OperationMethod<
   PermissionsDeletePermissionRequest,
   V2PermissionsDeletePermissionResponseBody,
   PermissionsDeletePermissionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<PermissionsDeletePermissionRequest>,
+  input: __S(4192, __c131, 0) as any as S.Schema<PermissionsDeletePermissionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2PermissionsDeletePermissionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4353,16 +4645,17 @@ export const permissionsDeletePermission: API.OperationMethod<
 }));
 
 export type PermissionsDeleteRoleError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete role Remove a role from your workspace. This also removes the role from all assigned API keys. **Important:** This operation cannot be undone and immediately affects all API keys that had this role assigned. **Required Permissions** Your root key must have the following permission: - `rbac.*.delete_role` */
+/** Delete role Remove a role from your workspace. This also removes the role from all assigned API keys. **Important:** This operation cannot be undone and immediately affects all API keys that had this role assigned. **Required Permissions** Your root key must have `unkey:v1:{workspaceId}:projects/{projectId}/rbac/roles/{roleId}#delete` for the role. A wildcard grant that covers the role also authorizes deletion. */
 export const permissionsDeleteRole: API.OperationMethod<
   PermissionsDeleteRoleRequest,
   V2PermissionsDeleteRoleResponseBody,
   PermissionsDeleteRoleError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<PermissionsDeleteRoleRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<PermissionsDeleteRoleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2PermissionsDeleteRoleResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4377,9 +4670,10 @@ export const permissionsGetPermission: API.OperationMethod<
   PermissionsGetPermissionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<PermissionsGetPermissionRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<V2PermissionsGetPermissionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(4256, __c133, 0) as any as S.Schema<PermissionsGetPermissionRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<V2PermissionsGetPermissionResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4394,9 +4688,10 @@ export const permissionsGetRole: API.OperationMethod<
   PermissionsGetRoleError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<PermissionsGetRoleRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<V2PermissionsGetRoleResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(4320, __c135, 0) as any as S.Schema<PermissionsGetRoleRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<V2PermissionsGetRoleResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4413,9 +4708,10 @@ export const permissionsListRoles: API.PaginatedOperationMethod<
   Role
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4128, __c129, 0) as any as S.Schema<PermissionsListRolesRequest>,
-    output: __S(4129, __c129, 1) as any as S.Schema<V2PermissionsListRolesResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(4352, __c136, 0) as any as S.Schema<PermissionsListRolesRequest>,
+    output: __S(4353, __c136, 1) as any as S.Schema<V2PermissionsListRolesResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4432,16 +4728,17 @@ export const permissionsListRoles: API.PaginatedOperationMethod<
 ) as any;
 
 export type PermissionsSetRolePermissionsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Set role permissions Atomically replaces all permissions directly assigned to a role. An empty `permissions` array removes every permission from the role. Permissions that do not exist are created when the caller has permission to create them. **Required Permissions** Your root key must have: - `rbac.*.add_permission_to_role` - `rbac.*.remove_permission_from_role` When any requested permission slug does not exist, it must also have: - `rbac.*.create_permission` */
+/** Set role permissions Atomically replaces all permissions directly assigned to a role. An empty `permissions` array removes every permission from the role. Permissions that do not exist are created when the caller has permission to create them. **Required Permissions** Your root key must have: - `unkey:v1:<workspace_id>:projects/<project_id>/rbac/roles/<role_id>#write` When any requested permission slug does not exist, it must also have: - `unkey:v1:<workspace_id>:projects/<project_id>/rbac/permissions/*#write` Use the role's workspace, project, and role IDs in these permissions. */
 export const permissionsSetRolePermissions: API.OperationMethod<
   PermissionsSetRolePermissionsRequest,
   V2PermissionsSetRolePermissionsResponseBody,
   PermissionsSetRolePermissionsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<PermissionsSetRolePermissionsRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<V2PermissionsSetRolePermissionsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(4384, __c137, 0) as any as S.Schema<PermissionsSetRolePermissionsRequest>,
+  output: __S(3232, __c101, 0) as any as S.Schema<V2PermissionsSetRolePermissionsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4461,9 +4758,10 @@ export const permissionsUpdatePermission: API.OperationMethod<
   PermissionsUpdatePermissionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<PermissionsUpdatePermissionRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<V2PermissionsUpdatePermissionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(4448, __c139, 0) as any as S.Schema<PermissionsUpdatePermissionRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<V2PermissionsUpdatePermissionResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4483,30 +4781,86 @@ export const permissionsUpdateRole: API.OperationMethod<
   PermissionsUpdateRoleError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<PermissionsUpdateRoleRequest>,
-  output: __S(4258, __c133, 2) as any as S.Schema<V2PermissionsUpdateRoleResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(4480, __c140, 0) as any as S.Schema<PermissionsUpdateRoleRequest>,
+  output: __S(4482, __c140, 2) as any as S.Schema<V2PermissionsUpdateRoleResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PermissionsUpdateRole",
 }));
 
+export type PortalCreateDomainError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
+/** Create portal domain Attach a custom domain to a portal and start verifying it. The domain is created in the `pending` state and does not serve the portal until verification succeeds. The response returns `dnsRecords`: create every entry exactly as given. Verification runs in the background; poll `portal.getDomain` for the result. A name already attached to one of your portals or environments returns a 409. Requires `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/domains/*#write`. Use `portals/*\/domains/*#write` to attach domains to any portal in the project. Without the permission this returns **404**, not 403, unless the key can read the portal or its domains. */
+export const portalCreateDomain: API.OperationMethod<
+  PortalCreateDomainRequest,
+  V2PortalCreateDomainResponseBody,
+  PortalCreateDomainError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4512, __c141, 0) as any as S.Schema<PortalCreateDomainRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<V2PortalCreateDomainResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalCreateDomain",
+}));
+
+export type PortalCreateKeyError = BadRequest | Forbidden | UnkeyOpError;
+/** Create portal key Create an API key for the authenticated portal session's end user, within the key-creation policy the session was created with. The key is owned by the session's external identity and lives in the session's keyspace, so the request has no `externalId` or `apiId` field. Rate limits, expiry, permissions, and roles must stay within the policy; a value outside it is refused rather than adjusted. */
+export const portalCreateKey: API.OperationMethod<
+  PortalCreateKeyRequest,
+  V2KeysCreateKeyResponseBody,
+  PortalCreateKeyError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4544, __c142, 0) as any as S.Schema<PortalCreateKeyRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<V2KeysCreateKeyResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalCreateKey",
+}));
+
 export type PortalCreateSessionError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
-/** Create portal session Create a portal session for an end user and get the URL to redirect them to. The URL carries a single-use exchange code valid for 15 minutes, which the portal redeems exactly once for a 24-hour access token via `portal.exchangeCode`. **Required Permissions** Authorization runs in two stages, and both must pass. First, your root key must have one of the following permissions: - `portal.*.create_portal_session` (to mint sessions for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (to mint sessions for a specific portal) Second, a session can never carry a capability your root key does not itself hold. Each requested scope additionally requires the equivalent permission on every keyspace the portal resolves to: - `keys:read` requires `api.<api_id>.read_key` **and** `api.<api_id>.read_api` - `keys:reroll` requires `api.<api_id>.create_key`, plus `api.<api_id>.encrypt_key` when the keyspace stores encrypted keys - `analytics:read` requires `api.<api_id>.read_analytics` The `*` form of each is also accepted. Requesting a scope you do not hold returns 403 for the whole request rather than minting a reduced session, so a missing grant is visible instead of surfacing later as a broken portal. Missing the portal permission itself returns **404** when your root key cannot read the portal or its sessions, so a caller who cannot see a portal is not told whether it exists. A root key that can read the portal but lacks the permission gets **403**. Your root key must also be associated with a workspace that has an enabled portal. */
+/** Create portal session Create a portal session for an end user and get the URL to redirect them to. The URL carries a single-use exchange code valid for 15 minutes, which the portal redeems exactly once for a 24-hour access token via `portal.exchangeCode`. **Required Permissions** Authorization runs in two stages, and both must pass. First, your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*#write`. Write permission on the portal itself does not grant permission to mint sessions. Second, a session can never carry a capability your root key does not itself hold. Each requested scope additionally requires the equivalent permission on every keyspace the portal resolves to: - `keys:read` requires `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#read` and `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>#read`. - `keys:reroll` requires `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#write`, including when the keyspace stores encrypted keys. - `keys:create` requires `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#write`, the same permission creating a key with `keys.createKey` requires. - `analytics:read` requires `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/logs#read`. Broader URN grants that cover these resources and actions are also accepted. A grant on one concrete key cannot satisfy the `keys/*` requirement. Requesting a scope you do not hold returns 403 for the whole request rather than minting a reduced session, so a missing grant is visible instead of surfacing later as a broken portal. Missing the portal permission itself returns **404** when your root key cannot read the portal or its sessions, so a caller who cannot see a portal is not told whether it exists. A root key that can read the portal but lacks the permission gets **403**. Your root key must also be associated with a workspace that has an enabled portal. */
 export const portalCreateSession: API.OperationMethod<
   PortalCreateSessionRequest,
   V2PortalCreateSessionResponseBody,
   PortalCreateSessionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<PortalCreateSessionRequest>,
-  output: __S(4290, __c134, 2) as any as S.Schema<V2PortalCreateSessionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(4612, __c144, 4) as any as S.Schema<PortalCreateSessionRequest>,
+  output: __S(4614, __c144, 6) as any as S.Schema<V2PortalCreateSessionResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PortalCreateSession",
+}));
+
+export type PortalDeleteDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Delete portal domain Detach a custom domain from a portal. A verified domain stops serving the portal. Requires `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/domains/<domain_id>#delete`. Use `portals/<portal_id>/domains/*#delete` to delete any domain on the portal. Without the permission this returns **404**, not 403, unless the key can read the portal or the domain. */
+export const portalDeleteDomain: API.OperationMethod<
+  PortalDeleteDomainRequest,
+  V2PortalDeleteDomainResponseBody,
+  PortalDeleteDomainError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4640, __c145, 0) as any as S.Schema<PortalDeleteDomainRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<V2PortalDeleteDomainResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalDeleteDomain",
 }));
 
 export type PortalExchangeCodeError = BadRequest | UnkeyOpError;
@@ -4517,13 +4871,32 @@ export const portalExchangeCode: API.OperationMethod<
   PortalExchangeCodeError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<PortalExchangeCodeRequest>,
-  output: __S(4322, __c135, 2) as any as S.Schema<V2PortalExchangeCodeResponseBody>,
-  errors: [BadRequest, UnknownUnkeyError],
+  input: __S(4672, __c146, 0) as any as S.Schema<PortalExchangeCodeRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<V2PortalExchangeCodeResponseBody>,
+  errors: [BadRequest],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PortalExchangeCode",
+}));
+
+export type PortalGetDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Get portal domain Read one custom domain attached to a portal, with its verification status and DNS records. Requires `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/domains/<domain_id>#read`. Use `portals/<portal_id>/domains/*#read` to read every domain on the portal. Without the permission this returns **404**, not 403, unless the key can read the portal itself. */
+export const portalGetDomain: API.OperationMethod<
+  PortalGetDomainRequest,
+  V2PortalGetDomainResponseBody,
+  PortalGetDomainError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4704, __c147, 0) as any as S.Schema<PortalGetDomainRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<V2PortalGetDomainResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalGetDomain",
 }));
 
 export type PortalGetVerificationsError =
@@ -4539,13 +4912,32 @@ export const portalGetVerifications: API.OperationMethod<
   PortalGetVerificationsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<PortalGetVerificationsRequest>,
-  output: __S(4357, __c136, 5) as any as S.Schema<V2PortalGetVerificationsResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownUnkeyError],
+  input: __S(4768, __c149, 0) as any as S.Schema<PortalGetVerificationsRequest>,
+  output: __S(4773, __c149, 5) as any as S.Schema<V2PortalGetVerificationsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PortalGetVerifications",
+}));
+
+export type PortalListDomainsError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** List portal domains List the custom domains attached to a portal, with their verification status and DNS records. Requires `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/domains/*#read`. Without the permission this returns **404**, not 403, unless the key can read the portal itself. */
+export const portalListDomains: API.OperationMethod<
+  PortalListDomainsRequest,
+  V2PortalListDomainsResponseBody,
+  PortalListDomainsError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4800, __c150, 0) as any as S.Schema<PortalListDomainsRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<V2PortalListDomainsResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalListDomains",
 }));
 
 export type PortalListKeysError = BadRequest | Forbidden | NotFound | UnkeyOpError;
@@ -4558,9 +4950,10 @@ export const portalListKeys: API.PaginatedOperationMethod<
   KeyResponseData
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4384, __c137, 0) as any as S.Schema<PortalListKeysRequest>,
-    output: __S(993, __c31, 1) as any as S.Schema<V2PortalListKeysResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(4864, __c152, 0) as any as S.Schema<PortalListKeysRequest>,
+    output: __S(4867, __c152, 3) as any as S.Schema<V2PortalListKeysResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4577,7 +4970,7 @@ export const portalListKeys: API.PaginatedOperationMethod<
 ) as any;
 
 export type PortalListSessionsError = BadRequest | NotFound | UnkeyOpError;
-/** List portal sessions List the end users holding a revocable session on a portal, with each end user's sessions. Unreleased and subject to change without notice. A session is revocable until it expires or is revoked. That includes sessions whose portal URL was created but not opened yet. Pass an end user's `externalId` to `portal.revokeSession` to end their sessions. **Required Permissions** Your root key must have one of: - `portal.*.create_portal_session` (for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (for a specific portal) It also accepts `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*` with `#read` or `#write`. Reading the portal itself is not enough. Without the permission this returns **404**, not 403. */
+/** List portal sessions List the end users holding a revocable session on a portal, with each end user's sessions. Unreleased and subject to change without notice. A session is revocable until it expires or is revoked. That includes sessions whose portal URL was created but not opened yet. Pass an end user's `externalId` to `portal.revokeSession` to end their sessions. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*` with `#read` or `#write`. Reading the portal itself is not enough. Without the permission this returns **404**, not 403. */
 export const portalListSessions: API.PaginatedOperationMethod<
   PortalListSessionsRequest,
   V2PortalListSessionsResponseBody,
@@ -4586,9 +4979,10 @@ export const portalListSessions: API.PaginatedOperationMethod<
   V2PortalListSessionsResponseData
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4416, __c138, 0) as any as S.Schema<PortalListSessionsRequest>,
-    output: __S(4421, __c138, 5) as any as S.Schema<V2PortalListSessionsResponseBody>,
-    errors: [BadRequest, NotFound, UnknownUnkeyError],
+    input: __S(4896, __c153, 0) as any as S.Schema<PortalListSessionsRequest>,
+    output: __S(4901, __c153, 5) as any as S.Schema<V2PortalListSessionsResponseBody>,
+    errors: [BadRequest, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4612,9 +5006,10 @@ export const portalRerollKey: API.OperationMethod<
   PortalRerollKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<PortalRerollKeyRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<V2KeysRerollKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(4928, __c154, 0) as any as S.Schema<PortalRerollKeyRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<V2KeysRerollKeyResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4622,20 +5017,39 @@ export const portalRerollKey: API.OperationMethod<
 }));
 
 export type PortalRevokeSessionError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Revoke portal sessions Revoke every live session an end user holds on a portal. Unreleased and subject to change without notice. Sessions that were created but not yet opened are revoked too, so their portal URLs stop working. Revocation is not instantaneous: session lookups are cached briefly, so a request already in flight may still succeed. Revoking ends existing sessions only. To keep the end user out, also stop calling `portal.createSession` for them. Calling this again for the same end user is safe and revokes nothing. **Required Permissions** Your root key must have one of: - `portal.*.create_portal_session` (for any portal in the workspace) - `portal.<portal_id>.create_portal_session` (for a specific portal) It also accepts `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*#write`, which dashboard roles carry. Unlike `portal.createSession`, a dashboard session can call this, not just a root key. A root key that cannot read the portal's sessions gets **404**. One that can read them but lacks the permission gets **403**. */
+/** Revoke portal sessions Revoke every live session an end user holds on a portal. Unreleased and subject to change without notice. Sessions that were created but not yet opened are revoked too, so their portal URLs stop working. Revocation is not instantaneous: session lookups are cached briefly, so a request already in flight may still succeed. Revoking ends existing sessions only. To keep the end user out, also stop calling `portal.createSession` for them. Calling this again for the same end user is safe and revokes nothing. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/sessions/*#write` or a broader grant that includes it. Dashboard roles can grant this permission. Unlike `portal.createSession`, a dashboard session with this permission can also call this endpoint. A root key that cannot read the portal's sessions gets **404**. One that can read them but lacks the permission gets **403**. */
 export const portalRevokeSession: API.OperationMethod<
   PortalRevokeSessionRequest,
   V2PortalRevokeSessionResponseBody,
   PortalRevokeSessionError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<PortalRevokeSessionRequest>,
-  output: __S(4482, __c140, 2) as any as S.Schema<V2PortalRevokeSessionResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(4960, __c155, 0) as any as S.Schema<PortalRevokeSessionRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<V2PortalRevokeSessionResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PortalRevokeSession",
+}));
+
+export type PortalVerifyDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
+/** Verify portal domain Restart verification for a portal domain. Call this after you correct the DNS records of a domain that shows `failed`, or to give a `pending` domain a new 24-hour verification period. The endpoint returns when Unkey accepts the retry. Poll `portal.getDomain` for the result. A domain that is already `verified` returns a 202 and starts nothing. Requires `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>/domains/<domain_id>#write`. Use `portals/<portal_id>/domains/*#write` to manage every domain on the portal. Without the permission this returns **404**, not 403, unless the key can read the portal or the domain. */
+export const portalVerifyDomain: API.OperationMethod<
+  PortalVerifyDomainRequest,
+  PortalVerifyDomainResponse,
+  PortalVerifyDomainError,
+  UnkeyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4992, __c156, 0) as any as S.Schema<PortalVerifyDomainRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<PortalVerifyDomainResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
+  protocol: UnkeyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalVerifyDomain",
 }));
 
 export type RatelimitCreateNamespaceError = BadRequest | Forbidden | Conflict | UnkeyOpError;
@@ -4646,9 +5060,10 @@ export const ratelimitCreateNamespace: API.OperationMethod<
   RatelimitCreateNamespaceError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<RatelimitCreateNamespaceRequest>,
-  output: __S(4576, __c143, 0) as any as S.Schema<V2RatelimitCreateNamespaceResponseBody>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownUnkeyError],
+  input: __S(5024, __c157, 0) as any as S.Schema<RatelimitCreateNamespaceRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<V2RatelimitCreateNamespaceResponseBody>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4663,9 +5078,10 @@ export const ratelimitDeleteNamespace: API.OperationMethod<
   RatelimitDeleteNamespaceError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<RatelimitDeleteNamespaceRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<RatelimitDeleteNamespaceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RatelimitDeleteNamespaceResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4673,16 +5089,17 @@ export const ratelimitDeleteNamespace: API.OperationMethod<
 }));
 
 export type RatelimitDeleteOverrideError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete ratelimit override Permanently remove a rate limit override. Affected identifiers immediately revert to the namespace default. Use this to remove temporary overrides, reset identifiers to standard limits, or clean up outdated rules. **Important:** Deletion is immediate and permanent. The override cannot be recovered and must be recreated if needed again. **Permissions:** Requires `ratelimit.*.delete_override` or `ratelimit.<namespace_id>.delete_override` */
+/** Delete ratelimit override Permanently remove a rate limit override. Affected identifiers immediately revert to the namespace default. Use this to remove temporary overrides, reset identifiers to standard limits, or clean up outdated rules. **Important:** Deletion is immediate and permanent. The override cannot be recovered and must be recreated if needed again. **Permissions:** Requires `unkey:v1:<workspace_id>:projects/<project_id>/ratelimits/namespaces/<namespace_id>/overrides/<override_id>#delete`, or a wildcard URN permission that includes this override and action. Without read access to the override, insufficient permissions return 404. With read access but no delete permission, the response is 403. */
 export const ratelimitDeleteOverride: API.OperationMethod<
   RatelimitDeleteOverrideRequest,
   V2RatelimitDeleteOverrideResponseBody,
   RatelimitDeleteOverrideError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<RatelimitDeleteOverrideRequest>,
+  input: __S(5152, __c161, 0) as any as S.Schema<RatelimitDeleteOverrideRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RatelimitDeleteOverrideResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4697,9 +5114,10 @@ export const ratelimitGetOverride: API.OperationMethod<
   RatelimitGetOverrideError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<RatelimitGetOverrideRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<V2RatelimitGetOverrideResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(5184, __c162, 0) as any as S.Schema<RatelimitGetOverrideRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<V2RatelimitGetOverrideResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4707,16 +5125,17 @@ export const ratelimitGetOverride: API.OperationMethod<
 }));
 
 export type RatelimitLimitError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Apply rate limiting Check and enforce rate limits for any identifier (user ID, IP address, API client, etc.). Use this for rate limiting beyond API keys - limit users by ID, IPs by address, or any custom identifier. Supports namespace organization, variable costs, and custom overrides. **Response Codes**: Rate limit checks return HTTP 200 regardless of whether the limit is exceeded -- check the `success` field in the response to determine if the request should be allowed. A 429 may be returned if the workspace exceeds its API rate limit. Other 4xx responses indicate auth, namespace existence/deletion, or validation errors (e.g., 410 Gone for deleted namespaces). 5xx responses indicate server errors. **Required Permissions** Your root key must have one of the following permissions: - `ratelimit.*.limit` (to check limits in any namespace) - `ratelimit.<namespace_id>.limit` (to check limits in a specific namespace) */
+/** Apply rate limiting Check and enforce a rate limit for any identifier (user ID, IP address, API client, etc.). Usage decays continuously instead of resetting at window edges: after one duration, about 37% of it still counts. Durations must be at least 10000 milliseconds (10 seconds) and at most 86400000 milliseconds (24 hours). **Response Codes**: Rate limit checks return HTTP 200 regardless of whether the limit is exceeded. Check the `allowed` field in the response to determine if the request should proceed. A 429 may be returned if the workspace exceeds its API rate limit. Other 4xx responses indicate auth, namespace deletion, or validation errors (e.g., 410 Gone for deleted namespaces). 5xx responses indicate server errors. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/ratelimits/namespaces/<namespace_id>#limit`. Use `*` for the namespace ID to cover all namespaces in a project. To create a missing namespace automatically, your root key must also have `unkey:v1:<workspace_id>:projects/<project_id>/ratelimits/namespaces/*#write` for the workspace's default project. */
 export const ratelimitLimit: API.OperationMethod<
   RatelimitLimitRequest,
-  V2RatelimitLimitResponseBody,
+  V3RatelimitLimitResponseBody,
   RatelimitLimitError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RatelimitLimitRequest>,
-  output: __S(4770, __c149, 2) as any as S.Schema<V2RatelimitLimitResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(5248, __c164, 0) as any as S.Schema<RatelimitLimitRequest>,
+  output: __S(5250, __c164, 2) as any as S.Schema<V3RatelimitLimitResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4733,9 +5152,10 @@ export const ratelimitListNamespaces: API.PaginatedOperationMethod<
   RatelimitNamespace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4800, __c150, 0) as any as S.Schema<RatelimitListNamespacesRequest>,
-    output: __S(4802, __c150, 2) as any as S.Schema<V2RatelimitListNamespacesResponseBody>,
-    errors: [BadRequest, UnknownUnkeyError],
+    input: __S(160, __c5, 0) as any as S.Schema<RatelimitListNamespacesRequest>,
+    output: __S(162, __c5, 2) as any as S.Schema<V2RatelimitListNamespacesResponseBody>,
+    errors: [BadRequest],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4761,9 +5181,10 @@ export const ratelimitListOverrides: API.PaginatedOperationMethod<
   RatelimitOverride
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(4832, __c151, 0) as any as S.Schema<RatelimitListOverridesRequest>,
-    output: __S(4834, __c151, 2) as any as S.Schema<V2RatelimitListOverridesResponseBody>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+    input: __S(192, __c6, 0) as any as S.Schema<RatelimitListOverridesRequest>,
+    output: __S(194, __c6, 2) as any as S.Schema<V2RatelimitListOverridesResponseBody>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4780,16 +5201,17 @@ export const ratelimitListOverrides: API.PaginatedOperationMethod<
 ) as any;
 
 export type RatelimitMultiLimitError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Apply multiple rate limit checks Check and enforce multiple rate limits in a single request for any identifiers (user IDs, IP addresses, API clients, etc.). Use this to efficiently check multiple rate limits at once. Each rate limit check is independent and returns its own result with a top-level `passed` indicator showing if all checks succeeded. **Response Codes**: Rate limit checks return HTTP 200 regardless of whether limits are exceeded -- check the `passed` field to see if all limits passed, or the `success` field in each individual result. A 429 may be returned if the workspace exceeds its API rate limit. Other 4xx responses indicate auth, namespace existence/deletion, or validation errors (e.g., 410 Gone for deleted namespaces). 5xx responses indicate server errors. **Required Permissions** Your root key must have one of the following permissions: - `ratelimit.*.limit` (to check limits in any namespace) - `ratelimit.<namespace_id>.limit` (to check limits in all specific namespaces being checked) */
+/** Apply multiple rate limit checks Check and enforce multiple rate limits in a single request, all or nothing. The request is allowed only if every check fits. Then the cost of every check is counted. If any check does not fit, no cost is counted, not even for the checks that fit on their own. Durations follow the same rules as `/v3/ratelimit.limit`: at least 10000 milliseconds and at most 86400000 milliseconds (24 hours). **Response Codes**: Rate limit checks return HTTP 200 regardless of whether limits are exceeded. Check the top-level `allowed` field. A 429 may be returned if the workspace exceeds its API rate limit. Other 4xx responses indicate auth, namespace deletion, or validation errors (e.g., 410 Gone for deleted namespaces). 5xx responses indicate server errors. **Required Permissions** Your root key must have `unkey:v1:<workspace_id>:projects/<project_id>/ratelimits/namespaces/<namespace_id>#limit` for every namespace in the request. Use `*` for the namespace ID to cover all namespaces in a project. To create missing namespaces automatically, your root key must also have `unkey:v1:<workspace_id>:projects/<project_id>/ratelimits/namespaces/*#write` for the workspace's default project. */
 export const ratelimitMultiLimit: API.OperationMethod<
   RatelimitMultiLimitRequest,
-  V2RatelimitMultiLimitResponseBody,
+  V3RatelimitMultiLimitResponseBody,
   RatelimitMultiLimitError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4866, __c152, 2) as any as S.Schema<RatelimitMultiLimitRequest>,
-  output: __S(4870, __c152, 6) as any as S.Schema<V2RatelimitMultiLimitResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(226, __c7, 2) as any as S.Schema<RatelimitMultiLimitRequest>,
+  output: __S(230, __c7, 6) as any as S.Schema<V3RatelimitMultiLimitResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4797,16 +5219,17 @@ export const ratelimitMultiLimit: API.OperationMethod<
 }));
 
 export type RatelimitSetOverrideError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Set ratelimit override Create or update a custom rate limit for specific identifiers, bypassing the namespace default. Use this to create premium tiers with higher limits, apply stricter limits to specific users, or implement emergency throttling. **Important:** Overrides take effect immediately and completely replace the default limit for matching identifiers. Use wildcard patterns (e.g., `premium_*`) to match multiple identifiers. **Permissions:** Requires `ratelimit.*.set_override` or `ratelimit.<namespace_id>.set_override` */
+/** Set ratelimit override Create or update a custom rate limit for specific identifiers, bypassing the namespace default. Use this to create premium tiers with higher limits, apply stricter limits to specific users, or implement emergency throttling. **Important:** Overrides take effect immediately and completely replace the default limit for matching identifiers. Use wildcard patterns (e.g., `premium_*`) to match multiple identifiers. **Permissions:** Requires `unkey:v1:<workspace_id>:projects/<project_id>/ratelimits/namespaces/<namespace_id>/overrides/*#write` to create overrides. To update an override, you can replace `*` with its override ID. */
 export const ratelimitSetOverride: API.OperationMethod<
   RatelimitSetOverrideRequest,
   V2RatelimitSetOverrideResponseBody,
   RatelimitSetOverrideError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<RatelimitSetOverrideRequest>,
-  output: __S(4898, __c153, 2) as any as S.Schema<V2RatelimitSetOverrideResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(256, __c8, 0) as any as S.Schema<RatelimitSetOverrideRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<V2RatelimitSetOverrideResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4826,9 +5249,10 @@ export const ratelimitUpdateNamespace: API.OperationMethod<
   RatelimitUpdateNamespaceError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<RatelimitUpdateNamespaceRequest>,
-  output: __S(4576, __c143, 0) as any as S.Schema<V2RatelimitUpdateNamespaceResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(288, __c9, 0) as any as S.Schema<RatelimitUpdateNamespaceRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<V2RatelimitUpdateNamespaceResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4836,20 +5260,21 @@ export const ratelimitUpdateNamespace: API.OperationMethod<
 }));
 
 export type RemoveEnvironmentVariablesError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Remove environment variables Remove environment variables from an environment in a single atomic request. This operation only deletes keys by name. Keys in the payload that exist are removed; keys that are not present are ignored, since their absence already matches the requested state. To replace or update values, use `setEnvironmentVariables` instead. The whole operation is atomic: if any part fails the environment is left unchanged. Duplicate keys in the payload collapse to a single removal. Values are never read or returned. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.remove_environment_variables` (for any environment) - `environment.<environment_id>.remove_environment_variables` (for a specific environment) */
+/** Remove environment variables Remove environment variables from an environment in a single atomic request. This operation only deletes keys by name. Keys in the payload that exist are removed; keys that are not present are ignored, since their absence already matches the requested state. To replace or update values, use `setEnvironmentVariables` instead. The whole operation is atomic: if any part fails the environment is left unchanged. Duplicate keys in the payload collapse to a single removal. Values are never read or returned. **Required Permissions** Your root key must have `delete` permission on the environment's variable collection: `unkey:v1:{workspace_id}:projects/{project_id}/apps/{app_id}/environments/{environment_id}/variables/*#delete`. Replace the placeholders with resource IDs, not names or slugs. A broader permission that covers this collection also grants access. */
 export const removeEnvironmentVariables: API.OperationMethod<
   RemoveEnvironmentVariablesRequest,
   V2EnvironmentsRemoveEnvironmentVariablesResponseBody,
   RemoveEnvironmentVariablesError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<RemoveEnvironmentVariablesRequest>,
+  input: __S(320, __c10, 0) as any as S.Schema<RemoveEnvironmentVariablesRequest>,
   output: __S(
     128,
     __c4,
     0,
   ) as any as S.Schema<V2EnvironmentsRemoveEnvironmentVariablesResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4864,9 +5289,10 @@ export const rootKeysCreateKey: API.OperationMethod<
   RootKeysCreateKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<RootKeysCreateKeyRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<V2RootKeysCreateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(352, __c11, 0) as any as S.Schema<RootKeysCreateKeyRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<V2RootKeysCreateKeyResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4874,16 +5300,17 @@ export const rootKeysCreateKey: API.OperationMethod<
 }));
 
 export type RootKeysDeleteKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Delete root key Deletes a root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`. Use `rootKeys/*#delete` to delete any root key in the workspace. Deleted keys cannot authenticate. */
+/** Delete root key Deletes a root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`. Use `rootKeys/*#delete` to delete any root key in the workspace. Deleted keys cannot authenticate. Deletion can take up to 30 seconds to take effect. */
 export const rootKeysDeleteKey: API.OperationMethod<
   RootKeysDeleteKeyRequest,
   V2RootKeysDeleteKeyResponseBody,
   RootKeysDeleteKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<RootKeysDeleteKeyRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<RootKeysDeleteKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RootKeysDeleteKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4900,9 +5327,10 @@ export const rootKeysListKeys: API.PaginatedOperationMethod<
   V2RootKeysListKeysResponseData
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c7, 0) as any as S.Schema<RootKeysListKeysRequest>,
-    output: __S(227, __c7, 3) as any as S.Schema<V2RootKeysListKeysResponseBody>,
-    errors: [BadRequest, UnknownUnkeyError],
+    input: __S(416, __c13, 0) as any as S.Schema<RootKeysListKeysRequest>,
+    output: __S(419, __c13, 3) as any as S.Schema<V2RootKeysListKeysResponseBody>,
+    errors: [BadRequest],
+    serviceErrors: UnkeyServiceErrors,
     protocol: UnkeyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4919,16 +5347,17 @@ export const rootKeysListKeys: API.PaginatedOperationMethod<
 ) as any;
 
 export type RootKeysRerollKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Reroll root key Creates a new root key secret with the same name, enabled state, expiration, and effective permissions as an existing root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`, and the caller must already hold every permission of the original key. When `expiration` is not null, it also requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`. `expiration` controls the original key: 0 revokes it immediately, a positive value keeps it valid for that many milliseconds, and null keeps its current expiration. */
+/** Reroll root key Creates a new root key secret with the same name, enabled state, expiration, and effective permissions as an existing root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`, and the caller must already hold every permission of the original key. When `expiration` is not null, it also requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#delete`. `expiration` controls the original key: 0 revokes it, a positive value keeps it valid for that many milliseconds, and null keeps its current expiration. Revoking the original key can take up to 30 seconds to take effect. */
 export const rootKeysRerollKey: API.OperationMethod<
   RootKeysRerollKeyRequest,
   V2RootKeysRerollKeyResponseBody,
   RootKeysRerollKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<RootKeysRerollKeyRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<V2RootKeysRerollKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(448, __c14, 0) as any as S.Schema<RootKeysRerollKeyRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<V2RootKeysRerollKeyResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4936,16 +5365,17 @@ export const rootKeysRerollKey: API.OperationMethod<
 }));
 
 export type RootKeysUpdateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Update root key Updates a root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`. Use `rootKeys/*#write` to update any root key in the workspace. `permissions` replaces the complete permission set. Each permission must be a supported URN in the authenticated workspace and within the caller's permissions. An expiring root key can only update root keys that expire no later than itself. */
+/** Update root key Updates a root key in the authenticated workspace. Requires `unkey:v1:<workspace_id>:rootKeys/<key_id>#write`. Use `rootKeys/*#write` to update any root key in the workspace. `permissions` replaces the complete permission set. Each permission must be a supported URN in the authenticated workspace and within the caller's permissions. An expiring root key can only update root keys that expire no later than itself. Changes to `enabled`, `permissions`, and `ipAllowlist` can take up to 30 seconds to take effect. */
 export const rootKeysUpdateKey: API.OperationMethod<
   RootKeysUpdateKeyRequest,
   V2RootKeysUpdateKeyResponseBody,
   RootKeysUpdateKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<RootKeysUpdateKeyRequest>,
+  input: __S(512, __c16, 0) as any as S.Schema<RootKeysUpdateKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2RootKeysUpdateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4960,9 +5390,10 @@ export const startDeployment: API.OperationMethod<
   StartDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<StartDeploymentRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<StartDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(544, __c17, 0) as any as S.Schema<StartDeploymentRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<StartDeploymentResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4977,9 +5408,10 @@ export const stopDeployment: API.OperationMethod<
   StopDeploymentError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<StopDeploymentRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<StopDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(576, __c18, 0) as any as S.Schema<StopDeploymentRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<StopDeploymentResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4987,16 +5419,17 @@ export const stopDeployment: API.OperationMethod<
 }));
 
 export type UpdateAppError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
-/** Update app Update an existing app, identified by its id. The app name, slug, default branch, and delete protection setting can be changed. Omitted fields are left unchanged. Changing the slug affects the deployment domains generated for this app. **Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict. **Required Permissions** Your root key must have one of the following permissions: - `app.*.update_app` (to update any app) - `app.<app_id>.update_app` (to update a specific app) */
+/** Update app Update an existing app, identified by its id. The app name, slug, default branch, and delete protection setting can be changed. Omitted fields are left unchanged. Changing the slug affects the deployment domains generated for this app. **Important**: The slug cannot collide with an existing app in the same project. A duplicate slug returns a 409 conflict. **Required Permissions** Your root key must have one of the following permissions: - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>#write` (to update a specific app) - `unkey:v1:<workspace_id>:projects/<project_id>/apps/*#write` (to update any app in a project) - `unkey:v1:<workspace_id>:projects/*\/apps/*#write` (to update any app in your workspace) The same app write permission covers Git repository changes. */
 export const updateApp: API.OperationMethod<
   UpdateAppRequest,
   V2AppsUpdateAppResponseBody,
   UpdateAppError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<UpdateAppRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<V2AppsUpdateAppResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(608, __c19, 0) as any as S.Schema<UpdateAppRequest>,
+  output: __S(2496, __c78, 0) as any as S.Schema<V2AppsUpdateAppResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5004,16 +5437,17 @@ export const updateApp: API.OperationMethod<
 }));
 
 export type UpdateIdentityError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Update Identity Update an identity's metadata and rate limits. Only specified fields are modified - others remain unchanged. Perfect for subscription changes, plan upgrades, or updating user information. Changes take effect immediately. > **Important** > Requires `identity.*.update_identity` permission > Rate limit changes propagate within 30 seconds */
+/** Update Identity Update an identity's metadata and rate limits. Only specified fields are modified - others remain unchanged. Perfect for subscription changes, plan upgrades, or updating user information. Changes take effect immediately. > **Important** > Requires `unkey:v1:{workspaceId}:projects/{projectId}/identities/{identityId}#write` permission for the identity > Rate limit changes propagate within 30 seconds */
 export const updateIdentity: API.OperationMethod<
   UpdateIdentityRequest,
   V2IdentitiesUpdateIdentityResponseBody,
   UpdateIdentityError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<UpdateIdentityRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<V2IdentitiesUpdateIdentityResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(640, __c20, 0) as any as S.Schema<UpdateIdentityRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<V2IdentitiesUpdateIdentityResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5021,16 +5455,17 @@ export const updateIdentity: API.OperationMethod<
 }));
 
 export type UpdateKeyError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Update key settings Update key properties in response to plan changes, subscription updates, or account status changes. Use this for user upgrades/downgrades, role modifications, or administrative changes. Supports partial updates - only specify fields you want to change. Set fields to null to clear them. **Important**: Permissions and roles are replaced entirely. Use dedicated add/remove endpoints for incremental changes. **Required Permissions** Your credential must have one of the following permissions: - `api.*.update_key` (to update keys in any API) - `api.<api_id>.update_key` (to update keys in a specific API) - `unkey:v1:<workspace_id>:keyspaces/*\/keys/*#update_key` (to update keys in any keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/*#update_key` (to update keys in a specific keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/<key_id>#update_key` (to update a specific key) **Side Effects** If you specify an `externalId` that doesn't exist, a new identity will be automatically created and linked to the key. Permission updates will auto-create any permissions that don't exist in your workspace. Changes take effect immediately but may take up to 30 seconds to propagate to all edge regions due to cache invalidation. */
+/** Update key settings Update key properties in response to plan changes, subscription updates, or account status changes. Use this for user upgrades/downgrades, role modifications, or administrative changes. Supports partial updates - only specify fields you want to change. Set fields to null to clear them. **Important**: Permissions and roles are replaced entirely. Use dedicated add/remove endpoints for incremental changes. **Required Permissions** Your credential must have `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#write` for the key being updated, or a broader permission that covers it. **Side Effects** If you specify an `externalId` that doesn't exist, a new identity will be automatically created and linked to the key. Permission updates will auto-create any permissions that don't exist in your workspace. Changes take effect immediately but may take up to 30 seconds to propagate to all edge regions due to cache invalidation. */
 export const updateKey: API.OperationMethod<
   UpdateKeyRequest,
   V2KeysUpdateKeyResponseBody,
   UpdateKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(449, __c14, 1) as any as S.Schema<UpdateKeyRequest>,
+  input: __S(673, __c21, 1) as any as S.Schema<UpdateKeyRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2KeysUpdateKeyResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5038,16 +5473,17 @@ export const updateKey: API.OperationMethod<
 }));
 
 export type UpdatePortalError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
-/** Update portal Change a portal's slug, display name, the resource it serves, its enabled state, or its branding. Unreleased and subject to change without notice. Only the fields you send change. Omitting a field leaves it as it is, and for branding, sending null clears it. Send at most one of `keyspaceId` or `appId`. Two changes affect your end users immediately: - Re-pointing at a different resource revokes the portal's live sessions, because a session carries the scope it was minted with. - Disabling stops new sessions and revokes the live ones. Re-enabling does not restore them. **Required Permissions** Your root key must have one of: - `portal.*.update_portal` (to update any portal in the workspace) - `portal.<portal_id>.update_portal` (to update a specific portal) A root key that cannot read the portal gets **404**. One that can read it but lacks the permission gets **403**. */
+/** Update portal Change a portal's slug, display name, the resource it serves, its enabled state, or its branding. Unreleased and subject to change without notice. Only the fields you send change. Omitting a field leaves it as it is, and for branding, sending null clears it. Send at most one of `keyspaceId` or `appId`. Two changes affect your end users immediately: - Re-pointing at a different resource revokes the portal's live sessions, because a session carries the scope it was minted with. - Disabling stops new sessions and revokes the live ones. Re-enabling does not restore them. **Required Permissions** Your root key must have `write` permission on `unkey:v1:<workspace_id>:projects/<project_id>/portals/<portal_id>`. A broader grant, such as `unkey:v1:<workspace_id>:**#write`, also permits updates. To change the mapped resource, your root key must also have `read` permission on the target: - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>#read` for a keyspace. - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>#read` for an app. A root key that cannot read the portal gets **404**. One that can read it but lacks the permission gets **403**. */
 export const updatePortal: API.OperationMethod<
   UpdatePortalRequest,
   V2PortalUpdatePortalResponseBody,
   UpdatePortalError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<UpdatePortalRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<V2PortalUpdatePortalResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(704, __c22, 0) as any as S.Schema<UpdatePortalRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<V2PortalUpdatePortalResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5055,16 +5491,17 @@ export const updatePortal: API.OperationMethod<
 }));
 
 export type UpdateProjectError = BadRequest | Forbidden | NotFound | Conflict | UnkeyOpError;
-/** Update project Update an existing project in your workspace, identified by its id. The project name, slug, and delete protection setting can be changed. Omitted fields are left unchanged. Changing the slug affects the deployment domains generated for this project. **Required Permissions** Your root key must have one of the following permissions: - `project.*.update_project` (to update any project) - `project.<project_id>.update_project` (to update a specific project) */
+/** Update project Update an existing project in your workspace, identified by its id. The project name, slug, and delete protection setting can be changed. Omitted fields are left unchanged. Changing the slug affects the deployment domains generated for this project. **Required Permissions** Your root key must have one of the following permissions: - `unkey:v1:<workspace_id>:projects/*#write` (to update any project in the workspace) - `unkey:v1:<workspace_id>:projects/<project_id>#write` (to update a specific project) */
 export const updateProject: API.OperationMethod<
   UpdateProjectRequest,
   V2ProjectsUpdateProjectResponseBody,
   UpdateProjectError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<V2ProjectsUpdateProjectResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownUnkeyError],
+  input: __S(736, __c23, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<V2ProjectsUpdateProjectResponseBody>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5072,16 +5509,17 @@ export const updateProject: API.OperationMethod<
 }));
 
 export type VerifyDomainError = BadRequest | Forbidden | NotFound | UnkeyOpError;
-/** Verify domain Restart verification for a custom domain. Address the domain by its ID or by its name. Names are unique per workspace, so `api.acme.com` is enough. Call this after you correct the DNS records of a domain that shows `failed`, or to give a `pending` domain a new 24-hour verification period. The domain goes back to `pending` and the 24-hour period starts again. The endpoint returns when Unkey accepts the retry. Poll `domains.getDomain` for the result. A domain that is already `verified` returns a 412. **Required Permissions** Your root key must have one of the following permissions: - `environment.*.verify_domain` (to verify domains in any environment) - `environment.<environment_id>.verify_domain` (to verify domains in a specific environment) */
+/** Verify domain Restart verification for a custom domain. Address the domain by its ID or by its name. Names are unique per workspace, so `api.acme.com` is enough. Call this after you correct the DNS records of a domain that shows `failed`, or to give a `pending` domain a new 24-hour verification period. The domain goes back to `pending` and the 24-hour period starts again. The endpoint returns when Unkey accepts the retry. Poll `domains.getDomain` for the result. A domain that is already `verified` returns a 412. **Required Permissions** Your root key must have `write` on the domain: - `unkey:v1:<workspace_id>:projects/<project_id>/apps/<app_id>/environments/<environment_id>/domains/<domain_id>#write` - `unkey:v1:<workspace_id>:projects/*\/apps/*\/environments/*\/domains/*#write` (all domains in your workspace) */
 export const verifyDomain: API.OperationMethod<
   VerifyDomainRequest,
   VerifyDomainResponse,
   VerifyDomainError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<VerifyDomainRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<VerifyDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  input: __S(768, __c24, 0) as any as S.Schema<VerifyDomainRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<VerifyDomainResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5089,16 +5527,17 @@ export const verifyDomain: API.OperationMethod<
 }));
 
 export type VerifyKeyError = BadRequest | NotFound | UnkeyOpError;
-/** Verify API key Verify an API key's validity and permissions for request authentication. Use this endpoint on every incoming request to your protected resources. It checks key validity, permissions, rate limits, and usage quotas in a single call. **Important**: Returns HTTP 200 for all verification outcomes -- check the `valid` field in response data to determine if the key is authorized. A 429 may be returned if the workspace exceeds its API rate limit. **Common use cases:** - Authenticate API requests before processing - Enforce permission-based access control - Track usage and apply rate limits **Required Permissions** Your credential needs one of: - `api.*.verify_key` (verify keys in any API) - `api.<api_id>.verify_key` (verify keys in specific API) - `unkey:v1:<workspace_id>:keyspaces/*\/keys/*#verify_key` (verify keys in any keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/*#verify_key` (verify keys in a specific keyspace) - `unkey:v1:<workspace_id>:keyspaces/<keyspace_id>/keys/<key_id>#verify_key` (verify a specific key) **Note**: If your credential lacks permission to verify this key, the response is HTTP 200 with `valid: false` and `code: NOT_FOUND`. This does not distinguish a missing key from an inaccessible key. */
+/** Verify API key Verify an API key's validity and permissions for request authentication. Use this endpoint on every incoming request to your protected resources. It checks key validity, permissions, rate limits, and usage quotas in a single call. **Important**: Returns HTTP 200 for all verification outcomes -- check the `valid` field in response data to determine if the key is authorized. A 429 may be returned if the workspace exceeds its API rate limit. **Common use cases:** - Authenticate API requests before processing - Enforce permission-based access control - Track usage and apply rate limits **Required Permissions** Your credential needs one of: - `unkey:v1:<workspace_id>:projects/*\/keyspaces/*\/keys/*#verify` (verify keys in any project in your workspace) - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/*\/keys/*#verify` (verify keys in a specific project) - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/*#verify` (verify keys in a specific keyspace) - `unkey:v1:<workspace_id>:projects/<project_id>/keyspaces/<keyspace_id>/keys/<key_id>#verify` (verify a specific key) Use the keyspace's project ID and keyspace ID, not its API ID. The workspace must match your credential's authorized workspace. **Note**: If your credential lacks permission to verify this key, the response is HTTP 200 with `valid: false` and `code: NOT_FOUND`. This does not distinguish a missing key from an inaccessible key. */
 export const verifyKey: API.OperationMethod<
   VerifyKeyRequest,
   V2KeysVerifyKeyResponseBody,
   VerifyKeyError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(611, __c19, 3) as any as S.Schema<VerifyKeyRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<V2KeysVerifyKeyResponseBody>,
-  errors: [BadRequest, NotFound, UnknownUnkeyError],
+  input: __S(803, __c25, 3) as any as S.Schema<VerifyKeyRequest>,
+  output: __S(807, __c25, 7) as any as S.Schema<V2KeysVerifyKeyResponseBody>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5113,9 +5552,10 @@ export const workspaceGetFlags: API.OperationMethod<
   WorkspaceGetFlagsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<WorkspaceGetFlagsRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<V2WorkspaceGetFlagsResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(1088, __c34, 0) as any as S.Schema<WorkspaceGetFlagsRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<V2WorkspaceGetFlagsResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5130,9 +5570,10 @@ export const workspaceGetLimits: API.OperationMethod<
   WorkspaceGetLimitsError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<WorkspaceGetLimitsRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<V2WorkspaceGetLimitsResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(1120, __c35, 0) as any as S.Schema<WorkspaceGetLimitsRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<V2WorkspaceGetLimitsResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5147,9 +5588,10 @@ export const workspaceGetUsage: API.OperationMethod<
   WorkspaceGetUsageError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(705, __c22, 1) as any as S.Schema<WorkspaceGetUsageRequest>,
-  output: __S(719, __c22, 15) as any as S.Schema<V2WorkspaceGetUsageResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownUnkeyError],
+  input: __S(1153, __c36, 1) as any as S.Schema<WorkspaceGetUsageRequest>,
+  output: __S(1167, __c36, 15) as any as S.Schema<V2WorkspaceGetUsageResponseBody>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5164,9 +5606,10 @@ export const workspaceUpdateFlag: API.OperationMethod<
   WorkspaceUpdateFlagError,
   UnkeyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<WorkspaceUpdateFlagRequest>,
+  input: __S(1184, __c37, 0) as any as S.Schema<WorkspaceUpdateFlagRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<V2WorkspaceUpdateFlagResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownUnkeyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: UnkeyServiceErrors,
   protocol: UnkeyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5261,15 +5704,163 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ipAllowlist: S.optional(__S(800, __c25, 0)),
+          limit: S.optional(S.Number),
+          cursor: S.optional(S.String),
+          search: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.listNamespaces", code: 200 })),
+      ).annotate({ identifier: "RatelimitListNamespacesRequest" });
+    case 1:
+      return S.Array(__S(5056, __c158, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(161, __c5, 1),
+          pagination: __S(960, __c30, 0),
+        }),
+      ).annotate({ identifier: "V2RatelimitListNamespacesResponseBody" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String,
+          cursor: S.optional(S.String),
+          limit: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.listOverrides", code: 200 })),
+      ).annotate({ identifier: "RatelimitListOverridesRequest" });
+    case 1:
+      return S.Array(__S(5216, __c163, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(193, __c6, 1),
+          pagination: __S(960, __c30, 0),
+        }),
+      ).annotate({ identifier: "V2RatelimitListOverridesResponseBody" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String,
+          cost: S.optional(S.Number),
+          duration: S.Number,
+          identifier: S.String,
+          record: S.optional(S.String),
+          limit: S.Number,
+        }),
+      ).annotate({ identifier: "V3RatelimitLimitRequestBody" });
+    case 1:
+      return S.Array(__S(224, __c7, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(225, __c7, 1).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v3/ratelimit.multiLimit", code: 200 })),
+      ).annotate({ identifier: "RatelimitMultiLimitRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String,
+          identifier: S.String,
+          limit: S.Number,
+          remaining: S.Number,
+          retryAfter: S.Number,
+          allowed: S.Boolean,
+          overrideId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "V3RatelimitMultiLimitCheck" });
+    case 4:
+      return S.Array(__S(227, __c7, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          allowed: S.Boolean,
+          retryAfter: S.Number,
+          limits: __S(228, __c7, 4),
+        }),
+      ).annotate({ identifier: "V3RatelimitMultiLimitResponseData" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(229, __c7, 5),
+        }),
+      ).annotate({ identifier: "V3RatelimitMultiLimitResponseBody" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String,
+          duration: S.Number,
+          identifier: S.String,
+          limit: S.Number,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.setOverride", code: 200 })),
+      ).annotate({ identifier: "RatelimitSetOverrideRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          overrideId: S.String,
+        }),
+      ).annotate({ identifier: "V2RatelimitSetOverrideResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(257, __c8, 1),
+        }),
+      ).annotate({ identifier: "V2RatelimitSetOverrideResponseBody" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.updateNamespace", code: 200 })),
+      ).annotate({ identifier: "RatelimitUpdateNamespaceRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String,
+          app: S.String,
+          environment: S.String,
+          variables: __S(864, __c27, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/environments.removeEnvironmentVariables", code: 200 }),
+        ),
+      ).annotate({ identifier: "RemoveEnvironmentVariablesRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ipAllowlist: S.optional(__S(864, __c27, 0)),
           name: S.optional(S.String),
-          permissions: __S(800, __c25, 0),
+          permissions: __S(864, __c27, 0),
           expires: S.optional(S.NullOr(S.Number)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.createKey", code: 200 })),
       ).annotate({ identifier: "RootKeysCreateKeyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5279,7 +5870,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RootKeysDeleteKeyRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5291,7 +5882,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ipAllowlist: __S(800, __c25, 0),
+          ipAllowlist: __S(864, __c27, 0),
           keyId: S.String,
           name: S.NullOr(S.String),
           start: S.String,
@@ -5300,22 +5891,22 @@ function __c7(j: number): any {
           createdAt: S.Number,
           lastUsedAt: S.Number,
           expires: S.NullOr(S.Number),
-          permissions: __S(800, __c25, 0),
+          permissions: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "V2RootKeysListKeysResponseData" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(226, __c7, 2),
-          pagination: __S(896, __c28, 0),
+          data: __S(418, __c13, 2),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2RootKeysListKeysResponseBody" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5324,101 +5915,6 @@ function __c8(j: number): any {
           expiration: S.NullOr(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.rerollKey", code: 200 })),
       ).annotate({ identifier: "RootKeysRerollKeyRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ipAllowlist: S.optional(__S(800, __c25, 0)),
-          keyId: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          enabled: S.optional(S.Boolean),
-          permissions: S.optional(__S(800, __c25, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.updateKey", code: 200 })),
-      ).annotate({ identifier: "RootKeysUpdateKeyRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.startDeployment", code: 200 })),
-      ).annotate({ identifier: "StartDeploymentRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.stopDeployment", code: 200 })),
-      ).annotate({ identifier: "StopDeploymentRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String,
-          app: S.String,
-          name: S.optional(S.String),
-          slug: S.optional(S.String),
-          git: S.optional(S.NullOr(__S(1312, __c41, 0))),
-          oci: S.optional(__S(1344, __c42, 0)),
-          deleteProtection: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/apps.updateApp", code: 200 })),
-      ).annotate({ identifier: "UpdateAppRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identity: S.String,
-          meta: S.optional(__S(2880, __c90, 0)),
-          ratelimits: S.optional(__S(1505, __c47, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/identities.updateIdentity", code: 200 })),
-      ).annotate({ identifier: "UpdateIdentityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(930, __c29, 2),
-          meta: __S(0, __c0, 0),
-        }),
-      ).annotate({ identifier: "V2IdentitiesUpdateIdentityResponseBody" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          remaining: S.optional(S.NullOr(S.Number)),
-          refill: S.optional(S.NullOr(__S(864, __c27, 0))),
-        }),
-      ).annotate({ identifier: "UpdateKeyCreditsData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          keyId: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          externalId: S.optional(S.NullOr(S.String)),
-          meta: S.optional(S.NullOr(__S(2880, __c90, 0))),
-          expires: S.optional(S.NullOr(S.Number)),
-          credits: S.optional(S.NullOr(__S(448, __c14, 0))),
-          ratelimits: S.optional(S.NullOr(__S(1505, __c47, 1))),
-          enabled: S.optional(S.Boolean),
-          roles: S.optional(__S(800, __c25, 0)),
-          permissions: S.optional(__S(800, __c25, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/keys.updateKey", code: 200 })),
-      ).annotate({ identifier: "UpdateKeyRequest" });
   }
 }
 function __c15(j: number): any {
@@ -5450,6 +5946,102 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ipAllowlist: S.optional(__S(864, __c27, 0)),
+          keyId: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          enabled: S.optional(S.Boolean),
+          expires: S.optional(S.NullOr(S.Number)),
+          permissions: S.optional(__S(864, __c27, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/rootKeys.updateKey", code: 200 })),
+      ).annotate({ identifier: "RootKeysUpdateKeyRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.startDeployment", code: 200 })),
+      ).annotate({ identifier: "StartDeploymentRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.stopDeployment", code: 200 })),
+      ).annotate({ identifier: "StopDeploymentRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String,
+          app: S.String,
+          name: S.optional(S.String),
+          slug: S.optional(S.String),
+          git: S.optional(S.NullOr(__S(1504, __c47, 0))),
+          oci: S.optional(__S(1536, __c48, 0)),
+          deleteProtection: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/apps.updateApp", code: 200 })),
+      ).annotate({ identifier: "UpdateAppRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identity: S.String,
+          meta: S.optional(__S(3104, __c97, 0)),
+          ratelimits: S.optional(__S(1729, __c54, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/identities.updateIdentity", code: 200 })),
+      ).annotate({ identifier: "UpdateIdentityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(994, __c31, 2),
+          meta: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V2IdentitiesUpdateIdentityResponseBody" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          remaining: S.optional(S.NullOr(S.Number)),
+          refill: S.optional(S.NullOr(__S(928, __c29, 0))),
+        }),
+      ).annotate({ identifier: "UpdateKeyCreditsData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          keyId: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          externalId: S.optional(S.NullOr(S.String)),
+          meta: S.optional(S.NullOr(__S(3104, __c97, 0))),
+          expires: S.optional(S.NullOr(S.Number)),
+          credits: S.optional(S.NullOr(__S(672, __c21, 0))),
+          ratelimits: S.optional(S.NullOr(__S(1729, __c54, 1))),
+          enabled: S.optional(S.Boolean),
+          roles: S.optional(__S(864, __c27, 0)),
+          permissions: S.optional(__S(864, __c27, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/keys.updateKey", code: 200 })),
+      ).annotate({ identifier: "UpdateKeyRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           portal: S.String,
           slug: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -5462,7 +6054,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdatePortalRequest" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5475,7 +6067,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5485,7 +6077,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "VerifyDomainRequest" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5503,16 +6095,16 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "KeysVerifyKeyRatelimit" });
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(801, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          tags: S.optional(__S(800, __c25, 0)),
+          tags: S.optional(__S(864, __c27, 0)),
           permissions: S.optional(S.String),
-          credits: S.optional(__S(608, __c19, 0)),
-          keyspaces: S.optional(__S(800, __c25, 0)),
-          ratelimits: S.optional(__S(610, __c19, 2)),
+          credits: S.optional(__S(800, __c25, 0)),
+          keyspaces: S.optional(__S(864, __c27, 0)),
+          ratelimits: S.optional(__S(802, __c25, 2)),
           migrationId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.verifyKey", code: 200 })),
       ).annotate({ identifier: "VerifyKeyRequest" });
@@ -5530,7 +6122,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "VerifyKeyRatelimitData" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(804, __c25, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5539,26 +6131,144 @@ function __c19(j: number): any {
           keyId: S.optional(S.String),
           keyspaceId: S.optional(S.String),
           name: S.optional(S.String),
-          meta: S.optional(__S(2880, __c90, 0)),
+          meta: S.optional(__S(3104, __c97, 0)),
           expires: S.optional(S.Number),
           credits: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          permissions: S.optional(__S(800, __c25, 0)),
-          roles: S.optional(__S(800, __c25, 0)),
-          identity: S.optional(__S(930, __c29, 2)),
-          ratelimits: S.optional(__S(613, __c19, 5)),
+          permissions: S.optional(__S(864, __c27, 0)),
+          roles: S.optional(__S(864, __c27, 0)),
+          identity: S.optional(__S(994, __c31, 2)),
+          ratelimits: S.optional(__S(805, __c25, 5)),
         }),
       ).annotate({ identifier: "V2KeysVerifyKeyResponseData" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(614, __c19, 6),
+          data: __S(806, __c25, 6),
         }),
       ).annotate({ identifier: "V2KeysVerifyKeyResponseBody" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiId: S.String,
+          limit: S.optional(S.Number),
+          cursor: S.optional(S.String),
+          externalId: S.optional(S.String),
+          decrypt: S.optional(S.Boolean),
+          revalidateKeysCache: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/apis.listKeys", code: 200 })),
+      ).annotate({ identifier: "ApisListKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(1056, __c33, 0),
+          pagination: __S(960, __c30, 0),
+        }),
+      ).annotate({ identifier: "V2ApisListKeysResponseBody" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          remaining: S.NullOr(S.Number),
+          refill: S.optional(__S(928, __c29, 0)),
+        }),
+      ).annotate({ identifier: "KeyCreditsData" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          interval: S.String,
+          amount: S.Number,
+          refillDay: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "KeyCreditsRefill" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String),
+          hasMore: S.Boolean,
+        }),
+      ).annotate({ identifier: "Pagination" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          limit: S.Number,
+          duration: S.Number,
+          autoApply: S.Boolean,
+        }),
+      ).annotate({ identifier: "RatelimitResponse" });
+    case 1:
+      return S.Array(__S(992, __c31, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          externalId: S.String,
+          meta: S.optional(__S(3104, __c97, 0)),
+          ratelimits: S.optional(__S(993, __c31, 1)),
+        }),
+      ).annotate({ identifier: "Identity" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyId: S.String,
+          start: S.String,
+          enabled: S.Boolean,
+          name: S.optional(S.String),
+          meta: S.optional(__S(3104, __c97, 0)),
+          createdAt: S.Number,
+          updatedAt: S.optional(S.Number),
+          lastUsedAt: S.optional(S.Number),
+          expires: S.optional(S.Number),
+          permissions: S.optional(__S(864, __c27, 0)),
+          roles: S.optional(__S(864, __c27, 0)),
+          credits: S.optional(__S(896, __c28, 0)),
+          identity: S.optional(__S(994, __c31, 2)),
+          plaintext: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          ratelimits: S.optional(__S(993, __c31, 1)),
+        }),
+      ).annotate({ identifier: "KeyResponseData" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1024, __c32, 0));
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5574,17 +6284,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "V2WorkspaceGetFlagsFlag" });
     case 2:
-      return S.Record(S.String, __S(641, __c20, 1));
+      return S.Record(S.String, __S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(642, __c20, 2),
+          data: __S(1090, __c34, 2),
         }),
       ).annotate({ identifier: "V2WorkspaceGetFlagsResponseBody" });
   }
 }
-function __c21(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5600,32 +6310,32 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apiBillableOperationsCountMaxPerMonth: __S(673, __c21, 1),
-          apiRequestsCountMaxPerMinute: __S(673, __c21, 1),
-          logsRetentionDaysMax: __S(673, __c21, 1),
-          logsAuditRetentionDaysMax: __S(673, __c21, 1),
-          logdrainsMax: __S(673, __c21, 1),
-          cpuCoresMax: S.optional(__S(673, __c21, 1)),
-          cpuCoresMaxPerInstance: S.optional(__S(673, __c21, 1)),
-          memoryMibMax: S.optional(__S(673, __c21, 1)),
-          memoryMibMaxPerInstance: S.optional(__S(673, __c21, 1)),
-          storageMibMax: S.optional(__S(673, __c21, 1)),
-          storageMibMaxPerInstance: S.optional(__S(673, __c21, 1)),
-          buildsConcurrentMax: S.optional(__S(673, __c21, 1)),
-          autoscalingReplicasMax: S.optional(__S(673, __c21, 1)),
-          customDomainsMax: S.optional(__S(673, __c21, 1)),
+          apiBillableOperationsCountMaxPerMonth: __S(1121, __c35, 1),
+          apiRequestsCountMaxPerMinute: __S(1121, __c35, 1),
+          logsRetentionDaysMax: __S(1121, __c35, 1),
+          logsAuditRetentionDaysMax: __S(1121, __c35, 1),
+          logdrainsMax: __S(1121, __c35, 1),
+          cpuCoresMax: S.optional(__S(1121, __c35, 1)),
+          cpuCoresMaxPerInstance: S.optional(__S(1121, __c35, 1)),
+          memoryMibMax: S.optional(__S(1121, __c35, 1)),
+          memoryMibMaxPerInstance: S.optional(__S(1121, __c35, 1)),
+          storageMibMax: S.optional(__S(1121, __c35, 1)),
+          storageMibMaxPerInstance: S.optional(__S(1121, __c35, 1)),
+          buildsConcurrentMax: S.optional(__S(1121, __c35, 1)),
+          autoscalingReplicasMax: S.optional(__S(1121, __c35, 1)),
+          customDomainsMax: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "V2WorkspaceGetLimitsResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(674, __c21, 2),
+          data: __S(1122, __c35, 2),
         }),
       ).annotate({ identifier: "V2WorkspaceGetLimitsResponseBody" });
   }
 }
-function __c22(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5637,7 +6347,7 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          period: S.optional(__S(704, __c22, 0)),
+          period: S.optional(__S(1152, __c36, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/workspace.getUsage", code: 200 })),
       ).annotate({ identifier: "WorkspaceGetUsageRequest" });
     case 2:
@@ -5672,9 +6382,9 @@ function __c22(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          api: __S(707, __c22, 3),
-          compute: __S(708, __c22, 4),
-          gateway: __S(709, __c22, 5),
+          api: __S(1155, __c36, 3),
+          compute: __S(1156, __c36, 4),
+          gateway: __S(1157, __c36, 5),
         }),
       ).annotate({ identifier: "V2WorkspaceGetUsageTotals" });
     case 7:
@@ -5694,49 +6404,49 @@ function __c22(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          project: __S(711, __c22, 7),
-          app: S.optional(__S(711, __c22, 7)),
-          environment: __S(712, __c22, 8),
-          compute: __S(708, __c22, 4),
+          project: __S(1159, __c36, 7),
+          app: S.optional(__S(1159, __c36, 7)),
+          environment: __S(1160, __c36, 8),
+          compute: __S(1156, __c36, 4),
         }),
       ).annotate({ identifier: "V2WorkspaceGetUsageByEnvironmentRow" });
     case 10:
-      return S.Array(__S(713, __c22, 9));
+      return S.Array(__S(1161, __c36, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          project: S.optional(__S(711, __c22, 7)),
-          app: S.optional(__S(711, __c22, 7)),
-          gateway: __S(709, __c22, 5),
+          project: S.optional(__S(1159, __c36, 7)),
+          app: S.optional(__S(1159, __c36, 7)),
+          gateway: __S(1157, __c36, 5),
         }),
       ).annotate({ identifier: "V2WorkspaceGetUsageByAppRow" });
     case 12:
-      return S.Array(__S(715, __c22, 11));
+      return S.Array(__S(1163, __c36, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          byEnvironment: __S(714, __c22, 10),
-          byApp: __S(716, __c22, 12),
+          byEnvironment: __S(1162, __c36, 10),
+          byApp: __S(1164, __c36, 12),
         }),
       ).annotate({ identifier: "V2WorkspaceGetUsageBreakdowns" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          period: __S(706, __c22, 2),
-          totals: __S(710, __c22, 6),
-          breakdowns: __S(717, __c22, 13),
+          period: __S(1154, __c36, 2),
+          totals: __S(1158, __c36, 6),
+          breakdowns: __S(1165, __c36, 13),
         }),
       ).annotate({ identifier: "V2WorkspaceGetUsageResponseData" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(718, __c22, 14),
+          data: __S(1166, __c36, 14),
         }),
       ).annotate({ identifier: "V2WorkspaceGetUsageResponseBody" });
   }
 }
-function __c23(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5747,125 +6457,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "WorkspaceUpdateFlagRequest" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiId: S.String,
-          limit: S.optional(S.Number),
-          cursor: S.optional(S.String),
-          externalId: S.optional(S.String),
-          decrypt: S.optional(S.Boolean),
-          revalidateKeysCache: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/apis.listKeys", code: 200 })),
-      ).annotate({ identifier: "ApisListKeysRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          remaining: S.NullOr(S.Number),
-          refill: S.optional(__S(864, __c27, 0)),
-        }),
-      ).annotate({ identifier: "KeyCreditsData" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          interval: S.String,
-          amount: S.Number,
-          refillDay: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "KeyCreditsRefill" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String),
-          hasMore: S.Boolean,
-        }),
-      ).annotate({ identifier: "Pagination" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          limit: S.Number,
-          duration: S.Number,
-          autoApply: S.Boolean,
-        }),
-      ).annotate({ identifier: "RatelimitResponse" });
-    case 1:
-      return S.Array(__S(928, __c29, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          externalId: S.String,
-          meta: S.optional(__S(2880, __c90, 0)),
-          ratelimits: S.optional(__S(929, __c29, 1)),
-        }),
-      ).annotate({ identifier: "Identity" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          keyId: S.String,
-          start: S.String,
-          enabled: S.Boolean,
-          name: S.optional(S.String),
-          meta: S.optional(__S(2880, __c90, 0)),
-          createdAt: S.Number,
-          updatedAt: S.optional(S.Number),
-          lastUsedAt: S.optional(S.Number),
-          expires: S.optional(S.Number),
-          permissions: S.optional(__S(800, __c25, 0)),
-          roles: S.optional(__S(800, __c25, 0)),
-          credits: S.optional(__S(832, __c26, 0)),
-          identity: S.optional(__S(930, __c29, 2)),
-          plaintext: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ratelimits: S.optional(__S(929, __c29, 1)),
-        }),
-      ).annotate({ identifier: "KeyResponseData" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(960, __c30, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(992, __c31, 0),
-          pagination: __S(896, __c28, 0),
-        }),
-      ).annotate({ identifier: "V2ApisListKeysResponseBody" });
-  }
-}
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5875,13 +6467,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "AuthorizeDeploymentRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AuthorizeDeploymentResponse" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5891,7 +6483,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CancelDeploymentRequest" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5914,12 +6506,12 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1121, __c35, 1),
+          data: __S(1313, __c41, 1),
         }),
       ).annotate({ identifier: "V2CliExchangeTokenResponseBody" });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5930,27 +6522,36 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          clientName: S.String,
+          clientHost: S.String,
+          resource: S.String,
+        }),
+      ).annotate({ identifier: "V2CliDeviceLoginOAuth" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           userCode: S.String,
           deviceName: S.optional(S.String),
           requesterIp: S.optional(S.String),
           requesterUserAgent: S.optional(S.String),
           workspaceId: S.optional(S.String),
           status: S.String,
-          grantablePermissions: S.optional(__S(800, __c25, 0)),
+          grantablePermissions: S.optional(__S(864, __c27, 0)),
           createdAt: S.Number,
           expiresAt: S.Number,
+          oauth: S.optional(__S(1345, __c42, 1)),
         }),
       ).annotate({ identifier: "V2CliGetDeviceLoginResponseData" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1153, __c36, 1),
+          data: __S(1346, __c42, 2),
         }),
       ).annotate({ identifier: "V2CliGetDeviceLoginResponseBody" });
   }
 }
-function __c37(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5961,8 +6562,11 @@ function __c37(j: number): any {
         S.Struct({
           id: S.String,
           userId: S.String,
+          kind: S.String,
           deviceName: S.optional(S.String),
-          permissions: __S(800, __c25, 0),
+          clientHost: S.optional(S.String),
+          resource: S.optional(S.String),
+          permissions: __S(864, __c27, 0),
           createdAt: S.Number,
           lastUsedAt: S.Number,
           expiresAt: S.Number,
@@ -5970,23 +6574,23 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "V2CliListSessionsSession" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sessions: __S(1186, __c37, 2),
+          sessions: __S(1378, __c43, 2),
         }),
       ).annotate({ identifier: "V2CliListSessionsResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1187, __c37, 3),
+          data: __S(1379, __c43, 3),
         }),
       ).annotate({ identifier: "V2CliListSessionsResponseBody" });
   }
 }
-function __c38(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5996,7 +6600,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CliRevokeSessionRequest" });
   }
 }
-function __c39(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6018,12 +6622,12 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1249, __c39, 1),
+          data: __S(1441, __c45, 1),
         }),
       ).annotate({ identifier: "V2CliStartDeviceLoginResponseBody" });
   }
 }
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6031,8 +6635,8 @@ function __c40(j: number): any {
           project: S.String,
           name: S.String,
           slug: S.String,
-          git: S.optional(__S(1312, __c41, 0)),
-          oci: S.optional(__S(1344, __c42, 0)),
+          git: S.optional(__S(1504, __c47, 0)),
+          oci: S.optional(__S(1536, __c48, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/apps.createApp", code: 200 })),
       ).annotate({ identifier: "CreateAppRequest" });
     case 1:
@@ -6045,12 +6649,12 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1281, __c40, 1),
+          data: __S(1473, __c46, 1),
         }),
       ).annotate({ identifier: "V2AppsCreateAppResponseBody" });
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6061,7 +6665,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "AppGitCreateInput" });
   }
 }
-function __c42(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6071,7 +6675,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AppOCI" });
   }
 }
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6093,21 +6697,21 @@ function __c43(j: number): any {
           project: S.String,
           app: S.String,
           environment: S.String,
-          git: S.optional(__S(1376, __c43, 0)),
-          oci: S.optional(__S(1344, __c42, 0)),
-          deployment: S.optional(__S(1377, __c43, 1)),
+          git: S.optional(__S(1568, __c49, 0)),
+          oci: S.optional(__S(1536, __c48, 0)),
+          deployment: S.optional(__S(1569, __c49, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/deployments.createDeployment", code: 200 })),
       ).annotate({ identifier: "CreateDeploymentV3Request" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1377, __c43, 1),
+          data: __S(1569, __c49, 1),
         }),
       ).annotate({ identifier: "V3DeploymentsCreateDeploymentResponseBody" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6118,24 +6722,9 @@ function __c44(j: number): any {
           domain: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/domains.createDomain", code: 200 })),
       ).annotate({ identifier: "CreateDomainRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domainId: S.String,
-          dnsRecords: __S(1441, __c45, 1),
-          domainConnect: S.optional(__S(1442, __c45, 2)),
-        }),
-      ).annotate({ identifier: "V2DomainsCreateDomainResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(1409, __c44, 1),
-        }),
-      ).annotate({ identifier: "V2DomainsCreateDomainResponseBody" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6149,7 +6738,7 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "DnsRecord" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6159,14 +6748,33 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DomainConnect" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainId: S.String,
+          dnsRecords: __S(1633, __c51, 1),
+          domainConnect: S.optional(__S(1634, __c51, 2)),
+        }),
+      ).annotate({ identifier: "V2DomainsCreateDomainResponseData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(1664, __c52, 0),
+        }),
+      ).annotate({ identifier: "V2DomainsCreateDomainResponseBody" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           externalId: S.String,
-          meta: S.optional(__S(2880, __c90, 0)),
-          ratelimits: S.optional(__S(1505, __c47, 1)),
+          meta: S.optional(__S(3104, __c97, 0)),
+          ratelimits: S.optional(__S(1729, __c54, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/identities.createIdentity", code: 200 })),
       ).annotate({ identifier: "CreateIdentityRequest" });
     case 1:
@@ -6179,12 +6787,12 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1473, __c46, 1),
+          data: __S(1697, __c53, 1),
         }),
       ).annotate({ identifier: "V2IdentitiesCreateIdentityResponseBody" });
   }
 }
-function __c47(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6196,10 +6804,10 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "RatelimitRequest" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1728, __c54, 0));
   }
 }
-function __c48(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6209,19 +6817,19 @@ function __c48(j: number): any {
           name: S.optional(S.String),
           byteLength: S.optional(S.Number),
           externalId: S.optional(S.String),
-          meta: S.optional(__S(2880, __c90, 0)),
-          roles: S.optional(__S(800, __c25, 0)),
-          permissions: S.optional(__S(800, __c25, 0)),
+          meta: S.optional(__S(3104, __c97, 0)),
+          roles: S.optional(__S(864, __c27, 0)),
+          permissions: S.optional(__S(864, __c27, 0)),
           expires: S.optional(S.Number),
-          credits: S.optional(__S(832, __c26, 0)),
-          ratelimits: S.optional(__S(1505, __c47, 1)),
+          credits: S.optional(__S(896, __c28, 0)),
+          ratelimits: S.optional(__S(1729, __c54, 1)),
           enabled: S.optional(S.Boolean),
           recoverable: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.createKey", code: 200 })),
       ).annotate({ identifier: "CreateKeyRequest" });
   }
 }
-function __c49(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6234,12 +6842,12 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1568, __c49, 0),
+          data: __S(1792, __c56, 0),
         }),
       ).annotate({ identifier: "V2KeysCreateKeyResponseBody" });
   }
 }
-function __c50(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6263,12 +6871,12 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1601, __c50, 1),
+          data: __S(1825, __c57, 1),
         }),
       ).annotate({ identifier: "V2PortalCreatePortalResponseBody" });
   }
 }
-function __c51(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6287,12 +6895,12 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1633, __c51, 1),
+          data: __S(1857, __c58, 1),
         }),
       ).annotate({ identifier: "V2ProjectsCreateProjectResponseBody" });
   }
 }
-function __c52(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6303,7 +6911,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteAppRequest" });
   }
 }
-function __c53(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6313,7 +6921,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c54(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6329,7 +6937,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "V2IdentitiesDeleteIdentityResponseBody" });
   }
 }
-function __c55(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6340,7 +6948,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteKeyRequest" });
   }
 }
-function __c56(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6350,7 +6958,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeletePortalRequest" });
   }
 }
-function __c57(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6360,7 +6968,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c58(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6382,18 +6990,18 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "BuildLogEntry" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(2081, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(1858, __c58, 2),
-          pagination: __S(896, __c28, 0),
+          data: __S(2082, __c65, 2),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2DeploymentsListBuildLogsResponseBody" });
   }
 }
-function __c59(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,7 +7011,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeploymentsPromoteDeploymentRequest" });
   }
 }
-function __c60(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6413,7 +7021,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeploymentsRollbackDeploymentRequest" });
   }
 }
-function __c61(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6425,14 +7033,14 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariableInput" });
     case 1:
-      return S.Array(__S(1952, __c61, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project: S.String,
           app: S.String,
           environment: S.String,
-          variables: __S(1953, __c61, 1),
+          variables: __S(2177, __c68, 1),
           prune: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/environments.setEnvironmentVariables", code: 200 }),
@@ -6440,7 +7048,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "EnvironmentsSetEnvironmentVariablesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6451,23 +7059,23 @@ function __c62(j: number): any {
           dockerfile: S.optional(S.NullOr(S.String)),
           rootDirectory: S.optional(S.String),
           buildCommand: S.optional(S.NullOr(S.String)),
-          watchPaths: S.optional(__S(800, __c25, 0)),
+          watchPaths: S.optional(__S(864, __c27, 0)),
           autoDeploy: S.optional(S.Boolean),
           port: S.optional(S.Number),
           vCpus: S.optional(S.Number),
           memoryMib: S.optional(S.Number),
           storageMib: S.optional(S.Number),
-          command: S.optional(__S(800, __c25, 0)),
-          healthcheck: S.optional(S.NullOr(__S(2016, __c63, 0))),
+          command: S.optional(__S(864, __c27, 0)),
+          healthcheck: S.optional(S.NullOr(__S(2240, __c70, 0))),
           shutdownSignal: S.optional(S.String),
           upstreamProtocol: S.optional(S.String),
           openapiSpecPath: S.optional(S.NullOr(S.String)),
-          regions: S.optional(__S(2050, __c64, 2)),
+          regions: S.optional(__S(2274, __c71, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/environments.updateSettings", code: 200 })),
       ).annotate({ identifier: "EnvironmentsUpdateSettingsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6482,7 +7090,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "EnvironmentHealthcheck" });
   }
 }
-function __c64(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6495,14 +7103,14 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          replicas: __S(2048, __c64, 0),
+          replicas: __S(2272, __c71, 0),
         }),
       ).annotate({ identifier: "EnvironmentRegion" });
     case 2:
-      return S.Array(__S(2049, __c64, 1));
+      return S.Array(__S(2273, __c71, 1));
   }
 }
-function __c65(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6518,26 +7126,26 @@ function __c65(j: number): any {
           id: S.String,
           name: S.String,
           enabled: S.Boolean,
-          match: S.optional(__S(2118, __c66, 6)),
-          keyauth: S.optional(__S(2125, __c66, 13)),
-          ratelimit: S.optional(__S(2129, __c66, 17)),
-          firewall: S.optional(__S(2130, __c66, 18)),
+          match: S.optional(__S(2342, __c73, 6)),
+          keyauth: S.optional(__S(2349, __c73, 13)),
+          ratelimit: S.optional(__S(2353, __c73, 17)),
+          firewall: S.optional(__S(2354, __c73, 18)),
           openapi: S.optional(S.Unknown),
-          logging: S.optional(__S(2131, __c66, 19)),
+          logging: S.optional(__S(2355, __c73, 19)),
         }),
       ).annotate({ identifier: "PolicyResponse" });
     case 2:
-      return S.Array(__S(2081, __c65, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2082, __c65, 2),
+          data: __S(2306, __c72, 2),
         }),
       ).annotate({ identifier: "V2GatewayListPoliciesResponseBody" });
   }
 }
-function __c66(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6551,13 +7159,13 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          path: __S(2112, __c66, 0),
+          path: __S(2336, __c73, 0),
         }),
       ).annotate({ identifier: "PathMatch" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          methods: __S(2144, __c67, 0),
+          methods: __S(2368, __c74, 0),
         }),
       ).annotate({ identifier: "MethodMatch" });
     case 3:
@@ -6565,28 +7173,28 @@ function __c66(j: number): any {
         S.Struct({
           name: S.String,
           present: S.optional(S.Boolean),
-          value: S.optional(__S(2112, __c66, 0)),
+          value: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "FieldMatch" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          in: S.optional(__S(800, __c25, 0)),
-          notIn: S.optional(__S(800, __c25, 0)),
+          in: S.optional(__S(864, __c27, 0)),
+          notIn: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "RemoteIpMatch" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(__S(2113, __c66, 1)),
-          method: S.optional(__S(2114, __c66, 2)),
-          header: S.optional(__S(2115, __c66, 3)),
-          queryParam: S.optional(__S(2115, __c66, 3)),
-          remoteIp: S.optional(__S(2116, __c66, 4)),
+          path: S.optional(__S(2337, __c73, 1)),
+          method: S.optional(__S(2338, __c73, 2)),
+          header: S.optional(__S(2339, __c73, 3)),
+          queryParam: S.optional(__S(2339, __c73, 3)),
+          remoteIp: S.optional(__S(2340, __c73, 4)),
         }),
       ).annotate({ identifier: "MatchExpr" });
     case 6:
-      return S.Array(__S(2117, __c66, 5));
+      return S.Array(__S(2341, __c73, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6604,12 +7212,12 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bearer: S.optional(S.Unknown),
-          header: S.optional(__S(2119, __c66, 7)),
-          queryParam: S.optional(__S(2120, __c66, 8)),
+          header: S.optional(__S(2343, __c73, 7)),
+          queryParam: S.optional(__S(2344, __c73, 8)),
         }),
       ).annotate({ identifier: "KeyLocation" });
     case 10:
-      return S.Array(__S(2121, __c66, 9));
+      return S.Array(__S(2345, __c73, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -6620,14 +7228,14 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "KeyRatelimit" });
     case 12:
-      return S.Array(__S(2123, __c66, 11));
+      return S.Array(__S(2347, __c73, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          keyspaces: __S(800, __c25, 0),
-          locations: S.optional(__S(2122, __c66, 10)),
+          keyspaces: __S(864, __c27, 0),
+          locations: S.optional(__S(2346, __c73, 10)),
           permissionQuery: S.optional(S.String),
-          ratelimits: S.optional(__S(2124, __c66, 12)),
+          ratelimits: S.optional(__S(2348, __c73, 12)),
           credits: S.optional(S.Number),
         }),
       ).annotate({ identifier: "KeyauthPolicy" });
@@ -6641,21 +7249,21 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           remoteIp: S.optional(S.Unknown),
-          header: S.optional(__S(2120, __c66, 8)),
+          header: S.optional(__S(2344, __c73, 8)),
           authenticatedSubject: S.optional(S.Unknown),
           path: S.optional(S.Unknown),
-          principalField: S.optional(__S(2126, __c66, 14)),
+          principalField: S.optional(__S(2350, __c73, 14)),
         }),
       ).annotate({ identifier: "RatelimitIdentifier" });
     case 16:
-      return S.Array(__S(2127, __c66, 15));
+      return S.Array(__S(2351, __c73, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           limit: S.Number,
           windowMs: S.Number,
-          identifier: S.optional(__S(2127, __c66, 15)),
-          identifiers: S.optional(__S(2128, __c66, 16)),
+          identifier: S.optional(__S(2351, __c73, 15)),
+          identifiers: S.optional(__S(2352, __c73, 16)),
         }),
       ).annotate({ identifier: "RatelimitPolicy" });
     case 18:
@@ -6676,41 +7284,41 @@ function __c66(j: number): any {
       ).annotate({ identifier: "LoggingPolicy" });
   }
 }
-function __c67(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c68(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           enabled: S.Boolean,
-          match: S.optional(__S(2118, __c66, 6)),
-          keyauth: S.optional(__S(2125, __c66, 13)),
-          ratelimit: S.optional(__S(2129, __c66, 17)),
-          firewall: S.optional(__S(2130, __c66, 18)),
+          match: S.optional(__S(2342, __c73, 6)),
+          keyauth: S.optional(__S(2349, __c73, 13)),
+          ratelimit: S.optional(__S(2353, __c73, 17)),
+          firewall: S.optional(__S(2354, __c73, 18)),
           openapi: S.optional(S.Unknown),
-          logging: S.optional(__S(2131, __c66, 19)),
+          logging: S.optional(__S(2355, __c73, 19)),
         }),
       ).annotate({ identifier: "Policy" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project: S.String,
           app: S.String,
           environment: S.String,
-          policies: __S(2177, __c68, 1),
+          policies: __S(2401, __c75, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v2/gateway.setPolicies", code: 200 })),
       ).annotate({ identifier: "GatewaySetPoliciesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6721,17 +7329,17 @@ function __c69(j: number): any {
           policyId: S.String,
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          match: S.optional(S.NullOr(__S(2118, __c66, 6))),
-          keyauth: S.optional(__S(2125, __c66, 13)),
-          ratelimit: S.optional(__S(2129, __c66, 17)),
-          firewall: S.optional(__S(2130, __c66, 18)),
+          match: S.optional(S.NullOr(__S(2342, __c73, 6))),
+          keyauth: S.optional(__S(2349, __c73, 13)),
+          ratelimit: S.optional(__S(2353, __c73, 17)),
+          firewall: S.optional(__S(2354, __c73, 18)),
           openapi: S.optional(S.Unknown),
-          logging: S.optional(__S(2131, __c66, 19)),
+          logging: S.optional(__S(2355, __c73, 19)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/gateway.updatePolicy", code: 200 })),
       ).annotate({ identifier: "GatewayUpdatePolicyRequest" });
   }
 }
-function __c70(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6742,18 +7350,18 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetAppRequest" });
   }
 }
-function __c71(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2305, __c72, 1),
+          data: __S(2529, __c79, 1),
         }),
       ).annotate({ identifier: "V2AppsGetAppResponseBody" });
   }
 }
-function __c72(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6769,8 +7377,8 @@ function __c72(j: number): any {
           name: S.String,
           slug: S.String,
           sourceType: S.optional(S.String),
-          git: S.optional(__S(2304, __c72, 0)),
-          oci: S.optional(__S(1344, __c42, 0)),
+          git: S.optional(__S(2528, __c79, 0)),
+          oci: S.optional(__S(1536, __c48, 0)),
           currentDeploymentId: S.optional(S.String),
           isRolledBack: S.Boolean,
           deleteProtection: S.Boolean,
@@ -6780,7 +7388,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "App" });
   }
 }
-function __c73(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6792,12 +7400,12 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2378, __c74, 10),
+          data: __S(2602, __c81, 10),
         }),
       ).annotate({ identifier: "V2DeploymentsGetDeploymentResponseBody" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6813,7 +7421,7 @@ function __c74(j: number): any {
           branch: S.optional(S.String),
           commitMessage: S.optional(S.String),
           commitTimestamp: S.optional(S.Number),
-          author: S.optional(__S(2368, __c74, 0)),
+          author: S.optional(__S(2592, __c81, 0)),
           prNumber: S.optional(S.Number),
           forkRepository: S.optional(S.String),
         }),
@@ -6836,7 +7444,7 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           via: S.String,
-          actor: S.optional(__S(2371, __c74, 3)),
+          actor: S.optional(__S(2595, __c81, 3)),
         }),
       ).annotate({ identifier: "DeploymentTrigger" });
     case 5:
@@ -6861,11 +7469,11 @@ function __c74(j: number): any {
           type: S.String,
           time: S.optional(S.Number),
           message: S.String,
-          meta: S.optional(__S(2374, __c74, 6)),
+          meta: S.optional(__S(2598, __c81, 6)),
         }),
       ).annotate({ identifier: "DeploymentIssue" });
     case 8:
-      return S.Array(__S(2375, __c74, 7));
+      return S.Array(__S(2599, __c81, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -6873,10 +7481,10 @@ function __c74(j: number): any {
           memoryMib: S.Number,
           storageMib: S.Number,
           port: S.Number,
-          command: __S(800, __c25, 0),
+          command: __S(864, __c27, 0),
           shutdownSignal: S.String,
           upstreamProtocol: S.String,
-          healthcheck: S.optional(__S(2016, __c63, 0)),
+          healthcheck: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "DeploymentRuntime" });
     case 10:
@@ -6888,23 +7496,23 @@ function __c74(j: number): any {
           environment: S.String,
           app: S.String,
           project: S.String,
-          git: S.optional(__S(2369, __c74, 1)),
-          docker: S.optional(__S(2370, __c74, 2)),
-          trigger: __S(2372, __c74, 4),
-          availableActions: __S(2144, __c67, 0),
-          regions: __S(800, __c25, 0),
-          error: S.optional(__S(2373, __c74, 5)),
-          issues: __S(2376, __c74, 8),
+          git: S.optional(__S(2593, __c81, 1)),
+          docker: S.optional(__S(2594, __c81, 2)),
+          trigger: __S(2596, __c81, 4),
+          availableActions: __S(2368, __c74, 0),
+          regions: __S(864, __c27, 0),
+          error: S.optional(__S(2597, __c81, 5)),
+          issues: __S(2600, __c81, 8),
           finishedAt: S.optional(S.Number),
-          domains: S.optional(__S(800, __c25, 0)),
-          runtime: __S(2377, __c74, 9),
+          domains: S.optional(__S(864, __c27, 0)),
+          runtime: __S(2601, __c81, 9),
           createdAt: S.Number,
           updatedAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Deployment" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6916,12 +7524,12 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2432, __c76, 0),
+          data: __S(2656, __c83, 0),
         }),
       ).annotate({ identifier: "V2DomainsGetDomainResponseBody" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6933,15 +7541,15 @@ function __c76(j: number): any {
           environmentId: S.String,
           status: S.String,
           verificationError: S.optional(S.String),
-          dnsRecords: __S(1441, __c45, 1),
-          domainConnect: S.optional(__S(1442, __c45, 2)),
+          dnsRecords: __S(1633, __c51, 1),
+          domainConnect: S.optional(__S(1634, __c51, 2)),
           createdAt: S.Number,
           updatedAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6955,12 +7563,12 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2498, __c78, 2),
+          data: __S(2722, __c85, 2),
         }),
       ).annotate({ identifier: "V2EnvironmentsGetEnvironmentResponseBody" });
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6969,8 +7577,8 @@ function __c78(j: number): any {
           vCpus: S.Number,
           memoryMib: S.Number,
           storageMib: S.Number,
-          command: __S(800, __c25, 0),
-          healthcheck: S.optional(__S(2016, __c63, 0)),
+          command: __S(864, __c27, 0),
+          healthcheck: S.optional(__S(2240, __c70, 0)),
           shutdownSignal: S.String,
           upstreamProtocol: S.String,
           openapiSpecPath: S.optional(S.String),
@@ -6982,7 +7590,7 @@ function __c78(j: number): any {
           dockerfile: S.optional(S.String),
           rootDirectory: S.String,
           buildCommand: S.optional(S.String),
-          watchPaths: __S(800, __c25, 0),
+          watchPaths: __S(864, __c27, 0),
           autoDeploy: S.Boolean,
         }),
       ).annotate({ identifier: "EnvironmentBuild" });
@@ -6993,17 +7601,19 @@ function __c78(j: number): any {
           slug: S.String,
           description: S.String,
           kind: S.String,
+          currentDeploymentId: S.optional(S.String),
+          isRolledBack: S.optional(S.Boolean),
           deleteProtection: S.Boolean,
           createdAt: S.Number,
           updatedAt: S.optional(S.Number),
-          runtime: S.optional(__S(2496, __c78, 0)),
-          build: S.optional(__S(2497, __c78, 1)),
-          regions: S.optional(__S(2050, __c64, 2)),
+          runtime: S.optional(__S(2720, __c85, 0)),
+          build: S.optional(__S(2721, __c85, 1)),
+          regions: S.optional(__S(2274, __c71, 2)),
         }),
       ).annotate({ identifier: "Environment" });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7015,12 +7625,12 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(930, __c29, 2),
+          data: __S(994, __c31, 2),
         }),
       ).annotate({ identifier: "V2IdentitiesGetIdentityResponseBody" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7031,18 +7641,18 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetKeyRequest" });
   }
 }
-function __c81(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(960, __c30, 0),
+          data: __S(1024, __c32, 0),
         }),
       ).annotate({ identifier: "V2KeysGetKeyResponseBody" });
   }
 }
-function __c82(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7054,7 +7664,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetPortalRequest" });
   }
 }
-function __c83(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7072,7 +7682,7 @@ function __c83(j: number): any {
           enabled: S.Boolean,
           keyspaceId: S.optional(S.String),
           appId: S.optional(S.String),
-          branding: S.optional(__S(2656, __c83, 0)),
+          branding: S.optional(__S(2880, __c90, 0)),
           createdAt: S.Number,
           updatedAt: S.optional(S.Number),
         }),
@@ -7081,12 +7691,12 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2657, __c83, 1),
+          data: __S(2881, __c90, 1),
         }),
       ).annotate({ identifier: "V2PortalGetPortalResponseBody" });
   }
 }
-function __c84(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7096,18 +7706,18 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c85(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2752, __c86, 0),
+          data: __S(2976, __c93, 0),
         }),
       ).annotate({ identifier: "V2ProjectsGetProjectResponseBody" });
   }
 }
-function __c86(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7122,7 +7732,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c87(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7139,12 +7749,12 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2785, __c87, 1),
+          data: __S(3009, __c94, 1),
         }),
       ).annotate({ identifier: "V2GithubInstallAppResponseBody" });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7154,37 +7764,37 @@ function __c88(j: number): any {
       ).annotate({ identifier: "AnalyticsGetGatewayRequestsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(3104, __c97, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2848, __c89, 0),
+          data: __S(3072, __c96, 0),
         }),
       ).annotate({ identifier: "V2AnalyticsGetGatewayRequestsResponseBody" });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          permissions: __S(800, __c25, 0),
+          permissions: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.addPermissions", code: 200 })),
       ).annotate({ identifier: "KeysAddPermissionsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7197,46 +7807,46 @@ function __c92(j: number): any {
       ).annotate({ identifier: "Permission" });
   }
 }
-function __c93(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(3168, __c99, 0));
   }
 }
-function __c94(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2976, __c93, 0),
+          data: __S(3200, __c100, 0),
         }),
       ).annotate({ identifier: "V2KeysAddPermissionsResponseBody" });
   }
 }
-function __c95(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          roles: __S(800, __c25, 0),
+          roles: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.addRoles", code: 200 })),
       ).annotate({ identifier: "KeysAddRolesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3136, __c98, 0),
+          data: __S(3360, __c105, 0),
         }),
       ).annotate({ identifier: "V2KeysAddRolesResponseBody" });
   }
 }
-function __c97(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7244,40 +7854,40 @@ function __c97(j: number): any {
           id: S.String,
           name: S.String,
           description: S.optional(S.String),
-          permissions: S.optional(__S(2976, __c93, 0)),
+          permissions: S.optional(__S(3200, __c100, 0)),
         }),
       ).annotate({ identifier: "Role" });
   }
 }
-function __c98(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3104, __c97, 0));
+      return S.Array(__S(3328, __c104, 0));
   }
 }
-function __c99(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          permissions: __S(800, __c25, 0),
+          permissions: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.removePermissions", code: 200 })),
       ).annotate({ identifier: "KeysRemovePermissionsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          roles: __S(800, __c25, 0),
+          roles: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.removeRoles", code: 200 })),
       ).annotate({ identifier: "KeysRemoveRolesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7288,29 +7898,29 @@ function __c101(j: number): any {
       ).annotate({ identifier: "KeysRerollKeyRequest" });
   }
 }
-function __c102(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          permissions: __S(800, __c25, 0),
+          permissions: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.setPermissions", code: 200 })),
       ).annotate({ identifier: "KeysSetPermissionsRequest" });
   }
 }
-function __c103(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          roles: __S(800, __c25, 0),
+          roles: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.setRoles", code: 200 })),
       ).annotate({ identifier: "KeysSetRolesRequest" });
   }
 }
-function __c104(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7324,12 +7934,12 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(832, __c26, 0),
+          data: __S(896, __c28, 0),
         }),
       ).annotate({ identifier: "V2KeysUpdateCreditsResponseBody" });
   }
 }
-function __c105(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7339,7 +7949,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "KeysWhoamiRequest" });
   }
 }
-function __c106(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7351,18 +7961,18 @@ function __c106(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v2/apps.listApps", code: 200 })),
       ).annotate({ identifier: "ListAppsRequest" });
     case 1:
-      return S.Array(__S(2305, __c72, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3393, __c106, 1),
-          pagination: __S(896, __c28, 0),
+          data: __S(3617, __c113, 1),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2AppsListAppsResponseBody" });
   }
 }
-function __c107(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7372,7 +7982,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "AnalyticsGetRatelimitsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7380,8 +7990,8 @@ function __c108(j: number): any {
           project: S.optional(S.String),
           app: S.optional(S.String),
           environment: S.optional(S.String),
-          status: S.optional(__S(2144, __c67, 0)),
-          branch: S.optional(__S(800, __c25, 0)),
+          status: S.optional(__S(2368, __c74, 0)),
+          branch: S.optional(__S(864, __c27, 0)),
           startTime: S.optional(S.Number),
           endTime: S.optional(S.Number),
           limit: S.optional(S.Number),
@@ -7389,18 +7999,18 @@ function __c108(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v2/deployments.listDeployments", code: 200 })),
       ).annotate({ identifier: "ListDeploymentsRequest" });
     case 1:
-      return S.Array(__S(2378, __c74, 10));
+      return S.Array(__S(2602, __c81, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3457, __c108, 1),
-          pagination: __S(896, __c28, 0),
+          data: __S(3681, __c115, 1),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2DeploymentsListDeploymentsResponseBody" });
   }
 }
-function __c109(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7414,18 +8024,18 @@ function __c109(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v2/domains.listDomains", code: 200 })),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(2656, __c83, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3489, __c109, 1),
-          pagination: __S(896, __c28, 0),
+          data: __S(3713, __c116, 1),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2DomainsListDomainsResponseBody" });
   }
 }
-function __c110(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7435,17 +8045,17 @@ function __c110(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v2/environments.listEnvironments", code: 200 })),
       ).annotate({ identifier: "ListEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(2498, __c78, 2));
+      return S.Array(__S(2722, __c85, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3521, __c110, 1),
+          data: __S(3745, __c117, 1),
         }),
       ).annotate({ identifier: "V2EnvironmentsListEnvironmentsResponseBody" });
   }
 }
-function __c111(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7470,18 +8080,18 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 2:
-      return S.Array(__S(3553, __c111, 1));
+      return S.Array(__S(3777, __c118, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3554, __c111, 2),
-          pagination: __S(896, __c28, 0),
+          data: __S(3778, __c118, 2),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2EnvironmentsListEnvironmentVariablesResponseBody" });
   }
 }
-function __c112(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7492,18 +8102,18 @@ function __c112(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v2/identities.listIdentities", code: 200 })),
       ).annotate({ identifier: "ListIdentitiesRequest" });
     case 1:
-      return S.Array(__S(930, __c29, 2));
+      return S.Array(__S(994, __c31, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3585, __c112, 1),
-          pagination: __S(896, __c28, 0),
+          data: __S(3809, __c119, 1),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2IdentitiesListIdentitiesResponseBody" });
   }
 }
-function __c113(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7517,13 +8127,13 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2976, __c93, 0),
-          pagination: __S(896, __c28, 0),
+          data: __S(3200, __c100, 0),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2PermissionsListPermissionsResponseBody" });
   }
 }
-function __c114(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7534,18 +8144,18 @@ function __c114(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v2/projects.listProjects", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3649, __c114, 1),
-          pagination: __S(896, __c28, 0),
+          data: __S(3873, __c121, 1),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2ProjectsListProjectsResponseBody" });
   }
 }
-function __c115(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7561,38 +8171,51 @@ function __c115(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3681, __c115, 1),
+          data: __S(3905, __c122, 1),
         }),
       ).annotate({ identifier: "V2LivenessResponseBody" });
   }
 }
-function __c116(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userCode: S.String,
           decision: S.String,
-          permissions: S.optional(__S(800, __c25, 0)),
+          permissions: S.optional(__S(864, __c27, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/cli.decideDeviceLogin", code: 200 })),
       ).annotate({ identifier: "LoginCliDecideDeviceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          redirectUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "V2CliDecideDeviceLoginResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(3937, __c123, 1),
+        }),
+      ).annotate({ identifier: "V2CliDecideDeviceLoginResponseBody" });
   }
 }
-function __c117(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          time: S.optional(__S(3776, __c118, 0)),
-          path: S.optional(__S(3777, __c118, 1)),
-          method: S.optional(__S(3778, __c118, 2)),
-          status: S.optional(__S(3780, __c118, 4)),
+          time: S.optional(__S(4000, __c125, 0)),
+          path: S.optional(__S(4001, __c125, 1)),
+          method: S.optional(__S(4002, __c125, 2)),
+          status: S.optional(__S(4004, __c125, 4)),
         }),
       ).annotate({ identifier: "V2LogsGetApiRequestMetricsFilters" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(3744, __c117, 0)),
+          filters: S.optional(__S(3968, __c124, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/logs.getApiRequestMetrics", code: 200 })),
       ).annotate({ identifier: "LogsGetApiRequestMetricsRequest" });
     case 2:
@@ -7606,17 +8229,17 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "ApiRequestMetricsPoint" });
     case 3:
-      return S.Array(__S(3746, __c117, 2));
+      return S.Array(__S(3970, __c124, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3747, __c117, 3),
+          data: __S(3971, __c124, 3),
         }),
       ).annotate({ identifier: "V2LogsGetApiRequestMetricsResponseBody" });
   }
 }
-function __c118(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7630,19 +8253,19 @@ function __c118(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          is: S.optional(__S(800, __c25, 0)),
-          isNot: S.optional(__S(800, __c25, 0)),
-          contains: S.optional(__S(800, __c25, 0)),
-          notContains: S.optional(__S(800, __c25, 0)),
-          startsWith: S.optional(__S(800, __c25, 0)),
-          endsWith: S.optional(__S(800, __c25, 0)),
+          is: S.optional(__S(864, __c27, 0)),
+          isNot: S.optional(__S(864, __c27, 0)),
+          contains: S.optional(__S(864, __c27, 0)),
+          notContains: S.optional(__S(864, __c27, 0)),
+          startsWith: S.optional(__S(864, __c27, 0)),
+          endsWith: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "TextFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          is: S.optional(__S(2144, __c67, 0)),
-          isNot: S.optional(__S(2144, __c67, 0)),
+          is: S.optional(__S(2368, __c74, 0)),
+          isNot: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "MethodFilter" });
     case 3:
@@ -7650,8 +8273,8 @@ function __c118(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          is: S.optional(__S(3779, __c118, 3)),
-          isNot: S.optional(__S(3779, __c118, 3)),
+          is: S.optional(__S(4003, __c125, 3)),
+          isNot: S.optional(__S(4003, __c125, 3)),
           gt: S.optional(S.Number),
           gte: S.optional(S.Number),
           lt: S.optional(S.Number),
@@ -7660,7 +8283,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "IntFilter" });
   }
 }
-function __c119(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7670,23 +8293,23 @@ function __c119(j: number): any {
       ).annotate({ identifier: "AnalyticsGetRuntimeLogsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          is: S.optional(__S(800, __c25, 0)),
-          isNot: S.optional(__S(800, __c25, 0)),
+          is: S.optional(__S(864, __c27, 0)),
+          isNot: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "ExactFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          time: S.optional(__S(3776, __c118, 0)),
-          path: S.optional(__S(3777, __c118, 1)),
-          method: S.optional(__S(3778, __c118, 2)),
-          requestId: S.optional(__S(3840, __c120, 0)),
-          status: S.optional(__S(3780, __c118, 4)),
+          time: S.optional(__S(4000, __c125, 0)),
+          path: S.optional(__S(4001, __c125, 1)),
+          method: S.optional(__S(4002, __c125, 2)),
+          requestId: S.optional(__S(4064, __c127, 0)),
+          status: S.optional(__S(4004, __c125, 4)),
         }),
       ).annotate({ identifier: "V2LogsListApiRequestsFilters" });
     case 2:
@@ -7694,7 +8317,7 @@ function __c120(j: number): any {
         S.Struct({
           limit: S.optional(S.Number),
           cursor: S.optional(S.String),
-          filters: S.optional(__S(3841, __c120, 1)),
+          filters: S.optional(__S(4065, __c127, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/logs.listApiRequests", code: 200 })),
       ).annotate({ identifier: "LogsListApiRequestsRequest" });
     case 3:
@@ -7707,25 +8330,25 @@ function __c120(j: number): any {
           path: S.String,
           status: S.Number,
           latencyMs: S.Number,
-          requestHeaders: __S(800, __c25, 0),
+          requestHeaders: __S(864, __c27, 0),
           requestBody: S.String,
-          responseHeaders: __S(800, __c25, 0),
+          responseHeaders: __S(864, __c27, 0),
           responseBody: S.String,
         }),
       ).annotate({ identifier: "ApiRequestLog" });
     case 4:
-      return S.Array(__S(3843, __c120, 3));
+      return S.Array(__S(4067, __c127, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3844, __c120, 4),
-          pagination: __S(896, __c28, 0),
+          data: __S(4068, __c127, 4),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2LogsListApiRequestsResponseBody" });
   }
 }
-function __c121(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7733,23 +8356,23 @@ function __c121(j: number): any {
           hash: S.String,
           name: S.optional(S.String),
           externalId: S.optional(S.String),
-          meta: S.optional(__S(2880, __c90, 0)),
-          roles: S.optional(__S(800, __c25, 0)),
-          permissions: S.optional(__S(800, __c25, 0)),
+          meta: S.optional(__S(3104, __c97, 0)),
+          roles: S.optional(__S(864, __c27, 0)),
+          permissions: S.optional(__S(864, __c27, 0)),
           expires: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          credits: S.optional(__S(832, __c26, 0)),
-          ratelimits: S.optional(__S(1505, __c47, 1)),
+          credits: S.optional(__S(896, __c28, 0)),
+          ratelimits: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "V2KeysMigrateKeyData" });
     case 1:
-      return S.Array(__S(3872, __c121, 0));
+      return S.Array(__S(4096, __c128, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           migrationId: S.String,
           apiId: S.String,
-          keys: __S(3873, __c121, 1),
+          keys: __S(4097, __c128, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v2/keys.migrateKeys", code: 200 })),
       ).annotate({ identifier: "MigrateKeysRequest" });
     case 3:
@@ -7760,24 +8383,24 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "V2KeysMigrateKeysMigration" });
     case 4:
-      return S.Array(__S(3875, __c121, 3));
+      return S.Array(__S(4099, __c128, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          migrated: __S(3876, __c121, 4),
-          failed: __S(800, __c25, 0),
+          migrated: __S(4100, __c128, 4),
+          failed: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "V2KeysMigrateKeysResponseData" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3877, __c121, 5),
+          data: __S(4101, __c128, 5),
         }),
       ).annotate({ identifier: "V2KeysMigrateKeysResponseBody" });
   }
 }
-function __c122(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7797,19 +8420,19 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3905, __c122, 1),
+          data: __S(4129, __c129, 1),
         }),
       ).annotate({ identifier: "V2PermissionsCreatePermissionResponseBody" });
   }
 }
-function __c123(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          permissions: S.optional(__S(800, __c25, 0)),
+          permissions: S.optional(__S(864, __c27, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/permissions.createRole", code: 200 })),
       ).annotate({ identifier: "PermissionsCreateRoleRequest" });
     case 1:
@@ -7822,12 +8445,12 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3937, __c123, 1),
+          data: __S(4161, __c130, 1),
         }),
       ).annotate({ identifier: "V2PermissionsCreateRoleResponseBody" });
   }
 }
-function __c124(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7837,7 +8460,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "PermissionsDeletePermissionRequest" });
   }
 }
-function __c125(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7847,7 +8470,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "PermissionsDeleteRoleRequest" });
   }
 }
-function __c126(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7857,18 +8480,18 @@ function __c126(j: number): any {
       ).annotate({ identifier: "PermissionsGetPermissionRequest" });
   }
 }
-function __c127(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(2944, __c92, 0),
+          data: __S(3168, __c99, 0),
         }),
       ).annotate({ identifier: "V2PermissionsGetPermissionResponseBody" });
   }
 }
-function __c128(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7880,12 +8503,12 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3104, __c97, 0),
+          data: __S(3328, __c104, 0),
         }),
       ).annotate({ identifier: "V2PermissionsGetRoleResponseBody" });
   }
 }
-function __c129(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7899,25 +8522,25 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(3136, __c98, 0),
-          pagination: __S(896, __c28, 0),
+          data: __S(3360, __c105, 0),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2PermissionsListRolesResponseBody" });
   }
 }
-function __c130(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
           roleId: S.optional(S.String),
-          permissions: __S(800, __c25, 0),
+          permissions: __S(864, __c27, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/permissions.setRolePermissions", code: 200 })),
       ).annotate({ identifier: "PermissionsSetRolePermissionsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7927,7 +8550,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "AnalyticsGetVerificationsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7940,7 +8563,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "PermissionsUpdatePermissionRequest" });
   }
 }
-function __c133(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7962,44 +8585,125 @@ function __c133(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4257, __c133, 1),
+          data: __S(4481, __c140, 1),
         }),
       ).annotate({ identifier: "V2PermissionsUpdateRoleResponseBody" });
   }
 }
-function __c134(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           portal: S.String,
+          domain: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/portal.createDomain", code: 200 })),
+      ).annotate({ identifier: "PortalCreateDomainRequest" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          ratelimits: S.optional(__S(4577, __c143, 1)),
+          expiresIn: S.optional(S.Number),
+          permissions: S.optional(__S(864, __c27, 0)),
+          roles: S.optional(__S(864, __c27, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/portal.createKey", code: 200 })),
+      ).annotate({ identifier: "PortalCreateKeyRequest" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          limit: S.Number,
+          duration: S.Number,
+        }),
+      ).annotate({ identifier: "V2PortalCreateKeyRatelimit" });
+    case 1:
+      return S.Array(__S(4576, __c143, 0));
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          limit: S.Number,
+          duration: S.Number,
+          autoApply: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "V2PortalCreateSessionKeyCreationRatelimit" });
+    case 1:
+      return S.Array(__S(4608, __c144, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          required: S.optional(__S(864, __c27, 0)),
+          allowed: S.optional(__S(864, __c27, 0)),
+        }),
+      ).annotate({ identifier: "V2PortalCreateSessionKeyCreationPermissions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          maxKeys: S.Number,
+          ratelimits: S.optional(__S(4609, __c144, 1)),
+          maxLifetime: S.optional(S.Number),
+          permissions: S.optional(__S(4610, __c144, 2)),
+          roles: S.optional(__S(4610, __c144, 2)),
+        }),
+      ).annotate({ identifier: "V2PortalCreateSessionKeyCreation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          portal: S.String,
           externalId: S.String,
-          scopes: __S(2144, __c67, 0),
+          scopes: __S(2368, __c74, 0),
+          keyCreation: S.optional(__S(4611, __c144, 3)),
           returnUrl: S.optional(S.String),
+          hostname: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/portal.createSession", code: 200 })),
       ).annotate({ identifier: "PortalCreateSessionRequest" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           url: S.String,
         }),
       ).annotate({ identifier: "V2PortalCreateSessionResponseData" });
-    case 2:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4289, __c134, 1),
+          data: __S(4613, __c144, 5),
         }),
       ).annotate({ identifier: "V2PortalCreateSessionResponseBody" });
   }
 }
-function __c135(j: number): any {
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          portal: S.String,
+          domainId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/portal.deleteDomain", code: 200 })),
+      ).annotate({ identifier: "PortalDeleteDomainRequest" });
+  }
+}
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
+          host: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/portal.exchangeCode", code: 200 })),
       ).annotate({ identifier: "PortalExchangeCodeRequest" });
     case 1:
@@ -8013,12 +8717,48 @@ function __c135(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4321, __c135, 1),
+          data: __S(4673, __c146, 1),
         }),
       ).annotate({ identifier: "V2PortalExchangeCodeResponseBody" });
   }
 }
-function __c136(j: number): any {
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          portal: S.String,
+          domainId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/portal.getDomain", code: 200 })),
+      ).annotate({ identifier: "PortalGetDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(4736, __c148, 0),
+        }),
+      ).annotate({ identifier: "V2PortalGetDomainResponseBody" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          portalId: S.String,
+          domain: S.String,
+          status: S.String,
+          verificationError: S.optional(S.String),
+          dnsRecords: __S(1633, __c51, 1),
+          domainConnect: S.optional(__S(1634, __c51, 2)),
+          createdAt: S.Number,
+          updatedAt: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PortalDomain" });
+  }
+}
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8043,27 +8783,69 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "V2PortalGetVerificationsDataPoint" });
     case 2:
-      return S.Array(__S(4353, __c136, 1));
+      return S.Array(__S(4769, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           keyId: S.String,
-          data: __S(4354, __c136, 2),
+          data: __S(4770, __c149, 2),
         }),
       ).annotate({ identifier: "V2PortalGetVerificationsKeySeries" });
     case 4:
-      return S.Array(__S(4355, __c136, 3));
+      return S.Array(__S(4771, __c149, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
           bucketMillis: S.Number,
-          keys: __S(4356, __c136, 4),
+          keys: __S(4772, __c149, 4),
         }),
       ).annotate({ identifier: "V2PortalGetVerificationsResponseBody" });
   }
 }
-function __c137(j: number): any {
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          portal: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/portal.listDomains", code: 200 })),
+      ).annotate({ identifier: "PortalListDomainsRequest" });
+    case 1:
+      return S.Array(__S(4736, __c148, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(4801, __c150, 1),
+        }),
+      ).annotate({ identifier: "V2PortalListDomainsResponseBody" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/apis.createApi", code: 200 })),
+      ).annotate({ identifier: "ApisCreateApiRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiId: S.String,
+        }),
+      ).annotate({ identifier: "V2ApisCreateApiResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(4833, __c151, 1),
+        }),
+      ).annotate({ identifier: "V2ApisCreateApiResponseBody" });
+  }
+}
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8072,9 +8854,36 @@ function __c137(j: number): any {
           cursor: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/portal.listKeys", code: 200 })),
       ).annotate({ identifier: "PortalListKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          required: __S(864, __c27, 0),
+          allowed: __S(864, __c27, 0),
+        }),
+      ).annotate({ identifier: "V2PortalListKeysKeyCreationAllowance" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          maxKeys: S.Number,
+          liveKeyCount: S.Number,
+          ratelimits: __S(4577, __c143, 1),
+          maxLifetime: S.optional(S.Number),
+          permissions: __S(4865, __c152, 1),
+          roles: __S(4865, __c152, 1),
+        }),
+      ).annotate({ identifier: "V2PortalListKeysKeyCreation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          meta: __S(0, __c0, 0),
+          data: __S(1056, __c33, 0),
+          pagination: __S(960, __c30, 0),
+          keyCreation: S.optional(__S(4866, __c152, 2)),
+        }),
+      ).annotate({ identifier: "V2PortalListKeysResponseBody" });
   }
 }
-function __c138(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8092,31 +8901,31 @@ function __c138(j: number): any {
           status: S.String,
           createdAt: S.Number,
           expiresAt: S.Number,
-          scopes: __S(800, __c25, 0),
+          scopes: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "V2PortalListSessionsSession" });
     case 2:
-      return S.Array(__S(4417, __c138, 1));
+      return S.Array(__S(4897, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           externalId: S.String,
-          sessions: __S(4418, __c138, 2),
+          sessions: __S(4898, __c153, 2),
         }),
       ).annotate({ identifier: "V2PortalListSessionsResponseData" });
     case 4:
-      return S.Array(__S(4419, __c138, 3));
+      return S.Array(__S(4899, __c153, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4420, __c138, 4),
-          pagination: __S(896, __c28, 0),
+          data: __S(4900, __c153, 4),
+          pagination: __S(960, __c30, 0),
         }),
       ).annotate({ identifier: "V2PortalListSessionsResponseBody" });
   }
 }
-function __c139(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8127,7 +8936,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PortalRerollKeyRequest" });
   }
 }
-function __c140(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8146,12 +8955,23 @@ function __c140(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4481, __c140, 1),
+          data: __S(4961, __c155, 1),
         }),
       ).annotate({ identifier: "V2PortalRevokeSessionResponseBody" });
   }
 }
-function __c141(j: number): any {
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          portal: S.String,
+          domainId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/portal.verifyDomain", code: 200 })),
+      ).annotate({ identifier: "PortalVerifyDomainRequest" });
+  }
+}
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8161,7 +8981,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "RatelimitCreateNamespaceRequest" });
   }
 }
-function __c142(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8174,41 +8994,18 @@ function __c142(j: number): any {
       ).annotate({ identifier: "RatelimitNamespace" });
   }
 }
-function __c143(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4544, __c142, 0),
+          data: __S(5056, __c158, 0),
         }),
       ).annotate({ identifier: "V2RatelimitCreateNamespaceResponseBody" });
   }
 }
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/apis.createApi", code: 200 })),
-      ).annotate({ identifier: "ApisCreateApiRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiId: S.String,
-        }),
-      ).annotate({ identifier: "V2ApisCreateApiResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(4609, __c144, 1),
-        }),
-      ).annotate({ identifier: "V2ApisCreateApiResponseBody" });
-  }
-}
-function __c145(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8218,7 +9015,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "RatelimitDeleteNamespaceRequest" });
   }
 }
-function __c146(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8229,7 +9026,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "RatelimitDeleteOverrideRequest" });
   }
 }
-function __c147(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8242,12 +9039,12 @@ function __c147(j: number): any {
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4736, __c148, 0),
+          data: __S(5216, __c163, 0),
         }),
       ).annotate({ identifier: "V2RatelimitGetOverrideResponseBody" });
   }
 }
-function __c148(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8260,7 +9057,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RatelimitOverride" });
   }
 }
-function __c149(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8269,172 +9066,27 @@ function __c149(j: number): any {
           cost: S.optional(S.Number),
           duration: S.Number,
           identifier: S.String,
+          record: S.optional(S.String),
           limit: S.Number,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.limit", code: 200 })),
+        }).pipe(T.Http({ method: "POST", uri: "/v3/ratelimit.limit", code: 200 })),
       ).annotate({ identifier: "RatelimitLimitRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           limit: S.Number,
           remaining: S.Number,
-          reset: S.Number,
-          success: S.Boolean,
+          retryAfter: S.Number,
+          allowed: S.Boolean,
           overrideId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "V2RatelimitLimitResponseData" });
+      ).annotate({ identifier: "V3RatelimitLimitResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           meta: __S(0, __c0, 0),
-          data: __S(4769, __c149, 1),
+          data: __S(5249, __c164, 1),
         }),
-      ).annotate({ identifier: "V2RatelimitLimitResponseBody" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number),
-          cursor: S.optional(S.String),
-          search: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.listNamespaces", code: 200 })),
-      ).annotate({ identifier: "RatelimitListNamespacesRequest" });
-    case 1:
-      return S.Array(__S(4544, __c142, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(4801, __c150, 1),
-          pagination: __S(896, __c28, 0),
-        }),
-      ).annotate({ identifier: "V2RatelimitListNamespacesResponseBody" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String,
-          cursor: S.optional(S.String),
-          limit: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.listOverrides", code: 200 })),
-      ).annotate({ identifier: "RatelimitListOverridesRequest" });
-    case 1:
-      return S.Array(__S(4736, __c148, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(4833, __c151, 1),
-          pagination: __S(896, __c28, 0),
-        }),
-      ).annotate({ identifier: "V2RatelimitListOverridesResponseBody" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String,
-          cost: S.optional(S.Number),
-          duration: S.Number,
-          identifier: S.String,
-          limit: S.Number,
-        }),
-      ).annotate({ identifier: "V2RatelimitLimitRequestBody" });
-    case 1:
-      return S.Array(__S(4864, __c152, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(4865, __c152, 1).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.multiLimit", code: 200 })),
-      ).annotate({ identifier: "RatelimitMultiLimitRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String,
-          identifier: S.String,
-          limit: S.Number,
-          remaining: S.Number,
-          reset: S.Number,
-          passed: S.Boolean,
-          overrideId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "V2RatelimitMultiLimitCheck" });
-    case 4:
-      return S.Array(__S(4867, __c152, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          passed: S.Boolean,
-          limits: __S(4868, __c152, 4),
-        }),
-      ).annotate({ identifier: "V2RatelimitMultiLimitResponseData" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(4869, __c152, 5),
-        }),
-      ).annotate({ identifier: "V2RatelimitMultiLimitResponseBody" });
-  }
-}
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String,
-          duration: S.Number,
-          identifier: S.String,
-          limit: S.Number,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.setOverride", code: 200 })),
-      ).annotate({ identifier: "RatelimitSetOverrideRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          overrideId: S.String,
-        }),
-      ).annotate({ identifier: "V2RatelimitSetOverrideResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          meta: __S(0, __c0, 0),
-          data: __S(4897, __c153, 1),
-        }),
-      ).annotate({ identifier: "V2RatelimitSetOverrideResponseBody" });
-  }
-}
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/ratelimit.updateNamespace", code: 200 })),
-      ).annotate({ identifier: "RatelimitUpdateNamespaceRequest" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String,
-          app: S.String,
-          environment: S.String,
-          variables: __S(800, __c25, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v2/environments.removeEnvironmentVariables", code: 200 }),
-        ),
-      ).annotate({ identifier: "RemoveEnvironmentVariablesRequest" });
+      ).annotate({ identifier: "V3RatelimitLimitResponseBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

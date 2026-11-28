@@ -66,7 +66,8 @@ provide.
 
 Public reads (all of Gamma, Data and Bridge, and most CLOB, Relayer and
 Perps reads) need no credentials. `CredentialsFromEnv` reads these optional
-groups; a group that is partly set fails with `ConfigError`:
+groups once, when the layer is built; a group that is partly set, or a CLOB
+secret that is not base64, fails the layer with `ConfigError`:
 
 | Group   | Variables                                                    | Sent as                                                                         |
 | ------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------- |

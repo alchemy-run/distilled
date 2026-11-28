@@ -20,6 +20,7 @@
  * Which types hold a secret, and how logs and error messages show them, is
  * core's rule (`@distilled.cloud/core/sensitive`).
  */
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import {
   holdsSensitive as holdsSensitiveAst,
@@ -32,19 +33,18 @@ import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
-import { toBase64 } from "./base64.ts";
+import { fromBase64, toBase64 } from "./base64.ts";
 import { formatDateTime } from "./timestamp.ts";
 
 /** A value that does not fit its schema. */
 export class CodecError extends Error {
   /** The ` at [key]` suffixes the failure gained on the way out, innermost first. */
   path = "";
-  constructor(
-    /** What the schema expected, e.g. `string`. */
-    readonly expected: string,
-    actual: unknown,
-  ) {
+  /** What the schema expected, e.g. `string`. */
+  readonly expected: string;
+  constructor(expected: string, actual: unknown) {
     super(`Expected ${expected}, got ${show(actual)}`);
+    this.expected = expected;
   }
   /** The message without the value found, for a type that can hold a secret. */
   get withheld(): string {
@@ -130,10 +130,6 @@ const innerOf = (n: Node): Node => n.encoding![0]!.to;
 /** Whether a value of the type `n` can hold a `sensitive` value (core's rule). */
 export const holdsSensitive = (n: Node): boolean => holdsSensitiveAst(n as AST.AST);
 
-/** `v` kept as read by a lenient decode: `Redacted` whole when `n` can hold a secret. */
-const asRead = (n: Node, v: unknown): unknown =>
-  v !== undefined && v !== null && holdsSensitive(n) ? Redacted.make(v) : v;
-
 /** Whether `v` is a value of a leaf type (anything for types this does not check). */
 const primitive = (n: Node, v: unknown): boolean => {
   switch (n._tag) {
@@ -188,6 +184,30 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
  */
 export const fitsWire = (n: Node, v: unknown): boolean => fits(n, v, true);
 
+const keyedUnions = /*@__PURE__*/ new WeakMap<Node, ReadonlyMap<string, Node> | null>();
+
+/**
+ * A Smithy union's members by key: each member of `n` is a struct with one
+ * required member whose wire key is its type key. `null` for any other union.
+ */
+const keyedUnion = (n: Node): ReadonlyMap<string, Node> | null => {
+  let keyed = keyedUnions.get(n);
+  if (keyed !== undefined) return keyed;
+  const byKey = new Map<string, Node>();
+  for (const t of n.types!) {
+    const members =
+      t._tag === "Objects" && !codecOf(t) && !t.indexSignatures?.length ? shapeOf(t).members : [];
+    const m = members[0];
+    if (members.length !== 1 || m!.optional || m!.wire !== m!.name) {
+      keyedUnions.set(n, null);
+      return null;
+    }
+    byKey.set(m!.name, t);
+  }
+  keyedUnions.set(n, (keyed = byKey));
+  return keyed;
+};
+
 /** Whether `null` is a value of the type `n` (a `@sparse` list element or map value). */
 const acceptsNull = (n: Node): boolean => {
   switch (n._tag) {
@@ -205,109 +225,274 @@ const acceptsNull = (n: Node): boolean => {
 const expected = (n: Node): string =>
   n._tag === "Literal" ? JSON.stringify(n.literal) : n._tag.toLowerCase();
 
-const convertArray = (n: Node, v: unknown, f: (n: Node, v: unknown) => unknown): unknown => {
-  if (!Array.isArray(v)) return fail("an array", v);
-  const rest = n.rest?.[0];
-  const elements = n.elements ?? [];
-  const out = new Array(v.length);
-  for (let i = 0; i < v.length; i++) {
-    const t = elements[i] ?? rest;
-    try {
-      out[i] = t ? f(t, v[i]) : v[i];
-    } catch (e) {
-      throw within(e, i);
-    }
+/** {@link primitive} for `n` as one test, or `undefined` when `n` accepts anything. */
+const leafCheck = (n: Node): ((v: unknown) => boolean) | undefined => {
+  switch (n._tag) {
+    case "String":
+      return (v) => typeof v === "string";
+    case "Boolean":
+      return (v) => typeof v === "boolean";
+    case "Literal":
+    case "Null":
+    case "Undefined":
+    case "Void":
+    case "Declaration":
+      return (v) => primitive(n, v);
+    default:
+      return undefined;
   }
-  return out;
+};
+
+/**
+ * Whether the caller's own value can stand for its encoding: a plain object
+ * or array, which serializes as its own keys. A class instance (`Redacted`,
+ * a `Date`) or a subclass can serialize as something else, so it is copied.
+ */
+const plain = (v: object): boolean => {
+  const proto = Object.getPrototypeOf(v);
+  return proto === Object.prototype || proto === Array.prototype || proto === null;
 };
 
 //#region encode
 
-/** The wire form of `v`, a value of the type `n` declares. Throws {@link CodecError}. */
-export const encode = (n: Node, v: unknown): unknown => {
+/** An encoder for one schema node, for a JSON or a binary (CBOR) wire. */
+type Encoder = (v: unknown) => unknown;
+
+/**
+ * Encoders by node, one table per wire (JSON, binary). Like the decoders,
+ * each is built on first use and reads what its node declares once.
+ */
+const encoders = [
+  /*@__PURE__*/ new WeakMap<Node, Encoder>(),
+  /*@__PURE__*/ new WeakMap<Node, Encoder>(),
+];
+
+const encoderOf = (n: Node, binary: boolean): Encoder => {
+  const table = encoders[binary ? 1 : 0]!;
+  let e = table.get(n);
+  if (e === undefined) table.set(n, (e = buildEncoder(n, binary)));
+  return e;
+};
+
+/**
+ * The wire form of `v`, a value of the type `n` declares. Throws
+ * {@link CodecError}. A `binary` wire (CBOR) has a type for bytes, dates and
+ * every number: blobs stay `Uint8Array`, timestamps `Date`, and NaN and the
+ * infinities numbers.
+ */
+export const encode = (n: Node, v: unknown, binary = false): unknown => encoderOf(n, binary)(v);
+
+const buildEncoder = (n: Node, binary: boolean): Encoder => {
   const codec = codecOf(n);
-  if (codec !== undefined) return encodeCodec(codec, n, v);
+  if (codec !== undefined) return codecEncoder(codec, n, binary);
   switch (n._tag) {
-    case "Suspend":
-      return encode(n.thunk!(), v);
+    case "Suspend": {
+      // Resolved on first call: a recursive schema refers back to itself here.
+      let inner: Encoder | undefined;
+      return (v) => (inner ??= encoderOf(n.thunk!(), binary))(v);
+    }
     case "Objects":
-      return encodeObjects(n, v);
+      return objectsEncoder(n, binary);
     case "Arrays":
-      return convertArray(n, v, encode);
+      return arraysEncoder(n, binary);
     case "Union":
-      return encodeUnion(n, v);
-    case "Number":
+      return unionEncoder(n, binary);
+    case "Number": {
+      const what = expected(n);
       // JSON has no NaN or Infinity: AWS sends "NaN", "Infinity", "-Infinity".
-      if (typeof v === "number" && !Number.isFinite(v)) return String(v);
-      return primitive(n, v) ? v : fail(expected(n), v);
-    default:
-      return primitive(n, v) ? v : fail(expected(n), v);
+      return (v) =>
+        typeof v !== "number" ? fail(what, v) : !binary && !Number.isFinite(v) ? String(v) : v;
+    }
+    default: {
+      const what = expected(n);
+      const is = leafCheck(n);
+      return is === undefined ? (v) => v : (v) => (is(v) ? v : fail(what, v));
+    }
   }
 };
+
+const codecEncoder = (codec: CodecKind, n: Node, binary: boolean): Encoder => {
+  if (codec === "sensitive") {
+    const inner = encoderOf(innerOf(n), binary);
+    return (v) => inner(Redacted.isRedacted(v) ? Redacted.value(v) : v);
+  }
+  if (codec === "blob")
+    return (v) => (v instanceof Uint8Array ? (binary ? v : toBase64(v)) : fail("a Uint8Array", v));
+  return (v) => {
+    if (!isValidDate(v)) return fail("a valid Date", v);
+    if (binary) return v;
+    // Whole seconds: some services reject fractional epoch values (IoT
+    // SiteWise GetAssetPropertyAggregates: "The date can only be in seconds.").
+    if (codec === "epoch-seconds") return Math.floor(v.getTime() / 1000);
+    return codec === "http-date" ? v.toUTCString() : formatDateTime(v);
+  };
+};
+
+const arraysEncoder = (n: Node, binary: boolean): Encoder => {
+  const elements = (n.elements ?? []).map((t) => encoderOf(t, binary));
+  const restNode = n.rest?.[0];
+  const rest = restNode && encoderOf(restNode, binary);
+  return (v) => {
+    if (!Array.isArray(v)) return fail("an array", v);
+    // Copied once an element encodes to another value; until then the list as given.
+    let out: unknown[] | undefined = plain(v) ? undefined : Array.from(v);
+    for (let i = 0; i < v.length; i++) {
+      const e = elements[i] ?? rest;
+      const x = v[i];
+      let y: unknown;
+      try {
+        y = e ? e(x) : x;
+      } catch (err) {
+        throw within(err, i);
+      }
+      if (y === x && out === undefined && i in v) continue;
+      out ??= Array.from({ length: v.length }, (_, j) => (j < i ? v[j] : undefined));
+      out[i] = y;
+    }
+    return out ?? v;
+  };
+};
+
+const objectsEncoder = (n: Node, binary: boolean): Encoder => {
+  const shape = shapeOf(n);
+  const members = shape.members.map((m) => ({
+    name: m.name,
+    wire: m.wire,
+    required: !m.optional,
+    encode: encoderOf(m.type, binary),
+  }));
+  const indexNode = n.indexSignatures?.[0]?.type;
+  const index = indexNode && encoderOf(indexNode, binary);
+  const indexOptional = indexNode !== undefined && isOptional(indexNode);
+  if (index && members.length === 0)
+    // A map: the value as given until one of its values encodes to another.
+    return (v) => {
+      if (!isRecord(v)) return fail("an object", v);
+      let out: Record<string, unknown> | undefined = plain(v) ? undefined : {};
+      const keys = Object.keys(v);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i]!;
+        const x = v[key];
+        let y: unknown;
+        try {
+          y = x === undefined && indexOptional ? undefined : index(x);
+        } catch (e) {
+          throw within(e, key);
+        }
+        if (y === x && out === undefined) continue;
+        if (out === undefined) {
+          out = {};
+          for (let j = 0; j < i; j++) setOwnKey(out, keys[j]!, v[keys[j]!]);
+        }
+        setOwnKey(out, key, y);
+      }
+      return out ?? v;
+    };
+  return (v) => {
+    if (!isRecord(v)) return fail("an object", v);
+    const out: Record<string, unknown> = {};
+    for (let i = 0; i < members.length; i++) {
+      const m = members[i]!;
+      const x = v[m.name];
+      try {
+        if (x === undefined) {
+          if (m.required) fail("a value", x);
+          continue;
+        }
+        out[m.wire] = m.encode(x);
+      } catch (e) {
+        throw within(e, m.name);
+      }
+    }
+    if (index)
+      for (const key of Object.keys(v)) {
+        if (shape.typeKeys.has(key)) continue;
+        const x = v[key];
+        try {
+          setOwnKey(out, key, x === undefined && indexOptional ? undefined : index(x));
+        } catch (e) {
+          throw within(e, key);
+        }
+      }
+    return out;
+  };
+};
+
+const unionEncoder = (n: Node, binary: boolean): Encoder => {
+  const types = n.types!;
+  if (isOptional(n) && types.length === 2) {
+    const inner = encoderOf(types[0]!, binary);
+    return (v) => (v === undefined ? undefined : inner(v));
+  }
+  const of = types.map((t) => encoderOf(t, binary));
+  const keyed = keyedUnion(n);
+  // For each key, the member's encoder and its one member's encoder.
+  const byKey =
+    keyed &&
+    new Map(
+      [...keyed].map(
+        ([key, t]) =>
+          [
+            key,
+            {
+              struct: encoderOf(t, binary),
+              value: encoderOf(shapeOf(t).members[0]!.type, binary),
+            },
+          ] as const,
+      ),
+    );
+  const what = types.map(expected).join(" | ");
+  return (v) => {
+    if (byKey && isRecord(v)) {
+      // A Smithy union value sets one key, and that key names the member:
+      // encoding it alone throws what the loop below would.
+      let member: { struct: Encoder; value: Encoder } | undefined;
+      let setKey = "";
+      let keys = 0;
+      let decided = true;
+      for (const key in v) {
+        keys++;
+        if (v[key] == null) continue;
+        const e = byKey.get(key);
+        if (e === undefined || member !== undefined) {
+          decided = false;
+          break;
+        }
+        member = e;
+        setKey = key;
+      }
+      if (decided && member !== undefined) {
+        if (keys > 1) return member.struct(v);
+        // `{ [setKey]: x }` alone: what the member's struct encoder returns, without the copy.
+        const x = v[setKey];
+        let y: unknown;
+        try {
+          y = member.value(x);
+        } catch (e) {
+          throw within(e, setKey);
+        }
+        return y === x && plain(v) ? v : { [setKey]: y };
+      }
+    }
+    let first: unknown;
+    for (let i = 0; i < types.length; i++) {
+      if (!fits(types[i]!, v, false)) continue;
+      try {
+        return of[i]!(v);
+      } catch (e) {
+        first ??= e;
+      }
+    }
+    if (first) throw first;
+    return fail(what, v);
+  };
+};
+
+//#endregion
 
 /** The strings AWS sends for the numbers JSON cannot write. */
 const nonFinite = (v: unknown): v is "NaN" | "Infinity" | "-Infinity" =>
   v === "NaN" || v === "Infinity" || v === "-Infinity";
-
-const encodeCodec = (codec: CodecKind, n: Node, v: unknown): unknown => {
-  if (codec === "sensitive")
-    return encode(innerOf(n), Redacted.isRedacted(v) ? Redacted.value(v) : v);
-  if (codec === "blob") return v instanceof Uint8Array ? toBase64(v) : fail("a Uint8Array", v);
-  if (!isValidDate(v)) return fail("a valid Date", v);
-  // Whole seconds: some services reject fractional epoch values (IoT
-  // SiteWise GetAssetPropertyAggregates: "The date can only be in seconds.").
-  if (codec === "epoch-seconds") return Math.floor(v.getTime() / 1000);
-  return codec === "http-date" ? v.toUTCString() : formatDateTime(v);
-};
-
-const encodeObjects = (n: Node, v: unknown): unknown => {
-  if (!isRecord(v)) return fail("an object", v);
-  const shape = shapeOf(n);
-  const out: Record<string, unknown> = {};
-  for (const m of shape.members) {
-    const x = v[m.name];
-    try {
-      if (x === undefined) {
-        if (!m.optional) fail("a value", x);
-        continue;
-      }
-      out[m.wire] = encode(m.type, x);
-    } catch (e) {
-      throw within(e, m.name);
-    }
-  }
-  const index = n.indexSignatures?.[0];
-  if (index)
-    for (const key of Object.keys(v)) {
-      if (shape.typeKeys.has(key)) continue;
-      const x = v[key];
-      try {
-        out[key] = x === undefined && isOptional(index.type) ? undefined : encode(index.type, x);
-      } catch (e) {
-        throw within(e, key);
-      }
-    }
-  return out;
-};
-
-const encodeUnion = (n: Node, v: unknown): unknown => {
-  const types = n.types!;
-  if (isOptional(n) && types.length === 2)
-    return v === undefined ? undefined : encode(types[0]!, v);
-  let first: unknown;
-  for (const t of types) {
-    if (!fits(t, v, false)) continue;
-    try {
-      return encode(t, v);
-    } catch (e) {
-      first ??= e;
-    }
-  }
-  if (first) throw first;
-  return fail(types.map(expected).join(" | "), v);
-};
-
-//#endregion
 
 //#region decode
 
@@ -317,120 +502,301 @@ const encodeUnion = (n: Node, v: unknown): unknown => {
  */
 export type Exactness = boolean | "closed";
 
+/** A decoder for one schema node in one {@link Exactness}. */
+type Decoder = (v: unknown) => unknown;
+
+/**
+ * Decoders by node, one table per exactness (lenient, exact, closed). Each
+ * node's decoder is built on first use and reads what the node declares
+ * (its codec, members, keys, union members) once, so a value only pays for
+ * converting itself.
+ */
+const decoders = [
+  /*@__PURE__*/ new WeakMap<Node, Decoder>(),
+  /*@__PURE__*/ new WeakMap<Node, Decoder>(),
+  /*@__PURE__*/ new WeakMap<Node, Decoder>(),
+];
+
+const decoderOf = (n: Node, exact: Exactness): Decoder => {
+  const table = decoders[exact === "closed" ? 2 : exact ? 1 : 0]!;
+  let d = table.get(n);
+  if (d === undefined) table.set(n, (d = buildDecoder(n, exact)));
+  return d;
+};
+
 /**
  * The typed form of `v`, a value read off the wire for the type `n`
  * declares. Lenient by default: a value that does not fit is kept as read.
  * With `exact`, a mismatch throws {@link CodecError} instead.
  */
-export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown => {
+export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =>
+  decoderOf(n, exact)(v);
+
+/**
+ * `v` kept as read by a lenient decode: `Redacted` whole when `n` can hold a
+ * secret, which is decided on first use.
+ */
+const readAs = (n: Node): Decoder => {
+  let sensitive: boolean | undefined;
+  return (v) =>
+    v !== undefined && v !== null && (sensitive ??= holdsSensitive(n)) ? Redacted.make(v) : v;
+};
+
+const buildDecoder = (n: Node, exact: Exactness): Decoder => {
   const codec = codecOf(n);
-  if (codec !== undefined) return decodeCodec(codec, n, v, exact);
+  if (codec !== undefined) return codecDecoder(codec, n, exact);
   switch (n._tag) {
-    case "Suspend":
-      return decode(n.thunk!(), v, exact);
+    case "Suspend": {
+      // Resolved on first call: a recursive schema refers back to itself here.
+      let inner: Decoder | undefined;
+      return (v) => (inner ??= decoderOf(n.thunk!(), exact))(v);
+    }
     case "Objects":
-      return decodeObjects(n, v, exact);
+      return objectsDecoder(n, exact);
     case "Arrays":
-      return Array.isArray(v) || exact
-        ? convertArray(n, withoutNulls(n, v), (t, x) => decode(t, x, exact))
-        : asRead(n, v);
+      return arraysDecoder(n, exact);
     case "Union":
-      return decodeUnion(n, v, exact);
-    case "Number":
-      return nonFinite(v) ? Number(v) : !exact || primitive(n, v) ? v : fail(expected(n), v);
-    default:
-      return !exact || primitive(n, v) ? v : fail(expected(n), v);
+      return unionDecoder(n, exact);
+    case "Number": {
+      const what = expected(n);
+      return (v) =>
+        nonFinite(v) ? Number(v) : !exact || typeof v === "number" ? v : fail(what, v);
+    }
+    default: {
+      if (!exact) return (v) => v;
+      const what = expected(n);
+      const is = leafCheck(n);
+      return is === undefined ? (v) => v : (v) => (is(v) ? v : fail(what, v));
+    }
   }
 };
 
-const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): unknown => {
-  if (codec === "sensitive") return Redacted.make(decode(innerOf(n), v, exact));
-  if (codec === "blob") {
-    if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
-    try {
-      return Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
-    } catch {
-      // Not base64: the same failure as a non-string.
-      return exact ? fail("a base64 string", v) : v;
-    }
+const codecDecoder = (codec: CodecKind, n: Node, exact: Exactness): Decoder => {
+  if (codec === "sensitive") {
+    const inner = decoderOf(innerOf(n), exact);
+    return (v) => Redacted.make(inner(v));
   }
-  const date =
-    codec === "epoch-seconds"
+  if (codec === "blob")
+    return (v) => {
+      // A binary wire (CBOR) reads bytes as bytes.
+      if (v instanceof Uint8Array) return v;
+      if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
+      try {
+        return fromBase64(v);
+      } catch {
+        // Not base64: the same failure as a non-string.
+        return exact ? fail("a base64 string", v) : v;
+      }
+    };
+  const epoch = codec === "epoch-seconds";
+  const what = epoch ? "epoch seconds" : "a date string";
+  return (v) => {
+    // A binary wire (CBOR) reads a timestamp as a `Date`.
+    if (v instanceof Date && isValidDate(v)) return v;
+    const date = epoch
       ? typeof v === "number"
         ? new Date(v * 1000)
         : undefined
       : typeof v === "string"
         ? new Date(v)
         : undefined;
-  if (date && isValidDate(date)) return date;
-  return exact ? fail(codec === "epoch-seconds" ? "epoch seconds" : "a date string", v) : v;
+    if (date && isValidDate(date)) return date;
+    return exact ? fail(what, v) : v;
+  };
 };
 
-/** A list's elements without the nulls a list that is not `@sparse` cannot hold. */
-const withoutNulls = (n: Node, v: unknown): unknown => {
-  const element = n.rest?.[0];
-  return Array.isArray(v) && element && !acceptsNull(element) && v.includes(null)
-    ? v.filter((x) => x !== null)
-    : v;
-};
-
-const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
-  if (!isRecord(v)) return exact ? fail("an object", v) : asRead(n, v);
-  const shape = shapeOf(n);
-  const out: Record<string, unknown> = {};
-  for (const m of shape.members) {
-    const x = v[m.wire];
-    try {
-      // JSON sends null for an absent member.
-      if (x == null) {
-        if (exact && !m.optional) fail("a value", x);
-        continue;
-      }
-      out[m.name] = decode(m.type, x, exact);
-    } catch (e) {
-      throw within(e, m.wire);
-    }
-  }
-  const index = n.indexSignatures?.[0];
-  if (index)
-    for (const key of Object.keys(v)) {
-      if (shape.wireKeys.has(key)) continue;
-      const x = v[key];
-      // A map that is not `@sparse` has no null values.
-      if (x === null && !acceptsNull(index.type)) continue;
+const arraysDecoder = (n: Node, exact: Exactness): Decoder => {
+  const asRead = readAs(n);
+  const elements = (n.elements ?? []).map((t) => decoderOf(t, exact));
+  const restNode = n.rest?.[0];
+  const rest = restNode && decoderOf(restNode, exact);
+  // A list that is not `@sparse` cannot hold null: drop its nulls.
+  const dropNulls = restNode !== undefined && !acceptsNull(restNode);
+  return (input) => {
+    if (!Array.isArray(input)) return exact ? fail("an array", input) : asRead(input);
+    const v = dropNulls && input.includes(null) ? input.filter((x) => x !== null) : input;
+    // Copied once an element decodes to another value; until then the list as read.
+    let out: unknown[] | undefined = v === input ? undefined : v;
+    for (let i = 0; i < v.length; i++) {
+      const d = elements[i] ?? rest;
+      if (!d) continue;
+      const x = v[i];
+      let y: unknown;
       try {
-        out[key] = decode(index.type, x, exact);
+        y = d(x);
       } catch (e) {
-        throw within(e, key);
+        throw within(e, i);
       }
+      if (y === x) continue;
+      out ??= v.slice();
+      out[i] = y;
     }
-  else if (exact === "closed" && shape.members.length > 0)
-    for (const key of Object.keys(v))
-      if (!shape.wireKeys.has(key) && v[key] != null)
-        throw within(new CodecError("no value (the schema does not model this key)", v[key]), key);
-  return out;
+    return out ?? v;
+  };
 };
 
-const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {
-  const types = n.types!;
-  if (isOptional(n) && types.length === 2)
-    return v === undefined ? undefined : decode(types[0]!, v, exact);
-  let first: unknown;
-  for (const t of types) {
-    if (!fits(t, v, true)) continue;
-    try {
-      return decode(t, v, exact === "closed" ? "closed" : true);
-    } catch (e) {
-      first ??= e;
+/** A map value left out of the result (a null in a map that is not `@sparse`). */
+const absent = Symbol();
+
+const objectsDecoder = (n: Node, exact: Exactness): Decoder => {
+  const asRead = readAs(n);
+  const shape = shapeOf(n);
+  const members = shape.members.map((m) => ({
+    name: m.name,
+    wire: m.wire,
+    required: !m.optional,
+    decode: decoderOf(m.type, exact),
+  }));
+  const indexNode = n.indexSignatures?.[0]?.type;
+  const index = indexNode && decoderOf(indexNode, exact);
+  // A map that is not `@sparse` has no null values.
+  const indexNulls = indexNode !== undefined && acceptsNull(indexNode);
+  const closed = exact === "closed" && members.length > 0;
+  if (index && members.length === 0)
+    // A map: the value as read until one of its values decodes to another.
+    return (v) => {
+      if (!isRecord(v)) return exact ? fail("an object", v) : asRead(v);
+      let out: Record<string, unknown> | undefined;
+      const keys = Object.keys(v);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i]!;
+        const x = v[key];
+        let y: unknown;
+        if (x === null && !indexNulls) y = absent;
+        else
+          try {
+            y = index(x);
+          } catch (e) {
+            throw within(e, key);
+          }
+        if (y === x && out === undefined) continue;
+        if (out === undefined) {
+          out = {};
+          for (let j = 0; j < i; j++) setOwnKey(out, keys[j]!, v[keys[j]!]);
+        }
+        if (y !== absent) setOwnKey(out, key, y);
+      }
+      return out ?? v;
+    };
+  return (v) => {
+    if (!isRecord(v)) return exact ? fail("an object", v) : asRead(v);
+    const out: Record<string, unknown> = {};
+    for (let i = 0; i < members.length; i++) {
+      const m = members[i]!;
+      const x = v[m.wire];
+      try {
+        // JSON sends null for an absent member.
+        if (x == null) {
+          if (exact && m.required) fail("a value", x);
+          continue;
+        }
+        out[m.name] = m.decode(x);
+      } catch (e) {
+        throw within(e, m.wire);
+      }
     }
+    if (index)
+      for (const key of Object.keys(v)) {
+        if (shape.wireKeys.has(key)) continue;
+        const x = v[key];
+        if (x === null && !indexNulls) continue;
+        try {
+          setOwnKey(out, key, index(x));
+        } catch (e) {
+          throw within(e, key);
+        }
+      }
+    else if (closed)
+      for (const key of Object.keys(v))
+        if (!shape.wireKeys.has(key) && v[key] != null)
+          throw within(
+            new CodecError("no value (the schema does not model this key)", v[key]),
+            key,
+          );
+    return out;
+  };
+};
+
+const unionDecoder = (n: Node, exact: Exactness): Decoder => {
+  const types = n.types!;
+  if (isOptional(n) && types.length === 2) {
+    const inner = decoderOf(types[0]!, exact);
+    return (v) => (v === undefined ? undefined : inner(v));
   }
-  if (exact) {
-    if (first) throw first;
-    return fail(types.map(expected).join(" | "), v);
-  }
-  // Lenient: convert as the first member that looks right, else keep as read.
-  for (const t of types) if (fits(t, v, true)) return decode(t, v);
-  return asRead(n, v);
+  const asRead = readAs(n);
+  // A member is tried exactly, so a lenient decode can fall back to the next.
+  const memberExact = exact === "closed" ? "closed" : true;
+  const exactOf = types.map((t) => decoderOf(t, memberExact));
+  const lenientOf = exact ? undefined : types.map((t) => decoderOf(t, false));
+  const keyed = keyedUnion(n);
+  // For each key, the member's decoder and its one member's decoder.
+  const byKey =
+    keyed &&
+    new Map(
+      [...keyed]
+        .map(
+          ([key, t]) =>
+            [
+              key,
+              decoderOf(t, memberExact),
+              decoderOf(shapeOf(t).members[0]!.type, memberExact),
+            ] as const,
+        )
+        .map(([key, struct, value]) => [key, { struct, value }] as const),
+    );
+  const what = types.map(expected).join(" | ");
+  return (v) => {
+    if (byKey && isRecord(v)) {
+      // A Smithy union value sets one key, and that key names the member.
+      let member: { struct: Decoder; value: Decoder } | undefined;
+      let setKey = "";
+      let keys = 0;
+      let decided = true;
+      for (const key in v) {
+        keys++;
+        if (v[key] == null) continue;
+        const d = byKey.get(key);
+        if (d === undefined || member !== undefined) {
+          decided = false;
+          break;
+        }
+        member = d;
+        setKey = key;
+      }
+      if (decided && member !== undefined)
+        try {
+          if (keys > 1) return member.struct(v);
+          // `{ [setKey]: x }` alone: what the member's struct decoder returns, without the copy.
+          const x = v[setKey];
+          let y: unknown;
+          try {
+            y = member.value(x);
+          } catch (e) {
+            throw within(e, setKey);
+          }
+          return y === x ? v : { [setKey]: y };
+        } catch (e) {
+          // Lenient: the loops below keep the value converted as far as it fits.
+          if (exact) throw e;
+        }
+    }
+    let first: unknown;
+    for (let i = 0; i < types.length; i++) {
+      if (!fits(types[i]!, v, true)) continue;
+      try {
+        return exactOf[i]!(v);
+      } catch (e) {
+        first ??= e;
+      }
+    }
+    if (exact) {
+      if (first) throw first;
+      return fail(what, v);
+    }
+    // Lenient: convert as the first member that looks right, else keep as read.
+    for (let i = 0; i < types.length; i++) if (fits(types[i]!, v, true)) return lenientOf![i]!(v);
+    return asRead(v);
+  };
 };
 
 //#endregion
@@ -447,10 +813,14 @@ export const outputBody = (operation: Operation<any, any, any>, body: string): s
 
 /**
  * An error body to quote in an error message: `[REDACTED]` when one of the
- * operation's declared errors can hold a secret.
+ * errors the operation or its service declares can hold a secret.
  */
 export const errorBody = (operation: Operation<any, any, any>, body: string): string =>
-  (operation.errors ?? []).some((e) => holdsSensitive(e.ast)) ? REDACTED : body;
+  [...(operation.errors ?? []), ...(operation.serviceErrors ?? [])].some((e) =>
+    holdsSensitive(e.ast),
+  )
+    ? REDACTED
+    : body;
 
 const encodeFailure = (ast: Node, e: unknown): ParseError =>
   new ParseError({ message: decodeFailure(e, holdsSensitive(ast)) });
@@ -460,10 +830,10 @@ const encodeFailure = (ast: Node, e: unknown): ParseError =>
  * `ParseError`, without the value found when the input can hold a secret.
  */
 export const inputEncoder =
-  (ast: Node) =>
+  (ast: Node, binary = false) =>
   (input: unknown): Effect.Effect<unknown, ParseError> => {
     try {
-      return Effect.succeed(encode(ast, input));
+      return Effect.succeed(encode(ast, input, binary));
     } catch (e) {
       return Effect.fail(encodeFailure(ast, e));
     }
@@ -471,10 +841,10 @@ export const inputEncoder =
 
 /** {@link inputEncoder} as a plain function: encode failures throw `ParseError`. */
 export const inputEncoderSync =
-  (ast: Node) =>
+  (ast: Node, binary = false) =>
   (input: unknown): unknown => {
     try {
-      return encode(ast, input);
+      return encode(ast, input, binary);
     } catch (e) {
       throw encodeFailure(ast, e);
     }

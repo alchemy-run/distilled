@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -91,7 +91,7 @@ export interface CreateDbaasLogEncryptionKeyRequest {
   /** Service name */
   serviceName: string;
   /** Encryption Key content */
-  content: string;
+  content: string | Redacted.Redacted<string>;
   /** Encryption Key fingerprint */
   fingerprint: string;
   /** Encryption Key title */
@@ -734,7 +734,7 @@ export interface DbaasLogsEncryptionKey {
   /** Encryption Key algorithm */
   algorithm?: DbaasLogsEncryptionKeyAlgorithmEnum | undefined;
   /** Encryption Key content */
-  content: string;
+  content: string | Redacted.Redacted<string>;
   /** Encryption Key creation date */
   createdAt?: string | undefined;
   /** Encryption Key ID */
@@ -913,7 +913,7 @@ export interface DbaasLogsServiceMetric {
   /** Metrics server url */
   host?: string | undefined;
   /** Metrics credentials */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetDbaasLogOperationRequest {
   /** Service name */
@@ -1390,7 +1390,7 @@ export interface DbaasLogsToken {
   /** Token last update */
   updatedAt?: string | null | undefined;
   /** Token value */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListDbaasLogClusterRequest {
   /** Service name */
@@ -2003,7 +2003,8 @@ export const createDbaasLogChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c50, 0) as any as S.Schema<CreateDbaasLogChangeContactRequest>,
   output: __S(201, __c50, 1) as any as S.Schema<CreateDbaasLogChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2020,7 +2021,8 @@ export const createDbaasLogEncryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c62, 0) as any as S.Schema<CreateDbaasLogEncryptionKeyRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2037,7 +2039,8 @@ export const createDbaasLogInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c74, 0) as any as S.Schema<CreateDbaasLogInputRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2054,7 +2057,8 @@ export const createDbaasLogInputConfigtest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c86, 0) as any as S.Schema<CreateDbaasLogInputConfigtestRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2071,7 +2075,8 @@ export const createDbaasLogInputEnd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c98, 0) as any as S.Schema<CreateDbaasLogInputEndRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2088,7 +2093,8 @@ export const createDbaasLogInputLogUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(444, __c111, 0) as any as S.Schema<CreateDbaasLogInputLogUrlRequest>,
   output: __S(448, __c112, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2105,7 +2111,8 @@ export const createDbaasLogOutputGraylogDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c124, 0) as any as S.Schema<CreateDbaasLogOutputGraylogDashboardRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2122,7 +2129,8 @@ export const createDbaasLogOutputGraylogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2143,7 +2151,8 @@ export const createDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamAlertRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2160,7 +2169,8 @@ export const createDbaasLogOutputGraylogStreamArchiveUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamArchiveUrlRequest>,
   output: __S(448, __c112, 0) as any as S.Schema<DbaasLogsArchiveUrl>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2181,7 +2191,8 @@ export const createDbaasLogOutputGraylogStreamRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(132, __c33, 0) as any as S.Schema<CreateDbaasLogOutputGraylogStreamRuleRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2198,7 +2209,8 @@ export const createDbaasLogOutputMetricTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<CreateDbaasLogOutputMetricTenantRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, Conflict, UnknownOvhError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2215,7 +2227,8 @@ export const createDbaasLogOutputOpensearchAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(140, __c35, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2236,7 +2249,8 @@ export const createDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c36, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasIndexRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2253,7 +2267,8 @@ export const createDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasStreamRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2270,7 +2285,8 @@ export const createDbaasLogOutputOpensearchIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c38, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchIndexRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2287,7 +2303,8 @@ export const createDbaasLogOutputOpensearchOsd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(156, __c39, 0) as any as S.Schema<CreateDbaasLogOutputOpensearchOsdRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2304,7 +2321,8 @@ export const createDbaasLogRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c40, 0) as any as S.Schema<CreateDbaasLogRoleRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2321,7 +2339,8 @@ export const createDbaasLogRoleMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<CreateDbaasLogRoleMemberRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2338,7 +2357,8 @@ export const createDbaasLogRolePermissionAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c42, 0) as any as S.Schema<CreateDbaasLogRolePermissionAliasRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2359,7 +2379,8 @@ export const createDbaasLogRolePermissionDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(172, __c43, 0) as any as S.Schema<CreateDbaasLogRolePermissionDashboardRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2376,7 +2397,8 @@ export const createDbaasLogRolePermissionIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c44, 0) as any as S.Schema<CreateDbaasLogRolePermissionIndexRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2393,7 +2415,8 @@ export const createDbaasLogRolePermissionOsd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(180, __c45, 0) as any as S.Schema<CreateDbaasLogRolePermissionOsdRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2410,7 +2433,8 @@ export const createDbaasLogRolePermissionStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c46, 0) as any as S.Schema<CreateDbaasLogRolePermissionStreamRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2427,7 +2451,8 @@ export const createDbaasLogToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(188, __c47, 0) as any as S.Schema<CreateDbaasLogTokenRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2444,7 +2469,8 @@ export const createDbaasLogUserChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c48, 0) as any as S.Schema<CreateDbaasLogUserChangePasswordRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2461,7 +2487,8 @@ export const deleteDbaasLogEncryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(196, __c49, 0) as any as S.Schema<DeleteDbaasLogEncryptionKeyRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2478,7 +2505,8 @@ export const deleteDbaasLogInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c52, 0) as any as S.Schema<DeleteDbaasLogInputRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2495,7 +2523,8 @@ export const deleteDbaasLogOutputGraylogDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(212, __c53, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogDashboardRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2512,7 +2541,8 @@ export const deleteDbaasLogOutputGraylogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c54, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2529,7 +2559,8 @@ export const deleteDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(220, __c55, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamAlertRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2546,7 +2577,8 @@ export const deleteDbaasLogOutputGraylogStreamRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c56, 0) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamRuleRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2567,7 +2599,8 @@ export const deleteDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
     0,
   ) as any as S.Schema<DeleteDbaasLogOutputGraylogStreamSubscriptionRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2584,7 +2617,8 @@ export const deleteDbaasLogOutputMetricTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c58, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2601,7 +2635,8 @@ export const deleteDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(236, __c59, 0) as any as S.Schema<DeleteDbaasLogOutputMetricTenantSubscriptionRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2618,7 +2653,8 @@ export const deleteDbaasLogOutputOpensearchAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c60, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2635,7 +2671,8 @@ export const deleteDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(244, __c61, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasIndexRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2652,7 +2689,8 @@ export const deleteDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c64, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchAliasStreamRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2669,7 +2707,8 @@ export const deleteDbaasLogOutputOpensearchIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(260, __c65, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchIndexRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2686,7 +2725,8 @@ export const deleteDbaasLogOutputOpensearchOsd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c66, 0) as any as S.Schema<DeleteDbaasLogOutputOpensearchOsdRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2703,7 +2743,8 @@ export const deleteDbaasLogRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(268, __c67, 0) as any as S.Schema<DeleteDbaasLogRoleRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2720,7 +2761,8 @@ export const deleteDbaasLogRoleMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c68, 0) as any as S.Schema<DeleteDbaasLogRoleMemberRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2737,7 +2779,8 @@ export const deleteDbaasLogRolePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(276, __c69, 0) as any as S.Schema<DeleteDbaasLogRolePermissionRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2754,7 +2797,8 @@ export const deleteDbaasLogToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c70, 0) as any as S.Schema<DeleteDbaasLogTokenRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2775,7 +2819,8 @@ export const duplicateDbaasLogsOutputGraylogDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(284, __c71, 0) as any as S.Schema<DuplicateDbaasLogsOutputGraylogDashboardRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2792,7 +2837,8 @@ export const getDbaasLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c72, 0) as any as S.Schema<GetDbaasLogRequest>,
   output: __S(291, __c72, 3) as any as S.Schema<DbaasLogsServiceWithIAM>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2809,7 +2855,8 @@ export const getDbaasLogCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(292, __c73, 0) as any as S.Schema<GetDbaasLogClusterRequest>,
   output: __S(293, __c73, 1) as any as S.Schema<DbaasLogsCluster>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2826,7 +2873,8 @@ export const getDbaasLogClusterRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c76, 0) as any as S.Schema<GetDbaasLogClusterRetentionRequest>,
   output: __S(305, __c76, 1) as any as S.Schema<DbaasLogsClusterRetention>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2843,7 +2891,8 @@ export const getDbaasLogEncryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(308, __c77, 0) as any as S.Schema<GetDbaasLogEncryptionKeyRequest>,
   output: __S(309, __c77, 1) as any as S.Schema<DbaasLogsEncryptionKey>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2860,7 +2909,8 @@ export const getDbaasLogInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c78, 0) as any as S.Schema<GetDbaasLogInputRequest>,
   output: __S(313, __c78, 1) as any as S.Schema<DbaasLogsInput>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2877,7 +2927,8 @@ export const getDbaasLogInputConfigtestResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(316, __c79, 0) as any as S.Schema<GetDbaasLogInputConfigtestResultRequest>,
   output: __S(317, __c79, 1) as any as S.Schema<DbaasLogsTestResult>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2894,7 +2945,8 @@ export const getDbaasLogInputConfigurationFlowgger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c80, 0) as any as S.Schema<GetDbaasLogInputConfigurationFlowggerRequest>,
   output: __S(321, __c80, 1) as any as S.Schema<DbaasLogsFlowggerConfiguration>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2911,7 +2963,8 @@ export const getDbaasLogInputConfigurationLogstash: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(324, __c81, 0) as any as S.Schema<GetDbaasLogInputConfigurationLogstashRequest>,
   output: __S(325, __c81, 1) as any as S.Schema<DbaasLogsLogstashConfiguration>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2928,7 +2981,8 @@ export const getDbaasLogInputEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c82, 0) as any as S.Schema<GetDbaasLogInputEngineRequest>,
   output: __S(329, __c82, 1) as any as S.Schema<DbaasLogsEngine>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2945,7 +2999,8 @@ export const getDbaasLogInputEngineHelper: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(332, __c83, 0) as any as S.Schema<GetDbaasLogInputEngineHelperRequest>,
   output: __S(335, __c83, 3) as any as S.Schema<DbaasLogsHelper>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2962,7 +3017,8 @@ export const getDbaasLogMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c84, 0) as any as S.Schema<GetDbaasLogMetricsRequest>,
   output: __S(337, __c84, 1) as any as S.Schema<DbaasLogsServiceMetric>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2979,7 +3035,8 @@ export const getDbaasLogOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(340, __c85, 0) as any as S.Schema<GetDbaasLogOperationRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2996,7 +3053,8 @@ export const getDbaasLogOutputGraylogDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(348, __c87, 0) as any as S.Schema<GetDbaasLogOutputGraylogDashboardRequest>,
   output: __S(349, __c87, 1) as any as S.Schema<DbaasLogsDashboard>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3013,7 +3071,8 @@ export const getDbaasLogOutputGraylogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c88, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRequest>,
   output: __S(353, __c88, 1) as any as S.Schema<DbaasLogsStream>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3030,7 +3089,8 @@ export const getDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(356, __c89, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamAlertRequest>,
   output: __S(357, __c89, 1) as any as S.Schema<DbaasLogsStreamAlertCondition>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3047,7 +3107,8 @@ export const getDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c90, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamArchiveRequest>,
   output: __S(361, __c90, 1) as any as S.Schema<DbaasLogsArchive>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3064,7 +3125,8 @@ export const getDbaasLogOutputGraylogStreamRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(364, __c91, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamRuleRequest>,
   output: __S(365, __c91, 1) as any as S.Schema<DbaasLogsStreamRule>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3081,7 +3143,8 @@ export const getDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c92, 0) as any as S.Schema<GetDbaasLogOutputGraylogStreamSubscriptionRequest>,
   output: __S(369, __c92, 1) as any as S.Schema<DbaasLogsLogSubscription>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3098,7 +3161,8 @@ export const getDbaasLogOutputMetricTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c94, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantRequest>,
   output: __S(377, __c94, 1) as any as S.Schema<DbaasLogsMetricTenant>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3115,7 +3179,8 @@ export const getDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(380, __c95, 0) as any as S.Schema<GetDbaasLogOutputMetricTenantSubscriptionRequest>,
   output: __S(381, __c95, 1) as any as S.Schema<DbaasLogsMetricSubscription>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3132,7 +3197,8 @@ export const getDbaasLogOutputOpensearchAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c96, 0) as any as S.Schema<GetDbaasLogOutputOpensearchAliasRequest>,
   output: __S(385, __c96, 1) as any as S.Schema<DbaasLogsAlias>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3149,7 +3215,8 @@ export const getDbaasLogOutputOpensearchIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(388, __c97, 0) as any as S.Schema<GetDbaasLogOutputOpensearchIndexRequest>,
   output: __S(389, __c97, 1) as any as S.Schema<DbaasLogsIndex>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3166,7 +3233,8 @@ export const getDbaasLogOutputOpensearchOsd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(396, __c99, 0) as any as S.Schema<GetDbaasLogOutputOpensearchOsdRequest>,
   output: __S(397, __c99, 1) as any as S.Schema<DbaasLogsOsd>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3183,7 +3251,8 @@ export const getDbaasLogRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c100, 0) as any as S.Schema<GetDbaasLogRoleRequest>,
   output: __S(401, __c100, 1) as any as S.Schema<DbaasLogsRole>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3200,7 +3269,8 @@ export const getDbaasLogRoleMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(404, __c101, 0) as any as S.Schema<GetDbaasLogRoleMemberRequest>,
   output: __S(405, __c101, 1) as any as S.Schema<DbaasLogsMember>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3217,7 +3287,8 @@ export const getDbaasLogRolePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c102, 0) as any as S.Schema<GetDbaasLogRolePermissionRequest>,
   output: __S(409, __c102, 1) as any as S.Schema<DbaasLogsPermission>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3234,7 +3305,8 @@ export const getDbaasLogServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(412, __c103, 0) as any as S.Schema<GetDbaasLogServiceInfosRequest>,
   output: __S(413, __c103, 1) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3251,7 +3323,8 @@ export const getDbaasLogToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(420, __c105, 0) as any as S.Schema<GetDbaasLogTokenRequest>,
   output: __S(421, __c105, 1) as any as S.Schema<DbaasLogsToken>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3268,7 +3341,8 @@ export const listDbaasLogCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c106, 0) as any as S.Schema<ListDbaasLogClusterRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3285,7 +3359,8 @@ export const listDbaasLogClusterRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c108, 0) as any as S.Schema<ListDbaasLogClusterRetentionRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogClusterRetentionResponse>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3302,7 +3377,8 @@ export const listDbaasLogEncryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(436, __c109, 0) as any as S.Schema<ListDbaasLogEncryptionKeyRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogEncryptionKeyResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3319,7 +3395,8 @@ export const listDbaasLogInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c110, 0) as any as S.Schema<ListDbaasLogInputRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3336,7 +3413,8 @@ export const listDbaasLogInputAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(452, __c113, 0) as any as S.Schema<ListDbaasLogInputActionRequest>,
   output: __S(455, __c113, 3) as any as S.Schema<ListDbaasLogInputActionResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3353,7 +3431,8 @@ export const listDbaasLogInputEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c114, 0) as any as S.Schema<ListDbaasLogInputEngineRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputEngineResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3370,7 +3449,8 @@ export const listDbaasLogInputEngineHelper: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(460, __c115, 0) as any as S.Schema<ListDbaasLogInputEngineHelperRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogInputEngineHelperResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3387,7 +3467,8 @@ export const listDbaasLogInputUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c116, 0) as any as S.Schema<ListDbaasLogInputUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogInputUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3404,7 +3485,8 @@ export const listDbaasLogOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c118, 0) as any as S.Schema<ListDbaasLogOperationRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOperationResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3421,7 +3503,8 @@ export const listDbaasLogOutputGraylogDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(476, __c119, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3438,7 +3521,8 @@ export const listDbaasLogOutputGraylogDashboardUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c120, 0) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputGraylogDashboardUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3455,7 +3539,8 @@ export const listDbaasLogOutputGraylogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(484, __c121, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3472,7 +3557,8 @@ export const listDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c122, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamAlertResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3489,7 +3575,8 @@ export const listDbaasLogOutputGraylogStreamArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(492, __c123, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3514,7 +3601,8 @@ export const listDbaasLogOutputGraylogStreamArchiveEncryptionKey: API.OperationM
     __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamArchiveEncryptionKeyResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3531,7 +3619,8 @@ export const listDbaasLogOutputGraylogStreamRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c126, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamRuleResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3552,7 +3641,8 @@ export const listDbaasLogOutputGraylogStreamSubscription: API.OperationMethod<
     __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputGraylogStreamSubscriptionResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3569,7 +3659,8 @@ export const listDbaasLogOutputGraylogStreamUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c128, 0) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputGraylogStreamUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3586,7 +3677,8 @@ export const listDbaasLogOutputMetricTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(516, __c129, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3607,7 +3699,8 @@ export const listDbaasLogOutputMetricTenantSubscription: API.OperationMethod<
     __c107,
     0,
   ) as any as S.Schema<ListDbaasLogOutputMetricTenantSubscriptionResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3624,7 +3717,8 @@ export const listDbaasLogOutputMetricTenantUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(524, __c131, 0) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputMetricTenantUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3641,7 +3735,8 @@ export const listDbaasLogOutputOpensearchAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c132, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3658,7 +3753,8 @@ export const listDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(532, __c133, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasIndexResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3675,7 +3771,8 @@ export const listDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c134, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasStreamResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3692,7 +3789,8 @@ export const listDbaasLogOutputOpensearchAliasUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchAliasUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3709,7 +3807,8 @@ export const listDbaasLogOutputOpensearchIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3726,7 +3825,8 @@ export const listDbaasLogOutputOpensearchIndexUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchIndexUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3743,7 +3843,8 @@ export const listDbaasLogOutputOpensearchOsd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3760,7 +3861,8 @@ export const listDbaasLogOutputOpensearchOsdUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogOutputOpensearchOsdUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3777,7 +3879,8 @@ export const listDbaasLogRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListDbaasLogRoleRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRoleResponse>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3794,7 +3897,8 @@ export const listDbaasLogRoleMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListDbaasLogRoleMemberRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRoleMemberResponse>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3811,7 +3915,8 @@ export const listDbaasLogRolePermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListDbaasLogRolePermissionRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogRolePermissionResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3828,7 +3933,8 @@ export const listDbaasLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42, __c10, 2) as any as S.Schema<ListDbaasLogsRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3845,7 +3951,8 @@ export const listDbaasLogToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListDbaasLogTokenRequest>,
   output: __S(428, __c107, 0) as any as S.Schema<ListDbaasLogTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3862,7 +3969,8 @@ export const listDbaasLogUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ListDbaasLogUrlRequest>,
   output: __S(470, __c117, 2) as any as S.Schema<ListDbaasLogUrlResponse>,
-  errors: [NotFound, UnknownOvhError],
+  errors: [NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3879,7 +3987,8 @@ export const putDbaasLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<PutDbaasLogRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3896,7 +4005,8 @@ export const putDbaasLogCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<PutDbaasLogClusterRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3913,7 +4023,8 @@ export const putDbaasLogInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<PutDbaasLogInputRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3930,7 +4041,8 @@ export const putDbaasLogInputConfigurationFlowgger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<PutDbaasLogInputConfigurationFlowggerRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3947,7 +4059,8 @@ export const putDbaasLogInputConfigurationLogstash: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<PutDbaasLogInputConfigurationLogstashRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3964,7 +4077,8 @@ export const putDbaasLogOutputGraylogDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<PutDbaasLogOutputGraylogDashboardRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3981,7 +4095,8 @@ export const putDbaasLogOutputGraylogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3998,7 +4113,8 @@ export const putDbaasLogOutputGraylogStreamAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<PutDbaasLogOutputGraylogStreamAlertRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4015,7 +4131,8 @@ export const putDbaasLogOutputMetricTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<PutDbaasLogOutputMetricTenantRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4032,7 +4149,8 @@ export const putDbaasLogOutputOpensearchAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<PutDbaasLogOutputOpensearchAliasRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4049,7 +4167,8 @@ export const putDbaasLogOutputOpensearchIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<PutDbaasLogOutputOpensearchIndexRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4066,7 +4185,8 @@ export const putDbaasLogOutputOpensearchOsd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<PutDbaasLogOutputOpensearchOsdRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4083,7 +4203,8 @@ export const putDbaasLogRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<PutDbaasLogRoleRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4100,7 +4221,8 @@ export const putDbaasLogRoleMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<PutDbaasLogRoleMemberRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4117,7 +4239,8 @@ export const putDbaasLogServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<PutDbaasLogServiceInfosRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<PutDbaasLogServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4134,7 +4257,8 @@ export const restartDbaasLogsInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<RestartDbaasLogsInputRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4151,7 +4275,8 @@ export const startDbaasLogsInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<StartDbaasLogsInputRequest>,
   output: __S(252, __c63, 0) as any as S.Schema<DbaasLogsOperation>,
-  errors: [Forbidden, NotFound, UnknownOvhError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5253,7 +5378,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
-          content: S.String,
+          content: S.String.pipe(T.SensitiveValue({})),
           fingerprint: S.String,
           title: S.String,
         }).pipe(
@@ -5565,7 +5690,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           algorithm: S.optional(S.String),
-          content: S.String,
+          content: S.String.pipe(T.SensitiveValue({})),
           createdAt: S.optional(S.String),
           encryptionKeyId: S.optional(S.String),
           fingerprint: S.String,
@@ -5764,7 +5889,7 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DbaasLogsServiceMetric" });
   }
@@ -6326,7 +6451,7 @@ function __c105(j: number): any {
           name: S.optional(S.String),
           tokenId: S.optional(S.String),
           updatedAt: S.optional(S.NullOr(S.String)),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DbaasLogsToken" });
   }

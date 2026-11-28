@@ -26,10 +26,17 @@ both are imported.
 
 ## Services
 
-Every service is `v1beta`. The barrel export is the proto package plus the
-service, so `ComputeService` is `compute`, `CommandService` is
-`computeCommand`, `TokenService` is `iamToken` and the devbox API is
-`privateDevbox`.
+The module name is the proto package plus the service, so `ComputeService`
+is `compute`, `CommandService` is `compute_command`, `TokenService` is
+`iam_token` and the devbox API is `private_devbox`; the barrel exports them
+in camelCase (`computeCommand`, `iamToken`, `privateDevbox`).
+
+A service in a `v1beta` or `namespace.experimental.*` proto package is not
+GA, so it is under `unstable/`:
+`@distilled.cloud/namespacelabs/unstable/compute`. That is every service
+except `buildkiteJobs` and `buildkiteQueue` (package `namespace.cloud.buildkite`),
+which are `@distilled.cloud/namespacelabs/buildkite_jobs` and
+`@distilled.cloud/namespacelabs/buildkite_queue`.
 
 | Host | Services |
 | --- | --- |
@@ -54,7 +61,7 @@ npm install @distilled.cloud/namespacelabs effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as NamespaceLabs from "@distilled.cloud/namespacelabs";
-import * as Compute from "@distilled.cloud/namespacelabs/compute";
+import * as Compute from "@distilled.cloud/namespacelabs/unstable/compute";
 
 const program = Effect.gen(function* () {
   const created = yield* Compute.createInstance({
@@ -71,7 +78,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   NamespaceLabs.CredentialsFromEnv,
-  NamespaceLabs.NamespaceLabsProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -94,7 +100,7 @@ Namespace refreshes it. The layer needs a `FileSystem`, for example
 Both layers read `NSC_REGION` (default `us`) for the compute and storage hosts
 and `NSC_COMPUTE_URL` (or `NSC_ENDPOINT`, which Namespace sets inside an
 instance), `NSC_STORAGE_URL`, `NSC_GLOBAL_URL` and `NSC_PRIVATE_API_URL` to
-override a host. `credentials({ token, region })`, `fromToken(token)` and
+override a host. They read these variables once, when the layer is built. `credentials({ token, region })`, `fromToken(token)` and
 `fromTokenFile(path)` build the same layers in code.
 
 ## Errors
@@ -110,7 +116,7 @@ A response none of them match is one of core's status errors (`BadRequest`,
 `UnknownNamespaceLabsError` with `code` and `details`.
 
 ```ts
-import * as Compute from "@distilled.cloud/namespacelabs/compute";
+import * as Compute from "@distilled.cloud/namespacelabs/unstable/compute";
 
 Compute.describeInstance({ instanceId }).pipe(
   Effect.catchTag("NotFound", () => Effect.succeed(undefined)),

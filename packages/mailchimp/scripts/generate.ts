@@ -23,6 +23,7 @@ import {
 } from "@distilled.cloud/dev/codegen/openapi";
 
 const PAGINATED_TRAIT = "smithy.api#paginated";
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /**
  * Stamp `smithy.api#paginated` on every operation that takes both `count` and
@@ -111,12 +112,31 @@ const marketingSpec: SdkSpec = {
   operationDecl: {
     contextType: "MailchimpOpContext",
     commonErrorType: "MailchimpOpError",
-    commonErrorClasses: ["MailchimpApiError", "UnknownMailchimpError"],
+    serviceErrors: "MailchimpServiceErrors",
     protocol: "MailchimpProtocol",
     retry: "Retry.Retry",
   },
 
   sourceNote: ".generated-specs (specs/spec-mirror-mailchimp)",
+
+  // Sensitive strings (passwords, keys, tokens): the schema member carries
+  // T.SensitiveValue; the protocol delivers Redacted values and accepts
+  // string | Redacted on input.
+  memberTraitPipes: {
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
+  },
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) =>
+    code.includes("Redacted.Redacted<")
+      ? code.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : code,
 };
 
 /**
@@ -130,7 +150,7 @@ const transactionalSpec: SdkSpec = {
   operationDecl: {
     contextType: "MailchimpTransactionalOpContext",
     commonErrorType: "MailchimpTransactionalOpError",
-    commonErrorClasses: ["MailchimpTransactionalError", "UnknownMailchimpError"],
+    serviceErrors: "MailchimpServiceErrors",
     protocol: "MailchimpTransactionalProtocol",
     retry: "Retry.Retry",
   },

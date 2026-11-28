@@ -72,7 +72,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "RivetOpContext",
     commonErrorType: "RivetOpError",
-    commonErrorClasses: ["UnknownRivetError"],
+    serviceErrors: "RivetServiceErrors",
     protocol: "RivetProtocol",
     retry: "Retry.Retry",
   },

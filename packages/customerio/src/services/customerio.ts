@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCustomerioError } from "../errors.ts";
+import { CustomerioServiceErrors } from "../errors.ts";
 import {
   CustomerioProtocol,
   type CustomerioOpError,
@@ -45,6 +45,7 @@ export class BadRequest
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => __S(88, __c5, 8)),
           /*@__PURE__*/ S.suspend(() => __S(88, __c5, 8)),
           S.String,
@@ -56,16 +57,17 @@ export class BadRequest
   )
 {
   declare readonly body?:
-    | Error400Body5
+    | Error400Body6
     | Error400Body
-    | Error400Body8
-    | Error429Body
     | Error400Body9
+    | Error429Body
+    | Error400Body10
     | Error400Body3
     | Error400Body2
     | Error400Body4
-    | Error400Body6
+    | Error400Body5
     | Error400Body7
+    | Error400Body8
     | string;
 }
 
@@ -82,7 +84,7 @@ export class Conflict
     [{ status: 409 }],
   )
 {
-  declare readonly body?: Error400Body5 | string;
+  declare readonly body?: Error400Body6 | string;
 }
 
 export class Forbidden
@@ -92,6 +94,7 @@ export class Forbidden
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
@@ -111,6 +114,7 @@ export class Forbidden
     | Error403Body3
     | Error403Body4
     | Error403Body5
+    | Error403Body6
     | string;
 }
 
@@ -127,7 +131,7 @@ export class NotFound
     [{ status: 404 }],
   )
 {
-  declare readonly body?: Error400Body5 | string;
+  declare readonly body?: Error400Body6 | string;
 }
 
 export class UnprocessableEntity
@@ -138,10 +142,10 @@ export class UnprocessableEntity
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(50, __c3, 2)),
-          /*@__PURE__*/ S.suspend(() => __S(2098, __c131, 2)),
-          /*@__PURE__*/ S.suspend(() => __S(2101, __c131, 5)),
-          /*@__PURE__*/ S.suspend(() => __S(2104, __c131, 8)),
-          /*@__PURE__*/ S.suspend(() => __S(2104, __c131, 8)),
+          /*@__PURE__*/ S.suspend(() => __S(2210, __c138, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(2213, __c138, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(2216, __c138, 8)),
+          /*@__PURE__*/ S.suspend(() => __S(2216, __c138, 8)),
           S.String,
         ]),
       ),
@@ -221,6 +225,7 @@ export type BroadcastActionLinksRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface BroadcastActionLinksRequest {
@@ -278,6 +283,7 @@ export type BroadcastActionMetricsRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface BroadcastActionMetricsRequest {
@@ -577,6 +583,7 @@ export type BroadcastActionsResponseActionsItemCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -637,7 +644,7 @@ export type BroadcastActionsResponseActionsItemCase1SendingState = "automatic" |
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type BroadcastActionsResponseActionsItemCase1Type = "twilio";
 export interface BroadcastActionsResponseActionsItemCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
@@ -647,7 +654,7 @@ export interface BroadcastActionsResponseActionsItemCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -833,6 +840,7 @@ export type BroadcastMessagesRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface BroadcastMessagesRequest {
@@ -917,6 +925,7 @@ export type BroadcastMessagesResponseMessagesItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "slack"
   | "whatsapp"
@@ -973,6 +982,7 @@ export type BroadcastMetricsRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface BroadcastMetricsRequest {
@@ -1153,6 +1163,7 @@ export type CampaignActionLinksRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface CampaignActionLinksRequest {
@@ -1217,6 +1228,7 @@ export type CampaignActionMetricsRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface CampaignActionMetricsRequest {
@@ -1637,6 +1649,7 @@ export type CampaignMetricsRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export interface CampaignMetricsRequest {
@@ -1905,7 +1918,7 @@ export interface CreateCollectionSourceRequestBodyCase0 {
 }
 export interface CreateCollectionSourceRequestBodyCase1Credentials {
   /** The JSON key file that Google issues for a service account, as a string. The key's `token_uri` must be Google's own token endpoint. */
-  service_account_key: string;
+  service_account_key: string | Redacted.Redacted<string>;
 }
 export type CreateCollectionSourceRequestBodyCase1Provider = "gcs";
 export interface CreateCollectionSourceRequestBodyCase1 {
@@ -2248,7 +2261,7 @@ export interface CreateNewsletterRequestBodyCase2 {
   tag_ids?: CreateNewsletterRequestBodyCase2TagIdsList | undefined;
 }
 /** The channel type for the one-time send. */
-export type CreateNewsletterRequestBodyCase3Type = "in_app";
+export type CreateNewsletterRequestBodyCase3Type = "web_push";
 /** Time period in seconds for rate limiting. Must be one of 60 (minute), 3600 (hour), or 86400 (day). */
 export type CreateNewsletterRequestBodyCase3RateLimitTimePeriod = 60 | 3600 | 86400;
 /** An array of conditions that must all be true. */
@@ -2289,12 +2302,12 @@ export interface CreateNewsletterRequestBodyCase3Recipients {
 }
 /** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
 export type CreateNewsletterRequestBodyCase3TagIdsList = Array<number>;
-/** For in-app messages, you must include `body_json`. */
+/** For web push notifications, you must provide `body`. Requires web push to be set up for the workspace. */
 export interface CreateNewsletterRequestBodyCase3 {
   /** The channel type for the one-time send. */
   type: CreateNewsletterRequestBodyCase3Type;
-  /** JSON body content for the in-app message, as a stringified JSON object--a JSON string, not a nested object. It supports these fields: - `message_id`--string, an identifier for the message - `carta_content`--string, the message content markup from our in-app editor - `display`--object; `mode` (`modal`, `overlay`, `inline`, or `tooltip`) and `value` (the position for modals: `top`, `center`, or `bottom`; the position ID for inline messages). Tooltips take a `tooltip_target` CSS selector instead of `value` - `priority`--integer, delivery order for queued messages: `1` (low), `5` (medium), or `10` (high) - `expiration`--object; if omitted, the message expires after 30 days (60 maximum). Set `type` (`relative` or `absolute`), `unit`, and `value` - `persistent`--boolean, keep the message visible across pages and sessions until your audience dismisses it - `attributes`--object, custom key-value string pairs delivered with the message - `route_rules` and `excluded_route_rules`--objects keyed by platform (`web`, `ios`, or `android`), each holding an array of [page rules](/messaging/channels/in-app/send-in-app-message/#page-rule) with an `operator` (`contains` or `equals`), a `value` (`*` is a wildcard), and an `order` (integer). You can only set page rules when you create a message, and platforms you don't set rules for won't show the message */
-  body_json: string;
+  /** The text of the web push notification. Browsers don't show a notification without text, so it can't be blank. */
+  body: string;
   /** The name of the one-time send. */
   name: string;
   /** When `true`, Customer.io sends only one message per email address or phone number, even when several profiles share it. Supported on `email`, `twilio`, and `sms` one-time sends. If the send's address is an identifier in your workspace (email for `email` sends, phone number for `twilio` and `sms` sends), Customer.io returns a 422 when you set `deduped` to `true`, because no two profiles can share an identifier and there's nothing to dedupe. Leave it out to use the default for your workspace's identifier configuration. No endpoint changes this later, so set it here if you don't want the default. */
@@ -2318,20 +2331,17 @@ export interface CreateNewsletterRequestBodyCase3 {
   scheduled_at?: number | undefined;
   /** If `true`, the one-time send is sent immediately after creation. You cannot set both `send_now` and `scheduled_at`. */
   send_now?: boolean | undefined;
+  /** The title of the web push notification. */
+  subject?: string | undefined;
   /** The one-time send audience's subscription topic ID. Required when [subscription center](/journeys/channels/subscriptions/center/#enable-sub-center) is enabled; otherwise sends to globally subscribed profiles. */
   subscription_topic_id?: number | undefined;
   /** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
   tag_ids?: CreateNewsletterRequestBodyCase3TagIdsList | undefined;
+  /** The website whose subscribed browsers receive the one-time send, like `https://shop.example.com`, without a path. Leave it out to send to browsers on all of your websites. */
+  web_origin?: string | undefined;
 }
 /** The channel type for the one-time send. */
-export type CreateNewsletterRequestBodyCase4Type = "webhook";
-/** The HTTP method for the webhook request. */
-export type CreateNewsletterRequestBodyCase4RequestMethod =
-  | "DELETE"
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "PATCH";
+export type CreateNewsletterRequestBodyCase4Type = "in_app";
 /** Time period in seconds for rate limiting. Must be one of 60 (minute), 3600 (hour), or 86400 (day). */
 export type CreateNewsletterRequestBodyCase4RateLimitTimePeriod = 60 | 3600 | 86400;
 /** An array of conditions that must all be true. */
@@ -2372,18 +2382,14 @@ export interface CreateNewsletterRequestBodyCase4Recipients {
 }
 /** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
 export type CreateNewsletterRequestBodyCase4TagIdsList = Array<number>;
-/** For webhooks, you must include `body`, `request_method`, and `url`. */
+/** For in-app messages, you must include `body_json`. */
 export interface CreateNewsletterRequestBodyCase4 {
   /** The channel type for the one-time send. */
   type: CreateNewsletterRequestBodyCase4Type;
-  /** The body content of the webhook request. */
-  body: string;
+  /** JSON body content for the in-app message, as a stringified JSON object--a JSON string, not a nested object. It supports these fields: - `message_id`--string, an identifier for the message - `carta_content`--string, the message content markup from our in-app editor - `display`--object; `mode` (`modal`, `overlay`, `inline`, or `tooltip`) and `value` (the position for modals: `top`, `center`, or `bottom`; the position ID for inline messages). Tooltips take a `tooltip_target` CSS selector instead of `value` - `priority`--integer, delivery order for queued messages: `1` (low), `5` (medium), or `10` (high) - `expiration`--object; if omitted, the message expires after 30 days (60 maximum). Set `type` (`relative` or `absolute`), `unit`, and `value` - `persistent`--boolean, keep the message visible across pages and sessions until your audience dismisses it - `attributes`--object, custom key-value string pairs delivered with the message - `route_rules` and `excluded_route_rules`--objects keyed by platform (`web`, `ios`, or `android`), each holding an array of [page rules](/messaging/channels/in-app/send-in-app-message/#page-rule) with an `operator` (`contains` or `equals`), a `value` (`*` is a wildcard), and an `order` (integer). You can only set page rules when you create a message, and platforms you don't set rules for won't show the message */
+  body_json: string;
   /** The name of the one-time send. */
   name: string;
-  /** The HTTP method for the webhook request. */
-  request_method: CreateNewsletterRequestBodyCase4RequestMethod | (string & {});
-  /** The URL to send the webhook request to. */
-  url: string;
   /** When `true`, Customer.io sends only one message per email address or phone number, even when several profiles share it. Supported on `email`, `twilio`, and `sms` one-time sends. If the send's address is an identifier in your workspace (email for `email` sends, phone number for `twilio` and `sms` sends), Customer.io returns a 422 when you set `deduped` to `true`, because no two profiles can share an identifier and there's nothing to dedupe. Leave it out to use the default for your workspace's identifier configuration. No endpoint changes this later, so set it here if you don't want the default. */
   deduped?: boolean | undefined;
   /** A send window in seconds, or `0` for no expiry. Customer.io stops delivering the one-time send once the window closes, so a delayed message doesn't arrive when it's no longer useful. Set it here only alongside `send_now` or `scheduled_at`, because the window runs from the send. On a plain draft, set it on the [send](/integrations/api/app/tag/send-messages/sendNewsletter/) or [schedule](/integrations/api/app/tag/send-messages/scheduleNewsletter/) call instead. */
@@ -2411,7 +2417,14 @@ export interface CreateNewsletterRequestBodyCase4 {
   tag_ids?: CreateNewsletterRequestBodyCase4TagIdsList | undefined;
 }
 /** The channel type for the one-time send. */
-export type CreateNewsletterRequestBodyCase5Type = "inbox";
+export type CreateNewsletterRequestBodyCase5Type = "webhook";
+/** The HTTP method for the webhook request. */
+export type CreateNewsletterRequestBodyCase5RequestMethod =
+  | "DELETE"
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "PATCH";
 /** Time period in seconds for rate limiting. Must be one of 60 (minute), 3600 (hour), or 86400 (day). */
 export type CreateNewsletterRequestBodyCase5RateLimitTimePeriod = 60 | 3600 | 86400;
 /** An array of conditions that must all be true. */
@@ -2452,14 +2465,18 @@ export interface CreateNewsletterRequestBodyCase5Recipients {
 }
 /** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
 export type CreateNewsletterRequestBodyCase5TagIdsList = Array<number>;
-/** For inbox messages, you must include `body_json`. */
+/** For webhooks, you must include `body`, `request_method`, and `url`. */
 export interface CreateNewsletterRequestBodyCase5 {
   /** The channel type for the one-time send. */
   type: CreateNewsletterRequestBodyCase5Type;
-  /** JSON body content for the inbox message, as a stringified JSON object. The fields you include depend on how you [set up your inbox](/journeys/channels/in-app/inbox/setup/): - `topics`--array, topics your audience can filter by in their inbox - `type`--string, context that helps render the inbox message - `properties`--object, your message info like the title, body, link, and image - `expiration`--object; if omitted, the message expires after 30 days. Otherwise set `type` (`relative` or `absolute`), `unit` (`seconds`, `minutes`, `hours`, or `days`; relative only), and `value` (number of units, or a unix timestamp if absolute) */
-  body_json: string;
+  /** The body content of the webhook request. */
+  body: string;
   /** The name of the one-time send. */
   name: string;
+  /** The HTTP method for the webhook request. */
+  request_method: CreateNewsletterRequestBodyCase5RequestMethod | (string & {});
+  /** The URL to send the webhook request to. */
+  url: string;
   /** When `true`, Customer.io sends only one message per email address or phone number, even when several profiles share it. Supported on `email`, `twilio`, and `sms` one-time sends. If the send's address is an identifier in your workspace (email for `email` sends, phone number for `twilio` and `sms` sends), Customer.io returns a 422 when you set `deduped` to `true`, because no two profiles can share an identifier and there's nothing to dedupe. Leave it out to use the default for your workspace's identifier configuration. No endpoint changes this later, so set it here if you don't want the default. */
   deduped?: boolean | undefined;
   /** A send window in seconds, or `0` for no expiry. Customer.io stops delivering the one-time send once the window closes, so a delayed message doesn't arrive when it's no longer useful. Set it here only alongside `send_now` or `scheduled_at`, because the window runs from the send. On a plain draft, set it on the [send](/integrations/api/app/tag/send-messages/sendNewsletter/) or [schedule](/integrations/api/app/tag/send-messages/scheduleNewsletter/) call instead. */
@@ -2486,13 +2503,90 @@ export interface CreateNewsletterRequestBodyCase5 {
   /** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
   tag_ids?: CreateNewsletterRequestBodyCase5TagIdsList | undefined;
 }
+/** The channel type for the one-time send. */
+export type CreateNewsletterRequestBodyCase6Type = "inbox";
+/** Time period in seconds for rate limiting. Must be one of 60 (minute), 3600 (hour), or 86400 (day). */
+export type CreateNewsletterRequestBodyCase6RateLimitTimePeriod = 60 | 3600 | 86400;
+/** An array of conditions that must all be true. */
+export type CreateNewsletterRequestBodyCase6RecipientsAndList = Array<unknown>;
+/** The comparison operator. */
+export type CreateNewsletterRequestBodyCase6RecipientsAttributeOperator = "eq" | "exists";
+/** A customer attribute condition. */
+export interface CreateNewsletterRequestBodyCase6RecipientsAttribute {
+  /** The attribute name. */
+  field?: string | undefined;
+  /** Set to `true` for "is not equal" or "does not exist". */
+  inverse?: boolean | undefined;
+  /** The comparison operator. */
+  operator?:
+    | CreateNewsletterRequestBodyCase6RecipientsAttributeOperator
+    | (string & {})
+    | undefined;
+  /** The value to compare against. Required when `operator` is `eq`. */
+  value?: string | undefined;
+}
+/** An array of conditions where at least one must be true. On this endpoint, `or` arrays can contain only segment conditions. */
+export type CreateNewsletterRequestBodyCase6RecipientsOrList = Array<unknown>;
+/** A segment condition. */
+export type CreateNewsletterRequestBodyCase6RecipientsSegment =
+  CreateNewsletterRequestBodyCase0RecipientsSegment;
+/** Filter conditions that define the one-time send's recipients. In `recipients`, you can combine `segment` and `attribute` conditions with `and`, `or`, and `not` operators. This endpoint enforces a strict shape: * The outermost object must be a single `and` array. * Every operator or condition object takes exactly **one** key: `and`, `or`, `not`, `segment`, or `attribute`. An object with two keys--like `not` alongside `and`--is rejected with an "Invalid filter spec" error. * Segment conditions must be wrapped in an `or` array, even for a single segment--and `or` arrays can contain only segment conditions. * To exclude segments, `not` must contain an `or` of segment conditions and sit as its own item inside the `and` array. * Attribute conditions sit directly in the `and` array, unwrapped. To negate an attribute condition, set `inverse: true` on the attribute itself--`not` can't contain attribute conditions. The email example on this operation shows or-wrapped segments combined with a negated attribute; for the common "include segment A, exclude segment B" pattern, see the **include one segment, exclude another** request example. See [Format API-triggered broadcasts](/messaging/send/broadcasts/api-triggered-data-format/#overriding-recipients) for general operator behavior. */
+export interface CreateNewsletterRequestBodyCase6Recipients {
+  /** An array of conditions that must all be true. */
+  and?: CreateNewsletterRequestBodyCase6RecipientsAndList | undefined;
+  /** A customer attribute condition. */
+  attribute?: CreateNewsletterRequestBodyCase6RecipientsAttribute | undefined;
+  /** A condition or group of conditions to exclude. On this endpoint, `not` must contain an `or` of segment conditions and sit as its own item inside the `and` array. An object with both `and` and `not` keys is rejected with an "Invalid filter spec" error. */
+  not?: unknown | undefined;
+  /** An array of conditions where at least one must be true. On this endpoint, `or` arrays can contain only segment conditions. */
+  or?: CreateNewsletterRequestBodyCase6RecipientsOrList | undefined;
+  /** A segment condition. */
+  segment?: CreateNewsletterRequestBodyCase0RecipientsSegment | undefined;
+}
+/** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
+export type CreateNewsletterRequestBodyCase6TagIdsList = Array<number>;
+/** For inbox messages, you must include `body_json`. */
+export interface CreateNewsletterRequestBodyCase6 {
+  /** The channel type for the one-time send. */
+  type: CreateNewsletterRequestBodyCase6Type;
+  /** JSON body content for the inbox message, as a stringified JSON object. The fields you include depend on how you [set up your inbox](/journeys/channels/in-app/inbox/setup/): - `topics`--array, topics your audience can filter by in their inbox - `type`--string, context that helps render the inbox message - `properties`--object, your message info like the title, body, link, and image - `expiration`--object; if omitted, the message expires after 30 days. Otherwise set `type` (`relative` or `absolute`), `unit` (`seconds`, `minutes`, `hours`, or `days`; relative only), and `value` (number of units, or a unix timestamp if absolute) */
+  body_json: string;
+  /** The name of the one-time send. */
+  name: string;
+  /** When `true`, Customer.io sends only one message per email address or phone number, even when several profiles share it. Supported on `email`, `twilio`, and `sms` one-time sends. If the send's address is an identifier in your workspace (email for `email` sends, phone number for `twilio` and `sms` sends), Customer.io returns a 422 when you set `deduped` to `true`, because no two profiles can share an identifier and there's nothing to dedupe. Leave it out to use the default for your workspace's identifier configuration. No endpoint changes this later, so set it here if you don't want the default. */
+  deduped?: boolean | undefined;
+  /** A send window in seconds, or `0` for no expiry. Customer.io stops delivering the one-time send once the window closes, so a delayed message doesn't arrive when it's no longer useful. Set it here only alongside `send_now` or `scheduled_at`, because the window runs from the send. On a plain draft, set it on the [send](/integrations/api/app/tag/send-messages/sendNewsletter/) or [schedule](/integrations/api/app/tag/send-messages/scheduleNewsletter/) call instead. */
+  expires_after?: number | undefined;
+  /** Maximum number of messages per time period. **NOTE:** Though this states `email_rate`, you can use this for other message channels. Only fixed rate limits are supported, not [daily ramp limits](/messaging/send/broadcasts/one-time-sends/#daily-ramp). */
+  rate_limit_email_rate?: number | undefined;
+  /** When `true`, spreads messages evenly across the time period. Otherwise, it sends as fast as possible up to the limit in each period. */
+  rate_limit_spread?: boolean | undefined;
+  /** Time period in seconds for rate limiting. Must be one of 60 (minute), 3600 (hour), or 86400 (day). */
+  rate_limit_time_period?:
+    | CreateNewsletterRequestBodyCase6RateLimitTimePeriod
+    | (number & {})
+    | undefined;
+  /** A URL pointing to a CSV of recipients, used instead of the `recipients` filter. Customer.io resolves the file in the background, so this request can't also send or schedule. Poll [Get a one-time send](/integrations/api/app/tag/newsletters/getNewsletters/) until `recipient_file_status` is `done`, then call [send](/integrations/api/app/tag/send-messages/sendNewsletter/) or [schedule](/integrations/api/app/tag/send-messages/scheduleNewsletter/). */
+  recipient_file_url?: string | undefined;
+  /** Filter conditions that define the one-time send's recipients. In `recipients`, you can combine `segment` and `attribute` conditions with `and`, `or`, and `not` operators. This endpoint enforces a strict shape: * The outermost object must be a single `and` array. * Every operator or condition object takes exactly **one** key: `and`, `or`, `not`, `segment`, or `attribute`. An object with two keys--like `not` alongside `and`--is rejected with an "Invalid filter spec" error. * Segment conditions must be wrapped in an `or` array, even for a single segment--and `or` arrays can contain only segment conditions. * To exclude segments, `not` must contain an `or` of segment conditions and sit as its own item inside the `and` array. * Attribute conditions sit directly in the `and` array, unwrapped. To negate an attribute condition, set `inverse: true` on the attribute itself--`not` can't contain attribute conditions. The email example on this operation shows or-wrapped segments combined with a negated attribute; for the common "include segment A, exclude segment B" pattern, see the **include one segment, exclude another** request example. See [Format API-triggered broadcasts](/messaging/send/broadcasts/api-triggered-data-format/#overriding-recipients) for general operator behavior. */
+  recipients?: CreateNewsletterRequestBodyCase6Recipients | undefined;
+  /** A Unix timestamp indicating when to send the one-time send. The time must be in the future. You cannot set both `send_now` and `scheduled_at`. */
+  scheduled_at?: number | undefined;
+  /** If `true`, the one-time send is sent immediately after creation. You cannot set both `send_now` and `scheduled_at`. */
+  send_now?: boolean | undefined;
+  /** The one-time send audience's subscription topic ID. Required when [subscription center](/journeys/channels/subscriptions/center/#enable-sub-center) is enabled; otherwise sends to globally subscribed profiles. */
+  subscription_topic_id?: number | undefined;
+  /** The IDs of the tags you want to apply to the one-time send. Each tag must already exist. */
+  tag_ids?: CreateNewsletterRequestBodyCase6TagIdsList | undefined;
+}
 export type CreateNewsletterRequestBody =
   | CreateNewsletterRequestBodyCase0
   | CreateNewsletterRequestBodyCase1
   | CreateNewsletterRequestBodyCase2
   | CreateNewsletterRequestBodyCase3
   | CreateNewsletterRequestBodyCase4
-  | CreateNewsletterRequestBodyCase5;
+  | CreateNewsletterRequestBodyCase5
+  | CreateNewsletterRequestBodyCase6;
 export interface CreateNewsletterRequest {
   body: CreateNewsletterRequestBody;
 }
@@ -2524,6 +2618,7 @@ export type CreateNewsletterResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface CreateNewsletterResponseNewsletter {
@@ -2653,6 +2748,7 @@ export type CreateNewsletterLanguageVariantResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface CreateNewsletterLanguageVariantResponseNewsletter {
@@ -2732,6 +2828,7 @@ export type CreateNewsletterTestGroupResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface CreateNewsletterTestGroupResponseNewsletter {
@@ -2837,6 +2934,7 @@ export type CreateNewsletterTestLanguageVariantResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface CreateNewsletterTestLanguageVariantResponseNewsletter {
@@ -2887,7 +2985,7 @@ export interface CreateNewsletterTestLanguageVariantResponse {
 export interface CreateSnippetRequest {
   /** The name of the snippet, must be unique. Trimmed of leading and trailing whitespace before storage. */
   name: string;
-  /** The contents of the snippet (plain text or Liquid). Trimmed of leading and trailing whitespace before storage. Max length is environment-specific (default 16000). */
+  /** The contents of the snippet, in plain text or Liquid. Customer.io trims leading and trailing whitespace before storing it. A snippet can be up to 16,000 characters by default, and all of the snippets in a workspace can total up to 5 MB. */
   value: string;
 }
 /** describes a piece of reusable content. You must provide a name for the snippet and the `value`--the content that appears in messages that use the snippet. */
@@ -2948,6 +3046,16 @@ export type CreateWebhookRequestEventsItem =
   | "push_dropped"
   | "push_failed"
   | "push_undeliverable"
+  | "web_push_drafted"
+  | "web_push_attempted"
+  | "web_push_sent"
+  | "web_push_delivered"
+  | "web_push_opened"
+  | "web_push_converted"
+  | "web_push_bounced"
+  | "web_push_dropped"
+  | "web_push_failed"
+  | "web_push_undeliverable"
   | "slack_drafted"
   | "slack_attempted"
   | "slack_sent"
@@ -3045,6 +3153,16 @@ export type CreateWebhookResponseEventsItem =
   | "push_dropped"
   | "push_failed"
   | "push_undeliverable"
+  | "web_push_drafted"
+  | "web_push_attempted"
+  | "web_push_sent"
+  | "web_push_delivered"
+  | "web_push_opened"
+  | "web_push_converted"
+  | "web_push_bounced"
+  | "web_push_dropped"
+  | "web_push_failed"
+  | "web_push_undeliverable"
   | "slack_drafted"
   | "slack_attempted"
   | "slack_sent"
@@ -4294,6 +4412,135 @@ export interface ExportPeopleDataResponse {
   /** Metadata about an export. */
   export?: ExportPeopleDataResponseExport | undefined;
 }
+export interface GetAccountAuditLogRequest {
+  /** The `id` of the audit log entry. */
+  id: number;
+}
+/** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+export type AuditLogEntryRelatedLogsItemRelatedLogsList = Array<AuditLogEntry>;
+export interface AuditLogEntryRelatedLogsItem {
+  /** The account the change belongs to. `0` on workspace audit log entries, which belong to the workspace your key is for. */
+  account_id?: number | undefined;
+  /** The kind of change, like `Created`, `Updated`, or `Deleted`. */
+  action?: string | undefined;
+  /** For an update, the values of the fields that changed, before the change. */
+  changed_from?: unknown | null | undefined;
+  /** For an update, the values of the fields that changed, after the change. */
+  changed_to?: unknown | null | undefined;
+  /** The object as it was saved after the change. The shape depends on `object_type`. A `FailedLogin` entry carries `login_method`, `reason` (like `invalid_password` or `invalid_2fa_code`), and `user_agent`. */
+  data?: unknown | undefined;
+  /** The entry's identifier. Use it as a `cursor` to page through results. */
+  id?: number | undefined;
+  /** The IP address the change came from. */
+  ip_addr?: string | undefined;
+  /** Request details recorded with the change. */
+  meta?: unknown | undefined;
+  /** The identifier of the object that changed. For a `FailedLogin` entry, this is the team member whose sign-in failed. */
+  object_id?: string | undefined;
+  /** The kind of object that changed, like `Segment`, `User`, or `FailedLogin`. */
+  object_type?: string | undefined;
+  /** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+  related_logs?: AuditLogEntryRelatedLogsItemRelatedLogsList | null | undefined;
+  /** The service account that made the change, if any. */
+  service_account_id?: number | null | undefined;
+  /** When the change happened, as a unix timestamp in seconds. */
+  timestamp?: number | undefined;
+  /** The team member who made the change, matching a `user_id` in the response's `users` array. `0` when no signed-in team member made the change, like a failed sign-in. */
+  user_id?: number | undefined;
+  /** The object's version number after the change. For objects that keep one, like segments and automations, it generally goes up as the object changes, but some updates don't change it, so use `id` to put an object's entries in order. The value is `0` on entries that don't record a version. */
+  version?: number | undefined;
+}
+/** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+export type AuditLogEntryRelatedLogsList = Array<AuditLogEntryRelatedLogsItem>;
+export interface AuditLogEntry {
+  /** The account the change belongs to. `0` on workspace audit log entries, which belong to the workspace your key is for. */
+  account_id?: number | undefined;
+  /** The kind of change, like `Created`, `Updated`, or `Deleted`. */
+  action?: string | undefined;
+  /** For an update, the values of the fields that changed, before the change. */
+  changed_from?: unknown | null | undefined;
+  /** For an update, the values of the fields that changed, after the change. */
+  changed_to?: unknown | null | undefined;
+  /** The object as it was saved after the change. The shape depends on `object_type`. A `FailedLogin` entry carries `login_method`, `reason` (like `invalid_password` or `invalid_2fa_code`), and `user_agent`. */
+  data?: unknown | undefined;
+  /** The entry's identifier. Use it as a `cursor` to page through results. */
+  id?: number | undefined;
+  /** The IP address the change came from. */
+  ip_addr?: string | undefined;
+  /** Request details recorded with the change. */
+  meta?: unknown | undefined;
+  /** The identifier of the object that changed. For a `FailedLogin` entry, this is the team member whose sign-in failed. */
+  object_id?: string | undefined;
+  /** The kind of object that changed, like `Segment`, `User`, or `FailedLogin`. */
+  object_type?: string | undefined;
+  /** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+  related_logs?: AuditLogEntryRelatedLogsList | null | undefined;
+  /** The service account that made the change, if any. */
+  service_account_id?: number | null | undefined;
+  /** When the change happened, as a unix timestamp in seconds. */
+  timestamp?: number | undefined;
+  /** The team member who made the change, matching a `user_id` in the response's `users` array. `0` when no signed-in team member made the change, like a failed sign-in. */
+  user_id?: number | undefined;
+  /** The object's version number after the change. For objects that keep one, like segments and automations, it generally goes up as the object changes, but some updates don't change it, so use `id` to put an object's entries in order. The value is `0` on entries that don't record a version. */
+  version?: number | undefined;
+}
+/** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+export type GetAccountAuditLogResponseDataRelatedLogsList = Array<AuditLogEntry>;
+export interface GetAccountAuditLogResponseData {
+  /** The account the change belongs to. `0` on workspace audit log entries, which belong to the workspace your key is for. */
+  account_id?: number | undefined;
+  /** The kind of change, like `Created`, `Updated`, or `Deleted`. */
+  action?: string | undefined;
+  /** For an update, the values of the fields that changed, before the change. */
+  changed_from?: unknown | null | undefined;
+  /** For an update, the values of the fields that changed, after the change. */
+  changed_to?: unknown | null | undefined;
+  /** The object as it was saved after the change. The shape depends on `object_type`. A `FailedLogin` entry carries `login_method`, `reason` (like `invalid_password` or `invalid_2fa_code`), and `user_agent`. */
+  data?: unknown | undefined;
+  /** The entry's identifier. Use it as a `cursor` to page through results. */
+  id?: number | undefined;
+  /** The IP address the change came from. */
+  ip_addr?: string | undefined;
+  /** Request details recorded with the change. */
+  meta?: unknown | undefined;
+  /** The identifier of the object that changed. For a `FailedLogin` entry, this is the team member whose sign-in failed. */
+  object_id?: string | undefined;
+  /** The kind of object that changed, like `Segment`, `User`, or `FailedLogin`. */
+  object_type?: string | undefined;
+  /** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+  related_logs?: GetAccountAuditLogResponseDataRelatedLogsList | null | undefined;
+  /** The service account that made the change, if any. */
+  service_account_id?: number | null | undefined;
+  /** When the change happened, as a unix timestamp in seconds. */
+  timestamp?: number | undefined;
+  /** The team member who made the change, matching a `user_id` in the response's `users` array. `0` when no signed-in team member made the change, like a failed sign-in. */
+  user_id?: number | undefined;
+  /** The object's version number after the change. For objects that keep one, like segments and automations, it generally goes up as the object changes, but some updates don't change it, so use `id` to put an object's entries in order. The value is `0` on entries that don't record a version. */
+  version?: number | undefined;
+}
+export interface GetAccountAuditLogResponseServiceAccount {
+  /** The kind of service account. */
+  account_type?: string | undefined;
+  /** Whether the service account was deleted. */
+  deleted?: boolean | null | undefined;
+  /** The service account's name. */
+  name?: string | undefined;
+  /** The service account's ID. */
+  service_account_id?: number | undefined;
+}
+export interface GetAccountAuditLogResponseUser {
+  /** Whether the team member was removed from the account. */
+  deleted?: boolean | null | undefined;
+  /** The team member's email address. */
+  email?: string | undefined;
+  /** The team member's ID. */
+  user_id?: number | undefined;
+}
+export interface GetAccountAuditLogResponse {
+  data?: GetAccountAuditLogResponseData | undefined;
+  service_account?: GetAccountAuditLogResponseServiceAccount | undefined;
+  user?: GetAccountAuditLogResponseUser | undefined;
+}
 export interface GetArchivedMessageRequest {
   /** The identifier of a message. */
   message_id: string;
@@ -4442,6 +4689,7 @@ export type GetBroadcastActionResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -4502,7 +4750,7 @@ export type GetBroadcastActionResponseActionCase1SendingState = "automatic" | "d
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type GetBroadcastActionResponseActionCase1Type = "twilio";
 export interface GetBroadcastActionResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
@@ -4512,7 +4760,7 @@ export interface GetBroadcastActionResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -4625,7 +4873,7 @@ export interface GetBroadcastActionLanguageRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetBroadcastActionLanguageResponseActionCase0Preprocessor = "premailer";
@@ -4639,6 +4887,7 @@ export type GetBroadcastActionLanguageResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -4702,7 +4951,7 @@ export type GetBroadcastActionLanguageResponseActionCase1SendingState =
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type GetBroadcastActionLanguageResponseActionCase1Type = "twilio";
 export interface GetBroadcastActionLanguageResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
@@ -4712,7 +4961,7 @@ export interface GetBroadcastActionLanguageResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -4840,6 +5089,7 @@ export type GetCampaignActionResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -4904,7 +5154,7 @@ export type GetCampaignActionResponseActionCase1SendingState = "automatic" | "dr
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type GetCampaignActionResponseActionCase1Type = "twilio";
 export interface GetCampaignActionResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
@@ -4914,7 +5164,7 @@ export interface GetCampaignActionResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -5033,7 +5283,7 @@ export interface GetCampaignActionTranslationRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetCampaignActionTranslationResponseActionCase0Preprocessor = "premailer";
@@ -5047,6 +5297,7 @@ export type GetCampaignActionTranslationResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -5114,7 +5365,7 @@ export type GetCampaignActionTranslationResponseActionCase1SendingState =
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type GetCampaignActionTranslationResponseActionCase1Type = "twilio";
 export interface GetCampaignActionTranslationResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
@@ -5124,7 +5375,7 @@ export interface GetCampaignActionTranslationResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -5250,6 +5501,7 @@ export type GetCampaignMessagesRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export type GetCampaignMessagesRequestMetric =
@@ -5303,6 +5555,7 @@ export type GetCampaignMessagesResponseMessagesItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "slack"
   | "whatsapp"
@@ -5732,13 +5985,14 @@ export interface GetCampaignsResponse {
   campaign?: GetCampaignsResponseCampaign | undefined;
 }
 export interface GetChannelsRequest {}
-/** The type of delivery channel. */
+/** The type of delivery channel. `web_push` is the **Web browsers** channel, for web push notifications. */
 export type GetChannelsResponseChannelsItemType =
   | "email"
   | "twilio"
   | "urban_airship"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "line"
   | "inbox"
@@ -5752,7 +6006,7 @@ export interface GetChannelsResponseChannelsItem {
   name?: string | undefined;
   /** If false, a person is opted-out by default. If true, a person is opted-in by default. */
   subscribed_by_default?: boolean | undefined;
-  /** The type of delivery channel. */
+  /** The type of delivery channel. `web_push` is the **Web browsers** channel, for web push notifications. */
   type?: GetChannelsResponseChannelsItemType | undefined;
 }
 export type GetChannelsResponseChannelsList = Array<GetChannelsResponseChannelsItem>;
@@ -5897,7 +6151,7 @@ export interface GetCollectionSyncResponseSync {
   last_file?: GetCollectionSyncResponseSyncLastFile | undefined;
   /** When Customer.io next checks the folder. Absent when the next check isn't scheduled yet. */
   next_run_at?: string | undefined;
-  /** How often Customer.io checks the folder for new files, in hours. */
+  /** How often Customer.io checks the folder for new or changed files, in hours. */
   poll_hours?: number | undefined;
   /** The folder that the sync watches, relative to the source's `prefix`. */
   prefix?: string | undefined;
@@ -6004,15 +6258,11 @@ export interface GetCollectionWriteResponseWrite {
 export interface GetCollectionWriteResponse {
   write?: GetCollectionWriteResponseWrite | undefined;
 }
-export type GetDomainSuppressionsByTypeRequestSuppressionType =
-  | "blocks"
-  | "bounces"
-  | "spam_reports"
-  | "invalid_emails";
+export type GetDomainSuppressionsByTypeRequestSuppressionType = "bounces" | "spam_reports";
 export interface GetDomainSuppressionsByTypeRequest {
   /** The sending domain you want to look up suppressions for. */
   domain_name: string;
-  /** The reason a person's email address was suppressed by the email service provider (ESP). */
+  /** The reason the email service provider (ESP) suppressed the addresses. */
   suppression_type: GetDomainSuppressionsByTypeRequestSuppressionType | (string & {});
   /** The maximum number of results you want to retrieve per page. */
   limit?: number | undefined;
@@ -6022,7 +6272,7 @@ export interface GetDomainSuppressionsByTypeRequest {
   email?: string | undefined;
 }
 /** The reason the addresses are suppressed. */
-export type GetDomainSuppressionsByTypeResponseCategory = "bounces" | "spam";
+export type GetDomainSuppressionsByTypeResponseCategory = "bounces" | "spam_reports";
 export interface GetDomainSuppressionsByTypeResponseSuppressionsItem {
   /** The timestamp (in seconds), when the ESP suppressed the address. */
   created?: number | undefined;
@@ -6223,6 +6473,7 @@ export type GetMessageResponseMessageType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "slack"
   | "whatsapp"
@@ -6445,6 +6696,7 @@ export type GetNewsletterMetricsResponseMetricType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface GetNewsletterMetricsResponseMetric {
@@ -6503,6 +6755,7 @@ export type GetNewsletterMsgMetaResponseMessagesItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 /** Each object is a delivery of a one-time send. */
@@ -6582,6 +6835,7 @@ export type GetNewslettersResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface GetNewslettersResponseNewsletter {
@@ -6664,12 +6918,13 @@ export type GetNewsletterVariantResponseContentType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface GetNewsletterVariantResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -6687,6 +6942,8 @@ export interface GetNewsletterVariantResponseContent {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -6717,7 +6974,7 @@ export interface GetNewsletterVariantTranslationRequest {
   /** The identifier of a one-time send. */
   newsletter_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetNewsletterVariantTranslationResponseContentPreprocessor = "premailer";
@@ -6727,12 +6984,13 @@ export type GetNewsletterVariantTranslationResponseContentType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface GetNewsletterVariantTranslationResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -6750,6 +7008,8 @@ export interface GetNewsletterVariantTranslationResponseContent {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -6782,7 +7042,7 @@ export interface GetNewsletterVariantTranslationTestRequest {
   /** The ID of the A/B test group. */
   test_group_id: string;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetNewsletterVariantTranslationTestResponseContentPreprocessor = "premailer";
@@ -6792,12 +7052,13 @@ export type GetNewsletterVariantTranslationTestResponseContentType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface GetNewsletterVariantTranslationTestResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -6815,6 +7076,8 @@ export interface GetNewsletterVariantTranslationTestResponseContent {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -7115,8 +7378,11 @@ export interface GetPeopleByIdResponseCustomersItemCustomerAttributes {
   id?: string | null | undefined;
   [key: string]: unknown;
 }
-/** The device/messaging platform. */
-export type GetPeopleByIdResponseCustomersItemCustomerDevicesItemPlatform = "ios" | "android";
+/** The device/messaging platform. Use `web` for a browser that subscribed to web push, and set its `webpush_p256dh` and `webpush_auth` attributes. Customer.io accepts `web` only after you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) for the workspace. */
+export type GetPeopleByIdResponseCustomersItemCustomerDevicesItemPlatform =
+  | "ios"
+  | "android"
+  | "web";
 /** The delivery status of the last message sent to the device--sent, bounced, or suppressed. An empty string indicates that that the device hasn't received a push yet. */
 export type GetPeopleByIdResponseCustomersItemCustomerDevicesItemAttributesLastStatus =
   | ""
@@ -7145,19 +7411,25 @@ export interface GetPeopleByIdResponseCustomersItemCustomerDevicesItemAttributes
   device_model?: string | undefined;
   /** The operating system, including the version, on the device. */
   device_os?: string | undefined;
+  /** For a `web` device, the website the browser subscribed on, like `https://www.example.com`. A web push message with a **Website** reaches only browsers with that `origin`. */
+  origin?: string | undefined;
   /** If `"true"`, the device is opted-in and can receive push notifications. */
   push_enabled?:
     | GetPeopleByIdResponseCustomersItemCustomerDevicesItemAttributesPushEnabled
     | undefined;
+  /** For a `web` device, the subscription's `auth` secret, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of 16 bytes. */
+  webpush_auth?: string | undefined;
+  /** For a `web` device, the subscription's `p256dh` key, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of a 65-byte uncompressed P-256 public key. */
+  webpush_p256dh?: string | undefined;
   [key: string]: unknown;
 }
 /** Used with FCM. This represents the kind of ID in the device's `id` field, either `fid` for a [Firebase Installation ID](/messaging/channels/push/developer-guide/#device-ids) or `token` for an FCM registration token. This field is not used with APNs. See [Token types](/messaging/channels/push/developer-guide/#token-types) to learn how Customer.io supports each kind of ID. */
 export type GetPeopleByIdResponseCustomersItemCustomerDevicesItemTokenType = "fid" | "token";
 /** Device properties collected by [Customer.io SDKs](/integrations/sdk/) unless `autoTrackDeviceAttributes` is disabled. You can use these properties in segments and Liquid. */
 export interface GetPeopleByIdResponseCustomersItemCustomerDevicesItem {
-  /** The unique device identifier. This is an APNs token, an FCM registration token, or a [Firebase Installation ID (FID)](/messaging/channels/push/developer-guide/#device-ids). */
+  /** The unique device identifier. This is an APNs token, an FCM registration token, a [Firebase Installation ID (FID)](/messaging/channels/push/developer-guide/#device-ids), or, for a `web` device, the browser's push subscription endpoint, an absolute `https://` URL. */
   id: string;
-  /** The device/messaging platform. */
+  /** The device/messaging platform. Use `web` for a browser that subscribed to web push, and set its `webpush_p256dh` and `webpush_auth` attributes. Customer.io accepts `web` only after you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) for the workspace. */
   platform: GetPeopleByIdResponseCustomersItemCustomerDevicesItemPlatform;
   /** Attributes that you can reference to segment your audience--like a person's attributes, but specific to a device. These can be either the attributes defined below or custom key-value attributes. */
   attributes?: GetPeopleByIdResponseCustomersItemCustomerDevicesItemAttributes | undefined;
@@ -8225,6 +8497,7 @@ export type GetPersonActivitiesResponseActivitiesItemDataCase1Map = {
 /** Where the change came from, like your subscription center or an SMS reply. The `subscription_preference_migration` and `sender_optout_migration` values mark records that Customer.io imported from preferences and opt-outs that existed before your account recorded consent. */
 export type GetPersonActivitiesResponseActivitiesItemDataCase2CollectionPoint =
   | "api"
+  | "automation"
   | "carrier_report"
   | "double_opt_in_confirmation"
   | "form"
@@ -8235,6 +8508,7 @@ export type GetPersonActivitiesResponseActivitiesItemDataCase2CollectionPoint =
   | "one_click_unsubscribe"
   | "operator"
   | "sender_optout_migration"
+  | "sms_opt_out_link"
   | "subscription_center"
   | "subscription_preference_migration"
   | "unsubscribe_link";
@@ -8437,8 +8711,8 @@ export interface GetPersonAttributesRequest {
 /** Contains attributes assigned to this profile, including your workspace's people-identifiers (by default, these are `id`, `email`, and `cio_id`). Attributes are all stored as strings. */
 export type GetPersonAttributesResponseCustomerAttributes =
   GetPeopleByIdResponseCustomersItemCustomerAttributes;
-/** The device/messaging platform. */
-export type GetPersonAttributesResponseCustomerDevicesItemPlatform = "ios" | "android";
+/** The device/messaging platform. Use `web` for a browser that subscribed to web push, and set its `webpush_p256dh` and `webpush_auth` attributes. Customer.io accepts `web` only after you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) for the workspace. */
+export type GetPersonAttributesResponseCustomerDevicesItemPlatform = "ios" | "android" | "web";
 /** The delivery status of the last message sent to the device--sent, bounced, or suppressed. An empty string indicates that that the device hasn't received a push yet. */
 export type GetPersonAttributesResponseCustomerDevicesItemAttributesLastStatus =
   | ""
@@ -8463,17 +8737,23 @@ export interface GetPersonAttributesResponseCustomerDevicesItemAttributes {
   device_model?: string | undefined;
   /** The operating system, including the version, on the device. */
   device_os?: string | undefined;
+  /** For a `web` device, the website the browser subscribed on, like `https://www.example.com`. A web push message with a **Website** reaches only browsers with that `origin`. */
+  origin?: string | undefined;
   /** If `"true"`, the device is opted-in and can receive push notifications. */
   push_enabled?: GetPersonAttributesResponseCustomerDevicesItemAttributesPushEnabled | undefined;
+  /** For a `web` device, the subscription's `auth` secret, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of 16 bytes. */
+  webpush_auth?: string | undefined;
+  /** For a `web` device, the subscription's `p256dh` key, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of a 65-byte uncompressed P-256 public key. */
+  webpush_p256dh?: string | undefined;
   [key: string]: unknown;
 }
 /** Used with FCM. This represents the kind of ID in the device's `id` field, either `fid` for a [Firebase Installation ID](/messaging/channels/push/developer-guide/#device-ids) or `token` for an FCM registration token. This field is not used with APNs. See [Token types](/messaging/channels/push/developer-guide/#token-types) to learn how Customer.io supports each kind of ID. */
 export type GetPersonAttributesResponseCustomerDevicesItemTokenType = "fid" | "token";
 /** Device properties collected by [Customer.io SDKs](/integrations/sdk/) unless `autoTrackDeviceAttributes` is disabled. You can use these properties in segments and Liquid. */
 export interface GetPersonAttributesResponseCustomerDevicesItem {
-  /** The unique device identifier. This is an APNs token, an FCM registration token, or a [Firebase Installation ID (FID)](/messaging/channels/push/developer-guide/#device-ids). */
+  /** The unique device identifier. This is an APNs token, an FCM registration token, a [Firebase Installation ID (FID)](/messaging/channels/push/developer-guide/#device-ids), or, for a `web` device, the browser's push subscription endpoint, an absolute `https://` URL. */
   id: string;
-  /** The device/messaging platform. */
+  /** The device/messaging platform. Use `web` for a browser that subscribed to web push, and set its `webpush_p256dh` and `webpush_auth` attributes. Customer.io accepts `web` only after you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) for the workspace. */
   platform: GetPersonAttributesResponseCustomerDevicesItemPlatform;
   /** Attributes that you can reference to segment your audience--like a person's attributes, but specific to a device. These can be either the attributes defined below or custom key-value attributes. */
   attributes?: GetPersonAttributesResponseCustomerDevicesItemAttributes | undefined;
@@ -8539,6 +8819,7 @@ export type GetPersonMessagesResponseMessagesItemType =
   | "twilio"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "whatsapp";
 export interface GetPersonMessagesResponseMessagesItem {
@@ -8890,7 +9171,7 @@ export interface GetSubscriptionCenterTokenRequest {
 }
 export interface GetSubscriptionCenterTokenResponse {
   /** A signed token representing the person's subscription center session. The token expires after 24 hours. If you want to use a custom link tracking domain, you can point your customers to `https://<your-tracking-domain>/u/i/<your-token>/<language-code (optional)>`. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** A full URL to the person's standalone subscription center page. You can use this URL directly as a link. */
   url?: string | undefined;
 }
@@ -8996,11 +9277,11 @@ export interface GetTransactionalTranslationByIdRequest {
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetTransactionalTranslationByIdResponseContentPreprocessor = "premailer";
 /** The type of message. */
-export type GetTransactionalTranslationByIdResponseContentType = "email" | "push";
+export type GetTransactionalTranslationByIdResponseContentType = "email" | "push" | "web_push";
 export interface GetTransactionalTranslationByIdResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -9018,6 +9299,8 @@ export interface GetTransactionalTranslationByIdResponseContent {
   headers?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The name of the transactional message. */
@@ -9046,16 +9329,16 @@ export interface GetTransactionalVariantRequest {
   /** The identifier of your transactional message. You'll find this in the UI or URL of your transactional message. For example, if this is the path of a transactional message URL - `/transactional/3/templates/139` - the `transactional_id` is 3. */
   transactional_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type GetTransactionalVariantResponseContentItemPreprocessor = "premailer";
 /** The type of message. */
-export type GetTransactionalVariantResponseContentItemType = "email" | "push";
+export type GetTransactionalVariantResponseContentItemType = "email" | "push" | "web_push";
 export interface GetTransactionalVariantResponseContentItem {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -9073,6 +9356,8 @@ export interface GetTransactionalVariantResponseContentItem {
   headers?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The name of the transactional message. */
@@ -9288,6 +9573,7 @@ export type GetVariantMetricsResponseMetricType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface GetVariantMetricsResponseMetric {
@@ -9348,6 +9634,16 @@ export type GetWebhookResponseEventsItem =
   | "push_dropped"
   | "push_failed"
   | "push_undeliverable"
+  | "web_push_drafted"
+  | "web_push_attempted"
+  | "web_push_sent"
+  | "web_push_delivered"
+  | "web_push_opened"
+  | "web_push_converted"
+  | "web_push_bounced"
+  | "web_push_dropped"
+  | "web_push_failed"
+  | "web_push_undeliverable"
   | "slack_drafted"
   | "slack_attempted"
   | "slack_sent"
@@ -9405,6 +9701,51 @@ export interface GetWebhookResponse {
   type?: GetWebhookResponseType | undefined;
   /** Set to `true` to include message content in `sent` events and topic preferences in `cio_subscription_preferences_changed` events. This is the **Body content** option in the UI. */
   with_content?: boolean | undefined;
+}
+export interface GetWorkspaceAuditLogRequest {
+  /** The `id` of the audit log entry. */
+  id: number;
+}
+/** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+export type GetWorkspaceAuditLogResponseDataRelatedLogsList = Array<AuditLogEntry>;
+export interface GetWorkspaceAuditLogResponseData {
+  /** The account the change belongs to. `0` on workspace audit log entries, which belong to the workspace your key is for. */
+  account_id?: number | undefined;
+  /** The kind of change, like `Created`, `Updated`, or `Deleted`. */
+  action?: string | undefined;
+  /** For an update, the values of the fields that changed, before the change. */
+  changed_from?: unknown | null | undefined;
+  /** For an update, the values of the fields that changed, after the change. */
+  changed_to?: unknown | null | undefined;
+  /** The object as it was saved after the change. The shape depends on `object_type`. A `FailedLogin` entry carries `login_method`, `reason` (like `invalid_password` or `invalid_2fa_code`), and `user_agent`. */
+  data?: unknown | undefined;
+  /** The entry's identifier. Use it as a `cursor` to page through results. */
+  id?: number | undefined;
+  /** The IP address the change came from. */
+  ip_addr?: string | undefined;
+  /** Request details recorded with the change. */
+  meta?: unknown | undefined;
+  /** The identifier of the object that changed. For a `FailedLogin` entry, this is the team member whose sign-in failed. */
+  object_id?: string | undefined;
+  /** The kind of object that changed, like `Segment`, `User`, or `FailedLogin`. */
+  object_type?: string | undefined;
+  /** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+  related_logs?: GetWorkspaceAuditLogResponseDataRelatedLogsList | null | undefined;
+  /** The service account that made the change, if any. */
+  service_account_id?: number | null | undefined;
+  /** When the change happened, as a unix timestamp in seconds. */
+  timestamp?: number | undefined;
+  /** The team member who made the change, matching a `user_id` in the response's `users` array. `0` when no signed-in team member made the change, like a failed sign-in. */
+  user_id?: number | undefined;
+  /** The object's version number after the change. For objects that keep one, like segments and automations, it generally goes up as the object changes, but some updates don't change it, so use `id` to put an object's entries in order. The value is `0` on entries that don't record a version. */
+  version?: number | undefined;
+}
+export type GetWorkspaceAuditLogResponseServiceAccount = GetAccountAuditLogResponseServiceAccount;
+export type GetWorkspaceAuditLogResponseUser = GetAccountAuditLogResponseUser;
+export interface GetWorkspaceAuditLogResponse {
+  data?: GetWorkspaceAuditLogResponseData | undefined;
+  service_account?: GetAccountAuditLogResponseServiceAccount | undefined;
+  user?: GetAccountAuditLogResponseUser | undefined;
 }
 /** The type of identifier you want to use to identify people in your sheet--`id` or `email`. At least one column in the CSV must contain an identifier. */
 export type ImportRequestImportCase0Identifier = "id" | "email";
@@ -9576,6 +9917,95 @@ export interface ImportResponse {
   /** Represents an import operation. */
   import: ImportResponseImport;
 }
+export type ListAccountAuditLogsRequestSortOrder = "asc" | "desc";
+export type ListAccountAuditLogsRequestAction = "created" | "updated" | "deleted";
+export interface ListAccountAuditLogsRequest {
+  /** The number of entries to return, up to 100. If you ask for more, you get 100. */
+  limit?: number | undefined;
+  /** The order of the results. `desc` returns the newest entries first. Use `asc` to poll for new entries: pass the `id` of the last entry you received as `cursor` to get only the entries after it. */
+  sort_order?: ListAccountAuditLogsRequestSortOrder | (string & {}) | undefined;
+  /** An audit log entry `id`. Returns the entries after it when `sort_order=asc`, or before it when `sort_order=desc`. Pass the `next_cursor` from your previous response to get the next page. */
+  cursor?: number | undefined;
+  /** Returns entries at or after this time, in RFC 3339 format, like `2026-11-01T00:00:00Z`. If the time is earlier than your plan's audit log history, results start at the earliest entry your plan includes. */
+  start_time?: string | undefined;
+  /** Returns entries at or before this time, in RFC 3339 format. */
+  end_time?: string | undefined;
+  /** Returns entries for actions taken by this team member. */
+  user_id?: number | undefined;
+  /** Returns entries for actions taken by this service account. */
+  service_account_id?: number | undefined;
+  /** Returns entries from IP addresses that start with this value. */
+  ip_addr?: string | undefined;
+  /** Returns entries for one kind of object, using the names in the `object_type` field of each entry, like `Segment` or `User`. */
+  object_type?: string | undefined;
+  /** Returns entries for one object. Requires `object_type`. */
+  object_id?: string | undefined;
+  /** Returns entries for one kind of change. Requires `object_type` or `object_id`. */
+  action?: ListAccountAuditLogsRequestAction | (string & {}) | undefined;
+  /** Returns entries where this field changed. Requires `object_type` or `object_id`. */
+  attribute_name?: string | undefined;
+}
+/** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+export type ListAccountAuditLogsResponseDataItemRelatedLogsList = Array<AuditLogEntry>;
+export interface ListAccountAuditLogsResponseDataItem {
+  /** The account the change belongs to. `0` on workspace audit log entries, which belong to the workspace your key is for. */
+  account_id?: number | undefined;
+  /** The kind of change, like `Created`, `Updated`, or `Deleted`. */
+  action?: string | undefined;
+  /** For an update, the values of the fields that changed, before the change. */
+  changed_from?: unknown | null | undefined;
+  /** For an update, the values of the fields that changed, after the change. */
+  changed_to?: unknown | null | undefined;
+  /** The object as it was saved after the change. The shape depends on `object_type`. A `FailedLogin` entry carries `login_method`, `reason` (like `invalid_password` or `invalid_2fa_code`), and `user_agent`. */
+  data?: unknown | undefined;
+  /** The entry's identifier. Use it as a `cursor` to page through results. */
+  id?: number | undefined;
+  /** The IP address the change came from. */
+  ip_addr?: string | undefined;
+  /** Request details recorded with the change. */
+  meta?: unknown | undefined;
+  /** The identifier of the object that changed. For a `FailedLogin` entry, this is the team member whose sign-in failed. */
+  object_id?: string | undefined;
+  /** The kind of object that changed, like `Segment`, `User`, or `FailedLogin`. */
+  object_type?: string | undefined;
+  /** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+  related_logs?: ListAccountAuditLogsResponseDataItemRelatedLogsList | null | undefined;
+  /** The service account that made the change, if any. */
+  service_account_id?: number | null | undefined;
+  /** When the change happened, as a unix timestamp in seconds. */
+  timestamp?: number | undefined;
+  /** The team member who made the change, matching a `user_id` in the response's `users` array. `0` when no signed-in team member made the change, like a failed sign-in. */
+  user_id?: number | undefined;
+  /** The object's version number after the change. For objects that keep one, like segments and automations, it generally goes up as the object changes, but some updates don't change it, so use `id` to put an object's entries in order. The value is `0` on entries that don't record a version. */
+  version?: number | undefined;
+}
+/** The audit log entries. */
+export type ListAccountAuditLogsResponseDataList = Array<ListAccountAuditLogsResponseDataItem>;
+export interface ListAccountAuditLogsResponsePagination {
+  /** The number of entries per page. If you asked for more than 100, this is 100. */
+  limit?: number | undefined;
+  /** Pass this as `cursor` to get the next page. `0` on the last page, which can still hold entries. */
+  next_cursor?: number | undefined;
+  /** The order of the results. */
+  sort_order?: string | undefined;
+}
+export type ListAccountAuditLogsResponseServiceAccountsItem =
+  GetAccountAuditLogResponseServiceAccount;
+/** The service accounts named in `data`. */
+export type ListAccountAuditLogsResponseServiceAccountsList =
+  Array<GetAccountAuditLogResponseServiceAccount>;
+export type ListAccountAuditLogsResponseUsersItem = GetAccountAuditLogResponseUser;
+/** The team members named in `data`, with their email addresses. */
+export type ListAccountAuditLogsResponseUsersList = Array<GetAccountAuditLogResponseUser>;
+export interface ListAccountAuditLogsResponse {
+  /** The audit log entries. */
+  data?: ListAccountAuditLogsResponseDataList | undefined;
+  pagination?: ListAccountAuditLogsResponsePagination | undefined;
+  /** The service accounts named in `data`. */
+  service_accounts?: ListAccountAuditLogsResponseServiceAccountsList | null | undefined;
+  /** The team members named in `data`, with their email addresses. */
+  users?: ListAccountAuditLogsResponseUsersList | undefined;
+}
 /** The type of activity. Types with `_o:<object_type_id>` are for objects and types with `_r:<object_type_id>` are for relationships. */
 export type ListActivitiesRequestType =
   | "add_relationship"
@@ -9727,6 +10157,7 @@ export type ListActivitiesResponseActivitiesItemDataCase1Map = {
 /** Where the change came from, like your subscription center or an SMS reply. The `subscription_preference_migration` and `sender_optout_migration` values mark records that Customer.io imported from preferences and opt-outs that existed before your account recorded consent. */
 export type ListActivitiesResponseActivitiesItemDataCase2CollectionPoint =
   | "api"
+  | "automation"
   | "carrier_report"
   | "double_opt_in_confirmation"
   | "form"
@@ -9737,6 +10168,7 @@ export type ListActivitiesResponseActivitiesItemDataCase2CollectionPoint =
   | "one_click_unsubscribe"
   | "operator"
   | "sender_optout_migration"
+  | "sms_opt_out_link"
   | "subscription_center"
   | "subscription_preference_migration"
   | "unsubscribe_link";
@@ -10124,6 +10556,7 @@ export type ListCampaignActionsResponseActionsItemCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -10188,7 +10621,7 @@ export type ListCampaignActionsResponseActionsItemCase1SendingState = "automatic
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type ListCampaignActionsResponseActionsItemCase1Type = "twilio";
 export interface ListCampaignActionsResponseActionsItemCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
@@ -10198,7 +10631,7 @@ export interface ListCampaignActionsResponseActionsItemCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -10746,6 +11179,7 @@ export type ListMessagesRequestType =
   | "whatsapp"
   | "slack"
   | "push"
+  | "web_push"
   | "in_app"
   | "live_notification";
 export type ListMessagesRequestMetric =
@@ -10802,6 +11236,7 @@ export type ListMessagesResponseMessagesItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "slack"
   | "whatsapp"
@@ -10889,6 +11324,7 @@ export type ListNewslettersResponseNewslettersItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface ListNewslettersResponseNewslettersItem {
@@ -10947,12 +11383,13 @@ export type ListNewsletterVariantsResponseContentsItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface ListNewsletterVariantsResponseContentsItem {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -10970,6 +11407,8 @@ export interface ListNewsletterVariantsResponseContentsItem {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -11097,11 +11536,11 @@ export interface ListTransactionalVariantsRequest {
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type ListTransactionalVariantsResponseContentsItemPreprocessor = "premailer";
 /** The type of message. */
-export type ListTransactionalVariantsResponseContentsItemType = "email" | "push";
+export type ListTransactionalVariantsResponseContentsItemType = "email" | "push" | "web_push";
 export interface ListTransactionalVariantsResponseContentsItem {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -11119,6 +11558,8 @@ export interface ListTransactionalVariantsResponseContentsItem {
   headers?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The name of the transactional message. */
@@ -11193,6 +11634,16 @@ export type ListWebhooksResponseReportingWebhooksItemEventsItem =
   | "push_dropped"
   | "push_failed"
   | "push_undeliverable"
+  | "web_push_drafted"
+  | "web_push_attempted"
+  | "web_push_sent"
+  | "web_push_delivered"
+  | "web_push_opened"
+  | "web_push_converted"
+  | "web_push_bounced"
+  | "web_push_dropped"
+  | "web_push_failed"
+  | "web_push_undeliverable"
   | "slack_drafted"
   | "slack_attempted"
   | "slack_sent"
@@ -11257,6 +11708,95 @@ export type ListWebhooksResponseReportingWebhooksList =
 export interface ListWebhooksResponse {
   reporting_webhooks?: ListWebhooksResponseReportingWebhooksList | undefined;
 }
+export type ListWorkspaceAuditLogsRequestSortOrder = "asc" | "desc";
+export type ListWorkspaceAuditLogsRequestAction = "created" | "updated" | "deleted";
+export type ListWorkspaceAuditLogsRequestCampaignType =
+  | "triggered_broadcast"
+  | "exclude_triggered_broadcast";
+export interface ListWorkspaceAuditLogsRequest {
+  /** The number of entries to return, up to 100. If you ask for more, you get 100. */
+  limit?: number | undefined;
+  /** The order of the results. `desc` returns the newest entries first. Use `asc` to poll for new entries: pass the `id` of the last entry you received as `cursor` to get only the entries after it. */
+  sort_order?: ListWorkspaceAuditLogsRequestSortOrder | (string & {}) | undefined;
+  /** An audit log entry `id`. Returns the entries after it when `sort_order=asc`, or before it when `sort_order=desc`. Pass the `next_cursor` from your previous response to get the next page. */
+  cursor?: number | undefined;
+  /** Returns entries at or after this time, in RFC 3339 format, like `2026-11-01T00:00:00Z`. If the time is earlier than your plan's audit log history, results start at the earliest entry your plan includes. */
+  start_time?: string | undefined;
+  /** Returns entries at or before this time, in RFC 3339 format. */
+  end_time?: string | undefined;
+  /** Returns entries for actions taken by this team member. */
+  user_id?: number | undefined;
+  /** Returns entries for actions taken by this service account. */
+  service_account_id?: number | undefined;
+  /** Returns entries from IP addresses that start with this value. */
+  ip_addr?: string | undefined;
+  /** Returns entries for one kind of object, using the names in the `object_type` field of each entry, like `Segment` or `User`. */
+  object_type?: string | undefined;
+  /** Returns entries for one object. Requires `object_type`. */
+  object_id?: string | undefined;
+  /** Returns entries for one kind of change. Requires `object_type` or `object_id`. */
+  action?: ListWorkspaceAuditLogsRequestAction | (string & {}) | undefined;
+  /** Returns entries where this field changed. Requires `object_type` or `object_id`. */
+  attribute_name?: string | undefined;
+  /** Returns entries for the actions in one automation. Requires `object_type=CampaignAction`. */
+  campaign_id?: number | undefined;
+  /** Returns only API-triggered broadcasts, or excludes them. Requires `object_type=Campaign`. */
+  campaign_type?: ListWorkspaceAuditLogsRequestCampaignType | (string & {}) | undefined;
+}
+/** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+export type ListWorkspaceAuditLogsResponseDataItemRelatedLogsList = Array<AuditLogEntry>;
+export interface ListWorkspaceAuditLogsResponseDataItem {
+  /** The account the change belongs to. `0` on workspace audit log entries, which belong to the workspace your key is for. */
+  account_id?: number | undefined;
+  /** The kind of change, like `Created`, `Updated`, or `Deleted`. */
+  action?: string | undefined;
+  /** For an update, the values of the fields that changed, before the change. */
+  changed_from?: unknown | null | undefined;
+  /** For an update, the values of the fields that changed, after the change. */
+  changed_to?: unknown | null | undefined;
+  /** The object as it was saved after the change. The shape depends on `object_type`. A `FailedLogin` entry carries `login_method`, `reason` (like `invalid_password` or `invalid_2fa_code`), and `user_agent`. */
+  data?: unknown | undefined;
+  /** The entry's identifier. Use it as a `cursor` to page through results. */
+  id?: number | undefined;
+  /** The IP address the change came from. */
+  ip_addr?: string | undefined;
+  /** Request details recorded with the change. */
+  meta?: unknown | undefined;
+  /** The identifier of the object that changed. For a `FailedLogin` entry, this is the team member whose sign-in failed. */
+  object_id?: string | undefined;
+  /** The kind of object that changed, like `Segment`, `User`, or `FailedLogin`. */
+  object_type?: string | undefined;
+  /** On a `Segment` entry, the latest `Condition` entry for each of the segment's conditions, and the latest `EventType` entry for each event those conditions name, from before the segment changed. Each has its own `changed_from` and `changed_to`, so you can see the segment's rules as they were at the time. */
+  related_logs?: ListWorkspaceAuditLogsResponseDataItemRelatedLogsList | null | undefined;
+  /** The service account that made the change, if any. */
+  service_account_id?: number | null | undefined;
+  /** When the change happened, as a unix timestamp in seconds. */
+  timestamp?: number | undefined;
+  /** The team member who made the change, matching a `user_id` in the response's `users` array. `0` when no signed-in team member made the change, like a failed sign-in. */
+  user_id?: number | undefined;
+  /** The object's version number after the change. For objects that keep one, like segments and automations, it generally goes up as the object changes, but some updates don't change it, so use `id` to put an object's entries in order. The value is `0` on entries that don't record a version. */
+  version?: number | undefined;
+}
+/** The audit log entries. */
+export type ListWorkspaceAuditLogsResponseDataList = Array<ListWorkspaceAuditLogsResponseDataItem>;
+export type ListWorkspaceAuditLogsResponsePagination = ListAccountAuditLogsResponsePagination;
+export type ListWorkspaceAuditLogsResponseServiceAccountsItem =
+  GetAccountAuditLogResponseServiceAccount;
+/** The service accounts named in `data`. */
+export type ListWorkspaceAuditLogsResponseServiceAccountsList =
+  Array<GetAccountAuditLogResponseServiceAccount>;
+export type ListWorkspaceAuditLogsResponseUsersItem = GetAccountAuditLogResponseUser;
+/** The team members named in `data`, with their email addresses. */
+export type ListWorkspaceAuditLogsResponseUsersList = Array<GetAccountAuditLogResponseUser>;
+export interface ListWorkspaceAuditLogsResponse {
+  /** The audit log entries. */
+  data?: ListWorkspaceAuditLogsResponseDataList | undefined;
+  pagination?: ListAccountAuditLogsResponsePagination | undefined;
+  /** The service accounts named in `data`. */
+  service_accounts?: ListWorkspaceAuditLogsResponseServiceAccountsList | null | undefined;
+  /** The team members named in `data`, with their email addresses. */
+  users?: ListWorkspaceAuditLogsResponseUsersList | undefined;
+}
 export interface ListWorkspacesRequest {}
 /** Contains workspace properties including the count of messages, people, and objects. Customer.io caches these counts, so your data may be up to two hours old. */
 export interface ListWorkspacesResponseWorkspacesItem {
@@ -11297,7 +11837,7 @@ export interface PutCollectionSyncRequest {
   collection_id: number;
   /** The `id` of the source to read files from. */
   source_id: string;
-  /** How often Customer.io checks the folder for new files, in hours. */
+  /** How often Customer.io checks the folder for new or changed files, in hours. */
   poll_hours?: number | undefined;
   /** The folder to watch, relative to the source's own `prefix`, like `daily/`. Customer.io adds a trailing `/` if you leave it off. Leave out `prefix` to watch every file the source can read. The folder can't leave the source's prefix, so it can't contain `..` or `\`. */
   prefix?: string | undefined;
@@ -11317,7 +11857,7 @@ export interface PutCollectionSyncResponseSync {
   last_file?: GetCollectionSyncResponseSyncLastFile | undefined;
   /** When Customer.io next checks the folder. Absent when the next check isn't scheduled yet. */
   next_run_at?: string | undefined;
-  /** How often Customer.io checks the folder for new files, in hours. */
+  /** How often Customer.io checks the folder for new or changed files, in hours. */
   poll_hours?: number | undefined;
   /** The folder that the sync watches, relative to the source's `prefix`. */
   prefix?: string | undefined;
@@ -11378,6 +11918,7 @@ export type ScheduleNewsletterResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface ScheduleNewsletterResponseNewsletter {
@@ -11421,10 +11962,12 @@ export interface ScheduleNewsletterResponseNewsletter {
 export interface ScheduleNewsletterResponse {
   newsletter?: ScheduleNewsletterResponseNewsletter | undefined;
 }
-/** A dictionary of attachments where the filename is the key and the value is the base64-encoded contents. The filename must include the extension (i.e. `name.csv`). The total size of all attachments must be less than 2 MB. */
+/** A dictionary of attachments where the filename is the key and the value is the base64-encoded contents. The filename must include the extension (i.e. `name.csv`). The base64-encoded contents of all your attachments can total up to 2MB. */
 export interface SendEmailRequestAttachments {
   _file_name_?: string | undefined;
 }
+/** Custom headers to add to the email, as an object of header names and string values. Names can contain only letters, numbers, hyphens, and underscores. You can't overwrite reserved headers. */
+export type SendEmailRequestHeadersMap = { [key: string]: string | undefined };
 export interface SendEmailRequestIdentifiersCase0 {
   /** The identifier for the person represented by the transactional message. **NOTE**: If your workspace identifies people by email, use the `email` identifier instead. */
   id: string;
@@ -11449,7 +11992,7 @@ export type SendEmailRequestTransactionalMessageId = number | string;
 export interface SendEmailRequest {
   /** The recipients you want to send to, separated by commas. You can include up to 15 total recipients across `to`, `cc`, and `bcc`, with optional display names in quotes. */
   to: string;
-  /** A dictionary of attachments where the filename is the key and the value is the base64-encoded contents. The filename must include the extension (i.e. `name.csv`). The total size of all attachments must be less than 2 MB. */
+  /** A dictionary of attachments where the filename is the key and the value is the base64-encoded contents. The filename must include the extension (i.e. `name.csv`). The base64-encoded contents of all your attachments can total up to 2MB. */
   attachments?: SendEmailRequestAttachments | undefined;
   /** If `true` and your `transactional_message_id` doesn't match a record, Customer.io creates an empty record using that value as the *Trigger Name*. The ID must be a string. If the name already belongs to another channel, the request fails with `400`, and numeric IDs ignore this setting. See [details](/journeys/transactional-email/#auto-create-transactional-message-records). */
   auto_create?: boolean | undefined;
@@ -11471,8 +12014,8 @@ export interface SendEmailRequest {
   fake_bcc?: boolean | undefined;
   /** The address your email is from. It must be a [verified sender](/journeys/channels/email/deliverability/authentication/). Quote any display name, like `\"Person\" <person@example.com>`. This overrides the template's sender; omit it to use the template or your workspace default. */
   from?: string | undefined;
-  /** A JSON string containing header objects with `name` and `value`. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-  headers?: string | undefined;
+  /** Custom headers to add to the email, as an object of header names and string values. Names can contain only letters, numbers, hyphens, and underscores. You can't overwrite reserved headers. */
+  headers?: SendEmailRequestHeadersMap | undefined;
   /** Identifies the person represented by your transactional message by one of, and only one of, `id`, `email`, or `cio_id`. */
   identifiers?: SendEmailRequestIdentifiers | undefined;
   /** Overrides language preferences for the person you want to send your transactional message to. Use one of our [supported two- or four-letter language codes](/journeys/channels/localization/getting-started/#supported-languages). */
@@ -11620,6 +12163,7 @@ export type SendNewsletterResponseNewsletterType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface SendNewsletterResponseNewsletter {
@@ -11673,8 +12217,8 @@ export type SendPushRequestIdentifiers =
   | SendEmailRequestIdentifiersCase2;
 /** The transactional message template that you want to use for your message. You can call the template by its numerical ID or by the *Trigger Name* that you assigned to the template in the UI (case insensitive). */
 export type SendPushRequestTransactionalMessageId = number | string;
-/** The device/messaging platform. */
-export type SendPushRequestCustomDevicePlatform = "ios" | "android";
+/** The device/messaging platform. Use `web` for a browser that subscribed to web push, and set its `webpush_p256dh` and `webpush_auth` attributes. Customer.io accepts `web` only after you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) for the workspace. */
+export type SendPushRequestCustomDevicePlatform = "ios" | "android" | "web";
 /** Attributes that you can reference to segment your audience--like a person's attributes, but specific to a device. These can be either the attributes defined below or custom key-value attributes. */
 export interface SendPushRequestCustomDeviceAttributes {
   /** The app that the device belongs to--the **Bundle ID / App identifier** you entered with that app's push credentials. If you have more than one app, we use this attribute to send push notifications to the right app. A device without an app identifier receives push notifications you send to your [default app](/messaging/channels/push/getting-started/#the-default-app). */
@@ -11689,16 +12233,22 @@ export interface SendPushRequestCustomDeviceAttributes {
   device_model?: string | undefined;
   /** The operating system, including the version, on the device. */
   device_os?: string | undefined;
+  /** For a `web` device, the website the browser subscribed on, like `https://www.example.com`. A web push message with a **Website** reaches only browsers with that `origin`. */
+  origin?: string | undefined;
   /** If `"true"`, the device is opted-in and can receive push notifications. */
   push_enabled?: boolean | undefined;
+  /** For a `web` device, the subscription's `auth` secret, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of 16 bytes. */
+  webpush_auth?: string | undefined;
+  /** For a `web` device, the subscription's `p256dh` key, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of a 65-byte uncompressed P-256 public key. */
+  webpush_p256dh?: string | undefined;
   [key: string]: unknown;
 }
 /** A device to perform an upsert operation at the time of send. The device will be added/updated on the profile from the Identifiers block. */
 export interface SendPushRequestCustomDevice {
-  /** The device/messaging platform. */
+  /** The device/messaging platform. Use `web` for a browser that subscribed to web push, and set its `webpush_p256dh` and `webpush_auth` attributes. Customer.io accepts `web` only after you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) for the workspace. */
   platform: SendPushRequestCustomDevicePlatform | (string & {});
   /** The device token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Attributes that you can reference to segment your audience--like a person's attributes, but specific to a device. These can be either the attributes defined below or custom key-value attributes. */
   attributes?: SendPushRequestCustomDeviceAttributes | undefined;
   /** The `timestamp` when you last identified this device. If you don't pass a timestamp when you add or update a device, we use the time of the request itself. Our SDKs identify a device when a person launches their app. */
@@ -11975,7 +12525,7 @@ export interface SendPushRequestCustomPayload {
 }
 /** An object containing the key-value pairs referenced using liquid in your message. */
 export type SendPushRequestMessageDataMap = { [key: string]: unknown | undefined };
-/** The devices this send goes to, overriding the platform saved on the transactional message for this request only. `all` is iOS and Android, `web` is browsers only, and `all_and_web` is iOS, Android, and browsers. If you leave it out, the send uses the message's platform; with `auto_create`, a new message keeps the platform of its first request. Values other than `all` require [web push](/messaging/channels/web-push/transactional/) for your account; without it, the request fails with `400`. */
+/** The devices this send goes to, overriding the platform saved on the transactional message for this request only. `all` is iOS and Android, `web` is browsers only, and `all_and_web` is iOS, Android, and browsers. If you leave it out, the send uses the message's platform; with `auto_create`, a new message keeps the platform of its first request. Values other than `all` require web push keys for the workspace; without them, the request fails with `400`. We're retiring `web` and `all_and_web` for this endpoint. To send to browsers, use a web push message and [`POST /v1/send/web_push`](/integrations/api/app/tag/send-messages/sendWebPush/). **Sunsetting on December 31, 2026** */
 export type SendPushRequestPlatform = "all" | "ios" | "android" | "web" | "all_and_web";
 /** **For iOS Only**: your notification can alert users with the device's default notification sound or play no sound at all. */
 export type SendPushRequestSound = "default" | "none";
@@ -12006,7 +12556,7 @@ export interface SendPushRequest {
   message?: string | undefined;
   /** An object containing the key-value pairs referenced using liquid in your message. */
   message_data?: SendPushRequestMessageDataMap | undefined;
-  /** The devices this send goes to, overriding the platform saved on the transactional message for this request only. `all` is iOS and Android, `web` is browsers only, and `all_and_web` is iOS, Android, and browsers. If you leave it out, the send uses the message's platform; with `auto_create`, a new message keeps the platform of its first request. Values other than `all` require [web push](/messaging/channels/web-push/transactional/) for your account; without it, the request fails with `400`. */
+  /** The devices this send goes to, overriding the platform saved on the transactional message for this request only. `all` is iOS and Android, `web` is browsers only, and `all_and_web` is iOS, Android, and browsers. If you leave it out, the send uses the message's platform; with `auto_create`, a new message keeps the platform of its first request. Values other than `all` require web push keys for the workspace; without them, the request fails with `400`. We're retiring `web` and `all_and_web` for this endpoint. To send to browsers, use a web push message and [`POST /v1/send/web_push`](/integrations/api/app/tag/send-messages/sendWebPush/). **Sunsetting on December 31, 2026** */
   platform?: SendPushRequestPlatform | (string & {}) | undefined;
   /** If true, your transactional message is held as a draft in Customer.io and not sent directly to your audience. You must go to the Deliveries and Drafts page to send your message. */
   queue_draft?: boolean | undefined;
@@ -12068,6 +12618,85 @@ export interface SendSMSRequest {
   tracked?: boolean | undefined;
 }
 export interface SendSMSResponse {
+  /** A unique identifier for the message. */
+  delivery_id?: string | undefined;
+  /** A Unix timestamp for when Customer.io accepted and queued your request. For scheduled messages (using `send_at`), this is when we received your request, not when the message sends. */
+  queued_at?: number | undefined;
+  /** For a scheduled message, the Unix timestamp when the message is set to send. Returned only when you provide a future `send_at`. */
+  send_at?: number | undefined;
+}
+export type SendWebPushRequestIdentifiersCase0 = SendEmailRequestIdentifiersCase0;
+export type SendWebPushRequestIdentifiersCase1 = SendEmailRequestIdentifiersCase1;
+export type SendWebPushRequestIdentifiersCase2 = SendEmailRequestIdentifiersCase2;
+/** Identifies the person represented by your transactional message by one of, and only one of, `id`, `email`, or `cio_id`. */
+export type SendWebPushRequestIdentifiers =
+  | SendEmailRequestIdentifiersCase0
+  | SendEmailRequestIdentifiersCase1
+  | SendEmailRequestIdentifiersCase2;
+/** The transactional web push message that you want to send. You can call the message by its numerical ID or by the *Trigger Name* that you assigned to the message in the UI (case insensitive). The message must be a web push message. */
+export type SendWebPushRequestTransactionalMessageId = number | string;
+/** Key-value pairs to deliver with the notification, which your website can read. This overrides the custom data of the transactional message. If you send `null`, Customer.io uses the message's own custom data. */
+export type SendWebPushRequestCustomDataMap = { [key: string]: string | undefined };
+/** The browser's subscription keys, plus any other attributes you want to set on the device. */
+export interface SendWebPushRequestCustomDeviceAttributes {
+  /** The subscription's `auth` secret, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of 16 bytes. */
+  webpush_auth: string;
+  /** The subscription's `p256dh` key, as the browser gives it in `subscription.toJSON()`. This is the base64url encoding of a 65-byte uncompressed P-256 public key. */
+  webpush_p256dh: string;
+  /** The website the browser subscribed on, like `https://www.example.com`. A message with a **Website** reaches only browsers with that `origin`. */
+  origin?: string | undefined;
+  [key: string]: unknown;
+}
+/** The device platform. A browser's platform is `web`. */
+export type SendWebPushRequestCustomDevicePlatform = "web";
+/** A browser to add or update on the person's profile before the send. `to` still chooses which browsers receive the message, so set `to` to the same endpoint to send only to this browser. */
+export interface SendWebPushRequestCustomDevice {
+  /** The browser's subscription keys, plus any other attributes you want to set on the device. */
+  attributes: SendWebPushRequestCustomDeviceAttributes;
+  /** The device platform. A browser's platform is `web`. */
+  platform: SendWebPushRequestCustomDevicePlatform | (string & {});
+  /** The browser's push subscription endpoint, an absolute `https://` URL. */
+  token: string | Redacted.Redacted<string>;
+  /** The `timestamp` when the person last used this browser. If you leave it out, Customer.io uses the time of the request. */
+  last_used?: number | undefined;
+}
+/** An object containing the key-value pairs referenced using liquid in your message. */
+export type SendWebPushRequestMessageDataMap = { [key: string]: unknown | undefined };
+export interface SendWebPushRequest {
+  /** Identifies the person represented by your transactional message by one of, and only one of, `id`, `email`, or `cio_id`. */
+  identifiers: SendWebPushRequestIdentifiers;
+  /** The transactional web push message that you want to send. You can call the message by its numerical ID or by the *Trigger Name* that you assigned to the message in the UI (case insensitive). The message must be a web push message. */
+  transactional_message_id: SendWebPushRequestTransactionalMessageId;
+  /** If `true` and your `transactional_message_id` doesn't match a message, Customer.io creates a web push message using that value as the *Trigger Name*. The ID must be a string. A new message sends to all of the person's eligible browsers until you change its **Browsers** (or **To**) setting. */
+  auto_create?: boolean | undefined;
+  /** Key-value pairs to deliver with the notification, which your website can read. This overrides the custom data of the transactional message. If you send `null`, Customer.io uses the message's own custom data. */
+  custom_data?: SendWebPushRequestCustomDataMap | null | undefined;
+  /** A browser to add or update on the person's profile before the send. `to` still chooses which browsers receive the message, so set `to` to the same endpoint to send only to this browser. */
+  custom_device?: SendWebPushRequestCustomDevice | undefined;
+  /** If true, the message body is not retained in delivery history. Setting this value overrides the value set in the settings of your `transactional_message_id`. */
+  disable_message_retention?: boolean | undefined;
+  /** The URL of an image to show in the notification. This overrides the image of the transactional message for this send. */
+  image_url?: string | undefined;
+  /** Overrides language preferences for the person you want to send your transactional message to. Use one of our [supported two- or four-letter language codes](/journeys/channels/localization/getting-started/#supported-languages). */
+  language?: string | undefined;
+  /** The URL to open when the person clicks the notification. This overrides the link of the transactional message for this send. */
+  link?: string | undefined;
+  /** The notification text. This replaces the text of the transactional message for this send, so it can't be blank or only spaces. */
+  message?: string | undefined;
+  /** An object containing the key-value pairs referenced using liquid in your message. */
+  message_data?: SendWebPushRequestMessageDataMap | undefined;
+  /** If true, your transactional message is held as a draft in Customer.io and not sent directly to your audience. You must go to the Deliveries and Drafts page to send your message. */
+  queue_draft?: boolean | undefined;
+  /** A unix timestamp (seconds since epoch) determining when the message will be sent. The timestamp can be up to 90 days in the future. If this value is in the past, your message is sent immediately. */
+  send_at?: number | undefined;
+  /** If false, your message is not sent to unsubscribed recipients. Setting this value overrides the value set in the settings of your `transactional_message_id`. */
+  send_to_unsubscribed?: boolean | undefined;
+  /** The notification title. This overrides the title of the transactional message for this send. */
+  title?: string | undefined;
+  /** Which of the person's eligible browsers receive the message, overriding the message's **Browsers** (or **To**) setting for this send. Use `all` for every eligible browser, `last_used` for the most recently used one, or a browser's subscription endpoint to send to that browser. If you leave it out, the send uses the message's setting. If the endpoint isn't one of the person's eligible browsers, the request still returns `200`, and the delivery is undeliverable. */
+  to?: string | undefined;
+}
+export interface SendWebPushResponse {
   /** A unique identifier for the message. */
   delivery_id?: string | undefined;
   /** A Unix timestamp for when Customer.io accepted and queued your request. For scheduled messages (using `send_at`), this is when we received your request, not when the message sends. */
@@ -12321,6 +12950,7 @@ export type TransactionalMessagesResponseMessagesItemType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "slack"
   | "whatsapp"
@@ -12497,7 +13127,7 @@ export interface TransactionalMetricsResponseMetric {
 export interface TransactionalMetricsResponse {
   metric?: TransactionalMetricsResponseMetric | undefined;
 }
-/** Contains information you want to use to populate your broadcast. */
+/** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
 export type TriggerBroadcastRequestBodyCase0DataMap = { [key: string]: unknown | undefined };
 /** The length of each period. */
 export type TriggerBroadcastRequestBodyCase0RateLimitPeriod = "minute" | "hour" | "day";
@@ -12512,7 +13142,7 @@ export interface TriggerBroadcastRequestBodyCase0RateLimit {
 }
 /** Send your broadcast to the default set of recipients defined in the UI. */
 export interface TriggerBroadcastRequestBodyCase0 {
-  /** Contains information you want to use to populate your broadcast. */
+  /** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
   data?: TriggerBroadcastRequestBodyCase0DataMap | undefined;
   /** an email address associated with more than one profile id is an error. */
   email_add_duplicates?: boolean | undefined;
@@ -13404,7 +14034,7 @@ export type TriggerBroadcastRequestBodyCase1Recipients =
   | TriggerBroadcastRequestBodyCase1RecipientsCase2
   | ExportPeopleDataRequestFiltersCase0AndItemNotCase0AndItemCase0
   | TriggerBroadcastRequestBodyCase1RecipientsCase4;
-/** Contains information you want to use to populate your broadcast. */
+/** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
 export type TriggerBroadcastRequestBodyCase1DataMap = { [key: string]: unknown | undefined };
 /** Determine how to evaluate criteria against the field--`exists` returns results if a person in the audience has the attribute; `eq` returns results if the audience has the attribute and the attribute has the `value` you specify. */
 export type TriggerBroadcastRequestBodyCase1FilterCase0AndItemAttributeOperator = "eq" | "exists";
@@ -14864,7 +15494,7 @@ export interface TriggerBroadcastRequestBodyCase1RateLimit {
 export interface TriggerBroadcastRequestBodyCase1 {
   /** Use `and`, `or`, and `not` to combine segment and attribute conditions. The top-level object accepts one property; nest groups for complex filters. */
   recipients: TriggerBroadcastRequestBodyCase1Recipients;
-  /** Contains information you want to use to populate your broadcast. */
+  /** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
   data?: TriggerBroadcastRequestBodyCase1DataMap | undefined;
   /** an email address associated with more than one profile id is an error. */
   email_add_duplicates?: boolean | undefined;
@@ -14881,9 +15511,9 @@ export interface TriggerBroadcastRequestBodyCase1 {
   /** Unix timestamp (in seconds) when the broadcast will send. Omit it or set it to `0` to send right away. We reject a timestamp more than 5 minutes in the past. Scheduling also changes when we work out your audience: `ids`, `emails`, `per_user_data`, and `data_file_url` set a fixed audience when you make this request, while a `recipients` filter runs when the send fires. */
   scheduled_at?: number | undefined;
 }
-/** An array of email addresses you want to send the broadcast to. These addresses must already exist; your request cannot create a new person. */
+/** An array of email addresses you want to send the broadcast to. These addresses must already exist; your request cannot create a new person. You can list up to 10,000 emails in this field. To send to a larger audience, use `recipients` or `data_file_url`, which don't limit the size of your audience. */
 export type TriggerBroadcastRequestBodyCase2EmailsList = Array<string>;
-/** Contains information you want to use to populate your broadcast. */
+/** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
 export type TriggerBroadcastRequestBodyCase2DataMap = { [key: string]: unknown | undefined };
 /** Determine how to evaluate criteria against the field--`exists` returns results if a person in the audience has the attribute; `eq` returns results if the audience has the attribute and the attribute has the `value` you specify. */
 export type TriggerBroadcastRequestBodyCase2FilterCase0AndItemAttributeOperator = "eq" | "exists";
@@ -16341,9 +16971,9 @@ export interface TriggerBroadcastRequestBodyCase2RateLimit {
 }
 /** An array of emails you want to send the broadcast to. These addresses must already exist; your request cannot create a new person. */
 export interface TriggerBroadcastRequestBodyCase2 {
-  /** An array of email addresses you want to send the broadcast to. These addresses must already exist; your request cannot create a new person. */
+  /** An array of email addresses you want to send the broadcast to. These addresses must already exist; your request cannot create a new person. You can list up to 10,000 emails in this field. To send to a larger audience, use `recipients` or `data_file_url`, which don't limit the size of your audience. */
   emails: TriggerBroadcastRequestBodyCase2EmailsList;
-  /** Contains information you want to use to populate your broadcast. */
+  /** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
   data?: TriggerBroadcastRequestBodyCase2DataMap | undefined;
   /** an email address associated with more than one profile id is an error. */
   email_add_duplicates?: boolean | undefined;
@@ -16360,9 +16990,9 @@ export interface TriggerBroadcastRequestBodyCase2 {
   /** Unix timestamp (in seconds) when the broadcast will send. Omit it or set it to `0` to send right away. We reject a timestamp more than 5 minutes in the past. Scheduling also changes when we work out your audience: `ids`, `emails`, `per_user_data`, and `data_file_url` set a fixed audience when you make this request, while a `recipients` filter runs when the send fires. */
   scheduled_at?: number | undefined;
 }
-/** An array of IDs you want to send a broadcast to. **NOTE**: If your workspace identifies people by `email`, don't use this option. Identify your audience by `emails` instead. */
+/** An array of IDs you want to send a broadcast to. To send to a larger audience, define it with `recipients` or `data_file_url` instead. **NOTE**: If your workspace identifies people by `email`, don't use this option. Identify your audience by `emails` instead. */
 export type TriggerBroadcastRequestBodyCase3IdsList = Array<string>;
-/** Contains information you want to use to populate your broadcast. */
+/** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
 export type TriggerBroadcastRequestBodyCase3DataMap = { [key: string]: unknown | undefined };
 /** Determine how to evaluate criteria against the field--`exists` returns results if a person in the audience has the attribute; `eq` returns results if the audience has the attribute and the attribute has the `value` you specify. */
 export type TriggerBroadcastRequestBodyCase3FilterCase0AndItemAttributeOperator = "eq" | "exists";
@@ -17820,9 +18450,9 @@ export interface TriggerBroadcastRequestBodyCase3RateLimit {
 }
 /** An array of customer ids that you want to send the broadcast to. These IDs must already exist; your request cannot create a new person. */
 export interface TriggerBroadcastRequestBodyCase3 {
-  /** An array of IDs you want to send a broadcast to. **NOTE**: If your workspace identifies people by `email`, don't use this option. Identify your audience by `emails` instead. */
+  /** An array of IDs you want to send a broadcast to. To send to a larger audience, define it with `recipients` or `data_file_url` instead. **NOTE**: If your workspace identifies people by `email`, don't use this option. Identify your audience by `emails` instead. */
   ids: TriggerBroadcastRequestBodyCase3IdsList;
-  /** Contains information you want to use to populate your broadcast. */
+  /** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
   data?: TriggerBroadcastRequestBodyCase3DataMap | undefined;
   /** an email address associated with more than one profile id is an error. */
   email_add_duplicates?: boolean | undefined;
@@ -17862,10 +18492,10 @@ export interface TriggerBroadcastRequestBodyCase4PerUserDataItemCase1 {
 export type TriggerBroadcastRequestBodyCase4PerUserDataItem =
   | TriggerBroadcastRequestBodyCase4PerUserDataItemCase0
   | TriggerBroadcastRequestBodyCase4PerUserDataItemCase1;
-/** The people you want to send a broadcast to, with custom data to personalize each message. Each person must already exist in your workspace--a broadcast trigger can't create people. */
+/** The people you want to send a broadcast to, with custom data to personalize each message. Each person must already exist in your workspace--a broadcast trigger can't create people. Each entry can be up to 2MB. To personalize messages for a larger audience, use `data_file_url` instead. */
 export type TriggerBroadcastRequestBodyCase4PerUserDataList =
   Array<TriggerBroadcastRequestBodyCase4PerUserDataItem>;
-/** Contains information you want to use to populate your broadcast. */
+/** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
 export type TriggerBroadcastRequestBodyCase4DataMap = { [key: string]: unknown | undefined };
 /** Determine how to evaluate criteria against the field--`exists` returns results if a person in the audience has the attribute; `eq` returns results if the audience has the attribute and the attribute has the `value` you specify. */
 export type TriggerBroadcastRequestBodyCase4FilterCase0AndItemAttributeOperator = "eq" | "exists";
@@ -19323,9 +19953,9 @@ export interface TriggerBroadcastRequestBodyCase4RateLimit {
 }
 /** An array of JSON objects containing `id` or `email` keys and a `data` key. Each object represents a person you want to send the broadcast to and data you want to personalize their message with using liquid. */
 export interface TriggerBroadcastRequestBodyCase4 {
-  /** The people you want to send a broadcast to, with custom data to personalize each message. Each person must already exist in your workspace--a broadcast trigger can't create people. */
+  /** The people you want to send a broadcast to, with custom data to personalize each message. Each person must already exist in your workspace--a broadcast trigger can't create people. Each entry can be up to 2MB. To personalize messages for a larger audience, use `data_file_url` instead. */
   per_user_data: TriggerBroadcastRequestBodyCase4PerUserDataList;
-  /** Contains information you want to use to populate your broadcast. */
+  /** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
   data?: TriggerBroadcastRequestBodyCase4DataMap | undefined;
   /** an email address associated with more than one profile id is an error. */
   email_add_duplicates?: boolean | undefined;
@@ -19342,7 +19972,7 @@ export interface TriggerBroadcastRequestBodyCase4 {
   /** Unix timestamp (in seconds) when the broadcast will send. Omit it or set it to `0` to send right away. We reject a timestamp more than 5 minutes in the past. Scheduling also changes when we work out your audience: `ids`, `emails`, `per_user_data`, and `data_file_url` set a fixed audience when you make this request, while a `recipients` filter runs when the send fires. */
   scheduled_at?: number | undefined;
 }
-/** Contains information you want to use to populate your broadcast. */
+/** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
 export type TriggerBroadcastRequestBodyCase5DataMap = { [key: string]: unknown | undefined };
 /** Determine how to evaluate criteria against the field--`exists` returns results if a person in the audience has the attribute; `eq` returns results if the audience has the attribute and the attribute has the `value` you specify. */
 export type TriggerBroadcastRequestBodyCase5FilterCase0AndItemAttributeOperator = "eq" | "exists";
@@ -20800,9 +21430,9 @@ export interface TriggerBroadcastRequestBodyCase5RateLimit {
 }
 /** The URL of a data file with one JSON object per line, using either `id` and `data` or `email` and `data`. The people you reference must already exist in your workspace. The file may be gzip-compressed to reduce transfer size (recommended for large files); if compressed, it must use gzip and the hosting server must return a `Content-Encoding` header set to `gzip` when the file is downloaded. */
 export interface TriggerBroadcastRequestBodyCase5 {
-  /** The URL of a JSON Lines file with one person per line, using `id` and `data` or `email` and `data`. The people you reference must already exist in your workspace. The file may be gzip-compressed to reduce transfer size (recommended for large files); if compressed, it must use gzip and the hosting server must return a `Content-Encoding` header set to `gzip` when the file is downloaded. */
+  /** The URL of a JSON Lines file with one person per line, using `id` and `data` or `email` and `data`. The people you reference must already exist in your workspace. The file can be up to 10GB, and each line can be up to 2MB. The file may be gzip-compressed to reduce transfer size (recommended for large files); if compressed, it must use gzip and the hosting server must return a `Content-Encoding` header set to `gzip` when the file is downloaded. */
   data_file_url: string;
-  /** Contains information you want to use to populate your broadcast. */
+  /** Contains information you want to use to populate your broadcast. The `data` object can be up to 50KB. If you need more personalization data, you can send it per person with `per_user_data` or `data_file_url`. */
   data?: TriggerBroadcastRequestBodyCase5DataMap | undefined;
   /** an email address associated with more than one profile id is an error. */
   email_add_duplicates?: boolean | undefined;
@@ -20910,11 +21540,11 @@ export interface UpdateBroadcastActionRequestBodyCase0 {
 /** Determines the sending behavior for the action. `automatic` sends the action automatically when triggered; `draft` queues drafts when the action is triggered; or `off` to disable the action. */
 export type UpdateBroadcastActionRequestBodyCase1SendingState = "automatic" | "draft" | "off";
 export interface UpdateBroadcastActionRequestBodyCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The recipient, usually an attribute you reference with Liquid like `{{customer.phone}}`. If you use Liquid, this field is blank in `GET` responses because we resolve the recipient at send time. */
   recipient?: string | undefined;
@@ -20986,6 +21616,7 @@ export type UpdateBroadcastActionResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -21046,7 +21677,7 @@ export type UpdateBroadcastActionResponseActionCase1SendingState = "automatic" |
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type UpdateBroadcastActionResponseActionCase1Type = "twilio";
 export interface UpdateBroadcastActionResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
@@ -21056,7 +21687,7 @@ export interface UpdateBroadcastActionResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -21204,11 +21835,11 @@ export type UpdateBroadcastActionLanguageRequestBodyCase1SendingState =
   | "draft"
   | "off";
 export interface UpdateBroadcastActionLanguageRequestBodyCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The recipient, usually an attribute you reference with Liquid like `{{customer.phone}}`. If you use Liquid, this field is blank in `GET` responses because we resolve the recipient at send time. */
   recipient?: string | undefined;
@@ -21285,7 +21916,7 @@ export interface UpdateBroadcastActionLanguageRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateBroadcastActionLanguageRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -21300,6 +21931,7 @@ export type UpdateBroadcastActionLanguageResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -21363,7 +21995,7 @@ export type UpdateBroadcastActionLanguageResponseActionCase1SendingState =
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type UpdateBroadcastActionLanguageResponseActionCase1Type = "twilio";
 export interface UpdateBroadcastActionLanguageResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for a broadcast. */
   broadcast_id?: number | undefined;
@@ -21373,7 +22005,7 @@ export interface UpdateBroadcastActionLanguageResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -21520,11 +22152,11 @@ export interface UpdateCampaignActionRequestBodyCase0 {
 /** Determines the sending behavior for the action. `automatic` sends the action automatically when triggered; `draft` queues drafts when the action is triggered; or `off` to disable the action. */
 export type UpdateCampaignActionRequestBodyCase1SendingState = "automatic" | "draft" | "off";
 export interface UpdateCampaignActionRequestBodyCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The recipient, usually an attribute you reference with Liquid like `{{customer.phone}}`. If you use Liquid, this field is blank in `GET` responses because we resolve the recipient at send time. */
   recipient?: string | undefined;
@@ -21596,6 +22228,7 @@ export type UpdateCampaignActionResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -21660,7 +22293,7 @@ export type UpdateCampaignActionResponseActionCase1SendingState = "automatic" | 
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type UpdateCampaignActionResponseActionCase1Type = "twilio";
 export interface UpdateCampaignActionResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
@@ -21670,7 +22303,7 @@ export interface UpdateCampaignActionResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -21826,11 +22459,11 @@ export type UpdateCampaignActionTranslationRequestBodyCase1SendingState =
   | "draft"
   | "off";
 export interface UpdateCampaignActionTranslationRequestBodyCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The recipient, usually an attribute you reference with Liquid like `{{customer.phone}}`. If you use Liquid, this field is blank in `GET` responses because we resolve the recipient at send time. */
   recipient?: string | undefined;
@@ -21907,7 +22540,7 @@ export interface UpdateCampaignActionTranslationRequest {
   /** The action you want to lookup or act on. */
   action_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateCampaignActionTranslationRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -21922,6 +22555,7 @@ export type UpdateCampaignActionTranslationResponseActionCase0Type =
   | "email"
   | "in_app"
   | "push"
+  | "web_push"
   | "twilio"
   | "slack"
   | "whatsapp";
@@ -21989,7 +22623,7 @@ export type UpdateCampaignActionTranslationResponseActionCase1SendingState =
 /** For SMS/MMS messages, the `type` is always `twilio`. */
 export type UpdateCampaignActionTranslationResponseActionCase1Type = "twilio";
 export interface UpdateCampaignActionTranslationResponseActionCase1 {
-  /** The body of your SMS. */
+  /** The body of your SMS, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. When you send plain text to an SMS that's already linked to Design Studio, Customer.io replaces the message text and keeps the image. An SMS with translations, or one in a multi-language branch, stays plain text. */
   body?: string | undefined;
   /** The identifier for an automation. */
   campaign_id?: number | undefined;
@@ -21999,7 +22633,7 @@ export interface UpdateCampaignActionTranslationResponseActionCase1 {
   deduplicate_id?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
-  /** The URL of the image in your SMS (MMS) message. */
+  /** The URL of the image in your SMS (MMS) message. Once an SMS is linked to Design Studio, this field returns empty because the image is part of the `<x-sms>` markup in `body`. To change the image of a linked SMS, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
   image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
@@ -22287,8 +22921,10 @@ export interface UpdateNewsletterTestTranslationRequestBodyCase0 {
 }
 /** Update the contents of an SMS one-time send variant. */
 export interface UpdateNewsletterTestTranslationRequestBodyCase1 {
-  /** The body of the SMS message. */
+  /** The body of the SMS message, as plain text or `<x-sms>` markup. The first time you update `body` on an SMS that isn't linked to Design Studio yet, Customer.io copies it into Design Studio as a new SMS and links the two, and from then on `body` returns as `<x-sms>` markup. See [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks) for the format. A one-time send with translations stays plain text. */
   body?: string | undefined;
+  /** The URL of the image in your SMS (MMS) message. For an SMS linked to Design Studio, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
 }
 /** Update the contents of a push notification one-time send variant. */
 export interface UpdateNewsletterTestTranslationRequestBodyCase2 {
@@ -22297,37 +22933,45 @@ export interface UpdateNewsletterTestTranslationRequestBodyCase2 {
   /** The title of the push notification. */
   subject?: string | undefined;
 }
-export type UpdateNewsletterTestTranslationRequestBodyCase3HeadersItem =
+/** Update the contents of a web push notification one-time send variant. */
+export interface UpdateNewsletterTestTranslationRequestBodyCase3 {
+  /** The text of the web push notification. Browsers don't show a notification without text, so it can't be blank. */
+  body?: string | undefined;
+  /** The title of the web push notification. */
+  subject?: string | undefined;
+}
+export type UpdateNewsletterTestTranslationRequestBodyCase4HeadersItem =
   UpdateBroadcastActionRequestBodyCase0HeadersItem;
 /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-export type UpdateNewsletterTestTranslationRequestBodyCase3HeadersList =
+export type UpdateNewsletterTestTranslationRequestBodyCase4HeadersList =
   Array<UpdateBroadcastActionRequestBodyCase0HeadersItem>;
 /** Update the contents of a webhook one-time send variant. */
-export interface UpdateNewsletterTestTranslationRequestBodyCase3 {
+export interface UpdateNewsletterTestTranslationRequestBodyCase4 {
   /** The body content of the webhook request. */
   body?: string | undefined;
   /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-  headers?: UpdateNewsletterTestTranslationRequestBodyCase3HeadersList | undefined;
+  headers?: UpdateNewsletterTestTranslationRequestBodyCase4HeadersList | undefined;
 }
 /** You can't update in-app message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your message. */
-export interface UpdateNewsletterTestTranslationRequestBodyCase4 {}
+export interface UpdateNewsletterTestTranslationRequestBodyCase5 {}
 /** You can't update inbox message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your inbox message. */
-export type UpdateNewsletterTestTranslationRequestBodyCase5 =
-  UpdateNewsletterTestTranslationRequestBodyCase4;
+export type UpdateNewsletterTestTranslationRequestBodyCase6 =
+  UpdateNewsletterTestTranslationRequestBodyCase5;
 export type UpdateNewsletterTestTranslationRequestBody =
   | UpdateNewsletterTestTranslationRequestBodyCase0
   | UpdateNewsletterTestTranslationRequestBodyCase1
   | UpdateNewsletterTestTranslationRequestBodyCase2
   | UpdateNewsletterTestTranslationRequestBodyCase3
   | UpdateNewsletterTestTranslationRequestBodyCase4
-  | UpdateNewsletterTestTranslationRequestBodyCase4;
+  | UpdateNewsletterTestTranslationRequestBodyCase5
+  | UpdateNewsletterTestTranslationRequestBodyCase5;
 export interface UpdateNewsletterTestTranslationRequest {
   /** The identifier of a one-time send. */
   newsletter_id: number;
   /** The ID of the A/B test group. */
   test_group_id: string;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateNewsletterTestTranslationRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -22338,12 +22982,13 @@ export type UpdateNewsletterTestTranslationResponseContentType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface UpdateNewsletterTestTranslationResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22361,6 +23006,8 @@ export interface UpdateNewsletterTestTranslationResponseContent {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -22396,31 +23043,35 @@ export type UpdateNewsletterVariantRequestBodyCase1 =
 /** Update the contents of a push notification one-time send variant. */
 export type UpdateNewsletterVariantRequestBodyCase2 =
   UpdateNewsletterTestTranslationRequestBodyCase2;
-export type UpdateNewsletterVariantRequestBodyCase3HeadersItem =
+/** Update the contents of a web push notification one-time send variant. */
+export type UpdateNewsletterVariantRequestBodyCase3 =
+  UpdateNewsletterTestTranslationRequestBodyCase3;
+export type UpdateNewsletterVariantRequestBodyCase4HeadersItem =
   UpdateBroadcastActionRequestBodyCase0HeadersItem;
 /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-export type UpdateNewsletterVariantRequestBodyCase3HeadersList =
+export type UpdateNewsletterVariantRequestBodyCase4HeadersList =
   Array<UpdateBroadcastActionRequestBodyCase0HeadersItem>;
 /** Update the contents of a webhook one-time send variant. */
-export interface UpdateNewsletterVariantRequestBodyCase3 {
+export interface UpdateNewsletterVariantRequestBodyCase4 {
   /** The body content of the webhook request. */
   body?: string | undefined;
   /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-  headers?: UpdateNewsletterVariantRequestBodyCase3HeadersList | undefined;
+  headers?: UpdateNewsletterVariantRequestBodyCase4HeadersList | undefined;
 }
 /** You can't update in-app message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your message. */
-export type UpdateNewsletterVariantRequestBodyCase4 =
-  UpdateNewsletterTestTranslationRequestBodyCase4;
-/** You can't update inbox message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your inbox message. */
 export type UpdateNewsletterVariantRequestBodyCase5 =
-  UpdateNewsletterTestTranslationRequestBodyCase4;
+  UpdateNewsletterTestTranslationRequestBodyCase5;
+/** You can't update inbox message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your inbox message. */
+export type UpdateNewsletterVariantRequestBodyCase6 =
+  UpdateNewsletterTestTranslationRequestBodyCase5;
 export type UpdateNewsletterVariantRequestBody =
   | UpdateNewsletterTestTranslationRequestBodyCase0
   | UpdateNewsletterTestTranslationRequestBodyCase1
   | UpdateNewsletterTestTranslationRequestBodyCase2
-  | UpdateNewsletterVariantRequestBodyCase3
-  | UpdateNewsletterTestTranslationRequestBodyCase4
-  | UpdateNewsletterTestTranslationRequestBodyCase4;
+  | UpdateNewsletterTestTranslationRequestBodyCase3
+  | UpdateNewsletterVariantRequestBodyCase4
+  | UpdateNewsletterTestTranslationRequestBodyCase5
+  | UpdateNewsletterTestTranslationRequestBodyCase5;
 export interface UpdateNewsletterVariantRequest {
   /** The identifier of a one-time send. */
   newsletter_id: number;
@@ -22436,12 +23087,13 @@ export type UpdateNewsletterVariantResponseContentType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface UpdateNewsletterVariantResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22459,6 +23111,8 @@ export interface UpdateNewsletterVariantResponseContent {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -22494,36 +23148,40 @@ export type UpdateNewsletterVariantTranslationRequestBodyCase1 =
 /** Update the contents of a push notification one-time send variant. */
 export type UpdateNewsletterVariantTranslationRequestBodyCase2 =
   UpdateNewsletterTestTranslationRequestBodyCase2;
-export type UpdateNewsletterVariantTranslationRequestBodyCase3HeadersItem =
+/** Update the contents of a web push notification one-time send variant. */
+export type UpdateNewsletterVariantTranslationRequestBodyCase3 =
+  UpdateNewsletterTestTranslationRequestBodyCase3;
+export type UpdateNewsletterVariantTranslationRequestBodyCase4HeadersItem =
   UpdateBroadcastActionRequestBodyCase0HeadersItem;
 /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-export type UpdateNewsletterVariantTranslationRequestBodyCase3HeadersList =
+export type UpdateNewsletterVariantTranslationRequestBodyCase4HeadersList =
   Array<UpdateBroadcastActionRequestBodyCase0HeadersItem>;
 /** Update the contents of a webhook one-time send variant. */
-export interface UpdateNewsletterVariantTranslationRequestBodyCase3 {
+export interface UpdateNewsletterVariantTranslationRequestBodyCase4 {
   /** The body content of the webhook request. */
   body?: string | undefined;
   /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
-  headers?: UpdateNewsletterVariantTranslationRequestBodyCase3HeadersList | undefined;
+  headers?: UpdateNewsletterVariantTranslationRequestBodyCase4HeadersList | undefined;
 }
 /** You can't update in-app message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your message. */
-export type UpdateNewsletterVariantTranslationRequestBodyCase4 =
-  UpdateNewsletterTestTranslationRequestBodyCase4;
-/** You can't update inbox message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your inbox message. */
 export type UpdateNewsletterVariantTranslationRequestBodyCase5 =
-  UpdateNewsletterTestTranslationRequestBodyCase4;
+  UpdateNewsletterTestTranslationRequestBodyCase5;
+/** You can't update inbox message content through the API--you can only set it when you [create the message](/integrations/api/app/tag/newsletters/createNewsletter/). Use the message editor to update the content of your inbox message. */
+export type UpdateNewsletterVariantTranslationRequestBodyCase6 =
+  UpdateNewsletterTestTranslationRequestBodyCase5;
 export type UpdateNewsletterVariantTranslationRequestBody =
   | UpdateNewsletterTestTranslationRequestBodyCase0
   | UpdateNewsletterTestTranslationRequestBodyCase1
   | UpdateNewsletterTestTranslationRequestBodyCase2
-  | UpdateNewsletterVariantTranslationRequestBodyCase3
-  | UpdateNewsletterTestTranslationRequestBodyCase4
-  | UpdateNewsletterTestTranslationRequestBodyCase4;
+  | UpdateNewsletterTestTranslationRequestBodyCase3
+  | UpdateNewsletterVariantTranslationRequestBodyCase4
+  | UpdateNewsletterTestTranslationRequestBodyCase5
+  | UpdateNewsletterTestTranslationRequestBodyCase5;
 export interface UpdateNewsletterVariantTranslationRequest {
   /** The identifier of a one-time send. */
   newsletter_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
+  language?: string | undefined;
   body?: UpdateNewsletterVariantTranslationRequestBody | undefined;
 }
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
@@ -22534,12 +23192,13 @@ export type UpdateNewsletterVariantTranslationResponseContentType =
   | "webhook"
   | "twilio"
   | "push"
+  | "web_push"
   | "in_app"
   | "inbox";
 export interface UpdateNewsletterVariantTranslationResponseContent {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the variant. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22557,6 +23216,8 @@ export interface UpdateNewsletterVariantTranslationResponseContent {
   headers?: string | undefined;
   /** The identifier of a one-time send variant--a language in a multi-language one-time send or a test in an A/B test. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The layout used for the variant, if it exists. */
@@ -22608,7 +23269,7 @@ export interface UpdatePersonOptoutsResponse {}
 export interface UpdateSnippetsRequest {
   /** The name of the snippet, must be unique. Trimmed of leading and trailing whitespace before storage. */
   name: string;
-  /** The contents of the snippet (plain text or Liquid). Trimmed of leading and trailing whitespace before storage. Max length is environment-specific (default 16000). */
+  /** The contents of the snippet, in plain text or Liquid. Customer.io trims leading and trailing whitespace before storing it. A snippet can be up to 16,000 characters by default, and all of the snippets in a workspace can total up to 5 MB. */
   value: string;
 }
 /** describes a piece of reusable content. You must provide a name for the snippet and the `value`--the content that appears in messages that use the snippet. */
@@ -22627,7 +23288,7 @@ export interface UpdateTransactionalRequest {
   transactional_id: number;
   /** The content variant of your transactional message. You'll find the id in the URL of your transactional message. For example, if this is the path of a transactional message URL - `/transactional/3/templates/139` - the `content_id` is 139. */
   content_id: number;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22635,6 +23296,8 @@ export interface UpdateTransactionalRequest {
   from_id?: number | undefined;
   /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
   headers?: UpdateTransactionalRequestHeadersList | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** [Also known as "preview text"](/journeys/channels/email/headers/custom-preheader-text/), this is the small block of text shown in an email inbox next to or underneath the subject line. */
   preheader_text?: string | undefined;
   /** The recipient address for an action. */
@@ -22647,11 +23310,11 @@ export interface UpdateTransactionalRequest {
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type UpdateTransactionalResponseContentItemPreprocessor = "premailer";
 /** The type of message. */
-export type UpdateTransactionalResponseContentItemType = "email" | "push";
+export type UpdateTransactionalResponseContentItemType = "email" | "push" | "web_push";
 export interface UpdateTransactionalResponseContentItem {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22669,6 +23332,8 @@ export interface UpdateTransactionalResponseContentItem {
   headers?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The name of the transactional message. */
@@ -22705,8 +23370,8 @@ export interface UpdateTransactionalVariantRequest {
   /** The identifier of your transactional message. You'll find this in the UI or URL of your transactional message. For example, if this is the path of a transactional message URL - `/transactional/3/templates/139` - the `transactional_id` is 3. */
   transactional_id: number;
   /** A [language tag](/journeys/channels/subscriptions/unsubscribe-faqs/#currently-supported-languages) of a language variant. If you don't provide a language (an empty string), we'll use your default language. If the language variant does not exist, we'll return an error. */
-  language: string;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  language?: string | undefined;
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22714,6 +23379,8 @@ export interface UpdateTransactionalVariantRequest {
   from_id?: number | undefined;
   /** Headers you want to add or update. Names and values must be strings, with no non-ASCII characters or spaces. You can't overwrite reserved headers. */
   headers?: UpdateTransactionalVariantRequestHeadersList | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** [Also known as "preview text"](/journeys/channels/email/headers/custom-preheader-text/), this is the small block of text shown in an email inbox next to or underneath the subject line. */
   preheader_text?: string | undefined;
   /** The recipient address for an action. */
@@ -22726,11 +23393,11 @@ export interface UpdateTransactionalVariantRequest {
 /** If CSS pre-processing is enabled, this key is populated with `premailer`. Note, Juice replaced Premailer as the pre-processor, but you will only see `premailer` as the value. */
 export type UpdateTransactionalVariantResponseContentItemPreprocessor = "premailer";
 /** The type of message. */
-export type UpdateTransactionalVariantResponseContentItemType = "email" | "push";
+export type UpdateTransactionalVariantResponseContentItemType = "email" | "push" | "web_push";
 export interface UpdateTransactionalVariantResponseContentItem {
   /** The blind-copy address(es) for this action. */
   bcc?: string | undefined;
-  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. */
+  /** The body of the transactional message. You cannot modify the body if you created it with our drag-and-drop editor. For an SMS linked to Design Studio, the body returns as [SMS markup](/messaging/channels/sms/send-messages/#sms-building-blocks). */
   body?: string | undefined;
   /** AMP-enabled content for your email. If a recipient's email client doesn't support AMP, they receive your `body` content instead. Make sure you're [set up to send AMP](/journeys/channels/email/layouts/amp-for-email/) first. */
   body_amp?: string | undefined;
@@ -22748,6 +23415,8 @@ export interface UpdateTransactionalVariantResponseContentItem {
   headers?: string | undefined;
   /** The identifier for an action. */
   id?: number | undefined;
+  /** For an SMS, the URL of the image that turns it into an MMS. For an SMS linked to Design Studio, this field returns empty because the image is part of `body`. To change that image, send `image_url` together with `body`, and send an empty `image_url` to remove the image. */
+  image_url?: string | undefined;
   /** The language variant for your message. If you don't use our [localization feature](/journeys/channels/localization/getting-started), or this is the default message, this value is an empty string. */
   language?: string | undefined;
   /** The name of the transactional message. */
@@ -22821,6 +23490,16 @@ export type UpdateWebhookRequestEventsItem =
   | "push_dropped"
   | "push_failed"
   | "push_undeliverable"
+  | "web_push_drafted"
+  | "web_push_attempted"
+  | "web_push_sent"
+  | "web_push_delivered"
+  | "web_push_opened"
+  | "web_push_converted"
+  | "web_push_bounced"
+  | "web_push_dropped"
+  | "web_push_failed"
+  | "web_push_undeliverable"
   | "slack_drafted"
   | "slack_attempted"
   | "slack_sent"
@@ -22920,6 +23599,16 @@ export type UpdateWebhookResponseEventsItem =
   | "push_dropped"
   | "push_failed"
   | "push_undeliverable"
+  | "web_push_drafted"
+  | "web_push_attempted"
+  | "web_push_sent"
+  | "web_push_delivered"
+  | "web_push_opened"
+  | "web_push_converted"
+  | "web_push_bounced"
+  | "web_push_dropped"
+  | "web_push_failed"
+  | "web_push_undeliverable"
   | "slack_drafted"
   | "slack_attempted"
   | "slack_sent"
@@ -22996,7 +23685,7 @@ export interface Error400BodyErrorsItem2 {
 /** A list of errors that occurred while processing the request. */
 export type Error400BodyErrorsList2 = Array<Error400BodyErrorsItem2>;
 /** An error response containing one or more error details. */
-export interface Error400Body5 {
+export interface Error400Body6 {
   /** A list of errors that occurred while processing the request. */
   errors?: Error400BodyErrorsList2 | undefined;
 }
@@ -23017,7 +23706,7 @@ export interface Error400BodyErrorsItem5 {
 }
 /** Contains an array of error objects. */
 export type Error400BodyErrorsList5 = Array<Error400BodyErrorsItem5>;
-export interface Error400Body8 {
+export interface Error400Body9 {
   /** Contains an array of error objects. */
   errors?: Error400BodyErrorsList5 | undefined;
 }
@@ -23052,7 +23741,7 @@ export interface Error400BodyErrorsItem6 {
   status?: string | undefined;
 }
 export type Error400BodyErrorsList6 = Array<Error400BodyErrorsItem6>;
-export interface Error400Body9 {
+export interface Error400Body10 {
   errors?: Error400BodyErrorsList6 | undefined;
 }
 /** Contains errors. */
@@ -23070,6 +23759,27 @@ export type Error400Body2 = Error400Body3;
 /** Contains errors. */
 export type Error400BodyMeta3 = Error400BodyMeta2;
 export type Error400Body4 = Error400Body3;
+/** Contains errors. */
+export type Error400BodyCase0Meta = Error400BodyMeta2;
+export interface Error400BodyCase0 {
+  /** Contains errors. */
+  meta: Error400BodyMeta2;
+}
+export interface Error400BodyCase1ErrorsItem {
+  /** The field containing the error. */
+  field?: string | undefined;
+  /** A detailed description of the error in the offending field. */
+  message?: string | undefined;
+  /** The reason for the error. */
+  reason?: string | undefined;
+}
+/** An array of errors, where each object represents a different error. */
+export type Error400BodyCase1ErrorsList = Array<Error400BodyCase1ErrorsItem>;
+export interface Error400BodyCase1 {
+  /** An array of errors, where each object represents a different error. */
+  errors: Error400BodyCase1ErrorsList;
+}
+export type Error400Body5 = Error400BodyCase0 | Error400BodyCase1;
 /** The reason for failure. */
 export type Error400BodyErrorsItemDetail = "Invalid request format";
 /** The response code. */
@@ -23081,7 +23791,7 @@ export interface Error400BodyErrorsItem3 {
   status?: Error400BodyErrorsItemStatus | undefined;
 }
 export type Error400BodyErrorsList3 = Array<Error400BodyErrorsItem3>;
-export interface Error400Body6 {
+export interface Error400Body7 {
   errors?: Error400BodyErrorsList3 | undefined;
 }
 /** The reason for the response. */
@@ -23095,7 +23805,7 @@ export interface Error400BodyErrorsItem4 {
   status?: Error400BodyErrorsItemStatus2 | undefined;
 }
 export type Error400BodyErrorsList4 = Array<Error400BodyErrorsItem4>;
-export interface Error400Body7 {
+export interface Error400Body8 {
   errors?: Error400BodyErrorsList4 | undefined;
 }
 export type Error403BodyMeta = Error400BodyMeta2;
@@ -23110,6 +23820,8 @@ export type Error403BodyMeta4 = Error400BodyMeta2;
 export type Error403Body4 = Error403Body;
 export type Error403BodyMeta5 = Error400BodyMeta2;
 export type Error403Body5 = Error403Body;
+export type Error403BodyMeta6 = Error400BodyMeta2;
+export type Error403Body6 = Error403Body;
 /** The field or path that caused the error. */
 export interface Error422BodyErrorsItemSource4 {
   pointer?: string | undefined;
@@ -23194,9 +23906,10 @@ export const addCollection: API.OperationMethod<
   AddCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<AddCollectionRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<AddCollectionResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(2464, __c154, 0) as any as S.Schema<AddCollectionRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<AddCollectionResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23211,9 +23924,10 @@ export const broadcastActionLinks: API.OperationMethod<
   BroadcastActionLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<BroadcastActionLinksRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<BroadcastActionLinksResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2704, __c169, 0) as any as S.Schema<BroadcastActionLinksRequest>,
+  output: __S(2725, __c170, 5) as any as S.Schema<BroadcastActionLinksResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23228,9 +23942,10 @@ export const broadcastActionMetrics: API.OperationMethod<
   BroadcastActionMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<BroadcastActionMetricsRequest>,
-  output: __S(2801, __c175, 1) as any as S.Schema<BroadcastActionMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2944, __c184, 0) as any as S.Schema<BroadcastActionMetricsRequest>,
+  output: __S(2945, __c184, 1) as any as S.Schema<BroadcastActionMetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23245,9 +23960,10 @@ export const broadcastActions: API.OperationMethod<
   BroadcastActionsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<BroadcastActionsRequest>,
-  output: __S(3090, __c193, 2) as any as S.Schema<BroadcastActionsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3216, __c201, 0) as any as S.Schema<BroadcastActionsRequest>,
+  output: __S(3218, __c201, 2) as any as S.Schema<BroadcastActionsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23262,9 +23978,10 @@ export const broadcastErrors: API.OperationMethod<
   BroadcastErrorsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<BroadcastErrorsRequest>,
-  output: __S(3329, __c208, 1) as any as S.Schema<BroadcastErrorsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3472, __c217, 0) as any as S.Schema<BroadcastErrorsRequest>,
+  output: __S(3473, __c217, 1) as any as S.Schema<BroadcastErrorsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23280,8 +23997,9 @@ export const broadcastLinks: API.OperationMethod<
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<BroadcastLinksRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<BroadcastLinksResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  output: __S(2725, __c170, 5) as any as S.Schema<BroadcastLinksResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23289,7 +24007,7 @@ export const broadcastLinks: API.OperationMethod<
 }));
 
 export type BroadcastMessagesError = BadRequest | NotFound | CustomerioOpError;
-/** Get messages for a broadcast Returns information about the deliveries (instances of messages sent to individual people) sent from an API-triggered broadcast. Provide query parameters to refine the metrics you want to return. Use the `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return results for the 1 month period after the first trigger. If your `start_ts` and `end_ts` range is more than 12 months, we'll return 12 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
+/** Get messages for a broadcast Returns information about the deliveries (instances of messages sent to individual people) sent from an API-triggered broadcast. Provide query parameters to refine the metrics you want to return. Use the `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return results for the 1 month period after the first trigger. If your `start_ts` and `end_ts` range is more than 6 months, we'll return 6 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
 export const broadcastMessages: API.OperationMethod<
   BroadcastMessagesRequest,
   BroadcastMessagesResponse,
@@ -23298,7 +24016,8 @@ export const broadcastMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<BroadcastMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<BroadcastMessagesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23313,9 +24032,10 @@ export const broadcastMetrics: API.OperationMethod<
   BroadcastMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<BroadcastMetricsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<BroadcastMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(608, __c38, 0) as any as S.Schema<BroadcastMetricsRequest>,
+  output: __S(624, __c39, 0) as any as S.Schema<BroadcastMetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23330,9 +24050,10 @@ export const broadcastStatus: API.OperationMethod<
   BroadcastStatusError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<BroadcastStatusRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<BroadcastStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(800, __c50, 0) as any as S.Schema<BroadcastStatusRequest>,
+  output: __S(816, __c51, 0) as any as S.Schema<BroadcastStatusResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23347,9 +24068,10 @@ export const campaignActionLinks: API.OperationMethod<
   CampaignActionLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CampaignActionLinksRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<CampaignActionLinksResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1040, __c65, 0) as any as S.Schema<CampaignActionLinksRequest>,
+  output: __S(2725, __c170, 5) as any as S.Schema<CampaignActionLinksResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23364,9 +24086,10 @@ export const campaignActionMetrics: API.OperationMethod<
   CampaignActionMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<CampaignActionMetricsRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<CampaignActionMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1216, __c76, 0) as any as S.Schema<CampaignActionMetricsRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<CampaignActionMetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23381,9 +24104,10 @@ export const campaignJourneyMetrics: API.OperationMethod<
   CampaignJourneyMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<CampaignJourneyMetricsRequest>,
-  output: __S(1362, __c85, 2) as any as S.Schema<CampaignJourneyMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1392, __c87, 0) as any as S.Schema<CampaignJourneyMetricsRequest>,
+  output: __S(1394, __c87, 2) as any as S.Schema<CampaignJourneyMetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23398,9 +24122,10 @@ export const campaignLinkMetrics: API.OperationMethod<
   CampaignLinkMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<CampaignLinkMetricsRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<CampaignLinkMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1584, __c99, 0) as any as S.Schema<CampaignLinkMetricsRequest>,
+  output: __S(2725, __c170, 5) as any as S.Schema<CampaignLinkMetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23415,9 +24140,10 @@ export const campaignMetrics: API.OperationMethod<
   CampaignMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<CampaignMetricsRequest>,
-  output: __S(1505, __c94, 1) as any as S.Schema<CampaignMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1616, __c101, 0) as any as S.Schema<CampaignMetricsRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<CampaignMetricsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23432,9 +24158,10 @@ export const cancelBroadcastTrigger: API.OperationMethod<
   CancelBroadcastTriggerError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<CancelBroadcastTriggerRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CancelBroadcastTriggerResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  input: __S(1632, __c102, 0) as any as S.Schema<CancelBroadcastTriggerRequest>,
+  output: __S(816, __c51, 0) as any as S.Schema<CancelBroadcastTriggerResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23446,16 +24173,17 @@ export type CheckCollectionSourceError =
   | NotFound
   | UnprocessableEntity
   | CustomerioOpError;
-/** Check a collection source Check that a source's credentials can still read its bucket, like after you rotate a key or change the bucket's permissions. Customer.io runs the same check as when you connect the source. */
+/** Check a collection source Check that a source's credentials can still read its bucket, like after you change the bucket's permissions. Customer.io runs the same check as when you connect the source. You can't change a source's credentials, so this check doesn't help when you rotate a key. To rotate a key, [connect the bucket again](/messaging/objects-data/collections-cloud-storage/#rotate-your-buckets-credentials) as a new source and point your sync at it. */
 export const checkCollectionSource: API.OperationMethod<
   CheckCollectionSourceRequest,
   CheckCollectionSourceResponse,
   CheckCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<CheckCollectionSourceRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<CheckCollectionSourceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1648, __c103, 0) as any as S.Schema<CheckCollectionSourceRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<CheckCollectionSourceResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23470,9 +24198,10 @@ export const createAsset: API.OperationMethod<
   CreateAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<CreateAssetRequest>,
-  output: __S(1568, __c98, 0) as any as S.Schema<CreateAssetResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  input: __S(1664, __c104, 0) as any as S.Schema<CreateAssetRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<CreateAssetResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23487,9 +24216,10 @@ export const createAssetFolder: API.OperationMethod<
   CreateAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreateAssetFolderRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<CreateAssetFolderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  input: __S(1712, __c107, 0) as any as S.Schema<CreateAssetFolderRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<CreateAssetFolderResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23497,16 +24227,17 @@ export const createAssetFolder: API.OperationMethod<
 }));
 
 export type CreateCollectionSourceError = BadRequest | UnprocessableEntity | CustomerioOpError;
-/** Connect a collection source Connect a bucket in Amazon S3, Google Cloud Storage, or Azure Blob Storage so that you can load files from it into your collections. After you connect a source, send its `id` and a file `path` to [write to a collection](/integrations/api/app/tag/collections/submitCollectionWrite/), or [sync a collection](/integrations/api/app/tag/collections/putCollectionSync/) to load new files from a folder automatically. Your credentials need permission to list and read the bucket: - **S3:** `s3:ListBucket` and `s3:GetObject`. - **Google Cloud Storage:** the Storage Object Viewer role. - **Azure:** a container SAS URL that grants read and list (`sp=rl`). Before Customer.io saves the source, it lists the bucket under your `prefix` and reads the first file it finds. If the bucket has no files under the prefix yet, Customer.io can only check that your credentials list the bucket. Customer.io encrypts your credentials and never returns them. */
+/** Connect a collection source Connect a bucket in Amazon S3, Google Cloud Storage, or Azure Blob Storage so that you can load files from it into your collections. After you connect a source, send its `id` and a file `path` to [write to a collection](/integrations/api/app/tag/collections/submitCollectionWrite/), or [sync a collection](/integrations/api/app/tag/collections/putCollectionSync/) to load new or changed files from a folder on a schedule. Your credentials need permission to list and read the bucket: - **S3:** `s3:ListBucket` and `s3:GetObject`. - **Google Cloud Storage:** the Storage Object Viewer role. - **Azure:** a container SAS URL that grants read and list (`sp=rl`). Before Customer.io saves the source, it lists the bucket under your `prefix` and reads the first file it finds. If the bucket has no files under the prefix yet, Customer.io can only check that your credentials list the bucket. Customer.io encrypts your credentials and never returns them. */
 export const createCollectionSource: API.OperationMethod<
   CreateCollectionSourceRequest,
   CreateCollectionSourceResponse,
   CreateCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<CreateCollectionSourceRequest>,
-  output: __S(1664, __c104, 0) as any as S.Schema<CreateCollectionSourceResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1760, __c110, 0) as any as S.Schema<CreateCollectionSourceRequest>,
+  output: __S(1776, __c111, 0) as any as S.Schema<CreateCollectionSourceResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23521,9 +24252,10 @@ export const createManSegment: API.OperationMethod<
   CreateManSegmentError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateManSegmentRequest>,
-  output: __S(1728, __c108, 0) as any as S.Schema<CreateManSegmentResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(1808, __c113, 0) as any as S.Schema<CreateManSegmentRequest>,
+  output: __S(1840, __c115, 0) as any as S.Schema<CreateManSegmentResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23538,9 +24270,10 @@ export const createNewsletter: API.OperationMethod<
   CreateNewsletterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<CreateNewsletterRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateNewsletterRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<CreateNewsletterResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23559,9 +24292,10 @@ export const createNewsletterLanguageVariant: API.OperationMethod<
   CreateNewsletterLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<CreateNewsletterLanguageVariantRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1920, __c120, 0) as any as S.Schema<CreateNewsletterLanguageVariantRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<CreateNewsletterLanguageVariantResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23576,9 +24310,10 @@ export const createNewsletterTestGroup: API.OperationMethod<
   CreateNewsletterTestGroupError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<CreateNewsletterTestGroupRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterTestGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1936, __c121, 0) as any as S.Schema<CreateNewsletterTestGroupRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<CreateNewsletterTestGroupResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23597,9 +24332,10 @@ export const createNewsletterTestLanguageVariant: API.OperationMethod<
   CreateNewsletterTestLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1952, __c122, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<CreateNewsletterTestLanguageVariantResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23614,9 +24350,10 @@ export const createSnippet: API.OperationMethod<
   CreateSnippetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateSnippetRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<CreateSnippetResponse>,
-  errors: [UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1968, __c123, 0) as any as S.Schema<CreateSnippetRequest>,
+  output: __S(2000, __c125, 0) as any as S.Schema<CreateSnippetResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23631,9 +24368,10 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<CreateWebhookResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(2016, __c126, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<CreateWebhookResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23648,9 +24386,10 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<DeleteAssetRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteAssetResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2048, __c128, 0) as any as S.Schema<DeleteAssetRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteAssetResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23665,9 +24404,10 @@ export const deleteAssetFolder: API.OperationMethod<
   DeleteAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<DeleteAssetFolderRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteAssetFolderResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2080, __c130, 0) as any as S.Schema<DeleteAssetFolderRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteAssetFolderResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23682,9 +24422,10 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(2096, __c131, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteCollectionResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23699,9 +24440,10 @@ export const deleteCollectionSource: API.OperationMethod<
   DeleteCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<DeleteCollectionSourceRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionSourceResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2112, __c132, 0) as any as S.Schema<DeleteCollectionSourceRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteCollectionSourceResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23716,9 +24458,10 @@ export const deleteCollectionSync: API.OperationMethod<
   DeleteCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<DeleteCollectionSyncRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteCollectionSyncResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2128, __c133, 0) as any as S.Schema<DeleteCollectionSyncRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteCollectionSyncResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23733,9 +24476,10 @@ export const deleteManSegment: API.OperationMethod<
   DeleteManSegmentError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<DeleteManSegmentRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteManSegmentResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(2144, __c134, 0) as any as S.Schema<DeleteManSegmentRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteManSegmentResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23750,9 +24494,10 @@ export const deleteNewsletterLanguageVariant: API.OperationMethod<
   DeleteNewsletterLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<DeleteNewsletterLanguageVariantRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewsletterLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2160, __c135, 0) as any as S.Schema<DeleteNewsletterLanguageVariantRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteNewsletterLanguageVariantResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23767,9 +24512,10 @@ export const deleteNewsletters: API.OperationMethod<
   DeleteNewslettersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<DeleteNewslettersRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewslettersResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2176, __c136, 0) as any as S.Schema<DeleteNewslettersRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteNewslettersResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23784,9 +24530,10 @@ export const deleteNewsletterTestLanguageVariant: API.OperationMethod<
   DeleteNewsletterTestLanguageVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2192, __c137, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteNewsletterTestLanguageVariantResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23801,9 +24548,10 @@ export const deleteSnippet: API.OperationMethod<
   DeleteSnippetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<DeleteSnippetRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteSnippetResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2224, __c139, 0) as any as S.Schema<DeleteSnippetRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteSnippetResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23818,9 +24566,10 @@ export const deleteSuppression: API.OperationMethod<
   DeleteSuppressionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<DeleteSuppressionRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteSuppressionResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(2240, __c140, 0) as any as S.Schema<DeleteSuppressionRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteSuppressionResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23835,9 +24584,10 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2256, __c141, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<DeleteWebhookResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23852,9 +24602,10 @@ export const downloadExport: API.OperationMethod<
   DownloadExportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<DownloadExportRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<DownloadExportResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2272, __c142, 0) as any as S.Schema<DownloadExportRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<DownloadExportResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23869,9 +24620,10 @@ export const endLiveNotification: API.OperationMethod<
   EndLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<EndLiveNotificationRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<EndLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2288, __c143, 0) as any as S.Schema<EndLiveNotificationRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<EndLiveNotificationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23879,16 +24631,17 @@ export const endLiveNotification: API.OperationMethod<
 }));
 
 export type ExportDeliveriesDataError = BadRequest | CustomerioOpError;
-/** Export information about deliveries Provide filters for the one-time send, automation, or action you want to return delivery information from. This endpoint starts an export, but you cannot download your export from this endpoint. Use the `/exports/{export_id}` endpoint to download your export. Use the `start` and `end` to find messages within a time range. If your request doesn't include `start` and `end` parameters, we'll return the most recent 6 months of messages. If your `start` and `end` range is more than 12 months, we'll return 12 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
+/** Export information about deliveries Provide filters for the one-time send, automation, or action you want to return delivery information from. This endpoint starts an export, but you cannot download your export from this endpoint. Use the `/exports/{export_id}` endpoint to download your export. Use the `start` and `end` to find messages within a time range. If your request doesn't include `start` and `end` parameters, we'll return the most recent 6 months of messages. If you filter by a one-time send, we return every delivery from that send instead. If your `start` and `end` range is more than 1 year, we reject the request with a `400` error. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
 export const exportDeliveriesData: API.OperationMethod<
   ExportDeliveriesDataRequest,
   ExportDeliveriesDataResponse,
   ExportDeliveriesDataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ExportDeliveriesDataRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<ExportDeliveriesDataResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(2320, __c145, 0) as any as S.Schema<ExportDeliveriesDataRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<ExportDeliveriesDataResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23903,13 +24656,32 @@ export const exportPeopleData: API.OperationMethod<
   ExportPeopleDataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ExportPeopleDataRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<ExportPeopleDataResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(2368, __c148, 0) as any as S.Schema<ExportPeopleDataRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<ExportPeopleDataResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportPeopleData",
+}));
+
+export type GetAccountAuditLogError = Forbidden | NotFound | CustomerioOpError;
+/** Get an account audit log entry Returns one account audit log entry. For an update, the entry includes the fields that changed. This endpoint requires an [audit log key](/accounts/audit-logs/#get-audit-logs-through-the-api). */
+export const getAccountAuditLog: API.OperationMethod<
+  GetAccountAuditLogRequest,
+  GetAccountAuditLogResponse,
+  GetAccountAuditLogError,
+  CustomerioOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2384, __c149, 0) as any as S.Schema<GetAccountAuditLogRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<GetAccountAuditLogResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CustomerioServiceErrors,
+  protocol: CustomerioProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountAuditLog",
 }));
 
 export type GetArchivedMessageError = NotFound | CustomerioOpError;
@@ -23920,9 +24692,10 @@ export const getArchivedMessage: API.OperationMethod<
   GetArchivedMessageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetArchivedMessageRequest>,
-  output: __S(2274, __c142, 2) as any as S.Schema<GetArchivedMessageResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2432, __c152, 0) as any as S.Schema<GetArchivedMessageRequest>,
+  output: __S(2434, __c152, 2) as any as S.Schema<GetArchivedMessageResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23937,9 +24710,10 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetAssetRequest>,
-  output: __S(1568, __c98, 0) as any as S.Schema<GetAssetResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2448, __c153, 0) as any as S.Schema<GetAssetRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<GetAssetResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23954,9 +24728,10 @@ export const getAssetFolder: API.OperationMethod<
   GetAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<GetAssetFolderRequest>,
-  output: __S(1616, __c101, 0) as any as S.Schema<GetAssetFolderResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2528, __c158, 0) as any as S.Schema<GetAssetFolderRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<GetAssetFolderResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23971,9 +24746,10 @@ export const getBroadcast: API.OperationMethod<
   GetBroadcastError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<GetBroadcastRequest>,
-  output: __S(2385, __c149, 1) as any as S.Schema<GetBroadcastResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2544, __c159, 0) as any as S.Schema<GetBroadcastRequest>,
+  output: __S(2545, __c159, 1) as any as S.Schema<GetBroadcastResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23988,9 +24764,10 @@ export const getBroadcastAction: API.OperationMethod<
   GetBroadcastActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetBroadcastActionRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<GetBroadcastActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2576, __c161, 0) as any as S.Schema<GetBroadcastActionRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<GetBroadcastActionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24005,9 +24782,10 @@ export const getBroadcastActionLanguage: API.OperationMethod<
   GetBroadcastActionLanguageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetBroadcastActionLanguageRequest>,
-  output: __S(2433, __c152, 1) as any as S.Schema<GetBroadcastActionLanguageResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2592, __c162, 0) as any as S.Schema<GetBroadcastActionLanguageRequest>,
+  output: __S(2593, __c162, 1) as any as S.Schema<GetBroadcastActionLanguageResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24022,9 +24800,10 @@ export const getCampaignAction: API.OperationMethod<
   GetCampaignActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetCampaignActionRequest>,
-  output: __S(2449, __c153, 1) as any as S.Schema<GetCampaignActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2608, __c163, 0) as any as S.Schema<GetCampaignActionRequest>,
+  output: __S(2609, __c163, 1) as any as S.Schema<GetCampaignActionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24039,9 +24818,10 @@ export const getCampaignActionTranslation: API.OperationMethod<
   GetCampaignActionTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetCampaignActionTranslationRequest>,
-  output: __S(2465, __c154, 1) as any as S.Schema<GetCampaignActionTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2624, __c164, 0) as any as S.Schema<GetCampaignActionTranslationRequest>,
+  output: __S(2625, __c164, 1) as any as S.Schema<GetCampaignActionTranslationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24049,16 +24829,17 @@ export const getCampaignActionTranslation: API.OperationMethod<
 }));
 
 export type GetCampaignMessagesError = BadRequest | NotFound | CustomerioOpError;
-/** Get automation message metadata Returns information about the deliveries (instances of messages sent to individual people) sent from an automation. Provide query parameters to refine the metrics you want to return. Use the `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return the most recent 6 months of messages. If your `start_ts` and `end_ts` range is more than 12 months, we'll return 12 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
+/** Get automation message metadata Returns information about the deliveries (instances of messages sent to individual people) sent from an automation. Provide query parameters to refine the metrics you want to return. Use the `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return the most recent 6 months of messages. If your `start_ts` and `end_ts` range is more than 6 months, we'll return 6 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
 export const getCampaignMessages: API.OperationMethod<
   GetCampaignMessagesRequest,
   GetCampaignMessagesResponse,
   GetCampaignMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<GetCampaignMessagesRequest>,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetCampaignMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetCampaignMessagesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24073,9 +24854,10 @@ export const getCampaigns: API.OperationMethod<
   GetCampaignsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetCampaignsRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<GetCampaignsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(2656, __c166, 0) as any as S.Schema<GetCampaignsRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<GetCampaignsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24090,9 +24872,10 @@ export const getChannels: API.OperationMethod<
   GetChannelsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetChannelsRequest>,
-  output: __S(2515, __c157, 3) as any as S.Schema<GetChannelsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(2672, __c167, 0) as any as S.Schema<GetChannelsRequest>,
+  output: __S(2675, __c167, 3) as any as S.Schema<GetChannelsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24107,9 +24890,10 @@ export const getCioAllowlist: API.OperationMethod<
   GetCioAllowlistError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<GetCioAllowlistRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<GetCioAllowlistResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(2688, __c168, 0) as any as S.Schema<GetCioAllowlistRequest>,
+  output: __S(2689, __c168, 1) as any as S.Schema<GetCioAllowlistResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24124,9 +24908,10 @@ export const getCollection: API.OperationMethod<
   GetCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetCollectionRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<GetCollectionResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2752, __c172, 0) as any as S.Schema<GetCollectionRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<GetCollectionResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24141,9 +24926,10 @@ export const getCollectionContents: API.OperationMethod<
   GetCollectionContentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetCollectionContentsRequest>,
-  output: __S(2609, __c163, 1) as any as S.Schema<GetCollectionContentsResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  input: __S(2768, __c173, 0) as any as S.Schema<GetCollectionContentsRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<GetCollectionContentsResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24158,9 +24944,10 @@ export const getCollections: API.OperationMethod<
   GetCollectionsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetCollectionsRequest>,
-  output: __S(2626, __c164, 2) as any as S.Schema<GetCollectionsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(2784, __c174, 0) as any as S.Schema<GetCollectionsRequest>,
+  output: __S(2786, __c174, 2) as any as S.Schema<GetCollectionsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24175,9 +24962,10 @@ export const getCollectionSource: API.OperationMethod<
   GetCollectionSourceError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetCollectionSourceRequest>,
-  output: __S(1664, __c104, 0) as any as S.Schema<GetCollectionSourceResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2800, __c175, 0) as any as S.Schema<GetCollectionSourceRequest>,
+  output: __S(1776, __c111, 0) as any as S.Schema<GetCollectionSourceResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24192,9 +24980,10 @@ export const getCollectionSync: API.OperationMethod<
   GetCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetCollectionSyncRequest>,
-  output: __S(2675, __c167, 3) as any as S.Schema<GetCollectionSyncResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2816, __c176, 0) as any as S.Schema<GetCollectionSyncRequest>,
+  output: __S(2835, __c177, 3) as any as S.Schema<GetCollectionSyncResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24209,9 +24998,10 @@ export const getCollectionSyncRejects: API.OperationMethod<
   GetCollectionSyncRejectsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<GetCollectionSyncRejectsRequest>,
-  output: __S(2691, __c168, 3) as any as S.Schema<GetCollectionSyncRejectsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2848, __c178, 0) as any as S.Schema<GetCollectionSyncRejectsRequest>,
+  output: __S(2851, __c178, 3) as any as S.Schema<GetCollectionSyncRejectsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24226,9 +25016,10 @@ export const getCollectionWrite: API.OperationMethod<
   GetCollectionWriteError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<GetCollectionWriteRequest>,
-  output: __S(2708, __c169, 4) as any as S.Schema<GetCollectionWriteResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2864, __c179, 0) as any as S.Schema<GetCollectionWriteRequest>,
+  output: __S(2868, __c179, 4) as any as S.Schema<GetCollectionWriteResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24243,9 +25034,10 @@ export const getDomainSuppressionsByType: API.OperationMethod<
   GetDomainSuppressionsByTypeError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<GetDomainSuppressionsByTypeRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<GetDomainSuppressionsByTypeResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(2880, __c180, 0) as any as S.Schema<GetDomainSuppressionsByTypeRequest>,
+  output: __S(2881, __c180, 1) as any as S.Schema<GetDomainSuppressionsByTypeResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24260,9 +25052,10 @@ export const getExport: API.OperationMethod<
   GetExportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<GetExportRequest>,
-  output: __S(2224, __c139, 0) as any as S.Schema<GetExportResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(2912, __c182, 0) as any as S.Schema<GetExportRequest>,
+  output: __S(2336, __c146, 0) as any as S.Schema<GetExportResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24277,9 +25070,10 @@ export const getImport: API.OperationMethod<
   GetImportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<GetImportRequest>,
-  output: __S(2770, __c173, 2) as any as S.Schema<GetImportResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(2928, __c183, 0) as any as S.Schema<GetImportRequest>,
+  output: __S(2930, __c183, 2) as any as S.Schema<GetImportResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24294,9 +25088,10 @@ export const getLiveNotification: API.OperationMethod<
   GetLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<GetLiveNotificationRequest>,
-  output: __S(2786, __c174, 2) as any as S.Schema<GetLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3008, __c188, 0) as any as S.Schema<GetLiveNotificationRequest>,
+  output: __S(3010, __c188, 2) as any as S.Schema<GetLiveNotificationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24311,9 +25106,10 @@ export const getMessage: API.OperationMethod<
   GetMessageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<GetMessageRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<GetMessageResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3024, __c189, 0) as any as S.Schema<GetMessageRequest>,
+  output: __S(3025, __c189, 1) as any as S.Schema<GetMessageResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24328,9 +25124,10 @@ export const getNewsletterLinks: API.OperationMethod<
   GetNewsletterLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<GetNewsletterLinksRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<GetNewsletterLinksResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3040, __c190, 0) as any as S.Schema<GetNewsletterLinksRequest>,
+  output: __S(2725, __c170, 5) as any as S.Schema<GetNewsletterLinksResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24345,9 +25142,10 @@ export const getNewsletterMetrics: API.OperationMethod<
   GetNewsletterMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<GetNewsletterMetricsRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<GetNewsletterMetricsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3056, __c191, 0) as any as S.Schema<GetNewsletterMetricsRequest>,
+  output: __S(3073, __c192, 1) as any as S.Schema<GetNewsletterMetricsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24355,16 +25153,17 @@ export const getNewsletterMetrics: API.OperationMethod<
 }));
 
 export type GetNewsletterMsgMetaError = NotFound | CustomerioOpError;
-/** Get delivery data for a one-time send Returns information about the "deliveries" (rendered messages) sent to your recipients for a specific one-time send (referred to as a "newsletter" in our APIs). Provide query parameters to refine the metrics you want to return. Use `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return up to 6 months of results beginning with the first delivery generated from the one-time send. If your `start_ts` and `end_ts` range is more than 12 months, we'll return 12 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
+/** Get delivery data for a one-time send Returns information about the "deliveries" (rendered messages) sent to your recipients for a specific one-time send (referred to as a "newsletter" in our APIs). Provide query parameters to refine the metrics you want to return. Use `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include either `start_ts` or `end_ts`, we'll return every message from the one-time send, from when it started sending through its last delivery. If your `start_ts` and `end_ts` range is more than 6 months, we'll return 6 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
 export const getNewsletterMsgMeta: API.OperationMethod<
   GetNewsletterMsgMetaRequest,
   GetNewsletterMsgMetaResponse,
   GetNewsletterMsgMetaError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<GetNewsletterMsgMetaRequest>,
+  input: __S(3088, __c193, 0) as any as S.Schema<GetNewsletterMsgMetaRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetNewsletterMsgMetaResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24379,9 +25178,10 @@ export const getNewsletters: API.OperationMethod<
   GetNewslettersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetNewslettersRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<GetNewslettersResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3104, __c194, 0) as any as S.Schema<GetNewslettersRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<GetNewslettersResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24396,9 +25196,10 @@ export const getNewsletterTestGroups: API.OperationMethod<
   GetNewsletterTestGroupsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<GetNewsletterTestGroupsRequest>,
-  output: __S(2963, __c185, 3) as any as S.Schema<GetNewsletterTestGroupsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3120, __c195, 0) as any as S.Schema<GetNewsletterTestGroupsRequest>,
+  output: __S(3123, __c195, 3) as any as S.Schema<GetNewsletterTestGroupsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24413,9 +25214,10 @@ export const getNewsletterVariant: API.OperationMethod<
   GetNewsletterVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetNewsletterVariantRequest>,
-  output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3136, __c196, 0) as any as S.Schema<GetNewsletterVariantRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<GetNewsletterVariantResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24430,9 +25232,10 @@ export const getNewsletterVariantTranslation: API.OperationMethod<
   GetNewsletterVariantTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<GetNewsletterVariantTranslationRequest>,
-  output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3184, __c199, 0) as any as S.Schema<GetNewsletterVariantTranslationRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<GetNewsletterVariantTranslationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24447,9 +25250,10 @@ export const getNewsletterVariantTranslationTest: API.OperationMethod<
   GetNewsletterVariantTranslationTestError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<GetNewsletterVariantTranslationTestRequest>,
-  output: __S(3008, __c188, 0) as any as S.Schema<GetNewsletterVariantTranslationTestResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3200, __c200, 0) as any as S.Schema<GetNewsletterVariantTranslationTestRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<GetNewsletterVariantTranslationTestResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24464,9 +25268,10 @@ export const getObjectAttributes: API.OperationMethod<
   GetObjectAttributesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetObjectAttributesRequest>,
-  output: __S(3059, __c191, 3) as any as S.Schema<GetObjectAttributesResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3232, __c202, 0) as any as S.Schema<GetObjectAttributesRequest>,
+  output: __S(3235, __c202, 3) as any as S.Schema<GetObjectAttributesResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24481,9 +25286,10 @@ export const getObjectRelationships: API.OperationMethod<
   GetObjectRelationshipsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetObjectRelationshipsRequest>,
-  output: __S(3108, __c194, 4) as any as S.Schema<GetObjectRelationshipsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3264, __c204, 0) as any as S.Schema<GetObjectRelationshipsRequest>,
+  output: __S(3268, __c204, 4) as any as S.Schema<GetObjectRelationshipsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24498,9 +25304,10 @@ export const getObjectsFilter: API.OperationMethod<
   GetObjectsFilterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetObjectsFilterRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<GetObjectsFilterResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3280, __c205, 0) as any as S.Schema<GetObjectsFilterRequest>,
+  output: __S(3282, __c205, 2) as any as S.Schema<GetObjectsFilterResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24515,9 +25322,10 @@ export const getObjectTypes: API.OperationMethod<
   GetObjectTypesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<GetObjectTypesRequest>,
-  output: __S(3155, __c197, 3) as any as S.Schema<GetObjectTypesResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3312, __c207, 0) as any as S.Schema<GetObjectTypesRequest>,
+  output: __S(3315, __c207, 3) as any as S.Schema<GetObjectTypesResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24532,9 +25340,10 @@ export const getOptouts: API.OperationMethod<
   GetOptoutsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<GetOptoutsRequest>,
-  output: __S(3171, __c198, 3) as any as S.Schema<GetOptoutsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3328, __c208, 0) as any as S.Schema<GetOptoutsRequest>,
+  output: __S(3331, __c208, 3) as any as S.Schema<GetOptoutsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24549,9 +25358,10 @@ export const getPeopleById: API.OperationMethod<
   GetPeopleByIdError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetPeopleByIdRequest>,
-  output: __S(3202, __c200, 2) as any as S.Schema<GetPeopleByIdResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(3360, __c210, 0) as any as S.Schema<GetPeopleByIdRequest>,
+  output: __S(3362, __c210, 2) as any as S.Schema<GetPeopleByIdResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24566,9 +25376,10 @@ export const getPeopleEmail: API.OperationMethod<
   GetPeopleEmailError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<GetPeopleEmailRequest>,
-  output: __S(3233, __c202, 1) as any as S.Schema<GetPeopleEmailResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3392, __c212, 0) as any as S.Schema<GetPeopleEmailRequest>,
+  output: __S(3393, __c212, 1) as any as S.Schema<GetPeopleEmailResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24583,9 +25394,10 @@ export const getPeopleFilter: API.OperationMethod<
   GetPeopleFilterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<GetPeopleFilterRequest>,
-  output: __S(3265, __c204, 1) as any as S.Schema<GetPeopleFilterResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(3424, __c214, 0) as any as S.Schema<GetPeopleFilterRequest>,
+  output: __S(3425, __c214, 1) as any as S.Schema<GetPeopleFilterResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24600,9 +25412,10 @@ export const getPersonActivities: API.OperationMethod<
   GetPersonActivitiesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<GetPersonActivitiesRequest>,
-  output: __S(3283, __c205, 3) as any as S.Schema<GetPersonActivitiesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3440, __c215, 0) as any as S.Schema<GetPersonActivitiesRequest>,
+  output: __S(3443, __c215, 3) as any as S.Schema<GetPersonActivitiesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24617,9 +25430,10 @@ export const getPersonAttributes: API.OperationMethod<
   GetPersonAttributesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<GetPersonAttributesRequest>,
-  output: __S(3222, __c201, 6) as any as S.Schema<GetPersonAttributesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3456, __c216, 0) as any as S.Schema<GetPersonAttributesRequest>,
+  output: __S(3382, __c211, 6) as any as S.Schema<GetPersonAttributesResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24634,9 +25448,10 @@ export const getPersonMessages: API.OperationMethod<
   GetPersonMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<GetPersonMessagesRequest>,
-  output: __S(3316, __c207, 4) as any as S.Schema<GetPersonMessagesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3488, __c218, 0) as any as S.Schema<GetPersonMessagesRequest>,
+  output: __S(3492, __c218, 4) as any as S.Schema<GetPersonMessagesResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24651,9 +25466,10 @@ export const getPersonOptouts: API.OperationMethod<
   GetPersonOptoutsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<GetPersonOptoutsRequest>,
-  output: __S(3345, __c209, 1) as any as S.Schema<GetPersonOptoutsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3504, __c219, 0) as any as S.Schema<GetPersonOptoutsRequest>,
+  output: __S(3505, __c219, 1) as any as S.Schema<GetPersonOptoutsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24668,9 +25484,10 @@ export const getPersonRelationships: API.OperationMethod<
   GetPersonRelationshipsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<GetPersonRelationshipsRequest>,
-  output: __S(3363, __c210, 3) as any as S.Schema<GetPersonRelationshipsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3520, __c220, 0) as any as S.Schema<GetPersonRelationshipsRequest>,
+  output: __S(3523, __c220, 3) as any as S.Schema<GetPersonRelationshipsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24685,9 +25502,10 @@ export const getPersonSegments: API.OperationMethod<
   GetPersonSegmentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<GetPersonSegmentsRequest>,
-  output: __S(3379, __c211, 3) as any as S.Schema<GetPersonSegmentsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3536, __c221, 0) as any as S.Schema<GetPersonSegmentsRequest>,
+  output: __S(3539, __c221, 3) as any as S.Schema<GetPersonSegmentsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24702,9 +25520,10 @@ export const getPersonSubscriptionPreferences: API.OperationMethod<
   GetPersonSubscriptionPreferencesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<GetPersonSubscriptionPreferencesRequest>,
-  output: __S(3397, __c212, 5) as any as S.Schema<GetPersonSubscriptionPreferencesResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(3552, __c222, 0) as any as S.Schema<GetPersonSubscriptionPreferencesRequest>,
+  output: __S(3557, __c222, 5) as any as S.Schema<GetPersonSubscriptionPreferencesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24719,9 +25538,10 @@ export const getSegment: API.OperationMethod<
   GetSegmentError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(1728, __c108, 0) as any as S.Schema<GetSegmentResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3568, __c223, 0) as any as S.Schema<GetSegmentRequest>,
+  output: __S(1840, __c115, 0) as any as S.Schema<GetSegmentResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24736,9 +25556,10 @@ export const getSegmentCount: API.OperationMethod<
   GetSegmentCountError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<GetSegmentCountRequest>,
-  output: __S(3425, __c214, 1) as any as S.Schema<GetSegmentCountResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3584, __c224, 0) as any as S.Schema<GetSegmentCountRequest>,
+  output: __S(3585, __c224, 1) as any as S.Schema<GetSegmentCountResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24753,9 +25574,10 @@ export const getSegmentDependencies: API.OperationMethod<
   GetSegmentDependenciesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<GetSegmentDependenciesRequest>,
-  output: __S(3442, __c215, 2) as any as S.Schema<GetSegmentDependenciesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3600, __c225, 0) as any as S.Schema<GetSegmentDependenciesRequest>,
+  output: __S(3602, __c225, 2) as any as S.Schema<GetSegmentDependenciesResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24770,9 +25592,10 @@ export const getSegmentMembership: API.OperationMethod<
   GetSegmentMembershipError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<GetSegmentMembershipRequest>,
-  output: __S(3457, __c216, 1) as any as S.Schema<GetSegmentMembershipResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3616, __c226, 0) as any as S.Schema<GetSegmentMembershipRequest>,
+  output: __S(3617, __c226, 1) as any as S.Schema<GetSegmentMembershipResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24787,9 +25610,10 @@ export const getSender: API.OperationMethod<
   GetSenderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<GetSenderRequest>,
-  output: __S(3473, __c217, 1) as any as S.Schema<GetSenderResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(3632, __c227, 0) as any as S.Schema<GetSenderRequest>,
+  output: __S(3633, __c227, 1) as any as S.Schema<GetSenderResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24804,9 +25628,10 @@ export const getSenderUsage: API.OperationMethod<
   GetSenderUsageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<GetSenderUsageRequest>,
-  output: __S(3505, __c219, 1) as any as S.Schema<GetSenderUsageResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(112, __c7, 0) as any as S.Schema<GetSenderUsageRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<GetSenderUsageResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24821,9 +25646,10 @@ export const getSubscriptionCenterToken: API.OperationMethod<
   GetSubscriptionCenterTokenError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetSubscriptionCenterTokenRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<GetSubscriptionCenterTokenResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(128, __c8, 0) as any as S.Schema<GetSubscriptionCenterTokenRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<GetSubscriptionCenterTokenResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24838,9 +25664,10 @@ export const getSuppression: API.OperationMethod<
   GetSuppressionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetSuppressionRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<GetSuppressionResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(144, __c9, 0) as any as S.Schema<GetSuppressionRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<GetSuppressionResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24855,9 +25682,10 @@ export const getSuppressionByType: API.OperationMethod<
   GetSuppressionByTypeError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetSuppressionByTypeRequest>,
-  output: __S(144, __c9, 0) as any as S.Schema<GetSuppressionByTypeResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(176, __c11, 0) as any as S.Schema<GetSuppressionByTypeRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<GetSuppressionByTypeResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24872,9 +25700,10 @@ export const getTopics: API.OperationMethod<
   GetTopicsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetTopicsRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<GetTopicsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(192, __c12, 0) as any as S.Schema<GetTopicsRequest>,
+  output: __S(195, __c12, 3) as any as S.Schema<GetTopicsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24889,9 +25718,10 @@ export const getTransactional: API.OperationMethod<
   GetTransactionalError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetTransactionalRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<GetTransactionalResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(208, __c13, 0) as any as S.Schema<GetTransactionalRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetTransactionalResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24906,9 +25736,10 @@ export const getTransactionalTranslationById: API.OperationMethod<
   GetTransactionalTranslationByIdError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetTransactionalTranslationByIdRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<GetTransactionalTranslationByIdResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(240, __c15, 0) as any as S.Schema<GetTransactionalTranslationByIdRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GetTransactionalTranslationByIdResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24923,9 +25754,10 @@ export const getTransactionalVariant: API.OperationMethod<
   GetTransactionalVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetTransactionalVariantRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<GetTransactionalVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(272, __c17, 0) as any as S.Schema<GetTransactionalVariantRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetTransactionalVariantResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24940,9 +25772,10 @@ export const getVariantLinks: API.OperationMethod<
   GetVariantLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetVariantLinksRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<GetVariantLinksResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(320, __c20, 0) as any as S.Schema<GetVariantLinksRequest>,
+  output: __S(2725, __c170, 5) as any as S.Schema<GetVariantLinksResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24957,9 +25790,10 @@ export const getVariantMetrics: API.OperationMethod<
   GetVariantMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetVariantMetricsRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<GetVariantMetricsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(336, __c21, 0) as any as S.Schema<GetVariantMetricsRequest>,
+  output: __S(3073, __c192, 1) as any as S.Schema<GetVariantMetricsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24974,13 +25808,32 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<GetWebhookResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(416, __c26, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<GetWebhookResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWebhook",
+}));
+
+export type GetWorkspaceAuditLogError = Forbidden | NotFound | CustomerioOpError;
+/** Get a workspace audit log entry Returns one audit log entry from the workspace your key belongs to. For an update, the entry includes the fields that changed. */
+export const getWorkspaceAuditLog: API.OperationMethod<
+  GetWorkspaceAuditLogRequest,
+  GetWorkspaceAuditLogResponse,
+  GetWorkspaceAuditLogError,
+  CustomerioOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(432, __c27, 0) as any as S.Schema<GetWorkspaceAuditLogRequest>,
+  output: __S(2400, __c150, 0) as any as S.Schema<GetWorkspaceAuditLogResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CustomerioServiceErrors,
+  protocol: CustomerioProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceAuditLog",
 }));
 
 export type ImportError = CustomerioOpError;
@@ -24991,13 +25844,32 @@ export const Import: API.OperationMethod<
   ImportError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ImportRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<ImportResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(448, __c28, 0) as any as S.Schema<ImportRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ImportResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "Import",
+}));
+
+export type ListAccountAuditLogsError = BadRequest | Forbidden | CustomerioOpError;
+/** List account audit logs Returns account-wide activity: sign-ins and failed sign-ins, team members, roles, API keys, and single sign-on (SSO) settings. This endpoint requires an [audit log key](/accounts/audit-logs/#get-audit-logs-through-the-api). It works only while the team member who created the key is an account admin. Other App API keys return a `403`. Entries include the IP address of each change and the email address of each team member named. Results cover the audit log history your plan includes. */
+export const listAccountAuditLogs: API.OperationMethod<
+  ListAccountAuditLogsRequest,
+  ListAccountAuditLogsResponse,
+  ListAccountAuditLogsError,
+  CustomerioOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<ListAccountAuditLogsRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<ListAccountAuditLogsResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
+  protocol: CustomerioProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountAuditLogs",
 }));
 
 export type ListActivitiesError = CustomerioOpError;
@@ -25008,9 +25880,10 @@ export const listActivities: API.OperationMethod<
   ListActivitiesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListActivitiesRequest>,
-  output: __S(435, __c27, 3) as any as S.Schema<ListActivitiesResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(496, __c31, 0) as any as S.Schema<ListActivitiesRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<ListActivitiesResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25025,9 +25898,10 @@ export const listAssetFolders: API.OperationMethod<
   ListAssetFoldersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListAssetFoldersRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<ListAssetFoldersResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(512, __c32, 0) as any as S.Schema<ListAssetFoldersRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<ListAssetFoldersResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25042,9 +25916,10 @@ export const listAssets: API.OperationMethod<
   ListAssetsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListAssetsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<ListAssetsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(544, __c34, 0) as any as S.Schema<ListAssetsRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<ListAssetsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25059,9 +25934,10 @@ export const listBroadcasts: API.OperationMethod<
   ListBroadcastsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListBroadcastsRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<ListBroadcastsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(560, __c35, 0) as any as S.Schema<ListBroadcastsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ListBroadcastsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25076,9 +25952,10 @@ export const listBroadcastTriggers: API.OperationMethod<
   ListBroadcastTriggersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListBroadcastTriggersRequest>,
-  output: __S(514, __c32, 2) as any as S.Schema<ListBroadcastTriggersResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(576, __c36, 0) as any as S.Schema<ListBroadcastTriggersRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<ListBroadcastTriggersResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25093,9 +25970,10 @@ export const listCampaignActions: API.OperationMethod<
   ListCampaignActionsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListCampaignActionsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<ListCampaignActionsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(592, __c37, 0) as any as S.Schema<ListCampaignActionsRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<ListCampaignActionsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25110,9 +25988,10 @@ export const listCampaigns: API.OperationMethod<
   ListCampaignsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListCampaignsRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ListCampaignsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(640, __c40, 0) as any as S.Schema<ListCampaignsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ListCampaignsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25127,9 +26006,10 @@ export const listCollectionSources: API.OperationMethod<
   ListCollectionSourcesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListCollectionSourcesRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<ListCollectionSourcesResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(656, __c41, 0) as any as S.Schema<ListCollectionSourcesRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ListCollectionSourcesResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25144,9 +26024,10 @@ export const listExports: API.OperationMethod<
   ListExportsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListExportsRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ListExportsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(672, __c42, 0) as any as S.Schema<ListExportsRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<ListExportsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25154,16 +26035,17 @@ export const listExports: API.OperationMethod<
 }));
 
 export type ListMessagesError = BadRequest | CustomerioOpError;
-/** List messages Return a list of deliveries, including metrics for each delivery, for messages in your workspace. The request body contains filters determining the deliveries you want to return information about. Use the `start_ts` and `end_ts` parameters to find messages within a time range. We limit your requests to 6 months. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return the most recent 6 months of deliveries. If `start_ts` is greater than 6-months before `end_ts`, we only send back 6 months of data. If only `end_ts` is specified, we return 6 months of data before this timestamp. If only `start_ts` is specified, we then set the `end_ts` to the current time and deliver 6 months of data prior to this timestamp. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
+/** List messages Return a list of deliveries, including metrics for each delivery, for messages in your workspace. The request body contains filters determining the deliveries you want to return information about. Use the `start_ts` and `end_ts` parameters to find messages within a time range. We limit your requests to 6 months. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return the most recent 6 months of deliveries. If `start_ts` is greater than 6-months before `end_ts`, we only send back 6 months of data. If only `end_ts` is specified, we return 6 months of data before this timestamp. If only `start_ts` is specified, we set `end_ts` to the current time and return data from `start_ts` onward, limited to the most recent 6 months. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
 export const listMessages: API.OperationMethod<
   ListMessagesRequest,
   ListMessagesResponse,
   ListMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListMessagesRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ListMessagesResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25178,9 +26060,10 @@ export const listNewsletters: API.OperationMethod<
   ListNewslettersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListNewslettersRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<ListNewslettersResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(704, __c44, 0) as any as S.Schema<ListNewslettersRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<ListNewslettersResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25195,9 +26078,10 @@ export const listNewsletterVariants: API.OperationMethod<
   ListNewsletterVariantsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListNewsletterVariantsRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<ListNewsletterVariantsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(720, __c45, 0) as any as S.Schema<ListNewsletterVariantsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<ListNewsletterVariantsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25212,9 +26096,10 @@ export const listSegments: API.OperationMethod<
   ListSegmentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListSegmentsRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<ListSegmentsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(736, __c46, 0) as any as S.Schema<ListSegmentsRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<ListSegmentsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25229,9 +26114,10 @@ export const listSenders: API.OperationMethod<
   ListSendersError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListSendersRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<ListSendersResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(752, __c47, 0) as any as S.Schema<ListSendersRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListSendersResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25246,9 +26132,10 @@ export const listSnippets: API.OperationMethod<
   ListSnippetsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListSnippetsRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<ListSnippetsResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(768, __c48, 0) as any as S.Schema<ListSnippetsRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<ListSnippetsResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25263,9 +26150,10 @@ export const listTransactional: API.OperationMethod<
   ListTransactionalError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListTransactionalRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<ListTransactionalResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(784, __c49, 0) as any as S.Schema<ListTransactionalRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<ListTransactionalResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25280,9 +26168,10 @@ export const listTransactionalVariants: API.OperationMethod<
   ListTransactionalVariantsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListTransactionalVariantsRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<ListTransactionalVariantsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(848, __c53, 0) as any as S.Schema<ListTransactionalVariantsRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<ListTransactionalVariantsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25297,13 +26186,32 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(864, __c54, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<ListWebhooksResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhooks",
+}));
+
+export type ListWorkspaceAuditLogsError = BadRequest | Forbidden | CustomerioOpError;
+/** List workspace audit logs Returns the activity in the workspace your key belongs to, like changes to automations, segments, and imports. To collect logs from several workspaces, use a key from each one. This endpoint works with a private key or an [audit log key](/accounts/audit-logs/#get-audit-logs-through-the-api). Entries include the IP address of each change and the email address of each team member named. Results cover the audit log history your plan includes. On large workspaces, filter by `object_type` and page with `cursor` rather than raising `limit`. */
+export const listWorkspaceAuditLogs: API.OperationMethod<
+  ListWorkspaceAuditLogsRequest,
+  ListWorkspaceAuditLogsResponse,
+  ListWorkspaceAuditLogsError,
+  CustomerioOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(880, __c55, 0) as any as S.Schema<ListWorkspaceAuditLogsRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<ListWorkspaceAuditLogsResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
+  protocol: CustomerioProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceAuditLogs",
 }));
 
 export type ListWorkspacesError = CustomerioOpError;
@@ -25314,9 +26222,10 @@ export const listWorkspaces: API.OperationMethod<
   ListWorkspacesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListWorkspacesRequest>,
-  output: __S(771, __c48, 3) as any as S.Schema<ListWorkspacesResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(896, __c56, 0) as any as S.Schema<ListWorkspacesRequest>,
+  output: __S(899, __c56, 3) as any as S.Schema<ListWorkspacesResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25324,16 +26233,17 @@ export const listWorkspaces: API.OperationMethod<
 }));
 
 export type PollCollectionSyncError = BadRequest | NotFound | CustomerioOpError;
-/** Check a sync's folder now Check the sync's folder for new files now, instead of waiting for the next scheduled check. If a check is already running, Customer.io doesn't start another. Customer.io responds right away, before the check finishes. Use [look up a collection's sync](/integrations/api/app/tag/collections/getCollectionSync/) to see the result. */
+/** Check a sync's folder now Check the sync's folder for new or changed files now, instead of waiting for the next scheduled check. If a check is already running, Customer.io doesn't start another. Customer.io responds right away, before the check finishes. Use [look up a collection's sync](/integrations/api/app/tag/collections/getCollectionSync/) to see the result. */
 export const pollCollectionSync: API.OperationMethod<
   PollCollectionSyncRequest,
   PollCollectionSyncResponse,
   PollCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<PollCollectionSyncRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<PollCollectionSyncResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(912, __c57, 0) as any as S.Schema<PollCollectionSyncRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<PollCollectionSyncResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25348,9 +26258,10 @@ export const postSuppression: API.OperationMethod<
   PostSuppressionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<PostSuppressionRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<PostSuppressionResponse>,
-  errors: [UnknownCustomerioError],
+  input: __S(928, __c58, 0) as any as S.Schema<PostSuppressionRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<PostSuppressionResponse>,
+  errors: [],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25362,16 +26273,17 @@ export type PutCollectionSyncError =
   | NotFound
   | UnprocessableEntity
   | CustomerioOpError;
-/** Sync a collection from a source Watch a folder in one of your [collection sources](/integrations/api/app/tag/collections/createCollectionSource/), and have Customer.io load each new file in the folder into the collection. Customer.io saves and deletes rows by key, the same way as a [write operation](/integrations/api/app/tag/collections/submitCollectionWrite/), so the collection needs a key field. A collection can have exactly one sync. Each time Customer.io checks the folder, it loads new files in alphabetical order of their paths, up to 2,000 files at a time. Customer.io remembers the last file it loaded and only loads files whose paths sort after it. Name your files so that newer files sort later, like by starting each name with the date (`2026-11-03-products.csv`). Customer.io never loads a file whose path sorts before the last file it loaded, or a file that you overwrite at a path it already loaded. To send changed rows, write a new file. Customer.io checks each file before it saves any of the file's rows. Customer.io loads the valid rows and records rejected rows, which you can look up with [list rejected sync rows](/integrations/api/app/tag/collections/getCollectionSyncRejects/). If two rows in a file have the same key, Customer.io loads the first one and rejects the second. If Customer.io can't load a whole file, like when the file is too large or isn't JSON or CSV, the sync's `state` becomes `failed`, and Customer.io tries that file again at each later check. To get the sync going again, overwrite the file with one that Customer.io can load, or delete the file. To change a sync, send it again. If you change only `poll_hours`, the sync keeps its place. If you change the source or the `prefix`, the sync starts over from the first file in the folder. */
+/** Sync a collection from a source Watch a folder in one of your [collection sources](/integrations/api/app/tag/collections/createCollectionSource/), and have Customer.io load each new or changed file in the folder into the collection. Customer.io saves and deletes rows by key, the same way as a [write operation](/integrations/api/app/tag/collections/submitCollectionWrite/), so the collection needs a key field. A collection can have exactly one sync. Each time Customer.io checks the folder, it loads every file that it hasn't loaded yet, plus every file that you overwrote since Customer.io loaded it, in alphabetical order of their paths, up to 2,000 files at a time. You can write a new file for each export or overwrite the same file. If you write new files, start each name with the date and time (`2026-11-03T0600-products.csv`), so that Customer.io loads them in the order that you wrote them. If you delete a file that Customer.io loaded and put it back, Customer.io loads it again. The folder can hold up to 100,000 files; past that, the sync's `state` becomes `failed` until you move files out of the folder. Customer.io checks each file before it saves any of the file's rows. Customer.io loads the valid rows and records rejected rows, which you can look up with [list rejected sync rows](/integrations/api/app/tag/collections/getCollectionSyncRejects/). If two rows in a file have the same key, Customer.io loads the first one and rejects the second. If Customer.io can't load a whole file, like when the file is too large or isn't JSON or CSV, the sync's `state` becomes `failed`, and Customer.io tries that file again at each later check. To get the sync going again, overwrite the file with one that Customer.io can load, or delete the file. To change a sync, send it again. If you change only `poll_hours`, the sync keeps its place. If you change the source or the `prefix`, the sync starts over from the first file in the folder. */
 export const putCollectionSync: API.OperationMethod<
   PutCollectionSyncRequest,
   PutCollectionSyncResponse,
   PutCollectionSyncError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<PutCollectionSyncRequest>,
-  output: __S(2675, __c167, 3) as any as S.Schema<PutCollectionSyncResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(944, __c59, 0) as any as S.Schema<PutCollectionSyncRequest>,
+  output: __S(2835, __c177, 3) as any as S.Schema<PutCollectionSyncResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25390,9 +26302,10 @@ export const scheduleNewsletter: API.OperationMethod<
   ScheduleNewsletterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ScheduleNewsletterRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<ScheduleNewsletterResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(960, __c60, 0) as any as S.Schema<ScheduleNewsletterRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<ScheduleNewsletterResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25400,16 +26313,17 @@ export const scheduleNewsletter: API.OperationMethod<
 }));
 
 export type SendEmailError = BadRequest | Forbidden | CustomerioOpError;
-/** Send a transactional email Send a transactional email. While not strictly required, we recommend that you include a `transactional_message_id` in your request. If you don't, Customer.io attributes metrics to `"transactional_message_id": 1`, so multiple messages can roll up under the same ID. If this is the first time you send a message with the API, you can include the `auto_create` parameter along with a `transactional_message_id` string to create a record for you. You can also include a `body`, `subject`, and `from` values to override the message template. Or, if you create your message entirely through the API, you *must* include these values because your `transactional_message_id` won't have any content. See [Examples and API parameters](/journeys/send/transactional/email/#auto-create-transactional-message-records) for more details. */
+/** Send a transactional email Send a transactional email. While not strictly required, we recommend that you include a `transactional_message_id` in your request. If you don't, Customer.io attributes metrics to `"transactional_message_id": 1`, so multiple messages can roll up under the same ID. If this is the first time you send a message with the API, you can include the `auto_create` parameter along with a `transactional_message_id` string to create a record for you. You can also include a `body`, `subject`, and `from` values to override the message template. Or, if you create your message entirely through the API, you *must* include these values because your `transactional_message_id` won't have any content. See [Examples and API parameters](/journeys/send/transactional/email/#auto-create-transactional-message-records) for more details. **Limits**: A request can be up to 2,548KB in total, which is 500KB plus the 2MB attachment limit. Attachments can total up to 2MB, measured on their base64-encoded content. You can send to up to 15 recipients across `to`, `cc`, and `bcc`. */
 export const sendEmail: API.OperationMethod<
   SendEmailRequest,
   SendEmailResponse,
   SendEmailError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c56, 1) as any as S.Schema<SendEmailRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SendEmailResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  input: __S(977, __c61, 1) as any as S.Schema<SendEmailRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendEmailResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25417,16 +26331,17 @@ export const sendEmail: API.OperationMethod<
 }));
 
 export type SendInAppError = BadRequest | Forbidden | CustomerioOpError;
-/** Send a transactional in-app message Send a transactional in-app message. In-app messages render in your application through the Customer.io SDK to the devices associated with the person you target by `identifiers`. You send a message using a `transactional_message_id` for an in-app message template that you've set up in the user interface. The `transactional_message_id` can be either the numerical ID for the template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). **Note**: Your workspace must have in-app messaging enabled. Requests sent to a workspace without the in-app capability return `403`. */
+/** Send a transactional in-app message Send a transactional in-app message. In-app messages render in your application through the Customer.io SDK to the devices associated with the person you target by `identifiers`. You send a message using a `transactional_message_id` for an in-app message template that you've set up in the user interface. The `transactional_message_id` can be either the numerical ID for the template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). **Note**: Your workspace must have in-app messaging enabled. Requests sent to a workspace without the in-app capability return `403`. **Limits**: A request can be up to 500KB. */
 export const sendInApp: API.OperationMethod<
   SendInAppRequest,
   SendInAppResponse,
   SendInAppError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<SendInAppRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SendInAppResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  input: __S(1024, __c64, 0) as any as S.Schema<SendInAppRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendInAppResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25434,16 +26349,17 @@ export const sendInApp: API.OperationMethod<
 }));
 
 export type SendInboxMessageError = BadRequest | Forbidden | CustomerioOpError;
-/** Send a transactional inbox message Send a transactional inbox message. Inbox messages deliver raw JSON payloads to your application through our JavaScript SDK, allowing you to build custom notification centers, message feeds, and other UI components. You send a message using a `transactional_message_id` for an inbox message template created in the user interface. The `transactional_message_id` can be either the numerical ID for the template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). **Note**: Inbox messages are currently available for web platforms only and require the Customer.io In-App Plugin to be installed. */
+/** Send a transactional inbox message Send a transactional inbox message. Inbox messages deliver raw JSON payloads to your application through our JavaScript SDK, allowing you to build custom notification centers, message feeds, and other UI components. You send a message using a `transactional_message_id` for an inbox message template created in the user interface. The `transactional_message_id` can be either the numerical ID for the template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). **Note**: Inbox messages are currently available for web platforms only and require the Customer.io In-App Plugin to be installed. **Limits**: A request can be up to 500KB. */
 export const sendInboxMessage: API.OperationMethod<
   SendInboxMessageRequest,
   SendInboxMessageResponse,
   SendInboxMessageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<SendInboxMessageRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SendInboxMessageResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  input: __S(1056, __c66, 0) as any as S.Schema<SendInboxMessageRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendInboxMessageResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25458,9 +26374,10 @@ export const sendNewsletter: API.OperationMethod<
   SendNewsletterError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<SendNewsletterRequest>,
-  output: __S(1792, __c112, 0) as any as S.Schema<SendNewsletterResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1072, __c67, 0) as any as S.Schema<SendNewsletterRequest>,
+  output: __S(1904, __c119, 0) as any as S.Schema<SendNewsletterResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25468,16 +26385,17 @@ export const sendNewsletter: API.OperationMethod<
 }));
 
 export type SendPushError = BadRequest | Forbidden | CustomerioOpError;
-/** Send a transactional push Send a transactional push. You send a message using a `transactional_message_id` for a transactional push message template composed in the user interface. You can optionally override any of the template values at send time. The `transactional_message_id` can be either the numerical ID for the template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). */
+/** Send a transactional push Send a transactional push. You send a message using a `transactional_message_id` for a transactional push message template composed in the user interface. You can optionally override any of the template values at send time. The `transactional_message_id` can be either the numerical ID for the template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). A transactional push goes to the person's iOS and Android devices. While this endpoint supports `web` and `all_and_web` platforms, we're retiring that feature for this endpoint on December 31, 2026. To send to browsers, use a web push message and [send a transactional web push](/integrations/api/app/tag/send-messages/sendWebPush/). **Limits**: A request can be up to 500KB. */
 export const sendPush: API.OperationMethod<
   SendPushRequest,
   SendPushResponse,
   SendPushError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(985, __c61, 9) as any as S.Schema<SendPushRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SendPushResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  input: __S(1096, __c68, 8) as any as S.Schema<SendPushRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendPushResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25485,33 +26403,53 @@ export const sendPush: API.OperationMethod<
 }));
 
 export type SendSMSError = BadRequest | Forbidden | CustomerioOpError;
-/** Send a transactional SMS Send a transactional SMS message. To send a message, you'll need to provide a `transactional_message_id`. This is either the numerical ID of your transactional message template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). */
+/** Send a transactional SMS Send a transactional SMS message. To send a message, you'll need to provide a `transactional_message_id`. This is either the numerical ID of your transactional message template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/). **Limits**: A request can be up to 500KB. */
 export const sendSMS: API.OperationMethod<
   SendSMSRequest,
   SendSMSResponse,
   SendSMSError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<SendSMSRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SendSMSResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  input: __S(1104, __c69, 0) as any as S.Schema<SendSMSRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendSMSResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendSMS",
 }));
 
+export type SendWebPushError = BadRequest | Forbidden | CustomerioOpError;
+/** Send a transactional web push Send a transactional web push notification to a person's browsers. You send a message using a `transactional_message_id` for a transactional web push message that you created in the user interface, or with `auto_create`, a trigger name for a message that Customer.io creates on the first request. You can override some of the message's content at send time. The `transactional_message_id` can be either the numerical ID for the message or the *Trigger Name* that you assigned it. [Learn more about transactional web push](/messaging/channels/web-push/transactional/). Until you [generate web push keys](/messaging/channels/web-push/set-up/#generate-keys) in *Workspace settings* > *Web push*, requests return `400` with `Web push is not set up for this workspace.` The message goes to the person's eligible browsers, and `to` chooses which of them receive it. If the message has a **Website**, only browsers that subscribed on that website are eligible. Browsers don't use the `platform`, `sound`, and `custom_payload` fields from the [transactional push request](/integrations/api/app/tag/send-messages/sendPush/), so this endpoint ignores them. When `auto_create` creates a new message, the message has no text of its own, so include `message` in every request until you add text to the message in Customer.io. A request for a message with saved text can leave out `message` to use that text. **Limits**: A request can be up to 500KB. */
+export const sendWebPush: API.OperationMethod<
+  SendWebPushRequest,
+  SendWebPushResponse,
+  SendWebPushError,
+  CustomerioOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1122, __c70, 2) as any as S.Schema<SendWebPushRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendWebPushResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
+  protocol: CustomerioProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendWebPush",
+}));
+
 export type SendWhatsAppError = BadRequest | Forbidden | CustomerioOpError;
-/** Send a transactional WhatsApp message Send a transactional WhatsApp message. To use this endpoint, you must be integrated with [WhatsApp Business](/messaging/send/transactional/whatsapp/#before-you-begin), not Twilio. Then you need to [create the template in the UI and have it approved by WhatsApp/Meta](/messaging/design-studio/whatsapp-design-studio/) before sending it. To send a message, you need to provide a `transactional_message_id`. This is either the numerical ID of your transactional message template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/listTransactional/). */
+/** Send a transactional WhatsApp message Send a transactional WhatsApp message. To use this endpoint, you must be integrated with [WhatsApp Business](/messaging/send/transactional/whatsapp/#before-you-begin), not Twilio. Then you need to [create the template in the UI and have it approved by WhatsApp/Meta](/messaging/design-studio/whatsapp-design-studio/) before sending it. To send a message, you need to provide a `transactional_message_id`. This is either the numerical ID of your transactional message template or the *Trigger Name* that you assigned the template. You can find your `transactional_message_id` from the code sample in the **Overview** tab for your transactional message in the user interface, or you can look up a list of your transactional messages through the [App API](/integrations/api/app/tag/transactional/listTransactional/). **Limits**: A request can be up to 500KB. */
 export const sendWhatsApp: API.OperationMethod<
   SendWhatsAppRequest,
   SendWhatsAppResponse,
   SendWhatsAppError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SendWhatsAppRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<SendWhatsAppResponse>,
-  errors: [BadRequest, Forbidden, UnknownCustomerioError],
+  input: __S(1136, __c71, 0) as any as S.Schema<SendWhatsAppRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<SendWhatsAppResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25526,9 +26464,10 @@ export const startLiveNotification: API.OperationMethod<
   StartLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1041, __c65, 1) as any as S.Schema<StartLiveNotificationRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<StartLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1153, __c72, 1) as any as S.Schema<StartLiveNotificationRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<StartLiveNotificationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25543,9 +26482,10 @@ export const submitCollectionWrite: API.OperationMethod<
   SubmitCollectionWriteError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<SubmitCollectionWriteRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<SubmitCollectionWriteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1168, __c73, 0) as any as S.Schema<SubmitCollectionWriteRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<SubmitCollectionWriteResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25560,9 +26500,10 @@ export const transactionalLinks: API.OperationMethod<
   TransactionalLinksError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<TransactionalLinksRequest>,
-  output: __S(2581, __c161, 5) as any as S.Schema<TransactionalLinksResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(1184, __c74, 0) as any as S.Schema<TransactionalLinksRequest>,
+  output: __S(2725, __c170, 5) as any as S.Schema<TransactionalLinksResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25570,16 +26511,17 @@ export const transactionalLinks: API.OperationMethod<
 }));
 
 export type TransactionalMessagesError = NotFound | CustomerioOpError;
-/** Get transactional message deliveries Returns information about the deliveries (instances of messages sent to individual people) from a transactional message. Provide query parameters to refine the metrics you want to return. Use the `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return the most recent 6 months of messages. If your `start_ts` and `end_ts` range is more than 12 months, we'll return 12 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
+/** Get transactional message deliveries Returns information about the deliveries (instances of messages sent to individual people) from a transactional message. Provide query parameters to refine the metrics you want to return. Use the `start_ts` and `end_ts` to find messages within a time range. If your request doesn't include `start_ts` and `end_ts` parameters, we'll return the most recent 6 months of messages. If your `start_ts` and `end_ts` range is more than 6 months, we'll return 6 months of data from the most recent timestamp in your request. Timestamps reflect when deliveries were created in our system, not when they were actually sent to recipients. There may be a delay between creation and sending. */
 export const transactionalMessages: API.OperationMethod<
   TransactionalMessagesRequest,
   TransactionalMessagesResponse,
   TransactionalMessagesError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<TransactionalMessagesRequest>,
+  input: __S(1200, __c75, 0) as any as S.Schema<TransactionalMessagesRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<TransactionalMessagesResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25594,9 +26536,10 @@ export const transactionalMetrics: API.OperationMethod<
   TransactionalMetricsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<TransactionalMetricsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<TransactionalMetricsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(1232, __c77, 0) as any as S.Schema<TransactionalMetricsRequest>,
+  output: __S(624, __c39, 0) as any as S.Schema<TransactionalMetricsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25604,16 +26547,17 @@ export const transactionalMetrics: API.OperationMethod<
 }));
 
 export type TriggerBroadcastError = NotFound | UnprocessableEntity | CustomerioOpError;
-/** Send an API-triggered broadcast Trigger a broadcast and optionally provide data to populate liquid placeholders in the message. To trigger one-time send broadcasts, use the [one-time send endpoint](/integrations/api/app/tag/send-messages/sendNewsletter/). Broadcasts are optimized to send messages to a large audience and not for one-to-one interactions. Use our [transactional API](/integrations/api/app/tag/send-messages/sendEmail/) or [event-triggered automations](/journeys/send/campaigns/triggers/#event-trigger) to respond to your audience on an individual, one-to-one basis. **Define your audience** **The shape of the request depends on how you define your audience**: default (the recipients set in the UI), custom conditions, a list of emails, a list of customer IDs, a map of users, or a data file. You can narrow any of these audiences, except the default audience, with the `filter` object. This is useful when a file or a list of people is broader than the audience you want for your broadcast. **You can only trigger broadcasts to send to people you've already added to your workspace.** A broadcast cannot add or identify new people. If you reference people who don't exist in your broadcast audience, the broadcast will fail by default. You can override this behavior by setting the `email_ignore_missing` and/or `id_ignore_missing` flags to `true`. The broadcast will skip over any people who don't exist in your workspace and send to the remaining recipients. You can reference properties in the `data` object in your broadcast using liquid--`{{trigger.<property_in_data_obj>}}`. **Send or schedule your broadcast** By default, we send your broadcast as soon as you trigger it. Set `scheduled_at` to send it at a future time instead. You can [cancel the trigger](/integrations/api/app/tag/send-messages/cancelBroadcastTrigger/) to stop a scheduled send before it starts sending. You can't change a trigger's `scheduled_at` value later; if you need to reschedule your broadcast, you must cancel the trigger and re-trigger the broadcast with the new timestamp. If your broadcast produces a `422` error, you can [get more information about the errors](/integrations/api/app/tag/broadcasts/broadcastErrors/) to see what went wrong. **This endpoint is rate-limited to one request every 10 seconds.** After exceeding this, you'll receive a status of `429`. Learn more about [API-triggered broadcast limits](/integrations/api/app/tag/send-messages/) above. If you need to trigger broadcasts more often, contact us to talk through your use case. */
+/** Send an API-triggered broadcast Trigger a broadcast and optionally provide data to populate liquid placeholders in the message. To trigger one-time send broadcasts, use the [one-time send endpoint](/integrations/api/app/tag/send-messages/sendNewsletter/). Broadcasts are optimized to send messages to a large audience and not for one-to-one interactions. Use our [transactional API](/integrations/api/app/tag/send-messages/sendEmail/) or [event-triggered automations](/journeys/send/campaigns/triggers/#event-trigger) to respond to your audience on an individual, one-to-one basis. **Define your audience** **The shape of the request depends on how you define your audience**: default (the recipients set in the UI), custom conditions, a list of emails, a list of customer IDs, a map of users, or a data file. You can narrow any of these audiences, except the default audience, with the `filter` object. This is useful when a file or a list of people is broader than the audience you want for your broadcast. **You can only trigger broadcasts to send to people you've already added to your workspace.** A broadcast cannot add or identify new people. If you reference people who don't exist in your broadcast audience, the broadcast will fail by default. You can override this behavior by setting the `email_ignore_missing` and/or `id_ignore_missing` flags to `true`. The broadcast will skip over any people who don't exist in your workspace and send to the remaining recipients. You can reference properties in the `data` object in your broadcast using liquid--`{{trigger.<property_in_data_obj>}}`. **Send or schedule your broadcast** By default, we send your broadcast as soon as you trigger it. Set `scheduled_at` to send it at a future time instead. You can [cancel the trigger](/integrations/api/app/tag/send-messages/cancelBroadcastTrigger/) to stop a scheduled send before it starts sending. You can't change a trigger's `scheduled_at` value later; if you need to reschedule your broadcast, you must cancel the trigger and re-trigger the broadcast with the new timestamp. If your broadcast produces a `422` error, you can [get more information about the errors](/integrations/api/app/tag/broadcasts/broadcastErrors/) to see what went wrong. **Limits** You can send 1 trigger request every 10 seconds. The limit covers all the broadcasts in your workspace, so triggering two different broadcasts within 10 seconds also returns a `429`. Each broadcast can have up to 5 [queued](/messaging/send/broadcasts/api-triggered-broadcasts/#what-does-queueing-mean) triggers at a time. If you need to trigger broadcasts more often, contact us to talk through your use case. A broadcast can send to everyone in its audience, with no limit on the number of people, when you use the broadcast's default audience, a `recipients` filter, or a `data_file_url` file. If you define recipients manually with `ids`, `emails`, or `per_user_data`, you can include up to 10,000 people in each request. Each trigger request can be up to 25MB. */
 export const triggerBroadcast: API.OperationMethod<
   TriggerBroadcastRequest,
   TriggerBroadcastResponse,
   TriggerBroadcastError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c70, 1) as any as S.Schema<TriggerBroadcastRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TriggerBroadcastResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1249, __c78, 1) as any as S.Schema<TriggerBroadcastRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<TriggerBroadcastResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25628,9 +26572,10 @@ export const updateAsset: API.OperationMethod<
   UpdateAssetError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateAssetRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<UpdateAssetResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  input: __S(1264, __c79, 0) as any as S.Schema<UpdateAssetRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<UpdateAssetResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25645,9 +26590,10 @@ export const updateAssetFolder: API.OperationMethod<
   UpdateAssetFolderError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<UpdateAssetFolderRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<UpdateAssetFolderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
+  input: __S(1280, __c80, 0) as any as S.Schema<UpdateAssetFolderRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<UpdateAssetFolderResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25662,26 +26608,33 @@ export const updateAttributeMetadata: API.OperationMethod<
   UpdateAttributeMetadataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1170, __c73, 2) as any as S.Schema<UpdateAttributeMetadataRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<UpdateAttributeMetadataResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1298, __c81, 2) as any as S.Schema<UpdateAttributeMetadataRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<UpdateAttributeMetadataResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAttributeMetadata",
 }));
 
-export type UpdateBroadcastActionError = BadRequest | NotFound | CustomerioOpError;
-/** Update a broadcast action Update the contents of a broadcast action, including the body of messages or HTTP requests. **NOTE** You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. */
+export type UpdateBroadcastActionError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CustomerioOpError;
+/** Update a broadcast action Update the contents of a broadcast action, including the body of messages or HTTP requests. **SMS and Design Studio**: The first time you update an SMS action's `body`, Customer.io copies the message into Design Studio as a new SMS, the same kind you'd create from the Design Studio dashboard, and [links](/integrations/api/design-studio/tag/sms-link-and-publish/linkSms/) the action to it. From then on, the action sends whatever the linked SMS contains, and you can also edit that SMS in Design Studio. When you update `body`, `recipient`, `from_id`, or `image_url`, Customer.io saves your changes to the linked SMS and publishes them to the action. Customer.io doesn't link a message that has translations or an action in a multi-language branch. You can't set `body` to an empty string, and you must send `image_url` together with `body`. If the linked SMS has edits in Design Studio that nobody has published, the request fails with a `409` until someone [publishes them](/integrations/api/design-studio/tag/sms-link-and-publish/publishSms/) or restores the last published version. **NOTE** Apart from SMS, you cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. */
 export const updateBroadcastAction: API.OperationMethod<
   UpdateBroadcastActionRequest,
   UpdateBroadcastActionResponse,
   UpdateBroadcastActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UpdateBroadcastActionRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<UpdateBroadcastActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1312, __c82, 0) as any as S.Schema<UpdateBroadcastActionRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<UpdateBroadcastActionResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25696,26 +26649,33 @@ export const updateBroadcastActionLanguage: API.OperationMethod<
   UpdateBroadcastActionLanguageError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UpdateBroadcastActionLanguageRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<UpdateBroadcastActionLanguageResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1328, __c83, 0) as any as S.Schema<UpdateBroadcastActionLanguageRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<UpdateBroadcastActionLanguageResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateBroadcastActionLanguage",
 }));
 
-export type UpdateCampaignActionError = BadRequest | NotFound | CustomerioOpError;
-/** Update an automation action Update the contents of an automation action, including the body of messages and HTTP requests. **NOTE**: You can't manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. */
+export type UpdateCampaignActionError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CustomerioOpError;
+/** Update an automation action Update a *Send and receive data* action (webhook) or one of these message blocks: email, SMS, or WhatsApp. **SMS and Design Studio**: The first time you update an SMS action's `body`, Customer.io copies the message into Design Studio as a new SMS, the same kind you'd create from the Design Studio dashboard, and [links](/integrations/api/design-studio/tag/sms-link-and-publish/linkSms/) the action to it. From then on, the action sends whatever the linked SMS contains, and you can also edit that SMS in Design Studio. When you update `body`, `recipient`, `from_id`, or `image_url`, Customer.io saves your changes to the linked SMS and publishes them to the action. Customer.io doesn't link a message that has translations or an action in a multi-language branch. You can't set `body` to an empty string, and you must send `image_url` together with `body`. If the linked SMS has edits in Design Studio that nobody has published, the request fails with a `409` until someone [publishes them](/integrations/api/design-studio/tag/sms-link-and-publish/publishSms/) or restores the last published version. **NOTE: Apart from SMS, you can't manage messages made with Design Studio using this endpoint.** Use the [Design Studio APIs](/integrations/api/design-studio/) instead. */
 export const updateCampaignAction: API.OperationMethod<
   UpdateCampaignActionRequest,
   UpdateCampaignActionResponse,
   UpdateCampaignActionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateCampaignActionRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<UpdateCampaignActionResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1344, __c84, 0) as any as S.Schema<UpdateCampaignActionRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<UpdateCampaignActionResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25730,9 +26690,10 @@ export const updateCampaignActionTranslation: API.OperationMethod<
   UpdateCampaignActionTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateCampaignActionTranslationRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<UpdateCampaignActionTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1360, __c85, 0) as any as S.Schema<UpdateCampaignActionTranslationRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<UpdateCampaignActionTranslationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25747,9 +26708,10 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UpdateCollectionRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<UpdateCollectionResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1376, __c86, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<UpdateCollectionResponse>,
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25764,9 +26726,10 @@ export const updateCollectionContents: API.OperationMethod<
   UpdateCollectionContentsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1281, __c80, 1) as any as S.Schema<UpdateCollectionContentsRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<UpdateCollectionContentsResponse>,
-  errors: [NotFound, UnknownCustomerioError],
+  input: __S(1409, __c88, 1) as any as S.Schema<UpdateCollectionContentsRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<UpdateCollectionContentsResponse>,
+  errors: [NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25781,9 +26744,10 @@ export const updateEventMetadata: API.OperationMethod<
   UpdateEventMetadataError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1297, __c81, 1) as any as S.Schema<UpdateEventMetadataRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<UpdateEventMetadataResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
+  input: __S(1425, __c89, 1) as any as S.Schema<UpdateEventMetadataRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<UpdateEventMetadataResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25798,9 +26762,10 @@ export const updateLiveNotification: API.OperationMethod<
   UpdateLiveNotificationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<UpdateLiveNotificationRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<UpdateLiveNotificationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1440, __c90, 0) as any as S.Schema<UpdateLiveNotificationRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<UpdateLiveNotificationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25815,26 +26780,33 @@ export const updateNewsletterTestTranslation: API.OperationMethod<
   UpdateNewsletterTestTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UpdateNewsletterTestTranslationRequest>,
-  output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterTestTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1456, __c91, 0) as any as S.Schema<UpdateNewsletterTestTranslationRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<UpdateNewsletterTestTranslationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateNewsletterTestTranslation",
 }));
 
-export type UpdateNewsletterVariantError = BadRequest | NotFound | CustomerioOpError;
-/** Update a one-time send variant Update the content of a one-time send (referred to as a "newsletter" in our APIs): the default message, a test variant in an A/B test group, or a translation. For an email, you can also update the envelope: from address, subject line, etc. **NOTE**: You cannot manage content made with the drag-and-drop editor via API, and you cannot use this endpoint to update Design Studio emails. You can, however, [manage Design Studio content with other endpoints](/integrations/api/design-studio/). You also can't update in-app or inbox message content through the API--use the message editor instead. */
+export type UpdateNewsletterVariantError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CustomerioOpError;
+/** Update a one-time send variant Update the content of a one-time send (referred to as a "newsletter" in our APIs): the default message, a test variant in an A/B test group, or a translation. For an email, you can also update the envelope: from address, subject line, etc. **SMS and Design Studio**: The first time you update the `body` of an SMS, Customer.io copies the message into Design Studio as a new SMS, the same kind you'd create from the Design Studio dashboard, and [links](/integrations/api/design-studio/tag/sms-link-and-publish/linkSms/) your message to the new SMS. From then on, your message sends whatever the linked SMS contains, and you can also edit that SMS in Design Studio. When you update the message again with this endpoint, Customer.io saves your changes to the linked SMS and publishes them for you. Customer.io doesn't link a message that has translations. You can't set `body` to an empty string. If the linked SMS has edits in Design Studio that nobody has published, the request fails with a `409` until someone [publishes them](/integrations/api/design-studio/tag/sms-link-and-publish/publishSms/) or restores the last published version. **NOTE**: You cannot manage content made with the drag-and-drop editor via API, and you cannot use this endpoint to update Design Studio emails. You can, however, [manage Design Studio content with other endpoints](/integrations/api/design-studio/). You also can't update in-app or inbox message content through the API--use the message editor instead. */
 export const updateNewsletterVariant: API.OperationMethod<
   UpdateNewsletterVariantRequest,
   UpdateNewsletterVariantResponse,
   UpdateNewsletterVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<UpdateNewsletterVariantRequest>,
-  output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1472, __c92, 0) as any as S.Schema<UpdateNewsletterVariantRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<UpdateNewsletterVariantResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25849,9 +26821,10 @@ export const updateNewsletterVariantTranslation: API.OperationMethod<
   UpdateNewsletterVariantTranslationError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<UpdateNewsletterVariantTranslationRequest>,
-  output: __S(3008, __c188, 0) as any as S.Schema<UpdateNewsletterVariantTranslationResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1488, __c93, 0) as any as S.Schema<UpdateNewsletterVariantTranslationRequest>,
+  output: __S(3168, __c198, 0) as any as S.Schema<UpdateNewsletterVariantTranslationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25866,9 +26839,10 @@ export const updatePersonOptouts: API.OperationMethod<
   UpdatePersonOptoutsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1394, __c87, 2) as any as S.Schema<UpdatePersonOptoutsRequest>,
-  output: __S(1952, __c122, 0) as any as S.Schema<UpdatePersonOptoutsResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1506, __c94, 2) as any as S.Schema<UpdatePersonOptoutsRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<UpdatePersonOptoutsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25883,26 +26857,33 @@ export const updateSnippets: API.OperationMethod<
   UpdateSnippetsError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UpdateSnippetsRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<UpdateSnippetsResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(1520, __c95, 0) as any as S.Schema<UpdateSnippetsRequest>,
+  output: __S(2000, __c125, 0) as any as S.Schema<UpdateSnippetsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSnippets",
 }));
 
-export type UpdateTransactionalError = BadRequest | NotFound | CustomerioOpError;
-/** Update a transactional message Update the body of a transactional email. This fully overwrites your existing transactional message. We'll use your updated content for any future transactional requests (`/v1/send/email`), so make sure that you test your message before you update it. **NOTE**: You cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. */
+export type UpdateTransactionalError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CustomerioOpError;
+/** Update a transactional message Update the body of a transactional email. This fully overwrites your existing transactional message. We'll use your updated content for any future transactional requests (`/v1/send/email`), so make sure that you test your message before you update it. **SMS and Design Studio**: The first time you update the `body` of an SMS, Customer.io copies the message into Design Studio as a new SMS, the same kind you'd create from the Design Studio dashboard, and [links](/integrations/api/design-studio/tag/sms-link-and-publish/linkSms/) your message to the new SMS. From then on, your message sends whatever the linked SMS contains, and you can also edit that SMS in Design Studio. When you update the message again with this endpoint, Customer.io saves your changes to the linked SMS and publishes them for you. Customer.io doesn't link a message that has translations. You can't set `body` to an empty string. If the linked SMS has edits in Design Studio that nobody has published, the request fails with a `409` until someone [publishes them](/integrations/api/design-studio/tag/sms-link-and-publish/publishSms/) or restores the last published version. **NOTE**: Apart from SMS, you cannot manage content made with Design Studio with this endpoint. Use the [Design Studio APIs](/integrations/api/design-studio/) instead. */
 export const updateTransactional: API.OperationMethod<
   UpdateTransactionalRequest,
   UpdateTransactionalResponse,
   UpdateTransactionalError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdateTransactionalRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<UpdateTransactionalResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateTransactionalRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdateTransactionalResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25917,9 +26898,10 @@ export const updateTransactionalVariant: API.OperationMethod<
   UpdateTransactionalVariantError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<UpdateTransactionalVariantRequest>,
-  output: __S(288, __c18, 0) as any as S.Schema<UpdateTransactionalVariantResponse>,
-  errors: [BadRequest, UnknownCustomerioError],
+  input: __S(1568, __c98, 0) as any as S.Schema<UpdateTransactionalVariantRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdateTransactionalVariantResponse>,
+  errors: [BadRequest],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25934,9 +26916,10 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   CustomerioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [BadRequest, NotFound, UnknownCustomerioError],
+  input: __S(1600, __c100, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<UpdateWebhookResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CustomerioServiceErrors,
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25972,7 +26955,7 @@ function __c1(j: number): any {
         S.Struct({
           errors: S.optional(__S(17, __c1, 1)),
         }),
-      ).annotate({ identifier: "Error400Body5" });
+      ).annotate({ identifier: "Error400Body6" });
   }
 }
 function __c2(j: number): any {
@@ -26031,7 +27014,7 @@ function __c5(j: number): any {
         S.Struct({
           errors: S.optional(__S(81, __c5, 1)),
         }),
-      ).annotate({ identifier: "Error400Body8" });
+      ).annotate({ identifier: "Error400Body9" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -26064,7 +27047,7 @@ function __c5(j: number): any {
         S.Struct({
           errors: S.optional(__S(87, __c5, 7)),
         }),
-      ).annotate({ identifier: "Error400Body6" });
+      ).annotate({ identifier: "Error400Body7" });
   }
 }
 function __c6(j: number): any {
@@ -26087,6 +27070,26 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          sender_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/sender_identities/{sender_id}/used_by", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetSenderUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          campaigns: S.optional(__S(2736, __c171, 0)),
+          draft_newsletters: S.optional(__S(2736, __c171, 0)),
+          sent_newsletters: S.optional(__S(2736, __c171, 0)),
+        }),
+      ).annotate({ identifier: "GetSenderUsageResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           customer_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/subscription_center/{customer_id}/token", code: 200 }),
@@ -26095,13 +27098,13 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSubscriptionCenterTokenResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26113,18 +27116,18 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSuppressionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
-          suppressions: S.optional(S.NullOr(__S(2737, __c171, 1))),
+          suppressions: S.optional(S.NullOr(__S(2897, __c181, 1))),
         }),
       ).annotate({ identifier: "GetSuppressionResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26139,7 +27142,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetSuppressionByTypeRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26156,16 +27159,16 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "GetTopicsResponseTopicsItem" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(193, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          topics: S.optional(__S(178, __c11, 2)),
+          topics: S.optional(__S(194, __c12, 2)),
         }),
       ).annotate({ identifier: "GetTopicsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26176,12 +27179,12 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(208, __c13, 0)),
+          message: S.optional(__S(224, __c14, 0)),
         }),
       ).annotate({ identifier: "GetTransactionalResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26200,7 +27203,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetTransactionalResponseMessage" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26218,12 +27221,12 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(240, __c15, 0)),
+          content: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "GetTransactionalTranslationByIdResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26238,6 +27241,7 @@ function __c15(j: number): any {
           from_id: S.optional(S.Number),
           headers: S.optional(S.String),
           id: S.optional(S.Number),
+          image_url: S.optional(S.String),
           language: S.optional(S.String),
           name: S.optional(S.String),
           preheader_text: S.optional(S.String),
@@ -26252,13 +27256,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetTransactionalTranslationByIdResponseContent" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           transactional_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -26269,23 +27273,23 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetTransactionalVariantRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(256, __c16, 0));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(272, __c17, 0)),
+          content: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "GetTransactionalVariantResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26305,7 +27309,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetVariantLinksRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26323,16 +27327,6 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetVariantMetricsRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhook_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/reporting_webhooks/{webhook_id}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
 function __c22(j: number): any {
@@ -26444,6 +27438,26 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          webhook_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/reporting_webhooks/{webhook_id}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/audit_logs/{id}", code: 200 })),
+      ).annotate({ identifier: "GetWorkspaceAuditLogRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           import: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/v1/imports", code: 200 })),
       ).annotate({ identifier: "ImportRequest" });
@@ -26471,12 +27485,60 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          import: __S(417, __c26, 1),
+          import: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "ImportResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          sort_order: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.Number.pipe(T.Query())),
+          start_time: S.optional(S.String.pipe(T.Query())),
+          end_time: S.optional(S.String.pipe(T.Query())),
+          user_id: S.optional(S.Number.pipe(T.Query())),
+          service_account_id: S.optional(S.Number.pipe(T.Query())),
+          ip_addr: S.optional(S.String.pipe(T.Query())),
+          object_type: S.optional(S.String.pipe(T.Query())),
+          object_id: S.optional(S.String.pipe(T.Query())),
+          action: S.optional(S.String.pipe(T.Query())),
+          attribute_name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/account/audit_logs", code: 200 })),
+      ).annotate({ identifier: "ListAccountAuditLogsRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2421, __c151, 5));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number),
+          next_cursor: S.optional(S.Number),
+          sort_order: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAccountAuditLogsResponsePagination" });
+    case 2:
+      return S.Array(__S(2422, __c151, 6));
+    case 3:
+      return S.Array(__S(2423, __c151, 7));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(480, __c30, 0)),
+          pagination: S.optional(__S(481, __c30, 1)),
+          service_accounts: S.optional(S.NullOr(__S(482, __c30, 2))),
+          users: S.optional(__S(483, __c30, 3)),
+        }),
+      ).annotate({ identifier: "ListAccountAuditLogsResponse" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26506,17 +27568,17 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "ListActivitiesResponseActivitiesItem" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(497, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          activities: S.optional(__S(434, __c27, 2)),
+          activities: S.optional(__S(498, __c31, 2)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListActivitiesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26528,17 +27590,17 @@ function __c28(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/assets/folders", code: 200 })),
       ).annotate({ identifier: "ListAssetFoldersRequest" });
     case 1:
-      return S.Array(__S(1632, __c102, 0));
+      return S.Array(__S(1744, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          folders: S.optional(__S(449, __c28, 1)),
-          meta: S.optional(__S(466, __c29, 2)),
+          folders: S.optional(__S(513, __c32, 1)),
+          meta: S.optional(__S(530, __c33, 2)),
         }),
       ).annotate({ identifier: "ListAssetFoldersResponse" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26558,13 +27620,13 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(464, __c29, 0)),
-          pagination: S.optional(__S(465, __c29, 1)),
+          filters: S.optional(__S(528, __c33, 0)),
+          pagination: S.optional(__S(529, __c33, 1)),
         }),
       ).annotate({ identifier: "ListAssetFoldersResponseMeta" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26576,33 +27638,33 @@ function __c30(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/assets", code: 200 })),
       ).annotate({ identifier: "ListAssetsRequest" });
     case 1:
-      return S.Array(__S(1584, __c99, 0));
+      return S.Array(__S(1696, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(481, __c30, 1)),
-          meta: S.optional(__S(466, __c29, 2)),
+          assets: S.optional(__S(545, __c34, 1)),
+          meta: S.optional(__S(530, __c33, 2)),
         }),
       ).annotate({ identifier: "ListAssetsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/broadcasts", code: 200 })),
       ).annotate({ identifier: "ListBroadcastsRequest" });
     case 1:
-      return S.Array(__S(2402, __c150, 2));
+      return S.Array(__S(2562, __c160, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          broadcasts: S.optional(__S(497, __c31, 1)),
+          broadcasts: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "ListBroadcastsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26613,16 +27675,16 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListBroadcastTriggersRequest" });
     case 1:
-      return S.Array(__S(817, __c51, 1));
+      return S.Array(__S(833, __c52, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(513, __c32, 1)),
+          triggers: S.optional(__S(577, __c36, 1)),
         }),
       ).annotate({ identifier: "ListBroadcastTriggersResponse" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26636,61 +27698,13 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(529, __c33, 1)),
+          actions: S.optional(__S(593, __c37, 1)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCampaignActionsResponse" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/campaigns", code: 200 })),
-      ).annotate({ identifier: "ListCampaignsRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          campaigns: S.optional(__S(545, __c34, 1)),
-        }),
-      ).annotate({ identifier: "ListCampaignsResponse" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/collections/sources", code: 200 })),
-      ).annotate({ identifier: "ListCollectionSourcesRequest" });
-    case 1:
-      return S.Array(__S(1680, __c105, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          sources: S.optional(__S(561, __c35, 1)),
-        }),
-      ).annotate({ identifier: "ListCollectionSourcesResponse" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/exports", code: 200 })),
-      ).annotate({ identifier: "ListExportsRequest" });
-    case 1:
-      return S.Array(__S(2240, __c140, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          exports: S.optional(__S(577, __c36, 1)),
-        }),
-      ).annotate({ identifier: "ListExportsResponse" });
-  }
-}
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26703,17 +27717,65 @@ function __c37(j: number): any {
       ).annotate({ identifier: "BroadcastMetricsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metric: S.optional(__S(2816, __c176, 0)),
+          metric: S.optional(__S(2960, __c185, 0)),
         }),
       ).annotate({ identifier: "BroadcastMetricsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/campaigns", code: 200 })),
+      ).annotate({ identifier: "ListCampaignsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          campaigns: S.optional(__S(641, __c40, 1)),
+        }),
+      ).annotate({ identifier: "ListCampaignsResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/collections/sources", code: 200 })),
+      ).annotate({ identifier: "ListCollectionSourcesRequest" });
+    case 1:
+      return S.Array(__S(1792, __c112, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sources: S.optional(__S(657, __c41, 1)),
+        }),
+      ).annotate({ identifier: "ListCollectionSourcesResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/exports", code: 200 })),
+      ).annotate({ identifier: "ListExportsRequest" });
+    case 1:
+      return S.Array(__S(2352, __c147, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          exports: S.optional(__S(673, __c42, 1)),
+        }),
+      ).annotate({ identifier: "ListExportsResponse" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26733,7 +27795,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListMessagesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26744,17 +27806,17 @@ function __c40(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/newsletters", code: 200 })),
       ).annotate({ identifier: "ListNewslettersRequest" });
     case 1:
-      return S.Array(__S(1776, __c111, 0));
+      return S.Array(__S(1888, __c118, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          newsletters: S.optional(__S(641, __c40, 1)),
+          newsletters: S.optional(__S(705, __c44, 1)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNewslettersResponse" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26765,32 +27827,32 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListNewsletterVariantsRequest" });
     case 1:
-      return S.Array(__S(2992, __c187, 0));
+      return S.Array(__S(3152, __c197, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contents: S.optional(__S(657, __c41, 1)),
+          contents: S.optional(__S(721, __c45, 1)),
         }),
       ).annotate({ identifier: "ListNewsletterVariantsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/segments", code: 200 })),
       ).annotate({ identifier: "ListSegmentsRequest" });
     case 1:
-      return S.Array(__S(1744, __c109, 0));
+      return S.Array(__S(1856, __c116, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          segments: S.optional(__S(673, __c42, 1)),
+          segments: S.optional(__S(737, __c46, 1)),
         }),
       ).annotate({ identifier: "ListSegmentsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26802,115 +27864,49 @@ function __c43(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/sender_identities", code: 200 })),
       ).annotate({ identifier: "ListSendersRequest" });
     case 1:
-      return S.Array(__S(3488, __c218, 0));
+      return S.Array(__S(3648, __c228, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          sender_identities: S.optional(__S(689, __c43, 1)),
+          sender_identities: S.optional(__S(753, __c47, 1)),
         }),
       ).annotate({ identifier: "ListSendersResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/snippets", code: 200 })),
-      ).annotate({ identifier: "ListSnippetsRequest" });
-    case 1:
-      return S.Array(__S(1872, __c117, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          snippets: S.optional(__S(705, __c44, 1)),
-        }),
-      ).annotate({ identifier: "ListSnippetsResponse" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/transactional", code: 200 })),
-      ).annotate({ identifier: "ListTransactionalRequest" });
-    case 1:
-      return S.Array(__S(208, __c13, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          messages: S.optional(__S(721, __c45, 1)),
-        }),
-      ).annotate({ identifier: "ListTransactionalResponse" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactional_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/transactional/{transactional_id}/contents",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTransactionalVariantsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          contents: S.optional(__S(272, __c17, 0)),
-        }),
-      ).annotate({ identifier: "ListTransactionalVariantsResponse" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/reporting_webhooks", code: 200 })),
-      ).annotate({ identifier: "ListWebhooksRequest" });
-    case 1:
-      return S.Array(__S(1921, __c120, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          reporting_webhooks: S.optional(__S(753, __c47, 1)),
-        }),
-      ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
 function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
-      ).annotate({ identifier: "ListWorkspacesRequest" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/snippets", code: 200 })),
+      ).annotate({ identifier: "ListSnippetsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          billable_messages_sent: S.optional(S.Number),
-          id: S.optional(S.Number),
-          messages_sent: S.optional(S.Number),
-          name: S.optional(S.String),
-          object_types: S.optional(S.Number),
-          objects: S.optional(S.Number),
-          people: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ListWorkspacesResponseWorkspacesItem" });
+      return S.Array(__S(1984, __c124, 0));
     case 2:
-      return S.Array(__S(769, __c48, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          workspaces: S.optional(__S(770, __c48, 2)),
+          snippets: S.optional(__S(769, __c48, 1)),
         }),
-      ).annotate({ identifier: "ListWorkspacesResponse" });
+      ).annotate({ identifier: "ListSnippetsResponse" });
   }
 }
 function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/transactional", code: 200 })),
+      ).annotate({ identifier: "ListTransactionalRequest" });
+    case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          messages: S.optional(__S(785, __c49, 1)),
+        }),
+      ).annotate({ identifier: "ListTransactionalResponse" });
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26927,17 +27923,17 @@ function __c49(j: number): any {
       ).annotate({ identifier: "BroadcastStatusRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trigger: S.optional(__S(817, __c51, 1)),
+          trigger: S.optional(__S(833, __c52, 1)),
         }),
       ).annotate({ identifier: "BroadcastStatusResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26957,13 +27953,102 @@ function __c51(j: number): any {
           expires_after: S.optional(S.Number),
           id: S.optional(S.Number),
           processed_at: S.optional(S.Number),
-          rate_limit: S.optional(__S(816, __c51, 0)),
+          rate_limit: S.optional(__S(832, __c52, 0)),
           scheduled_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BroadcastStatusResponseTrigger" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactional_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/transactional/{transactional_id}/contents",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTransactionalVariantsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contents: S.optional(__S(288, __c18, 0)),
+        }),
+      ).annotate({ identifier: "ListTransactionalVariantsResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/reporting_webhooks", code: 200 })),
+      ).annotate({ identifier: "ListWebhooksRequest" });
+    case 1:
+      return S.Array(__S(2033, __c127, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          reporting_webhooks: S.optional(__S(865, __c54, 1)),
+        }),
+      ).annotate({ identifier: "ListWebhooksResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          sort_order: S.optional(S.String.pipe(T.Query())),
+          cursor: S.optional(S.Number.pipe(T.Query())),
+          start_time: S.optional(S.String.pipe(T.Query())),
+          end_time: S.optional(S.String.pipe(T.Query())),
+          user_id: S.optional(S.Number.pipe(T.Query())),
+          service_account_id: S.optional(S.Number.pipe(T.Query())),
+          ip_addr: S.optional(S.String.pipe(T.Query())),
+          object_type: S.optional(S.String.pipe(T.Query())),
+          object_id: S.optional(S.String.pipe(T.Query())),
+          action: S.optional(S.String.pipe(T.Query())),
+          attribute_name: S.optional(S.String.pipe(T.Query())),
+          campaign_id: S.optional(S.Number.pipe(T.Query())),
+          campaign_type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/audit_logs", code: 200 })),
+      ).annotate({ identifier: "ListWorkspaceAuditLogsRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
+      ).annotate({ identifier: "ListWorkspacesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          billable_messages_sent: S.optional(S.Number),
+          id: S.optional(S.Number),
+          messages_sent: S.optional(S.Number),
+          name: S.optional(S.String),
+          object_types: S.optional(S.Number),
+          objects: S.optional(S.Number),
+          people: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListWorkspacesResponseWorkspacesItem" });
+    case 2:
+      return S.Array(__S(897, __c56, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          workspaces: S.optional(__S(898, __c56, 2)),
+        }),
+      ).annotate({ identifier: "ListWorkspacesResponse" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26975,7 +28060,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PollCollectionSyncRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -26996,7 +28081,7 @@ function __c53(j: number): any {
       });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27009,7 +28094,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PutCollectionSyncRequest" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27028,7 +28113,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ScheduleNewsletterRequest" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27040,7 +28125,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.String,
-          attachments: S.optional(__S(896, __c56, 0)),
+          attachments: S.optional(__S(976, __c61, 0)),
           auto_create: S.optional(S.Boolean),
           bcc: S.optional(S.String),
           body: S.optional(S.String),
@@ -27051,7 +28136,7 @@ function __c56(j: number): any {
           disable_message_retention: S.optional(S.Boolean),
           fake_bcc: S.optional(S.Boolean),
           from: S.optional(S.String),
-          headers: S.optional(S.String),
+          headers: S.optional(__S(1008, __c63, 0)),
           identifiers: S.optional(S.Unknown),
           language: S.optional(S.String),
           message_data: S.optional(__S(64, __c4, 0)),
@@ -27067,7 +28152,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "SendEmailRequest" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27079,7 +28164,13 @@ function __c57(j: number): any {
       ).annotate({ identifier: "SendEmailResponse" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27095,161 +28186,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SendInAppRequest" });
   }
 }
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifiers: S.Unknown,
-          transactional_message_id: S.Unknown,
-          auto_create: S.optional(S.Boolean),
-          language: S.optional(S.String),
-          message_data: S.optional(__S(64, __c4, 0)),
-          queue_draft: S.optional(S.Boolean),
-          send_at: S.optional(S.Number),
-          to: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/send/inbox_message", code: 200 })),
-      ).annotate({ identifier: "SendInboxMessageRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          newsletter_id: S.Number.pipe(T.Label()),
-          expires_after: S.optional(S.Number),
-          rate_limit_email_rate: S.optional(S.Number),
-          rate_limit_spread: S.optional(S.Boolean),
-          rate_limit_time_period: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/newsletters/{newsletter_id}/send", code: 200 })),
-      ).annotate({ identifier: "SendNewsletterRequest" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            app_identifier: S.optional(S.String),
-            app_version: S.optional(S.String),
-            cio_sdk_version: S.optional(S.String),
-            device_locale: S.optional(S.String),
-            device_model: S.optional(S.String),
-            device_os: S.optional(S.String),
-            push_enabled: S.optional(S.Boolean.pipe(T.StringEncoded())),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SendPushRequestCustomDeviceAttributes" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          platform: S.String,
-          token: S.String,
-          attributes: S.optional(__S(976, __c61, 0)),
-          last_used: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomDevice" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body_loc_arg: S.optional(S.String),
-          body_loc_key: S.optional(S.String),
-          click_action: S.optional(S.String),
-          color: S.optional(S.String),
-          icon: S.optional(S.String),
-          sound: S.optional(S.String),
-          tag: S.optional(S.String),
-          title_loc_arg: S.optional(S.String),
-          title_loc_key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageAndroidNotification" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          notification: S.optional(__S(978, __c61, 2)),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageAndroid" });
-    case 4:
-      return S.Record(S.String, S.String);
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageNotification" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          android: S.optional(__S(979, __c61, 3)),
-          data: S.optional(__S(980, __c61, 4)),
-          notification: S.optional(__S(981, __c61, 5)),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessage" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          message: __S(982, __c61, 6),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroid" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          android: S.optional(__S(983, __c61, 7)),
-          ios: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "SendPushRequestCustomPayload" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          identifiers: S.Unknown,
-          transactional_message_id: S.Unknown,
-          auto_create: S.optional(S.Boolean),
-          custom_data: S.optional(S.Unknown),
-          custom_device: S.optional(__S(977, __c61, 1)),
-          custom_payload: S.optional(__S(984, __c61, 8)),
-          disable_message_retention: S.optional(S.Boolean),
-          image_url: S.optional(S.String),
-          language: S.optional(S.String),
-          link: S.optional(S.String),
-          message: S.optional(S.String),
-          message_data: S.optional(__S(64, __c4, 0)),
-          platform: S.optional(S.String),
-          queue_draft: S.optional(S.Boolean),
-          send_at: S.optional(S.Number),
-          send_to_unsubscribed: S.optional(S.Boolean),
-          sound: S.optional(S.String),
-          title: S.optional(S.String),
-          to: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/send/push", code: 200 })),
-      ).annotate({ identifier: "SendPushRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifiers: S.Unknown,
-          to: S.String,
-          transactional_message_id: S.Unknown,
-          auto_create: S.optional(S.Boolean),
-          disable_message_retention: S.optional(S.Boolean),
-          from: S.optional(S.String),
-          language: S.optional(S.String),
-          message_data: S.optional(__S(64, __c4, 0)),
-          queue_draft: S.optional(S.Boolean),
-          send_at: S.optional(S.Number),
-          send_to_unsubscribed: S.optional(S.Boolean),
-          tracked: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/send/sms", code: 200 })),
-      ).annotate({ identifier: "SendSMSRequest" });
-  }
-}
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27270,7 +28207,207 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CampaignActionLinksRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identifiers: S.Unknown,
+          transactional_message_id: S.Unknown,
+          auto_create: S.optional(S.Boolean),
+          language: S.optional(S.String),
+          message_data: S.optional(__S(64, __c4, 0)),
+          queue_draft: S.optional(S.Boolean),
+          send_at: S.optional(S.Number),
+          to: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/send/inbox_message", code: 200 })),
+      ).annotate({ identifier: "SendInboxMessageRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          newsletter_id: S.Number.pipe(T.Label()),
+          expires_after: S.optional(S.Number),
+          rate_limit_email_rate: S.optional(S.Number),
+          rate_limit_spread: S.optional(S.Boolean),
+          rate_limit_time_period: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/newsletters/{newsletter_id}/send", code: 200 })),
+      ).annotate({ identifier: "SendNewsletterRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            app_identifier: S.optional(S.String),
+            app_version: S.optional(S.String),
+            cio_sdk_version: S.optional(S.String),
+            device_locale: S.optional(S.String),
+            device_model: S.optional(S.String),
+            device_os: S.optional(S.String),
+            origin: S.optional(S.String),
+            push_enabled: S.optional(S.Boolean.pipe(T.StringEncoded())),
+            webpush_auth: S.optional(S.String),
+            webpush_p256dh: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SendPushRequestCustomDeviceAttributes" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          platform: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+          attributes: S.optional(__S(1088, __c68, 0)),
+          last_used: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomDevice" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          body_loc_arg: S.optional(S.String),
+          body_loc_key: S.optional(S.String),
+          click_action: S.optional(S.String),
+          color: S.optional(S.String),
+          icon: S.optional(S.String),
+          sound: S.optional(S.String),
+          tag: S.optional(S.String),
+          title_loc_arg: S.optional(S.String),
+          title_loc_key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageAndroidNotification" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          notification: S.optional(__S(1090, __c68, 2)),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageAndroid" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessageNotification" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          android: S.optional(__S(1091, __c68, 3)),
+          data: S.optional(__S(1008, __c63, 0)),
+          notification: S.optional(__S(1092, __c68, 4)),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroidMessage" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          message: __S(1093, __c68, 5),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomPayloadAndroid" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          android: S.optional(__S(1094, __c68, 6)),
+          ios: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "SendPushRequestCustomPayload" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          identifiers: S.Unknown,
+          transactional_message_id: S.Unknown,
+          auto_create: S.optional(S.Boolean),
+          custom_data: S.optional(S.Unknown),
+          custom_device: S.optional(__S(1089, __c68, 1)),
+          custom_payload: S.optional(__S(1095, __c68, 7)),
+          disable_message_retention: S.optional(S.Boolean),
+          image_url: S.optional(S.String),
+          language: S.optional(S.String),
+          link: S.optional(S.String),
+          message: S.optional(S.String),
+          message_data: S.optional(__S(64, __c4, 0)),
+          platform: S.optional(S.String),
+          queue_draft: S.optional(S.Boolean),
+          send_at: S.optional(S.Number),
+          send_to_unsubscribed: S.optional(S.Boolean),
+          sound: S.optional(S.String),
+          title: S.optional(S.String),
+          to: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/send/push", code: 200 })),
+      ).annotate({ identifier: "SendPushRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identifiers: S.Unknown,
+          to: S.String,
+          transactional_message_id: S.Unknown,
+          auto_create: S.optional(S.Boolean),
+          disable_message_retention: S.optional(S.Boolean),
+          from: S.optional(S.String),
+          language: S.optional(S.String),
+          message_data: S.optional(__S(64, __c4, 0)),
+          queue_draft: S.optional(S.Boolean),
+          send_at: S.optional(S.Number),
+          send_to_unsubscribed: S.optional(S.Boolean),
+          tracked: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/send/sms", code: 200 })),
+      ).annotate({ identifier: "SendSMSRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            webpush_auth: S.String,
+            webpush_p256dh: S.String,
+            origin: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SendWebPushRequestCustomDeviceAttributes" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          attributes: __S(1120, __c70, 0),
+          platform: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+          last_used: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SendWebPushRequestCustomDevice" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          identifiers: S.Unknown,
+          transactional_message_id: S.Unknown,
+          auto_create: S.optional(S.Boolean),
+          custom_data: S.optional(S.NullOr(__S(1008, __c63, 0))),
+          custom_device: S.optional(__S(1121, __c70, 1)),
+          disable_message_retention: S.optional(S.Boolean),
+          image_url: S.optional(S.String),
+          language: S.optional(S.String),
+          link: S.optional(S.String),
+          message: S.optional(S.String),
+          message_data: S.optional(__S(64, __c4, 0)),
+          queue_draft: S.optional(S.Boolean),
+          send_at: S.optional(S.Number),
+          send_to_unsubscribed: S.optional(S.Boolean),
+          title: S.optional(S.String),
+          to: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/send/web_push", code: 200 })),
+      ).annotate({ identifier: "SendWebPushRequest" });
+  }
+}
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27290,7 +28427,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SendWhatsAppRequest" });
   }
 }
-function __c65(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27306,19 +28443,19 @@ function __c65(j: number): any {
         S.Struct({
           attributes: S.Unknown,
           content_state: S.Unknown,
-          identifiers: __S(1040, __c65, 0),
+          identifiers: __S(1152, __c72, 0),
           notification_type: S.String,
           app_identifier: S.optional(S.String),
           deep_link: S.optional(S.String),
           device_id: S.optional(S.String),
           expiration: S.optional(S.Number),
           platform: S.optional(S.String),
-          push_payload: S.optional(__S(2193, __c137, 1)),
+          push_payload: S.optional(__S(2305, __c144, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/live_notifications/start", code: 200 })),
       ).annotate({ identifier: "StartLiveNotificationRequest" });
   }
 }
-function __c66(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27331,7 +28468,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "SubmitCollectionWriteRequest" });
   }
 }
-function __c67(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27350,7 +28487,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "TransactionalLinksRequest" });
   }
 }
-function __c68(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27373,84 +28510,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "TransactionalMessagesRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactional_id: S.Number.pipe(T.Label()),
-          period: S.optional(S.String.pipe(T.Query())),
-          steps: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/transactional/{transactional_id}/metrics", code: 200 }),
-        ),
-      ).annotate({ identifier: "TransactionalMetricsRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CreateNewsletterRequestBodyCase0RecipientsSegment" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          broadcast_id: S.Number.pipe(T.Label()),
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1/campaigns/{broadcast_id}/triggers", code: 200 }),
-        ),
-      ).annotate({ identifier: "TriggerBroadcastRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-          name: S.optional(S.String),
-          parent_folder_id: S.optional(S.NullOr(S.Number)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/assets/files/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateAssetRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-          name: S.optional(S.String),
-          parent_folder_id: S.optional(S.NullOr(S.Number)),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/assets/folders/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateAssetFolderRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          privacy_level: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "UpdateAttributeMetadataRequestAttributesItem" });
-    case 1:
-      return S.Array(__S(1168, __c73, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          attributes: __S(1169, __c73, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/data_index/attributes", code: 200 })),
-      ).annotate({ identifier: "UpdateAttributeMetadataRequest" });
-  }
-}
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27477,15 +28537,92 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.String),
-          language_variants: S.optional(__S(2849, __c178, 1)),
-          metric: S.optional(__S(2816, __c176, 0)),
+          language_variants: S.optional(__S(2993, __c187, 1)),
+          metric: S.optional(__S(2960, __c185, 0)),
           res: S.optional(S.String),
           start: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignActionMetricsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactional_id: S.Number.pipe(T.Label()),
+          period: S.optional(S.String.pipe(T.Query())),
+          steps: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/transactional/{transactional_id}/metrics", code: 200 }),
+        ),
+      ).annotate({ identifier: "TransactionalMetricsRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateNewsletterRequestBodyCase0RecipientsSegment" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          broadcast_id: S.Number.pipe(T.Label()),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1/campaigns/{broadcast_id}/triggers", code: 200 }),
+        ),
+      ).annotate({ identifier: "TriggerBroadcastRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+          name: S.optional(S.String),
+          parent_folder_id: S.optional(S.NullOr(S.Number)),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/assets/files/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateAssetRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+          name: S.optional(S.String),
+          parent_folder_id: S.optional(S.NullOr(S.Number)),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/assets/folders/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateAssetFolderRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          privacy_level: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateAttributeMetadataRequestAttributesItem" });
+    case 1:
+      return S.Array(__S(1296, __c81, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          attributes: __S(1297, __c81, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/data_index/attributes", code: 200 })),
+      ).annotate({ identifier: "UpdateAttributeMetadataRequest" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27509,14 +28646,14 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UpdateBroadcastActionResponse" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           broadcast_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27534,7 +28671,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateBroadcastActionLanguageResponse" });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27558,14 +28695,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateCampaignActionResponse" });
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           campaign_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27583,7 +28720,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateCampaignActionTranslationResponse" });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27594,7 +28731,40 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateCollectionRequest" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          campaign_id: S.Number.pipe(T.Label()),
+          start: S.Number.pipe(T.Query()),
+          end: S.Number.pipe(T.Query()),
+          resolution: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/campaigns/{campaign_id}/journey_metrics", code: 200 }),
+        ),
+      ).annotate({ identifier: "CampaignJourneyMetricsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          activated: S.optional(__S(2736, __c171, 0)),
+          converted: S.optional(__S(2736, __c171, 0)),
+          exited_early: S.optional(__S(2736, __c171, 0)),
+          finished: S.optional(__S(2736, __c171, 0)),
+          messaged: S.optional(__S(2736, __c171, 0)),
+          never_activated: S.optional(__S(2736, __c171, 0)),
+          started: S.optional(__S(2736, __c171, 0)),
+        }),
+      ).annotate({ identifier: "CampaignJourneyMetricsResponseJourneyMetric" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          journey_metric: S.optional(__S(1393, __c87, 1)),
+        }),
+      ).annotate({ identifier: "CampaignJourneyMetricsResponse" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(64, __c4, 0));
@@ -27602,26 +28772,26 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collection_id: S.Number.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1408, __c88, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "PUT", uri: "/v1/collections/{collection_id}/content", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateCollectionContentsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1712, __c107, 0));
+      return S.Array(__S(1824, __c114, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          events: __S(1296, __c81, 0),
+          events: __S(1424, __c89, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/data_index/events", code: 200 })),
       ).annotate({ identifier: "UpdateEventMetadataRequest" });
   }
 }
-function __c82(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27630,19 +28800,19 @@ function __c82(j: number): any {
           instance_id: S.String,
           attributes: S.optional(__S(64, __c4, 0)),
           deep_link: S.optional(S.String),
-          push_payload: S.optional(__S(2193, __c137, 1)),
+          push_payload: S.optional(__S(2305, __c144, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/live_notifications/update", code: 200 })),
       ).annotate({ identifier: "UpdateLiveNotificationRequest" });
   }
 }
-function __c83(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
           test_group_id: S.String.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27654,7 +28824,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateNewsletterTestTranslationRequest" });
   }
 }
-function __c84(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27672,46 +28842,13 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UpdateNewsletterVariantRequest" });
   }
 }
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          campaign_id: S.Number.pipe(T.Label()),
-          start: S.Number.pipe(T.Query()),
-          end: S.Number.pipe(T.Query()),
-          resolution: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/campaigns/{campaign_id}/journey_metrics", code: 200 }),
-        ),
-      ).annotate({ identifier: "CampaignJourneyMetricsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          activated: S.optional(__S(2592, __c162, 0)),
-          converted: S.optional(__S(2592, __c162, 0)),
-          exited_early: S.optional(__S(2592, __c162, 0)),
-          finished: S.optional(__S(2592, __c162, 0)),
-          messaged: S.optional(__S(2592, __c162, 0)),
-          never_activated: S.optional(__S(2592, __c162, 0)),
-          started: S.optional(__S(2592, __c162, 0)),
-        }),
-      ).annotate({ identifier: "CampaignJourneyMetricsResponseJourneyMetric" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          journey_metric: S.optional(__S(1361, __c85, 1)),
-        }),
-      ).annotate({ identifier: "CampaignJourneyMetricsResponse" });
-  }
-}
-function __c86(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -27723,7 +28860,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateNewsletterVariantTranslationRequest" });
   }
 }
-function __c87(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27734,18 +28871,18 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "UpdatePersonOptoutsRequestOptoutsItem" });
     case 1:
-      return S.Array(__S(1392, __c87, 0));
+      return S.Array(__S(1504, __c94, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           customer_id: S.String.pipe(T.Label()),
           id_type: S.optional(S.String.pipe(T.Query())),
-          optouts: __S(1393, __c87, 1),
+          optouts: __S(1505, __c94, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/customers/{customer_id}/optouts", code: 200 })),
       ).annotate({ identifier: "UpdatePersonOptoutsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27756,7 +28893,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UpdateSnippetsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27766,7 +28903,8 @@ function __c89(j: number): any {
           body: S.optional(S.String),
           body_amp: S.optional(S.String),
           from_id: S.optional(S.Number),
-          headers: S.optional(__S(1441, __c90, 1)),
+          headers: S.optional(__S(1553, __c97, 1)),
+          image_url: S.optional(S.String),
           preheader_text: S.optional(S.String),
           recipient: S.optional(S.String),
           reply_to_id: S.optional(S.NullOr(S.Number)),
@@ -27781,7 +28919,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateTransactionalRequest" });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27791,20 +28929,21 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "UpdateBroadcastActionRequestBodyCase0HeadersItem" });
     case 1:
-      return S.Array(__S(1440, __c90, 0));
+      return S.Array(__S(1552, __c97, 0));
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           transactional_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
           body: S.optional(S.String),
           body_amp: S.optional(S.String),
           from_id: S.optional(S.Number),
-          headers: S.optional(__S(1441, __c90, 1)),
+          headers: S.optional(__S(1553, __c97, 1)),
+          image_url: S.optional(S.String),
           preheader_text: S.optional(S.String),
           recipient: S.optional(S.String),
           reply_to_id: S.optional(S.NullOr(S.Number)),
@@ -27819,23 +28958,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateTransactionalVariantRequest" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhook_id: S.Number.pipe(T.Label()),
-          endpoint: S.String,
-          events: __S(1920, __c120, 0),
-          name: S.String,
-          disabled: S.optional(S.Boolean),
-          full_resolution: S.optional(S.Boolean),
-          with_content: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PUT", uri: "/v1/reporting_webhooks/{webhook_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateWebhookRequest" });
-  }
-}
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27850,7 +28973,23 @@ function __c93(j: number): any {
       ).annotate({ identifier: "CampaignLinkMetricsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhook_id: S.Number.pipe(T.Label()),
+          endpoint: S.String,
+          events: __S(2032, __c127, 0),
+          name: S.String,
+          disabled: S.optional(S.Boolean),
+          full_resolution: S.optional(S.Boolean),
+          with_content: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "PUT", uri: "/v1/reporting_webhooks/{webhook_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateWebhookRequest" });
+  }
+}
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27870,14 +29009,14 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           end: S.optional(S.String),
-          metric: S.optional(__S(2816, __c176, 0)),
+          metric: S.optional(__S(2960, __c185, 0)),
           res: S.optional(S.String),
           start: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignMetricsResponse" });
   }
 }
-function __c95(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27894,7 +29033,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CancelBroadcastTriggerRequest" });
   }
 }
-function __c96(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27912,7 +29051,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "CheckCollectionSourceResponse" });
   }
 }
-function __c97(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27926,17 +29065,17 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateAssetRequest" });
   }
 }
-function __c98(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          asset: S.optional(__S(1584, __c99, 0)),
+          asset: S.optional(__S(1696, __c106, 0)),
         }),
       ).annotate({ identifier: "CreateAssetResponse" });
   }
 }
-function __c99(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27952,7 +29091,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CreateAssetResponseAsset" });
   }
 }
-function __c100(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27963,17 +29102,17 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateAssetFolderRequest" });
   }
 }
-function __c101(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          folder: S.optional(__S(1632, __c102, 0)),
+          folder: S.optional(__S(1744, __c109, 0)),
         }),
       ).annotate({ identifier: "CreateAssetFolderResponse" });
   }
 }
-function __c102(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27987,7 +29126,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateAssetFolderResponseFolder" });
   }
 }
-function __c103(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27997,17 +29136,17 @@ function __c103(j: number): any {
       ).annotate({ identifier: "CreateCollectionSourceRequest" });
   }
 }
-function __c104(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1680, __c105, 0)),
+          source: S.optional(__S(1792, __c112, 0)),
         }),
       ).annotate({ identifier: "CreateCollectionSourceResponse" });
   }
 }
-function __c105(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28024,17 +29163,17 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CreateCollectionSourceResponseSource" });
   }
 }
-function __c106(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          segment: __S(1712, __c107, 0),
+          segment: __S(1824, __c114, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/segments", code: 200 })),
       ).annotate({ identifier: "CreateManSegmentRequest" });
   }
 }
-function __c107(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28045,17 +29184,17 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateManSegmentRequestSegment" });
   }
 }
-function __c108(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          segment: S.optional(__S(1744, __c109, 0)),
+          segment: S.optional(__S(1856, __c116, 0)),
         }),
       ).annotate({ identifier: "CreateManSegmentResponse" });
   }
 }
-function __c109(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28068,14 +29207,14 @@ function __c109(j: number): any {
           name: S.optional(S.String),
           progress: S.optional(S.NullOr(S.Number)),
           state: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(2368, __c148, 0))),
+          tags: S.optional(S.NullOr(__S(2512, __c157, 0))),
           type: S.optional(S.String),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateManSegmentResponseSegment" });
   }
 }
-function __c110(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28085,12 +29224,12 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateNewsletterRequest" });
   }
 }
-function __c111(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content_ids: S.optional(__S(2592, __c162, 0)),
+          content_ids: S.optional(__S(2736, __c171, 0)),
           created: S.optional(S.Number),
           deduplicate_id: S.optional(S.String),
           expires_after: S.optional(S.Number),
@@ -28098,12 +29237,12 @@ function __c111(j: number): any {
           name: S.optional(S.String),
           recipient_file_error: S.optional(S.String),
           recipient_file_status: S.optional(S.String),
-          recipient_segment_ids: S.optional(__S(2592, __c162, 0)),
+          recipient_segment_ids: S.optional(__S(2736, __c171, 0)),
           scheduled_at: S.optional(S.NullOr(S.Number)),
           send_state: S.optional(S.String),
           sent_at: S.optional(S.NullOr(S.Number)),
           subscription_topic_id: S.optional(S.Number),
-          tags: S.optional(__S(2368, __c148, 0)),
+          tags: S.optional(__S(2512, __c157, 0)),
           timezone: S.optional(S.String),
           type: S.optional(S.String),
           tz_match_enabled: S.optional(S.Boolean),
@@ -28112,17 +29251,17 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreateNewsletterResponseNewsletter" });
   }
 }
-function __c112(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newsletter: S.optional(__S(1776, __c111, 0)),
+          newsletter: S.optional(__S(1888, __c118, 0)),
         }),
       ).annotate({ identifier: "CreateNewsletterResponse" });
   }
 }
-function __c113(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28135,7 +29274,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateNewsletterLanguageVariantRequest" });
   }
 }
-function __c114(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28147,7 +29286,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "CreateNewsletterTestGroupRequest" });
   }
 }
-function __c115(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28165,7 +29304,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateNewsletterTestLanguageVariantRequest" });
   }
 }
-function __c116(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28176,7 +29315,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateSnippetRequest" });
   }
 }
-function __c117(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28188,23 +29327,23 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateSnippetResponseSnippet" });
   }
 }
-function __c118(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snippet: S.optional(__S(1872, __c117, 0)),
+          snippet: S.optional(__S(1984, __c124, 0)),
         }),
       ).annotate({ identifier: "CreateSnippetResponse" });
   }
 }
-function __c119(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          events: __S(1920, __c120, 0),
+          events: __S(2032, __c127, 0),
           name: S.String,
           disabled: S.optional(S.Boolean),
           full_resolution: S.optional(S.Boolean),
@@ -28213,7 +29352,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c120(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -28221,7 +29360,7 @@ function __c120(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          events: __S(1920, __c120, 0),
+          events: __S(2032, __c127, 0),
           name: S.String,
           disabled: S.optional(S.Boolean),
           full_resolution: S.optional(S.Boolean),
@@ -28232,7 +29371,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreateWebhookResponse" });
   }
 }
-function __c121(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28242,13 +29381,13 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteAssetRequest" });
   }
 }
-function __c122(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAssetResponse" });
   }
 }
-function __c123(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28258,7 +29397,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteAssetFolderRequest" });
   }
 }
-function __c124(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28268,7 +29407,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteCollectionRequest" });
   }
 }
-function __c125(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28280,7 +29419,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "DeleteCollectionSourceRequest" });
   }
 }
-function __c126(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28292,7 +29431,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteCollectionSyncRequest" });
   }
 }
-function __c127(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28302,7 +29441,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "DeleteManSegmentRequest" });
   }
 }
-function __c128(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28319,7 +29458,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteNewsletterLanguageVariantRequest" });
   }
 }
-function __c129(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28329,7 +29468,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteNewslettersRequest" });
   }
 }
-function __c130(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28347,7 +29486,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DeleteNewsletterTestLanguageVariantRequest" });
   }
 }
-function __c131(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28358,11 +29497,11 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "Error422BodyErrorsItem4" });
     case 1:
-      return S.Array(__S(2096, __c131, 0));
+      return S.Array(__S(2208, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2097, __c131, 1)),
+          errors: S.optional(__S(2209, __c138, 1)),
         }),
       ).annotate({ identifier: "Error422Body4" });
     case 3:
@@ -28374,11 +29513,11 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "Error422BodyErrorsItem" });
     case 4:
-      return S.Array(__S(2099, __c131, 3));
+      return S.Array(__S(2211, __c138, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2100, __c131, 4)),
+          errors: S.optional(__S(2212, __c138, 4)),
         }),
       ).annotate({ identifier: "Error422Body" });
     case 6:
@@ -28390,16 +29529,16 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "Error422BodyErrorsItem2" });
     case 7:
-      return S.Array(__S(2102, __c131, 6));
+      return S.Array(__S(2214, __c138, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2103, __c131, 7)),
+          errors: S.optional(__S(2215, __c138, 7)),
         }),
       ).annotate({ identifier: "Error422Body2" });
   }
 }
-function __c132(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28409,7 +29548,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeleteSnippetRequest" });
   }
 }
-function __c133(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28426,7 +29565,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "DeleteSuppressionRequest" });
   }
 }
-function __c134(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28438,7 +29577,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c135(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28454,7 +29593,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DownloadExportResponse" });
   }
 }
-function __c136(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28463,12 +29602,12 @@ function __c136(j: number): any {
           attributes: S.optional(__S(64, __c4, 0)),
           content_state: S.optional(S.Unknown),
           deep_link: S.optional(S.String),
-          push_payload: S.optional(__S(2193, __c137, 1)),
+          push_payload: S.optional(__S(2305, __c144, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/live_notifications/end", code: 200 })),
       ).annotate({ identifier: "EndLiveNotificationRequest" });
   }
 }
-function __c137(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28481,7 +29620,7 @@ function __c137(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alert: S.optional(__S(2192, __c137, 0)),
+          alert: S.optional(__S(2304, __c144, 0)),
         }),
       ).annotate({ identifier: "EndLiveNotificationRequestPushPayload" });
     case 2:
@@ -28492,7 +29631,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "EndLiveNotificationResponse" });
   }
 }
-function __c138(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28502,17 +29641,17 @@ function __c138(j: number): any {
       ).annotate({ identifier: "ExportDeliveriesDataRequest" });
   }
 }
-function __c139(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          export: S.optional(__S(2240, __c140, 0)),
+          export: S.optional(__S(2352, __c147, 0)),
         }),
       ).annotate({ identifier: "ExportDeliveriesDataResponse" });
   }
 }
-function __c140(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28533,18 +29672,127 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ExportDeliveriesDataResponseExport" });
   }
 }
-function __c141(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filters: S.Unknown,
-          attributes: S.optional(__S(2368, __c148, 0)),
+          attributes: S.optional(__S(2512, __c157, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/exports/customers", code: 200 })),
       ).annotate({ identifier: "ExportPeopleDataRequest" });
   }
 }
-function __c142(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/account/audit_logs/{id}", code: 200 })),
+      ).annotate({ identifier: "GetAccountAuditLogRequest" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(2421, __c151, 5)),
+          service_account: S.optional(__S(2422, __c151, 6)),
+          user: S.optional(__S(2423, __c151, 7)),
+        }),
+      ).annotate({ identifier: "GetAccountAuditLogResponse" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2419, __c151, 3)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          account_id: S.optional(S.Number),
+          action: S.optional(S.String),
+          changed_from: S.optional(S.NullOr(S.Unknown)),
+          changed_to: S.optional(S.NullOr(S.Unknown)),
+          data: S.optional(S.Unknown),
+          id: S.optional(S.Number),
+          ip_addr: S.optional(S.String),
+          meta: S.optional(S.Unknown),
+          object_id: S.optional(S.String),
+          object_type: S.optional(S.String),
+          related_logs: S.optional(S.NullOr(__S(2416, __c151, 0))),
+          service_account_id: S.optional(S.NullOr(S.Number)),
+          timestamp: S.optional(S.Number),
+          user_id: S.optional(S.Number),
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AuditLogEntryRelatedLogsItem" });
+    case 2:
+      return S.Array(__S(2417, __c151, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          account_id: S.optional(S.Number),
+          action: S.optional(S.String),
+          changed_from: S.optional(S.NullOr(S.Unknown)),
+          changed_to: S.optional(S.NullOr(S.Unknown)),
+          data: S.optional(S.Unknown),
+          id: S.optional(S.Number),
+          ip_addr: S.optional(S.String),
+          meta: S.optional(S.Unknown),
+          object_id: S.optional(S.String),
+          object_type: S.optional(S.String),
+          related_logs: S.optional(S.NullOr(__S(2418, __c151, 2))),
+          service_account_id: S.optional(S.NullOr(S.Number)),
+          timestamp: S.optional(S.Number),
+          user_id: S.optional(S.Number),
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AuditLogEntry" });
+    case 4:
+      return S.Array(__S(2419, __c151, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          account_id: S.optional(S.Number),
+          action: S.optional(S.String),
+          changed_from: S.optional(S.NullOr(S.Unknown)),
+          changed_to: S.optional(S.NullOr(S.Unknown)),
+          data: S.optional(S.Unknown),
+          id: S.optional(S.Number),
+          ip_addr: S.optional(S.String),
+          meta: S.optional(S.Unknown),
+          object_id: S.optional(S.String),
+          object_type: S.optional(S.String),
+          related_logs: S.optional(S.NullOr(__S(2420, __c151, 4))),
+          service_account_id: S.optional(S.NullOr(S.Number)),
+          timestamp: S.optional(S.Number),
+          user_id: S.optional(S.Number),
+          version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetAccountAuditLogResponseData" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          account_type: S.optional(S.String),
+          deleted: S.optional(S.NullOr(S.Boolean)),
+          name: S.optional(S.String),
+          service_account_id: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetAccountAuditLogResponseServiceAccount" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          deleted: S.optional(S.NullOr(S.Boolean)),
+          email: S.optional(S.String),
+          user_id: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetAccountAuditLogResponseUser" });
+  }
+}
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28576,12 +29824,12 @@ function __c142(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          archived_message: S.optional(__S(2273, __c142, 1)),
+          archived_message: S.optional(__S(2433, __c152, 1)),
         }),
       ).annotate({ identifier: "GetArchivedMessageResponse" });
   }
 }
-function __c143(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28591,17 +29839,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetAssetRequest" });
   }
 }
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/assets/folders/{id}", code: 200 })),
-      ).annotate({ identifier: "GetAssetFolderRequest" });
-  }
-}
-function __c145(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28611,17 +29849,17 @@ function __c145(j: number): any {
       ).annotate({ identifier: "AddCollectionRequest" });
   }
 }
-function __c146(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          collection: S.optional(__S(2352, __c147, 0)),
+          collection: S.optional(__S(2496, __c156, 0)),
         }),
       ).annotate({ identifier: "AddCollectionResponse" });
   }
 }
-function __c147(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28633,19 +29871,29 @@ function __c147(j: number): any {
           key_field: S.optional(S.String),
           name: S.optional(S.String),
           rows: S.optional(S.Number),
-          schema: S.optional(__S(2368, __c148, 0)),
+          schema: S.optional(__S(2512, __c157, 0)),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AddCollectionResponseCollection" });
   }
 }
-function __c148(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c149(j: number): any {
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/assets/folders/{id}", code: 200 })),
+      ).annotate({ identifier: "GetAssetFolderRequest" });
+  }
+}
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28656,12 +29904,12 @@ function __c149(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          broadcast: S.optional(__S(2402, __c150, 2)),
+          broadcast: S.optional(__S(2562, __c160, 2)),
         }),
       ).annotate({ identifier: "GetBroadcastResponse" });
   }
 }
-function __c150(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28671,27 +29919,27 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "GetBroadcastResponseBroadcastActionsItem" });
     case 1:
-      return S.Array(__S(2400, __c150, 0));
+      return S.Array(__S(2560, __c160, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(2401, __c150, 1)),
+          actions: S.optional(__S(2561, __c160, 1)),
           active: S.optional(S.Boolean),
           created: S.optional(S.Number),
           deduplicate_id: S.optional(S.String),
           first_started: S.optional(S.Number),
           id: S.optional(S.Number),
-          msg_template_ids: S.optional(__S(2401, __c150, 1)),
+          msg_template_ids: S.optional(__S(2561, __c160, 1)),
           name: S.optional(S.String),
           state: S.optional(S.String),
-          tags: S.optional(__S(2368, __c148, 0)),
+          tags: S.optional(__S(2512, __c157, 0)),
           type: S.optional(S.String),
           updated: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetBroadcastResponseBroadcast" });
   }
 }
-function __c151(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28714,14 +29962,14 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetBroadcastActionResponse" });
   }
 }
-function __c152(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           broadcast_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28738,7 +29986,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetBroadcastActionLanguageResponse" });
   }
 }
-function __c153(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28761,14 +30009,14 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetCampaignActionResponse" });
   }
 }
-function __c154(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           campaign_id: S.Number.pipe(T.Label()),
           action_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -28785,7 +30033,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetCampaignActionTranslationResponse" });
   }
 }
-function __c155(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28803,7 +30051,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetCampaignMessagesRequest" });
   }
 }
-function __c156(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28819,7 +30067,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetCampaignsResponse" });
   }
 }
-function __c157(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28836,16 +30084,16 @@ function __c157(j: number): any {
         }),
       ).annotate({ identifier: "GetChannelsResponseChannelsItem" });
     case 2:
-      return S.Array(__S(2513, __c157, 1));
+      return S.Array(__S(2673, __c167, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          channels: S.optional(__S(2514, __c157, 2)),
+          channels: S.optional(__S(2674, __c167, 2)),
         }),
       ).annotate({ identifier: "GetChannelsResponse" });
   }
 }
-function __c158(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28854,22 +30102,12 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ip_addresses: S.optional(__S(2368, __c148, 0)),
+          ip_addresses: S.optional(__S(2512, __c157, 0)),
         }),
       ).annotate({ identifier: "GetCioAllowlistResponse" });
   }
 }
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          collection_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/collections/{collection_id}", code: 200 })),
-      ).annotate({ identifier: "GetCollectionRequest" });
-  }
-}
-function __c160(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28889,7 +30127,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "BroadcastActionLinksRequest" });
   }
 }
-function __c161(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28901,47 +30139,57 @@ function __c161(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clicked: S.optional(__S(2592, __c162, 0)),
-          human_clicked: S.optional(__S(2592, __c162, 0)),
-          machine_clicked: S.optional(__S(2592, __c162, 0)),
+          clicked: S.optional(__S(2736, __c171, 0)),
+          human_clicked: S.optional(__S(2736, __c171, 0)),
+          machine_clicked: S.optional(__S(2736, __c171, 0)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponseLinksItemMetricSeries" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          series: S.optional(__S(2577, __c161, 1)),
+          series: S.optional(__S(2721, __c170, 1)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponseLinksItemMetric" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(__S(2576, __c161, 0)),
-          metric: S.optional(__S(2578, __c161, 2)),
+          link: S.optional(__S(2720, __c170, 0)),
+          metric: S.optional(__S(2722, __c170, 2)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponseLinksItem" });
     case 4:
-      return S.Array(__S(2579, __c161, 3));
+      return S.Array(__S(2723, __c170, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(2580, __c161, 4)),
+          links: S.optional(__S(2724, __c170, 4)),
         }),
       ).annotate({ identifier: "BroadcastActionLinksResponse" });
   }
 }
-function __c162(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c163(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           collection_id: S.Number.pipe(T.Label()),
-          keys: S.optional(__S(2368, __c148, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/collections/{collection_id}", code: 200 })),
+      ).annotate({ identifier: "GetCollectionRequest" });
+  }
+}
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collection_id: S.Number.pipe(T.Label()),
+          keys: S.optional(__S(2512, __c157, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -28954,23 +30202,23 @@ function __c163(j: number): any {
       });
   }
 }
-function __c164(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/collections", code: 200 })),
       ).annotate({ identifier: "GetCollectionsRequest" });
     case 1:
-      return S.Array(__S(2352, __c147, 0));
+      return S.Array(__S(2496, __c156, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          collections: S.optional(__S(2625, __c164, 1)),
+          collections: S.optional(__S(2785, __c174, 1)),
         }),
       ).annotate({ identifier: "GetCollectionsResponse" });
   }
 }
-function __c165(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28980,7 +30228,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetCollectionSourceRequest" });
   }
 }
-function __c166(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28990,7 +30238,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetCollectionSyncRequest" });
   }
 }
-function __c167(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29012,8 +30260,8 @@ function __c167(j: number): any {
         S.Struct({
           collection_id: S.optional(S.Number),
           created_at: S.optional(S.String),
-          last_error: S.optional(__S(2672, __c167, 0)),
-          last_file: S.optional(__S(2673, __c167, 1)),
+          last_error: S.optional(__S(2832, __c177, 0)),
+          last_file: S.optional(__S(2833, __c177, 1)),
           next_run_at: S.optional(S.String),
           poll_hours: S.optional(S.Number),
           prefix: S.optional(S.String),
@@ -29025,12 +30273,12 @@ function __c167(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sync: S.optional(__S(2674, __c167, 2)),
+          sync: S.optional(__S(2834, __c177, 2)),
         }),
       ).annotate({ identifier: "GetCollectionSyncResponse" });
   }
 }
-function __c168(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29054,17 +30302,17 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "GetCollectionSyncRejectsResponseRejectsItem" });
     case 2:
-      return S.Array(__S(2689, __c168, 1));
+      return S.Array(__S(2849, __c178, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next_cursor: S.optional(S.String),
-          rejects: S.optional(__S(2690, __c168, 2)),
+          rejects: S.optional(__S(2850, __c178, 2)),
         }),
       ).annotate({ identifier: "GetCollectionSyncRejectsResponse" });
   }
 }
-function __c169(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29088,13 +30336,13 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "GetCollectionWriteResponseWriteItemsItem" });
     case 2:
-      return S.Array(__S(2705, __c169, 1));
+      return S.Array(__S(2865, __c179, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           id: S.optional(S.String),
-          items: S.optional(__S(2706, __c169, 2)),
+          items: S.optional(__S(2866, __c179, 2)),
           message: S.optional(S.String),
           state: S.optional(S.String),
         }),
@@ -29102,12 +30350,12 @@ function __c169(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          write: S.optional(__S(2707, __c169, 3)),
+          write: S.optional(__S(2867, __c179, 3)),
         }),
       ).annotate({ identifier: "GetCollectionWriteResponse" });
   }
 }
-function __c170(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29130,12 +30378,12 @@ function __c170(j: number): any {
         S.Struct({
           category: S.optional(S.String),
           next: S.optional(S.String),
-          suppressions: S.optional(__S(2737, __c171, 1)),
+          suppressions: S.optional(__S(2897, __c181, 1)),
         }),
       ).annotate({ identifier: "GetDomainSuppressionsByTypeResponse" });
   }
 }
-function __c171(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29147,10 +30395,10 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "GetDomainSuppressionsByTypeResponseSuppressionsItem" });
     case 1:
-      return S.Array(__S(2736, __c171, 0));
+      return S.Array(__S(2896, __c181, 0));
   }
 }
-function __c172(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29160,7 +30408,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetExportRequest" });
   }
 }
-function __c173(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29196,12 +30444,98 @@ function __c173(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          import: __S(2769, __c173, 1),
+          import: __S(2929, __c183, 1),
         }),
       ).annotate({ identifier: "GetImportResponse" });
   }
 }
-function __c174(j: number): any {
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          broadcast_id: S.Number.pipe(T.Label()),
+          action_id: S.Number.pipe(T.Label()),
+          period: S.optional(S.String.pipe(T.Query())),
+          steps: S.optional(S.Number.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/broadcasts/{broadcast_id}/actions/{action_id}/metrics",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BroadcastActionMetricsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          language_variants: S.optional(__S(2993, __c187, 1)),
+          metric: S.optional(__S(2960, __c185, 0)),
+        }),
+      ).annotate({ identifier: "BroadcastActionMetricsResponse" });
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          series: S.optional(__S(2976, __c186, 0)),
+        }),
+      ).annotate({ identifier: "BroadcastActionMetricsResponseMetric" });
+  }
+}
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attempted: S.optional(__S(2736, __c171, 0)),
+          bounced: S.optional(__S(2736, __c171, 0)),
+          clicked: S.optional(__S(2736, __c171, 0)),
+          converted: S.optional(__S(2736, __c171, 0)),
+          created: S.optional(__S(2736, __c171, 0)),
+          deferred: S.optional(__S(2736, __c171, 0)),
+          delivered: S.optional(__S(2736, __c171, 0)),
+          drafted: S.optional(__S(2736, __c171, 0)),
+          failed: S.optional(__S(2736, __c171, 0)),
+          human_clicked: S.optional(__S(2736, __c171, 0)),
+          human_opened: S.optional(__S(2736, __c171, 0)),
+          link_untracked: S.optional(__S(2736, __c171, 0)),
+          machine_clicked: S.optional(__S(2736, __c171, 0)),
+          open_untracked: S.optional(__S(2736, __c171, 0)),
+          opened: S.optional(__S(2736, __c171, 0)),
+          prefetch_opened: S.optional(__S(2736, __c171, 0)),
+          replied: S.optional(__S(2736, __c171, 0)),
+          sent: S.optional(__S(2736, __c171, 0)),
+          spammed: S.optional(__S(2736, __c171, 0)),
+          suppressed: S.optional(__S(2736, __c171, 0)),
+          topic_unsubscribed: S.optional(__S(2736, __c171, 0)),
+          tracking_consent_denied: S.optional(__S(2736, __c171, 0)),
+          tracking_consent_granted: S.optional(__S(2736, __c171, 0)),
+          undeliverable: S.optional(__S(2736, __c171, 0)),
+          unsubscribed: S.optional(__S(2736, __c171, 0)),
+          untracked: S.optional(__S(2736, __c171, 0)),
+        }),
+      ).annotate({ identifier: "BroadcastActionMetricsResponseLanguageVariantsValueSeries" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          default: S.optional(S.Boolean),
+          language: S.optional(S.String),
+          series: S.optional(__S(2976, __c186, 0)),
+        }),
+      ).annotate({ identifier: "BroadcastActionMetricsResponseLanguageVariantsValue" });
+    case 1:
+      return S.Record(S.String, __S(2992, __c187, 0));
+  }
+}
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29226,7 +30560,7 @@ function __c174(j: number): any {
           expires_at: S.optional(S.NullOr(S.Number)),
           failure_reason: S.optional(S.NullOr(S.String)),
           instance_id: S.optional(S.String),
-          last_delivery: S.optional(S.NullOr(__S(2785, __c174, 1))),
+          last_delivery: S.optional(S.NullOr(__S(3009, __c188, 1))),
           notification_type: S.optional(S.String),
           platform: S.optional(S.String),
           started_at: S.optional(S.Number),
@@ -29235,93 +30569,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetLiveNotificationResponse" });
   }
 }
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          broadcast_id: S.Number.pipe(T.Label()),
-          action_id: S.Number.pipe(T.Label()),
-          period: S.optional(S.String.pipe(T.Query())),
-          steps: S.optional(S.Number.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/broadcasts/{broadcast_id}/actions/{action_id}/metrics",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "BroadcastActionMetricsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          language_variants: S.optional(__S(2849, __c178, 1)),
-          metric: S.optional(__S(2816, __c176, 0)),
-        }),
-      ).annotate({ identifier: "BroadcastActionMetricsResponse" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          series: S.optional(__S(2832, __c177, 0)),
-        }),
-      ).annotate({ identifier: "BroadcastActionMetricsResponseMetric" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          attempted: S.optional(__S(2592, __c162, 0)),
-          bounced: S.optional(__S(2592, __c162, 0)),
-          clicked: S.optional(__S(2592, __c162, 0)),
-          converted: S.optional(__S(2592, __c162, 0)),
-          created: S.optional(__S(2592, __c162, 0)),
-          deferred: S.optional(__S(2592, __c162, 0)),
-          delivered: S.optional(__S(2592, __c162, 0)),
-          drafted: S.optional(__S(2592, __c162, 0)),
-          failed: S.optional(__S(2592, __c162, 0)),
-          human_clicked: S.optional(__S(2592, __c162, 0)),
-          human_opened: S.optional(__S(2592, __c162, 0)),
-          link_untracked: S.optional(__S(2592, __c162, 0)),
-          machine_clicked: S.optional(__S(2592, __c162, 0)),
-          open_untracked: S.optional(__S(2592, __c162, 0)),
-          opened: S.optional(__S(2592, __c162, 0)),
-          prefetch_opened: S.optional(__S(2592, __c162, 0)),
-          replied: S.optional(__S(2592, __c162, 0)),
-          sent: S.optional(__S(2592, __c162, 0)),
-          spammed: S.optional(__S(2592, __c162, 0)),
-          suppressed: S.optional(__S(2592, __c162, 0)),
-          topic_unsubscribed: S.optional(__S(2592, __c162, 0)),
-          tracking_consent_denied: S.optional(__S(2592, __c162, 0)),
-          tracking_consent_granted: S.optional(__S(2592, __c162, 0)),
-          undeliverable: S.optional(__S(2592, __c162, 0)),
-          unsubscribed: S.optional(__S(2592, __c162, 0)),
-          untracked: S.optional(__S(2592, __c162, 0)),
-        }),
-      ).annotate({ identifier: "BroadcastActionMetricsResponseLanguageVariantsValueSeries" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          default: S.optional(S.Boolean),
-          language: S.optional(S.String),
-          series: S.optional(__S(2832, __c177, 0)),
-        }),
-      ).annotate({ identifier: "BroadcastActionMetricsResponseLanguageVariantsValue" });
-    case 1:
-      return S.Record(S.String, __S(2848, __c178, 0));
-  }
-}
-function __c179(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29338,7 +30586,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetMessageResponse" });
   }
 }
-function __c180(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29357,7 +30605,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "GetNewsletterLinksRequest" });
   }
 }
-function __c181(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29372,24 +30620,24 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GetNewsletterMetricsRequest" });
   }
 }
-function __c182(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          series: S.optional(__S(2832, __c177, 0)),
+          series: S.optional(__S(2976, __c186, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetNewsletterMetricsResponseMetric" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metric: S.optional(__S(2912, __c182, 0)),
+          metric: S.optional(__S(3072, __c192, 0)),
         }),
       ).annotate({ identifier: "GetNewsletterMetricsResponse" });
   }
 }
-function __c183(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29407,7 +30655,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetNewsletterMsgMetaRequest" });
   }
 }
-function __c184(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29417,7 +30665,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetNewslettersRequest" });
   }
 }
-function __c185(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29430,7 +30678,7 @@ function __c185(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          content_ids: S.optional(__S(2368, __c148, 0)),
+          content_ids: S.optional(__S(2512, __c157, 0)),
           id: S.optional(S.Number),
           label: S.optional(S.String),
           name: S.optional(S.String),
@@ -29438,16 +30686,16 @@ function __c185(j: number): any {
         }),
       ).annotate({ identifier: "GetNewsletterTestGroupsResponseTestGroupsItem" });
     case 2:
-      return S.Array(__S(2961, __c185, 1));
+      return S.Array(__S(3121, __c195, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          test_groups: S.optional(__S(2962, __c185, 2)),
+          test_groups: S.optional(__S(3122, __c195, 2)),
         }),
       ).annotate({ identifier: "GetNewsletterTestGroupsResponse" });
   }
 }
-function __c186(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29464,7 +30712,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantRequest" });
   }
 }
-function __c187(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29479,6 +30727,7 @@ function __c187(j: number): any {
           from_id: S.optional(S.Number),
           headers: S.optional(S.String),
           id: S.optional(S.Number),
+          image_url: S.optional(S.String),
           language: S.optional(S.String),
           layout: S.optional(S.String),
           name: S.optional(S.String),
@@ -29494,23 +30743,23 @@ function __c187(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantResponseContent" });
   }
 }
-function __c188(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(2992, __c187, 0)),
+          content: S.optional(__S(3152, __c197, 0)),
         }),
       ).annotate({ identifier: "GetNewsletterVariantResponse" });
   }
 }
-function __c189(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29521,14 +30770,14 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantTranslationRequest" });
   }
 }
-function __c190(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           newsletter_id: S.Number.pipe(T.Label()),
           test_group_id: S.String.pipe(T.Label()),
-          language: S.String.pipe(T.Label()),
+          language: S.optional(S.String.pipe(T.Label())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -29539,7 +30788,25 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetNewsletterVariantTranslationTestRequest" });
   }
 }
-function __c191(j: number): any {
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          broadcast_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/broadcasts/{broadcast_id}/actions", code: 200 })),
+      ).annotate({ identifier: "BroadcastActionsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          actions: S.optional(__S(3217, __c201, 1)),
+        }),
+      ).annotate({ identifier: "BroadcastActionsResponse" });
+  }
+}
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29567,44 +30834,26 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attributes: S.optional(__S(64, __c4, 0)),
-          identifiers: S.optional(__S(3057, __c191, 1)),
+          identifiers: S.optional(__S(3233, __c202, 1)),
           object_type_id: S.optional(S.String),
-          timestamps: S.optional(__S(3072, __c192, 0)),
+          timestamps: S.optional(__S(3248, __c203, 0)),
         }),
       ).annotate({ identifier: "GetObjectAttributesResponseObject" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(__S(3058, __c191, 2)),
+          object: S.optional(__S(3234, __c202, 2)),
         }),
       ).annotate({ identifier: "GetObjectAttributesResponse" });
   }
 }
-function __c192(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          broadcast_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/broadcasts/{broadcast_id}/actions", code: 200 })),
-      ).annotate({ identifier: "BroadcastActionsRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(__S(3089, __c193, 1)),
-        }),
-      ).annotate({ identifier: "BroadcastActionsResponse" });
-  }
-}
-function __c194(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29633,23 +30882,23 @@ function __c194(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(3105, __c194, 1)),
+          identifiers: S.optional(__S(3265, __c204, 1)),
           object_type_disabled: S.optional(S.Boolean),
           object_type_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetObjectRelationshipsResponseCioRelationshipsItem" });
     case 3:
-      return S.Array(__S(3106, __c194, 2));
+      return S.Array(__S(3266, __c204, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cio_relationships: S.optional(__S(3107, __c194, 3)),
+          cio_relationships: S.optional(__S(3267, __c204, 3)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetObjectRelationshipsResponse" });
   }
 }
-function __c195(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29661,18 +30910,18 @@ function __c195(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v1/objects", code: 200 })),
       ).annotate({ identifier: "GetObjectsFilterRequest" });
     case 1:
-      return S.Array(__S(3136, __c196, 0));
+      return S.Array(__S(3296, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(3121, __c195, 1)),
-          ids: S.optional(__S(2368, __c148, 0)),
+          identifiers: S.optional(__S(3281, __c205, 1)),
+          ids: S.optional(__S(2512, __c157, 0)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetObjectsFilterResponse" });
   }
 }
-function __c196(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29683,7 +30932,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetObjectsFilterResponseIdentifiersItem" });
   }
 }
-function __c197(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29702,16 +30951,16 @@ function __c197(j: number): any {
         }),
       ).annotate({ identifier: "GetObjectTypesResponseTypesItem" });
     case 2:
-      return S.Array(__S(3153, __c197, 1));
+      return S.Array(__S(3313, __c207, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(3154, __c197, 2)),
+          types: S.optional(__S(3314, __c207, 2)),
         }),
       ).annotate({ identifier: "GetObjectTypesResponse" });
   }
 }
-function __c198(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29726,21 +30975,21 @@ function __c198(j: number): any {
         S.Struct({
           cio_id: S.optional(S.String),
           customer_id: S.optional(S.String),
-          optouts: S.optional(__S(3185, __c199, 1)),
+          optouts: S.optional(__S(3345, __c209, 1)),
         }),
       ).annotate({ identifier: "GetOptoutsResponseOptoutsItem" });
     case 2:
-      return S.Array(__S(3169, __c198, 1));
+      return S.Array(__S(3329, __c208, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          optouts: S.optional(__S(3170, __c198, 2)),
+          optouts: S.optional(__S(3330, __c208, 2)),
         }),
       ).annotate({ identifier: "GetOptoutsResponse" });
   }
 }
-function __c199(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29750,29 +30999,29 @@ function __c199(j: number): any {
         }),
       ).annotate({ identifier: "GetOptoutsResponseOptoutsItemOptoutsItem" });
     case 1:
-      return S.Array(__S(3184, __c199, 0));
+      return S.Array(__S(3344, __c209, 0));
   }
 }
-function __c200(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id_type: S.optional(S.String.pipe(T.Query())),
-          ids: __S(2368, __c148, 0),
+          ids: __S(2512, __c157, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/customers/attributes", code: 200 })),
       ).annotate({ identifier: "GetPeopleByIdRequest" });
     case 1:
-      return S.Array(__S(3222, __c201, 6));
+      return S.Array(__S(3382, __c211, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customers: S.optional(__S(3201, __c200, 1)),
+          customers: S.optional(__S(3361, __c210, 1)),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponse" });
   }
 }
-function __c201(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29798,7 +31047,10 @@ function __c201(j: number): any {
             device_locale: S.optional(S.String),
             device_model: S.optional(S.String),
             device_os: S.optional(S.String),
+            origin: S.optional(S.String),
             push_enabled: S.optional(S.String),
+            webpush_auth: S.optional(S.String),
+            webpush_p256dh: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -29808,13 +31060,13 @@ function __c201(j: number): any {
         S.Struct({
           id: S.String,
           platform: S.String,
-          attributes: S.optional(__S(3217, __c201, 1)),
+          attributes: S.optional(__S(3377, __c211, 1)),
           last_used: S.optional(S.Number),
           token_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponseCustomersItemCustomerDevicesItem" });
     case 3:
-      return S.Array(__S(3218, __c201, 2));
+      return S.Array(__S(3378, __c211, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -29831,23 +31083,23 @@ function __c201(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(3216, __c201, 0)),
-          devices: S.optional(__S(3219, __c201, 3)),
+          attributes: S.optional(__S(3376, __c211, 0)),
+          devices: S.optional(__S(3379, __c211, 3)),
           id: S.optional(S.String),
           identifiers: S.optional(__S(384, __c24, 0)),
-          timestamps: S.optional(__S(3220, __c201, 4)),
+          timestamps: S.optional(__S(3380, __c211, 4)),
           unsubscribed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponseCustomersItemCustomer" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(3221, __c201, 5)),
+          customer: S.optional(__S(3381, __c211, 5)),
         }),
       ).annotate({ identifier: "GetPeopleByIdResponseCustomersItem" });
   }
 }
-function __c202(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29858,18 +31110,18 @@ function __c202(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(3248, __c203, 0)),
+          results: S.optional(__S(3408, __c213, 0)),
         }),
       ).annotate({ identifier: "GetPeopleEmailResponse" });
   }
 }
-function __c203(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(384, __c24, 0));
   }
 }
-function __c204(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29882,14 +31134,14 @@ function __c204(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(3248, __c203, 0)),
-          ids: S.optional(__S(2368, __c148, 0)),
+          identifiers: S.optional(__S(3408, __c213, 0)),
+          ids: S.optional(__S(2512, __c157, 0)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPeopleFilterResponse" });
   }
 }
-function __c205(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29920,16 +31172,16 @@ function __c205(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonActivitiesResponseActivitiesItem" });
     case 2:
-      return S.Array(__S(3281, __c205, 1));
+      return S.Array(__S(3441, __c215, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          activities: S.optional(__S(3282, __c205, 2)),
+          activities: S.optional(__S(3442, __c215, 2)),
         }),
       ).annotate({ identifier: "GetPersonActivitiesResponse" });
   }
 }
-function __c206(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29942,7 +31194,33 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetPersonAttributesRequest" });
   }
 }
-function __c207(j: number): any {
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          broadcast_id: S.Number.pipe(T.Label()),
+          trigger_id: S.Number.pipe(T.Label()),
+          start: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/campaigns/{broadcast_id}/triggers/{trigger_id}/errors",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BroadcastErrorsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(2512, __c157, 0)),
+          next: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BroadcastErrorsResponse" });
+  }
+}
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -29975,7 +31253,7 @@ function __c207(j: number): any {
           failure_message: S.optional(S.NullOr(S.String)),
           forgotten: S.optional(S.Boolean),
           id: S.optional(S.String),
-          metrics: S.optional(__S(3313, __c207, 1)),
+          metrics: S.optional(__S(3489, __c218, 1)),
           msg_template_id: S.optional(S.String),
           newsletter_id: S.optional(S.NullOr(S.Number)),
           recipient: S.optional(S.String),
@@ -29984,42 +31262,16 @@ function __c207(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonMessagesResponseMessagesItem" });
     case 3:
-      return S.Array(__S(3314, __c207, 2));
+      return S.Array(__S(3490, __c218, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(3315, __c207, 3)),
+          messages: S.optional(__S(3491, __c218, 3)),
         }),
       ).annotate({ identifier: "GetPersonMessagesResponse" });
   }
 }
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          broadcast_id: S.Number.pipe(T.Label()),
-          trigger_id: S.Number.pipe(T.Label()),
-          start: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/campaigns/{broadcast_id}/triggers/{trigger_id}/errors",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "BroadcastErrorsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(2368, __c148, 0)),
-          next: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BroadcastErrorsResponse" });
-  }
-}
-function __c209(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30031,12 +31283,12 @@ function __c209(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          optouts: S.optional(__S(3185, __c199, 1)),
+          optouts: S.optional(__S(3345, __c209, 1)),
         }),
       ).annotate({ identifier: "GetPersonOptoutsResponse" });
   }
 }
-function __c210(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30053,23 +31305,23 @@ function __c210(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attributes: S.optional(__S(64, __c4, 0)),
-          identifiers: S.optional(__S(3136, __c196, 0)),
+          identifiers: S.optional(__S(3296, __c206, 0)),
           object_type_id: S.optional(S.Number),
-          timestamps: S.optional(__S(3072, __c192, 0)),
+          timestamps: S.optional(__S(3248, __c203, 0)),
         }),
       ).annotate({ identifier: "GetPersonRelationshipsResponseCioRelationshipsItem" });
     case 2:
-      return S.Array(__S(3361, __c210, 1));
+      return S.Array(__S(3521, __c220, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cio_relationships: S.optional(__S(3362, __c210, 2)),
+          cio_relationships: S.optional(__S(3522, __c220, 2)),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPersonRelationshipsResponse" });
   }
 }
-function __c211(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30087,16 +31339,16 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonSegmentsResponseSegmentsItem" });
     case 2:
-      return S.Array(__S(3377, __c211, 1));
+      return S.Array(__S(3537, __c221, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          segments: S.optional(__S(3378, __c211, 2)),
+          segments: S.optional(__S(3538, __c221, 2)),
         }),
       ).annotate({ identifier: "GetPersonSegmentsResponse" });
   }
 }
-function __c212(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30129,26 +31381,26 @@ function __c212(j: number): any {
         }),
       ).annotate({ identifier: "GetPersonSubscriptionPreferencesResponseCustomerTopicsItem" });
     case 3:
-      return S.Array(__S(3394, __c212, 2));
+      return S.Array(__S(3554, __c222, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(3393, __c212, 1)),
+          header: S.optional(__S(3553, __c222, 1)),
           id: S.optional(S.NullOr(S.String)),
           identifiers: S.optional(__S(384, __c24, 0)),
-          topics: S.optional(__S(3395, __c212, 3)),
+          topics: S.optional(__S(3555, __c222, 3)),
           unsubscribed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetPersonSubscriptionPreferencesResponseCustomer" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(3396, __c212, 4)),
+          customer: S.optional(__S(3556, __c222, 4)),
         }),
       ).annotate({ identifier: "GetPersonSubscriptionPreferencesResponse" });
   }
 }
-function __c213(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30158,7 +31410,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetSegmentRequest" });
   }
 }
-function __c214(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30177,7 +31429,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetSegmentCountResponse" });
   }
 }
-function __c215(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30188,21 +31440,21 @@ function __c215(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          campaigns: S.optional(__S(2592, __c162, 0)),
-          draft_newsletters: S.optional(__S(2592, __c162, 0)),
+          campaigns: S.optional(__S(2736, __c171, 0)),
+          draft_newsletters: S.optional(__S(2736, __c171, 0)),
           segment_id: S.optional(S.Number),
-          sent_newsletters: S.optional(__S(2592, __c162, 0)),
+          sent_newsletters: S.optional(__S(2736, __c171, 0)),
         }),
       ).annotate({ identifier: "GetSegmentDependenciesResponseUsedBy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          used_by: S.optional(__S(3441, __c215, 1)),
+          used_by: S.optional(__S(3601, __c225, 1)),
         }),
       ).annotate({ identifier: "GetSegmentDependenciesResponse" });
   }
 }
-function __c216(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30218,7 +31470,7 @@ function __c216(j: number): any {
       });
   }
 }
-function __c217(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30229,12 +31481,12 @@ function __c217(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sender_identity: S.optional(__S(3488, __c218, 0)),
+          sender_identity: S.optional(__S(3648, __c228, 0)),
         }),
       ).annotate({ identifier: "GetSenderResponse" });
   }
 }
-function __c218(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30250,26 +31502,6 @@ function __c218(j: number): any {
           template_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSenderResponseSenderIdentity" });
-  }
-}
-function __c219(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sender_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/sender_identities/{sender_id}/used_by", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetSenderUsageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          campaigns: S.optional(__S(2592, __c162, 0)),
-          draft_newsletters: S.optional(__S(2592, __c162, 0)),
-          sent_newsletters: S.optional(__S(2592, __c162, 0)),
-        }),
-      ).annotate({ identifier: "GetSenderUsageResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

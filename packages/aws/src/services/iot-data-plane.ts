@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -391,6 +392,7 @@ export const deleteConnection: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
@@ -435,6 +437,7 @@ export const deleteThingShadow: API.OperationMethod<
     UnsupportedDocumentEncodingException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThingShadow",
@@ -469,6 +472,7 @@ export const getConnection: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -516,6 +520,7 @@ export const getRetainedMessage: API.OperationMethod<
     UnauthorizedException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetainedMessage",
@@ -561,6 +566,7 @@ export const getThingShadow: API.OperationMethod<
     UnsupportedDocumentEncodingException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingShadow",
@@ -601,6 +607,7 @@ export const listNamedShadowsForThing: API.OperationMethod<
     UnauthorizedException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNamedShadowsForThing",
@@ -651,6 +658,7 @@ export const listRetainedMessages: API.PaginatedOperationMethod<
     UnauthorizedException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRetainedMessages",
@@ -692,6 +700,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptions",
@@ -741,6 +750,7 @@ export const publish: API.OperationMethod<
     UnauthorizedException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
@@ -787,6 +797,7 @@ export const sendDirectMessage: API.OperationMethod<
     ThrottlingException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDirectMessage",
@@ -834,6 +845,7 @@ export const updateThingShadow: API.OperationMethod<
     UnsupportedDocumentEncodingException,
     ForbiddenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingShadow",

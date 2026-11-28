@@ -1,13 +1,11 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * RedisCloudProtocol -- hand-written.
  *
  * Redis Cloud speaks plain JSON REST (no response envelope), authenticated
  * with account + user API key headers, so the whole protocol is one
- * `makeRestProtocol` call from `core/protocol-rest`:
+ * `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> `x-api-key` + `x-api-secret-key` (+ optional
  *             `x-auth-token`) + base URL (default https://api.redislabs.com),
@@ -20,37 +18,32 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
-import { UnknownRedisCloudError, RedisCloudParseError } from "./errors.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
+import {
+  UnknownRedisCloudError,
+  RedisCloudParseError,
+  type RedisCloudServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Redis Cloud operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * RedisCloudOpError, RedisCloudOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Redis Cloud operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, RedisCloudOpError, RedisCloudOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type RedisCloudOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownRedisCloudError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | RedisCloudParseError
-  | InvalidInput
-  | SdkError;
+export type RedisCloudOpError = RedisCloudServiceError | ErrorOf<typeof RedisCloudProtocol>;
 
 /** Context (requirements) shared by every generated Redis Cloud operation. */
 export type RedisCloudOpContext = Credentials | HttpClient.HttpClient;
 
-export const RedisCloudProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
-  {
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => formatHeaders(creds),
-    unknownError: (info) => new UnknownRedisCloudError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new RedisCloudParseError({ body, cause }),
-  },
-);
+export const RedisCloudProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => formatHeaders(creds),
+  unknownError: (info) => new UnknownRedisCloudError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new RedisCloudParseError({ body, cause }),
+});

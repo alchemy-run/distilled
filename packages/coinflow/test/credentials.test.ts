@@ -10,8 +10,9 @@ const fromEnv = (env: Record<string, string>) =>
     const resolve = yield* Coinflow.Credentials;
     return yield* resolve;
   }).pipe(
+    // The layer reads the environment when it is built.
     Effect.provide(
-      Layer.mergeAll(
+      Layer.provide(
         Coinflow.CredentialsFromEnv,
         Layer.succeed(ConfigProvider.ConfigProvider, ConfigProvider.fromUnknown(env)),
       ),

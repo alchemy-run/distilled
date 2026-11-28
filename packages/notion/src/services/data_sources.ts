@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -609,6 +609,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -1486,6 +1488,8 @@ export interface ViewFilterRequestCase0Case1 {
 export type ViewFilterRequestCase0 = ViewFilterRequestCase0Case0 | ViewFilterRequestCase0Case1;
 /** A property filter, timestamp filter, or compound and/or filter. */
 export type ViewFilterRequest = ViewFilterRequestCase0 | PropertyFilter | TimestampFilter;
+/** Select active pages, archived pages, or both. Defaults to active. Takes precedence over is_archived. Trashed pages remain excluded, and permissions still apply. */
+export type QueryDataSourceRequestArchiveStatus = "active" | "archived" | "all";
 /** Optionally filter the results to only include pages or data sources. Regular, non-wiki databases only support page children. The default behavior is no result type filtering, in other words, returning both pages and data sources for wikis. */
 export type QueryDataSourceRequestResultType = "page" | "data_source";
 export interface QueryDataSourceRequest {
@@ -1495,7 +1499,9 @@ export interface QueryDataSourceRequest {
   filter?: ViewFilterRequest | undefined;
   start_cursor?: string | undefined;
   page_size?: number | undefined;
-  /** Whether to return archived pages. When omitted or false, returns non-archived pages. When true, returns archived pages. */
+  /** Select active pages, archived pages, or both. Defaults to active. Takes precedence over is_archived. Trashed pages remain excluded, and permissions still apply. */
+  archive_status?: QueryDataSourceRequestArchiveStatus | (string & {}) | undefined;
+  /** Legacy archive selector. False selects active pages. True selects archived pages. Ignored when archive_status is provided. */
   is_archived?: boolean | undefined;
   /** Optionally filter the results to only include pages or data sources. Regular, non-wiki databases only support page children. The default behavior is no result type filtering, in other words, returning both pages and data sources for wikis. */
   result_type?: QueryDataSourceRequestResultType | (string & {}) | undefined;
@@ -1991,7 +1997,8 @@ export const createDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c0, 14) as any as S.Schema<CreateDataSourceRequest>,
   output: __S(15, __c0, 15) as any as S.Schema<CreateDataSourceResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2008,7 +2015,8 @@ export const getDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetDataSourceRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GetDataSourceResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2027,7 +2035,8 @@ export const listDataSourceTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c3, 0) as any as S.Schema<ListDataSourceTemplatesRequest>,
     output: __S(51, __c3, 3) as any as S.Schema<ListDataSourceTemplatesResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2054,7 +2063,8 @@ export const queryDataSource: API.PaginatedOperationMethod<
   () => ({
     input: __S(66, __c4, 2) as any as S.Schema<QueryDataSourceRequest>,
     output: __S(69, __c4, 5) as any as S.Schema<PageOrDataSourceListResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2079,7 +2089,8 @@ export const updateDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81, __c5, 1) as any as S.Schema<UpdateDataSourceRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<UpdateDataSourceResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2331,6 +2342,7 @@ function __c4(j: number): any {
           filter: S.optional(S.Unknown),
           start_cursor: S.optional(S.String),
           page_size: S.optional(S.Number),
+          archive_status: S.optional(S.String),
           is_archived: S.optional(S.Boolean),
           result_type: S.optional(S.String),
         }).pipe(

@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Gusto credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Gusto authenticates REST calls with an access
  * token as `Authorization: Bearer <token>` and versions the API with the
  * `X-Gusto-API-Version` header.
@@ -30,9 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "GustoCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("GustoCredentials") {}
 
 /** Layer from a redacted access token + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -52,24 +50,30 @@ export const fromApiKey = (config: {
 /**
  * Reads GUSTO_ACCESS_TOKEN (or GUSTO_API_TOKEN / GUSTO_API_KEY),
  * GUSTO_API_BASE_URL, and GUSTO_API_VERSION.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey =
-      process.env.GUSTO_ACCESS_TOKEN ?? process.env.GUSTO_API_TOKEN ?? process.env.GUSTO_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey =
+        process.env.GUSTO_ACCESS_TOKEN ?? process.env.GUSTO_API_TOKEN ?? process.env.GUSTO_API_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message:
-          "GUSTO_ACCESS_TOKEN (or GUSTO_API_TOKEN / GUSTO_API_KEY) environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message:
+            "GUSTO_ACCESS_TOKEN (or GUSTO_API_TOKEN / GUSTO_API_KEY) environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.GUSTO_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-      apiVersion: process.env.GUSTO_API_VERSION ?? DEFAULT_API_VERSION,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: process.env.GUSTO_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+        apiVersion: process.env.GUSTO_API_VERSION ?? DEFAULT_API_VERSION,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

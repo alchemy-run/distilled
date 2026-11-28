@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -191,7 +192,7 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface AssociateFirewallRuleGroupRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   FirewallRuleGroupId: string;
   VpcId: string;
   Priority: number;
@@ -370,11 +371,18 @@ export interface DnsThreatProtectionRuleTypeConfig {
   Value: string;
   ConfidenceThreshold: ConfidenceThreshold;
 }
+export type InitialDataTimeframeHours = number;
+export interface AutoAllowlistConfig {
+  InitialDataTimeframeHours: number;
+  ImportFromFirewallDomainListId?: string | undefined;
+  AutoAllowlistFirewallDomainListId?: string | undefined;
+}
 export interface FirewallRuleType {
   PartnerThreatProtection?: PartnerThreatProtectionConfig | undefined;
   FirewallAdvancedContentCategory?: FirewallAdvancedContentCategoryConfig | undefined;
   FirewallAdvancedThreatCategory?: FirewallAdvancedThreatCategoryConfig | undefined;
   DnsThreatProtection?: DnsThreatProtectionRuleTypeConfig | undefined;
+  AutoAllowlist?: AutoAllowlistConfig | undefined;
 }
 export interface CreateFirewallRuleEntry {
   CreatorRequestId: string;
@@ -485,7 +493,7 @@ export interface BatchUpdateFirewallRuleResponse {
   UpdateErrors?: BatchUpdateFirewallRuleError_[] | undefined;
 }
 export interface CreateFirewallDomainListRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   Name: string;
   Tags?: Tag[] | undefined;
 }
@@ -497,7 +505,7 @@ export type FirewallDomainListStatus =
   | "UPDATING"
   | (string & {});
 export type Category = string;
-export type DomainListType = "THREAT" | "CONTENT" | (string & {});
+export type DomainListType = "THREAT" | "CONTENT" | "AUTOALLOWLIST" | (string & {});
 export interface FirewallDomainList {
   Id?: string | undefined;
   Arn?: string | undefined;
@@ -516,7 +524,7 @@ export interface CreateFirewallDomainListResponse {
   FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface CreateFirewallRuleRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string | undefined;
   Priority: number;
@@ -536,7 +544,7 @@ export interface CreateFirewallRuleResponse {
   FirewallRule?: FirewallRule | undefined;
 }
 export interface CreateFirewallRuleGroupRequest {
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   Name: string;
   Tags?: Tag[] | undefined;
 }
@@ -625,7 +633,7 @@ export type DestinationArn = string;
 export interface CreateResolverQueryLogConfigRequest {
   Name: string;
   DestinationArn: string;
-  CreatorRequestId: string;
+  CreatorRequestId?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type ResolverQueryLogConfigStatus =
@@ -788,6 +796,8 @@ export interface GetFirewallDomainListRequest {
 }
 export interface GetFirewallDomainListResponse {
   FirewallDomainList?: FirewallDomainList | undefined;
+  FirewallRuleGroupId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
 }
 export interface GetFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
@@ -935,6 +945,9 @@ export interface FirewallDomainListMetadata {
   ManagedOwnerName?: string | undefined;
   ManagedListType?: DomainListType | undefined;
   Category?: string | undefined;
+  FirewallRuleGroupId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Status?: FirewallDomainListStatus | undefined;
 }
 export type FirewallDomainListMetadataList = FirewallDomainListMetadata[];
 export interface ListFirewallDomainListsResponse {
@@ -952,6 +965,41 @@ export type FirewallDomains = string[];
 export interface ListFirewallDomainsResponse {
   NextToken?: string | undefined;
   Domains?: string[] | undefined;
+}
+export type FirewallDomainStatusFilter = "OBSERVED" | "ALLOWED" | "DENIED" | (string & {});
+export type FirewallRuleDomainSortBy =
+  | "TIME_ADDED"
+  | "DAILY_TOTAL"
+  | "TOTAL_REQUESTS"
+  | (string & {});
+export type FirewallRuleDomainSortOrder = "ASC" | "DESC" | (string & {});
+export interface ListFirewallRuleDomainsQueryOptions {
+  DomainStatus?: FirewallDomainStatusFilter | undefined;
+  SortBy?: FirewallRuleDomainSortBy | undefined;
+  SortOrder?: FirewallRuleDomainSortOrder | undefined;
+  DomainNameFilter?: string | undefined;
+}
+export interface ListFirewallRuleDomainsRequest {
+  FirewallRuleGroupId: string;
+  FirewallThreatProtectionId?: string | undefined;
+  FirewallDomainListId?: string | undefined;
+  QueryOptions?: ListFirewallRuleDomainsQueryOptions | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type FirewallDomainStatus = "OBSERVED" | "ALLOWED" | "DENIED" | "UNKNOWN" | (string & {});
+export type FirewallRuleDomainRequestCount = number;
+export interface FirewallRuleDomain {
+  DomainName?: string | undefined;
+  DomainStatus?: FirewallDomainStatus | undefined;
+  Last24HourRequests?: number | undefined;
+  TotalRequests?: number | undefined;
+  AddedTime?: string | undefined;
+}
+export type FirewallRuleDomains = FirewallRuleDomain[];
+export interface ListFirewallRuleDomainsResponse {
+  Domains?: FirewallRuleDomain[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFirewallRuleGroupAssociationsRequest {
   FirewallRuleGroupId?: string | undefined;
@@ -1207,7 +1255,7 @@ export interface UpdateFirewallConfigRequest {
 export interface UpdateFirewallConfigResponse {
   FirewallConfig?: FirewallConfig | undefined;
 }
-export type FirewallDomainUpdateOperation = "ADD" | "REMOVE" | "REPLACE" | (string & {});
+export type FirewallDomainUpdateOperation = "ADD" | "REMOVE" | "REPLACE" | "DENY" | (string & {});
 export interface UpdateFirewallDomainsRequest {
   FirewallDomainListId: string;
   Operation: FirewallDomainUpdateOperation;
@@ -1340,6 +1388,7 @@ export const associateFirewallRuleGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallRuleGroup",
@@ -1348,6 +1397,7 @@ export const associateFirewallRuleGroup: API.OperationMethod<
 }));
 
 export type AssociateResolverEndpointIpAddressError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -1372,6 +1422,7 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<AssociateResolverEndpointIpAddressRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<AssociateResolverEndpointIpAddressResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
@@ -1380,6 +1431,7 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverEndpointIpAddress",
@@ -1425,6 +1477,7 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverQueryLogConfig",
@@ -1433,6 +1486,7 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
 }));
 
 export type AssociateResolverRuleError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -1457,6 +1511,7 @@ export const associateResolverRule: API.OperationMethod<
   input: __S(96, __c12, 0) as any as S.Schema<AssociateResolverRuleRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<AssociateResolverRuleResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
@@ -1466,6 +1521,7 @@ export const associateResolverRule: API.OperationMethod<
     ResourceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverRule",
@@ -1498,6 +1554,7 @@ export const batchCreateFirewallRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateFirewallRule",
@@ -1530,6 +1587,7 @@ export const batchDeleteFirewallRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFirewallRule",
@@ -1562,6 +1620,7 @@ export const batchUpdateFirewallRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFirewallRule",
@@ -1586,7 +1645,7 @@ export const createFirewallDomainList: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<CreateFirewallDomainListRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<CreateFirewallDomainListResponse>,
+  output: __S(168, __c21, 0) as any as S.Schema<CreateFirewallDomainListResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1594,6 +1653,7 @@ export const createFirewallDomainList: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallDomainList",
@@ -1616,9 +1676,9 @@ export type CreateFirewallRuleError =
  *
  * - `DnsThreatProtection` -- match a built-in DNS Firewall Advanced threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
  *
- * - `FirewallRuleType` -- match one of the rule-type variants returned by ListFirewallRuleTypes: `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, or `PartnerThreatProtection`. The `PartnerThreatProtection` variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
+ * - `FirewallRuleType` -- match one of the rule-type variants: `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, `PartnerThreatProtection`, or `AutoAllowlist`. ListFirewallRuleTypes returns the first four. The `PartnerThreatProtection` variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
  *
- * For rules that require asynchronous provisioning (today, the `PartnerThreatProtection` rule type), the rule's `Status` begins at `CREATING` and transitions to `COMPLETE` once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
+ * For rules that require asynchronous provisioning (the `PartnerThreatProtection` and `AutoAllowlist` rule types), the rule's `Status` begins at `CREATING` and transitions to `COMPLETE` once the rule is provisioned: for `PartnerThreatProtection`, when the marketplace entitlement is verified, and for `AutoAllowlist`, when DNS Firewall has read the look-back window of every VPC that uses the rule group, which can take hours for a rule group that many VPCs use. If provisioning fails, `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
  */
 export const createFirewallRule: API.OperationMethod<
   CreateFirewallRuleRequest & RegionInput,
@@ -1626,8 +1686,8 @@ export const createFirewallRule: API.OperationMethod<
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<CreateFirewallRuleRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<CreateFirewallRuleResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<CreateFirewallRuleRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1636,6 +1696,7 @@ export const createFirewallRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRule",
@@ -1660,8 +1721,8 @@ export const createFirewallRuleGroup: API.OperationMethod<
   CreateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<CreateFirewallRuleGroupRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<CreateFirewallRuleGroupResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<CreateFirewallRuleGroupRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<CreateFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1669,6 +1730,7 @@ export const createFirewallRuleGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRuleGroup",
@@ -1696,8 +1758,8 @@ export const createOutpostResolver: API.OperationMethod<
   CreateOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<CreateOutpostResolverRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<CreateOutpostResolverResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<CreateOutpostResolverRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<CreateOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1706,6 +1768,7 @@ export const createOutpostResolver: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpostResolver",
@@ -1738,7 +1801,7 @@ export const createResolverEndpoint: API.OperationMethod<
   CreateResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(234, __c29, 2) as any as S.Schema<CreateResolverEndpointRequest>,
+  input: __S(242, __c30, 2) as any as S.Schema<CreateResolverEndpointRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<CreateResolverEndpointResponse>,
   errors: [
     AccessDeniedException,
@@ -1750,6 +1813,7 @@ export const createResolverEndpoint: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverEndpoint",
@@ -1784,8 +1848,8 @@ export const createResolverQueryLogConfig: API.OperationMethod<
   CreateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<CreateResolverQueryLogConfigRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<CreateResolverQueryLogConfigResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<CreateResolverQueryLogConfigRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<CreateResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1796,6 +1860,7 @@ export const createResolverQueryLogConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverQueryLogConfig",
@@ -1824,8 +1889,8 @@ export const createResolverRule: API.OperationMethod<
   CreateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateResolverRuleRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<CreateResolverRuleResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateResolverRuleRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<CreateResolverRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1837,6 +1902,7 @@ export const createResolverRule: API.OperationMethod<
     ResourceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverRule",
@@ -1860,8 +1926,8 @@ export const deleteFirewallDomainList: API.OperationMethod<
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<DeleteFirewallDomainListRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<DeleteFirewallDomainListResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<DeleteFirewallDomainListRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<DeleteFirewallDomainListResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1869,6 +1935,7 @@ export const deleteFirewallDomainList: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallDomainList",
@@ -1894,8 +1961,8 @@ export const deleteFirewallRule: API.OperationMethod<
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<DeleteFirewallRuleResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<DeleteFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1903,6 +1970,7 @@ export const deleteFirewallRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRule",
@@ -1927,8 +1995,8 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
   DeleteFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<DeleteFirewallRuleGroupRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<DeleteFirewallRuleGroupResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteFirewallRuleGroupRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<DeleteFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1937,6 +2005,7 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRuleGroup",
@@ -1965,8 +2034,8 @@ export const deleteOutpostResolver: API.OperationMethod<
   DeleteOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DeleteOutpostResolverRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<DeleteOutpostResolverResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteOutpostResolverRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<DeleteOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1975,6 +2044,7 @@ export const deleteOutpostResolver: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutpostResolver",
@@ -1983,6 +2053,7 @@ export const deleteOutpostResolver: API.OperationMethod<
 }));
 
 export type DeleteResolverEndpointError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -2004,15 +2075,17 @@ export const deleteResolverEndpoint: API.OperationMethod<
   DeleteResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeleteResolverEndpointRequest>,
+  input: __S(328, __c41, 0) as any as S.Schema<DeleteResolverEndpointRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DeleteResolverEndpointResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverEndpoint",
@@ -2047,8 +2120,8 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
   DeleteResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DeleteResolverQueryLogConfigRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<DeleteResolverQueryLogConfigResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<DeleteResolverQueryLogConfigRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<DeleteResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2057,6 +2130,7 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverQueryLogConfig",
@@ -2065,6 +2139,7 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
 }));
 
 export type DeleteResolverRuleError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -2083,9 +2158,10 @@ export const deleteResolverRule: API.OperationMethod<
   DeleteResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<DeleteResolverRuleRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteResolverRuleResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<DeleteResolverRuleRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteResolverRuleResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
@@ -2093,6 +2169,7 @@ export const deleteResolverRule: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverRule",
@@ -2117,7 +2194,7 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
   DisassociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DisassociateFirewallRuleGroupRequest>,
+  input: __S(352, __c44, 0) as any as S.Schema<DisassociateFirewallRuleGroupRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<DisassociateFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
@@ -2127,6 +2204,7 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFirewallRuleGroup",
@@ -2135,6 +2213,7 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
 }));
 
 export type DisassociateResolverEndpointIpAddressError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -2155,9 +2234,10 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
   DisassociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<DisassociateResolverEndpointIpAddressRequest>,
+  input: __S(360, __c45, 0) as any as S.Schema<DisassociateResolverEndpointIpAddressRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<DisassociateResolverEndpointIpAddressResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
@@ -2165,6 +2245,7 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverEndpointIpAddress",
@@ -2198,7 +2279,7 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
   DisassociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<DisassociateResolverQueryLogConfigRequest>,
+  input: __S(368, __c46, 0) as any as S.Schema<DisassociateResolverQueryLogConfigRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DisassociateResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
@@ -2208,6 +2289,7 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverQueryLogConfig",
@@ -2216,6 +2298,7 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
 }));
 
 export type DisassociateResolverRuleError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -2234,15 +2317,17 @@ export const disassociateResolverRule: API.OperationMethod<
   DisassociateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<DisassociateResolverRuleRequest>,
+  input: __S(376, __c47, 0) as any as S.Schema<DisassociateResolverRuleRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DisassociateResolverRuleResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverRule",
@@ -2267,8 +2352,8 @@ export const getFirewallConfig: API.OperationMethod<
   GetFirewallConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetFirewallConfigRequest>,
-  output: __S(392, __c49, 0) as any as S.Schema<GetFirewallConfigResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<GetFirewallConfigRequest>,
+  output: __S(400, __c50, 0) as any as S.Schema<GetFirewallConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2276,6 +2361,7 @@ export const getFirewallConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallConfig",
@@ -2298,14 +2384,15 @@ export const getFirewallDomainList: API.OperationMethod<
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<GetFirewallDomainListRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<GetFirewallDomainListResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<GetFirewallDomainListRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<GetFirewallDomainListResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallDomainList",
@@ -2328,14 +2415,15 @@ export const getFirewallRuleGroup: API.OperationMethod<
   GetFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<GetFirewallRuleGroupRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<GetFirewallRuleGroupResponse>,
+  input: __S(416, __c52, 0) as any as S.Schema<GetFirewallRuleGroupRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<GetFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroup",
@@ -2358,7 +2446,7 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
   GetFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<GetFirewallRuleGroupAssociationRequest>,
+  input: __S(424, __c53, 0) as any as S.Schema<GetFirewallRuleGroupAssociationRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<GetFirewallRuleGroupAssociationResponse>,
   errors: [
     AccessDeniedException,
@@ -2366,6 +2454,7 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupAssociation",
@@ -2390,8 +2479,8 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
   GetFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<GetFirewallRuleGroupPolicyRequest>,
-  output: __S(425, __c53, 1) as any as S.Schema<GetFirewallRuleGroupPolicyResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<GetFirewallRuleGroupPolicyRequest>,
+  output: __S(433, __c54, 1) as any as S.Schema<GetFirewallRuleGroupPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2399,6 +2488,7 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupPolicy",
@@ -2423,8 +2513,8 @@ export const getOutpostResolver: API.OperationMethod<
   GetOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<GetOutpostResolverRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<GetOutpostResolverResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<GetOutpostResolverRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<GetOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2432,6 +2522,7 @@ export const getOutpostResolver: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpostResolver",
@@ -2457,8 +2548,8 @@ export const getResolverConfig: API.OperationMethod<
   GetResolverConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<GetResolverConfigRequest>,
-  output: __S(456, __c57, 0) as any as S.Schema<GetResolverConfigResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<GetResolverConfigRequest>,
+  output: __S(464, __c58, 0) as any as S.Schema<GetResolverConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2467,6 +2558,7 @@ export const getResolverConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverConfig",
@@ -2491,8 +2583,8 @@ export const getResolverDnssecConfig: API.OperationMethod<
   GetResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<GetResolverDnssecConfigRequest>,
-  output: __S(480, __c60, 0) as any as S.Schema<GetResolverDnssecConfigResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<GetResolverDnssecConfigRequest>,
+  output: __S(488, __c61, 0) as any as S.Schema<GetResolverDnssecConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2501,6 +2593,7 @@ export const getResolverDnssecConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverDnssecConfig",
@@ -2509,6 +2602,7 @@ export const getResolverDnssecConfig: API.OperationMethod<
 }));
 
 export type GetResolverEndpointError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | ResourceNotFoundException
@@ -2524,14 +2618,16 @@ export const getResolverEndpoint: API.OperationMethod<
   GetResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<GetResolverEndpointRequest>,
+  input: __S(496, __c62, 0) as any as S.Schema<GetResolverEndpointRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<GetResolverEndpointResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverEndpoint",
@@ -2557,8 +2653,8 @@ export const getResolverQueryLogConfig: API.OperationMethod<
   GetResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<GetResolverQueryLogConfigRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<GetResolverQueryLogConfigResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<GetResolverQueryLogConfigRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<GetResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2567,6 +2663,7 @@ export const getResolverQueryLogConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfig",
@@ -2592,7 +2689,7 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
   GetResolverQueryLogConfigAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<GetResolverQueryLogConfigAssociationRequest>,
+  input: __S(512, __c64, 0) as any as S.Schema<GetResolverQueryLogConfigAssociationRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<GetResolverQueryLogConfigAssociationResponse>,
   errors: [
     AccessDeniedException,
@@ -2602,6 +2699,7 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigAssociation",
@@ -2626,8 +2724,8 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
   GetResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<GetResolverQueryLogConfigPolicyRequest>,
-  output: __S(513, __c64, 1) as any as S.Schema<GetResolverQueryLogConfigPolicyResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<GetResolverQueryLogConfigPolicyRequest>,
+  output: __S(521, __c65, 1) as any as S.Schema<GetResolverQueryLogConfigPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2635,6 +2733,7 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
     InvalidRequestException,
     UnknownResourceException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigPolicy",
@@ -2643,6 +2742,7 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
 }));
 
 export type GetResolverRuleError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | ResourceNotFoundException
@@ -2658,14 +2758,16 @@ export const getResolverRule: API.OperationMethod<
   GetResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<GetResolverRuleRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<GetResolverRuleResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<GetResolverRuleRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<GetResolverRuleResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRule",
@@ -2674,6 +2776,7 @@ export const getResolverRule: API.OperationMethod<
 }));
 
 export type GetResolverRuleAssociationError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | ResourceNotFoundException
@@ -2689,14 +2792,16 @@ export const getResolverRuleAssociation: API.OperationMethod<
   GetResolverRuleAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<GetResolverRuleAssociationRequest>,
+  input: __S(536, __c67, 0) as any as S.Schema<GetResolverRuleAssociationRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetResolverRuleAssociationResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRuleAssociation",
@@ -2720,14 +2825,15 @@ export const getResolverRulePolicy: API.OperationMethod<
   GetResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<GetResolverRulePolicyRequest>,
-  output: __S(537, __c67, 1) as any as S.Schema<GetResolverRulePolicyResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<GetResolverRulePolicyRequest>,
+  output: __S(545, __c68, 1) as any as S.Schema<GetResolverRulePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     UnknownResourceException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRulePolicy",
@@ -2747,6 +2853,8 @@ export type ImportFirewallDomainsError =
 /**
  * Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
  *
+ * You can't import into an AutoAllowlist rule's managed domain list. To seed such a list, specify `ImportFromFirewallDomainListId` when you create the rule.
+ *
  * Each domain specification in your domain list must satisfy the following
  * requirements:
  *
@@ -2764,8 +2872,8 @@ export const importFirewallDomains: API.OperationMethod<
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<ImportFirewallDomainsRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<ImportFirewallDomainsResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<ImportFirewallDomainsRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<ImportFirewallDomainsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2775,6 +2883,7 @@ export const importFirewallDomains: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportFirewallDomains",
@@ -2800,14 +2909,15 @@ export const listFirewallConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<ListFirewallConfigsRequest>,
-  output: __S(562, __c70, 2) as any as S.Schema<ListFirewallConfigsResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<ListFirewallConfigsRequest>,
+  output: __S(570, __c71, 2) as any as S.Schema<ListFirewallConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallConfigs",
@@ -2839,14 +2949,15 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallDomainListMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<ListFirewallDomainListsRequest>,
-  output: __S(571, __c71, 3) as any as S.Schema<ListFirewallDomainListsResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<ListFirewallDomainListsRequest>,
+  output: __S(579, __c72, 3) as any as S.Schema<ListFirewallDomainListsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallDomainLists",
@@ -2879,8 +2990,8 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallDomainName
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<ListFirewallDomainsRequest>,
-  output: __S(577, __c72, 1) as any as S.Schema<ListFirewallDomainsResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<ListFirewallDomainsRequest>,
+  output: __S(585, __c73, 1) as any as S.Schema<ListFirewallDomainsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2888,6 +2999,7 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallDomains",
@@ -2899,6 +3011,50 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListFirewallDomains",
+})) as any;
+
+export type ListFirewallRuleDomainsError =
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the domains of an AutoAllowlist firewall rule. Only the owner of the rule group can call this operation. Results are paginated. Use `MaxResults` and `NextToken` to retrieve additional domains.
+ *
+ * Identify the rule by `FirewallThreatProtectionId` to get the domains that DNS Firewall observed in the VPCs that use the rule group, through a rule group association or through a Route 53 Profile that includes the rule group, including VPCs in other accounts. Each domain is returned with its `DomainStatus` and request counts. Use `QueryOptions` to filter and sort the results.
+ *
+ * Identify the rule's managed domain list by `FirewallDomainListId` to get the domains that the rule currently allows. For any other domain list, use ListFirewallDomains.
+ */
+export const listFirewallRuleDomains: API.PaginatedOperationMethod<
+  ListFirewallRuleDomainsRequest & RegionInput,
+  ListFirewallRuleDomainsResponse,
+  ListFirewallRuleDomainsError,
+  Credentials | HttpClient.HttpClient,
+  FirewallRuleDomain
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(593, __c74, 1) as any as S.Schema<ListFirewallRuleDomainsRequest>,
+  output: __S(596, __c74, 4) as any as S.Schema<ListFirewallRuleDomainsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServiceErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListFirewallRuleDomains",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "Domains",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleDomains",
 })) as any;
 
 export type ListFirewallRuleGroupAssociationsError =
@@ -2919,14 +3075,15 @@ export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRuleGroupAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<ListFirewallRuleGroupAssociationsRequest>,
-  output: __S(586, __c73, 2) as any as S.Schema<ListFirewallRuleGroupAssociationsResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<ListFirewallRuleGroupAssociationsRequest>,
+  output: __S(602, __c75, 2) as any as S.Schema<ListFirewallRuleGroupAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallRuleGroupAssociations",
@@ -2958,14 +3115,15 @@ export const listFirewallRuleGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRuleGroupMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<ListFirewallRuleGroupsRequest>,
-  output: __S(595, __c74, 3) as any as S.Schema<ListFirewallRuleGroupsResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<ListFirewallRuleGroupsRequest>,
+  output: __S(611, __c76, 3) as any as S.Schema<ListFirewallRuleGroupsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallRuleGroups",
@@ -2991,7 +3149,7 @@ export type ListFirewallRulesError =
  *
  * A single call might return only a partial list of the rules. For information, see `MaxResults`.
  *
- * For rules that require asynchronous provisioning, the response includes `Status` (see FirewallRuleStatus) and, on failure, `StatusMessage` with the reason.
+ * For rules that require asynchronous provisioning, the response includes `Status` (see FirewallRule) and, on failure, `StatusMessage` with the reason.
  */
 export const listFirewallRules: API.PaginatedOperationMethod<
   ListFirewallRulesRequest & RegionInput,
@@ -3000,8 +3158,8 @@ export const listFirewallRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<ListFirewallRulesRequest>,
-  output: __S(601, __c75, 1) as any as S.Schema<ListFirewallRulesResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<ListFirewallRulesRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<ListFirewallRulesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3009,6 +3167,7 @@ export const listFirewallRules: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallRules",
@@ -3032,6 +3191,8 @@ export type ListFirewallRuleTypesError =
  * Retrieves the rule-type variants that can be used in the `FirewallRuleType` field of CreateFirewallRule and UpdateFirewallRule. Each returned FirewallRuleTypeDefinition identifies one variant + value combination -- for example, `FirewallAdvancedContentCategory` + `VIOLENCE_AND_HATE_SPEECH`, or `PartnerThreatProtection` + a partner-managed feed.
  *
  * The supported `RuleType` filter values are `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, and `PartnerThreatProtection`. When a returned definition's variant requires an external subscription (currently only `PartnerThreatProtection`), the response also includes a SubscriptionInfo identifying the Amazon Web Services Marketplace product that backs it; absence of `SubscriptionInfo` means the variant is fully managed by Amazon Web Services and requires no separate subscription.
+ *
+ * This operation doesn't return the `AutoAllowlist` variant. Configure an AutoAllowlist rule with AutoAllowlistConfig.
  */
 export const listFirewallRuleTypes: API.PaginatedOperationMethod<
   ListFirewallRuleTypesRequest & RegionInput,
@@ -3040,14 +3201,15 @@ export const listFirewallRuleTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRuleTypeDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<ListFirewallRuleTypesRequest>,
-  output: __S(612, __c76, 4) as any as S.Schema<ListFirewallRuleTypesResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<ListFirewallRuleTypesRequest>,
+  output: __S(628, __c78, 4) as any as S.Schema<ListFirewallRuleTypesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallRuleTypes",
@@ -3078,8 +3240,8 @@ export const listOutpostResolvers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OutpostResolver
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<ListOutpostResolversRequest>,
-  output: __S(618, __c77, 2) as any as S.Schema<ListOutpostResolversResponse>,
+  input: __S(632, __c79, 0) as any as S.Schema<ListOutpostResolversRequest>,
+  output: __S(634, __c79, 2) as any as S.Schema<ListOutpostResolversResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3087,6 +3249,7 @@ export const listOutpostResolvers: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOutpostResolvers",
@@ -3120,8 +3283,8 @@ export const listResolverConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<ListResolverConfigsRequest>,
-  output: __S(626, __c78, 2) as any as S.Schema<ListResolverConfigsResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<ListResolverConfigsRequest>,
+  output: __S(642, __c80, 2) as any as S.Schema<ListResolverConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3131,6 +3294,7 @@ export const listResolverConfigs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverConfigs",
@@ -3162,8 +3326,8 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverDnssecConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<ListResolverDnssecConfigsRequest>,
-  output: __S(634, __c79, 2) as any as S.Schema<ListResolverDnssecConfigsResponse>,
+  input: __S(648, __c81, 0) as any as S.Schema<ListResolverDnssecConfigsRequest>,
+  output: __S(650, __c81, 2) as any as S.Schema<ListResolverDnssecConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3172,6 +3336,7 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverDnssecConfigs",
@@ -3186,6 +3351,7 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListResolverEndpointIpAddressesError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
@@ -3202,15 +3368,17 @@ export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IpAddressResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<ListResolverEndpointIpAddressesRequest>,
-  output: __S(651, __c81, 3) as any as S.Schema<ListResolverEndpointIpAddressesResponse>,
+  input: __S(664, __c83, 0) as any as S.Schema<ListResolverEndpointIpAddressesRequest>,
+  output: __S(667, __c83, 3) as any as S.Schema<ListResolverEndpointIpAddressesResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidNextTokenException,
     InvalidParameterException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverEndpointIpAddresses",
@@ -3225,6 +3393,7 @@ export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListResolverEndpointsError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
@@ -3241,15 +3410,17 @@ export const listResolverEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<ListResolverEndpointsRequest>,
-  output: __S(658, __c82, 2) as any as S.Schema<ListResolverEndpointsResponse>,
+  input: __S(672, __c84, 0) as any as S.Schema<ListResolverEndpointsRequest>,
+  output: __S(674, __c84, 2) as any as S.Schema<ListResolverEndpointsResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidNextTokenException,
     InvalidParameterException,
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverEndpoints",
@@ -3281,8 +3452,8 @@ export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   ResolverQueryLogConfigAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<ListResolverQueryLogConfigAssociationsRequest>,
-  output: __S(666, __c83, 2) as any as S.Schema<ListResolverQueryLogConfigAssociationsResponse>,
+  input: __S(680, __c85, 0) as any as S.Schema<ListResolverQueryLogConfigAssociationsRequest>,
+  output: __S(682, __c85, 2) as any as S.Schema<ListResolverQueryLogConfigAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3291,6 +3462,7 @@ export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMetho
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverQueryLogConfigAssociations",
@@ -3323,8 +3495,8 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverQueryLogConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<ListResolverQueryLogConfigsRequest>,
-  output: __S(674, __c84, 2) as any as S.Schema<ListResolverQueryLogConfigsResponse>,
+  input: __S(688, __c86, 0) as any as S.Schema<ListResolverQueryLogConfigsRequest>,
+  output: __S(690, __c86, 2) as any as S.Schema<ListResolverQueryLogConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3333,6 +3505,7 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverQueryLogConfigs",
@@ -3347,6 +3520,7 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListResolverRuleAssociationsError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
@@ -3363,15 +3537,17 @@ export const listResolverRuleAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverRuleAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<ListResolverRuleAssociationsRequest>,
-  output: __S(682, __c85, 2) as any as S.Schema<ListResolverRuleAssociationsResponse>,
+  input: __S(696, __c87, 0) as any as S.Schema<ListResolverRuleAssociationsRequest>,
+  output: __S(698, __c87, 2) as any as S.Schema<ListResolverRuleAssociationsResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidNextTokenException,
     InvalidParameterException,
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverRuleAssociations",
@@ -3386,6 +3562,7 @@ export const listResolverRuleAssociations: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListResolverRulesError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
@@ -3402,15 +3579,17 @@ export const listResolverRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<ListResolverRulesRequest>,
-  output: __S(690, __c86, 2) as any as S.Schema<ListResolverRulesResponse>,
+  input: __S(704, __c88, 0) as any as S.Schema<ListResolverRulesRequest>,
+  output: __S(706, __c88, 2) as any as S.Schema<ListResolverRulesResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidNextTokenException,
     InvalidParameterException,
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResolverRules",
@@ -3425,6 +3604,7 @@ export const listResolverRules: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListTagsForResourceError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidNextTokenException
   | InvalidParameterException
@@ -3442,9 +3622,10 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(697, __c87, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(712, __c89, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(713, __c89, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidNextTokenException,
     InvalidParameterException,
@@ -3452,6 +3633,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -3483,8 +3665,8 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
   PutFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<PutFirewallRuleGroupPolicyRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<PutFirewallRuleGroupPolicyResponse>,
+  input: __S(720, __c90, 0) as any as S.Schema<PutFirewallRuleGroupPolicyRequest>,
+  output: __S(728, __c91, 0) as any as S.Schema<PutFirewallRuleGroupPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3492,6 +3674,7 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFirewallRuleGroupPolicy",
@@ -3517,8 +3700,8 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
   PutResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<PutResolverQueryLogConfigPolicyRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<PutResolverQueryLogConfigPolicyResponse>,
+  input: __S(736, __c92, 0) as any as S.Schema<PutResolverQueryLogConfigPolicyRequest>,
+  output: __S(728, __c91, 0) as any as S.Schema<PutResolverQueryLogConfigPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3527,6 +3710,7 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
     InvalidRequestException,
     UnknownResourceException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverQueryLogConfigPolicy",
@@ -3551,8 +3735,8 @@ export const putResolverRulePolicy: API.OperationMethod<
   PutResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<PutResolverRulePolicyRequest>,
-  output: __S(712, __c89, 0) as any as S.Schema<PutResolverRulePolicyResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<PutResolverRulePolicyRequest>,
+  output: __S(728, __c91, 0) as any as S.Schema<PutResolverRulePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3560,6 +3744,7 @@ export const putResolverRulePolicy: API.OperationMethod<
     InvalidPolicyDocument,
     UnknownResourceException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverRulePolicy",
@@ -3568,6 +3753,7 @@ export const putResolverRulePolicy: API.OperationMethod<
 }));
 
 export type TagResourceError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -3585,9 +3771,10 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(752, __c94, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(760, __c95, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
@@ -3596,6 +3783,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3604,6 +3792,7 @@ export const tagResource: API.OperationMethod<
 }));
 
 export type UntagResourceError =
+  | AccessDeniedException
   | InternalServiceErrorException
   | InvalidParameterException
   | InvalidRequestException
@@ -3619,15 +3808,17 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(768, __c96, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(760, __c95, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
+    AccessDeniedException,
     InternalServiceErrorException,
     InvalidParameterException,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -3652,8 +3843,8 @@ export const updateFirewallConfig: API.OperationMethod<
   UpdateFirewallConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
-  output: __S(392, __c49, 0) as any as S.Schema<UpdateFirewallConfigResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
+  output: __S(400, __c50, 0) as any as S.Schema<UpdateFirewallConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3661,6 +3852,7 @@ export const updateFirewallConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallConfig",
@@ -3679,6 +3871,14 @@ export type UpdateFirewallDomainsError =
   | CommonErrors;
 /**
  * Updates the firewall domain list from an array of domain specifications.
+ *
+ * For an AutoAllowlist rule's managed domain list, use `ADD` to approve observed domains, `REMOVE` to stop allowing domains, unless a wildcard entry that's still on the list matches them, and `DENY` to dismiss observed domains. `REPLACE` and ImportFirewallDomains aren't supported for these lists.
+ *
+ * DNS Firewall throttles `UpdateFirewallDomains` requests based on both the request rate and the total number of domains across your requests.
+ *
+ * **Best Practice for Updating Domain Lists**
+ *
+ * If you only need to modify a subset of domains, use the `ADD` or `REMOVE` operations instead of `REPLACE`. With `REPLACE`, you send the complete list you want to end up with, and throttling counts every domain in that request, including domains that aren't changing, which can use up your available throttling capacity.
  */
 export const updateFirewallDomains: API.OperationMethod<
   UpdateFirewallDomainsRequest & RegionInput,
@@ -3686,8 +3886,8 @@ export const updateFirewallDomains: API.OperationMethod<
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<UpdateFirewallDomainsRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<UpdateFirewallDomainsResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<UpdateFirewallDomainsRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<UpdateFirewallDomainsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3697,6 +3897,7 @@ export const updateFirewallDomains: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDomains",
@@ -3721,8 +3922,8 @@ export const updateFirewallRule: API.OperationMethod<
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<UpdateFirewallRuleRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<UpdateFirewallRuleResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<UpdateFirewallRuleRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<UpdateFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3731,6 +3932,7 @@ export const updateFirewallRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRule",
@@ -3755,7 +3957,7 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
   UpdateFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<UpdateFirewallRuleGroupAssociationRequest>,
+  input: __S(800, __c100, 0) as any as S.Schema<UpdateFirewallRuleGroupAssociationRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<UpdateFirewallRuleGroupAssociationResponse>,
   errors: [
     AccessDeniedException,
@@ -3765,6 +3967,7 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRuleGroupAssociation",
@@ -3793,8 +3996,8 @@ export const updateOutpostResolver: API.OperationMethod<
   UpdateOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<UpdateOutpostResolverRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<UpdateOutpostResolverResponse>,
+  input: __S(808, __c101, 0) as any as S.Schema<UpdateOutpostResolverRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3804,6 +4007,7 @@ export const updateOutpostResolver: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOutpostResolver",
@@ -3832,8 +4036,8 @@ export const updateResolverConfig: API.OperationMethod<
   UpdateResolverConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<UpdateResolverConfigRequest>,
-  output: __S(456, __c57, 0) as any as S.Schema<UpdateResolverConfigResponse>,
+  input: __S(816, __c102, 0) as any as S.Schema<UpdateResolverConfigRequest>,
+  output: __S(464, __c58, 0) as any as S.Schema<UpdateResolverConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3845,6 +4049,7 @@ export const updateResolverConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverConfig",
@@ -3869,8 +4074,8 @@ export const updateResolverDnssecConfig: API.OperationMethod<
   UpdateResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<UpdateResolverDnssecConfigRequest>,
-  output: __S(480, __c60, 0) as any as S.Schema<UpdateResolverDnssecConfigResponse>,
+  input: __S(824, __c103, 0) as any as S.Schema<UpdateResolverDnssecConfigRequest>,
+  output: __S(488, __c61, 0) as any as S.Schema<UpdateResolverDnssecConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3879,6 +4084,7 @@ export const updateResolverDnssecConfig: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverDnssecConfig",
@@ -3904,7 +4110,7 @@ export const updateResolverEndpoint: API.OperationMethod<
   UpdateResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(818, __c102, 2) as any as S.Schema<UpdateResolverEndpointRequest>,
+  input: __S(834, __c104, 2) as any as S.Schema<UpdateResolverEndpointRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateResolverEndpointResponse>,
   errors: [
     AccessDeniedException,
@@ -3914,6 +4120,7 @@ export const updateResolverEndpoint: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverEndpoint",
@@ -3941,8 +4148,8 @@ export const updateResolverRule: API.OperationMethod<
   UpdateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(825, __c103, 1) as any as S.Schema<UpdateResolverRuleRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<UpdateResolverRuleResponse>,
+  input: __S(841, __c105, 1) as any as S.Schema<UpdateResolverRuleRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<UpdateResolverRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3953,6 +4160,7 @@ export const updateResolverRule: API.OperationMethod<
     ResourceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverRule",
@@ -3966,7 +4174,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           FirewallRuleGroupId: S.String,
           VpcId: S.String,
           Priority: S.Number,
@@ -4171,7 +4379,7 @@ function __c15(j: number): any {
           Qtype: S.optional(S.String),
           DnsThreatProtection: S.optional(S.String),
           ConfidenceThreshold: S.optional(S.String),
-          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+          FirewallRuleType: S.optional(__S(132, __c16, 4)),
         }),
       ).annotate({ identifier: "CreateFirewallRuleEntry" });
     case 1:
@@ -4218,13 +4426,22 @@ function __c16(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          InitialDataTimeframeHours: S.Number,
+          ImportFromFirewallDomainListId: S.optional(S.String),
+          AutoAllowlistFirewallDomainListId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoAllowlistConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           PartnerThreatProtection: S.optional(__S(128, __c16, 0)),
           FirewallAdvancedContentCategory: S.optional(__S(129, __c16, 1)),
           FirewallAdvancedThreatCategory: S.optional(__S(129, __c16, 1)),
           DnsThreatProtection: S.optional(__S(130, __c16, 2)),
+          AutoAllowlist: S.optional(__S(131, __c16, 3)),
         }),
       ).annotate({ identifier: "FirewallRuleType" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           FirewallRuleGroupId: S.optional(S.String),
@@ -4244,7 +4461,7 @@ function __c16(j: number): any {
           Qtype: S.optional(S.String),
           DnsThreatProtection: S.optional(S.String),
           ConfidenceThreshold: S.optional(S.String),
-          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+          FirewallRuleType: S.optional(__S(132, __c16, 4)),
           Status: S.optional(S.String),
           StatusMessage: S.optional(S.String),
         }),
@@ -4254,7 +4471,7 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(132, __c16, 4));
+      return S.Array(__S(133, __c16, 5));
   }
 }
 function __c18(j: number): any {
@@ -4314,7 +4531,7 @@ function __c19(j: number): any {
           Qtype: S.optional(S.String),
           DnsThreatProtection: S.optional(S.String),
           ConfidenceThreshold: S.optional(S.String),
-          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+          FirewallRuleType: S.optional(__S(132, __c16, 4)),
         }),
       ).annotate({ identifier: "UpdateFirewallRuleEntry" });
     case 1:
@@ -4349,7 +4566,7 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.String,
           Tags: S.optional(__S(9, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4357,6 +4574,14 @@ function __c20(j: number): any {
   }
 }
 function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallDomainList: S.optional(__S(176, __c22, 0)) }),
+      ).annotate({ identifier: "CreateFirewallDomainListResponse" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4375,18 +4600,14 @@ function __c21(j: number): any {
           ManagedListType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallDomainList" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ FirewallDomainList: S.optional(__S(168, __c21, 0)) }),
-      ).annotate({ identifier: "CreateFirewallDomainListResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           FirewallRuleGroupId: S.String,
           FirewallDomainListId: S.optional(S.String),
           Priority: S.Number,
@@ -4400,32 +4621,32 @@ function __c22(j: number): any {
           Qtype: S.optional(S.String),
           DnsThreatProtection: S.optional(S.String),
           ConfidenceThreshold: S.optional(S.String),
-          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+          FirewallRuleType: S.optional(__S(132, __c16, 4)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFirewallRuleRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ FirewallRule: S.optional(__S(132, __c16, 4)) })).annotate({
-        identifier: "CreateFirewallRuleResponse",
-      });
   }
 }
 function __c24(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ FirewallRule: S.optional(__S(133, __c16, 5)) })).annotate({
+        identifier: "CreateFirewallRuleResponse",
+      });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.String,
           Tags: S.optional(__S(9, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFirewallRuleGroupRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4445,11 +4666,11 @@ function __c25(j: number): any {
       ).annotate({ identifier: "FirewallRuleGroup" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ FirewallRuleGroup: S.optional(__S(200, __c25, 0)) }),
+        S.Struct({ FirewallRuleGroup: S.optional(__S(208, __c26, 0)) }),
       ).annotate({ identifier: "CreateFirewallRuleGroupResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4464,7 +4685,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateOutpostResolverRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4484,22 +4705,22 @@ function __c27(j: number): any {
       ).annotate({ identifier: "OutpostResolver" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ OutpostResolver: S.optional(__S(216, __c27, 0)) }),
+        S.Struct({ OutpostResolver: S.optional(__S(224, __c28, 0)) }),
       ).annotate({ identifier: "CreateOutpostResolverResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ SubnetId: S.String, Ip: S.optional(S.String), Ipv6: S.optional(S.String) }),
       ).annotate({ identifier: "IpAddressRequest" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(240, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4507,7 +4728,7 @@ function __c29(j: number): any {
           Name: S.optional(S.String),
           SecurityGroupIds: __S(40, __c5, 0),
           Direction: S.String,
-          IpAddresses: __S(233, __c29, 1),
+          IpAddresses: __S(241, __c30, 1),
           OutpostArn: S.optional(S.String),
           PreferredInstanceType: S.optional(S.String),
           Tags: S.optional(__S(9, __c1, 1)),
@@ -4521,28 +4742,28 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateResolverEndpointRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           DestinationArn: S.String,
-          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(9, __c1, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateResolverQueryLogConfigRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResolverQueryLogConfig: S.optional(__S(256, __c32, 0)) }),
+        S.Struct({ ResolverQueryLogConfig: S.optional(__S(264, __c33, 0)) }),
       ).annotate({ identifier: "CreateResolverQueryLogConfigResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4561,7 +4782,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ResolverQueryLogConfig" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4570,7 +4791,7 @@ function __c33(j: number): any {
           Name: S.optional(S.String),
           RuleType: S.String,
           DomainName: S.optional(S.String),
-          TargetIps: S.optional(__S(273, __c34, 1)),
+          TargetIps: S.optional(__S(281, __c35, 1)),
           ResolverEndpointId: S.optional(S.String),
           Tags: S.optional(__S(9, __c1, 1)),
           DelegationRecord: S.optional(S.String),
@@ -4578,7 +4799,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateResolverRuleRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4591,7 +4812,7 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "TargetAddress" });
     case 1:
-      return S.Array(__S(272, __c34, 0));
+      return S.Array(__S(280, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4603,7 +4824,7 @@ function __c34(j: number): any {
           StatusMessage: S.optional(S.String),
           RuleType: S.optional(S.String),
           Name: S.optional(S.String),
-          TargetIps: S.optional(__S(273, __c34, 1)),
+          TargetIps: S.optional(__S(281, __c35, 1)),
           ResolverEndpointId: S.optional(S.String),
           OwnerId: S.optional(S.String),
           ShareStatus: S.optional(S.String),
@@ -4614,15 +4835,15 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ResolverRule" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ResolverRule: S.optional(__S(274, __c34, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ ResolverRule: S.optional(__S(282, __c35, 2)) })).annotate({
         identifier: "CreateResolverRuleResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4632,7 +4853,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteFirewallDomainListRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4645,7 +4866,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteFirewallRuleRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4655,7 +4876,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteFirewallRuleGroupRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4665,7 +4886,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteOutpostResolverRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4675,7 +4896,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteResolverEndpointRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4685,7 +4906,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteResolverQueryLogConfigRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4695,7 +4916,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteResolverRuleRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4705,7 +4926,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DisassociateFirewallRuleGroupRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4715,7 +4936,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DisassociateResolverEndpointIpAddressRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4725,7 +4946,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DisassociateResolverQueryLogConfigRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4735,7 +4956,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DisassociateResolverRuleRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4745,7 +4966,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetFirewallConfigRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4758,15 +4979,15 @@ function __c48(j: number): any {
       ).annotate({ identifier: "FirewallConfig" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ FirewallConfig: S.optional(__S(384, __c48, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ FirewallConfig: S.optional(__S(392, __c49, 0)) })).annotate(
         { identifier: "GetFirewallConfigResponse" },
       );
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4774,9 +4995,17 @@ function __c50(j: number): any {
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetFirewallDomainListRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallDomainList: S.optional(__S(176, __c22, 0)),
+          FirewallRuleGroupId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetFirewallDomainListResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4786,7 +5015,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetFirewallRuleGroupRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4796,7 +5025,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetFirewallRuleGroupAssociationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4810,7 +5039,7 @@ function __c53(j: number): any {
       });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4820,7 +5049,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetOutpostResolverRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4830,7 +5059,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetResolverConfigRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4843,15 +5072,15 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ResolverConfig" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ResolverConfig: S.optional(__S(448, __c56, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ ResolverConfig: S.optional(__S(456, __c57, 0)) })).annotate(
         { identifier: "GetResolverConfigResponse" },
       );
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4861,7 +5090,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetResolverDnssecConfigRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4874,15 +5103,15 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ResolverDnssecConfig" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResolverDNSSECConfig: S.optional(__S(472, __c59, 0)) }),
+        S.Struct({ ResolverDNSSECConfig: S.optional(__S(480, __c60, 0)) }),
       ).annotate({ identifier: "GetResolverDnssecConfigResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4892,7 +5121,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetResolverEndpointRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4902,7 +5131,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetResolverQueryLogConfigRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4912,7 +5141,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetResolverQueryLogConfigAssociationRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4926,7 +5155,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetResolverQueryLogConfigPolicyResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4936,7 +5165,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetResolverRuleRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4946,7 +5175,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetResolverRuleAssociationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4960,7 +5189,7 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4972,7 +5201,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ImportFirewallDomainsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4985,7 +5214,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ImportFirewallDomainsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4994,17 +5223,17 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListFirewallConfigsRequest" });
     case 1:
-      return S.Array(__S(384, __c48, 0));
+      return S.Array(__S(392, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          FirewallConfigs: S.optional(__S(561, __c70, 1)),
+          FirewallConfigs: S.optional(__S(569, __c71, 1)),
         }),
       ).annotate({ identifier: "ListFirewallConfigsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5022,20 +5251,23 @@ function __c71(j: number): any {
           ManagedOwnerName: S.optional(S.String),
           ManagedListType: S.optional(S.String),
           Category: S.optional(S.String),
+          FirewallRuleGroupId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+          Status: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallDomainListMetadata" });
     case 2:
-      return S.Array(__S(569, __c71, 1));
+      return S.Array(__S(577, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          FirewallDomainLists: S.optional(__S(570, __c71, 2)),
+          FirewallDomainLists: S.optional(__S(578, __c72, 2)),
         }),
       ).annotate({ identifier: "ListFirewallDomainListsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5051,7 +5283,47 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ListFirewallDomainsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainStatus: S.optional(S.String),
+          SortBy: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          DomainNameFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFirewallRuleDomainsQueryOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.String,
+          FirewallThreatProtectionId: S.optional(S.String),
+          FirewallDomainListId: S.optional(S.String),
+          QueryOptions: S.optional(__S(592, __c74, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFirewallRuleDomainsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.optional(S.String),
+          DomainStatus: S.optional(S.String),
+          Last24HourRequests: S.optional(S.Number),
+          TotalRequests: S.optional(S.Number),
+          AddedTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallRuleDomain" });
+    case 3:
+      return S.Array(__S(594, __c74, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Domains: S.optional(__S(595, __c74, 3)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListFirewallRuleDomainsResponse" });
+  }
+}
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5070,12 +5342,12 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          FirewallRuleGroupAssociations: S.optional(__S(585, __c73, 1)),
+          FirewallRuleGroupAssociations: S.optional(__S(601, __c75, 1)),
         }),
       ).annotate({ identifier: "ListFirewallRuleGroupAssociationsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5095,17 +5367,17 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "FirewallRuleGroupMetadata" });
     case 2:
-      return S.Array(__S(593, __c74, 1));
+      return S.Array(__S(609, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          FirewallRuleGroups: S.optional(__S(594, __c74, 2)),
+          FirewallRuleGroups: S.optional(__S(610, __c76, 2)),
         }),
       ).annotate({ identifier: "ListFirewallRuleGroupsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5126,7 +5398,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListFirewallRulesResponse" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5147,21 +5419,21 @@ function __c76(j: number): any {
           Value: S.optional(S.String),
           DisplayName: S.optional(S.String),
           Description: S.optional(S.String),
-          SubscriptionInfo: S.optional(__S(609, __c76, 1)),
+          SubscriptionInfo: S.optional(__S(625, __c78, 1)),
         }),
       ).annotate({ identifier: "FirewallRuleTypeDefinition" });
     case 3:
-      return S.Array(__S(610, __c76, 2));
+      return S.Array(__S(626, __c78, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          FirewallRuleTypes: S.optional(__S(611, __c76, 3)),
+          FirewallRuleTypes: S.optional(__S(627, __c78, 3)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFirewallRuleTypesResponse" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5172,17 +5444,17 @@ function __c77(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListOutpostResolversRequest" });
     case 1:
-      return S.Array(__S(216, __c27, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          OutpostResolvers: S.optional(__S(617, __c77, 1)),
+          OutpostResolvers: S.optional(__S(633, __c79, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOutpostResolversResponse" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5191,48 +5463,48 @@ function __c78(j: number): any {
         ),
       ).annotate({ identifier: "ListResolverConfigsRequest" });
     case 1:
-      return S.Array(__S(448, __c56, 0));
+      return S.Array(__S(456, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          ResolverConfigs: S.optional(__S(625, __c78, 1)),
+          ResolverConfigs: S.optional(__S(641, __c80, 1)),
         }),
       ).annotate({ identifier: "ListResolverConfigsResponse" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c80, 1)),
+          Filters: S.optional(__S(657, __c82, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListResolverDnssecConfigsRequest" });
     case 1:
-      return S.Array(__S(472, __c59, 0));
+      return S.Array(__S(480, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          ResolverDnssecConfigs: S.optional(__S(633, __c79, 1)),
+          ResolverDnssecConfigs: S.optional(__S(649, __c81, 1)),
         }),
       ).annotate({ identifier: "ListResolverDnssecConfigsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(40, __c5, 0)) }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(640, __c80, 0));
+      return S.Array(__S(656, __c82, 0));
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5256,25 +5528,25 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "IpAddressResponse" });
     case 2:
-      return S.Array(__S(649, __c81, 1));
+      return S.Array(__S(665, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          IpAddresses: S.optional(__S(650, __c81, 2)),
+          IpAddresses: S.optional(__S(666, __c83, 2)),
         }),
       ).annotate({ identifier: "ListResolverEndpointIpAddressesResponse" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c80, 1)),
+          Filters: S.optional(__S(657, __c82, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListResolverEndpointsRequest" });
     case 1:
@@ -5284,19 +5556,19 @@ function __c82(j: number): any {
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          ResolverEndpoints: S.optional(__S(657, __c82, 1)),
+          ResolverEndpoints: S.optional(__S(673, __c84, 1)),
         }),
       ).annotate({ identifier: "ListResolverEndpointsResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c80, 1)),
+          Filters: S.optional(__S(657, __c82, 1)),
           SortBy: S.optional(S.String),
           SortOrder: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5309,56 +5581,9 @@ function __c83(j: number): any {
           NextToken: S.optional(S.String),
           TotalCount: S.optional(S.Number),
           TotalFilteredCount: S.optional(S.Number),
-          ResolverQueryLogConfigAssociations: S.optional(__S(665, __c83, 1)),
+          ResolverQueryLogConfigAssociations: S.optional(__S(681, __c85, 1)),
         }),
       ).annotate({ identifier: "ListResolverQueryLogConfigAssociationsResponse" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MaxResults: S.optional(S.Number),
-          NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c80, 1)),
-          SortBy: S.optional(S.String),
-          SortOrder: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListResolverQueryLogConfigsRequest" });
-    case 1:
-      return S.Array(__S(256, __c32, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          NextToken: S.optional(S.String),
-          TotalCount: S.optional(S.Number),
-          TotalFilteredCount: S.optional(S.Number),
-          ResolverQueryLogConfigs: S.optional(__S(673, __c84, 1)),
-        }),
-      ).annotate({ identifier: "ListResolverQueryLogConfigsResponse" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          MaxResults: S.optional(S.Number),
-          NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c80, 1)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListResolverRuleAssociationsRequest" });
-    case 1:
-      return S.Array(__S(112, __c14, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          NextToken: S.optional(S.String),
-          MaxResults: S.optional(S.Number),
-          ResolverRuleAssociations: S.optional(__S(681, __c85, 1)),
-        }),
-      ).annotate({ identifier: "ListResolverRuleAssociationsResponse" });
   }
 }
 function __c86(j: number): any {
@@ -5368,22 +5593,69 @@ function __c86(j: number): any {
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(641, __c80, 1)),
+          Filters: S.optional(__S(657, __c82, 1)),
+          SortBy: S.optional(S.String),
+          SortOrder: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListResolverRulesRequest" });
+      ).annotate({ identifier: "ListResolverQueryLogConfigsRequest" });
     case 1:
-      return S.Array(__S(274, __c34, 2));
+      return S.Array(__S(264, __c33, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          TotalCount: S.optional(S.Number),
+          TotalFilteredCount: S.optional(S.Number),
+          ResolverQueryLogConfigs: S.optional(__S(689, __c86, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverQueryLogConfigsResponse" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(657, __c82, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverRuleAssociationsRequest" });
+    case 1:
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          ResolverRules: S.optional(__S(689, __c86, 1)),
+          ResolverRuleAssociations: S.optional(__S(697, __c87, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverRuleAssociationsResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(657, __c82, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverRulesRequest" });
+    case 1:
+      return S.Array(__S(282, __c35, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          ResolverRules: S.optional(__S(705, __c88, 1)),
         }),
       ).annotate({ identifier: "ListResolverRulesResponse" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5399,7 +5671,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5409,7 +5681,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "PutFirewallRuleGroupPolicyRequest" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ ReturnValue: S.optional(S.Boolean) })).annotate({
@@ -5417,7 +5689,7 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5427,7 +5699,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "PutResolverQueryLogConfigPolicyRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5437,7 +5709,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "PutResolverRulePolicyRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5447,13 +5719,13 @@ function __c92(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5463,7 +5735,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5473,7 +5745,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdateFirewallConfigRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5485,7 +5757,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateFirewallDomainsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5504,12 +5776,12 @@ function __c97(j: number): any {
           Qtype: S.optional(S.String),
           DnsThreatProtection: S.optional(S.String),
           ConfidenceThreshold: S.optional(S.String),
-          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+          FirewallRuleType: S.optional(__S(132, __c16, 4)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateFirewallRuleRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5522,7 +5794,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateFirewallRuleGroupAssociationRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5535,7 +5807,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateOutpostResolverRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5545,7 +5817,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateResolverConfigRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5555,21 +5827,21 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdateResolverDnssecConfigRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ IpId: S.String, Ipv6: S.String })).annotate({
         identifier: "UpdateIpAddress",
       });
     case 1:
-      return S.Array(__S(816, __c102, 0));
+      return S.Array(__S(832, __c104, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ResolverEndpointId: S.String,
           Name: S.optional(S.String),
           ResolverEndpointType: S.optional(S.String),
-          UpdateIpAddresses: S.optional(__S(817, __c102, 1)),
+          UpdateIpAddresses: S.optional(__S(833, __c104, 1)),
           Protocols: S.optional(__S(48, __c6, 0)),
           RniEnhancedMetricsEnabled: S.optional(S.Boolean),
           TargetNameServerMetricsEnabled: S.optional(S.Boolean),
@@ -5579,19 +5851,19 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateResolverEndpointRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          TargetIps: S.optional(__S(273, __c34, 1)),
+          TargetIps: S.optional(__S(281, __c35, 1)),
           ResolverEndpointId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResolverRuleConfig" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ResolverRuleId: S.String, Config: __S(824, __c103, 0) }).pipe(
+        S.Struct({ ResolverRuleId: S.String, Config: __S(840, __c105, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateResolverRuleRequest" });

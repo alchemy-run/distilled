@@ -41,7 +41,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Questrade.CredentialsFromEnv,
-  Questrade.QuestradeProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
@@ -61,7 +60,8 @@ API Centre (**API centre → Personal apps → New manual authorization**) and s
 The SDK redeems the refresh token at `GET /oauth2/token`, sends the access
 token as `Authorization: Bearer`, and calls the `api_server` the redemption
 names. The access token lives 30 minutes; the SDK redeems again shortly before
-it expires.
+it expires. A failed redemption fails the call with `TokenRequestFailed`, which
+carries the login server's `status`.
 
 A refresh token works **once**: each redemption returns the next one. To keep
 a program able to start again, store the new token with `fromRefreshToken`:

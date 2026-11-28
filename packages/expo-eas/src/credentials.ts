@@ -23,9 +23,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "EasCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("EasCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   accessToken: /*@__PURE__*/ EffectConfig.String("EXPO_TOKEN"),
@@ -42,19 +40,25 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
  * - `EXPO_API_URL` -- override the API host (optional, defaults to
  *   https://api.expo.dev). Set to `https://staging-api.expo.dev` to target
  *   staging, mirroring eas-cli's `EXPO_STAGING=1` flag.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "EXPO_TOKEN environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "EXPO_TOKEN environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ accessToken, apiBaseUrl }) => ({
+        accessToken: Redacted.make(accessToken),
+        apiBaseUrl,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ accessToken, apiBaseUrl }) => ({
-      accessToken: Redacted.make(accessToken),
-      apiBaseUrl,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );

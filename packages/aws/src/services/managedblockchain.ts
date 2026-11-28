@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -173,7 +174,7 @@ export type AccessorNetworkType =
   | "POLYGON_MUMBAI"
   | (string & {});
 export interface CreateAccessorInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   AccessorType: AccessorType;
   Tags?: { [key: string]: string | undefined } | undefined;
   NetworkType?: AccessorNetworkType | undefined;
@@ -219,7 +220,7 @@ export interface MemberConfiguration {
   KmsKeyArn?: string | undefined;
 }
 export interface CreateMemberInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   InvitationId: string;
   NetworkId: string;
   MemberConfiguration: MemberConfiguration;
@@ -249,7 +250,7 @@ export interface VotingPolicy {
   ApprovalThresholdPolicy?: ApprovalThresholdPolicy | undefined;
 }
 export interface CreateNetworkInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   Name: string;
   Description?: string | undefined;
   Framework: Framework;
@@ -280,7 +281,7 @@ export interface NodeConfiguration {
   StateDB?: StateDBType | undefined;
 }
 export interface CreateNodeInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   NetworkId: string;
   MemberId?: string | undefined;
   NodeConfiguration: NodeConfiguration;
@@ -303,7 +304,7 @@ export interface ProposalActions {
   Removals?: RemoveAction[] | undefined;
 }
 export interface CreateProposalInput {
-  ClientRequestToken: string;
+  ClientRequestToken?: string | undefined;
   NetworkId: string;
   MemberId: string;
   Actions: ProposalActions;
@@ -719,6 +720,7 @@ export const createAccessor: API.OperationMethod<
     ThrottlingException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessor",
@@ -761,6 +763,7 @@ export const createMember: API.OperationMethod<
     ThrottlingException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
@@ -799,6 +802,7 @@ export const createNetwork: API.OperationMethod<
     ThrottlingException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
@@ -841,6 +845,7 @@ export const createNode: API.OperationMethod<
     ThrottlingException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
@@ -879,6 +884,7 @@ export const createProposal: API.OperationMethod<
     ThrottlingException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProposal",
@@ -917,6 +923,7 @@ export const deleteAccessor: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessor",
@@ -953,6 +960,7 @@ export const deleteMember: API.OperationMethod<
     ResourceNotReadyException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
@@ -989,6 +997,7 @@ export const deleteNode: API.OperationMethod<
     ResourceNotReadyException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
@@ -1022,6 +1031,7 @@ export const getAccessor: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessor",
@@ -1056,6 +1066,7 @@ export const getMember: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
@@ -1090,6 +1101,7 @@ export const getNetwork: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
@@ -1124,6 +1136,7 @@ export const getNode: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNode",
@@ -1158,6 +1171,7 @@ export const getProposal: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProposal",
@@ -1190,6 +1204,7 @@ export const listAccessors: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessors",
@@ -1233,6 +1248,7 @@ export const listInvitations: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvitations",
@@ -1271,6 +1287,7 @@ export const listMembers: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMembers",
@@ -1309,6 +1326,7 @@ export const listNetworks: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNetworks",
@@ -1347,6 +1365,7 @@ export const listNodes: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNodes",
@@ -1387,6 +1406,7 @@ export const listProposals: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProposals",
@@ -1425,6 +1445,7 @@ export const listProposalVotes: API.PaginatedOperationMethod<
     InvalidRequestException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProposalVotes",
@@ -1462,6 +1483,7 @@ export const listTagsForResource: API.OperationMethod<
     ResourceNotFoundException,
     ResourceNotReadyException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1498,6 +1520,7 @@ export const rejectInvitation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
@@ -1536,6 +1559,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotReadyException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1568,6 +1592,7 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ResourceNotReadyException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1602,6 +1627,7 @@ export const updateMember: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMember",
@@ -1636,6 +1662,7 @@ export const updateNode: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
@@ -1672,6 +1699,7 @@ export const voteOnProposal: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VoteOnProposal",
@@ -1685,7 +1713,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           AccessorType: S.String,
           Tags: S.optional(__S(8, __c1, 0)),
           NetworkType: S.optional(S.String),
@@ -1712,7 +1740,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           InvitationId: S.String,
           NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
           MemberConfiguration: __S(26, __c3, 2),
@@ -1793,7 +1821,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Name: S.String,
           Description: S.optional(S.String),
           Framework: S.String,
@@ -1840,7 +1868,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
           MemberId: S.optional(S.String),
           NodeConfiguration: __S(64, __c8, 0),
@@ -1882,7 +1910,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ClientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
           MemberId: S.String,
           Actions: __S(92, __c11, 4),

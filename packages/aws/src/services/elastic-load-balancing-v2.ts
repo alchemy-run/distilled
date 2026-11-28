@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -846,12 +847,29 @@ export type Mode = string;
 export type IgnoreClientCertificateExpiry = boolean;
 export type TrustStoreAssociationStatusEnum = "active" | "removed" | (string & {});
 export type AdvertiseTrustStoreCaNamesEnum = "on" | "off" | (string & {});
+export type ClientCertificateIdentityFilterField =
+  | "subject-cn"
+  | "subject-ou"
+  | "san-dns"
+  | "san-uri"
+  | (string & {});
+export type ClientCertificateIdentityFilterAction = "accept" | (string & {});
+export type ClientCertificateIdentityFilterMatchType = "exact" | "prefix" | (string & {});
+export type ClientCertificateIdentityFilterValue = string;
+export interface ClientCertificateIdentityFilter {
+  Field?: ClientCertificateIdentityFilterField | undefined;
+  Action?: ClientCertificateIdentityFilterAction | undefined;
+  MatchType?: ClientCertificateIdentityFilterMatchType | undefined;
+  Value?: string | undefined;
+}
+export type ClientCertificateIdentityFilters = ClientCertificateIdentityFilter[];
 export interface MutualAuthenticationAttributes {
   Mode?: string | undefined;
   TrustStoreArn?: string | undefined;
   IgnoreClientCertificateExpiry?: boolean | undefined;
   TrustStoreAssociationStatus?: TrustStoreAssociationStatusEnum | undefined;
   AdvertiseTrustStoreCaNames?: AdvertiseTrustStoreCaNamesEnum | undefined;
+  ClientCertificateIdentityFilters?: ClientCertificateIdentityFilter[] | undefined;
 }
 export interface CreateListenerInput {
   LoadBalancerArn?: string | undefined;
@@ -907,6 +925,14 @@ export interface CreateListenerOutput {
             })[];
           };
         })[];
+        MutualAuthentication: MutualAuthenticationAttributes & {
+          ClientCertificateIdentityFilters: (ClientCertificateIdentityFilter & {
+            Field: ClientCertificateIdentityFilterField;
+            Action: ClientCertificateIdentityFilterAction;
+            MatchType: ClientCertificateIdentityFilterMatchType;
+            Value: ClientCertificateIdentityFilterValue;
+          })[];
+        };
       })[]
     | undefined;
 }
@@ -1365,6 +1391,14 @@ export interface DescribeListenersOutput {
             })[];
           };
         })[];
+        MutualAuthentication: MutualAuthenticationAttributes & {
+          ClientCertificateIdentityFilters: (ClientCertificateIdentityFilter & {
+            Field: ClientCertificateIdentityFilterField;
+            Action: ClientCertificateIdentityFilterAction;
+            MatchType: ClientCertificateIdentityFilterMatchType;
+            Value: ClientCertificateIdentityFilterValue;
+          })[];
+        };
       })[]
     | undefined;
   NextMarker?: string | undefined;
@@ -1708,6 +1742,14 @@ export interface ModifyListenerOutput {
             })[];
           };
         })[];
+        MutualAuthentication: MutualAuthenticationAttributes & {
+          ClientCertificateIdentityFilters: (ClientCertificateIdentityFilter & {
+            Field: ClientCertificateIdentityFilterField;
+            Action: ClientCertificateIdentityFilterAction;
+            MatchType: ClientCertificateIdentityFilterMatchType;
+            Value: ClientCertificateIdentityFilterValue;
+          })[];
+        };
       })[]
     | undefined;
 }
@@ -1938,6 +1980,7 @@ export const addListenerCertificates: API.OperationMethod<
   input: __S(224, __c7, 0) as any as S.Schema<AddListenerCertificatesInput>,
   output: __S(225, __c7, 1) as any as S.Schema<AddListenerCertificatesOutput>,
   errors: [CertificateNotFoundException, ListenerNotFoundException, TooManyCertificatesException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddListenerCertificates",
@@ -1979,6 +2022,7 @@ export const addTags: API.OperationMethod<
     TooManyTagsException,
     TrustStoreNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
@@ -2009,6 +2053,7 @@ export const addTrustStoreRevocations: API.OperationMethod<
     TooManyTrustStoreRevocationEntriesException,
     TrustStoreNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTrustStoreRevocations",
@@ -2086,6 +2131,7 @@ export const createListener: API.OperationMethod<
     TrustStoreNotReadyException,
     UnsupportedProtocolException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
@@ -2148,6 +2194,7 @@ export const createLoadBalancer: API.OperationMethod<
     TooManyLoadBalancersException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
@@ -2207,6 +2254,7 @@ export const createRule: API.OperationMethod<
     TooManyUniqueTargetGroupsPerLoadBalancerException,
     UnsupportedProtocolException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
@@ -2251,6 +2299,7 @@ export const createTargetGroup: API.OperationMethod<
     TooManyTagsException,
     TooManyTargetGroupsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
@@ -2269,7 +2318,8 @@ export type CreateTrustStoreError =
 /**
  * Creates a trust store.
  *
- * For more information, see Mutual TLS for Application Load Balancers.
+ * For more information, see Mutual TLS for Application Load Balancers
+ * or Mutual TLS for Network Load Balancers.
  */
 export const createTrustStore: API.OperationMethod<
   CreateTrustStoreInput & RegionInput,
@@ -2287,6 +2337,7 @@ export const createTrustStore: API.OperationMethod<
     TooManyTagsException,
     TooManyTrustStoresException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
@@ -2310,6 +2361,7 @@ export const deleteListener: API.OperationMethod<
   input: __S(960, __c30, 0) as any as S.Schema<DeleteListenerInput>,
   output: __S(961, __c30, 1) as any as S.Schema<DeleteListenerOutput>,
   errors: [ListenerNotFoundException, ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
@@ -2342,6 +2394,7 @@ export const deleteLoadBalancer: API.OperationMethod<
   input: __S(992, __c31, 0) as any as S.Schema<DeleteLoadBalancerInput>,
   output: __S(993, __c31, 1) as any as S.Schema<DeleteLoadBalancerOutput>,
   errors: [LoadBalancerNotFoundException, OperationNotPermittedException, ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
@@ -2364,6 +2417,7 @@ export const deleteRule: API.OperationMethod<
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteRuleInput>,
   output: __S(1025, __c32, 1) as any as S.Schema<DeleteRuleOutput>,
   errors: [OperationNotPermittedException, RuleNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
@@ -2392,6 +2446,7 @@ export const deleteSharedTrustStoreAssociation: API.OperationMethod<
     TrustStoreAssociationNotFoundException,
     TrustStoreNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSharedTrustStoreAssociation",
@@ -2417,6 +2472,7 @@ export const deleteTargetGroup: API.OperationMethod<
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteTargetGroupInput>,
   output: __S(1089, __c34, 1) as any as S.Schema<DeleteTargetGroupOutput>,
   errors: [ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
@@ -2440,6 +2496,7 @@ export const deleteTrustStore: API.OperationMethod<
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteTrustStoreInput>,
   output: __S(1121, __c35, 1) as any as S.Schema<DeleteTrustStoreOutput>,
   errors: [TrustStoreInUseException, TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
@@ -2481,6 +2538,7 @@ export const deregisterTargets: API.OperationMethod<
   input: __S(1152, __c36, 0) as any as S.Schema<DeregisterTargetsInput>,
   output: __S(1153, __c36, 1) as any as S.Schema<DeregisterTargetsOutput>,
   errors: [InvalidTargetException, TargetGroupNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
@@ -2514,6 +2572,7 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
   input: __S(1216, __c38, 0) as any as S.Schema<DescribeAccountLimitsInput>,
   output: __S(1219, __c38, 3) as any as S.Schema<DescribeAccountLimitsOutput>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
@@ -2535,6 +2594,7 @@ export const describeCapacityReservation: API.OperationMethod<
   input: __S(1248, __c39, 0) as any as S.Schema<DescribeCapacityReservationInput>,
   output: __S(1249, __c39, 1) as any as S.Schema<DescribeCapacityReservationOutput>,
   errors: [LoadBalancerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityReservation",
@@ -2555,6 +2615,7 @@ export const describeListenerAttributes: API.OperationMethod<
   input: __S(1312, __c41, 0) as any as S.Schema<DescribeListenerAttributesInput>,
   output: __S(1313, __c41, 1) as any as S.Schema<DescribeListenerAttributesOutput>,
   errors: [ListenerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListenerAttributes",
@@ -2585,6 +2646,7 @@ export const describeListenerCertificates: API.PaginatedOperationMethod<
   input: __S(1376, __c43, 0) as any as S.Schema<DescribeListenerCertificatesInput>,
   output: __S(1377, __c43, 1) as any as S.Schema<DescribeListenerCertificatesOutput>,
   errors: [ListenerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListenerCertificates",
@@ -2613,6 +2675,7 @@ export const describeListeners: API.PaginatedOperationMethod<
   input: __S(1409, __c44, 1) as any as S.Schema<DescribeListenersInput>,
   output: __S(1410, __c44, 2) as any as S.Schema<DescribeListenersOutput>,
   errors: [ListenerNotFoundException, LoadBalancerNotFoundException, UnsupportedProtocolException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListeners",
@@ -2646,6 +2709,7 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   input: __S(1440, __c45, 0) as any as S.Schema<DescribeLoadBalancerAttributesInput>,
   output: __S(1441, __c45, 1) as any as S.Schema<DescribeLoadBalancerAttributesOutput>,
   errors: [LoadBalancerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
@@ -2667,6 +2731,7 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
   input: __S(1505, __c47, 1) as any as S.Schema<DescribeLoadBalancersInput>,
   output: __S(1506, __c47, 2) as any as S.Schema<DescribeLoadBalancersOutput>,
   errors: [LoadBalancerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancers",
@@ -2694,6 +2759,7 @@ export const describeRules: API.PaginatedOperationMethod<
   input: __S(1537, __c48, 1) as any as S.Schema<DescribeRulesInput>,
   output: __S(1538, __c48, 2) as any as S.Schema<DescribeRulesOutput>,
   errors: [ListenerNotFoundException, RuleNotFoundException, UnsupportedProtocolException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRules",
@@ -2718,6 +2784,7 @@ export const describeSSLPolicies: API.OperationMethod<
   input: __S(1569, __c49, 1) as any as S.Schema<DescribeSSLPoliciesInput>,
   output: __S(1575, __c49, 7) as any as S.Schema<DescribeSSLPoliciesOutput>,
   errors: [SSLPolicyNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSSLPolicies",
@@ -2752,6 +2819,7 @@ export const describeTags: API.OperationMethod<
     TargetGroupNotFoundException,
     TrustStoreNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
@@ -2783,6 +2851,7 @@ export const describeTargetGroupAttributes: API.OperationMethod<
   input: __S(1632, __c51, 0) as any as S.Schema<DescribeTargetGroupAttributesInput>,
   output: __S(1633, __c51, 1) as any as S.Schema<DescribeTargetGroupAttributesOutput>,
   errors: [TargetGroupNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetGroupAttributes",
@@ -2810,6 +2879,7 @@ export const describeTargetGroups: API.PaginatedOperationMethod<
   input: __S(1698, __c53, 2) as any as S.Schema<DescribeTargetGroupsInput>,
   output: __S(1699, __c53, 3) as any as S.Schema<DescribeTargetGroupsOutput>,
   errors: [LoadBalancerNotFoundException, TargetGroupNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetGroups",
@@ -2835,6 +2905,7 @@ export const describeTargetHealth: API.OperationMethod<
   input: __S(1729, __c54, 1) as any as S.Schema<DescribeTargetHealthInput>,
   output: __S(1735, __c54, 7) as any as S.Schema<DescribeTargetHealthOutput>,
   errors: [HealthUnavailableException, InvalidTargetException, TargetGroupNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetHealth",
@@ -2856,6 +2927,7 @@ export const describeTrustStoreAssociations: API.PaginatedOperationMethod<
   input: __S(1760, __c55, 0) as any as S.Schema<DescribeTrustStoreAssociationsInput>,
   output: __S(1763, __c55, 3) as any as S.Schema<DescribeTrustStoreAssociationsOutput>,
   errors: [TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustStoreAssociations",
@@ -2887,6 +2959,7 @@ export const describeTrustStoreRevocations: API.PaginatedOperationMethod<
   input: __S(1792, __c56, 0) as any as S.Schema<DescribeTrustStoreRevocationsInput>,
   output: __S(1795, __c56, 3) as any as S.Schema<DescribeTrustStoreRevocationsOutput>,
   errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustStoreRevocations",
@@ -2914,6 +2987,7 @@ export const describeTrustStores: API.PaginatedOperationMethod<
   input: __S(1858, __c58, 2) as any as S.Schema<DescribeTrustStoresInput>,
   output: __S(1859, __c58, 3) as any as S.Schema<DescribeTrustStoresOutput>,
   errors: [TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustStores",
@@ -2940,6 +3014,7 @@ export const getResourcePolicy: API.OperationMethod<
   input: __S(1888, __c59, 0) as any as S.Schema<GetResourcePolicyInput>,
   output: __S(1889, __c59, 1) as any as S.Schema<GetResourcePolicyOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -2963,6 +3038,7 @@ export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
   input: __S(1920, __c60, 0) as any as S.Schema<GetTrustStoreCaCertificatesBundleInput>,
   output: __S(1921, __c60, 1) as any as S.Schema<GetTrustStoreCaCertificatesBundleOutput>,
   errors: [TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreCaCertificatesBundle",
@@ -2989,6 +3065,7 @@ export const getTrustStoreRevocationContent: API.OperationMethod<
   input: __S(1952, __c61, 0) as any as S.Schema<GetTrustStoreRevocationContentInput>,
   output: __S(1953, __c61, 1) as any as S.Schema<GetTrustStoreRevocationContentOutput>,
   errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreRevocationContent",
@@ -3030,6 +3107,7 @@ export const modifyCapacityReservation: API.OperationMethod<
     OperationNotPermittedException,
     PriorRequestNotCompleteException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCapacityReservation",
@@ -3050,6 +3128,7 @@ export const modifyIpPools: API.OperationMethod<
   input: __S(2017, __c63, 1) as any as S.Schema<ModifyIpPoolsInput>,
   output: __S(2018, __c63, 2) as any as S.Schema<ModifyIpPoolsOutput>,
   errors: [LoadBalancerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpPools",
@@ -3119,6 +3198,7 @@ export const modifyListener: API.OperationMethod<
     TrustStoreNotReadyException,
     UnsupportedProtocolException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListener",
@@ -3142,6 +3222,7 @@ export const modifyListenerAttributes: API.OperationMethod<
   input: __S(2080, __c65, 0) as any as S.Schema<ModifyListenerAttributesInput>,
   output: __S(2081, __c65, 1) as any as S.Schema<ModifyListenerAttributesOutput>,
   errors: [InvalidConfigurationRequestException, ListenerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListenerAttributes",
@@ -3169,6 +3250,7 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   input: __S(2112, __c66, 0) as any as S.Schema<ModifyLoadBalancerAttributesInput>,
   output: __S(2113, __c66, 1) as any as S.Schema<ModifyLoadBalancerAttributesOutput>,
   errors: [InvalidConfigurationRequestException, LoadBalancerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
@@ -3218,6 +3300,7 @@ export const modifyRule: API.OperationMethod<
     TooManyUniqueTargetGroupsPerLoadBalancerException,
     UnsupportedProtocolException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRule",
@@ -3242,6 +3325,7 @@ export const modifyTargetGroup: API.OperationMethod<
   input: __S(2176, __c68, 0) as any as S.Schema<ModifyTargetGroupInput>,
   output: __S(2177, __c68, 1) as any as S.Schema<ModifyTargetGroupOutput>,
   errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroup",
@@ -3265,6 +3349,7 @@ export const modifyTargetGroupAttributes: API.OperationMethod<
   input: __S(2208, __c69, 0) as any as S.Schema<ModifyTargetGroupAttributesInput>,
   output: __S(2209, __c69, 1) as any as S.Schema<ModifyTargetGroupAttributesOutput>,
   errors: [InvalidConfigurationRequestException, TargetGroupNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroupAttributes",
@@ -3293,6 +3378,7 @@ export const modifyTrustStore: API.OperationMethod<
     InvalidCaCertificatesBundleException,
     TrustStoreNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrustStore",
@@ -3342,6 +3428,7 @@ export const registerTargets: API.OperationMethod<
     TooManyRegistrationsForTargetIdException,
     TooManyTargetsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
@@ -3366,6 +3453,7 @@ export const removeListenerCertificates: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<RemoveListenerCertificatesInput>,
   output: __S(1, __c0, 1) as any as S.Schema<RemoveListenerCertificatesOutput>,
   errors: [ListenerNotFoundException, OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveListenerCertificates",
@@ -3402,6 +3490,7 @@ export const removeTags: API.OperationMethod<
     TooManyTagsException,
     TrustStoreNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
@@ -3425,6 +3514,7 @@ export const removeTrustStoreRevocations: API.OperationMethod<
   input: __S(64, __c2, 0) as any as S.Schema<RemoveTrustStoreRevocationsInput>,
   output: __S(65, __c2, 1) as any as S.Schema<RemoveTrustStoreRevocationsOutput>,
   errors: [RevocationIdNotFoundException, TrustStoreNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTrustStoreRevocations",
@@ -3453,6 +3543,7 @@ export const setIpAddressType: API.OperationMethod<
     InvalidSubnetException,
     LoadBalancerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIpAddressType",
@@ -3480,6 +3571,7 @@ export const setRulePriorities: API.OperationMethod<
   input: __S(130, __c4, 2) as any as S.Schema<SetRulePrioritiesInput>,
   output: __S(131, __c4, 3) as any as S.Schema<SetRulePrioritiesOutput>,
   errors: [OperationNotPermittedException, PriorityInUseException, RuleNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRulePriorities",
@@ -3515,6 +3607,7 @@ export const setSecurityGroups: API.OperationMethod<
     InvalidSecurityGroupException,
     LoadBalancerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityGroups",
@@ -3553,6 +3646,7 @@ export const setSubnets: API.OperationMethod<
     LoadBalancerNotFoundException,
     SubnetNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubnets",
@@ -3786,12 +3880,12 @@ function __c13(j: number): any {
           DefaultActions: S.optional(__S(463, __c14, 15)),
           AlpnPolicy: S.optional(__S(480, __c15, 0)),
           Tags: S.optional(__S(321, __c10, 1)),
-          MutualAuthentication: S.optional(__S(481, __c15, 1)),
+          MutualAuthentication: S.optional(__S(483, __c15, 3)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateListenerInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Listeners: S.optional(__S(483, __c15, 3)) }).pipe(ns),
+        S.Struct({ Listeners: S.optional(__S(485, __c15, 5)) }).pipe(ns),
       ).annotate({ identifier: "CreateListenerOutput" });
   }
 }
@@ -3912,14 +4006,26 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          Field: S.optional(S.String),
+          Action: S.optional(S.String),
+          MatchType: S.optional(S.String),
+          Value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClientCertificateIdentityFilter" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           Mode: S.optional(S.String),
           TrustStoreArn: S.optional(S.String),
           IgnoreClientCertificateExpiry: S.optional(S.Boolean),
           TrustStoreAssociationStatus: S.optional(S.String),
           AdvertiseTrustStoreCaNames: S.optional(S.String),
+          ClientCertificateIdentityFilters: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "MutualAuthenticationAttributes" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           ListenerArn: S.optional(S.String),
@@ -3930,11 +4036,11 @@ function __c15(j: number): any {
           SslPolicy: S.optional(S.String),
           DefaultActions: S.optional(__S(463, __c14, 15)),
           AlpnPolicy: S.optional(__S(480, __c15, 0)),
-          MutualAuthentication: S.optional(__S(481, __c15, 1)),
+          MutualAuthentication: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "Listener" });
-    case 3:
-      return S.Array(__S(482, __c15, 2));
+    case 5:
+      return S.Array(__S(484, __c15, 4));
   }
 }
 function __c16(j: number): any {
@@ -4515,7 +4621,7 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Listeners: S.optional(__S(483, __c15, 3)),
+          Listeners: S.optional(__S(485, __c15, 5)),
           NextMarker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeListenersOutput" });
@@ -4927,12 +5033,12 @@ function __c64(j: number): any {
           Certificates: S.optional(__S(257, __c8, 1)),
           DefaultActions: S.optional(__S(463, __c14, 15)),
           AlpnPolicy: S.optional(__S(480, __c15, 0)),
-          MutualAuthentication: S.optional(__S(481, __c15, 1)),
+          MutualAuthentication: S.optional(__S(483, __c15, 3)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ModifyListenerInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Listeners: S.optional(__S(483, __c15, 3)) }).pipe(ns),
+        S.Struct({ Listeners: S.optional(__S(485, __c15, 5)) }).pipe(ns),
       ).annotate({ identifier: "ModifyListenerOutput" });
   }
 }

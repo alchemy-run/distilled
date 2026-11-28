@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -235,7 +236,7 @@ export interface JobTemplateData {
 export type KmsKeyArn = string;
 export interface CreateJobTemplateRequest {
   name: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   jobTemplateData: JobTemplateData;
   tags?: { [key: string]: string | undefined } | undefined;
   kmsKeyArn?: string | undefined;
@@ -292,7 +293,7 @@ export interface CreateManagedEndpointRequest {
   executionRoleArn: string;
   certificateArn?: string | undefined;
   configurationOverrides?: ConfigurationOverrides | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   sessionIdleTimeoutInMinutes?: number | undefined;
 }
@@ -364,7 +365,7 @@ export interface SecurityConfigurationData {
   authenticationConfiguration?: AuthenticationConfiguration | undefined;
 }
 export interface CreateSecurityConfigurationRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   name: string;
   containerProvider?: ContainerProvider | undefined;
   securityConfigurationData: SecurityConfigurationData;
@@ -385,7 +386,7 @@ export interface SchedulerConfiguration {
 export interface CreateVirtualClusterRequest {
   name: string;
   containerProvider: ContainerProvider;
-  clientToken: string;
+  clientToken?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   securityConfigurationId?: string | undefined;
   sessionEnabled?: boolean | undefined;
@@ -679,7 +680,7 @@ export type TemplateParameterInputMap = { [key: string]: string | undefined };
 export interface StartJobRunRequest {
   name?: string | undefined;
   virtualClusterId: string;
-  clientToken: string;
+  clientToken?: string | undefined;
   executionRoleArn?: string | undefined;
   releaseLabel?: string | undefined;
   jobDriver?: JobDriver | undefined;
@@ -709,7 +710,7 @@ export interface UntagResourceResponse {}
 export interface UpdateVirtualClusterRequest {
   id: string;
   schedulerConfiguration?: SchedulerConfiguration | undefined;
-  clientToken: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateVirtualClusterResponse {
   virtualCluster?: VirtualCluster | undefined;
@@ -732,6 +733,7 @@ export const cancelJobRun: API.OperationMethod<
   input: __S(592, __c37, 0) as any as S.Schema<CancelJobRunRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<CancelJobRunResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
@@ -765,6 +767,7 @@ export const createJobTemplate: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
@@ -796,6 +799,7 @@ export const createManagedEndpoint: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedEndpoint",
@@ -823,6 +827,7 @@ export const createSecurityConfiguration: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<CreateSecurityConfigurationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<CreateSecurityConfigurationResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
@@ -860,6 +865,7 @@ export const createVirtualCluster: API.OperationMethod<
     TooManyRequestsException,
     EksClusterConnectionUpdating,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualCluster",
@@ -887,6 +893,7 @@ export const deleteJobTemplate: API.OperationMethod<
   input: __S(128, __c8, 0) as any as S.Schema<DeleteJobTemplateRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteJobTemplateResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
@@ -912,6 +919,7 @@ export const deleteManagedEndpoint: API.OperationMethod<
   input: __S(160, __c10, 0) as any as S.Schema<DeleteManagedEndpointRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<DeleteManagedEndpointResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedEndpoint",
@@ -935,6 +943,7 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<DeleteSecurityConfigurationRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteSecurityConfigurationResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
@@ -962,6 +971,7 @@ export const deleteVirtualCluster: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<DeleteVirtualClusterRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteVirtualClusterResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualCluster",
@@ -993,6 +1003,7 @@ export const describeJobRun: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
@@ -1026,6 +1037,7 @@ export const describeJobTemplate: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobTemplate",
@@ -1057,6 +1069,7 @@ export const describeManagedEndpoint: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedEndpoint",
@@ -1091,6 +1104,7 @@ export const describeSecurityConfiguration: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
@@ -1126,6 +1140,7 @@ export const describeVirtualCluster: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualCluster",
@@ -1158,6 +1173,7 @@ export const getManagedEndpointSessionCredentials: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedEndpointSessionCredentials",
@@ -1184,6 +1200,7 @@ export const listJobRuns: API.PaginatedOperationMethod<
   input: __S(400, __c25, 0) as any as S.Schema<ListJobRunsRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<ListJobRunsResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRuns",
@@ -1218,6 +1235,7 @@ export const listJobTemplates: API.PaginatedOperationMethod<
   input: __S(432, __c27, 0) as any as S.Schema<ListJobTemplatesRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<ListJobTemplatesResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobTemplates",
@@ -1250,6 +1268,7 @@ export const listManagedEndpoints: API.PaginatedOperationMethod<
   input: __S(448, __c28, 0) as any as S.Schema<ListManagedEndpointsRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<ListManagedEndpointsResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedEndpoints",
@@ -1285,6 +1304,7 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
   input: __S(464, __c29, 0) as any as S.Schema<ListSecurityConfigurationsRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<ListSecurityConfigurationsResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSecurityConfigurations",
@@ -1321,6 +1341,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1351,6 +1372,7 @@ export const listVirtualClusters: API.PaginatedOperationMethod<
   input: __S(496, __c31, 0) as any as S.Schema<ListVirtualClustersRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<ListVirtualClustersResponse>,
   errors: [InternalServerException, ValidationException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualClusters",
@@ -1388,6 +1410,7 @@ export const startJobRun: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
@@ -1428,6 +1451,7 @@ export const tagResource: API.OperationMethod<
     TooManyRequestsException,
     InvalidResourceArn,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1460,6 +1484,7 @@ export const untagResource: API.OperationMethod<
     TooManyRequestsException,
     InvalidResourceArn,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1487,6 +1512,7 @@ export const updateVirtualCluster: API.OperationMethod<
   input: __S(576, __c36, 0) as any as S.Schema<UpdateVirtualClusterRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<UpdateVirtualClusterResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualCluster",
@@ -1507,7 +1533,7 @@ function __c0(j: number): any {
           executionRoleArn: S.String,
           certificateArn: S.optional(S.String),
           configurationOverrides: S.optional(__S(632, __c39, 8)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(624, __c39, 0)),
           sessionIdleTimeoutInMinutes: S.optional(S.Number),
         }).pipe(
@@ -1541,7 +1567,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           name: S.String,
           containerProvider: S.optional(__S(66, __c4, 2)),
           securityConfigurationData: __S(89, __c5, 9),
@@ -1658,7 +1684,7 @@ function __c6(j: number): any {
         S.Struct({
           name: S.String,
           containerProvider: __S(66, __c4, 2),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(624, __c39, 0)),
           securityConfigurationId: S.optional(S.String),
           sessionEnabled: S.optional(S.Boolean),
@@ -2204,7 +2230,7 @@ function __c32(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.optional(S.String),
           releaseLabel: S.optional(S.String),
           jobDriver: S.optional(__S(659, __c41, 3)),
@@ -2279,7 +2305,7 @@ function __c36(j: number): any {
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
           schedulerConfiguration: S.optional(__S(112, __c7, 0)),
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/virtualclusters/{id}" }),
@@ -2415,7 +2441,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           jobTemplateData: __S(678, __c42, 6),
           tags: S.optional(__S(624, __c39, 0)),
           kmsKeyArn: S.optional(S.String),

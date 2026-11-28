@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -169,7 +170,7 @@ export type ClientToken = string;
 export interface AcceptConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type ConnectionId = string;
 export type ConnectionArn = string;
@@ -234,7 +235,7 @@ export interface CancelConnectionRequest {
   Identifier: string;
   ConnectionType: ConnectionType;
   Reason: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface CancelConnectionResponse {
   Catalog: string;
@@ -247,7 +248,7 @@ export interface CancelConnectionResponse {
 export interface CancelConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type ConnectionInvitationArn = string;
 export type ParticipantIdentifier = string;
@@ -391,7 +392,7 @@ export interface CancelProfileUpdateTaskResponse {
 }
 export interface CreateConnectionInvitationRequest {
   Catalog: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   ConnectionType: ConnectionType;
   Email: string;
   Message: string;
@@ -775,7 +776,7 @@ export interface PutProfileVisibilityResponse {
 export interface RejectConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Reason?: string | undefined;
 }
 export interface RejectConnectionInvitationResponse {
@@ -1005,6 +1006,7 @@ export const acceptConnectionInvitation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionInvitation",
@@ -1043,6 +1045,7 @@ export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAwsTrainingCertificationEmailDomain",
@@ -1077,6 +1080,7 @@ export const cancelConnection: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnection",
@@ -1111,6 +1115,7 @@ export const cancelConnectionInvitation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnectionInvitation",
@@ -1145,6 +1150,7 @@ export const cancelProfileUpdateTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelProfileUpdateTask",
@@ -1181,6 +1187,7 @@ export const createConnectionInvitation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionInvitation",
@@ -1213,6 +1220,7 @@ export const createPartner: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartner",
@@ -1253,6 +1261,7 @@ export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMetho
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAwsTrainingCertificationEmailDomain",
@@ -1285,6 +1294,7 @@ export const getAllianceLeadContact: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllianceLeadContact",
@@ -1317,6 +1327,7 @@ export const getConnection: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -1349,6 +1360,7 @@ export const getConnectionInvitation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionInvitation",
@@ -1379,6 +1391,7 @@ export const getConnectionPreferences: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionPreferences",
@@ -1411,6 +1424,7 @@ export const getPartner: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartner",
@@ -1443,6 +1457,7 @@ export const getProfileUpdateTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileUpdateTask",
@@ -1475,6 +1490,7 @@ export const getProfileVisibility: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileVisibility",
@@ -1507,6 +1523,7 @@ export const getQualificationsAssociationDetails: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationDetails",
@@ -1539,6 +1556,7 @@ export const getQualificationsAssociationTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationTask",
@@ -1571,6 +1589,7 @@ export const getQualificationsDisassociationTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsDisassociationTask",
@@ -1603,6 +1622,7 @@ export const getVerification: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerification",
@@ -1634,6 +1654,7 @@ export const listConnectionInvitations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectionInvitations",
@@ -1671,6 +1692,7 @@ export const listConnections: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnections",
@@ -1708,6 +1730,7 @@ export const listPartners: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartners",
@@ -1745,6 +1768,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1777,6 +1801,7 @@ export const putAllianceLeadContact: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAllianceLeadContact",
@@ -1811,6 +1836,7 @@ export const putProfileVisibility: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileVisibility",
@@ -1845,6 +1871,7 @@ export const rejectConnectionInvitation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectConnectionInvitation",
@@ -1877,6 +1904,7 @@ export const sendEmailVerificationCode: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmailVerificationCode",
@@ -1913,6 +1941,7 @@ export const startProfileUpdateTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProfileUpdateTask",
@@ -1947,6 +1976,7 @@ export const startQualificationsAssociationTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsAssociationTask",
@@ -1981,6 +2011,7 @@ export const startQualificationsDisassociationTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsDisassociationTask",
@@ -2015,6 +2046,7 @@ export const startVerification: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVerification",
@@ -2049,6 +2081,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2083,6 +2116,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2115,6 +2149,7 @@ export const updateConnectionPreferences: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionPreferences",
@@ -2130,7 +2165,7 @@ function __c0(j: number): any {
         S.Struct({
           Catalog: S.String,
           Identifier: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CancelConnectionInvitationRequest" });
   }
@@ -2237,7 +2272,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ConnectionType: S.String,
           Email: S.String,
           Message: S.String,
@@ -2750,7 +2785,7 @@ function __c34(j: number): any {
         S.Struct({
           Catalog: S.String,
           Identifier: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Reason: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RejectConnectionInvitationRequest" });
@@ -2904,7 +2939,7 @@ function __c44(j: number): any {
         S.Struct({
           Catalog: S.String,
           Identifier: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AcceptConnectionInvitationRequest" });
     case 1:
@@ -2991,7 +3026,7 @@ function __c49(j: number): any {
           Identifier: S.String,
           ConnectionType: S.String,
           Reason: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CancelConnectionRequest" });
   }

@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -2337,7 +2338,9 @@ export interface CreateDBClusterMessage {
   EngineLifecycleSupport?: string | undefined;
   TagSpecifications?: TagSpecification[] | undefined;
   MasterUserAuthenticationType?: MasterUserAuthenticationType | undefined;
+  EnableVPCNetworking?: boolean | undefined;
   WithExpressConfiguration?: boolean | undefined;
+  EnableInternetAccessGateway?: boolean | undefined;
   AssociatedRoles?: DBClusterAssociatedRole[] | undefined;
 }
 export interface DBClusterOptionGroupStatus {
@@ -2387,6 +2390,8 @@ export interface ClusterPendingModifiedValues {
   RdsCustomClusterConfiguration?: RdsCustomClusterConfiguration | undefined;
   Iops?: number | undefined;
   CertificateDetails?: CertificateDetails | undefined;
+  VPCNetworkingEnabled?: boolean | undefined;
+  InternetAccessGatewayEnabled?: boolean | undefined;
 }
 export interface ScalingConfigurationInfo {
   MinCapacity?: number | undefined;
@@ -2653,6 +2658,10 @@ export interface Endpoint {
   HostedZoneId?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 0) as any as S.Schema<Endpoint>;
+export interface PrimaryEndpoint {
+  Address?: string | undefined;
+  HostedZoneId?: string | undefined;
+}
 export interface DBParameterGroupStatus {
   DBParameterGroupName?: string | undefined;
   ParameterApplyStatus?: string | undefined;
@@ -2757,6 +2766,7 @@ export interface DBInstance {
   MasterUsername?: string | undefined;
   DBName?: string | undefined;
   Endpoint?: Endpoint | undefined;
+  PrimaryEndpoint?: PrimaryEndpoint | undefined;
   AllocatedStorage?: number | undefined;
   InstanceCreateTime?: Date | undefined;
   PreferredBackupWindow?: string | undefined;
@@ -2844,6 +2854,7 @@ export interface DBInstance {
   StorageOperationStatus?: string | undefined;
   StorageOperationPercentProgress?: number | undefined;
   DBCapacityReservationIdentifier?: string | undefined;
+  VPCNetworkingEnabled?: boolean | undefined;
 }
 export interface CreateDBInstanceResult {
   DBInstance?:
@@ -4656,6 +4667,9 @@ export interface ModifyDBClusterMessage {
   CACertificateIdentifier?: string | undefined;
   MasterUserAuthenticationType?: MasterUserAuthenticationType | undefined;
   EngineLifecycleSupport?: string | undefined;
+  EnableInternetAccessGateway?: boolean | undefined;
+  EnableVPCNetworking?: boolean | undefined;
+  DBSubnetGroupName?: string | undefined;
 }
 export interface ModifyDBClusterResult {
   DBCluster?: DBCluster | undefined;
@@ -5507,6 +5521,7 @@ export const addRoleToDBCluster: API.OperationMethod<
     DBClusterRoleQuotaExceededFault,
     InvalidDBClusterStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToDBCluster",
@@ -5541,6 +5556,7 @@ export const addRoleToDBInstance: API.OperationMethod<
     DBInstanceRoleQuotaExceededFault,
     InvalidDBInstanceStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToDBInstance",
@@ -5564,6 +5580,7 @@ export const addSourceIdentifierToSubscription: API.OperationMethod<
   input: __S(96, __c3, 0) as any as S.Schema<AddSourceIdentifierToSubscriptionMessage>,
   output: __S(97, __c3, 1) as any as S.Schema<AddSourceIdentifierToSubscriptionResult>,
   errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddSourceIdentifierToSubscription",
@@ -5618,6 +5635,7 @@ export const addTagsToResource: API.OperationMethod<
     InvalidDBInstanceStateFault,
     TenantDatabaseNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
@@ -5642,6 +5660,7 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   input: __S(256, __c8, 0) as any as S.Schema<ApplyPendingMaintenanceActionMessage>,
   output: __S(257, __c8, 1) as any as S.Schema<ApplyPendingMaintenanceActionResult>,
   errors: [InvalidDBClusterStateFault, InvalidDBInstanceStateFault, ResourceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
@@ -5678,6 +5697,7 @@ export const authorizeDBSecurityGroupIngress: API.OperationMethod<
     DBSecurityGroupNotFoundFault,
     InvalidDBSecurityGroupStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeDBSecurityGroupIngress",
@@ -5705,6 +5725,7 @@ export const backtrackDBCluster: API.OperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<BacktrackDBClusterMessage>,
   output: __S(416, __c13, 0) as any as S.Schema<DBClusterBacktrack>,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BacktrackDBCluster",
@@ -5738,6 +5759,7 @@ export const cancelDBCapacityReservation: API.OperationMethod<
   input: __S(448, __c14, 0) as any as S.Schema<CancelDBCapacityReservationRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<CancelDBCapacityReservationResponse>,
   errors: [DBCapacityReservationNotFoundFault, InvalidDBCapacityReservationStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDBCapacityReservation",
@@ -5761,6 +5783,7 @@ export const cancelExportTask: API.OperationMethod<
   input: __S(512, __c16, 0) as any as S.Schema<CancelExportTaskMessage>,
   output: __S(576, __c18, 0) as any as S.Schema<ExportTask>,
   errors: [ExportTaskNotFoundFault, InvalidExportTaskStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
@@ -5791,6 +5814,7 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
     DBParameterGroupNotFoundFault,
     DBParameterGroupQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterParameterGroup",
@@ -5843,6 +5867,7 @@ export const copyDBClusterSnapshot: API.OperationMethod<
     KMSKeyNotAccessibleFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterSnapshot",
@@ -5873,6 +5898,7 @@ export const copyDBParameterGroup: API.OperationMethod<
     DBParameterGroupNotFoundFault,
     DBParameterGroupQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBParameterGroup",
@@ -5913,6 +5939,7 @@ export const copyDBSnapshot: API.OperationMethod<
     KMSKeyNotAccessibleFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBSnapshot",
@@ -5937,6 +5964,7 @@ export const copyOptionGroup: API.OperationMethod<
   input: __S(992, __c31, 0) as any as S.Schema<CopyOptionGroupMessage>,
   output: __S(993, __c31, 1) as any as S.Schema<CopyOptionGroupResult>,
   errors: [OptionGroupAlreadyExistsFault, OptionGroupNotFoundFault, OptionGroupQuotaExceededFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyOptionGroup",
@@ -5989,6 +6017,7 @@ export const createBlueGreenDeployment: API.OperationMethod<
     SourceDatabaseNotSupportedFault,
     StorageQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueGreenDeployment",
@@ -6025,6 +6054,7 @@ export const createCustomDBEngineVersion: API.OperationMethod<
     InvalidCustomDBEngineVersionStateFault,
     KMSKeyNotAccessibleFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDBEngineVersion",
@@ -6075,6 +6105,7 @@ export const createDBCapacityReservation: API.OperationMethod<
     InstanceQuotaExceededFault,
     InsufficientDBInstanceCapacityFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBCapacityReservation",
@@ -6122,6 +6153,8 @@ export type CreateDBClusterError =
  *
  * You can use the `WithExpressConfiguration` parameter to create an Aurora DB Cluster with express configuration and create cluster in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parameters of this API.
  *
+ * To create an Aurora PostgreSQL DB cluster without VPC networking, see `EnableVPCNetworking`.
+ *
  * You can use the `AssociatedRoles` parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster. Each associated role lets the DB cluster access other Amazon Web Services on your behalf, such as Amazon S3 for data import and export, or Amazon Web Services Lambda for invoking functions.
  */
 export const createDBCluster: API.OperationMethod<
@@ -6161,6 +6194,7 @@ export const createDBCluster: API.OperationMethod<
     InvalidParameterCombination,
     InvalidParameterValue,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBCluster",
@@ -6197,6 +6231,7 @@ export const createDBClusterEndpoint: API.OperationMethod<
     InvalidDBClusterStateFault,
     InvalidDBInstanceStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterEndpoint",
@@ -6234,6 +6269,7 @@ export const createDBClusterParameterGroup: API.OperationMethod<
   input: __S(1696, __c53, 0) as any as S.Schema<CreateDBClusterParameterGroupMessage>,
   output: __S(1697, __c53, 1) as any as S.Schema<CreateDBClusterParameterGroupResult>,
   errors: [DBParameterGroupAlreadyExistsFault, DBParameterGroupQuotaExceededFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterParameterGroup",
@@ -6270,6 +6306,7 @@ export const createDBClusterSnapshot: API.OperationMethod<
     InvalidDBClusterStateFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterSnapshot",
@@ -6352,6 +6389,7 @@ export const createDBInstance: API.OperationMethod<
     InvalidParameterCombination,
     InvalidParameterValue,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBInstance",
@@ -6434,6 +6472,7 @@ export const createDBInstanceReadReplica: API.OperationMethod<
     TenantDatabaseQuotaExceededFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBInstanceReadReplica",
@@ -6461,6 +6500,7 @@ export const createDBParameterGroup: API.OperationMethod<
   input: __S(1984, __c62, 0) as any as S.Schema<CreateDBParameterGroupMessage>,
   output: __S(1985, __c62, 1) as any as S.Schema<CreateDBParameterGroupResult>,
   errors: [DBParameterGroupAlreadyExistsFault, DBParameterGroupQuotaExceededFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBParameterGroup",
@@ -6485,6 +6525,7 @@ export const createDBProxy: API.OperationMethod<
   input: __S(2016, __c63, 0) as any as S.Schema<CreateDBProxyRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<CreateDBProxyResponse>,
   errors: [DBProxyAlreadyExistsFault, DBProxyQuotaExceededFault, InvalidSubnet],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBProxy",
@@ -6517,6 +6558,7 @@ export const createDBProxyEndpoint: API.OperationMethod<
     InvalidDBProxyStateFault,
     InvalidSubnet,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBProxyEndpoint",
@@ -6549,6 +6591,7 @@ export const createDBSecurityGroup: API.OperationMethod<
     DBSecurityGroupNotSupportedFault,
     DBSecurityGroupQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSecurityGroup",
@@ -6587,6 +6630,7 @@ export const createDBShardGroup: API.OperationMethod<
     NetworkTypeNotSupported,
     UnsupportedDBEngineVersionFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBShardGroup",
@@ -6617,6 +6661,7 @@ export const createDBSnapshot: API.OperationMethod<
     InvalidDBInstanceStateFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSnapshot",
@@ -6649,6 +6694,7 @@ export const createDBSubnetGroup: API.OperationMethod<
     DBSubnetQuotaExceededFault,
     InvalidSubnet,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSubnetGroup",
@@ -6693,6 +6739,7 @@ export const createEventSubscription: API.OperationMethod<
     SubscriptionAlreadyExistFault,
     SubscriptionCategoryNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
@@ -6731,6 +6778,7 @@ export const createGlobalCluster: API.OperationMethod<
     InvalidDBShardGroupStateFault,
     ResourceNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalCluster",
@@ -6765,6 +6813,7 @@ export const createIntegration: API.OperationMethod<
     IntegrationQuotaExceededFault,
     KMSKeyNotAccessibleFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
@@ -6790,6 +6839,7 @@ export const createOptionGroup: API.OperationMethod<
   input: __S(2528, __c79, 0) as any as S.Schema<CreateOptionGroupMessage>,
   output: __S(2529, __c79, 1) as any as S.Schema<CreateOptionGroupResult>,
   errors: [OptionGroupAlreadyExistsFault, OptionGroupQuotaExceededFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOptionGroup",
@@ -6822,6 +6872,7 @@ export const createTenantDatabase: API.OperationMethod<
     TenantDatabaseAlreadyExistsFault,
     TenantDatabaseQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTenantDatabase",
@@ -6847,6 +6898,7 @@ export const deleteBlueGreenDeployment: API.OperationMethod<
   input: __S(2624, __c82, 0) as any as S.Schema<DeleteBlueGreenDeploymentRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<DeleteBlueGreenDeploymentResponse>,
   errors: [BlueGreenDeploymentNotFoundFault, InvalidBlueGreenDeploymentStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueGreenDeployment",
@@ -6880,6 +6932,7 @@ export const deleteCustomDBEngineVersion: API.OperationMethod<
   input: __S(2656, __c83, 0) as any as S.Schema<DeleteCustomDBEngineVersionMessage>,
   output: __S(1321, __c41, 9) as any as S.Schema<DBEngineVersion>,
   errors: [CustomDBEngineVersionNotFoundFault, InvalidCustomDBEngineVersionStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDBEngineVersion",
@@ -6926,6 +6979,7 @@ export const deleteDBCluster: API.OperationMethod<
     SnapshotQuotaExceededFault,
     DBClusterDeletionProtected,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBCluster",
@@ -6949,6 +7003,7 @@ export const deleteDBClusterAutomatedBackup: API.OperationMethod<
   input: __S(2720, __c85, 0) as any as S.Schema<DeleteDBClusterAutomatedBackupMessage>,
   output: __S(2721, __c85, 1) as any as S.Schema<DeleteDBClusterAutomatedBackupResult>,
   errors: [DBClusterAutomatedBackupNotFoundFault, InvalidDBClusterAutomatedBackupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterAutomatedBackup",
@@ -6979,6 +7034,7 @@ export const deleteDBClusterEndpoint: API.OperationMethod<
     InvalidDBClusterEndpointStateFault,
     InvalidDBClusterStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterEndpoint",
@@ -7006,6 +7062,7 @@ export const deleteDBClusterParameterGroup: API.OperationMethod<
   input: __S(2848, __c89, 0) as any as S.Schema<DeleteDBClusterParameterGroupMessage>,
   output: __S(2849, __c89, 1) as any as S.Schema<DeleteDBClusterParameterGroupResponse>,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterParameterGroup",
@@ -7035,6 +7092,7 @@ export const deleteDBClusterSnapshot: API.OperationMethod<
   input: __S(2880, __c90, 0) as any as S.Schema<DeleteDBClusterSnapshotMessage>,
   output: __S(2881, __c90, 1) as any as S.Schema<DeleteDBClusterSnapshotResult>,
   errors: [DBClusterSnapshotNotFoundFault, InvalidDBClusterSnapshotStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterSnapshot",
@@ -7087,6 +7145,7 @@ export const deleteDBInstance: API.OperationMethod<
     SnapshotQuotaExceededFault,
     DBInstanceDeletionProtected,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstance",
@@ -7110,6 +7169,7 @@ export const deleteDBInstanceAutomatedBackup: API.OperationMethod<
   input: __S(2944, __c92, 0) as any as S.Schema<DeleteDBInstanceAutomatedBackupMessage>,
   output: __S(2945, __c92, 1) as any as S.Schema<DeleteDBInstanceAutomatedBackupResult>,
   errors: [DBInstanceAutomatedBackupNotFoundFault, InvalidDBInstanceAutomatedBackupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstanceAutomatedBackup",
@@ -7133,6 +7193,7 @@ export const deleteDBParameterGroup: API.OperationMethod<
   input: __S(3008, __c94, 0) as any as S.Schema<DeleteDBParameterGroupMessage>,
   output: __S(3009, __c94, 1) as any as S.Schema<DeleteDBParameterGroupResponse>,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBParameterGroup",
@@ -7153,6 +7214,7 @@ export const deleteDBProxy: API.OperationMethod<
   input: __S(3040, __c95, 0) as any as S.Schema<DeleteDBProxyRequest>,
   output: __S(3041, __c95, 1) as any as S.Schema<DeleteDBProxyResponse>,
   errors: [DBProxyNotFoundFault, InvalidDBProxyStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBProxy",
@@ -7176,6 +7238,7 @@ export const deleteDBProxyEndpoint: API.OperationMethod<
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteDBProxyEndpointRequest>,
   output: __S(3073, __c96, 1) as any as S.Schema<DeleteDBProxyEndpointResponse>,
   errors: [DBProxyEndpointNotFoundFault, InvalidDBProxyEndpointStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBProxyEndpoint",
@@ -7203,6 +7266,7 @@ export const deleteDBSecurityGroup: API.OperationMethod<
   input: __S(3104, __c97, 0) as any as S.Schema<DeleteDBSecurityGroupMessage>,
   output: __S(3105, __c97, 1) as any as S.Schema<DeleteDBSecurityGroupResponse>,
   errors: [DBSecurityGroupNotFoundFault, InvalidDBSecurityGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSecurityGroup",
@@ -7227,6 +7291,7 @@ export const deleteDBShardGroup: API.OperationMethod<
   input: __S(3136, __c98, 0) as any as S.Schema<DeleteDBShardGroupMessage>,
   output: __S(2240, __c70, 0) as any as S.Schema<DBShardGroup>,
   errors: [DBShardGroupNotFoundFault, InvalidDBClusterStateFault, InvalidDBShardGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBShardGroup",
@@ -7252,6 +7317,7 @@ export const deleteDBSnapshot: API.OperationMethod<
   input: __S(3168, __c99, 0) as any as S.Schema<DeleteDBSnapshotMessage>,
   output: __S(3169, __c99, 1) as any as S.Schema<DeleteDBSnapshotResult>,
   errors: [DBSnapshotNotFoundFault, InvalidDBSnapshotStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSnapshot",
@@ -7278,6 +7344,7 @@ export const deleteDBSubnetGroup: API.OperationMethod<
   input: __S(3200, __c100, 0) as any as S.Schema<DeleteDBSubnetGroupMessage>,
   output: __S(3201, __c100, 1) as any as S.Schema<DeleteDBSubnetGroupResponse>,
   errors: [DBSubnetGroupNotFoundFault, InvalidDBSubnetGroupStateFault, InvalidDBSubnetStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSubnetGroup",
@@ -7301,6 +7368,7 @@ export const deleteEventSubscription: API.OperationMethod<
   input: __S(3232, __c101, 0) as any as S.Schema<DeleteEventSubscriptionMessage>,
   output: __S(3233, __c101, 1) as any as S.Schema<DeleteEventSubscriptionResult>,
   errors: [InvalidEventSubscriptionStateFault, SubscriptionNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
@@ -7326,6 +7394,7 @@ export const deleteGlobalCluster: API.OperationMethod<
   input: __S(3264, __c102, 0) as any as S.Schema<DeleteGlobalClusterMessage>,
   output: __S(3265, __c102, 1) as any as S.Schema<DeleteGlobalClusterResult>,
   errors: [GlobalClusterNotFoundFault, InvalidGlobalClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalCluster",
@@ -7354,6 +7423,7 @@ export const deleteIntegration: API.OperationMethod<
     IntegrationNotFoundFault,
     InvalidIntegrationStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
@@ -7377,6 +7447,7 @@ export const deleteOptionGroup: API.OperationMethod<
   input: __S(3328, __c104, 0) as any as S.Schema<DeleteOptionGroupMessage>,
   output: __S(3329, __c104, 1) as any as S.Schema<DeleteOptionGroupResponse>,
   errors: [InvalidOptionGroupStateFault, OptionGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptionGroup",
@@ -7409,6 +7480,7 @@ export const deleteTenantDatabase: API.OperationMethod<
     InvalidDBInstanceStateFault,
     TenantDatabaseNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTenantDatabase",
@@ -7439,6 +7511,7 @@ export const deregisterDBProxyTargets: API.OperationMethod<
     DBProxyTargetNotFoundFault,
     InvalidDBProxyStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDBProxyTargets",
@@ -7461,6 +7534,7 @@ export const describeAccountAttributes: API.OperationMethod<
   input: __S(3424, __c107, 0) as any as S.Schema<DescribeAccountAttributesMessage>,
   output: __S(3427, __c107, 3) as any as S.Schema<AccountAttributesMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
@@ -7484,6 +7558,7 @@ export const describeBlueGreenDeployments: API.PaginatedOperationMethod<
   input: __S(3456, __c108, 0) as any as S.Schema<DescribeBlueGreenDeploymentsRequest>,
   output: __S(3458, __c108, 2) as any as S.Schema<DescribeBlueGreenDeploymentsResponse>,
   errors: [BlueGreenDeploymentNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBlueGreenDeployments",
@@ -7513,6 +7588,7 @@ export const describeCertificates: API.PaginatedOperationMethod<
   input: __S(3520, __c110, 0) as any as S.Schema<DescribeCertificatesMessage>,
   output: __S(3522, __c110, 2) as any as S.Schema<CertificateMessage>,
   errors: [CertificateNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificates",
@@ -7544,6 +7620,7 @@ export const describeDBCapacityReservations: API.PaginatedOperationMethod<
   input: __S(3584, __c112, 0) as any as S.Schema<DescribeDBCapacityReservationsRequest>,
   output: __S(3586, __c112, 2) as any as S.Schema<DescribeDBCapacityReservationsResponse>,
   errors: [DBCapacityReservationNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBCapacityReservations",
@@ -7575,6 +7652,7 @@ export const describeDBClusterAutomatedBackups: API.PaginatedOperationMethod<
   input: __S(3616, __c113, 0) as any as S.Schema<DescribeDBClusterAutomatedBackupsMessage>,
   output: __S(3618, __c113, 2) as any as S.Schema<DBClusterAutomatedBackupMessage>,
   errors: [DBClusterAutomatedBackupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterAutomatedBackups",
@@ -7609,6 +7687,7 @@ export const describeDBClusterBacktracks: API.PaginatedOperationMethod<
   input: __S(3648, __c114, 0) as any as S.Schema<DescribeDBClusterBacktracksMessage>,
   output: __S(3650, __c114, 2) as any as S.Schema<DBClusterBacktrackMessage>,
   errors: [DBClusterBacktrackNotFoundFault, DBClusterNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterBacktracks",
@@ -7638,6 +7717,7 @@ export const describeDBClusterEndpoints: API.PaginatedOperationMethod<
   input: __S(3680, __c115, 0) as any as S.Schema<DescribeDBClusterEndpointsMessage>,
   output: __S(3682, __c115, 2) as any as S.Schema<DBClusterEndpointMessage>,
   errors: [DBClusterNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterEndpoints",
@@ -7669,6 +7749,7 @@ export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
   input: __S(3712, __c116, 0) as any as S.Schema<DescribeDBClusterParameterGroupsMessage>,
   output: __S(3714, __c116, 2) as any as S.Schema<DBClusterParameterGroupsMessage>,
   errors: [DBParameterGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterParameterGroups",
@@ -7700,6 +7781,7 @@ export const describeDBClusterParameters: API.PaginatedOperationMethod<
   input: __S(3744, __c117, 0) as any as S.Schema<DescribeDBClusterParametersMessage>,
   output: __S(3745, __c117, 1) as any as S.Schema<DBClusterParameterGroupDetails>,
   errors: [DBParameterGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterParameters",
@@ -7733,6 +7815,7 @@ export const describeDBClusters: API.PaginatedOperationMethod<
   input: __S(3808, __c119, 0) as any as S.Schema<DescribeDBClustersMessage>,
   output: __S(3810, __c119, 2) as any as S.Schema<DBClusterMessage>,
   errors: [DBClusterNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusters",
@@ -7765,6 +7848,7 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   input: __S(3840, __c120, 0) as any as S.Schema<DescribeDBClusterSnapshotAttributesMessage>,
   output: __S(3841, __c120, 1) as any as S.Schema<DescribeDBClusterSnapshotAttributesResult>,
   errors: [DBClusterSnapshotNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterSnapshotAttributes",
@@ -7790,6 +7874,7 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
   input: __S(3936, __c123, 0) as any as S.Schema<DescribeDBClusterSnapshotsMessage>,
   output: __S(3938, __c123, 2) as any as S.Schema<DBClusterSnapshotMessage>,
   errors: [DBClusterSnapshotNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterSnapshots",
@@ -7817,6 +7902,7 @@ export const describeDBEngineVersions: API.PaginatedOperationMethod<
   input: __S(3968, __c124, 0) as any as S.Schema<DescribeDBEngineVersionsMessage>,
   output: __S(3970, __c124, 2) as any as S.Schema<DBEngineVersionMessage>,
   errors: [InvalidParameterCombination],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBEngineVersions",
@@ -7848,6 +7934,7 @@ export const describeDBInstanceAutomatedBackups: API.PaginatedOperationMethod<
   input: __S(4000, __c125, 0) as any as S.Schema<DescribeDBInstanceAutomatedBackupsMessage>,
   output: __S(4002, __c125, 2) as any as S.Schema<DBInstanceAutomatedBackupMessage>,
   errors: [DBInstanceAutomatedBackupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBInstanceAutomatedBackups",
@@ -7877,6 +7964,7 @@ export const describeDBInstances: API.PaginatedOperationMethod<
   input: __S(4032, __c126, 0) as any as S.Schema<DescribeDBInstancesMessage>,
   output: __S(4034, __c126, 2) as any as S.Schema<DBInstanceMessage>,
   errors: [DBInstanceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBInstances",
@@ -7909,6 +7997,7 @@ export const describeDBLogFiles: API.PaginatedOperationMethod<
   input: __S(4064, __c127, 0) as any as S.Schema<DescribeDBLogFilesMessage>,
   output: __S(4067, __c127, 3) as any as S.Schema<DescribeDBLogFilesResponse>,
   errors: [DBInstanceNotFoundFault, DBInstanceNotReadyFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBLogFiles",
@@ -7936,6 +8025,7 @@ export const describeDBMajorEngineVersions: API.PaginatedOperationMethod<
   input: __S(4096, __c128, 0) as any as S.Schema<DescribeDBMajorEngineVersionsRequest>,
   output: __S(4101, __c128, 5) as any as S.Schema<DescribeDBMajorEngineVersionsResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBMajorEngineVersions",
@@ -7963,6 +8053,7 @@ export const describeDBParameterGroups: API.PaginatedOperationMethod<
   input: __S(4128, __c129, 0) as any as S.Schema<DescribeDBParameterGroupsMessage>,
   output: __S(4130, __c129, 2) as any as S.Schema<DBParameterGroupsMessage>,
   errors: [DBParameterGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBParameterGroups",
@@ -7990,6 +8081,7 @@ export const describeDBParameters: API.PaginatedOperationMethod<
   input: __S(4160, __c130, 0) as any as S.Schema<DescribeDBParametersMessage>,
   output: __S(4161, __c130, 1) as any as S.Schema<DBParameterGroupDetails>,
   errors: [DBParameterGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBParameters",
@@ -8017,6 +8109,7 @@ export const describeDBProxies: API.PaginatedOperationMethod<
   input: __S(4192, __c131, 0) as any as S.Schema<DescribeDBProxiesRequest>,
   output: __S(4194, __c131, 2) as any as S.Schema<DescribeDBProxiesResponse>,
   errors: [DBProxyNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBProxies",
@@ -8047,6 +8140,7 @@ export const describeDBProxyEndpoints: API.PaginatedOperationMethod<
   input: __S(4224, __c132, 0) as any as S.Schema<DescribeDBProxyEndpointsRequest>,
   output: __S(4226, __c132, 2) as any as S.Schema<DescribeDBProxyEndpointsResponse>,
   errors: [DBProxyEndpointNotFoundFault, DBProxyNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBProxyEndpoints",
@@ -8078,6 +8172,7 @@ export const describeDBProxyTargetGroups: API.PaginatedOperationMethod<
   input: __S(4256, __c133, 0) as any as S.Schema<DescribeDBProxyTargetGroupsRequest>,
   output: __S(4258, __c133, 2) as any as S.Schema<DescribeDBProxyTargetGroupsResponse>,
   errors: [DBProxyNotFoundFault, DBProxyTargetGroupNotFoundFault, InvalidDBProxyStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBProxyTargetGroups",
@@ -8115,6 +8210,7 @@ export const describeDBProxyTargets: API.PaginatedOperationMethod<
     DBProxyTargetNotFoundFault,
     InvalidDBProxyStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBProxyTargets",
@@ -8142,6 +8238,7 @@ export const describeDBRecommendations: API.PaginatedOperationMethod<
   input: __S(4384, __c137, 0) as any as S.Schema<DescribeDBRecommendationsMessage>,
   output: __S(4386, __c137, 2) as any as S.Schema<DBRecommendationsMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBRecommendations",
@@ -8171,6 +8268,7 @@ export const describeDBSecurityGroups: API.PaginatedOperationMethod<
   input: __S(4448, __c139, 0) as any as S.Schema<DescribeDBSecurityGroupsMessage>,
   output: __S(4450, __c139, 2) as any as S.Schema<DBSecurityGroupMessage>,
   errors: [DBSecurityGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBSecurityGroups",
@@ -8200,6 +8298,7 @@ export const describeDBShardGroups: API.OperationMethod<
   input: __S(4480, __c140, 0) as any as S.Schema<DescribeDBShardGroupsMessage>,
   output: __S(4482, __c140, 2) as any as S.Schema<DescribeDBShardGroupsResponse>,
   errors: [DBClusterNotFoundFault, DBShardGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBShardGroups",
@@ -8224,6 +8323,7 @@ export const describeDBSnapshotAttributes: API.OperationMethod<
   input: __S(4512, __c141, 0) as any as S.Schema<DescribeDBSnapshotAttributesMessage>,
   output: __S(4513, __c141, 1) as any as S.Schema<DescribeDBSnapshotAttributesResult>,
   errors: [DBSnapshotNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBSnapshotAttributes",
@@ -8245,6 +8345,7 @@ export const describeDBSnapshots: API.PaginatedOperationMethod<
   input: __S(4576, __c143, 0) as any as S.Schema<DescribeDBSnapshotsMessage>,
   output: __S(4578, __c143, 2) as any as S.Schema<DBSnapshotMessage>,
   errors: [DBSnapshotNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBSnapshots",
@@ -8274,6 +8375,7 @@ export const describeDBSnapshotTenantDatabases: API.PaginatedOperationMethod<
   input: __S(4608, __c144, 0) as any as S.Schema<DescribeDBSnapshotTenantDatabasesMessage>,
   output: __S(4611, __c144, 3) as any as S.Schema<DBSnapshotTenantDatabasesMessage>,
   errors: [DBSnapshotNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBSnapshotTenantDatabases",
@@ -8303,6 +8405,7 @@ export const describeDBSubnetGroups: API.PaginatedOperationMethod<
   input: __S(4640, __c145, 0) as any as S.Schema<DescribeDBSubnetGroupsMessage>,
   output: __S(4642, __c145, 2) as any as S.Schema<DBSubnetGroupMessage>,
   errors: [DBSubnetGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBSubnetGroups",
@@ -8332,6 +8435,7 @@ export const describeEngineDefaultClusterParameters: API.PaginatedOperationMetho
   input: __S(4672, __c146, 0) as any as S.Schema<DescribeEngineDefaultClusterParametersMessage>,
   output: __S(4673, __c146, 1) as any as S.Schema<DescribeEngineDefaultClusterParametersResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngineDefaultClusterParameters",
@@ -8359,6 +8463,7 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
   input: __S(4736, __c148, 0) as any as S.Schema<DescribeEngineDefaultParametersMessage>,
   output: __S(4737, __c148, 1) as any as S.Schema<DescribeEngineDefaultParametersResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngineDefaultParameters",
@@ -8385,6 +8490,7 @@ export const describeEventCategories: API.OperationMethod<
   input: __S(4768, __c149, 0) as any as S.Schema<DescribeEventCategoriesMessage>,
   output: __S(4771, __c149, 3) as any as S.Schema<EventCategoriesMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
@@ -8410,6 +8516,7 @@ export const describeEvents: API.PaginatedOperationMethod<
   input: __S(4800, __c150, 0) as any as S.Schema<DescribeEventsMessage>,
   output: __S(4803, __c150, 3) as any as S.Schema<EventsMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvents",
@@ -8439,6 +8546,7 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
   input: __S(4832, __c151, 0) as any as S.Schema<DescribeEventSubscriptionsMessage>,
   output: __S(4834, __c151, 2) as any as S.Schema<EventSubscriptionsMessage>,
   errors: [SubscriptionNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSubscriptions",
@@ -8466,6 +8574,7 @@ export const describeExportTasks: API.PaginatedOperationMethod<
   input: __S(4864, __c152, 0) as any as S.Schema<DescribeExportTasksMessage>,
   output: __S(4866, __c152, 2) as any as S.Schema<ExportTasksMessage>,
   errors: [ExportTaskNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExportTasks",
@@ -8497,6 +8606,7 @@ export const describeGlobalClusters: API.PaginatedOperationMethod<
   input: __S(4896, __c153, 0) as any as S.Schema<DescribeGlobalClustersMessage>,
   output: __S(4898, __c153, 2) as any as S.Schema<GlobalClustersMessage>,
   errors: [GlobalClusterNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalClusters",
@@ -8524,6 +8634,7 @@ export const describeIntegrations: API.PaginatedOperationMethod<
   input: __S(4928, __c154, 0) as any as S.Schema<DescribeIntegrationsMessage>,
   output: __S(4930, __c154, 2) as any as S.Schema<DescribeIntegrationsResponse>,
   errors: [IntegrationNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIntegrations",
@@ -8551,6 +8662,7 @@ export const describeOptionGroupOptions: API.PaginatedOperationMethod<
   input: __S(4960, __c155, 0) as any as S.Schema<DescribeOptionGroupOptionsMessage>,
   output: __S(4971, __c155, 11) as any as S.Schema<OptionGroupOptionsMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOptionGroupOptions",
@@ -8578,6 +8690,7 @@ export const describeOptionGroups: API.PaginatedOperationMethod<
   input: __S(4992, __c156, 0) as any as S.Schema<DescribeOptionGroupsMessage>,
   output: __S(4994, __c156, 2) as any as S.Schema<OptionGroups>,
   errors: [OptionGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOptionGroups",
@@ -8605,6 +8718,7 @@ export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
   input: __S(5024, __c157, 0) as any as S.Schema<DescribeOrderableDBInstanceOptionsMessage>,
   output: __S(5031, __c157, 7) as any as S.Schema<OrderableDBInstanceOptionsMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrderableDBInstanceOptions",
@@ -8634,6 +8748,7 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
   input: __S(5088, __c159, 0) as any as S.Schema<DescribePendingMaintenanceActionsMessage>,
   output: __S(5090, __c159, 2) as any as S.Schema<PendingMaintenanceActionsMessage>,
   errors: [ResourceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePendingMaintenanceActions",
@@ -8661,6 +8776,7 @@ export const describeReservedDBInstances: API.PaginatedOperationMethod<
   input: __S(5120, __c160, 0) as any as S.Schema<DescribeReservedDBInstancesMessage>,
   output: __S(5122, __c160, 2) as any as S.Schema<ReservedDBInstanceMessage>,
   errors: [ReservedDBInstanceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedDBInstances",
@@ -8690,6 +8806,7 @@ export const describeReservedDBInstancesOfferings: API.PaginatedOperationMethod<
   input: __S(5216, __c163, 0) as any as S.Schema<DescribeReservedDBInstancesOfferingsMessage>,
   output: __S(5219, __c163, 3) as any as S.Schema<ReservedDBInstancesOfferingMessage>,
   errors: [ReservedDBInstancesOfferingNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedDBInstancesOfferings",
@@ -8717,6 +8834,7 @@ export const describeServerlessV2PlatformVersions: API.PaginatedOperationMethod<
   input: __S(5248, __c164, 0) as any as S.Schema<DescribeServerlessV2PlatformVersionsMessage>,
   output: __S(5251, __c164, 3) as any as S.Schema<ServerlessV2PlatformVersionsMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServerlessV2PlatformVersions",
@@ -8748,6 +8866,7 @@ export const describeSourceRegions: API.PaginatedOperationMethod<
   input: __S(5280, __c165, 0) as any as S.Schema<DescribeSourceRegionsMessage>,
   output: __S(5283, __c165, 3) as any as S.Schema<SourceRegionMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSourceRegions",
@@ -8775,6 +8894,7 @@ export const describeTenantDatabases: API.PaginatedOperationMethod<
   input: __S(5312, __c166, 0) as any as S.Schema<DescribeTenantDatabasesMessage>,
   output: __S(5314, __c166, 2) as any as S.Schema<TenantDatabasesMessage>,
   errors: [DBInstanceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTenantDatabases",
@@ -8806,6 +8926,7 @@ export const describeValidDBInstanceModifications: API.OperationMethod<
   input: __S(5344, __c167, 0) as any as S.Schema<DescribeValidDBInstanceModificationsMessage>,
   output: __S(5355, __c167, 11) as any as S.Schema<DescribeValidDBInstanceModificationsResult>,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeValidDBInstanceModifications",
@@ -8833,6 +8954,7 @@ export const disableHttpEndpoint: API.OperationMethod<
   input: __S(5376, __c168, 0) as any as S.Schema<DisableHttpEndpointRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<DisableHttpEndpointResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHttpEndpoint",
@@ -8862,6 +8984,7 @@ export const downloadDBLogFilePortion: API.PaginatedOperationMethod<
   input: __S(5408, __c169, 0) as any as S.Schema<DownloadDBLogFilePortionMessage>,
   output: __S(5409, __c169, 1) as any as S.Schema<DownloadDBLogFilePortionDetails>,
   errors: [DBInstanceNotFoundFault, DBInstanceNotReadyFault, DBLogFileNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DownloadDBLogFilePortion",
@@ -8892,6 +9015,7 @@ export const enableHttpEndpoint: API.OperationMethod<
   input: __S(5440, __c170, 0) as any as S.Schema<EnableHttpEndpointRequest>,
   output: __S(5441, __c170, 1) as any as S.Schema<EnableHttpEndpointResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHttpEndpoint",
@@ -8928,6 +9052,7 @@ export const failoverDBCluster: API.OperationMethod<
   input: __S(5472, __c171, 0) as any as S.Schema<FailoverDBClusterMessage>,
   output: __S(5473, __c171, 1) as any as S.Schema<FailoverDBClusterResult>,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverDBCluster",
@@ -8978,6 +9103,7 @@ export const failoverGlobalCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
     InvalidGlobalClusterStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalCluster",
@@ -9026,6 +9152,7 @@ export const listTagsForResource: API.OperationMethod<
     IntegrationNotFoundFault,
     TenantDatabaseNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -9052,6 +9179,7 @@ export const modifyActivityStream: API.OperationMethod<
   input: __S(5568, __c174, 0) as any as S.Schema<ModifyActivityStreamRequest>,
   output: __S(5569, __c174, 1) as any as S.Schema<ModifyActivityStreamResponse>,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault, ResourceNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyActivityStream",
@@ -9084,6 +9212,7 @@ export const modifyCertificates: API.OperationMethod<
   input: __S(5600, __c175, 0) as any as S.Schema<ModifyCertificatesMessage>,
   output: __S(5601, __c175, 1) as any as S.Schema<ModifyCertificatesResult>,
   errors: [CertificateNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCertificates",
@@ -9118,6 +9247,7 @@ export const modifyCurrentDBClusterCapacity: API.OperationMethod<
   input: __S(5632, __c176, 0) as any as S.Schema<ModifyCurrentDBClusterCapacityMessage>,
   output: __S(5633, __c176, 1) as any as S.Schema<DBClusterCapacityInfo>,
   errors: [DBClusterNotFoundFault, InvalidDBClusterCapacityFault, InvalidDBClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCurrentDBClusterCapacity",
@@ -9145,6 +9275,7 @@ export const modifyCustomDBEngineVersion: API.OperationMethod<
   input: __S(5664, __c177, 0) as any as S.Schema<ModifyCustomDBEngineVersionMessage>,
   output: __S(1321, __c41, 9) as any as S.Schema<DBEngineVersion>,
   errors: [CustomDBEngineVersionNotFoundFault, InvalidCustomDBEngineVersionStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCustomDBEngineVersion",
@@ -9179,6 +9310,7 @@ export const modifyDBCapacityReservation: API.OperationMethod<
     InsufficientDBInstanceCapacityFault,
     InvalidDBCapacityReservationStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBCapacityReservation",
@@ -9213,6 +9345,8 @@ export type ModifyDBClusterError =
   | CommonErrors;
 /**
  * Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request.
+ *
+ * To change the VPC networking configuration of an Aurora PostgreSQL DB cluster, see `EnableVPCNetworking`. To move an Aurora MySQL or Aurora PostgreSQL DB cluster to a different DB subnet group, in the same VPC or a different VPC, see `DBSubnetGroupName`.
  *
  * For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
  *
@@ -9251,6 +9385,7 @@ export const modifyDBCluster: API.OperationMethod<
     InvalidParameterCombination,
     InvalidParameterValue,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBCluster",
@@ -9285,6 +9420,7 @@ export const modifyDBClusterEndpoint: API.OperationMethod<
     InvalidDBClusterStateFault,
     InvalidDBInstanceStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterEndpoint",
@@ -9314,6 +9450,7 @@ export const modifyDBClusterParameterGroup: API.OperationMethod<
   input: __S(5824, __c182, 0) as any as S.Schema<ModifyDBClusterParameterGroupMessage>,
   output: __S(5856, __c183, 0) as any as S.Schema<DBClusterParameterGroupNameMessage>,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterParameterGroup",
@@ -9350,6 +9487,7 @@ export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
     InvalidDBClusterSnapshotStateFault,
     SharedSnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterSnapshotAttribute",
@@ -9424,6 +9562,7 @@ export const modifyDBInstance: API.OperationMethod<
     InvalidParameterCombination,
     InvalidParameterValue,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBInstance",
@@ -9449,6 +9588,7 @@ export const modifyDBParameterGroup: API.OperationMethod<
   input: __S(5952, __c186, 0) as any as S.Schema<ModifyDBParameterGroupMessage>,
   output: __S(5984, __c187, 0) as any as S.Schema<DBParameterGroupNameMessage>,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBParameterGroup",
@@ -9473,6 +9613,7 @@ export const modifyDBProxy: API.OperationMethod<
   input: __S(6016, __c188, 0) as any as S.Schema<ModifyDBProxyRequest>,
   output: __S(6017, __c188, 1) as any as S.Schema<ModifyDBProxyResponse>,
   errors: [DBProxyAlreadyExistsFault, DBProxyNotFoundFault, InvalidDBProxyStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxy",
@@ -9503,6 +9644,7 @@ export const modifyDBProxyEndpoint: API.OperationMethod<
     InvalidDBProxyEndpointStateFault,
     InvalidDBProxyStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxyEndpoint",
@@ -9527,6 +9669,7 @@ export const modifyDBProxyTargetGroup: API.OperationMethod<
   input: __S(6081, __c190, 1) as any as S.Schema<ModifyDBProxyTargetGroupRequest>,
   output: __S(6082, __c190, 2) as any as S.Schema<ModifyDBProxyTargetGroupResponse>,
   errors: [DBProxyNotFoundFault, DBProxyTargetGroupNotFoundFault, InvalidDBProxyStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxyTargetGroup",
@@ -9547,6 +9690,7 @@ export const modifyDBRecommendation: API.OperationMethod<
   input: __S(6114, __c191, 2) as any as S.Schema<ModifyDBRecommendationMessage>,
   output: __S(6115, __c191, 3) as any as S.Schema<DBRecommendationMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBRecommendation",
@@ -9571,6 +9715,7 @@ export const modifyDBShardGroup: API.OperationMethod<
   input: __S(6144, __c192, 0) as any as S.Schema<ModifyDBShardGroupMessage>,
   output: __S(2240, __c70, 0) as any as S.Schema<DBShardGroup>,
   errors: [DBShardGroupAlreadyExistsFault, DBShardGroupNotFoundFault, InvalidDBClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBShardGroup",
@@ -9597,6 +9742,7 @@ export const modifyDBSnapshot: API.OperationMethod<
   input: __S(6176, __c193, 0) as any as S.Schema<ModifyDBSnapshotMessage>,
   output: __S(6177, __c193, 1) as any as S.Schema<ModifyDBSnapshotResult>,
   errors: [DBSnapshotNotFoundFault, InvalidDBSnapshotStateFault, KMSKeyNotAccessibleFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSnapshot",
@@ -9629,6 +9775,7 @@ export const modifyDBSnapshotAttribute: API.OperationMethod<
   input: __S(6208, __c194, 0) as any as S.Schema<ModifyDBSnapshotAttributeMessage>,
   output: __S(6209, __c194, 1) as any as S.Schema<ModifyDBSnapshotAttributeResult>,
   errors: [DBSnapshotNotFoundFault, InvalidDBSnapshotStateFault, SharedSnapshotQuotaExceededFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSnapshotAttribute",
@@ -9663,6 +9810,7 @@ export const modifyDBSubnetGroup: API.OperationMethod<
     InvalidSubnet,
     SubnetAlreadyInUse,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSubnetGroup",
@@ -9699,6 +9847,7 @@ export const modifyEventSubscription: API.OperationMethod<
     SubscriptionCategoryNotFoundFault,
     SubscriptionNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
@@ -9733,6 +9882,7 @@ export const modifyGlobalCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
     InvalidGlobalClusterStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalCluster",
@@ -9761,6 +9911,7 @@ export const modifyIntegration: API.OperationMethod<
     IntegrationNotFoundFault,
     InvalidIntegrationStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIntegration",
@@ -9784,6 +9935,7 @@ export const modifyOptionGroup: API.OperationMethod<
   input: __S(6372, __c199, 4) as any as S.Schema<ModifyOptionGroupMessage>,
   output: __S(6373, __c199, 5) as any as S.Schema<ModifyOptionGroupResult>,
   errors: [InvalidOptionGroupStateFault, OptionGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyOptionGroup",
@@ -9816,6 +9968,7 @@ export const modifyTenantDatabase: API.OperationMethod<
     TenantDatabaseAlreadyExistsFault,
     TenantDatabaseNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTenantDatabase",
@@ -9843,6 +9996,7 @@ export const promoteReadReplica: API.OperationMethod<
   input: __S(6432, __c201, 0) as any as S.Schema<PromoteReadReplicaMessage>,
   output: __S(6433, __c201, 1) as any as S.Schema<PromoteReadReplicaResult>,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromoteReadReplica",
@@ -9866,6 +10020,7 @@ export const promoteReadReplicaDBCluster: API.OperationMethod<
   input: __S(6464, __c202, 0) as any as S.Schema<PromoteReadReplicaDBClusterMessage>,
   output: __S(6465, __c202, 1) as any as S.Schema<PromoteReadReplicaDBClusterResult>,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromoteReadReplicaDBCluster",
@@ -9894,6 +10049,7 @@ export const purchaseReservedDBInstancesOffering: API.OperationMethod<
     ReservedDBInstanceQuotaExceededFault,
     ReservedDBInstancesOfferingNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedDBInstancesOffering",
@@ -9924,6 +10080,7 @@ export const rebootDBCluster: API.OperationMethod<
   input: __S(6528, __c204, 0) as any as S.Schema<RebootDBClusterMessage>,
   output: __S(6529, __c204, 1) as any as S.Schema<RebootDBClusterResult>,
   errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBCluster",
@@ -9956,6 +10113,7 @@ export const rebootDBInstance: API.OperationMethod<
   input: __S(6560, __c205, 0) as any as S.Schema<RebootDBInstanceMessage>,
   output: __S(6561, __c205, 1) as any as S.Schema<RebootDBInstanceResult>,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault, KMSKeyNotAccessibleFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBInstance",
@@ -9981,6 +10139,7 @@ export const rebootDBShardGroup: API.OperationMethod<
   input: __S(6592, __c206, 0) as any as S.Schema<RebootDBShardGroupMessage>,
   output: __S(2240, __c70, 0) as any as S.Schema<DBShardGroup>,
   errors: [DBShardGroupNotFoundFault, InvalidDBShardGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBShardGroup",
@@ -10021,6 +10180,7 @@ export const registerDBProxyTargets: API.OperationMethod<
     InvalidDBInstanceStateFault,
     InvalidDBProxyStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDBProxyTargets",
@@ -10053,6 +10213,7 @@ export const removeFromGlobalCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
     InvalidGlobalClusterStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFromGlobalCluster",
@@ -10081,6 +10242,7 @@ export const removeRoleFromDBCluster: API.OperationMethod<
   input: __S(6688, __c209, 0) as any as S.Schema<RemoveRoleFromDBClusterMessage>,
   output: __S(6689, __c209, 1) as any as S.Schema<RemoveRoleFromDBClusterResponse>,
   errors: [DBClusterNotFoundFault, DBClusterRoleNotFoundFault, InvalidDBClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromDBCluster",
@@ -10105,6 +10267,7 @@ export const removeRoleFromDBInstance: API.OperationMethod<
   input: __S(6720, __c210, 0) as any as S.Schema<RemoveRoleFromDBInstanceMessage>,
   output: __S(6721, __c210, 1) as any as S.Schema<RemoveRoleFromDBInstanceResponse>,
   errors: [DBInstanceNotFoundFault, DBInstanceRoleNotFoundFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromDBInstance",
@@ -10128,6 +10291,7 @@ export const removeSourceIdentifierFromSubscription: API.OperationMethod<
   input: __S(6752, __c211, 0) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionMessage>,
   output: __S(6753, __c211, 1) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionResult>,
   errors: [SourceNotFoundFault, SubscriptionNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSourceIdentifierFromSubscription",
@@ -10182,6 +10346,7 @@ export const removeTagsFromResource: API.OperationMethod<
     InvalidDBInstanceStateFault,
     TenantDatabaseNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
@@ -10211,6 +10376,7 @@ export const resetDBClusterParameterGroup: API.OperationMethod<
   input: __S(6816, __c213, 0) as any as S.Schema<ResetDBClusterParameterGroupMessage>,
   output: __S(5856, __c183, 0) as any as S.Schema<DBClusterParameterGroupNameMessage>,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDBClusterParameterGroup",
@@ -10234,6 +10400,7 @@ export const resetDBParameterGroup: API.OperationMethod<
   input: __S(6848, __c214, 0) as any as S.Schema<ResetDBParameterGroupMessage>,
   output: __S(5984, __c187, 0) as any as S.Schema<DBParameterGroupNameMessage>,
   errors: [DBParameterGroupNotFoundFault, InvalidDBParameterGroupStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDBParameterGroup",
@@ -10298,6 +10465,7 @@ export const restoreDBClusterFromS3: API.OperationMethod<
     StorageQuotaExceededFault,
     StorageTypeNotSupportedFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterFromS3",
@@ -10380,6 +10548,7 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
     StorageTypeNotSupportedFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterFromSnapshot",
@@ -10460,6 +10629,7 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
     StorageTypeNotSupportedFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterToPointInTime",
@@ -10544,6 +10714,7 @@ export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
     TenantDatabaseQuotaExceededFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBInstanceFromDBSnapshot",
@@ -10612,6 +10783,7 @@ export const restoreDBInstanceFromS3: API.OperationMethod<
     StorageTypeNotSupportedFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBInstanceFromS3",
@@ -10694,6 +10866,7 @@ export const restoreDBInstanceToPointInTime: API.OperationMethod<
     TenantDatabaseQuotaExceededFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBInstanceToPointInTime",
@@ -10724,6 +10897,7 @@ export const revokeDBSecurityGroupIngress: API.OperationMethod<
     DBSecurityGroupNotFoundFault,
     InvalidDBSecurityGroupStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeDBSecurityGroupIngress",
@@ -10758,6 +10932,7 @@ export const startActivityStream: API.OperationMethod<
     KMSKeyNotAccessibleFault,
     ResourceNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartActivityStream",
@@ -10796,6 +10971,7 @@ export const startDBCluster: API.OperationMethod<
     KMSKeyNotAccessibleFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBCluster",
@@ -10850,6 +11026,7 @@ export const startDBInstance: API.OperationMethod<
     KMSKeyNotAccessibleFault,
     VpcEncryptionControlViolationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBInstance",
@@ -10888,6 +11065,7 @@ export const startDBInstanceAutomatedBackupsReplication: API.OperationMethod<
     KMSKeyNotAccessibleFault,
     StorageTypeNotSupportedFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBInstanceAutomatedBackupsReplication",
@@ -10936,6 +11114,7 @@ export const startExportTask: API.OperationMethod<
     InvalidS3BucketFault,
     KMSKeyNotAccessibleFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
@@ -10970,6 +11149,7 @@ export const stopActivityStream: API.OperationMethod<
     InvalidDBInstanceStateFault,
     ResourceNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopActivityStream",
@@ -11004,6 +11184,7 @@ export const stopDBCluster: API.OperationMethod<
     InvalidDBInstanceStateFault,
     InvalidDBShardGroupStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBCluster",
@@ -11042,6 +11223,7 @@ export const stopDBInstance: API.OperationMethod<
     InvalidDBInstanceStateFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBInstance",
@@ -11069,6 +11251,7 @@ export const stopDBInstanceAutomatedBackupsReplication: API.OperationMethod<
   input: __S(7360, __c230, 0) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationMessage>,
   output: __S(7361, __c230, 1) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationResult>,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBInstanceAutomatedBackupsReplication",
@@ -11096,6 +11279,7 @@ export const switchoverBlueGreenDeployment: API.OperationMethod<
   input: __S(7392, __c231, 0) as any as S.Schema<SwitchoverBlueGreenDeploymentRequest>,
   output: __S(7393, __c231, 1) as any as S.Schema<SwitchoverBlueGreenDeploymentResponse>,
   errors: [BlueGreenDeploymentNotFoundFault, InvalidBlueGreenDeploymentStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverBlueGreenDeployment",
@@ -11130,6 +11314,7 @@ export const switchoverGlobalCluster: API.OperationMethod<
     InvalidDBClusterStateFault,
     InvalidGlobalClusterStateFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverGlobalCluster",
@@ -11153,6 +11338,7 @@ export const switchoverReadReplica: API.OperationMethod<
   input: __S(7456, __c233, 0) as any as S.Schema<SwitchoverReadReplicaMessage>,
   output: __S(7457, __c233, 1) as any as S.Schema<SwitchoverReadReplicaResult>,
   errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverReadReplica",
@@ -12157,7 +12343,9 @@ function __c43(j: number): any {
           EngineLifecycleSupport: S.optional(S.String),
           TagSpecifications: S.optional(__S(865, __c27, 1)),
           MasterUserAuthenticationType: S.optional(S.String),
+          EnableVPCNetworking: S.optional(S.Boolean),
           WithExpressConfiguration: S.optional(S.Boolean),
+          EnableInternetAccessGateway: S.optional(S.Boolean),
           AssociatedRoles: S.optional(__S(1601, __c50, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDBClusterMessage" });
@@ -12301,6 +12489,8 @@ function __c47(j: number): any {
           RdsCustomClusterConfiguration: S.optional(__S(1504, __c47, 0)),
           Iops: S.optional(S.Number),
           CertificateDetails: S.optional(__S(1441, __c45, 1)),
+          VPCNetworkingEnabled: S.optional(S.Boolean),
+          InternetAccessGatewayEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ClusterPendingModifiedValues" });
     case 11:
@@ -12608,7 +12798,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "CreateDBInstanceResult" });
   }
 }
@@ -12673,18 +12863,22 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Address: S.optional(S.String), HostedZoneId: S.optional(S.String) }),
+      ).annotate({ identifier: "PrimaryEndpoint" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           DBParameterGroupName: S.optional(S.String),
           ParameterApplyStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBParameterGroupStatus" });
-    case 1:
+    case 2:
       return S.Array(
-        /*@__PURE__*/ __S(1888, __c59, 0)
+        /*@__PURE__*/ __S(1889, __c59, 1)
           .pipe(/*@__PURE__*/ T.XmlName("DBParameterGroup"))
           .annotate({ identifier: "DBParameterGroupStatus" }),
       );
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           DBInstanceClass: S.optional(S.String),
@@ -12715,25 +12909,25 @@ function __c59(j: number): any {
           DBCapacityReservationIdentifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingModifiedValues" });
-    case 3:
+    case 4:
       return S.Array(
         /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("ReadReplicaDBInstanceIdentifier")),
       );
-    case 4:
+    case 5:
       return S.Array(
         /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("ReadReplicaDBClusterIdentifier")),
       );
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({ OptionGroupName: S.optional(S.String), Status: S.optional(S.String) }),
       ).annotate({ identifier: "OptionGroupMembership" });
-    case 6:
+    case 7:
       return S.Array(
-        /*@__PURE__*/ __S(1893, __c59, 5)
+        /*@__PURE__*/ __S(1894, __c59, 6)
           .pipe(/*@__PURE__*/ T.XmlName("OptionGroupMembership"))
           .annotate({ identifier: "OptionGroupMembership" }),
       );
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           StatusType: S.optional(S.String),
@@ -12742,13 +12936,13 @@ function __c59(j: number): any {
           Message: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBInstanceStatusInfo" });
-    case 8:
+    case 9:
       return S.Array(
-        /*@__PURE__*/ __S(1895, __c59, 7)
+        /*@__PURE__*/ __S(1896, __c59, 8)
           .pipe(/*@__PURE__*/ T.XmlName("DBInstanceStatusInfo"))
           .annotate({ identifier: "DBInstanceStatusInfo" }),
       );
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           RoleArn: S.optional(S.String),
@@ -12756,13 +12950,13 @@ function __c59(j: number): any {
           Status: S.optional(S.String),
         }),
       ).annotate({ identifier: "DBInstanceRole" });
-    case 10:
+    case 11:
       return S.Array(
-        /*@__PURE__*/ __S(1897, __c59, 9)
+        /*@__PURE__*/ __S(1898, __c59, 10)
           .pipe(/*@__PURE__*/ T.XmlName("DBInstanceRole"))
           .annotate({ identifier: "DBInstanceRole" }),
       );
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           VolumeName: S.optional(S.String),
@@ -12776,9 +12970,9 @@ function __c59(j: number): any {
           StorageType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalStorageVolumeOutput" });
-    case 12:
-      return S.Array(__S(1899, __c59, 11));
     case 13:
+      return S.Array(__S(1900, __c59, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           DBInstanceIdentifier: S.optional(S.String),
@@ -12788,35 +12982,36 @@ function __c59(j: number): any {
           MasterUsername: S.optional(S.String),
           DBName: S.optional(S.String),
           Endpoint: S.optional(Endpoint),
+          PrimaryEndpoint: S.optional(__S(1888, __c59, 0)),
           AllocatedStorage: S.optional(S.Number),
           InstanceCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           PreferredBackupWindow: S.optional(S.String),
           BackupRetentionPeriod: S.optional(S.Number),
           DBSecurityGroups: S.optional(__S(1057, __c33, 1)),
           VpcSecurityGroups: S.optional(__S(1025, __c32, 1)),
-          DBParameterGroups: S.optional(__S(1889, __c59, 1)),
+          DBParameterGroups: S.optional(__S(1890, __c59, 2)),
           AvailabilityZone: S.optional(S.String),
           DBSubnetGroup: S.optional(__S(1827, __c57, 3)),
           PreferredMaintenanceWindow: S.optional(S.String),
           UpgradeRolloutOrder: S.optional(S.String),
-          PendingModifiedValues: S.optional(__S(1890, __c59, 2)),
+          PendingModifiedValues: S.optional(__S(1891, __c59, 3)),
           LatestRestorableTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           MultiAZ: S.optional(S.Boolean),
           EngineVersion: S.optional(S.String),
           AutoMinorVersionUpgrade: S.optional(S.Boolean),
           ReadReplicaSourceDBInstanceIdentifier: S.optional(S.String),
-          ReadReplicaDBInstanceIdentifiers: S.optional(__S(1891, __c59, 3)),
-          ReadReplicaDBClusterIdentifiers: S.optional(__S(1892, __c59, 4)),
+          ReadReplicaDBInstanceIdentifiers: S.optional(__S(1892, __c59, 4)),
+          ReadReplicaDBClusterIdentifiers: S.optional(__S(1893, __c59, 5)),
           ReplicaMode: S.optional(S.String),
           LicenseModel: S.optional(S.String),
           Iops: S.optional(S.Number),
           StorageThroughput: S.optional(S.Number),
-          OptionGroupMemberships: S.optional(__S(1894, __c59, 6)),
+          OptionGroupMemberships: S.optional(__S(1895, __c59, 7)),
           CharacterSetName: S.optional(S.String),
           NcharCharacterSetName: S.optional(S.String),
           SecondaryAvailabilityZone: S.optional(S.String),
           PubliclyAccessible: S.optional(S.Boolean),
-          StatusInfos: S.optional(__S(1896, __c59, 8)),
+          StatusInfos: S.optional(__S(1897, __c59, 9)),
           StorageType: S.optional(S.String),
           StorageEncryptionType: S.optional(S.String),
           TdeCredentialArn: S.optional(S.String),
@@ -12842,7 +13037,7 @@ function __c59(j: number): any {
           EnabledCloudwatchLogsExports: S.optional(__S(1216, __c38, 0)),
           ProcessorFeatures: S.optional(__S(929, __c29, 1)),
           DeletionProtection: S.optional(S.Boolean),
-          AssociatedRoles: S.optional(__S(1898, __c59, 10)),
+          AssociatedRoles: S.optional(__S(1899, __c59, 11)),
           ListenerEndpoint: S.optional(Endpoint),
           MaxAllocatedStorage: S.optional(S.Number),
           TagList: S.optional(__S(225, __c7, 1)),
@@ -12872,11 +13067,12 @@ function __c59(j: number): any {
           DedicatedLogVolume: S.optional(S.Boolean),
           IsStorageConfigUpgradeAvailable: S.optional(S.Boolean),
           EngineLifecycleSupport: S.optional(S.String),
-          AdditionalStorageVolumes: S.optional(__S(1900, __c59, 12)),
+          AdditionalStorageVolumes: S.optional(__S(1901, __c59, 13)),
           StorageVolumeStatus: S.optional(S.String),
           StorageOperationStatus: S.optional(S.String),
           StorageOperationPercentProgress: S.optional(S.Number),
           DBCapacityReservationIdentifier: S.optional(S.String),
+          VPCNetworkingEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DBInstance" });
   }
@@ -12946,7 +13142,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateDBInstanceReadReplicaMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "CreateDBInstanceReadReplicaResult" });
   }
 }
@@ -13552,7 +13748,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "DeleteDBInstanceResult" });
   }
 }
@@ -14258,7 +14454,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DescribeDBInstancesMessage" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1901, __c59, 13)
+        /*@__PURE__*/ __S(1902, __c59, 14)
           .pipe(/*@__PURE__*/ T.XmlName("DBInstance"))
           .annotate({ identifier: "DBInstance" }),
       );
@@ -15928,6 +16124,9 @@ function __c179(j: number): any {
           CACertificateIdentifier: S.optional(S.String),
           MasterUserAuthenticationType: S.optional(S.String),
           EngineLifecycleSupport: S.optional(S.String),
+          EnableInternetAccessGateway: S.optional(S.Boolean),
+          EnableVPCNetworking: S.optional(S.Boolean),
+          DBSubnetGroupName: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ModifyDBClusterMessage" });
     case 1:
@@ -16085,7 +16284,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ModifyDBInstanceMessage" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "ModifyDBInstanceResult" });
   }
 }
@@ -16382,7 +16581,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "PromoteReadReplicaMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "PromoteReadReplicaResult" });
   }
 }
@@ -16442,7 +16641,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "RebootDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RebootDBInstanceResult" });
   }
 }
@@ -16794,7 +16993,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "RestoreDBInstanceFromDBSnapshotMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RestoreDBInstanceFromDBSnapshotResult" });
   }
 }
@@ -16862,7 +17061,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "RestoreDBInstanceFromS3Message" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RestoreDBInstanceFromS3Result" });
   }
 }
@@ -16928,7 +17127,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "RestoreDBInstanceToPointInTimeMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "RestoreDBInstanceToPointInTimeResult" });
   }
 }
@@ -17000,7 +17199,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "StartDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "StartDBInstanceResult" });
   }
 }
@@ -17083,7 +17282,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "StopDBInstanceMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "StopDBInstanceResult" });
   }
 }
@@ -17141,7 +17340,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "SwitchoverReadReplicaMessage" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DBInstance: S.optional(__S(1901, __c59, 13)) }).pipe(ns),
+        S.Struct({ DBInstance: S.optional(__S(1902, __c59, 14)) }).pipe(ns),
       ).annotate({ identifier: "SwitchoverReadReplicaResult" });
   }
 }

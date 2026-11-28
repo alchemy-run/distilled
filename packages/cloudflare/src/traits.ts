@@ -18,6 +18,7 @@ import type * as Stream from "effect/Stream";
 export {
   Body,
   Header,
+  IdempotencyToken,
   Query,
   DeepQuery,
   Label,
@@ -46,6 +47,7 @@ export {
   unionCasesSymbol,
   errorMatchersSymbol,
 } from "@distilled.cloud/core/trait";
+export { SensitiveValue, sensitiveValueSymbol } from "@distilled.cloud/core/protocol-rest";
 
 // =============================================================================
 // Cloudflare v4 envelope traits

@@ -17,13 +17,26 @@ const result = await Effect.runPromise(projects);
 console.log(result.projects.map(({ id, name }) => ({ id, name })));
 ```
 
+## Beta and alpha operations
+
+Neon marks some operations `x-stability-level: beta` or `alpha` in its spec: Functions, triggers, storage buckets, Neon Auth, branch credentials, logs and realtime, among others. They are not on the package root. Import them from `unstable/neon`:
+
+```ts
+import * as NeonUnstable from "@distilled.cloud/neon/unstable/neon";
+
+const functions = NeonUnstable.listProjectBranchFunctions({
+  project_id: "your-project-id",
+  branch_id: "your-branch-id",
+});
+```
+
 ## Spec source
 
 The source is the [Neon API OpenAPI document](https://neon.com/api_spec/release/v2.json), pinned through `specs/spec-mirror-neon`. Corrections live in `patches/`; generated models and TypeScript are committed. From the Distilled repository root, run `pnpm generate neon` to convert, generate, and format the SDK. Refresh only the Neon spec mirror when updating its source.
 
 ## Authentication
 
-`CredentialsFromEnv` reads `NEON_API_KEY` and the optional `NEON_API_BASE_URL`. `fromApiKey({ apiKey })` supplies an explicit deployment credential. Keep account API keys on trusted deployment infrastructure: they are not end-user authentication and must not be exposed to a browser.
+`CredentialsFromEnv` reads `NEON_API_KEY` and the optional `NEON_API_BASE_URL` once, when the layer is built; a missing key fails the layer with `ConfigError`. `fromApiKey({ apiKey })` supplies an explicit deployment credential. Keep account API keys on trusted deployment infrastructure: they are not end-user authentication and must not be exposed to a browser.
 
 Branch credentials are separate managed API objects. Issue/reveal/rotate responses redact API tokens and S3 secrets. Reveal recovers an existing active credential; rotation changes it and is not a substitute for recovery. Revoked credentials can remain in list responses with `revoked_at` set.
 
@@ -32,7 +45,7 @@ Branch credentials are separate managed API objects. Issue/reveal/rotate respons
 Functions use a Node.js 24 Fetch entrypoint in an `index.mjs` ZIP. The deployment operation accepts `Blob`, `Uint8Array`, or `ArrayBuffer` ZIP data without converting binary bytes to text:
 
 ```ts
-const deploy = Neon.createProjectBranchFunctionDeployment({
+const deploy = NeonUnstable.createProjectBranchFunctionDeployment({
   project_id: "your-project-id",
   branch_id: "your-branch-id",
   slug: "api",
@@ -51,7 +64,7 @@ A successful deployment API response is not proof that invocation serves the req
 Trigger creation and updates use a discriminated `body`, matching the API's schedule and object-created variants:
 
 ```ts
-const trigger = Neon.createProjectBranchTrigger({
+const trigger = NeonUnstable.createProjectBranchTrigger({
   project_id: "your-project-id",
   branch_id: "your-branch-id",
   body: {
@@ -68,6 +81,6 @@ Storage triggers use `type: "storage_object_created"` and `storage_object_create
 
 ## Storage
 
-Management operations configure branch buckets and presigned object requests. Presigned URLs are redacted; unwrap them only where needed for the request. Object downloads return `Uint8Array`, preserving binary contents. The protocol does not forward account authorization when following cross-origin download redirects.
+Management operations configure branch buckets and presigned object requests. Presigned URLs are redacted; unwrap them only where needed for the request. Object downloads return `{ body, contentType }`: the bytes as a `Stream<Uint8Array>` read as they arrive (`Stream.mkUint8Array` collects them), and the response's `Content-Type`. The protocol does not forward account authorization when following cross-origin download redirects.
 
 For direct S3 clients, Neon credentials are branch-lineage scoped. `storage:read` grants reads and `storage:write` grants reads and writes; neither is a bucket- or object-specific policy. Use Neon's branch-specific S3 endpoint with path-style addressing.

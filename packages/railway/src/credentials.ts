@@ -55,7 +55,7 @@ export const toConfig = (config: {
 });
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "RailwayCredentials",
   ) {}
 
@@ -99,27 +99,33 @@ const MISSING_TOKEN =
  * An account token wins when both kinds are set: it is the broader
  * credential, so preferring it keeps every operation reachable instead of
  * silently confining the client to one project environment.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const config = yield* envConfig.pipe(
-      Effect.mapError(() => new ConfigError({ message: MISSING_TOKEN })),
-    );
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const config = yield* envConfig.pipe(
+        Effect.mapError(() => new ConfigError({ message: MISSING_TOKEN })),
+      );
 
-    const account =
-      Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.railwayToken);
-    const project = Option.getOrUndefined(config.projectToken);
-    const token = account ?? project;
+      const account =
+        Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.railwayToken);
+      const project = Option.getOrUndefined(config.projectToken);
+      const token = account ?? project;
 
-    if (!token) {
-      return yield* new ConfigError({ message: MISSING_TOKEN });
-    }
+      if (!token) {
+        return yield* new ConfigError({ message: MISSING_TOKEN });
+      }
 
-    return {
-      token: Redacted.make(token),
-      tokenKind: account !== undefined ? "account" : "project",
-      apiBaseUrl: config.apiBaseUrl,
-    } satisfies Config;
-  }),
+      return {
+        token: Redacted.make(token),
+        tokenKind: account !== undefined ? "account" : "project",
+        apiBaseUrl: config.apiBaseUrl,
+      } satisfies Config;
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

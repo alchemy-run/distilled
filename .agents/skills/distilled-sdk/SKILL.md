@@ -30,9 +30,10 @@ description: Build or update a distilled SDK for an API provider — sourcing it
 
 Two facts follow from this and shape everything below:
 
-- **The generated output is committed.** CI never runs `generate` and never
-  checks out a submodule. A PR is green with no spec present at all — the
-  specs only matter to whoever regenerates.
+- **The generated output is committed.** CI regenerates only turso and npm,
+  to check the committed code matches the generator, and fetches only their
+  mirrors. A new SDK's PR is green with no spec present at all — the specs
+  only matter to whoever regenerates.
 - **The mirror is the spec source, not the upstream.** A package never
   submodules the upstream repository. `github/rest-api-description` is 6.7 GB
   checked out for one 13 MB file; the mirror holds the file. See
@@ -166,6 +167,22 @@ plain strings.
   header, query string, body or signature is built, and never put a secret
   in an error message or an error field. Anything minted at runtime (an
   exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
+- **Read and check at setup.** A layer is `Layer.effect`: it reads its
+  values (the environment too) and checks them once, when it is built, and
+  fails there with `ConfigError`. The service then resolves a value that
+  cannot fail for configuration. Put a check the protocol relies on (a value
+  that goes into a host name or a path) in an exported `check(config)` that
+  returns `Checked<Config>` from `@distilled.cloud/core/config`, as s2 does
+  for its basin; every layer calls it. Keep a `ConfigError` on the call only
+  for a value that one operation needs and the configuration lacks
+  (`AGENTS.md` rule 18). `packages/neon/src/credentials.ts` is the shape to
+  copy, and `pnpm config-errors:check` fails in CI when an operation of a
+  new SDK can fail with `ConfigError`.
+- **Cache tokens with core `refreshing`.** A token or credentials cache is
+  `refreshing(mint, refreshAt)` from `@distilled.cloud/core/token-cache`,
+  created once per layer value, so a burst of calls on a cold or stale
+  cache mints once and works in workerd. Give it `onTimeout`, and
+  `timeoutMs` if the mint's retries can exceed 60 s (`AGENTS.md` rule 16).
 
 This must print nothing:
 
@@ -181,33 +198,84 @@ raise. A class in the operation error union that nothing constructs tells
 callers to handle a failure that never happens — that is how ~75 packages
 ended up declaring a `<Pkg>ParseError` no code path created.
 
-`src/errors.ts` declares, and the operation error union
-(`<Pkg>OpError` / `DefaultErrors`) includes:
+An operation's errors are declared in three places:
+
+1. on the operation: operation specific. Its `errors` list, generated from
+   the spec and the patches.
+2. on the service: service specific. The `<Pkg>ServiceErrors` list in
+   `src/errors.ts`, which every operation gets as its `serviceErrors`.
+3. on the protocol: protocol specific. What the protocol's code fails with.
+   Its type carries them, so nobody lists them.
+
+`ConfigError` is a setup error, not a runtime credentials error: a layer
+raises it when it is built, and a call only for a value that one operation
+needs and the configuration lacks (`AGENTS.md` rule 18). A token request the
+credentials make at run time fails with the SDK's own class in `src/errors.ts`
+(`TokenRequestFailed` in `packages/tailscale`: `message` and the token
+endpoint's `status`).
+
+Copy the three files of `packages/neon` that hold this:
+
+```ts
+// src/errors.ts
+export const <Pkg>ServiceErrors = API_ERRORS;
+export type <Pkg>ServiceError = InstanceType<(typeof <Pkg>ServiceErrors)[number]>;
+
+// src/protocol.ts
+export type <Pkg>OpError = <Pkg>ServiceError | ErrorOf<typeof <Pkg>Protocol>;
+export const <Pkg>Protocol = /*@__PURE__*/ restProtocol({
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.apiKey)}` }),
+  unknownError: (info) => new Unknown<Pkg>Error(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new <Pkg>ParseError({ body, cause }),
+});
+
+// scripts/generate.ts
+operationDecl: {
+  contextType: "<Pkg>OpContext",
+  commonErrorType: "<Pkg>OpError",
+  serviceErrors: "<Pkg>ServiceErrors",
+  protocol: "<Pkg>Protocol",
+  retry: "Retry.Retry",
+},
+```
+
+`restProtocol` and `unknownErrorProps` come from
+`@distilled.cloud/core/protocol-rest`, `ErrorOf` from
+`@distilled.cloud/core/protocol`, `API_ERRORS` (core's status classes) from
+`@distilled.cloud/core/errors`. Do not write the `<Pkg>OpError` union by
+hand, and do not set `commonErrorClasses`.
+
+`src/errors.ts` also declares, and the protocol builds:
 
 - `Unknown<Pkg>Error` — built by the protocol's `unknownError` fallback.
   Its fields are core's `UnknownErrorFields` (`status`, `code`, `message`,
   `body`), spread first, then any field the provider adds:
   `Schema.TaggedError<UnknownPkgError>()("UnknownPkgError",
-  UnknownErrorFields)`. With `makeRestProtocol`, build it as
-  `unknownError: (info) => new UnknownPkgError(unknownErrorProps(info))`.
-  Give it no `Category`. The protocol turns an unmapped 5xx into core
-  `InternalServerError` (retried), so only non-5xx statuses reach the
-  unknown error, and those must not be retried.
+  UnknownErrorFields)`. Give it no `Category`. The protocol turns a 5xx
+  that nothing declares into core `InternalServerError` (retried), so only
+  non-5xx statuses reach the unknown error, and those must not be retried.
 - `<Pkg>ParseError` with `{ body: Schema.Unknown, cause: Schema.Unknown }`,
   `.pipe(Category.withParseError)` — built by the protocol's `parseError`
   (copy `packages/s2/src/errors.ts`).
-- Any status classes the provider needs beyond core's `HTTP_STATUS_MAP`,
-  each wired into the protocol's `statusMap`.
 
-The protocol wires every one of them:
+A typed error that any operation of the SDK can return, such as a status
+class core does not have, is a class with a matcher in `<Pkg>ServiceErrors`
+(`AGENTS.md` rule 1): copy `Gone` (410) in `packages/github/src/errors.ts`,
+`[...API_ERRORS, Gone] as const`.
 
-- **`makeRestProtocol`** requires `parseError`:
-  `parseError: ({ body, cause }) => new <Pkg>ParseError({ body, cause })`.
+The protocol wires the parse error:
+
+- **`restProtocol`** requires `parseError`.
 - **A hand-written protocol** calls `validateResponse(outputAst, value,
   (cause) => new <Pkg>ParseError({ body, cause }))` from
   `@distilled.cloud/core/response-validation` on every 2xx path that returns
   the operation output — after wire→TS key mapping, before `wrapSensitive`.
-  `packages/core/src/protocol-rest.ts` is the reference.
+  `packages/core/src/protocol-rest.ts` is the reference. Its type is read
+  from its methods (copy `packages/gcp/src/protocol.ts`):
+  `const methods = { encode, decode } satisfies Protocol<unknown, unknown>;
+  export const <Pkg>Protocol: ProtocolOf<typeof methods> = methods;`
 
 `ResponseValidation` (`import { ResponseValidation } from
 "@distilled.cloud/core"`) is one context reference shared by every SDK, with
@@ -261,8 +329,8 @@ grep -rnE 'new \w+(ParseError|Unknown\w*Error)\(' packages/<pkg>/src \
 ```
 
 For every other class you add to `errors.ts`, find where the protocol
-raises it (`statusMap`, a code lookup table, or `new`). A class nothing
-raises comes out of `errors.ts` and the error union.
+raises it (its matcher in `<Pkg>ServiceErrors`, a code lookup table, or
+`new`). A class nothing raises comes out of `errors.ts`.
 
 ## Step 5 — iterate
 
@@ -419,7 +487,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Pkg.CredentialsFromEnv,
-  Pkg.PkgProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -432,7 +499,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 The quick-start program must compile against the generated names:
 
-- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv, <Pkg>Protocol)`
+- `Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv)`: every operation names its own protocol, so a program provides only an `HttpClient` and credentials
 - at least one real call (`Vms.createVm` from a service subpath, or
   `Pkg.getX` for a single-service package; not `Pkg.Services.…` and not
   only `list*`)
@@ -477,7 +544,7 @@ Body, in order:
    tsconfig, website, lockfile). Note that `spec-mirror-<pkg>` is created by
    the distilled-submodules stack on merge to main.
 3. **The same complete example as the README** — `Layer.mergeAll`,
-   `CredentialsFromEnv`, `<Pkg>Protocol`, a real call, `Effect.runPromise`.
+   `CredentialsFromEnv`, a real call, `Effect.runPromise`.
    A PR whose only snippet is `listX({})` is incomplete; paste the README
    quick start.
 4. `Checks: pnpm specs:check` green, `tsrs -b packages/<pkg> --noCheck false`

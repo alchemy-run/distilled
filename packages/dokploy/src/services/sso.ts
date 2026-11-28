@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -137,7 +137,7 @@ export interface RegisterSsoRequestSamlConfigIdpMetadata {
   privateKey?: string | Redacted.Redacted<string> | undefined;
   privateKeyPass?: string | undefined;
   isAssertionEncrypted?: boolean | undefined;
-  encPrivateKey?: string | undefined;
+  encPrivateKey?: string | Redacted.Redacted<string> | undefined;
   encPrivateKeyPass?: string | undefined;
   singleSignOnService?: RegisterSsoRequestSamlConfigIdpMetadataSingleSignOnServiceList | undefined;
 }
@@ -148,7 +148,7 @@ export interface RegisterSsoRequestSamlConfigSpMetadata {
   privateKey?: string | Redacted.Redacted<string> | undefined;
   privateKeyPass?: string | undefined;
   isAssertionEncrypted?: boolean | undefined;
-  encPrivateKey?: string | undefined;
+  encPrivateKey?: string | Redacted.Redacted<string> | undefined;
   encPrivateKeyPass?: string | undefined;
 }
 export type RegisterSsoRequestSamlConfigAdditionalParamsMap = {
@@ -243,7 +243,7 @@ export interface UpdateSsoRequestSamlConfigIdpMetadata {
   privateKey?: string | Redacted.Redacted<string> | undefined;
   privateKeyPass?: string | undefined;
   isAssertionEncrypted?: boolean | undefined;
-  encPrivateKey?: string | undefined;
+  encPrivateKey?: string | Redacted.Redacted<string> | undefined;
   encPrivateKeyPass?: string | undefined;
   singleSignOnService?: UpdateSsoRequestSamlConfigIdpMetadataSingleSignOnServiceList | undefined;
 }
@@ -340,7 +340,8 @@ export const addSsoTrustedOrigin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<AddSsoTrustedOriginRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<AddSsoTrustedOriginResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -356,7 +357,8 @@ export const deleteSsoProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteSsoProviderRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<DeleteSsoProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -372,7 +374,8 @@ export const enforceSSO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<EnforceSSORequest>,
   output: __S(96, __c6, 0) as any as S.Schema<EnforceSSOResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -388,7 +391,8 @@ export const getSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetSsoRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<GetSsoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -404,7 +408,8 @@ export const getSsoTrustedOrigins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetSsoTrustedOriginsRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<GetSsoTrustedOriginsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -420,7 +425,8 @@ export const listSsoProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListSsoProvidersRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListSsoProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -436,7 +442,8 @@ export const registerSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<RegisterSsoRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<RegisterSsoResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -452,7 +459,8 @@ export const removeSsoTrustedOrigin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<RemoveSsoTrustedOriginRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<RemoveSsoTrustedOriginResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -468,7 +476,8 @@ export const showSignInWithSSO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ShowSignInWithSSORequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ShowSignInWithSSOResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -484,7 +493,8 @@ export const updateSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<UpdateSsoRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<UpdateSsoResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -500,7 +510,8 @@ export const updateSsoTrustedOrigin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<UpdateSsoTrustedOriginRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<UpdateSsoTrustedOriginResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -703,7 +714,7 @@ function __c13(j: number): any {
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKeyPass: S.optional(S.String),
           isAssertionEncrypted: S.optional(S.Boolean),
-          encPrivateKey: S.optional(S.String),
+          encPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encPrivateKeyPass: S.optional(S.String),
           singleSignOnService: S.optional(__S(213, __c13, 5)),
         }),
@@ -717,7 +728,7 @@ function __c13(j: number): any {
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKeyPass: S.optional(S.String),
           isAssertionEncrypted: S.optional(S.Boolean),
-          encPrivateKey: S.optional(S.String),
+          encPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encPrivateKeyPass: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterSsoRequestSamlConfigSpMetadata" });

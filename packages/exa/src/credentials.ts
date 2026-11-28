@@ -40,9 +40,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "ExaCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("ExaCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("EXA_API_KEY"),
@@ -54,18 +52,25 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () => new ConfigError({ message: "EXA_API_KEY environment variable is required" }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () => new ConfigError({ message: "EXA_API_KEY environment variable is required" }),
+      ),
+      /*@__PURE__*/ Effect.map(({ apiKey, serviceApiKey, apiBaseUrl }) => ({
+        apiKey,
+        serviceApiKey: Option.getOrUndefined(serviceApiKey),
+        apiBaseUrl,
+        teamManagementBaseUrl: DEFAULT_TEAM_MANAGEMENT_BASE_URL,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ apiKey, serviceApiKey, apiBaseUrl }) => ({
-      apiKey,
-      serviceApiKey: Option.getOrUndefined(serviceApiKey),
-      apiBaseUrl,
-      teamManagementBaseUrl: DEFAULT_TEAM_MANAGEMENT_BASE_URL,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

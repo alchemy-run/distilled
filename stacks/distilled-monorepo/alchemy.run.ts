@@ -10,6 +10,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import { mirrorId, repositoryName, SPEC_REPOS } from "../distilled-submodules/SpecRepos.ts";
 
 /**
  * The monorepo itself: `alchemy-run/distilled` and the credentials its CI
@@ -35,11 +36,13 @@ import * as Redacted from "effect/Redacted";
  * `stacks/distilled-submodules` on every commit to `main`, and
  * `.github/workflows/website.yml` can deploy the site on the same account.
  *
- * One credential goes to a mirror rather than to this repository:
+ * Two credentials go to the mirrors rather than to this repository:
  * `spec-mirror-aws` reads the EventBridge schema registry, an AWS API, so the
  * stack mints an AWS access key that can only read schemas and writes it into
  * that mirror's Actions secrets. The deploying profile therefore needs AWS
- * credentials too.
+ * credentials too. And every mirror files its own issues in this repository
+ * (a failed fetch, a spec update) as the spec-mirror GitHub App, whose client
+ * id and private key the stack writes into each mirror's Actions secrets.
  *
  * NEVER deployed from CI. It mints credentials, so it needs privileges no CI
  * run should hold — see the admin-profile warning in the docs above. Deploy
@@ -51,6 +54,8 @@ import * as Redacted from "effect/Redacted";
  * DISCORD_WEBHOOK_URL=<#releases webhook> \
  * ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
  * DISTILLED_REPOS_PAT=<org fine-grained PAT> \
+ * SPEC_MIRROR_APP_CLIENT_ID=<client id> \
+ * SPEC_MIRROR_APP_PRIVATE_KEY="$(cat spec-mirror-app.pem)" \
  *   pnpm exec alchemy deploy --stage prod --profile <admin profile>
  * ```
  *
@@ -99,8 +104,26 @@ const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
  */
 const BotAppId = Config.String("ALCHEMY_VERSION_BOT_ID").pipe(Config.withDefault("3107227"));
 
+/**
+ * The spec-mirror GitHub App: owned by alchemy-run, installed on
+ * alchemy-run/distilled only, with Issues: Read and write and nothing else.
+ * Every mirror's `update-specs.yml` mints a token from it with
+ * `actions/create-github-app-token` to open, comment on and close its issues
+ * here. The client id is public; the private key is not. Both optional: a
+ * deploy without them leaves the mirrors' secrets as they are.
+ */
+const SpecMirrorAppClientId = Config.Redacted("SPEC_MIRROR_APP_CLIENT_ID").pipe(Config.option);
+const SpecMirrorAppPrivateKey = Config.Redacted("SPEC_MIRROR_APP_PRIVATE_KEY").pipe(Config.option);
+
 /** The GitHub Actions app, the only app allowed to report a required check. */
 const GITHUB_ACTIONS_APP_ID = 15368;
+
+/**
+ * Zone id of distilled.cloud, the only zone the CI token may touch. The
+ * account holds other zones (alchemy.run, pkg.ing, ...) that this
+ * repository's CI must not be able to change.
+ */
+const DISTILLED_CLOUD_ZONE_ID = "2e80fe5bd72a3ccafab000cd8e066233";
 
 /**
  * The checks a pull request must pass before it can enter main's merge
@@ -277,7 +300,7 @@ export default Alchemy.Stack(
     //                             Read alone the edge-preview call is
     //                             rejected and every CI deploy fails.
     //
-    // Every zone in the account, nested under the account resource as
+    // The distilled.cloud zone only, nested under the account resource as
     // account-owned tokens require, for the website's custom domains:
     //   - Zone Read               alchemy resolves `distilled.cloud` by name
     //                             (Cloudflare/Zone/lookup.ts); there is no
@@ -303,7 +326,7 @@ export default Alchemy.Stack(
           permissionGroups: ["Zone Read", "Workers Routes Write", "DNS Write"],
           resources: {
             [`com.cloudflare.api.account.${accountId}`]: {
-              "com.cloudflare.api.account.zone.*": "*",
+              [`com.cloudflare.api.account.zone.${DISTILLED_CLOUD_ZONE_ID}`]: "*",
             },
           },
         },
@@ -407,6 +430,41 @@ export default Alchemy.Stack(
         ),
       ),
     });
+
+    // Every mirror files its own issues here as the spec-mirror App, so each
+    // gets the App's client id and key. Retained like the external secrets
+    // above: a deploy without them drops only the state rows.
+    const appClientId = yield* SpecMirrorAppClientId;
+    const appPrivateKey = yield* SpecMirrorAppPrivateKey;
+    if (Option.isSome(appClientId) !== Option.isSome(appPrivateKey)) {
+      return yield* Effect.die(
+        new Error(
+          "Set SPEC_MIRROR_APP_CLIENT_ID and SPEC_MIRROR_APP_PRIVATE_KEY together: a mirror needs both to mint a token",
+        ),
+      );
+    }
+    if (Option.isSome(appClientId) && Option.isSome(appPrivateKey)) {
+      for (const specRepo of SPEC_REPOS) {
+        // A blocked mirror has no workflow to read them.
+        if (specRepo.blocked !== undefined) continue;
+        const id = mirrorId(specRepo);
+        const repository = repositoryName(specRepo);
+        yield* GitHub.Secret(`spec-mirror-app-client-id-${id}`, {
+          owner: reposOwner,
+          repository,
+          name: "SPEC_MIRROR_APP_CLIENT_ID",
+          value: appClientId.value,
+        }).pipe(RemovalPolicy.retain());
+        yield* GitHub.Secret(`spec-mirror-app-private-key-${id}`, {
+          owner: reposOwner,
+          repository,
+          name: "SPEC_MIRROR_APP_PRIVATE_KEY",
+          value: appPrivateKey.value,
+        }).pipe(RemovalPolicy.retain());
+      }
+    } else {
+      unchanged.push("SPEC_MIRROR_APP_CLIENT_ID", "SPEC_MIRROR_APP_PRIVATE_KEY");
+    }
 
     // `actions/create-github-app-token` in release.yml and website.yml reads
     // both halves of the app's identity from Actions secrets, so the public

@@ -4,9 +4,13 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * NetBird credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request; the protocol layer formats the
+ * credentials on every request; the protocol formats the
  * `Authorization: Token <apiToken>` header from it. The token is a personal
  * access token, normally of a service user (Team > Service Users).
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing token or a base URL that is not an HTTPS origin is a `ConfigError`
+ * at setup, and no call fails for it.
  *
  * NetBird Cloud is the default. A self-hosted management server is reached at
  * its own origin. Operation paths in the spec already start with `/api`, so
@@ -28,7 +32,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "NetBirdCredentials",
   ) {}
 
@@ -57,13 +61,22 @@ export const normalizeApiBaseUrl = (value: string): Effect.Effect<string, Config
   return Effect.succeed(url.origin);
 };
 
-/** Layer from a redacted token + optional management server origin. */
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/**
+ * Layer from a redacted token + optional management server origin. The
+ * origin is checked when the layer is built.
+ */
 export const fromApiToken = (config: {
   readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     Effect.map(normalizeApiBaseUrl(config.apiBaseUrl ?? DEFAULT_API_BASE_URL), (apiBaseUrl) => ({
       apiToken: config.apiToken,
       apiBaseUrl,
@@ -77,9 +90,12 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-/** Reads NETBIRD_API_TOKEN (required) and NETBIRD_API_URL (default NetBird Cloud). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+/**
+ * Reads NETBIRD_API_TOKEN (required) and NETBIRD_API_URL (default NetBird
+ * Cloud). The environment is read, and the values checked, once: when the
+ * layer is built.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ envConfig.pipe(
     /*@__PURE__*/ Effect.mapError(
       () => new ConfigError({ message: "NETBIRD_API_TOKEN environment variable is required" }),

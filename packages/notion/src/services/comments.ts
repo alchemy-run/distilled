@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -357,6 +357,8 @@ export interface UserObjectResponse {
   name: string | null;
   /** The avatar URL of the user. */
   avatar_url: string | null;
+  /** The ID of the Custom Agent this bot acts for. Only present when the user is a Custom Agent's bot. */
+  agent_id?: string | undefined;
   /** Indicates this user is a person. */
   type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
@@ -626,7 +628,8 @@ export const createComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<CreateCommentRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<CreateCommentResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -643,7 +646,8 @@ export const deleteComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteCommentRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<DeleteCommentResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -660,7 +664,8 @@ export const getComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetCommentRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<GetCommentResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -679,7 +684,8 @@ export const listComments: API.PaginatedOperationMethod<
   () => ({
     input: __S(90, __c5, 10) as any as S.Schema<ListCommentsRequest>,
     output: __S(93, __c5, 13) as any as S.Schema<ListCommentsResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -704,7 +710,8 @@ export const updateComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<UpdateCommentRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<UpdateCommentResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

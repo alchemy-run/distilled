@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -113,6 +114,8 @@ export interface OrganizationMemberNotice {
   /** Optional link button shown on the right of the banner. */
   action?: OrganizationMemberNoticeAction | null | undefined;
 }
+/** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+export type CreateRequestIpRestrictionsList = Array<string>;
 export interface CreateRequest {
   name?: string | undefined;
   logo_media_id?: string | null | undefined;
@@ -137,6 +140,10 @@ export interface CreateRequest {
   default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
   default_role_id?: string | null | undefined;
+  /** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+  ip_restrictions?: CreateRequestIpRestrictionsList | undefined;
+  /** When False, the IP allowlist is kept but not enforced. */
+  ip_restrictions_enabled?: boolean | undefined;
 }
 /** * `1` - member * `8` - administrator * `15` - owner */
 export type OrganizationMembershipLevelEnum = 1 | 8 | 15;
@@ -763,6 +770,17 @@ export type OrganizationProjectsItemMap = { [key: string]: unknown | undefined }
 export type OrganizationProjectsList = Array<OrganizationProjectsItemMap>;
 export type OrganizationAvailableProductFeaturesList = Array<unknown>;
 export type OrganizationMetadataMap = { [key: string]: string | undefined };
+/** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+export type OrganizationIpRestrictionsList = Array<string>;
+export interface OrganizationExternalProjectLink {
+  id: string;
+  /** Name shown for the project in the project switcher. */
+  name: string;
+  /** Full URL of the project on the other PostHog instance. */
+  url: string;
+}
+/** Projects on other PostHog instances, such as another cloud region, shown in the project switcher. Set by PostHog staff. */
+export type OrganizationExternalProjectLinksList = Array<OrganizationExternalProjectLink>;
 export interface Organization {
   id?: string | undefined;
   name?: string | undefined;
@@ -797,6 +815,8 @@ export interface Organization {
   member_notice?: OrganizationMemberNotice | null | undefined;
   member_count?: number | undefined;
   is_ai_data_processing_approved?: boolean | null | undefined;
+  /** When True, AI data processing cannot be turned on through the UI or API, and members cannot ask admins to turn it on. Set at the organization's request. */
+  is_ai_data_processing_locked: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
   is_ai_training_opted_in?: boolean | null | undefined;
   /** When True, the AI training opt-out setting cannot be modified through the UI or API. */
@@ -817,6 +837,14 @@ export interface Organization {
   is_pending_deletion?: boolean | null | undefined;
   /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
   uses_most_specific_access_resolution?: boolean | null | undefined;
+  /** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+  ip_restrictions?: OrganizationIpRestrictionsList | undefined;
+  /** When False, the IP allowlist is kept but not enforced. */
+  ip_restrictions_enabled?: boolean | undefined;
+  /** A warning when the current request's IP address is not in the saved allowlist. */
+  ip_restrictions_warning: string | null;
+  /** Projects on other PostHog instances, such as another cloud region, shown in the project switcher. Set by PostHog staff. */
+  external_project_links: OrganizationExternalProjectLinksList;
 }
 export interface CreateCimdVerificationTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -1043,7 +1071,7 @@ export interface IdentityProviderConfigOutput {
   /** SCIM base URL for this identity provider configuration. */
   scim_base_url: string;
   /** Plaintext SCIM bearer token. Only returned once, immediately after SCIM is enabled or the token is regenerated; null otherwise. */
-  scim_bearer_token: string | null;
+  scim_bearer_token: string | Redacted.Redacted<string> | null;
   /** Whether ID-JAG (XAA) is configured on this config. */
   has_id_jag: boolean;
   /** Trusted IdP issuer URL for ID-JAG (XAA). Required to enable ID-JAG. */
@@ -1052,6 +1080,8 @@ export interface IdentityProviderConfigOutput {
   id_jag_jwks_url?: string | null | undefined;
   /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
   id_jag_allowed_clients?: IdentityProviderConfigOutputIdJagAllowedClientsList | undefined;
+  /** Name of the OAuth application that registered this ID-JAG issuer through enterprise-managed auth setup, or null when the issuer was entered by hand. */
+  id_jag_registered_by_application_name: string | null;
 }
 export interface CreateIdentityProviderConfigsScimTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -1063,7 +1093,7 @@ export interface SCIMTokenResponse {
   /** Whether SCIM is enabled for this config. */
   scim_enabled: boolean;
   /** Newly generated plaintext SCIM bearer token. Only returned once. */
-  scim_bearer_token: string;
+  scim_bearer_token: string | Redacted.Redacted<string>;
 }
 export interface CreateInviteRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -1134,6 +1164,128 @@ export interface LegalDocumentDTO {
   signed_pdf_stored?: boolean | undefined;
   created_by?: LegalDocumentCreator | null | undefined;
   created_at?: string | undefined;
+}
+export interface CreateOauthApplicationsReviewNoteRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A UUID string identifying this OAuth Application. */
+  id: string;
+  /** What PostHog staff should know about the application: what it does, why it provisions, and what changed since the last decision. Sending a note on a declined review, or one that asked for changes, asks for another review. */
+  note: string;
+}
+export type OrganizationOAuthApplicationDetailRedirectUrisListList = Array<string>;
+/** * `not_a_partner` - Not a provisioning partner * `in_review` - In review * `waiting_for_staff` - Waiting for PostHog staff * `changes_requested` - Changes requested * `declined` - Declined * `on` - On * `off` - Off * `blocked` - Blocked */
+export type PartnerProvisioningStatusEnum =
+  | "not_a_partner"
+  | "in_review"
+  | "waiting_for_staff"
+  | "changes_requested"
+  | "declined"
+  | "on"
+  | "off"
+  | "blocked";
+/** * `pending` - Pending * `accepted` - Accepted * `declined` - Declined * `changes_requested` - Changes requested * `rejected` - Blocked * `needs_human` - Needs staff review */
+export type ProvisioningReviewStatusEnum =
+  | "pending"
+  | "accepted"
+  | "declined"
+  | "changes_requested"
+  | "rejected"
+  | "needs_human";
+/** * `registered` - Registered * `automated_review` - Automated review * `staff_decision` - PostHog staff decision * `staff_message` - Message from PostHog staff * `partner_note` - Note from the partner */
+export type PartnerReviewEventKindEnum =
+  | "registered"
+  | "automated_review"
+  | "staff_decision"
+  | "staff_message"
+  | "partner_note";
+export interface PartnerReviewEvent {
+  /** When it happened. */
+  at: string;
+  /** registered: the app registered for provisioning. automated_review: the automated review decided. staff_decision: PostHog staff decided. staff_message: PostHog staff changed their message. partner_note: an admin of the app's organization sent a note. * `registered` - Registered * `automated_review` - Automated review * `staff_decision` - PostHog staff decision * `staff_message` - Message from PostHog staff * `partner_note` - Note from the partner */
+  kind: PartnerReviewEventKindEnum;
+  /** The review status the event left. Null for registrations and notes. * `pending` - Pending * `accepted` - Accepted * `declined` - Declined * `changes_requested` - Changes requested * `rejected` - Blocked * `needs_human` - Needs staff review */
+  status: ProvisioningReviewStatusEnum | null;
+  /** What PostHog staff wrote to the app's owners, or the text of the note. Empty when there is none. */
+  message: string;
+  /** The email of the admin who sent a note. Empty for every other event. */
+  author: string;
+}
+/** What happened on the review, oldest first: decisions, messages from PostHog staff, and notes. */
+export type PartnerReviewTimelineList = Array<PartnerReviewEvent>;
+/** The review an app went through to become a provisioning partner, as its owners see it. The verdict's internal reason and the evidence stay with PostHog staff: they describe what the review checks, which would teach an abusive app what to fake. */
+export interface PartnerReview {
+  /** pending: the automated review is running. needs_human: PostHog staff decide next. accepted: the app may provision. changes_requested: PostHog staff asked for changes or more information, so send a review note. declined: not approved, and a review note asks for another review. rejected: provisioning is blocked, and only PostHog staff can lift it. * `pending` - Pending * `accepted` - Accepted * `declined` - Declined * `changes_requested` - Changes requested * `rejected` - Blocked * `needs_human` - Needs staff review */
+  status: ProvisioningReviewStatusEnum;
+  /** When the app registered for provisioning. */
+  opened_at: string;
+  /** When the current decision was made. Null while pending. */
+  decided_at: string | null;
+  /** What PostHog staff wrote to the app's owners about the decision. Empty when they wrote nothing, or wrote it while the app was linked to another organization. */
+  partner_message: string;
+  /** What happened on the review, oldest first: decisions, messages from PostHog staff, and notes. */
+  timeline: PartnerReviewTimelineList;
+}
+/** Contact emails in the document saved when the review opened. */
+export type RegisteredPartnerDetailsContactsList = Array<string>;
+/** Where PostHog sends people after they sign in, as of the last metadata refresh. */
+export type RegisteredPartnerDetailsRedirectUrisList = Array<string>;
+/** * `none` - Public client, PKCE only * `client_secret_post` - Client secret * `private_key_jwt` - Signs with a private key */
+export type PartnerAuthenticationEnum = "none" | "client_secret_post" | "private_key_jwt";
+/** Every scope the app can ask people to grant. */
+export type RegisteredPartnerDetailsScopesList = Array<string>;
+/** * `this_organization` - Linked to this organization * `other_region` - Linked to an organization in another region * `not_linked` - Not linked */
+export type OrganizationLinkStateEnum = "this_organization" | "other_region" | "not_linked";
+export interface RegisteredPartnerDetails {
+  /** The app's name, as of its last metadata refresh. */
+  client_name: string;
+  /** The homepage in the document saved when the review opened. Empty when it had none. */
+  client_uri: string;
+  /** The app's logo, as of its last metadata refresh. */
+  logo_uri: string;
+  /** The terms of service in the document saved when the review opened. Empty when it had none. */
+  tos_uri: string;
+  /** The privacy policy in the document saved when the review opened. Empty when it had none. */
+  policy_uri: string;
+  /** Contact emails in the document saved when the review opened. */
+  contacts: RegisteredPartnerDetailsContactsList;
+  /** Where PostHog sends people after they sign in, as of the last metadata refresh. */
+  redirect_uris: RegisteredPartnerDetailsRedirectUrisList;
+  /** Where the app publishes the public keys it signs with. Empty for a public client. */
+  jwks_uri: string;
+  /** How the app authenticates: none (public client), client_secret_post, or private_key_jwt. * `none` - Public client, PKCE only * `client_secret_post` - Client secret * `private_key_jwt` - Signs with a private key */
+  authentication: PartnerAuthenticationEnum;
+  /** Every scope the app can ask people to grant. */
+  scopes: RegisteredPartnerDetailsScopesList;
+  /** Whether the scopes are PostHog's default set, because the app names no scopes or asks for @default. */
+  uses_default_scopes: boolean;
+  /** Whether PostHog refuses the app's provisioning requests because it has no private key to sign them with. */
+  needs_signing_key: boolean;
+  /** Whether the app can create PostHog accounts once provisioning is on. */
+  can_create_accounts: boolean;
+  /** Whether the app can create projects and resources once provisioning is on. */
+  can_provision_resources: boolean;
+  /** Whether a verification token links the app to this organization, to one in another region, or to none. * `this_organization` - Linked to this organization * `other_region` - Linked to an organization in another region * `not_linked` - Not linked */
+  organization_link: OrganizationLinkStateEnum;
+  /** The metadata document saved when the review opened, as formatted JSON. Empty when PostHog kept none. */
+  metadata_document: string;
+}
+/** One application, with what PostHog read from its metadata document. */
+export interface OrganizationOAuthApplicationDetail {
+  id: string;
+  name?: string | undefined;
+  client_id?: string | undefined;
+  redirect_uris_list: OrganizationOAuthApplicationDetailRedirectUrisListList;
+  /** True if this application has been verified by PostHog */
+  is_verified?: boolean | undefined;
+  /** True when the app registered itself from a client ID metadata document (CIMD). */
+  is_cimd_client: boolean;
+  /** Whether the app can create accounts and provision resources through the agentic provisioning API. in_review and waiting_for_staff mean its review has not finished. * `not_a_partner` - Not a provisioning partner * `in_review` - In review * `waiting_for_staff` - Waiting for PostHog staff * `changes_requested` - Changes requested * `declined` - Declined * `on` - On * `off` - Off * `blocked` - Blocked */
+  provisioning_status: PartnerProvisioningStatusEnum;
+  provisioning_review: PartnerReview | null;
+  created: string;
+  updated: string;
+  registration: RegisteredPartnerDetails;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type CreateOrganizationsProjectRequestTagsList = Array<string>;
@@ -1717,6 +1869,8 @@ export interface MarketingAnalyticsEventConversionGoal {
   properties?: MarketingAnalyticsEventConversionGoalPropertiesList | null | undefined;
   response?: MarketingAnalyticsEventConversionGoalResponseMap | null | undefined;
   schema_map: MarketingAnalyticsEventConversionGoalSchemaMapMap;
+  /** When true, Google Ads recommendations judge campaigns by this goal's conversions instead of the conversions Google Ads reports. Conversions from every marked goal are added together, so marking two goals the same person completes counts that person twice. Defaults to false. */
+  use_in_recommendations?: boolean | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1768,6 +1922,8 @@ export interface MarketingAnalyticsActionConversionGoal {
   properties?: MarketingAnalyticsActionConversionGoalPropertiesList | null | undefined;
   response?: MarketingAnalyticsActionConversionGoalResponseMap | null | undefined;
   schema_map: MarketingAnalyticsActionConversionGoalSchemaMapMap;
+  /** When true, Google Ads recommendations judge campaigns by this goal's conversions instead of the conversions Google Ads reports. Conversions from every marked goal are added together, so marking two goals the same person completes counts that person twice. Defaults to false. */
+  use_in_recommendations?: boolean | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1824,6 +1980,8 @@ export interface MarketingAnalyticsWarehouseConversionGoal {
   schema_map: MarketingAnalyticsWarehouseConversionGoalSchemaMapMap;
   table_name: string;
   timestamp_field: string;
+  /** When true, Google Ads recommendations judge campaigns by this goal's conversions instead of the conversions Google Ads reports. Conversions from every marked goal are added together, so marking two goals the same person completes counts that person twice. Defaults to false. */
+  use_in_recommendations?: boolean | null | undefined;
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
@@ -1890,6 +2048,18 @@ export interface TeamCustomerAnalyticsPinnedAccountProperty {
 /** Ordered account properties shown until a user saves a personal pinned-property selection. Pass an empty list to show no properties by default. */
 export type TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList =
   Array<TeamCustomerAnalyticsPinnedAccountProperty>;
+/** Ordered account properties shown to members of this role. */
+export type TeamCustomerAnalyticsRoleDefaultPinnedPropertiesPinnedPropertiesList =
+  Array<TeamCustomerAnalyticsPinnedAccountProperty>;
+export interface TeamCustomerAnalyticsRoleDefaultPinnedProperties {
+  /** Organization role whose members inherit these properties. */
+  role_id: string;
+  /** Ordered account properties shown to members of this role. */
+  pinned_properties: TeamCustomerAnalyticsRoleDefaultPinnedPropertiesPinnedPropertiesList;
+}
+/** Default pinned account properties per organization role. A user who has not saved a personal selection sees the merged defaults of every role they belong to, ordered by role name, instead of default_pinned_properties. Replaces every role's defaults on write. */
+export type TeamCustomerAnalyticsConfigRoleDefaultPinnedPropertiesList =
+  Array<TeamCustomerAnalyticsRoleDefaultPinnedProperties>;
 export interface TeamCustomerAnalyticsConfig {
   /** Event used as the activity signal (DAU/WAU/MAU). */
   activity_event?: unknown | undefined;
@@ -1905,6 +2075,10 @@ export interface TeamCustomerAnalyticsConfig {
   account_group_type_index?: number | null | undefined;
   /** Ordered account properties shown until a user saves a personal pinned-property selection. Pass an empty list to show no properties by default. */
   default_pinned_properties?: TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList | undefined;
+  /** Default pinned account properties per organization role. A user who has not saved a personal selection sees the merged defaults of every role they belong to, ordered by role name, instead of default_pinned_properties. Replaces every role's defaults on write. */
+  role_default_pinned_properties?:
+    | TeamCustomerAnalyticsConfigRoleDefaultPinnedPropertiesList
+    | undefined;
 }
 /** * `off` - Off * `opt_out` - Opt Out * `opt_in` - Opt In */
 export type EmailTrackingConsentModeEnum = "off" | "opt_out" | "opt_in";
@@ -1927,6 +2101,8 @@ export interface TeamWorkflowsConfig {
   email_utm_tags_enabled?: boolean | undefined;
   /** Default UTM values that new email steps and broadcasts copy. An empty value keeps the built-in default for that tag. */
   email_utm_params?: EmailUtmParams | undefined;
+  /** Whether tracked links in emails this project sends get a ph_workflow_run parameter with the send's run ID. When the landing page runs posthog-js, the parameter links each click to the session it starts. Links with click tracking turned off never get it. On by default. */
+  email_workflow_run_link_tag_enabled?: boolean | undefined;
   /** How many AI tasks one workflow can create in a rolling 24 hours. Null uses the default of 100; zero pauses task creation for every workflow in the project. Support raises the limit above 500. */
   workflow_task_rate_limit_per_day?: number | null | undefined;
   /** How many AI tasks all workflows in the project can create together in a rolling 24 hours. Null uses the default of 500; zero pauses task creation for the project. Support raises the limit above 2500. */
@@ -1944,17 +2120,25 @@ export interface TeamWorkflowsConfig {
   /** How many hours a marketing message over the frequency cap waits for a free slot before it is skipped. Null skips it right away. */
   marketing_frequency_cap_hold_hours?: number | null | undefined;
 }
-/** Domains to block from feature flag requests (/flags and /decide), up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with the Referer header when Origin is missing. Entries are stored lowercase without duplicates. A pasted URL is reduced to its domain, and an internationalized domain is stored as punycode. */
+/** Domains to block from /flags requests, up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with Referer when Origin is missing or names no domain. */
 export type TeamFeatureFlagPolicyConfigBlockedHostsList = Array<string>;
-/** IPv4 or IPv6 addresses or CIDR ranges to block from feature flag requests (/flags and /decide), up to 100. Ranges can be /8 or narrower for IPv4 and /16 or narrower for IPv6. Entries are stored in canonical form without duplicates, and an IPv4-mapped IPv6 address is stored as IPv4. */
+/** IP addresses or CIDR ranges to block from /flags requests, up to 100. The widest ranges are /8 for IPv4 and /16 for IPv6. */
 export type TeamFeatureFlagPolicyConfigBlockedIpsList = Array<string>;
+/** Domains allowed to make /flags requests, up to 100. When not empty, pages whose domain is not listed or is hidden get no flags. Requests with no Origin and no Referer, such as those from server-side and mobile SDKs, are not checked. Same rules as blocked_hosts, but shared hosting domains such as vercel.app are rejected. A blocked domain wins. */
+export type TeamFeatureFlagPolicyConfigAllowedHostsList = Array<string>;
+/** IP addresses or CIDR ranges allowed to make /flags requests, up to 100. When not empty, every other caller gets no flags, including servers and browsers on allowed domains. Behind a reverse proxy, the proxy's address is checked, so requests through the managed reverse proxy get no flags. Entries follow the same rules as blocked_ips. A blocked address wins. */
+export type TeamFeatureFlagPolicyConfigAllowedIpsList = Array<string>;
 export interface TeamFeatureFlagPolicyConfig {
   /** When enabled, a new feature flag needs at least one tag, and a tagged flag cannot lose its last one. A create that declares it comes from a survey, experiment, early access feature, product tour, or web experiment is exempt, because those forms have no tag input. The caller sets that declaration, so a flag can still be created without a tag. */
   require_tags?: boolean | undefined;
-  /** Domains to block from feature flag requests (/flags and /decide), up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with the Referer header when Origin is missing. Entries are stored lowercase without duplicates. A pasted URL is reduced to its domain, and an internationalized domain is stored as punycode. */
+  /** Domains to block from /flags requests, up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with Referer when Origin is missing or names no domain. */
   blocked_hosts?: TeamFeatureFlagPolicyConfigBlockedHostsList | undefined;
-  /** IPv4 or IPv6 addresses or CIDR ranges to block from feature flag requests (/flags and /decide), up to 100. Ranges can be /8 or narrower for IPv4 and /16 or narrower for IPv6. Entries are stored in canonical form without duplicates, and an IPv4-mapped IPv6 address is stored as IPv4. */
+  /** IP addresses or CIDR ranges to block from /flags requests, up to 100. The widest ranges are /8 for IPv4 and /16 for IPv6. */
   blocked_ips?: TeamFeatureFlagPolicyConfigBlockedIpsList | undefined;
+  /** Domains allowed to make /flags requests, up to 100. When not empty, pages whose domain is not listed or is hidden get no flags. Requests with no Origin and no Referer, such as those from server-side and mobile SDKs, are not checked. Same rules as blocked_hosts, but shared hosting domains such as vercel.app are rejected. A blocked domain wins. */
+  allowed_hosts?: TeamFeatureFlagPolicyConfigAllowedHostsList | undefined;
+  /** IP addresses or CIDR ranges allowed to make /flags requests, up to 100. When not empty, every other caller gets no flags, including servers and browsers on allowed domains. Behind a reverse proxy, the proxy's address is checked, so requests through the managed reverse proxy get no flags. Entries follow the same rules as blocked_ips. A blocked address wins. */
+  allowed_ips?: TeamFeatureFlagPolicyConfigAllowedIpsList | undefined;
 }
 /** * `0` - Disabled * `1` - Stateless * `2` - Stateful */
 export type CookielessServerHashModeEnum = 0 | 1 | 2;
@@ -2175,6 +2359,21 @@ export type AvailableSetupTaskIdsEnum =
   | "use_posthog_in_slack";
 export type ProjectBackwardCompatAvailableSetupTaskIdsList = Array<AvailableSetupTaskIdsEnum>;
 export type ProjectBackwardCompatManagedViewsetsMap = { [key: string]: boolean | undefined };
+/** * `off` - Off * `serving` - Serving */
+export type RealtimeCohortsAccessEnum = "off" | "serving";
+export interface TeamRealtimeCohorts {
+  /** `serving` when the request's user sees realtime cohorts in this project: whether feature flags can target each cohort, and the control to turn realtime on and off for it. `off` otherwise. * `off` - Off * `serving` - Serving */
+  access: RealtimeCohortsAccessEnum;
+  /** How many cohorts in this project have realtime on. Null when `access` is `off`. */
+  cohorts_used: number | null;
+  /** How many cohorts in this project the plan allows to have realtime on. Null when `access` is `off`, or when the plan sets no limit. */
+  max_cohorts: number | null;
+}
+/** * `issue_summaries` - Issue Summaries */
+export type ErrorTrackingAIFeatureEnum = "issue_summaries";
+/** Error tracking AI features available to this project. Its error tracking settings show a switch for each one. Empty when the project has none. */
+export type ProjectBackwardCompatAvailableErrorTrackingAiFeaturesList =
+  Array<ErrorTrackingAIFeatureEnum>;
 export type FlagEvaluationsModeEnum = 0 | 1 | 2;
 /** A project and its settings, including the settings that live on its passthrough Team. This shape is a superset of TeamSerializer's, so a request rewritten from /api/environments/ onto /api/projects/ never loses a field. */
 export interface ProjectBackwardCompat {
@@ -2194,7 +2393,7 @@ export interface ProjectBackwardCompat {
   effective_membership_level?: OrganizationMembershipLevelEnum | undefined;
   has_group_types?: boolean | undefined;
   group_types?: ProjectBackwardCompatGroupTypesList | undefined;
-  live_events_token?: string | null | undefined;
+  live_events_token?: string | Redacted.Redacted<string> | null | undefined;
   updated_at?: string | null | undefined;
   uuid?: string | undefined;
   api_token?: string | Redacted.Redacted<string> | undefined;
@@ -2282,8 +2481,6 @@ export interface ProjectBackwardCompat {
   product_intents?: ProjectBackwardCompatProductIntentsList | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
   flags_persistence_default?: boolean | null | undefined;
-  secret_api_token?: string | null | undefined;
-  secret_api_token_backup?: string | null | undefined;
   /** Value this project's heatmap screenshots send as a cookie scoped to your domain, so bot protection can allow them. Only project admins can read it; null for everyone else and when none has been generated. */
   heatmaps_screenshot_secret?: string | Redacted.Redacted<string> | null | undefined;
   receive_org_level_activity_logs?: boolean | null | undefined;
@@ -2305,8 +2502,14 @@ export interface ProjectBackwardCompat {
   /** The effective access level the user has for this object */
   user_access_level?: string | null | undefined;
   managed_viewsets?: ProjectBackwardCompatManagedViewsetsMap | undefined;
-  /** Which table this project's feature flag usage data is read from. PostHog sets it for the whole organization. 0 reads the events table. 1 and 2 read the flag_evaluations table. */
+  /** Realtime cohorts as the request's user sees them in this project. */
+  realtime_cohorts: TeamRealtimeCohorts;
+  /** Error tracking AI features available to this project. Its error tracking settings show a switch for each one. Empty when the project has none. */
+  available_error_tracking_ai_features: ProjectBackwardCompatAvailableErrorTrackingAiFeaturesList;
+  /** Which table this project's feature flag usage data is read from. PostHog sets it for the whole organization. 0 reads the events table. 1 and 2 read the flag_evaluations table. An organization whose every project reads the native JSON events table reads as 2. */
   flag_evaluations_mode?: FlagEvaluationsModeEnum | undefined;
+  /** Whether this project's events table holds none of its new $feature_flag_called events, so they can only be read from the flag_evaluations table. */
+  flag_calls_only_in_flag_evaluations: boolean;
   /** Host the PostHog SDKs send events to, set as their `api_host` option. It is `https://us.i.posthog.com` on US Cloud, `https://eu.i.posthog.com` on EU Cloud, and the instance URL when self-hosted. */
   api_host: string;
   revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
@@ -3123,12 +3326,16 @@ export interface BillingTimeSeriesPoint {
   breakdown_type?: BreakdownTypeEnum | null | undefined;
   breakdown_value?: unknown | undefined;
 }
-export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
-export interface PaginatedBillingTimeSeriesPointList {
+export type PaginatedBillingSpendTimeSeriesListResultsList = Array<BillingTimeSeriesPoint>;
+/** Usage dates (YYYY-MM-DD) in the requested range where the organization's known reported billing-period assignment changes. These dates can differ from subscription renewal dates. Organization-wide, even on filtered or project-scoped responses, and independent of interval and pagination. An empty or omitted list does not establish whether a renewal occurred. */
+export type PaginatedBillingSpendTimeSeriesListPricingResetDatesList = Array<string>;
+export interface PaginatedBillingSpendTimeSeriesList {
   count: number;
   next: string | null;
   previous: string | null;
-  results: PaginatedBillingTimeSeriesPointListResultsList;
+  results: PaginatedBillingSpendTimeSeriesListResultsList;
+  /** Usage dates (YYYY-MM-DD) in the requested range where the organization's known reported billing-period assignment changes. These dates can differ from subscription renewal dates. Organization-wide, even on filtered or project-scoped responses, and independent of interval and pagination. An empty or omitted list does not establish whether a renewal occurred. */
+  pricing_reset_dates?: PaginatedBillingSpendTimeSeriesListPricingResetDatesList | undefined;
 }
 export interface GetBillingSubscriptionRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -3270,6 +3477,13 @@ export interface GetBillingUsageTimeseriesRequest {
   top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
   usage_types?: string | undefined;
+}
+export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
+export interface PaginatedBillingTimeSeriesPointList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: PaginatedBillingTimeSeriesPointListResultsList;
 }
 export interface GetCimdVerificationTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -3435,7 +3649,9 @@ export type GetMembersOffboardingPreviewResponse = GetMembersOffboardingPreviewR
 export interface GetMembersProjectAccessRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
-  /** Narrow the list to one organization membership id. */
+  /** Narrow the list to the member with this email address (case-insensitive). Combined with `member_id`, both must match. */
+  email?: string | undefined;
+  /** Narrow the list to one organization membership id. Combined with `email`, both must match. */
   member_id?: string | undefined;
 }
 /** * `object` - object * `parent_object` - parent_object * `resource` - resource * `parent_resource` - parent_resource * `system_default` - system_default * `org_admin` - org_admin * `creator` - creator * `org_membership` - org_membership */
@@ -3450,11 +3666,12 @@ export type ResolvedAccessSourceEnum =
   | "org_membership";
 /** * `member` - member * `role` - role * `default` - default */
 export type ResolvedAccessSourceSubjectEnum = "member" | "role" | "default";
-/** * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
+/** * `action` - action * `access_control` - access_control * `account` - account * `account_note` - account_note * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `code_review` - code_review * `code_review_approval` - code_review_approval * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
 export type ScopeObjectEnum =
   | "action"
   | "access_control"
   | "account"
+  | "account_note"
   | "activity_log"
   | "alert"
   | "annotation"
@@ -3466,6 +3683,8 @@ export type ScopeObjectEnum =
   | "billing"
   | "business_knowledge"
   | "canvas"
+  | "code_review"
+  | "code_review_approval"
   | "cohort"
   | "comment"
   | "conversation"
@@ -3539,19 +3758,16 @@ export type ScopeObjectEnum =
   | "query"
   | "query_performance"
   | "replay_scanner"
-  | "review_hog"
   | "revenue_analytics"
   | "session_recording"
   | "session_recording_playlist"
   | "sharing_configuration"
   | "signal_scout"
   | "signal_usage"
-  | "stamphog"
   | "streamlit_app"
   | "subscription"
   | "support_ticket"
   | "survey"
-  | "tagger"
   | "ticket"
   | "task"
   | "today"
@@ -3562,7 +3778,6 @@ export type ScopeObjectEnum =
   | "uploaded_media"
   | "usage_metric"
   | "user"
-  | "user_interview"
   | "vision_action"
   | "vision_alert"
   | "visual_review"
@@ -3583,7 +3798,7 @@ export interface ProjectAccessSource {
   source: ResolvedAccessSourceEnum;
   /** Whose rule decided: a member's own, a role's, or the default for everyone in the project. Null when no rule did. * `member` - member * `role` - role * `default` - default */
   source_subject: ResolvedAccessSourceSubjectEnum | null;
-  /** The resource the deciding rule belongs to. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
+  /** The resource the deciding rule belongs to. * `action` - action * `access_control` - access_control * `account` - account * `account_note` - account_note * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `code_review` - code_review * `code_review_approval` - code_review_approval * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
   source_resource: ScopeObjectEnum;
   /** The deciding rule's object id, when it is an object-level rule (e.g. the source a table inherits from). */
   source_resource_id: string | null;
@@ -3621,6 +3836,12 @@ export interface GetMembersScopedApiKeyRequest {
   organization_id: string;
   user__uuid: string;
 }
+export interface GetOauthApplicationRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** A UUID string identifying this OAuth Application. */
+  id: string;
+}
 export interface GetOrganizationsProjectRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -3652,7 +3873,7 @@ export type AccessControlDefaultsResponseResourceAccessLevelsMap = {
 /** The levels an object rule on this resource type accepts, lowest first. */
 export type AccessControlObjectRuleResourceAvailableAccessLevelsList = Array<string>;
 export interface AccessControlObjectRuleResource {
-  /** A resource type that supports rules on single objects. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
+  /** A resource type that supports rules on single objects. * `action` - action * `access_control` - access_control * `account` - account * `account_note` - account_note * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `code_review` - code_review * `code_review_approval` - code_review_approval * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
   resource: ScopeObjectEnum;
   /** The levels an object rule on this resource type accepts, lowest first. */
   available_access_levels: AccessControlObjectRuleResourceAvailableAccessLevelsList;
@@ -3687,7 +3908,7 @@ export interface GetOrganizationsProjectsAccessControlDefaultObjectRequest {
 }
 /** A stored rule on one object, as configured for a subject. */
 export interface AccessControlObjectRule {
-  /** The object's resource type, for example `dashboard`. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
+  /** The object's resource type, for example `dashboard`. * `action` - action * `access_control` - access_control * `account` - account * `account_note` - account_note * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `code_review` - code_review * `code_review_approval` - code_review_approval * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
   resource: ScopeObjectEnum;
   /** The object's primary key. */
   resource_id: string;
@@ -3773,7 +3994,7 @@ export interface ResolvedAccess {
   source: ResolvedAccessSourceEnum;
   /** Whose rule decided: a member's own, a role's, or the default for everyone in the project. Null when no rule did. * `member` - member * `role` - role * `default` - default */
   source_subject: ResolvedAccessSourceSubjectEnum | null;
-  /** The resource the deciding rule belongs to. * `action` - action * `access_control` - access_control * `account` - account * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `review_hog` - review_hog * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `stamphog` - stamphog * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `tagger` - tagger * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `user_interview` - user_interview * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
+  /** The resource the deciding rule belongs to. * `action` - action * `access_control` - access_control * `account` - account * `account_note` - account_note * `activity_log` - activity_log * `alert` - alert * `annotation` - annotation * `approvals` - approvals * `autoresearch` - autoresearch * `batch_export` - batch_export * `batch_import` - batch_import * `batch_import_support` - batch_import_support * `billing` - billing * `business_knowledge` - business_knowledge * `canvas` - canvas * `code_review` - code_review * `code_review_approval` - code_review_approval * `cohort` - cohort * `comment` - comment * `conversation` - conversation * `cross_project_dashboard` - cross_project_dashboard * `customer_analytics` - customer_analytics * `customer_task` - customer_task * `customer_journey` - customer_journey * `customer_profile_config` - customer_profile_config * `data_catalog` - data_catalog * `data_catalog_approval` - data_catalog_approval * `data_deletion` - data_deletion * `dashboard` - dashboard * `event_filter` - event_filter * `dashboard_template` - dashboard_template * `dataset` - dataset * `early_access_feature` - early_access_feature * `endpoint` - endpoint * `engineering_analytics` - engineering_analytics * `error_tracking` - error_tracking * `evaluation` - evaluation * `element` - element * `event_definition` - event_definition * `experiment` - experiment * `experiment_holdout` - experiment_holdout * `experiment_saved_metric` - experiment_saved_metric * `export` - export * `external_data_schema` - external_data_schema * `external_data_source` - external_data_source * `feature_flag` - feature_flag * `file_system` - file_system * `file_system_shortcut` - file_system_shortcut * `group` - group * `health_issue` - health_issue * `heatmap` - heatmap * `hog_flow` - hog_flow * `hog_function` - hog_function * `inbox` - inbox * `ingestion_warning` - ingestion_warning * `insight` - insight * `insight_variable` - insight_variable * `integration` - integration * `knowledge_writer` - knowledge_writer * `legal_document` - legal_document * `link` - link * `live_debugger` - live_debugger * `llm_analytics` - llm_analytics * `ai_observability_clusters` - ai_observability_clusters * `llm_gateway` - llm_gateway * `llm_playground` - llm_playground * `llm_prompt` - llm_prompt * `llm_provider_key` - llm_provider_key * `llm_skill` - llm_skill * `logs` - logs * `loop` - loop * `marketing_analytics` - marketing_analytics * `mcp_analytics` - mcp_analytics * `mcp_registry` - mcp_registry * `messaging_preference` - messaging_preference * `metrics` - metrics * `notebook` - notebook * `offline_evaluation_ingestion` - offline_evaluation_ingestion * `organization` - organization * `organization_integration` - organization_integration * `organization_member` - organization_member * `person` - person * `plugin` - plugin * `product_enablement` - product_enablement * `product_tour` - product_tour * `project` - project * `property_definition` - property_definition * `query` - query * `query_performance` - query_performance * `replay_scanner` - replay_scanner * `revenue_analytics` - revenue_analytics * `session_recording` - session_recording * `session_recording_playlist` - session_recording_playlist * `sharing_configuration` - sharing_configuration * `signal_scout` - signal_scout * `signal_usage` - signal_usage * `streamlit_app` - streamlit_app * `subscription` - subscription * `support_ticket` - support_ticket * `survey` - survey * `ticket` - ticket * `task` - task * `today` - today * `toolbar` - toolbar * `tracing` - tracing * `transactional_email` - transactional_email * `field_note` - field_note * `uploaded_media` - uploaded_media * `usage_metric` - usage_metric * `user` - user * `vision_action` - vision_action * `vision_alert` - vision_alert * `visual_review` - visual_review * `warehouse_objects` - warehouse_objects * `warehouse_table` - warehouse_table * `warehouse_view` - warehouse_view * `web_analytics` - web_analytics * `webhook` - webhook * `wizard_session` - wizard_session * `wizard_run` - wizard_run * `workload_trust_policy` - workload_trust_policy * `workload_trust_policy_request` - workload_trust_policy_request */
   source_resource: ScopeObjectEnum;
   /** The deciding rule's object id, when it is an object-level rule (e.g. the source a table inherits from). */
   source_resource_id: string | null;
@@ -4371,6 +4592,11 @@ export interface OrganizationOAuthApplication {
   redirect_uris_list?: OrganizationOAuthApplicationRedirectUrisListList | undefined;
   /** True if this application has been verified by PostHog */
   is_verified?: boolean | undefined;
+  /** True when the app registered itself from a client ID metadata document (CIMD). */
+  is_cimd_client: boolean;
+  /** Whether the app can create accounts and provision resources through the agentic provisioning API. in_review and waiting_for_staff mean its review has not finished. * `not_a_partner` - Not a provisioning partner * `in_review` - In review * `waiting_for_staff` - Waiting for PostHog staff * `changes_requested` - Changes requested * `declined` - Declined * `on` - On * `off` - Off * `blocked` - Blocked */
+  provisioning_status: PartnerProvisioningStatusEnum;
+  provisioning_review: PartnerReview | null;
   created?: string | undefined;
   updated?: string | undefined;
 }
@@ -4723,172 +4949,6 @@ export interface OrganizationsProjectsDefaultEvaluationContextsDestroyRequest {
   id: number;
 }
 export interface OrganizationsProjectsDefaultEvaluationContextsDestroyResponse {}
-/** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestTagsList =
-  Array<string>;
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList = Array<
-  string | null
->;
-/** Ordered list of person properties used to render a human-friendly display name in the UI. */
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestPersonDisplayNamePropertiesList =
-  Array<string>;
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlTriggerConfigList =
-  Array<unknown>;
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlBlocklistConfigList =
-  Array<unknown>;
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList =
-  Array<string | null>;
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestLiveEventsColumnsList =
-  Array<string>;
-/** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList =
-  Array<string | null>;
-/** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel =
-  | BusinessModelEnum
-  | BlankEnum;
-/** Settings for Conversations. Must be a JSON object or null. */
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap =
-  { [key: string]: unknown | undefined };
-export interface OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequest {
-  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
-  organization_id: string;
-  /** A unique value identifying this project. */
-  id: number;
-  /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string | undefined;
-  /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null | undefined;
-  /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null | undefined;
-  /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestTagsList | undefined;
-  app_urls?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList
-    | undefined;
-  /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean | undefined;
-  completed_snippet_onboarding?: boolean | undefined;
-  /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown | undefined;
-  /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null | undefined;
-  /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown | undefined;
-  is_demo?: boolean | undefined;
-  /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {}) | undefined;
-  /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown | undefined;
-  /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestPersonDisplayNamePropertiesList
-    | null
-    | undefined;
-  /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null | undefined;
-  /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null | undefined;
-  /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null | undefined;
-  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
-  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
-  /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null | undefined;
-  /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null | undefined;
-  /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean | undefined;
-  /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null | undefined;
-  /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null | undefined;
-  session_recording_linked_flag?: unknown | undefined;
-  session_recording_network_payload_capture_config?: unknown | undefined;
-  session_recording_masking_config?: unknown | undefined;
-  session_recording_url_trigger_config?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlTriggerConfigList
-    | null
-    | undefined;
-  session_recording_url_blocklist_config?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlBlocklistConfigList
-    | null
-    | undefined;
-  session_recording_event_trigger_config?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList
-    | null
-    | undefined;
-  session_recording_trigger_match_type_config?: string | null | undefined;
-  /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown | undefined;
-  /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?:
-    | SessionRecordingRetentionPeriodEnum
-    | (string & {})
-    | undefined;
-  session_replay_config?: unknown | undefined;
-  survey_config?: unknown | undefined;
-  access_control?: boolean | undefined;
-  /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
-  /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null | undefined;
-  /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null | undefined;
-  live_events_columns?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestLiveEventsColumnsList
-    | null
-    | undefined;
-  /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList
-    | null
-    | undefined;
-  inject_web_apps?: boolean | null | undefined;
-  extra_settings?: unknown | undefined;
-  modifiers?: unknown | undefined;
-  has_completed_onboarding_for?: unknown | undefined;
-  /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null | undefined;
-  /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null | undefined;
-  /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null | undefined;
-  receive_org_level_activity_logs?: boolean | null | undefined;
-  /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel
-    | null
-    | undefined;
-  /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null | undefined;
-  /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?:
-    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap
-    | null
-    | undefined;
-  logs_settings?: unknown | undefined;
-  proactive_tasks_enabled?: boolean | null | undefined;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
-  workflows_config?: TeamWorkflowsConfig | undefined;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
-  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
-  /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null | undefined;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
-  human_friendly_comparison_periods?: boolean | null | undefined;
-  feature_flag_confirmation_enabled?: boolean | null | undefined;
-  feature_flag_confirmation_message?: string | null | undefined;
-  /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null | undefined;
-  /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null | undefined;
-  default_data_theme?: number | null | undefined;
-  onboarding_tasks?: unknown | undefined;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
-}
 export interface OrganizationsProjectsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
@@ -5239,171 +5299,6 @@ export interface OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdat
   /** A unique value identifying this project. */
   id: number;
 }
-/** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestTagsList = Array<string>;
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestAppUrlsList = Array<
-  string | null
->;
-/** Ordered list of person properties used to render a human-friendly display name in the UI. */
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestPersonDisplayNamePropertiesList =
-  Array<string>;
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlTriggerConfigList =
-  Array<unknown>;
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlBlocklistConfigList =
-  Array<unknown>;
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList =
-  Array<string | null>;
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestLiveEventsColumnsList =
-  Array<string>;
-/** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestRecordingDomainsList = Array<
-  string | null
->;
-/** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel =
-  | BusinessModelEnum
-  | BlankEnum;
-/** Settings for Conversations. Must be a JSON object or null. */
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap = {
-  [key: string]: unknown | undefined;
-};
-export interface OrganizationsProjectsRotateSecretTokenPartialUpdateRequest {
-  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
-  organization_id: string;
-  /** A unique value identifying this project. */
-  id: number;
-  /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string | undefined;
-  /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null | undefined;
-  /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null | undefined;
-  /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestTagsList | undefined;
-  app_urls?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestAppUrlsList | undefined;
-  /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean | undefined;
-  completed_snippet_onboarding?: boolean | undefined;
-  /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown | undefined;
-  /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null | undefined;
-  /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown | undefined;
-  is_demo?: boolean | undefined;
-  /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {}) | undefined;
-  /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown | undefined;
-  /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestPersonDisplayNamePropertiesList
-    | null
-    | undefined;
-  /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null | undefined;
-  /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null | undefined;
-  /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null | undefined;
-  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
-  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
-  /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null | undefined;
-  /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null | undefined;
-  /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean | undefined;
-  /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null | undefined;
-  /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null | undefined;
-  session_recording_linked_flag?: unknown | undefined;
-  session_recording_network_payload_capture_config?: unknown | undefined;
-  session_recording_masking_config?: unknown | undefined;
-  session_recording_url_trigger_config?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlTriggerConfigList
-    | null
-    | undefined;
-  session_recording_url_blocklist_config?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlBlocklistConfigList
-    | null
-    | undefined;
-  session_recording_event_trigger_config?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList
-    | null
-    | undefined;
-  session_recording_trigger_match_type_config?: string | null | undefined;
-  /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown | undefined;
-  /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?:
-    | SessionRecordingRetentionPeriodEnum
-    | (string & {})
-    | undefined;
-  session_replay_config?: unknown | undefined;
-  survey_config?: unknown | undefined;
-  access_control?: boolean | undefined;
-  /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
-  /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null | undefined;
-  /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null | undefined;
-  live_events_columns?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestLiveEventsColumnsList
-    | null
-    | undefined;
-  /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestRecordingDomainsList
-    | null
-    | undefined;
-  inject_web_apps?: boolean | null | undefined;
-  extra_settings?: unknown | undefined;
-  modifiers?: unknown | undefined;
-  has_completed_onboarding_for?: unknown | undefined;
-  /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null | undefined;
-  /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null | undefined;
-  /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null | undefined;
-  receive_org_level_activity_logs?: boolean | null | undefined;
-  /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel
-    | null
-    | undefined;
-  /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null | undefined;
-  /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?:
-    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap
-    | null
-    | undefined;
-  logs_settings?: unknown | undefined;
-  proactive_tasks_enabled?: boolean | null | undefined;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
-  workflows_config?: TeamWorkflowsConfig | undefined;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
-  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
-  /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null | undefined;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
-  human_friendly_comparison_periods?: boolean | null | undefined;
-  feature_flag_confirmation_enabled?: boolean | null | undefined;
-  feature_flag_confirmation_message?: string | null | undefined;
-  /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null | undefined;
-  /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null | undefined;
-  default_data_theme?: number | null | undefined;
-  onboarding_tasks?: unknown | undefined;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
-}
 export interface RemoveBlockedMembersAndEnforceVerifiedDomainsCreateRequest {
   /** A UUID string identifying this organization. */
   id: string;
@@ -5436,6 +5331,8 @@ export interface RolesRoleMembershipsDestroyRequest {
   id: string;
 }
 export interface RolesRoleMembershipsDestroyResponse {}
+/** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+export type UpdateRequestIpRestrictionsList = Array<string>;
 export interface UpdateRequest {
   /** A UUID string identifying this organization. */
   id: string;
@@ -5462,6 +5359,10 @@ export interface UpdateRequest {
   default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
   default_role_id?: string | null | undefined;
+  /** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+  ip_restrictions?: UpdateRequestIpRestrictionsList | undefined;
+  /** When False, the IP allowlist is kept but not enforced. */
+  ip_restrictions_enabled?: boolean | undefined;
 }
 export interface UpdateCimdVerificationTokensPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5610,6 +5511,12 @@ export interface UpdateIntegrationsEnvironmentMappingPartialRequest {
   organization_id: string;
   /** A UUID string identifying this organization integration. */
   id: string;
+  /** ID of the PostHog project that receives the Vercel production environment. */
+  production?: number | undefined;
+  /** ID of the PostHog project for the Vercel preview environment. Defaults to the production project. */
+  preview?: number | undefined;
+  /** ID of the PostHog project for the Vercel development environment. Defaults to the production project. */
+  development?: number | undefined;
 }
 /** * `vercel` - Vercel */
 export type OrganizationIntegrationKindEnum = "vercel";
@@ -6492,9 +6399,12 @@ export interface UpdateOrganizationsProjectsTracingConfigPartialRequest {
   /** How long spans are kept before they are deleted, in days. Applied at ingest, so a change only affects spans received after it. Can be changed at most once per 24 hours. Span retention rules override this period for the spans they match. */
   retention_days?: number | undefined;
 }
+/** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+export type UpdatePartialRequestIpRestrictionsList = Array<string>;
 export interface UpdatePartialRequest {
   /** A UUID string identifying this organization. */
   id: string;
+  /** Name of the organization. */
   name?: string | undefined;
   logo_media_id?: string | null | undefined;
   enforce_2fa?: boolean | null | undefined;
@@ -6518,6 +6428,10 @@ export interface UpdatePartialRequest {
   default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
   default_role_id?: string | null | undefined;
+  /** IP addresses and CIDR blocks allowed to access this organization. Empty means every IP is allowed. */
+  ip_restrictions?: UpdatePartialRequestIpRestrictionsList | undefined;
+  /** When False, the IP allowlist is kept but not enforced. */
+  ip_restrictions_enabled?: boolean | undefined;
 }
 export interface UpdateRoleRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -6541,9 +6455,10 @@ export const billingSpendExportDownload: API.OperationMethod<
   BillingSpendExportDownloadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<BillingSpendExportDownloadRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<BillingSpendExportDownloadResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<BillingSpendExportDownloadRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<BillingSpendExportDownloadResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6558,9 +6473,10 @@ export const billingUsageExportDownload: API.OperationMethod<
   BillingUsageExportDownloadError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<BillingUsageExportDownloadRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<BillingUsageExportDownloadResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<BillingUsageExportDownloadRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<BillingUsageExportDownloadResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6575,9 +6491,10 @@ export const cimdVerificationTokensDestroy: API.OperationMethod<
   CimdVerificationTokensDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<CimdVerificationTokensDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<CimdVerificationTokensDestroyResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<CimdVerificationTokensDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CimdVerificationTokensDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6591,9 +6508,10 @@ export const create: API.OperationMethod<
   CreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<CreateRequest>,
-  output: __S(3749, __c117, 5) as any as S.Schema<Organization>,
+  input: __S(3616, __c113, 0) as any as S.Schema<CreateRequest>,
+  output: __S(3751, __c117, 7) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6608,9 +6526,10 @@ export const createCimdVerificationToken: API.OperationMethod<
   CreateCimdVerificationTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<CreateCimdVerificationTokenRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<CIMDVerificationTokenWithValue>,
+  input: __S(4192, __c131, 0) as any as S.Schema<CreateCimdVerificationTokenRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<CIMDVerificationTokenWithValue>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6625,9 +6544,10 @@ export const createCrossProjectDashboard: API.OperationMethod<
   CreateCrossProjectDashboardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreateCrossProjectDashboardRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<CrossProjectDashboard>,
+  input: __S(4640, __c145, 0) as any as S.Schema<CreateCrossProjectDashboardRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CrossProjectDashboard>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6642,9 +6562,10 @@ export const createCrossProjectDashboardsTile: API.OperationMethod<
   CreateCrossProjectDashboardsTileError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<CreateCrossProjectDashboardsTileRequest>,
-  output: __S(4704, __c147, 0) as any as S.Schema<CrossProjectDashboardTile>,
+  input: __S(5120, __c160, 0) as any as S.Schema<CreateCrossProjectDashboardsTileRequest>,
+  output: __S(4768, __c149, 0) as any as S.Schema<CrossProjectDashboardTile>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6661,6 +6582,7 @@ export const createDomain: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OrganizationDomain>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6675,8 +6597,9 @@ export const createIdentityProviderConfig: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreateIdentityProviderConfigRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<IdentityProviderConfigOutput>,
+  output: __S(416, __c13, 0) as any as S.Schema<IdentityProviderConfigOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6691,9 +6614,10 @@ export const createIdentityProviderConfigsScimToken: API.OperationMethod<
   CreateIdentityProviderConfigsScimTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateIdentityProviderConfigsScimTokenRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<SCIMTokenResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateIdentityProviderConfigsScimTokenRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<SCIMTokenResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6707,9 +6631,10 @@ export const createInvite: API.OperationMethod<
   CreateInviteError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateInviteRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<OrganizationInviteOutput>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateInviteRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<OrganizationInviteOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6724,9 +6649,10 @@ export const createInvitesDelegate: API.OperationMethod<
   CreateInvitesDelegateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CreateInvitesDelegateRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<OrganizationInviteOutput>,
+  input: __S(1440, __c45, 0) as any as S.Schema<CreateInvitesDelegateRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<OrganizationInviteOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6740,13 +6666,32 @@ export const createLegalDocument: API.OperationMethod<
   CreateLegalDocumentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<CreateLegalDocumentRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<LegalDocumentDTO>,
+  input: __S(1472, __c46, 0) as any as S.Schema<CreateLegalDocumentRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<LegalDocumentDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateLegalDocument",
+}));
+
+export type CreateOauthApplicationsReviewNoteError = PosthogOpError;
+/** Send a note on the app's provisioning review Tell PostHog staff about the application. On a declined review, or one where staff asked for changes, the note asks for another review. A blocked application cannot send one. */
+export const createOauthApplicationsReviewNote: API.OperationMethod<
+  CreateOauthApplicationsReviewNoteRequest,
+  OrganizationOAuthApplicationDetail,
+  CreateOauthApplicationsReviewNoteError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1536, __c48, 0) as any as S.Schema<CreateOauthApplicationsReviewNoteRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<OrganizationOAuthApplicationDetail>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOauthApplicationsReviewNote",
 }));
 
 export type CreateOrganizationsProjectError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6757,9 +6702,10 @@ export const createOrganizationsProject: API.OperationMethod<
   CreateOrganizationsProjectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<CreateOrganizationsProjectRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateOrganizationsProjectRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6779,12 +6725,13 @@ export const createOrganizationsProjectsChangeOrganization: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<CreateOrganizationsProjectsChangeOrganizationRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6800,12 +6747,13 @@ export const createOrganizationsProjectsDefaultEvaluationContext: API.OperationM
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1696,
-    __c53,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<CreateOrganizationsProjectsDefaultEvaluationContextRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6821,12 +6769,13 @@ export const createOrganizationsProjectsEvaluationContextSuggestion: API.Operati
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1728,
-    __c54,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<CreateOrganizationsProjectsEvaluationContextSuggestionRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<EvaluationContextSuggestionResponse>,
+  output: __S(1824, __c57, 0) as any as S.Schema<EvaluationContextSuggestionResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6841,9 +6790,10 @@ export const createRequestAiAccess: API.OperationMethod<
   CreateRequestAiAccessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateRequestAiAccessRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<OrganizationAIAccessRequestResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<CreateRequestAiAccessRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<OrganizationAIAccessRequestResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6858,9 +6808,10 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<Role>,
+  input: __S(1888, __c59, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Role>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6874,9 +6825,10 @@ export const createRoleExternalReference: API.OperationMethod<
   CreateRoleExternalReferenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateRoleExternalReferenceRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<RoleExternalReference>,
+  input: __S(1952, __c61, 0) as any as S.Schema<CreateRoleExternalReferenceRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<RoleExternalReference>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6891,9 +6843,10 @@ export const createRolesRoleMembership: API.OperationMethod<
   CreateRolesRoleMembershipError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<CreateRolesRoleMembershipRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<RoleMembershipOutput>,
+  input: __S(2016, __c63, 0) as any as S.Schema<CreateRolesRoleMembershipRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RoleMembershipOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6908,9 +6861,10 @@ export const crossProjectDashboardsDestroy: API.OperationMethod<
   CrossProjectDashboardsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CrossProjectDashboardsDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<CrossProjectDashboardsDestroyResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CrossProjectDashboardsDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CrossProjectDashboardsDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6925,9 +6879,10 @@ export const crossProjectDashboardsTilesDestroy: API.OperationMethod<
   CrossProjectDashboardsTilesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<CrossProjectDashboardsTilesDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<CrossProjectDashboardsTilesDestroyResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<CrossProjectDashboardsTilesDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<CrossProjectDashboardsTilesDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6941,9 +6896,10 @@ export const destroy: API.OperationMethod<
   DestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<DestroyResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6957,9 +6913,10 @@ export const domainsDestroy: API.OperationMethod<
   DomainsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DomainsDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<DomainsDestroyResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DomainsDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DomainsDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6973,9 +6930,10 @@ export const domainsVerifyCreate: API.OperationMethod<
   DomainsVerifyCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DomainsVerifyCreateRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<DomainsVerifyCreateResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<DomainsVerifyCreateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<DomainsVerifyCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6985,9 +6943,10 @@ export const domainsVerifyCreate: API.OperationMethod<
 export type GetError = Forbidden | NotFound | PosthogOpError;
 export const get: API.OperationMethod<GetRequest, Organization, GetError, PosthogOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2208, __c69, 0) as any as S.Schema<GetRequest>,
-    output: __S(3749, __c117, 5) as any as S.Schema<Organization>,
+    input: __S(2336, __c73, 0) as any as S.Schema<GetRequest>,
+    output: __S(3751, __c117, 7) as any as S.Schema<Organization>,
     errors: [Forbidden, NotFound],
+    serviceErrors: PosthogServiceErrors,
     protocol: PosthogProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7002,9 +6961,10 @@ export const getBillingFeature: API.OperationMethod<
   GetBillingFeatureError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetBillingFeatureRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<BillingFeatures>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetBillingFeatureRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<BillingFeatures>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7019,9 +6979,10 @@ export const getBillingForecast: API.OperationMethod<
   GetBillingForecastError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<GetBillingForecastRequest>,
-  output: __S(2375, __c74, 7) as any as S.Schema<BillingForecast>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetBillingForecastRequest>,
+  output: __S(2439, __c76, 7) as any as S.Schema<BillingForecast>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7036,9 +6997,10 @@ export const getBillingInvoicesContent: API.OperationMethod<
   GetBillingInvoicesContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetBillingInvoicesContentRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<GetBillingInvoicesContentResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetBillingInvoicesContentRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<GetBillingInvoicesContentResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7053,9 +7015,10 @@ export const getBillingLimit: API.OperationMethod<
   GetBillingLimitError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetBillingLimitRequest>,
-  output: __S(2467, __c77, 3) as any as S.Schema<BillingLimits>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetBillingLimitRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<BillingLimits>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7070,9 +7033,10 @@ export const getBillingProduct: API.OperationMethod<
   GetBillingProductError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetBillingProductRequest>,
-  output: __S(2537, __c79, 9) as any as S.Schema<BillingProduct>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetBillingProductRequest>,
+  output: __S(2601, __c81, 9) as any as S.Schema<BillingProduct>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7087,9 +7051,10 @@ export const getBillingProductsSummary: API.OperationMethod<
   GetBillingProductsSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetBillingProductsSummaryRequest>,
-  output: __S(2567, __c80, 7) as any as S.Schema<BillingProductsSummary>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetBillingProductsSummaryRequest>,
+  output: __S(2631, __c82, 7) as any as S.Schema<BillingProductsSummary>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7104,9 +7069,10 @@ export const getBillingSpendSummary: API.OperationMethod<
   GetBillingSpendSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetBillingSpendSummaryRequest>,
-  output: __S(2599, __c81, 7) as any as S.Schema<BillingSpendSummary>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetBillingSpendSummaryRequest>,
+  output: __S(2663, __c83, 7) as any as S.Schema<BillingSpendSummary>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7117,13 +7083,14 @@ export type GetBillingSpendTimeseriesError = PosthogOpError;
 /** Spend over time In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */
 export const getBillingSpendTimeseries: API.OperationMethod<
   GetBillingSpendTimeseriesRequest,
-  PaginatedBillingTimeSeriesPointList,
+  PaginatedBillingSpendTimeSeriesList,
   GetBillingSpendTimeseriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetBillingSpendTimeseriesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<PaginatedBillingTimeSeriesPointList>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetBillingSpendTimeseriesRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<PaginatedBillingSpendTimeSeriesList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7138,9 +7105,10 @@ export const getBillingSubscription: API.OperationMethod<
   GetBillingSubscriptionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<GetBillingSubscriptionRequest>,
-  output: __S(2692, __c84, 4) as any as S.Schema<BillingSubscription>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GetBillingSubscriptionRequest>,
+  output: __S(2756, __c86, 4) as any as S.Schema<BillingSubscription>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7155,9 +7123,10 @@ export const getBillingUsageStatus: API.OperationMethod<
   GetBillingUsageStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<GetBillingUsageStatusRequest>,
-  output: __S(2725, __c85, 5) as any as S.Schema<BillingUsageStatus>,
+  input: __S(2816, __c88, 0) as any as S.Schema<GetBillingUsageStatusRequest>,
+  output: __S(2821, __c88, 5) as any as S.Schema<BillingUsageStatus>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7172,9 +7141,10 @@ export const getBillingUsageSummary: API.OperationMethod<
   GetBillingUsageSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<GetBillingUsageSummaryRequest>,
-  output: __S(2793, __c87, 9) as any as S.Schema<BillingUsageSummary>,
+  input: __S(2848, __c89, 0) as any as S.Schema<GetBillingUsageSummaryRequest>,
+  output: __S(2857, __c89, 9) as any as S.Schema<BillingUsageSummary>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7189,9 +7159,10 @@ export const getBillingUsageTimeseries: API.OperationMethod<
   GetBillingUsageTimeseriesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GetBillingUsageTimeseriesRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<PaginatedBillingTimeSeriesPointList>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GetBillingUsageTimeseriesRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<PaginatedBillingTimeSeriesPointList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7206,9 +7177,10 @@ export const getCimdVerificationToken: API.OperationMethod<
   GetCimdVerificationTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetCimdVerificationTokenRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<CIMDVerificationToken>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetCimdVerificationTokenRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<CIMDVerificationToken>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7223,9 +7195,10 @@ export const getCrossProjectDashboard: API.OperationMethod<
   GetCrossProjectDashboardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<GetCrossProjectDashboardRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<CrossProjectDashboard>,
+  input: __S(2976, __c93, 0) as any as S.Schema<GetCrossProjectDashboardRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CrossProjectDashboard>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7240,9 +7213,10 @@ export const getCrossProjectDashboardsTile: API.OperationMethod<
   GetCrossProjectDashboardsTileError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetCrossProjectDashboardsTileRequest>,
-  output: __S(4704, __c147, 0) as any as S.Schema<CrossProjectDashboardTile>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetCrossProjectDashboardsTileRequest>,
+  output: __S(4768, __c149, 0) as any as S.Schema<CrossProjectDashboardTile>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7256,9 +7230,10 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetDomainRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OrganizationDomain>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7272,9 +7247,10 @@ export const getDomainsScimLog: API.OperationMethod<
   GetDomainsScimLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetDomainsScimLogRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<PaginatedSCIMRequestLog>,
+  input: __S(3072, __c96, 0) as any as S.Schema<GetDomainsScimLogRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<PaginatedSCIMRequestLog>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7288,9 +7264,10 @@ export const getIdentityProviderConfig: API.OperationMethod<
   GetIdentityProviderConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<GetIdentityProviderConfigRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<IdentityProviderConfigOutput>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetIdentityProviderConfigRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<IdentityProviderConfigOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7304,9 +7281,10 @@ export const getIdentityProviderConfigsScimLog: API.OperationMethod<
   GetIdentityProviderConfigsScimLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetIdentityProviderConfigsScimLogRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<PaginatedSCIMRequestLog>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetIdentityProviderConfigsScimLogRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<PaginatedSCIMRequestLog>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7320,9 +7298,10 @@ export const getLegalDocument: API.OperationMethod<
   GetLegalDocumentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetLegalDocumentRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<LegalDocumentDTO>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetLegalDocumentRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<LegalDocumentDTO>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7336,9 +7315,10 @@ export const getMembersGithubLogin: API.OperationMethod<
   GetMembersGithubLoginError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetMembersGithubLoginRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<OrganizationMemberGithubLogin>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetMembersGithubLoginRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<OrganizationMemberGithubLogin>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7352,9 +7332,10 @@ export const getMembersOffboardingPreview: API.OperationMethod<
   GetMembersOffboardingPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetMembersOffboardingPreviewRequest>,
-  output: __S(3235, __c101, 3) as any as S.Schema<GetMembersOffboardingPreviewResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetMembersOffboardingPreviewRequest>,
+  output: __S(3299, __c103, 3) as any as S.Schema<GetMembersOffboardingPreviewResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7369,9 +7350,10 @@ export const getMembersProjectAccess: API.OperationMethod<
   GetMembersProjectAccessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetMembersProjectAccessRequest>,
-  output: __S(3270, __c102, 6) as any as S.Schema<MemberProjectAccessResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetMembersProjectAccessRequest>,
+  output: __S(3334, __c104, 6) as any as S.Schema<MemberProjectAccessResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7385,13 +7367,32 @@ export const getMembersScopedApiKey: API.OperationMethod<
   GetMembersScopedApiKeyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetMembersScopedApiKeyRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<OrganizationMember>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetMembersScopedApiKeyRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<OrganizationMember>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMembersScopedApiKey",
+}));
+
+export type GetOauthApplicationError = PosthogOpError;
+/** OAuth applications linked to the organization, with each app's provisioning partner status and review. Read-only, and only for organization admins, who are the people who run the apps. */
+export const getOauthApplication: API.OperationMethod<
+  GetOauthApplicationRequest,
+  OrganizationOAuthApplicationDetail,
+  GetOauthApplicationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3392, __c106, 0) as any as S.Schema<GetOauthApplicationRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<OrganizationOAuthApplicationDetail>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOauthApplication",
 }));
 
 export type GetOrganizationsProjectError = Forbidden | NotFound | PosthogOpError;
@@ -7402,9 +7403,10 @@ export const getOrganizationsProject: API.OperationMethod<
   GetOrganizationsProjectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetOrganizationsProjectRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetOrganizationsProjectRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7420,12 +7422,13 @@ export const getOrganizationsProjectsAccessControlDefault: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlDefaultRequest>,
-  output: __S(3365, __c105, 5) as any as S.Schema<AccessControlDefaultsResponse>,
+  output: __S(3461, __c108, 5) as any as S.Schema<AccessControlDefaultsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7441,12 +7444,13 @@ export const getOrganizationsProjectsAccessControlDefaultObject: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    3488,
+    __c109,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlDefaultObjectRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<AccessControlObjectRulesResponse>,
+  output: __S(3522, __c110, 2) as any as S.Schema<AccessControlObjectRulesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7462,12 +7466,13 @@ export const getOrganizationsProjectsAccessControlDefaultProperty: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
-    __c108,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlDefaultPropertyRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<AccessControlPropertyRulesResponse>,
+  output: __S(3586, __c112, 2) as any as S.Schema<AccessControlPropertyRulesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7483,12 +7488,13 @@ export const getOrganizationsProjectsAccessControlManagement: API.OperationMetho
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c110,
+    3808,
+    __c119,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlManagementRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<AccessControlManagement>,
+  output: __S(3840, __c120, 0) as any as S.Schema<AccessControlManagement>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7504,12 +7510,13 @@ export const getOrganizationsProjectsAccessControlMember: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3584,
-    __c112,
+    3872,
+    __c121,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlMemberRequest>,
-  output: __S(3588, __c112, 4) as any as S.Schema<AccessControlMembersResponse>,
+  output: __S(3876, __c121, 4) as any as S.Schema<AccessControlMembersResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7525,12 +7532,13 @@ export const getOrganizationsProjectsAccessControlMemberObject: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlMemberObjectRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<AccessControlObjectRulesResponse>,
+  output: __S(3522, __c110, 2) as any as S.Schema<AccessControlObjectRulesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7546,12 +7554,13 @@ export const getOrganizationsProjectsAccessControlMemberProperty: API.OperationM
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3840,
-    __c120,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlMemberPropertyRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<AccessControlPropertyRulesResponse>,
+  output: __S(3586, __c112, 2) as any as S.Schema<AccessControlPropertyRulesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7566,9 +7575,10 @@ export const getOrganizationsProjectsAccessControlRole: API.OperationMethod<
   GetOrganizationsProjectsAccessControlRoleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetOrganizationsProjectsAccessControlRoleRequest>,
-  output: __S(3875, __c121, 3) as any as S.Schema<AccessControlRolesResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetOrganizationsProjectsAccessControlRoleRequest>,
+  output: __S(4003, __c125, 3) as any as S.Schema<AccessControlRolesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7584,12 +7594,13 @@ export const getOrganizationsProjectsAccessControlRoleObject: API.OperationMetho
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3904,
-    __c122,
+    4032,
+    __c126,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlRoleObjectRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<AccessControlObjectRulesResponse>,
+  output: __S(3522, __c110, 2) as any as S.Schema<AccessControlObjectRulesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7605,12 +7616,13 @@ export const getOrganizationsProjectsAccessControlRoleProperty: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3936,
-    __c123,
+    4064,
+    __c127,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsAccessControlRolePropertyRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<AccessControlPropertyRulesResponse>,
+  output: __S(3586, __c112, 2) as any as S.Schema<AccessControlPropertyRulesResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7625,9 +7637,10 @@ export const getOrganizationsProjectsActivity: API.OperationMethod<
   GetOrganizationsProjectsActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetOrganizationsProjectsActivityRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetOrganizationsProjectsActivityRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7643,12 +7656,13 @@ export const getOrganizationsProjectsDefaultEvaluationContext: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4000,
-    __c125,
+    4128,
+    __c129,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsDefaultEvaluationContextRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7664,12 +7678,13 @@ export const getOrganizationsProjectsDefaultReleaseCondition: API.OperationMetho
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4032,
-    __c126,
+    4160,
+    __c130,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsDefaultReleaseConditionRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7684,9 +7699,10 @@ export const getOrganizationsProjectsExperimentsConfig: API.OperationMethod<
   GetOrganizationsProjectsExperimentsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetOrganizationsProjectsExperimentsConfigRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetOrganizationsProjectsExperimentsConfigRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7705,12 +7721,13 @@ export const getOrganizationsProjectsIsGeneratingDemoData: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4096,
-    __c128,
+    4288,
+    __c134,
     0,
   ) as any as S.Schema<GetOrganizationsProjectsIsGeneratingDemoDataRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7725,9 +7742,10 @@ export const getOrganizationsProjectsLogsConfig: API.OperationMethod<
   GetOrganizationsProjectsLogsConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetOrganizationsProjectsLogsConfigRequest>,
-  output: __S(4224, __c132, 0) as any as S.Schema<TeamLogsConfig>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetOrganizationsProjectsLogsConfigRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<TeamLogsConfig>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7742,9 +7760,10 @@ export const getOrganizationsProjectsSettingsAsOf: API.OperationMethod<
   GetOrganizationsProjectsSettingsAsOfError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetOrganizationsProjectsSettingsAsOfRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetOrganizationsProjectsSettingsAsOfRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7759,9 +7778,10 @@ export const getOrganizationsProjectsTracingConfig: API.OperationMethod<
   GetOrganizationsProjectsTracingConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetOrganizationsProjectsTracingConfigRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<TeamTracingConfig>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetOrganizationsProjectsTracingConfigRequest>,
+  output: __S(4448, __c139, 0) as any as S.Schema<TeamTracingConfig>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7772,9 +7792,10 @@ export type GetRoleError = Forbidden | NotFound | PosthogOpError;
 /** Role endpoints disclose member records, so they scope them the same way the members list does when the org restricts member list visibility. */
 export const getRole: API.OperationMethod<GetRoleRequest, Role, GetRoleError, PosthogOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(4352, __c136, 0) as any as S.Schema<GetRoleRequest>,
-    output: __S(1856, __c58, 0) as any as S.Schema<Role>,
+    input: __S(4480, __c140, 0) as any as S.Schema<GetRoleRequest>,
+    output: __S(1920, __c60, 0) as any as S.Schema<Role>,
     errors: [Forbidden, NotFound],
+    serviceErrors: PosthogServiceErrors,
     protocol: PosthogProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7792,9 +7813,10 @@ export const getRoleExternalReferencesLookup: API.OperationMethod<
   GetRoleExternalReferencesLookupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetRoleExternalReferencesLookupRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<RoleLookupResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetRoleExternalReferencesLookupRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<RoleLookupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7809,9 +7831,10 @@ export const getRolesRoleMembership: API.OperationMethod<
   GetRolesRoleMembershipError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetRolesRoleMembershipRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<RoleMembershipOutput>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetRolesRoleMembershipRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RoleMembershipOutput>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7826,9 +7849,10 @@ export const getTeamsDataFreshness: API.OperationMethod<
   GetTeamsDataFreshnessError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetTeamsDataFreshnessRequest>,
-  output: __S(4453, __c139, 5) as any as S.Schema<OrganizationDataFreshness>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetTeamsDataFreshnessRequest>,
+  output: __S(4581, __c143, 5) as any as S.Schema<OrganizationDataFreshness>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7843,9 +7867,10 @@ export const getWelcomeCurrent: API.OperationMethod<
   GetWelcomeCurrentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetWelcomeCurrentRequest>,
-  output: __S(4490, __c140, 10) as any as S.Schema<WelcomeResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetWelcomeCurrentRequest>,
+  output: __S(4618, __c144, 10) as any as S.Schema<WelcomeResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7859,9 +7884,10 @@ export const identityProviderConfigsDestroy: API.OperationMethod<
   IdentityProviderConfigsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<IdentityProviderConfigsDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<IdentityProviderConfigsDestroyResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<IdentityProviderConfigsDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<IdentityProviderConfigsDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7875,9 +7901,10 @@ export const invitesBulkCreate: API.OperationMethod<
   InvitesBulkCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<InvitesBulkCreateRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<InvitesBulkCreateResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<InvitesBulkCreateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<InvitesBulkCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7891,9 +7918,10 @@ export const invitesDestroy: API.OperationMethod<
   InvitesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<InvitesDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<InvitesDestroyResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<InvitesDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<InvitesDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7908,9 +7936,10 @@ export const legalDocumentsDestroy: API.OperationMethod<
   LegalDocumentsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<LegalDocumentsDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<LegalDocumentsDestroyResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<LegalDocumentsDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<LegalDocumentsDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7925,9 +7954,10 @@ export const legalDocumentsDownloadRetrieve: API.OperationMethod<
   LegalDocumentsDownloadRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<LegalDocumentsDownloadRetrieveRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<LegalDocumentsDownloadRetrieveResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<LegalDocumentsDownloadRetrieveRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<LegalDocumentsDownloadRetrieveResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7941,9 +7971,10 @@ export const list: API.OperationMethod<
   ListError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<ListRequest>,
-  output: __S(4834, __c151, 2) as any as S.Schema<PaginatedOrganizationList>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ListRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<PaginatedOrganizationList>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7958,9 +7989,10 @@ export const listBillingInvoices: API.OperationMethod<
   ListBillingInvoicesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ListBillingInvoicesRequest>,
-  output: __S(4867, __c152, 3) as any as S.Schema<BillingInvoices>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ListBillingInvoicesRequest>,
+  output: __S(4995, __c156, 3) as any as S.Schema<BillingInvoices>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7975,9 +8007,10 @@ export const listBillingProducts: API.OperationMethod<
   ListBillingProductsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ListBillingProductsRequest>,
-  output: __S(4898, __c153, 2) as any as S.Schema<BillingProducts>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListBillingProductsRequest>,
+  output: __S(5026, __c157, 2) as any as S.Schema<BillingProducts>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7992,9 +8025,10 @@ export const listBillingProject: API.OperationMethod<
   ListBillingProjectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListBillingProjectRequest>,
-  output: __S(4931, __c154, 3) as any as S.Schema<BillingProjects>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListBillingProjectRequest>,
+  output: __S(5059, __c158, 3) as any as S.Schema<BillingProjects>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8009,9 +8043,10 @@ export const listCimdVerificationTokens: API.OperationMethod<
   ListCimdVerificationTokensError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ListCimdVerificationTokensRequest>,
-  output: __S(4962, __c155, 2) as any as S.Schema<PaginatedCIMDVerificationTokenList>,
+  input: __S(5088, __c159, 0) as any as S.Schema<ListCimdVerificationTokensRequest>,
+  output: __S(5090, __c159, 2) as any as S.Schema<PaginatedCIMDVerificationTokenList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8026,9 +8061,10 @@ export const listCrossProjectDashboards: API.OperationMethod<
   ListCrossProjectDashboardsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ListCrossProjectDashboardsRequest>,
-  output: __S(4995, __c156, 3) as any as S.Schema<PaginatedCrossProjectDashboardListItemList>,
+  input: __S(5152, __c161, 0) as any as S.Schema<ListCrossProjectDashboardsRequest>,
+  output: __S(5155, __c161, 3) as any as S.Schema<PaginatedCrossProjectDashboardListItemList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8043,9 +8079,10 @@ export const listCrossProjectDashboardsTiles: API.OperationMethod<
   ListCrossProjectDashboardsTilesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListCrossProjectDashboardsTilesRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<PaginatedCrossProjectDashboardTileList>,
+  input: __S(5184, __c162, 0) as any as S.Schema<ListCrossProjectDashboardsTilesRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<PaginatedCrossProjectDashboardTileList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8059,9 +8096,10 @@ export const listDomains: API.OperationMethod<
   ListDomainsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(5090, __c159, 2) as any as S.Schema<PaginatedOrganizationDomainList>,
+  input: __S(5216, __c163, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(5218, __c163, 2) as any as S.Schema<PaginatedOrganizationDomainList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8075,9 +8113,10 @@ export const listIdentityProviderConfigs: API.OperationMethod<
   ListIdentityProviderConfigsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListIdentityProviderConfigsRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<PaginatedIdentityProviderConfigListOutput>,
+  input: __S(5248, __c164, 0) as any as S.Schema<ListIdentityProviderConfigsRequest>,
+  output: __S(5250, __c164, 2) as any as S.Schema<PaginatedIdentityProviderConfigListOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8091,9 +8130,10 @@ export const listInvites: API.OperationMethod<
   ListInvitesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ListInvitesRequest>,
-  output: __S(5154, __c161, 2) as any as S.Schema<PaginatedOrganizationInviteListOutput>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListInvitesRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<PaginatedOrganizationInviteListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8107,9 +8147,10 @@ export const listLegalDocuments: API.OperationMethod<
   ListLegalDocumentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ListLegalDocumentsRequest>,
-  output: __S(5186, __c162, 2) as any as S.Schema<PaginatedLegalDocumentDTOList>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListLegalDocumentsRequest>,
+  output: __S(5314, __c166, 2) as any as S.Schema<PaginatedLegalDocumentDTOList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8123,9 +8164,10 @@ export const listMembers: API.OperationMethod<
   ListMembersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<ListMembersRequest>,
-  output: __S(5218, __c163, 2) as any as S.Schema<PaginatedOrganizationMemberList>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListMembersRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<PaginatedOrganizationMemberList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8133,16 +8175,17 @@ export const listMembers: API.OperationMethod<
 }));
 
 export type ListOauthApplicationsError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** ViewSet for listing OAuth applications at the organization level (read-only). */
+/** OAuth applications linked to the organization, with each app's provisioning partner status and review. Read-only, and only for organization admins, who are the people who run the apps. */
 export const listOauthApplications: API.OperationMethod<
   ListOauthApplicationsRequest,
   PaginatedOrganizationOAuthApplicationList,
   ListOauthApplicationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListOauthApplicationsRequest>,
-  output: __S(5251, __c164, 3) as any as S.Schema<PaginatedOrganizationOAuthApplicationList>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListOauthApplicationsRequest>,
+  output: __S(5379, __c168, 3) as any as S.Schema<PaginatedOrganizationOAuthApplicationList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8157,9 +8200,10 @@ export const listOrganizationsProjects: API.OperationMethod<
   ListOrganizationsProjectsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<ListOrganizationsProjectsRequest>,
-  output: __S(5283, __c165, 3) as any as S.Schema<PaginatedProjectBackwardCompatBasicList>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListOrganizationsProjectsRequest>,
+  output: __S(5411, __c169, 3) as any as S.Schema<PaginatedProjectBackwardCompatBasicList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8175,16 +8219,17 @@ export const listOrganizationsProjectsEventIngestionRestrictions: API.OperationM
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5312,
-    __c166,
+    5440,
+    __c170,
     0,
   ) as any as S.Schema<ListOrganizationsProjectsEventIngestionRestrictionsRequest>,
   output: __S(
-    5315,
-    __c166,
+    5443,
+    __c170,
     3,
   ) as any as S.Schema<ListOrganizationsProjectsEventIngestionRestrictionsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8198,9 +8243,10 @@ export const listRoleExternalReferences: API.OperationMethod<
   ListRoleExternalReferencesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<ListRoleExternalReferencesRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<PaginatedRoleExternalReferenceList>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListRoleExternalReferencesRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<PaginatedRoleExternalReferenceList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8215,9 +8261,10 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(5378, __c168, 2) as any as S.Schema<PaginatedRoleList>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<PaginatedRoleList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8232,9 +8279,10 @@ export const listRolesRoleMemberships: API.OperationMethod<
   ListRolesRoleMembershipsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<ListRolesRoleMembershipsRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<PaginatedRoleMembershipListOutput>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListRolesRoleMembershipsRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<PaginatedRoleMembershipListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8248,9 +8296,10 @@ export const membersDestroy: API.OperationMethod<
   MembersDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<MembersDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<MembersDestroyResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<MembersDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<MembersDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8270,12 +8319,13 @@ export const organizationsProjectsAddProductIntentPartialUpdate: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c4,
+    192,
+    __c6,
     0,
   ) as any as S.Schema<OrganizationsProjectsAddProductIntentPartialUpdateRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8290,9 +8340,10 @@ export const organizationsProjectsCancelDeletionCreate: API.OperationMethod<
   OrganizationsProjectsCancelDeletionCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<OrganizationsProjectsCancelDeletionCreateRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<Project>,
+  input: __S(224, __c7, 0) as any as S.Schema<OrganizationsProjectsCancelDeletionCreateRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<Project>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8308,45 +8359,21 @@ export const organizationsProjectsDefaultEvaluationContextsDestroy: API.Operatio
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c6,
+    256,
+    __c8,
     0,
   ) as any as S.Schema<OrganizationsProjectsDefaultEvaluationContextsDestroyRequest>,
   output: __S(
-    2272,
-    __c71,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<OrganizationsProjectsDefaultEvaluationContextsDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "OrganizationsProjectsDefaultEvaluationContextsDestroy",
-}));
-
-export type OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-/** Projects for the current organization. */
-export const organizationsProjectsDeleteSecretTokenBackupPartialUpdate: API.OperationMethod<
-  OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequest,
-  ProjectBackwardCompat,
-  OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    224,
-    __c7,
-    0,
-  ) as any as S.Schema<OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "OrganizationsProjectsDeleteSecretTokenBackupPartialUpdate",
 }));
 
 export type OrganizationsProjectsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -8357,9 +8384,10 @@ export const organizationsProjectsDestroy: API.OperationMethod<
   OrganizationsProjectsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<OrganizationsProjectsDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<OrganizationsProjectsDestroyResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<OrganizationsProjectsDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<OrganizationsProjectsDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8375,12 +8403,13 @@ export const organizationsProjectsEvaluationContextSuggestionsDestroy: API.Opera
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c9,
+    320,
+    __c10,
     0,
   ) as any as S.Schema<OrganizationsProjectsEvaluationContextSuggestionsDestroyRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<EvaluationContextSuggestionResponse>,
+  output: __S(1824, __c57, 0) as any as S.Schema<EvaluationContextSuggestionResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8400,12 +8429,13 @@ export const organizationsProjectsGenerateConversationsPublicTokenCreate: API.Op
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<OrganizationsProjectsGenerateConversationsPublicTokenCreateRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8424,9 +8454,10 @@ export const organizationsProjectsResetTokenPartialUpdate: API.OperationMethod<
   OrganizationsProjectsResetTokenPartialUpdateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<OrganizationsProjectsResetTokenPartialUpdateRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(448, __c14, 0) as any as S.Schema<OrganizationsProjectsResetTokenPartialUpdateRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8446,37 +8477,13 @@ export const organizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdate: A
     __c15,
     0,
   ) as any as S.Schema<OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdate",
-}));
-
-export type OrganizationsProjectsRotateSecretTokenPartialUpdateError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | PosthogOpError;
-/** Projects for the current organization. */
-export const organizationsProjectsRotateSecretTokenPartialUpdate: API.OperationMethod<
-  OrganizationsProjectsRotateSecretTokenPartialUpdateRequest,
-  ProjectBackwardCompat,
-  OrganizationsProjectsRotateSecretTokenPartialUpdateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    512,
-    __c16,
-    0,
-  ) as any as S.Schema<OrganizationsProjectsRotateSecretTokenPartialUpdateRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "OrganizationsProjectsRotateSecretTokenPartialUpdate",
 }));
 
 export type RemoveBlockedMembersAndEnforceVerifiedDomainsCreateError = PosthogOpError;
@@ -8488,12 +8495,13 @@ export const removeBlockedMembersAndEnforceVerifiedDomainsCreate: API.OperationM
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    544,
-    __c17,
+    512,
+    __c16,
     0,
   ) as any as S.Schema<RemoveBlockedMembersAndEnforceVerifiedDomainsCreateRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<OrganizationRemoveBlockedMembersResponse>,
+  output: __S(513, __c16, 1) as any as S.Schema<OrganizationRemoveBlockedMembersResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8507,9 +8515,10 @@ export const roleExternalReferencesDestroy: API.OperationMethod<
   RoleExternalReferencesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<RoleExternalReferencesDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<RoleExternalReferencesDestroyResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<RoleExternalReferencesDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<RoleExternalReferencesDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8524,9 +8533,10 @@ export const rolesDestroy: API.OperationMethod<
   RolesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<RolesDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<RolesDestroyResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<RolesDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<RolesDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8541,9 +8551,10 @@ export const rolesRoleMembershipsDestroy: API.OperationMethod<
   RolesRoleMembershipsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<RolesRoleMembershipsDestroyRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<RolesRoleMembershipsDestroyResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<RolesRoleMembershipsDestroyRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<RolesRoleMembershipsDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8557,9 +8568,10 @@ export const update: API.OperationMethod<
   UpdateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<UpdateRequest>,
-  output: __S(3749, __c117, 5) as any as S.Schema<Organization>,
+  input: __S(640, __c20, 0) as any as S.Schema<UpdateRequest>,
+  output: __S(3751, __c117, 7) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8574,9 +8586,10 @@ export const updateCimdVerificationTokensPartial: API.OperationMethod<
   UpdateCimdVerificationTokensPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<UpdateCimdVerificationTokensPartialRequest>,
-  output: __S(2880, __c90, 0) as any as S.Schema<CIMDVerificationToken>,
+  input: __S(672, __c21, 0) as any as S.Schema<UpdateCimdVerificationTokensPartialRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<CIMDVerificationToken>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8591,9 +8604,10 @@ export const updateCrossProjectDashboardsPartial: API.OperationMethod<
   UpdateCrossProjectDashboardsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<UpdateCrossProjectDashboardsPartialRequest>,
-  output: __S(4608, __c144, 0) as any as S.Schema<CrossProjectDashboard>,
+  input: __S(704, __c22, 0) as any as S.Schema<UpdateCrossProjectDashboardsPartialRequest>,
+  output: __S(4672, __c146, 0) as any as S.Schema<CrossProjectDashboard>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8608,9 +8622,10 @@ export const updateCrossProjectDashboardsTilesPartial: API.OperationMethod<
   UpdateCrossProjectDashboardsTilesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<UpdateCrossProjectDashboardsTilesPartialRequest>,
-  output: __S(4704, __c147, 0) as any as S.Schema<CrossProjectDashboardTile>,
+  input: __S(736, __c23, 0) as any as S.Schema<UpdateCrossProjectDashboardsTilesPartialRequest>,
+  output: __S(4768, __c149, 0) as any as S.Schema<CrossProjectDashboardTile>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8624,9 +8639,10 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<UpdateDomainRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<UpdateDomainRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OrganizationDomain>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8640,9 +8656,10 @@ export const updateDomainsPartial: API.OperationMethod<
   UpdateDomainsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateDomainsPartialRequest>,
+  input: __S(832, __c26, 0) as any as S.Schema<UpdateDomainsPartialRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OrganizationDomain>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8656,9 +8673,10 @@ export const updateIdentityProviderConfig: API.OperationMethod<
   UpdateIdentityProviderConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<UpdateIdentityProviderConfigRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<IdentityProviderConfigOutput>,
+  input: __S(864, __c27, 0) as any as S.Schema<UpdateIdentityProviderConfigRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<IdentityProviderConfigOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8672,9 +8690,10 @@ export const updateIdentityProviderConfigsPartial: API.OperationMethod<
   UpdateIdentityProviderConfigsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<UpdateIdentityProviderConfigsPartialRequest>,
-  output: __S(448, __c14, 0) as any as S.Schema<IdentityProviderConfigOutput>,
+  input: __S(896, __c28, 0) as any as S.Schema<UpdateIdentityProviderConfigsPartialRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<IdentityProviderConfigOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8693,9 +8712,10 @@ export const updateIntegrationsEnvironmentMappingPartial: API.OperationMethod<
   UpdateIntegrationsEnvironmentMappingPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<UpdateIntegrationsEnvironmentMappingPartialRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<OrganizationIntegration>,
+  input: __S(928, __c29, 0) as any as S.Schema<UpdateIntegrationsEnvironmentMappingPartialRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<OrganizationIntegration>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8709,9 +8729,10 @@ export const updateMember: API.OperationMethod<
   UpdateMemberError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<UpdateMemberRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<OrganizationMember>,
+  input: __S(960, __c30, 0) as any as S.Schema<UpdateMemberRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<OrganizationMember>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8725,9 +8746,10 @@ export const updateMembersPartial: API.OperationMethod<
   UpdateMembersPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdateMembersPartialRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<OrganizationMember>,
+  input: __S(992, __c31, 0) as any as S.Schema<UpdateMembersPartialRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<OrganizationMember>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8742,9 +8764,10 @@ export const updateOrganizationsProject: API.OperationMethod<
   UpdateOrganizationsProjectError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<UpdateOrganizationsProjectRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(1024, __c32, 0) as any as S.Schema<UpdateOrganizationsProjectRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8760,12 +8783,13 @@ export const updateOrganizationsProjectsAccessControlManagement: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<UpdateOrganizationsProjectsAccessControlManagementRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<AccessControlManagement>,
+  output: __S(3840, __c120, 0) as any as S.Schema<AccessControlManagement>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8785,12 +8809,13 @@ export const updateOrganizationsProjectsCompleteProductOnboardingPartial: API.Op
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c35,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8806,12 +8831,13 @@ export const updateOrganizationsProjectsDefaultReleaseCondition: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<UpdateOrganizationsProjectsDefaultReleaseConditionRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8827,12 +8853,13 @@ export const updateOrganizationsProjectsExperimentsConfigPartial: API.OperationM
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<UpdateOrganizationsProjectsExperimentsConfigPartialRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8848,12 +8875,13 @@ export const updateOrganizationsProjectsLogsConfigPartial: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<UpdateOrganizationsProjectsLogsConfigPartialRequest>,
-  output: __S(4224, __c132, 0) as any as S.Schema<TeamLogsConfig>,
+  output: __S(4352, __c136, 0) as any as S.Schema<TeamLogsConfig>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8872,9 +8900,10 @@ export const updateOrganizationsProjectsPartial: API.OperationMethod<
   UpdateOrganizationsProjectsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<UpdateOrganizationsProjectsPartialRequest>,
-  output: __S(1619, __c50, 19) as any as S.Schema<ProjectBackwardCompat>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UpdateOrganizationsProjectsPartialRequest>,
+  output: __S(1686, __c52, 22) as any as S.Schema<ProjectBackwardCompat>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8890,12 +8919,13 @@ export const updateOrganizationsProjectsTracingConfigPartial: API.OperationMetho
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c42,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<UpdateOrganizationsProjectsTracingConfigPartialRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<TeamTracingConfig>,
+  output: __S(4448, __c139, 0) as any as S.Schema<TeamTracingConfig>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8909,9 +8939,10 @@ export const updatePartial: API.OperationMethod<
   UpdatePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<UpdatePartialRequest>,
-  output: __S(3749, __c117, 5) as any as S.Schema<Organization>,
+  input: __S(1344, __c42, 0) as any as S.Schema<UpdatePartialRequest>,
+  output: __S(3751, __c117, 7) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8926,9 +8957,10 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<Role>,
+  input: __S(1376, __c43, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Role>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8943,9 +8975,10 @@ export const updateRolesPartial: API.OperationMethod<
   UpdateRolesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<UpdateRolesPartialRequest>,
-  output: __S(1856, __c58, 0) as any as S.Schema<Role>,
+  input: __S(1408, __c44, 0) as any as S.Schema<UpdateRolesPartialRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Role>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8995,6 +9028,60 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/role_external_references/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListRoleExternalReferencesRequest" });
+    case 1:
+      return S.Array(__S(1984, __c62, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(65, __c2, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedRoleExternalReferenceList" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/roles/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListRolesRequest" });
+    case 1:
+      return S.Array(__S(1920, __c60, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          next: S.optional(S.NullOr(S.String)),
+          previous: S.optional(S.NullOr(S.String)),
+          results: S.optional(__S(97, __c3, 1)),
+        }),
+      ).annotate({ identifier: "PaginatedRoleList" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
           role_id: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -9007,19 +9094,19 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListRolesRoleMembershipsRequest" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(65, __c2, 1)),
+          results: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "PaginatedRoleMembershipListOutput" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9036,7 +9123,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "MembersDestroyRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9046,8 +9133,8 @@ function __c4(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -9056,7 +9143,7 @@ function __c4(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -9072,7 +9159,7 @@ function __c4(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -9082,8 +9169,8 @@ function __c4(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -9097,11 +9184,11 @@ function __c4(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -9123,7 +9210,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "OrganizationsProjectsAddProductIntentPartialUpdateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9149,12 +9236,12 @@ function __c5(j: number): any {
           created_at: S.String,
           is_pending_deletion: S.NullOr(S.Boolean),
           deletion_scheduled_at: S.NullOr(S.String),
-          tags: S.optional(__S(416, __c13, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9171,96 +9258,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "OrganizationsProjectsDefaultEvaluationContextsDestroyRequest" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          name: S.optional(S.String),
-          logo_media_id: S.optional(S.NullOr(S.String)),
-          product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
-          anonymize_ips: S.optional(S.Boolean),
-          completed_snippet_onboarding: S.optional(S.Boolean),
-          test_account_filters: S.optional(S.Unknown),
-          test_account_filters_default_checked: S.optional(S.NullOr(S.Boolean)),
-          path_cleaning_filters: S.optional(S.Unknown),
-          is_demo: S.optional(S.Boolean),
-          timezone: S.optional(S.String),
-          data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
-          autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
-          autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
-          autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
-          autocapture_web_vitals_allowed_metrics: S.optional(S.Unknown),
-          autocapture_exceptions_errors_to_ignore: S.optional(S.Unknown),
-          capture_console_log_opt_in: S.optional(S.NullOr(S.Boolean)),
-          capture_performance_opt_in: S.optional(S.NullOr(S.Boolean)),
-          session_recording_opt_in: S.optional(S.Boolean),
-          session_recording_sample_rate: S.optional(S.NullOr(S.String)),
-          session_recording_minimum_duration_milliseconds: S.optional(S.NullOr(S.Number)),
-          session_recording_linked_flag: S.optional(S.Unknown),
-          session_recording_network_payload_capture_config: S.optional(S.Unknown),
-          session_recording_masking_config: S.optional(S.Unknown),
-          session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
-          session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
-          session_recording_trigger_groups: S.optional(S.Unknown),
-          session_recording_retention_period: S.optional(S.String),
-          session_replay_config: S.optional(S.Unknown),
-          survey_config: S.optional(S.Unknown),
-          access_control: S.optional(S.Boolean),
-          week_start_day: S.optional(S.NullOr(S.Number)),
-          primary_dashboard: S.optional(S.NullOr(S.Number)),
-          home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
-          inject_web_apps: S.optional(S.NullOr(S.Boolean)),
-          extra_settings: S.optional(S.Unknown),
-          modifiers: S.optional(S.Unknown),
-          has_completed_onboarding_for: S.optional(S.Unknown),
-          surveys_opt_in: S.optional(S.NullOr(S.Boolean)),
-          heatmaps_opt_in: S.optional(S.NullOr(S.Boolean)),
-          flags_persistence_default: S.optional(S.NullOr(S.Boolean)),
-          receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
-          business_model: S.optional(S.NullOr(S.Unknown)),
-          conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-          conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
-          logs_settings: S.optional(S.Unknown),
-          proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
-          base_currency: S.optional(S.String),
-          capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
-          cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
-          human_friendly_comparison_periods: S.optional(S.NullOr(S.Boolean)),
-          feature_flag_confirmation_enabled: S.optional(S.NullOr(S.Boolean)),
-          feature_flag_confirmation_message: S.optional(S.NullOr(S.String)),
-          default_evaluation_contexts_enabled: S.optional(S.NullOr(S.Boolean)),
-          require_evaluation_contexts: S.optional(S.NullOr(S.Boolean)),
-          default_data_theme: S.optional(S.NullOr(S.Number)),
-          onboarding_tasks: S.optional(S.Unknown),
-          web_analytics_pre_aggregated_tables_enabled: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/organizations/{organization_id}/projects/{id}/delete_secret_token_backup/",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequest",
-      });
-  }
-}
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9277,7 +9275,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "OrganizationsProjectsDestroyRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9295,7 +9293,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "OrganizationsProjectsEvaluationContextSuggestionsDestroyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9305,8 +9303,8 @@ function __c10(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -9315,7 +9313,7 @@ function __c10(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -9331,7 +9329,7 @@ function __c10(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -9341,8 +9339,8 @@ function __c10(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -9356,11 +9354,11 @@ function __c10(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -9384,7 +9382,71 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          domain_scope: S.optional(S.NullOr(S.Unknown)),
+          config_scope: S.optional(S.NullOr(S.Unknown)),
+          organization_domain_ids: S.optional(__S(3648, __c114, 0)),
+          oidc_issuer_url: S.optional(S.String),
+          oidc_client_id: S.optional(S.String),
+          oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          saml_entity_id: S.optional(S.NullOr(S.String)),
+          saml_acs_url: S.optional(S.NullOr(S.String)),
+          saml_x509_cert: S.optional(S.NullOr(S.String)),
+          scim_enabled: S.optional(S.Boolean),
+          id_jag_issuer_url: S.optional(S.NullOr(S.String)),
+          id_jag_jwks_url: S.optional(S.NullOr(S.String)),
+          id_jag_allowed_clients: S.optional(__S(3648, __c114, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{organization_id}/identity_provider_configs/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateIdentityProviderConfigRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.optional(S.String),
+          domain_scope: S.optional(S.NullOr(S.Unknown)),
+          config_scope: S.optional(S.NullOr(S.Unknown)),
+          organization_domain_ids: S.optional(__S(3648, __c114, 0)),
+          created_at: S.String,
+          updated_at: S.String,
+          has_saml: S.Boolean,
+          has_oidc: S.Boolean,
+          has_oidc_client_secret: S.Boolean,
+          oidc_issuer_url: S.optional(S.String),
+          oidc_client_id: S.optional(S.String),
+          saml_relay_state: S.String,
+          saml_entity_id: S.optional(S.NullOr(S.String)),
+          saml_acs_url: S.optional(S.NullOr(S.String)),
+          saml_x509_cert: S.optional(S.NullOr(S.String)),
+          has_scim: S.Boolean,
+          scim_enabled: S.optional(S.Boolean),
+          scim_base_url: S.String,
+          scim_bearer_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
+          has_id_jag: S.Boolean,
+          id_jag_issuer_url: S.optional(S.NullOr(S.String)),
+          id_jag_jwks_url: S.optional(S.NullOr(S.String)),
+          id_jag_allowed_clients: S.optional(__S(3648, __c114, 0)),
+          id_jag_registered_by_application_name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "IdentityProviderConfigOutput" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9394,8 +9456,8 @@ function __c11(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -9404,7 +9466,7 @@ function __c11(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -9420,7 +9482,7 @@ function __c11(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -9430,8 +9492,8 @@ function __c11(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -9445,11 +9507,11 @@ function __c11(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -9469,75 +9531,6 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "OrganizationsProjectsResetTokenPartialUpdateRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          domain_scope: S.optional(S.NullOr(S.Unknown)),
-          config_scope: S.optional(S.NullOr(S.Unknown)),
-          organization_domain_ids: S.optional(__S(416, __c13, 0)),
-          oidc_issuer_url: S.optional(S.String),
-          oidc_client_id: S.optional(S.String),
-          oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          saml_entity_id: S.optional(S.NullOr(S.String)),
-          saml_acs_url: S.optional(S.NullOr(S.String)),
-          saml_x509_cert: S.optional(S.NullOr(S.String)),
-          scim_enabled: S.optional(S.Boolean),
-          id_jag_issuer_url: S.optional(S.NullOr(S.String)),
-          id_jag_jwks_url: S.optional(S.NullOr(S.String)),
-          id_jag_allowed_clients: S.optional(__S(416, __c13, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/organizations/{organization_id}/identity_provider_configs/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateIdentityProviderConfigRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.optional(S.String),
-          domain_scope: S.optional(S.NullOr(S.Unknown)),
-          config_scope: S.optional(S.NullOr(S.Unknown)),
-          organization_domain_ids: S.optional(__S(416, __c13, 0)),
-          created_at: S.String,
-          updated_at: S.String,
-          has_saml: S.Boolean,
-          has_oidc: S.Boolean,
-          has_oidc_client_secret: S.Boolean,
-          oidc_issuer_url: S.optional(S.String),
-          oidc_client_id: S.optional(S.String),
-          saml_relay_state: S.String,
-          saml_entity_id: S.optional(S.NullOr(S.String)),
-          saml_acs_url: S.optional(S.NullOr(S.String)),
-          saml_x509_cert: S.optional(S.NullOr(S.String)),
-          has_scim: S.Boolean,
-          scim_enabled: S.optional(S.Boolean),
-          scim_base_url: S.String,
-          scim_bearer_token: S.NullOr(S.String),
-          has_id_jag: S.Boolean,
-          id_jag_issuer_url: S.optional(S.NullOr(S.String)),
-          id_jag_jwks_url: S.optional(S.NullOr(S.String)),
-          id_jag_allowed_clients: S.optional(__S(416, __c13, 0)),
-        }),
-      ).annotate({ identifier: "IdentityProviderConfigOutput" });
   }
 }
 function __c15(j: number): any {
@@ -9564,93 +9557,6 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          name: S.optional(S.String),
-          logo_media_id: S.optional(S.NullOr(S.String)),
-          product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
-          anonymize_ips: S.optional(S.Boolean),
-          completed_snippet_onboarding: S.optional(S.Boolean),
-          test_account_filters: S.optional(S.Unknown),
-          test_account_filters_default_checked: S.optional(S.NullOr(S.Boolean)),
-          path_cleaning_filters: S.optional(S.Unknown),
-          is_demo: S.optional(S.Boolean),
-          timezone: S.optional(S.String),
-          data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
-          autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
-          autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
-          autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
-          autocapture_web_vitals_allowed_metrics: S.optional(S.Unknown),
-          autocapture_exceptions_errors_to_ignore: S.optional(S.Unknown),
-          capture_console_log_opt_in: S.optional(S.NullOr(S.Boolean)),
-          capture_performance_opt_in: S.optional(S.NullOr(S.Boolean)),
-          session_recording_opt_in: S.optional(S.Boolean),
-          session_recording_sample_rate: S.optional(S.NullOr(S.String)),
-          session_recording_minimum_duration_milliseconds: S.optional(S.NullOr(S.Number)),
-          session_recording_linked_flag: S.optional(S.Unknown),
-          session_recording_network_payload_capture_config: S.optional(S.Unknown),
-          session_recording_masking_config: S.optional(S.Unknown),
-          session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
-          session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
-          session_recording_trigger_groups: S.optional(S.Unknown),
-          session_recording_retention_period: S.optional(S.String),
-          session_replay_config: S.optional(S.Unknown),
-          survey_config: S.optional(S.Unknown),
-          access_control: S.optional(S.Boolean),
-          week_start_day: S.optional(S.NullOr(S.Number)),
-          primary_dashboard: S.optional(S.NullOr(S.Number)),
-          home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
-          inject_web_apps: S.optional(S.NullOr(S.Boolean)),
-          extra_settings: S.optional(S.Unknown),
-          modifiers: S.optional(S.Unknown),
-          has_completed_onboarding_for: S.optional(S.Unknown),
-          surveys_opt_in: S.optional(S.NullOr(S.Boolean)),
-          heatmaps_opt_in: S.optional(S.NullOr(S.Boolean)),
-          flags_persistence_default: S.optional(S.NullOr(S.Boolean)),
-          receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
-          business_model: S.optional(S.NullOr(S.Unknown)),
-          conversations_enabled: S.optional(S.NullOr(S.Boolean)),
-          conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
-          logs_settings: S.optional(S.Unknown),
-          proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
-          base_currency: S.optional(S.String),
-          capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
-          cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
-          human_friendly_comparison_periods: S.optional(S.NullOr(S.Boolean)),
-          feature_flag_confirmation_enabled: S.optional(S.NullOr(S.Boolean)),
-          feature_flag_confirmation_message: S.optional(S.NullOr(S.String)),
-          default_evaluation_contexts_enabled: S.optional(S.NullOr(S.Boolean)),
-          require_evaluation_contexts: S.optional(S.NullOr(S.Boolean)),
-          default_data_theme: S.optional(S.NullOr(S.Number)),
-          onboarding_tasks: S.optional(S.Unknown),
-          web_analytics_pre_aggregated_tables_enabled: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/organizations/{organization_id}/projects/{id}/rotate_secret_token/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "OrganizationsProjectsRotateSecretTokenPartialUpdateRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9669,7 +9575,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "OrganizationRemoveBlockedMembersResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9686,7 +9592,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RoleExternalReferencesDestroyRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9703,7 +9609,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RolesDestroyRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9721,7 +9627,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RolesRoleMembershipsDestroyRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9742,11 +9648,13 @@ function __c21(j: number): any {
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
           default_anonymize_ips: S.optional(S.Boolean),
           default_role_id: S.optional(S.NullOr(S.String)),
+          ip_restrictions: S.optional(__S(3648, __c114, 0)),
+          ip_restrictions_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/api/organizations/{id}/", code: 200 })),
       ).annotate({ identifier: "UpdateRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9764,7 +9672,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateCimdVerificationTokensPartialRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9784,7 +9692,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateCrossProjectDashboardsPartialRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9805,7 +9713,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateCrossProjectDashboardsTilesPartialRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9824,12 +9732,12 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scim_enabled: S.Boolean,
-          scim_bearer_token: S.String,
+          scim_bearer_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SCIMTokenResponse" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9849,7 +9757,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateDomainRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9869,7 +9777,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateDomainsPartialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9879,7 +9787,7 @@ function __c28(j: number): any {
           name: S.optional(S.String),
           domain_scope: S.optional(S.NullOr(S.Unknown)),
           config_scope: S.optional(S.NullOr(S.Unknown)),
-          organization_domain_ids: S.optional(__S(416, __c13, 0)),
+          organization_domain_ids: S.optional(__S(3648, __c114, 0)),
           oidc_issuer_url: S.optional(S.String),
           oidc_client_id: S.optional(S.String),
           oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -9889,7 +9797,7 @@ function __c28(j: number): any {
           scim_enabled: S.optional(S.Boolean),
           id_jag_issuer_url: S.optional(S.NullOr(S.String)),
           id_jag_jwks_url: S.optional(S.NullOr(S.String)),
-          id_jag_allowed_clients: S.optional(__S(416, __c13, 0)),
+          id_jag_allowed_clients: S.optional(__S(3648, __c114, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9900,7 +9808,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateIdentityProviderConfigRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9910,7 +9818,7 @@ function __c29(j: number): any {
           name: S.optional(S.String),
           domain_scope: S.optional(S.NullOr(S.Unknown)),
           config_scope: S.optional(S.NullOr(S.Unknown)),
-          organization_domain_ids: S.optional(__S(416, __c13, 0)),
+          organization_domain_ids: S.optional(__S(3648, __c114, 0)),
           oidc_issuer_url: S.optional(S.String),
           oidc_client_id: S.optional(S.String),
           oidc_client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -9920,7 +9828,7 @@ function __c29(j: number): any {
           scim_enabled: S.optional(S.Boolean),
           id_jag_issuer_url: S.optional(S.NullOr(S.String)),
           id_jag_jwks_url: S.optional(S.NullOr(S.String)),
-          id_jag_allowed_clients: S.optional(__S(416, __c13, 0)),
+          id_jag_allowed_clients: S.optional(__S(3648, __c114, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9931,13 +9839,16 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateIdentityProviderConfigsPartialRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          production: S.optional(S.Number),
+          preview: S.optional(S.Number),
+          development: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9955,12 +9866,12 @@ function __c30(j: number): any {
           config: S.optional(S.Unknown),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          created_by: S.optional(S.NullOr(__S(4224, __c132, 0))),
         }),
       ).annotate({ identifier: "OrganizationIntegration" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9978,7 +9889,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateMemberRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9996,7 +9907,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateMembersPartialRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10006,8 +9917,8 @@ function __c33(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -10016,7 +9927,7 @@ function __c33(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10032,7 +9943,7 @@ function __c33(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10042,8 +9953,8 @@ function __c33(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -10057,11 +9968,11 @@ function __c33(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10083,7 +9994,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10101,7 +10012,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectsAccessControlManagementRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10111,8 +10022,8 @@ function __c35(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -10121,7 +10032,7 @@ function __c35(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10137,7 +10048,7 @@ function __c35(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10147,8 +10058,8 @@ function __c35(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -10162,11 +10073,11 @@ function __c35(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10190,7 +10101,7 @@ function __c35(j: number): any {
       });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10213,7 +10124,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateInviteRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10225,7 +10136,7 @@ function __c37(j: number): any {
           email_suppressed: S.Boolean,
           level: S.optional(S.Number),
           is_expired: S.optional(S.Boolean),
-          created_by: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          created_by: S.optional(S.NullOr(__S(4224, __c132, 0))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           message: S.optional(S.NullOr(S.String)),
@@ -10234,7 +10145,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "OrganizationInviteOutput" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10244,8 +10155,8 @@ function __c38(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -10254,7 +10165,7 @@ function __c38(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10270,7 +10181,7 @@ function __c38(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10280,8 +10191,8 @@ function __c38(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -10295,11 +10206,11 @@ function __c38(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10321,7 +10232,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectsDefaultReleaseConditionRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10331,8 +10242,8 @@ function __c39(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -10341,7 +10252,7 @@ function __c39(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10357,7 +10268,7 @@ function __c39(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10367,8 +10278,8 @@ function __c39(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -10382,11 +10293,11 @@ function __c39(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10408,16 +10319,16 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectsExperimentsConfigPartialRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
-          logs_distinct_id_attribute_keys: S.optional(__S(416, __c13, 0)),
-          logs_session_id_attribute_keys: S.optional(__S(416, __c13, 0)),
-          logs_pattern_message_keys: S.optional(__S(416, __c13, 0)),
+          logs_distinct_id_attribute_keys: S.optional(__S(3648, __c114, 0)),
+          logs_session_id_attribute_keys: S.optional(__S(3648, __c114, 0)),
+          logs_pattern_message_keys: S.optional(__S(3648, __c114, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10428,7 +10339,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectsLogsConfigPartialRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10438,8 +10349,8 @@ function __c41(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -10448,7 +10359,7 @@ function __c41(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10464,7 +10375,7 @@ function __c41(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10474,8 +10385,8 @@ function __c41(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -10489,11 +10400,11 @@ function __c41(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10515,15 +10426,15 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectsPartialRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
-          tracing_distinct_id_attribute_keys: S.optional(__S(416, __c13, 0)),
-          tracing_session_id_attribute_keys: S.optional(__S(416, __c13, 0)),
+          tracing_distinct_id_attribute_keys: S.optional(__S(3648, __c114, 0)),
+          tracing_session_id_attribute_keys: S.optional(__S(3648, __c114, 0)),
           retention_days: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -10535,7 +10446,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationsProjectsTracingConfigPartialRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10556,11 +10467,13 @@ function __c43(j: number): any {
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
           default_anonymize_ips: S.optional(S.Boolean),
           default_role_id: S.optional(S.NullOr(S.String)),
+          ip_restrictions: S.optional(__S(3648, __c114, 0)),
+          ip_restrictions_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/organizations/{id}/", code: 200 })),
       ).annotate({ identifier: "UpdatePartialRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10578,7 +10491,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10596,7 +10509,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateRolesPartialRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10615,7 +10528,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateInvitesDelegateRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10635,7 +10548,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateLegalDocumentRequest" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10653,10 +10566,28 @@ function __c48(j: number): any {
           representative_email: S.optional(S.String),
           status: S.optional(S.String),
           signed_pdf_stored: S.optional(S.Boolean),
-          created_by: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          created_by: S.optional(S.NullOr(__S(1504, __c47, 0))),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "LegalDocumentDTO" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          note: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{organization_id}/oauth_applications/{id}/review_note/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateOauthApplicationsReviewNoteRequest" });
   }
 }
 function __c49(j: number): any {
@@ -10664,11 +10595,78 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          client_name: S.String,
+          client_uri: S.String,
+          logo_uri: S.String,
+          tos_uri: S.String,
+          policy_uri: S.String,
+          contacts: __S(3648, __c114, 0),
+          redirect_uris: __S(3648, __c114, 0),
+          jwks_uri: S.String,
+          authentication: S.String,
+          scopes: __S(3648, __c114, 0),
+          uses_default_scopes: S.Boolean,
+          needs_signing_key: S.Boolean,
+          can_create_accounts: S.Boolean,
+          can_provision_resources: S.Boolean,
+          organization_link: S.String,
+          metadata_document: S.String,
+        }),
+      ).annotate({ identifier: "RegisteredPartnerDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.optional(S.String),
+          client_id: S.optional(S.String),
+          redirect_uris_list: __S(3648, __c114, 0),
+          is_verified: S.optional(S.Boolean),
+          is_cimd_client: S.Boolean,
+          provisioning_status: S.String,
+          provisioning_review: S.NullOr(__S(1602, __c50, 2)),
+          created: S.String,
+          updated: S.String,
+          registration: __S(1568, __c49, 0),
+        }),
+      ).annotate({ identifier: "OrganizationOAuthApplicationDetail" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          at: S.String,
+          kind: S.String,
+          status: S.NullOr(S.String),
+          message: S.String,
+          author: S.String,
+        }),
+      ).annotate({ identifier: "PartnerReviewEvent" });
+    case 1:
+      return S.Array(__S(1600, __c50, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          opened_at: S.String,
+          decided_at: S.NullOr(S.String),
+          partner_message: S.String,
+          timeline: __S(1601, __c50, 1),
+        }),
+      ).annotate({ identifier: "PartnerReview" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           organization_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -10677,7 +10675,7 @@ function __c49(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10693,7 +10691,7 @@ function __c49(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10702,8 +10700,8 @@ function __c49(j: number): any {
           access_control: S.optional(S.Boolean),
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -10717,11 +10715,11 @@ function __c49(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10743,7 +10741,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsProjectRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
@@ -10775,13 +10773,13 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "SourceMap" });
     case 3:
-      return S.Record(S.String, __S(1602, __c50, 2));
+      return S.Record(S.String, __S(1666, __c52, 2));
     case 4:
       return S.Array(S.Unknown);
     case 5:
-      return S.Record(S.String, __S(416, __c13, 0));
+      return S.Record(S.String, __S(3648, __c114, 0));
     case 6:
-      return S.Record(S.String, __S(1605, __c50, 5));
+      return S.Record(S.String, __S(1669, __c52, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -10789,18 +10787,18 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "CampaignFieldPreference" });
     case 8:
-      return S.Record(S.String, __S(1607, __c50, 7));
+      return S.Record(S.String, __S(1671, __c52, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          sources_map: S.optional(__S(1603, __c50, 3)),
-          conversion_goals: S.optional(__S(1604, __c50, 4)),
+          sources_map: S.optional(__S(1667, __c52, 3)),
+          conversion_goals: S.optional(__S(1668, __c52, 4)),
           attribution_window_days: S.optional(S.Number),
           attribution_mode: S.optional(S.String),
           filter_test_accounts: S.optional(S.Boolean),
-          campaign_name_mappings: S.optional(__S(1606, __c50, 6)),
-          custom_source_mappings: S.optional(__S(1605, __c50, 5)),
-          campaign_field_preferences: S.optional(__S(1608, __c50, 8)),
+          campaign_name_mappings: S.optional(__S(1670, __c52, 6)),
+          custom_source_mappings: S.optional(__S(1669, __c52, 5)),
+          campaign_field_preferences: S.optional(__S(1672, __c52, 8)),
         }),
       ).annotate({ identifier: "TeamMarketingAnalyticsConfig" });
     case 10:
@@ -10811,8 +10809,17 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "TeamCustomerAnalyticsPinnedAccountProperty" });
     case 11:
-      return S.Array(__S(1610, __c50, 10));
+      return S.Array(__S(1674, __c52, 10));
     case 12:
+      return S.suspend(() =>
+        S.Struct({
+          role_id: S.String,
+          pinned_properties: __S(1675, __c52, 11),
+        }),
+      ).annotate({ identifier: "TeamCustomerAnalyticsRoleDefaultPinnedProperties" });
+    case 13:
+      return S.Array(__S(1676, __c52, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           activity_event: S.optional(S.Unknown),
@@ -10821,10 +10828,11 @@ function __c50(j: number): any {
           subscription_event: S.optional(S.Unknown),
           payment_event: S.optional(S.Unknown),
           account_group_type_index: S.optional(S.NullOr(S.Number)),
-          default_pinned_properties: S.optional(__S(1611, __c50, 11)),
+          default_pinned_properties: S.optional(__S(1675, __c52, 11)),
+          role_default_pinned_properties: S.optional(__S(1677, __c52, 13)),
         }),
       ).annotate({ identifier: "TeamCustomerAnalyticsConfig" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           utm_source: S.optional(S.String),
@@ -10833,13 +10841,14 @@ function __c50(j: number): any {
           utm_content: S.optional(S.String),
         }),
       ).annotate({ identifier: "EmailUtmParams" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           capture_workflows_engagement_events: S.optional(S.Boolean),
           email_tracking_consent_mode: S.optional(S.String),
           email_utm_tags_enabled: S.optional(S.Boolean),
-          email_utm_params: S.optional(__S(1613, __c50, 13)),
+          email_utm_params: S.optional(__S(1679, __c52, 15)),
+          email_workflow_run_link_tag_enabled: S.optional(S.Boolean),
           workflow_task_rate_limit_per_day: S.optional(S.NullOr(S.Number)),
           workflow_task_team_rate_limit_per_day: S.optional(S.NullOr(S.Number)),
           replay_vision_scan_rate_limit_per_day: S.optional(S.NullOr(S.Number)),
@@ -10850,15 +10859,17 @@ function __c50(j: number): any {
           marketing_frequency_cap_hold_hours: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "TeamWorkflowsConfig" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           require_tags: S.optional(S.Boolean),
-          blocked_hosts: S.optional(__S(416, __c13, 0)),
-          blocked_ips: S.optional(__S(416, __c13, 0)),
+          blocked_hosts: S.optional(__S(3648, __c114, 0)),
+          blocked_ips: S.optional(__S(3648, __c114, 0)),
+          allowed_hosts: S.optional(__S(3648, __c114, 0)),
+          allowed_ips: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "TeamFeatureFlagPolicyConfig" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           product_type: S.optional(S.String),
@@ -10867,11 +10878,19 @@ function __c50(j: number): any {
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectBackwardCompatProductIntentsItem" });
-    case 17:
-      return S.Array(__S(1616, __c50, 16));
-    case 18:
-      return S.Record(S.String, S.Boolean);
     case 19:
+      return S.Array(__S(1682, __c52, 18));
+    case 20:
+      return S.Record(S.String, S.Boolean);
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          access: S.String,
+          cohorts_used: S.NullOr(S.Number),
+          max_cohorts: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "TeamRealtimeCohorts" });
+    case 22:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
@@ -10880,16 +10899,16 @@ function __c50(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
           created_at: S.optional(S.String),
           effective_membership_level: S.optional(S.Number),
           has_group_types: S.optional(S.Boolean),
           group_types: S.optional(__S(3680, __c115, 0)),
-          live_events_token: S.optional(S.NullOr(S.String)),
+          live_events_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           updated_at: S.optional(S.NullOr(S.String)),
           uuid: S.optional(S.String),
           api_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           ingested_event: S.optional(S.Boolean),
@@ -10899,7 +10918,7 @@ function __c50(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -10915,7 +10934,7 @@ function __c50(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -10925,8 +10944,8 @@ function __c50(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           person_on_events_querying_enabled: S.optional(S.Boolean),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
@@ -10935,10 +10954,8 @@ function __c50(j: number): any {
           has_completed_onboarding_for: S.optional(S.Unknown),
           surveys_opt_in: S.optional(S.NullOr(S.Boolean)),
           heatmaps_opt_in: S.optional(S.NullOr(S.Boolean)),
-          product_intents: S.optional(__S(1617, __c50, 17)),
+          product_intents: S.optional(__S(1683, __c52, 19)),
           flags_persistence_default: S.optional(S.NullOr(S.Boolean)),
-          secret_api_token: S.optional(S.NullOr(S.String)),
-          secret_api_token_backup: S.optional(S.NullOr(S.String)),
           heatmaps_screenshot_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           receive_org_level_activity_logs: S.optional(S.NullOr(S.Boolean)),
           business_model: S.optional(S.NullOr(S.Unknown)),
@@ -10946,19 +10963,22 @@ function __c50(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          available_setup_task_ids: S.optional(__S(1632, __c51, 0)),
+          available_setup_task_ids: S.optional(__S(1696, __c53, 0)),
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
           deletion_scheduled_at: S.optional(S.NullOr(S.String)),
           project_id: S.optional(S.Number),
           user_access_level: S.optional(S.NullOr(S.String)),
-          managed_viewsets: S.optional(__S(1618, __c50, 18)),
+          managed_viewsets: S.optional(__S(1684, __c52, 20)),
+          realtime_cohorts: __S(1685, __c52, 21),
+          available_error_tracking_ai_features: __S(1696, __c53, 0),
           flag_evaluations_mode: S.optional(S.Number),
+          flag_calls_only_in_flag_evaluations: S.Boolean,
           api_host: S.String,
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -10974,13 +10994,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ProjectBackwardCompat" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10990,8 +11010,8 @@ function __c52(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -11000,7 +11020,7 @@ function __c52(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -11016,7 +11036,7 @@ function __c52(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -11026,8 +11046,8 @@ function __c52(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -11041,11 +11061,11 @@ function __c52(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -11067,7 +11087,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsProjectsChangeOrganizationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11077,8 +11097,8 @@ function __c53(j: number): any {
           name: S.optional(S.String),
           logo_media_id: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(416, __c13, 0)),
-          app_urls: S.optional(__S(1600, __c50, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
+          app_urls: S.optional(__S(1664, __c52, 0)),
           anonymize_ips: S.optional(S.Boolean),
           completed_snippet_onboarding: S.optional(S.Boolean),
           test_account_filters: S.optional(S.Unknown),
@@ -11087,7 +11107,7 @@ function __c53(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           data_attributes: S.optional(S.Unknown),
-          person_display_name_properties: S.optional(S.NullOr(__S(416, __c13, 0))),
+          person_display_name_properties: S.optional(S.NullOr(__S(3648, __c114, 0))),
           autocapture_opt_out: S.optional(S.NullOr(S.Boolean)),
           autocapture_exceptions_opt_in: S.optional(S.NullOr(S.Boolean)),
           autocapture_web_vitals_opt_in: S.optional(S.NullOr(S.Boolean)),
@@ -11103,7 +11123,7 @@ function __c53(j: number): any {
           session_recording_masking_config: S.optional(S.Unknown),
           session_recording_url_trigger_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
           session_recording_url_blocklist_config: S.optional(S.NullOr(__S(3712, __c116, 0))),
-          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          session_recording_event_trigger_config: S.optional(S.NullOr(__S(1664, __c52, 0))),
           session_recording_trigger_match_type_config: S.optional(S.NullOr(S.String)),
           session_recording_trigger_groups: S.optional(S.Unknown),
           session_recording_retention_period: S.optional(S.String),
@@ -11113,8 +11133,8 @@ function __c53(j: number): any {
           week_start_day: S.optional(S.NullOr(S.Number)),
           primary_dashboard: S.optional(S.NullOr(S.Number)),
           home_tab_dashboard: S.optional(S.NullOr(S.Number)),
-          live_events_columns: S.optional(S.NullOr(__S(416, __c13, 0))),
-          recording_domains: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          live_events_columns: S.optional(S.NullOr(__S(3648, __c114, 0))),
+          recording_domains: S.optional(S.NullOr(__S(1664, __c52, 0))),
           inject_web_apps: S.optional(S.NullOr(S.Boolean)),
           extra_settings: S.optional(S.Unknown),
           modifiers: S.optional(S.Unknown),
@@ -11128,11 +11148,11 @@ function __c53(j: number): any {
           conversations_settings: S.optional(S.NullOr(__S(3776, __c118, 0))),
           logs_settings: S.optional(S.Unknown),
           proactive_tasks_enabled: S.optional(S.NullOr(S.Boolean)),
-          revenue_analytics_config: S.optional(__S(1601, __c50, 1)),
-          marketing_analytics_config: S.optional(__S(1609, __c50, 9)),
-          customer_analytics_config: S.optional(__S(1612, __c50, 12)),
-          workflows_config: S.optional(__S(1614, __c50, 14)),
-          feature_flag_policy_config: S.optional(__S(1615, __c50, 15)),
+          revenue_analytics_config: S.optional(__S(1665, __c52, 1)),
+          marketing_analytics_config: S.optional(__S(1673, __c52, 9)),
+          customer_analytics_config: S.optional(__S(1678, __c52, 14)),
+          workflows_config: S.optional(__S(1680, __c52, 16)),
+          feature_flag_policy_config: S.optional(__S(1681, __c52, 17)),
           base_currency: S.optional(S.String),
           capture_dead_clicks: S.optional(S.NullOr(S.Boolean)),
           cookieless_server_hash_mode: S.optional(S.NullOr(S.Number)),
@@ -11154,7 +11174,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsProjectsDefaultEvaluationContextRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11172,7 +11192,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsProjectsEvaluationContextSuggestionRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11184,7 +11204,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "EvaluationContextSuggestionResponse" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11202,7 +11222,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "OrganizationAIAccessRequestResponse" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11215,7 +11235,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11223,14 +11243,14 @@ function __c58(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          created_by: S.optional(S.NullOr(__S(4224, __c132, 0))),
           members: S.optional(__S(3680, __c115, 0)),
           is_default: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Role" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11252,7 +11272,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateRoleExternalReferenceRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11265,12 +11285,12 @@ function __c60(j: number): any {
           provider_role_name: S.optional(S.String),
           role: S.optional(S.String),
           created_at: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          created_by: S.optional(S.NullOr(__S(4224, __c132, 0))),
         }),
       ).annotate({ identifier: "RoleExternalReference" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11288,13 +11308,13 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateRolesRoleMembershipRequest" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          user: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          user: S.optional(S.NullOr(__S(4224, __c132, 0))),
           level: S.optional(S.Number),
           joined_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -11306,22 +11326,22 @@ function __c62(j: number): any {
       ).annotate({ identifier: "OrganizationMember" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           role_id: S.optional(S.String),
-          organization_member: S.optional(__S(1984, __c62, 0)),
-          user: S.optional(S.NullOr(__S(4160, __c130, 0))),
+          organization_member: S.optional(__S(2048, __c64, 0)),
+          user: S.optional(S.NullOr(__S(4224, __c132, 0))),
           joined_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "RoleMembershipOutput" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11338,7 +11358,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CrossProjectDashboardsDestroyRequest" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11356,7 +11376,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CrossProjectDashboardsTilesDestroyRequest" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11366,7 +11386,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DestroyRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11383,7 +11403,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DomainsDestroyRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11403,17 +11423,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DomainsVerifyCreateRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{id}/", code: 200 })),
-      ).annotate({ identifier: "GetRequest" });
-  }
-}
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11436,7 +11446,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "BillingSpendExportDownloadRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -11444,7 +11454,17 @@ function __c71(j: number): any {
       });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{id}/", code: 200 })),
+      ).annotate({ identifier: "GetRequest" });
+  }
+}
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11461,12 +11481,12 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          available_product_features: __S(2337, __c73, 1),
+          available_product_features: __S(2401, __c75, 1),
         }),
       ).annotate({ identifier: "BillingFeatures" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11483,10 +11503,10 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "ProductFeature" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(2400, __c75, 0));
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11509,7 +11529,7 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "TierForecast" });
     case 2:
-      return S.Array(__S(2369, __c74, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11519,11 +11539,11 @@ function __c74(j: number): any {
           projected_usage: S.NullOr(S.Number),
           projected_amount_usd: S.NullOr(S.String),
           projected_amount_usd_with_limit: S.optional(S.NullOr(S.String)),
-          tier_forecast: S.NullOr(__S(2370, __c74, 2)),
+          tier_forecast: S.NullOr(__S(2434, __c76, 2)),
         }),
       ).annotate({ identifier: "ForecastItem" });
     case 4:
-      return S.Array(__S(2371, __c74, 3));
+      return S.Array(__S(2435, __c76, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11533,27 +11553,27 @@ function __c74(j: number): any {
           projected_usage: S.NullOr(S.Number),
           projected_amount_usd: S.NullOr(S.String),
           projected_amount_usd_with_limit: S.optional(S.NullOr(S.String)),
-          tier_forecast: S.NullOr(__S(2370, __c74, 2)),
-          addons: __S(2372, __c74, 4),
+          tier_forecast: S.NullOr(__S(2434, __c76, 2)),
+          addons: __S(2436, __c76, 4),
         }),
       ).annotate({ identifier: "ProductForecast" });
     case 6:
-      return S.Array(__S(2373, __c74, 5));
+      return S.Array(__S(2437, __c76, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          billing_period: S.NullOr(__S(2400, __c75, 0)),
+          billing_period: S.NullOr(__S(2464, __c77, 0)),
           projected_total_amount_usd: S.NullOr(S.String),
           projected_total_amount_usd_with_limit: S.NullOr(S.String),
           projected_total_amount_usd_after_discount: S.NullOr(S.String),
           projected_total_amount_usd_with_limit_after_discount: S.NullOr(S.String),
-          products: __S(2374, __c74, 6),
+          products: __S(2438, __c76, 6),
           computed_at: S.String,
         }),
       ).annotate({ identifier: "BillingForecast" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11565,7 +11585,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "BillingPeriod" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11582,7 +11602,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetBillingInvoicesContentRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11607,16 +11627,16 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "ProductLimit" });
     case 2:
-      return S.Array(__S(2465, __c77, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2466, __c77, 2),
+          results: __S(2530, __c79, 2),
         }),
       ).annotate({ identifier: "BillingLimits" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11634,7 +11654,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetBillingProductRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11645,7 +11665,7 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "PriceTier" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(2592, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11658,9 +11678,9 @@ function __c79(j: number): any {
           note: S.NullOr(S.String),
           unit: S.NullOr(S.String),
           flat_rate: S.Boolean,
-          tiers: S.NullOr(__S(2529, __c79, 1)),
+          tiers: S.NullOr(__S(2593, __c81, 1)),
           free_allocation: S.NullOr(S.Number),
-          features: __S(2337, __c73, 1),
+          features: __S(2401, __c75, 1),
           included_if: S.NullOr(S.String),
           contact_support: S.NullOr(S.Boolean),
           unit_amount_usd: S.NullOr(S.String),
@@ -11669,7 +11689,7 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "ProductPlan" });
     case 3:
-      return S.Array(__S(2530, __c79, 2));
+      return S.Array(__S(2594, __c81, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -11683,7 +11703,7 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "ProductBaseFeature" });
     case 5:
-      return S.Array(__S(2532, __c79, 4));
+      return S.Array(__S(2596, __c81, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -11714,17 +11734,17 @@ function __c79(j: number): any {
           display_divisor: S.NullOr(S.Number),
           tiered: S.Boolean,
           unit_amount_usd: S.NullOr(S.String),
-          tiers: S.NullOr(__S(2529, __c79, 1)),
-          plans: S.optional(__S(2531, __c79, 3)),
-          features: __S(2533, __c79, 5),
-          trial: S.NullOr(__S(2534, __c79, 6)),
+          tiers: S.NullOr(__S(2593, __c81, 1)),
+          plans: S.optional(__S(2595, __c81, 3)),
+          features: __S(2597, __c81, 5),
+          trial: S.NullOr(__S(2598, __c81, 6)),
           included_with_main_product: S.Boolean,
           included_if: S.NullOr(S.String),
           default_unit_amount_usd: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BillingAddon" });
     case 8:
-      return S.Array(__S(2535, __c79, 7));
+      return S.Array(__S(2599, __c81, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -11749,18 +11769,18 @@ function __c79(j: number): any {
           display_divisor: S.NullOr(S.Number),
           tiered: S.Boolean,
           unit_amount_usd: S.NullOr(S.String),
-          tiers: S.NullOr(__S(2529, __c79, 1)),
-          plans: S.optional(__S(2531, __c79, 3)),
-          features: __S(2533, __c79, 5),
-          trial: S.NullOr(__S(2534, __c79, 6)),
+          tiers: S.NullOr(__S(2593, __c81, 1)),
+          plans: S.optional(__S(2595, __c81, 3)),
+          features: __S(2597, __c81, 5),
+          trial: S.NullOr(__S(2598, __c81, 6)),
           headline: S.NullOr(S.String),
           screenshot_url: S.NullOr(S.String),
-          addons: __S(2536, __c79, 8),
+          addons: __S(2600, __c81, 8),
         }),
       ).annotate({ identifier: "BillingProduct" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11784,18 +11804,18 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "BillingProductsSummaryAddon" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           name: S.String,
           included: S.Boolean,
-          addon_keys: __S(416, __c13, 0),
+          addon_keys: __S(3648, __c114, 0),
         }),
       ).annotate({ identifier: "BillingProductsSummaryFeature" });
     case 4:
-      return S.Array(__S(2563, __c80, 3));
+      return S.Array(__S(2627, __c82, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11803,21 +11823,21 @@ function __c80(j: number): any {
           name: S.String,
           description: S.String,
           subscribed: S.NullOr(S.Boolean),
-          addons: __S(2562, __c80, 2),
-          features: __S(2564, __c80, 4),
+          addons: __S(2626, __c82, 2),
+          features: __S(2628, __c82, 4),
         }),
       ).annotate({ identifier: "BillingProductsSummaryProduct" });
     case 6:
-      return S.Array(__S(2565, __c80, 5));
+      return S.Array(__S(2629, __c82, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          results: __S(2566, __c80, 6),
+          results: __S(2630, __c82, 6),
         }),
       ).annotate({ identifier: "BillingProductsSummary" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11839,7 +11859,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "TierSpend" });
     case 2:
-      return S.Array(__S(2593, __c81, 1));
+      return S.Array(__S(2657, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11848,11 +11868,11 @@ function __c81(j: number): any {
           usage_key: S.NullOr(S.String),
           current_amount_usd: S.NullOr(S.String),
           current_amount_usd_before_addons: S.optional(S.NullOr(S.String)),
-          tier_spend: S.NullOr(__S(2594, __c81, 2)),
+          tier_spend: S.NullOr(__S(2658, __c83, 2)),
         }),
       ).annotate({ identifier: "SpendItem" });
     case 4:
-      return S.Array(__S(2595, __c81, 3));
+      return S.Array(__S(2659, __c83, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11861,25 +11881,25 @@ function __c81(j: number): any {
           usage_key: S.NullOr(S.String),
           current_amount_usd: S.NullOr(S.String),
           current_amount_usd_before_addons: S.optional(S.NullOr(S.String)),
-          tier_spend: S.NullOr(__S(2594, __c81, 2)),
-          addons: __S(2596, __c81, 4),
+          tier_spend: S.NullOr(__S(2658, __c83, 2)),
+          addons: __S(2660, __c83, 4),
         }),
       ).annotate({ identifier: "ProductSpend" });
     case 6:
-      return S.Array(__S(2597, __c81, 5));
+      return S.Array(__S(2661, __c83, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          billing_period: S.NullOr(__S(2400, __c75, 0)),
+          billing_period: S.NullOr(__S(2464, __c77, 0)),
           usage_reported_through: S.NullOr(S.String),
           current_total_amount_usd: S.NullOr(S.String),
           current_total_amount_usd_after_discount: S.NullOr(S.String),
-          products: __S(2598, __c81, 6),
+          products: __S(2662, __c83, 6),
         }),
       ).annotate({ identifier: "BillingSpendSummary" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11902,9 +11922,19 @@ function __c82(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetBillingSpendTimeseriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(2722, __c85, 2),
+          pricing_reset_dates: S.optional(__S(3648, __c114, 0)),
+        }),
+      ).annotate({ identifier: "PaginatedBillingSpendTimeSeriesList" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -11913,26 +11943,17 @@ function __c83(j: number): any {
         S.Struct({
           id: S.optional(S.Number),
           label: S.optional(S.String),
-          data: S.optional(__S(2656, __c83, 0)),
-          dates: S.optional(__S(416, __c13, 0)),
+          data: S.optional(__S(2720, __c85, 0)),
+          dates: S.optional(__S(3648, __c114, 0)),
           breakdown_type: S.optional(S.NullOr(S.String)),
           breakdown_value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "BillingTimeSeriesPoint" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.NullOr(S.String),
-          previous: S.NullOr(S.String),
-          results: __S(2658, __c83, 2),
-        }),
-      ).annotate({ identifier: "PaginatedBillingTimeSeriesPointList" });
+      return S.Array(__S(2721, __c85, 1));
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11976,8 +11997,8 @@ function __c84(j: number): any {
           billing_plan: S.NullOr(S.String),
           billing_provider: S.NullOr(S.String),
           is_annual_plan_customer: S.Boolean,
-          billing_period: S.NullOr(__S(2400, __c75, 0)),
-          trial: S.NullOr(__S(2689, __c84, 1)),
+          billing_period: S.NullOr(__S(2464, __c77, 0)),
+          trial: S.NullOr(__S(2753, __c86, 1)),
           free_trial_until: S.NullOr(S.String),
           discount_percent: S.NullOr(S.Number),
           discount_amount_usd: S.NullOr(S.String),
@@ -11986,13 +12007,36 @@ function __c84(j: number): any {
           startup_program_label_previous: S.NullOr(S.String),
           billing_portal_url: S.String,
           invoices_url: S.optional(S.String),
-          license: __S(2690, __c84, 2),
-          billing_managed_by_partner: S.NullOr(__S(2691, __c84, 3)),
+          license: __S(2754, __c86, 2),
+          billing_managed_by_partner: S.NullOr(__S(2755, __c86, 3)),
         }),
       ).annotate({ identifier: "BillingSubscription" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          breakdowns: S.optional(S.String.pipe(T.Query())),
+          end_date: S.optional(S.String.pipe(T.Query())),
+          interval: S.optional(S.String.pipe(T.Query())),
+          start_date: S.optional(S.String.pipe(T.Query())),
+          team_ids: S.optional(S.String.pipe(T.Query())),
+          top_projects: S.optional(S.Number.pipe(T.Query())),
+          usage_types: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/billing/usage/export/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "BillingUsageExportDownloadRequest" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12020,7 +12064,7 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "UsageStatusItem" });
     case 2:
-      return S.Array(__S(2721, __c85, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12032,45 +12076,22 @@ function __c85(j: number): any {
           approaching_limit: S.Boolean,
           quota_limited_until: S.NullOr(S.String),
           quota_limiting_suspended_until: S.NullOr(S.String),
-          addons: __S(2722, __c85, 2),
+          addons: __S(2818, __c88, 2),
         }),
       ).annotate({ identifier: "ProductUsageStatus" });
     case 4:
-      return S.Array(__S(2723, __c85, 3));
+      return S.Array(__S(2819, __c88, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          billing_period: S.NullOr(__S(2400, __c75, 0)),
+          billing_period: S.NullOr(__S(2464, __c77, 0)),
           usage_reported_through: S.NullOr(S.String),
-          products: __S(2724, __c85, 4),
+          products: __S(2820, __c88, 4),
         }),
       ).annotate({ identifier: "BillingUsageStatus" });
   }
 }
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          breakdowns: S.optional(S.String.pipe(T.Query())),
-          end_date: S.optional(S.String.pipe(T.Query())),
-          interval: S.optional(S.String.pipe(T.Query())),
-          start_date: S.optional(S.String.pipe(T.Query())),
-          team_ids: S.optional(S.String.pipe(T.Query())),
-          top_projects: S.optional(S.Number.pipe(T.Query())),
-          usage_types: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/billing/usage/export/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "BillingUsageExportDownloadRequest" });
-  }
-}
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12096,7 +12117,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "UsageKeySummary" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12105,7 +12126,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "TierUsage" });
     case 4:
-      return S.Array(__S(2787, __c87, 3));
+      return S.Array(__S(2851, __c89, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -12116,11 +12137,11 @@ function __c87(j: number): any {
           usage_limit: S.NullOr(S.Number),
           has_exceeded_limit: S.Boolean,
           usage_ratio: S.Number,
-          tier_usage: S.NullOr(__S(2788, __c87, 4)),
+          tier_usage: S.NullOr(__S(2852, __c89, 4)),
         }),
       ).annotate({ identifier: "UsageItem" });
     case 6:
-      return S.Array(__S(2789, __c87, 5));
+      return S.Array(__S(2853, __c89, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -12131,24 +12152,24 @@ function __c87(j: number): any {
           usage_limit: S.NullOr(S.Number),
           has_exceeded_limit: S.Boolean,
           usage_ratio: S.Number,
-          tier_usage: S.NullOr(__S(2788, __c87, 4)),
-          addons: __S(2790, __c87, 6),
+          tier_usage: S.NullOr(__S(2852, __c89, 4)),
+          addons: __S(2854, __c89, 6),
         }),
       ).annotate({ identifier: "ProductUsage" });
     case 8:
-      return S.Array(__S(2791, __c87, 7));
+      return S.Array(__S(2855, __c89, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          billing_period: S.NullOr(__S(2400, __c75, 0)),
+          billing_period: S.NullOr(__S(2464, __c77, 0)),
           usage_reported_through: S.NullOr(S.String),
-          usage_summary: __S(2786, __c87, 2),
-          products: __S(2792, __c87, 8),
+          usage_summary: __S(2850, __c89, 2),
+          products: __S(2856, __c89, 8),
         }),
       ).annotate({ identifier: "BillingUsageSummary" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12171,9 +12192,18 @@ function __c88(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetBillingUsageTimeseriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(2722, __c85, 2),
+        }),
+      ).annotate({ identifier: "PaginatedBillingTimeSeriesPointList" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12190,7 +12220,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetCimdVerificationTokenRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12199,14 +12229,14 @@ function __c90(j: number): any {
           label: S.String,
           cimd_url: S.NullOr(S.String),
           mask_value: S.NullOr(S.String),
-          created_by: __S(4160, __c130, 0),
+          created_by: __S(4224, __c132, 0),
           created_at: S.String,
           last_used_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CIMDVerificationToken" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12223,7 +12253,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetCrossProjectDashboardRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12241,7 +12271,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetCrossProjectDashboardsTileRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12258,7 +12288,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12282,7 +12312,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetDomainsScimLogRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12300,19 +12330,19 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "SCIMRequestLog" });
     case 1:
-      return S.Array(__S(3040, __c95, 0));
+      return S.Array(__S(3104, __c97, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(3041, __c95, 1),
+          results: __S(3105, __c97, 1),
         }),
       ).annotate({ identifier: "PaginatedSCIMRequestLog" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12329,7 +12359,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderConfigRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12353,24 +12383,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderConfigsScimLogRequest" });
   }
 }
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/legal_documents/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetLegalDocumentRequest" });
-  }
-}
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12387,7 +12400,24 @@ function __c99(j: number): any {
       ).annotate({ identifier: "CimdVerificationTokensDestroyRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/legal_documents/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetLegalDocumentRequest" });
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12410,7 +12440,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "OrganizationMemberGithubLogin" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12442,19 +12472,20 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "MemberOffboardingResource" });
     case 2:
-      return S.Array(__S(3233, __c101, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
-      return S.suspend(() => __S(3234, __c101, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3298, __c103, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMembersOffboardingPreviewResponse",
       });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
+          email: S.optional(S.String.pipe(T.Query())),
           member_id: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -12481,30 +12512,30 @@ function __c102(j: number): any {
           team_id: S.Number,
           team_name: S.String,
           access_level: S.String,
-          resolved: S.NullOr(__S(3265, __c102, 1)),
+          resolved: S.NullOr(__S(3329, __c104, 1)),
           subject_id: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "MemberProjectAccessEntry" });
     case 3:
-      return S.Array(__S(3266, __c102, 2));
+      return S.Array(__S(3330, __c104, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           organization_membership_id: S.String,
-          projects: __S(3267, __c102, 3),
+          projects: __S(3331, __c104, 3),
         }),
       ).annotate({ identifier: "MemberProjectAccess" });
     case 5:
-      return S.Array(__S(3268, __c102, 4));
+      return S.Array(__S(3332, __c104, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(3269, __c102, 5),
+          results: __S(3333, __c104, 5),
         }),
       ).annotate({ identifier: "MemberProjectAccessResponse" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12521,7 +12552,24 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetMembersScopedApiKeyRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/oauth_applications/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOauthApplicationRequest" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12538,7 +12586,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectRequest" });
   }
 }
-function __c105(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12562,32 +12610,32 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "AccessControlResourceDefault" });
     case 2:
-      return S.Record(S.String, __S(3361, __c105, 1));
+      return S.Record(S.String, __S(3457, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           resource: S.String,
-          available_access_levels: __S(416, __c13, 0),
+          available_access_levels: __S(3648, __c114, 0),
           minimum_access_level: S.String,
         }),
       ).annotate({ identifier: "AccessControlObjectRuleResource" });
     case 4:
-      return S.Array(__S(3363, __c105, 3));
+      return S.Array(__S(3459, __c108, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          available_project_levels: __S(416, __c13, 0),
-          available_resource_levels: __S(416, __c13, 0),
+          available_project_levels: __S(3648, __c114, 0),
+          available_resource_levels: __S(3648, __c114, 0),
           can_edit: S.Boolean,
           is_managed_by_terraform: S.Boolean,
           project_access_level: S.String,
-          resource_access_levels: __S(3362, __c105, 2),
-          object_rule_resources: __S(3364, __c105, 4),
+          resource_access_levels: __S(3458, __c108, 2),
+          object_rule_resources: __S(3460, __c108, 4),
         }),
       ).annotate({ identifier: "AccessControlDefaultsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12604,7 +12652,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsAccessControlDefaultObjectRequest" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12617,16 +12665,16 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "AccessControlObjectRule" });
     case 1:
-      return S.Array(__S(3424, __c107, 0));
+      return S.Array(__S(3520, __c110, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(3425, __c107, 1),
+          results: __S(3521, __c110, 1),
         }),
       ).annotate({ identifier: "AccessControlObjectRulesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12643,7 +12691,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsAccessControlDefaultPropertyRequest" });
   }
 }
-function __c109(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12655,120 +12703,16 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "AccessControlPropertyRule" });
     case 1:
-      return S.Array(__S(3488, __c109, 0));
+      return S.Array(__S(3584, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(3489, __c109, 1),
+          results: __S(3585, __c112, 1),
         }),
       ).annotate({ identifier: "AccessControlPropertyRulesResponse" });
   }
 }
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/projects/{id}/access_control_management/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsProjectsAccessControlManagementRequest" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          managed: S.Boolean,
-          terraform_last_applied_at: S.NullOr(S.String),
-          has_terraform_account: S.Boolean,
-        }),
-      ).annotate({ identifier: "AccessControlManagement" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-          member_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/projects/{id}/access_control_members/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsProjectsAccessControlMemberRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String,
-          first_name: S.String,
-          last_name: S.String,
-          email: S.String,
-        }),
-      ).annotate({ identifier: "AccessControlMemberUser" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          organization_membership_id: S.String,
-          user: __S(3585, __c112, 1),
-          organization_level: S.Number,
-          role_ids: __S(416, __c13, 0),
-          project: __S(3617, __c113, 1),
-          resources: __S(3618, __c113, 2),
-        }),
-      ).annotate({ identifier: "AccessControlMemberAccess" });
-    case 3:
-      return S.Array(__S(3586, __c112, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          available_project_levels: __S(416, __c13, 0),
-          available_resource_levels: __S(416, __c13, 0),
-          can_edit: S.Boolean,
-          results: __S(3587, __c112, 3),
-        }),
-      ).annotate({ identifier: "AccessControlMembersResponse" });
-  }
-}
 function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          access_level: S.String,
-          source: S.String,
-          source_subject: S.NullOr(S.String),
-          source_resource: S.String,
-          source_resource_id: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ResolvedAccess" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          access_level: S.NullOr(S.String),
-          effective_access_level: S.NullOr(S.String),
-          inherited_access: S.NullOr(__S(3616, __c113, 0)),
-          minimum: S.String,
-          maximum: S.String,
-        }),
-      ).annotate({ identifier: "SubjectAccessEntry" });
-    case 2:
-      return S.Record(S.String, __S(3617, __c113, 1));
-  }
-}
-function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12788,8 +12732,16 @@ function __c114(j: number): any {
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
           default_anonymize_ips: S.optional(S.Boolean),
           default_role_id: S.optional(S.NullOr(S.String)),
+          ip_restrictions: S.optional(__S(3648, __c114, 0)),
+          ip_restrictions_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/organizations/", code: 200 })),
       ).annotate({ identifier: "CreateRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
   }
 }
 function __c115(j: number): any {
@@ -12845,6 +12797,16 @@ function __c117(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          id: S.String,
+          name: S.String,
+          url: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationExternalProjectLink" });
+    case 6:
+      return S.Array(__S(3749, __c117, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           slug: S.optional(S.String),
@@ -12871,6 +12833,7 @@ function __c117(j: number): any {
           member_notice: S.optional(S.NullOr(__S(3745, __c117, 1))),
           member_count: S.optional(S.Number),
           is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
+          is_ai_data_processing_locked: S.NullOr(S.Boolean),
           is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_locked: S.optional(S.NullOr(S.Boolean)),
           is_ai_training_cta_shown: S.optional(S.NullOr(S.Boolean)),
@@ -12881,6 +12844,10 @@ function __c117(j: number): any {
           is_not_active_reason: S.optional(S.NullOr(S.String)),
           is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
           uses_most_specific_access_resolution: S.optional(S.NullOr(S.Boolean)),
+          ip_restrictions: S.optional(__S(3648, __c114, 0)),
+          ip_restrictions_enabled: S.optional(S.Boolean),
+          ip_restrictions_warning: S.NullOr(S.String),
+          external_project_links: __S(3750, __c117, 6),
         }),
       ).annotate({ identifier: "Organization" });
   }
@@ -12898,6 +12865,110 @@ function __c119(j: number): any {
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/projects/{id}/access_control_management/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsProjectsAccessControlManagementRequest" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          managed: S.Boolean,
+          terraform_last_applied_at: S.NullOr(S.String),
+          has_terraform_account: S.Boolean,
+        }),
+      ).annotate({ identifier: "AccessControlManagement" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+          member_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/projects/{id}/access_control_members/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsProjectsAccessControlMemberRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String,
+          first_name: S.String,
+          last_name: S.String,
+          email: S.String,
+        }),
+      ).annotate({ identifier: "AccessControlMemberUser" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          organization_membership_id: S.String,
+          user: __S(3873, __c121, 1),
+          organization_level: S.Number,
+          role_ids: __S(3648, __c114, 0),
+          project: __S(3905, __c122, 1),
+          resources: __S(3906, __c122, 2),
+        }),
+      ).annotate({ identifier: "AccessControlMemberAccess" });
+    case 3:
+      return S.Array(__S(3874, __c121, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          available_project_levels: __S(3648, __c114, 0),
+          available_resource_levels: __S(3648, __c114, 0),
+          can_edit: S.Boolean,
+          results: __S(3875, __c121, 3),
+        }),
+      ).annotate({ identifier: "AccessControlMembersResponse" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          access_level: S.String,
+          source: S.String,
+          source_subject: S.NullOr(S.String),
+          source_resource: S.String,
+          source_resource_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ResolvedAccess" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          access_level: S.NullOr(S.String),
+          effective_access_level: S.NullOr(S.String),
+          inherited_access: S.NullOr(__S(3904, __c122, 0)),
+          minimum: S.String,
+          maximum: S.String,
+        }),
+      ).annotate({ identifier: "SubjectAccessEntry" });
+    case 2:
+      return S.Record(S.String, __S(3905, __c122, 1));
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
           member_id: S.String.pipe(T.Query()),
         }).pipe(
           T.Http({
@@ -12909,7 +12980,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsAccessControlMemberObjectRequest" });
   }
 }
-function __c120(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12927,7 +12998,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsAccessControlMemberPropertyRequest" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12948,24 +13019,24 @@ function __c121(j: number): any {
         S.Struct({
           role_id: S.String,
           role_name: S.String,
-          project: __S(3617, __c113, 1),
-          resources: __S(3618, __c113, 2),
+          project: __S(3905, __c122, 1),
+          resources: __S(3906, __c122, 2),
         }),
       ).annotate({ identifier: "AccessControlRoleAccess" });
     case 2:
-      return S.Array(__S(3873, __c121, 1));
+      return S.Array(__S(4001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          available_project_levels: __S(416, __c13, 0),
-          available_resource_levels: __S(416, __c13, 0),
+          available_project_levels: __S(3648, __c114, 0),
+          available_resource_levels: __S(3648, __c114, 0),
           can_edit: S.Boolean,
-          results: __S(3874, __c121, 2),
+          results: __S(4002, __c125, 2),
         }),
       ).annotate({ identifier: "AccessControlRolesResponse" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12983,7 +13054,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsAccessControlRoleObjectRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13001,7 +13072,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsAccessControlRolePropertyRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13018,7 +13089,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsActivityRequest" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13035,7 +13106,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsDefaultEvaluationContextRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13052,41 +13123,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsDefaultReleaseConditionRequest" });
   }
 }
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/projects/{id}/experiments_config/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsProjectsExperimentsConfigRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/projects/{id}/is_generating_demo_data/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsProjectsIsGeneratingDemoDataRequest" });
-  }
-}
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13109,7 +13146,7 @@ function __c129(j: number): any {
           label: S.String,
           cimd_url: S.NullOr(S.String),
           mask_value: S.NullOr(S.String),
-          created_by: __S(4160, __c130, 0),
+          created_by: __S(4224, __c132, 0),
           created_at: S.String,
           last_used_at: S.NullOr(S.String),
           value: S.String,
@@ -13117,7 +13154,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CIMDVerificationTokenWithValue" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13135,7 +13172,41 @@ function __c130(j: number): any {
       ).annotate({ identifier: "UserBasic" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/projects/{id}/experiments_config/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsProjectsExperimentsConfigRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{organization_id}/projects/{id}/is_generating_demo_data/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsProjectsIsGeneratingDemoDataRequest" });
+  }
+}
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13152,20 +13223,20 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsLogsConfigRequest" });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logs_distinct_id_attribute_key: S.String,
-          logs_distinct_id_attribute_keys: __S(416, __c13, 0),
-          logs_session_id_attribute_keys: __S(416, __c13, 0),
-          logs_pattern_message_keys: __S(416, __c13, 0),
+          logs_distinct_id_attribute_keys: __S(3648, __c114, 0),
+          logs_session_id_attribute_keys: __S(3648, __c114, 0),
+          logs_pattern_message_keys: __S(3648, __c114, 0),
         }),
       ).annotate({ identifier: "TeamLogsConfig" });
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13182,7 +13253,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsSettingsAsOfRequest" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13199,20 +13270,20 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetOrganizationsProjectsTracingConfigRequest" });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tracing_distinct_id_attribute_keys: __S(416, __c13, 0),
-          tracing_session_id_attribute_keys: __S(416, __c13, 0),
+          tracing_distinct_id_attribute_keys: __S(3648, __c114, 0),
+          tracing_session_id_attribute_keys: __S(3648, __c114, 0),
           retention_days: S.optional(S.Number),
           retention_last_updated: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TeamTracingConfig" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13229,7 +13300,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetRoleRequest" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13250,12 +13321,12 @@ function __c137(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          reference: S.optional(S.NullOr(__S(1920, __c60, 0))),
+          reference: S.optional(S.NullOr(__S(1984, __c62, 0))),
         }),
       ).annotate({ identifier: "RoleLookupResponse" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13273,7 +13344,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetRolesRoleMembershipRequest" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13295,29 +13366,29 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "DataFreshnessSource" });
     case 2:
-      return S.Array(__S(4449, __c139, 1));
+      return S.Array(__S(4577, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           team_id: S.Number,
           freshness: S.String,
           last_data_at: S.NullOr(S.String),
-          sources: __S(4450, __c139, 2),
+          sources: __S(4578, __c143, 2),
         }),
       ).annotate({ identifier: "DataFreshnessProject" });
     case 4:
-      return S.Array(__S(4451, __c139, 3));
+      return S.Array(__S(4579, __c143, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(4452, __c139, 4),
+          results: __S(4580, __c143, 4),
           lookback_days: S.Number,
           quiet_after_days: S.Number,
         }),
       ).annotate({ identifier: "OrganizationDataFreshness" });
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13349,7 +13420,7 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "WelcomeTeamMember" });
     case 3:
-      return S.Array(__S(4482, __c140, 2));
+      return S.Array(__S(4610, __c144, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -13361,7 +13432,7 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "WelcomeRecentActivity" });
     case 5:
-      return S.Array(__S(4484, __c140, 4));
+      return S.Array(__S(4612, __c144, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -13373,7 +13444,7 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "WelcomePopularDashboard" });
     case 7:
-      return S.Array(__S(4486, __c140, 6));
+      return S.Array(__S(4614, __c144, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -13385,23 +13456,92 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "WelcomeSuggestedStep" });
     case 9:
-      return S.Array(__S(4488, __c140, 8));
+      return S.Array(__S(4616, __c144, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           organization_name: S.optional(S.String),
-          inviter: S.optional(S.NullOr(__S(4481, __c140, 1))),
-          team_members: S.optional(__S(4483, __c140, 3)),
-          recent_activity: S.optional(__S(4485, __c140, 5)),
-          popular_dashboards: S.optional(__S(4487, __c140, 7)),
-          products_in_use: S.optional(__S(416, __c13, 0)),
-          suggested_next_steps: S.optional(__S(4489, __c140, 9)),
+          inviter: S.optional(S.NullOr(__S(4609, __c144, 1))),
+          team_members: S.optional(__S(4611, __c144, 3)),
+          recent_activity: S.optional(__S(4613, __c144, 5)),
+          popular_dashboards: S.optional(__S(4615, __c144, 7)),
+          products_in_use: S.optional(__S(3648, __c114, 0)),
+          suggested_next_steps: S.optional(__S(4617, __c144, 9)),
           is_organization_first_user: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WelcomeResponse" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          name: S.String,
+          description: S.optional(S.String),
+          filters: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{organization_id}/cross_project_dashboards/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateCrossProjectDashboardRequest" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          filters: S.optional(S.Unknown),
+          tiles: __S(4736, __c148, 0),
+          created_by: S.NullOr(__S(4704, __c147, 0)),
+          created_at: S.String,
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CrossProjectDashboard" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          first_name: S.String,
+          email: S.String,
+        }),
+      ).annotate({ identifier: "CrossProjectDashboardCreator" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4768, __c149, 0));
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          project_id: S.Number,
+          insight_id: S.Number,
+          layouts: S.optional(S.Unknown),
+          color: S.optional(S.NullOr(S.String)),
+          filters_overrides: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "CrossProjectDashboardTile" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13418,7 +13558,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "IdentityProviderConfigsDestroyRequest" });
   }
 }
-function __c142(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13441,76 +13581,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "InvitesBulkCreateRequest" });
   }
 }
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          name: S.String,
-          description: S.optional(S.String),
-          filters: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/organizations/{organization_id}/cross_project_dashboards/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateCrossProjectDashboardRequest" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          filters: S.optional(S.Unknown),
-          tiles: __S(4672, __c146, 0),
-          created_by: S.NullOr(__S(4640, __c145, 0)),
-          created_at: S.String,
-          updated_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CrossProjectDashboard" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          first_name: S.String,
-          email: S.String,
-        }),
-      ).annotate({ identifier: "CrossProjectDashboardCreator" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(4704, __c147, 0));
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          project_id: S.Number,
-          insight_id: S.Number,
-          layouts: S.optional(S.Unknown),
-          color: S.optional(S.NullOr(S.String)),
-          filters_overrides: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "CrossProjectDashboardTile" });
-  }
-}
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13527,7 +13598,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "InvitesDestroyRequest" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13544,7 +13615,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "LegalDocumentsDestroyRequest" });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13561,7 +13632,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "LegalDocumentsDownloadRetrieveRequest" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13571,19 +13642,19 @@ function __c151(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/organizations/", code: 200 })),
       ).annotate({ identifier: "ListRequest" });
     case 1:
-      return S.Array(__S(3749, __c117, 5));
+      return S.Array(__S(3751, __c117, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(4833, __c151, 1)),
+          results: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "PaginatedOrganizationList" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13618,18 +13689,18 @@ function __c152(j: number): any {
         }),
       ).annotate({ identifier: "BillingInvoice" });
     case 2:
-      return S.Array(__S(4865, __c152, 1));
+      return S.Array(__S(4993, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(4866, __c152, 2),
+          results: __S(4994, __c156, 2),
         }),
       ).annotate({ identifier: "BillingInvoices" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13645,16 +13716,16 @@ function __c153(j: number): any {
         ),
       ).annotate({ identifier: "ListBillingProductsRequest" });
     case 1:
-      return S.Array(__S(2537, __c79, 9));
+      return S.Array(__S(2601, __c81, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(4897, __c153, 1),
+          results: __S(5025, __c157, 1),
         }),
       ).annotate({ identifier: "BillingProducts" });
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13677,19 +13748,19 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "BillingProject" });
     case 2:
-      return S.Array(__S(4929, __c154, 1));
+      return S.Array(__S(5057, __c158, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(4930, __c154, 2),
+          results: __S(5058, __c158, 2),
         }),
       ).annotate({ identifier: "BillingProjects" });
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13706,19 +13777,41 @@ function __c155(j: number): any {
         ),
       ).annotate({ identifier: "ListCimdVerificationTokensRequest" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2944, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(4961, __c155, 1),
+          results: __S(5089, __c159, 1),
         }),
       ).annotate({ identifier: "PaginatedCIMDVerificationTokenList" });
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          dashboard_id: S.String.pipe(T.Label()),
+          project_id: S.Number,
+          insight_id: S.Number,
+          layouts: S.optional(S.Unknown),
+          color: S.optional(S.NullOr(S.String)),
+          filters_overrides: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{organization_id}/cross_project_dashboards/{dashboard_id}/tiles/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateCrossProjectDashboardsTileRequest" });
+  }
+}
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13743,25 +13836,25 @@ function __c156(j: number): any {
           filters: S.Unknown,
           tile_count: S.Number,
           project_count: S.Number,
-          created_by: S.NullOr(__S(4640, __c145, 0)),
+          created_by: S.NullOr(__S(4704, __c147, 0)),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CrossProjectDashboardListItem" });
     case 2:
-      return S.Array(__S(4993, __c156, 1));
+      return S.Array(__S(5153, __c161, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(4994, __c156, 2),
+          results: __S(5154, __c161, 2),
         }),
       ).annotate({ identifier: "PaginatedCrossProjectDashboardListItemList" });
   }
 }
-function __c157(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13784,34 +13877,12 @@ function __c157(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(4672, __c146, 0),
+          results: __S(4736, __c148, 0),
         }),
       ).annotate({ identifier: "PaginatedCrossProjectDashboardTileList" });
   }
 }
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          dashboard_id: S.String.pipe(T.Label()),
-          project_id: S.Number,
-          insight_id: S.Number,
-          layouts: S.optional(S.Unknown),
-          color: S.optional(S.NullOr(S.String)),
-          filters_overrides: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/organizations/{organization_id}/cross_project_dashboards/{dashboard_id}/tiles/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateCrossProjectDashboardsTileRequest" });
-  }
-}
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13835,12 +13906,12 @@ function __c159(j: number): any {
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5089, __c159, 1)),
+          results: S.optional(__S(5217, __c163, 1)),
         }),
       ).annotate({ identifier: "PaginatedOrganizationDomainList" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13857,19 +13928,19 @@ function __c160(j: number): any {
         ),
       ).annotate({ identifier: "ListIdentityProviderConfigsRequest" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(5121, __c160, 1),
+          results: __S(5249, __c164, 1),
         }),
       ).annotate({ identifier: "PaginatedIdentityProviderConfigListOutput" });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13886,19 +13957,19 @@ function __c161(j: number): any {
         ),
       ).annotate({ identifier: "ListInvitesRequest" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5153, __c161, 1)),
+          results: S.optional(__S(5281, __c165, 1)),
         }),
       ).annotate({ identifier: "PaginatedOrganizationInviteListOutput" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13915,19 +13986,19 @@ function __c162(j: number): any {
         ),
       ).annotate({ identifier: "ListLegalDocumentsRequest" });
     case 1:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1505, __c47, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5185, __c162, 1)),
+          results: S.optional(__S(5313, __c166, 1)),
         }),
       ).annotate({ identifier: "PaginatedLegalDocumentDTOList" });
   }
 }
-function __c163(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13949,19 +14020,19 @@ function __c163(j: number): any {
         ),
       ).annotate({ identifier: "ListMembersRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2048, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5217, __c163, 1)),
+          results: S.optional(__S(5345, __c167, 1)),
         }),
       ).annotate({ identifier: "PaginatedOrganizationMemberList" });
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13983,26 +14054,29 @@ function __c164(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           client_id: S.optional(S.String),
-          redirect_uris_list: S.optional(__S(416, __c13, 0)),
+          redirect_uris_list: S.optional(__S(3648, __c114, 0)),
           is_verified: S.optional(S.Boolean),
+          is_cimd_client: S.Boolean,
+          provisioning_status: S.String,
+          provisioning_review: S.NullOr(__S(1602, __c50, 2)),
           created: S.optional(S.String),
           updated: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrganizationOAuthApplication" });
     case 2:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(5377, __c168, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5250, __c164, 2)),
+          results: S.optional(__S(5378, __c168, 2)),
         }),
       ).annotate({ identifier: "PaginatedOrganizationOAuthApplicationList" });
   }
 }
-function __c165(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14036,23 +14110,23 @@ function __c165(j: number): any {
           is_demo: S.optional(S.Boolean),
           timezone: S.optional(S.String),
           access_control: S.optional(S.Boolean),
-          tags: S.optional(__S(416, __c13, 0)),
+          tags: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "ProjectBackwardCompatBasic" });
     case 2:
-      return S.Array(__S(5281, __c165, 1));
+      return S.Array(__S(5409, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5282, __c165, 2)),
+          results: S.optional(__S(5410, __c169, 2)),
         }),
       ).annotate({ identifier: "PaginatedProjectBackwardCompatBasicList" });
   }
 }
-function __c166(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14072,73 +14146,19 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           restriction_type: S.String,
-          distinct_ids: __S(416, __c13, 0),
-          session_ids: __S(416, __c13, 0),
-          event_names: __S(416, __c13, 0),
-          event_uuids: __S(416, __c13, 0),
-          pipelines: __S(1632, __c51, 0),
+          distinct_ids: __S(3648, __c114, 0),
+          session_ids: __S(3648, __c114, 0),
+          event_names: __S(3648, __c114, 0),
+          event_uuids: __S(3648, __c114, 0),
+          pipelines: __S(1696, __c53, 0),
         }),
       ).annotate({ identifier: "EventIngestionRestriction" });
     case 2:
-      return S.Array(__S(5313, __c166, 1));
+      return S.Array(__S(5441, __c170, 1));
     case 3:
-      return S.suspend(() => __S(5314, __c166, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5442, __c170, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationsProjectsEventIngestionRestrictionsResponse",
       });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{organization_id}/role_external_references/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListRoleExternalReferencesRequest" });
-    case 1:
-      return S.Array(__S(1920, __c60, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5345, __c167, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedRoleExternalReferenceList" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/organizations/{organization_id}/roles/", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListRolesRequest" });
-    case 1:
-      return S.Array(__S(1856, __c58, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(5377, __c168, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedRoleList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

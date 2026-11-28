@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -280,6 +281,7 @@ export type EnvironmentVariableValue = string | redacted.Redacted<string>;
 export type EnvironmentVariableMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
+export type KmsKeyIdentifier = string;
 export type ImageName = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -299,6 +301,7 @@ export interface CreateMicrovmImageRequest {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   name: string;
   tags?: { [key: string]: string | undefined } | undefined;
   clientToken?: string | undefined;
@@ -335,6 +338,7 @@ export interface CreateMicrovmImageResponse {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   updatedAt?: Date | undefined;
   imageVersion: string;
@@ -401,6 +405,7 @@ export interface GetMicrovmResponse {
   startedAt: Date;
   terminatedAt?: Date | undefined;
   stateReason?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
   ingressNetworkConnectors?: string[] | undefined;
   egressNetworkConnectors?: string[] | undefined;
 }
@@ -461,6 +466,7 @@ export interface GetMicrovmImageVersionOutput {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -570,6 +576,7 @@ export interface MicrovmImageVersionSummary {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -622,6 +629,7 @@ export interface RunMicrovmRequest {
   executionRoleArn?: string | undefined;
   idlePolicy?: IdlePolicy | undefined;
   logging?: Logging | undefined;
+  kmsKeyIdentifier?: string | undefined;
   runHookPayload?: string | redacted.Redacted<string> | undefined;
   maximumDurationInSeconds?: number | undefined;
   clientToken?: string | undefined;
@@ -638,6 +646,7 @@ export interface RunMicrovmResponse {
   startedAt: Date;
   terminatedAt?: Date | undefined;
   stateReason?: string | undefined;
+  kmsKeyIdentifier?: string | undefined;
   ingressNetworkConnectors?: string[] | undefined;
   egressNetworkConnectors?: string[] | undefined;
 }
@@ -675,6 +684,7 @@ export interface UpdateMicrovmImageRequest {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageIdentifier: string;
   clientToken?: string | undefined;
 }
@@ -699,6 +709,7 @@ export interface UpdateMicrovmImageResponse {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   updatedAt: Date;
   imageVersion: string;
 }
@@ -722,6 +733,7 @@ export interface UpdateMicrovmImageVersionResponse {
   environmentVariables?:
     | { [key: string]: string | redacted.Redacted<string> | undefined }
     | undefined;
+  kmsKeyIdentifier?: string | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
@@ -750,14 +762,13 @@ export const createMicrovmAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3, __c0, 3) as any as S.Schema<CreateMicrovmAuthTokenRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<CreateMicrovmAuthTokenResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmAuthToken",
@@ -785,15 +796,13 @@ export const createMicrovmImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateMicrovmImageRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<CreateMicrovmImageResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmImage",
@@ -820,14 +829,13 @@ export const createMicrovmShellAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<CreateMicrovmShellAuthTokenRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<CreateMicrovmShellAuthTokenResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmShellAuthToken",
@@ -854,14 +862,13 @@ export const deleteMicrovmImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DeleteMicrovmImageInput>,
   output: __S(89, __c11, 1) as any as S.Schema<DeleteMicrovmImageOutput>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImage",
@@ -888,14 +895,13 @@ export const deleteMicrovmImageVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteMicrovmImageVersionInput>,
   output: __S(97, __c12, 1) as any as S.Schema<DeleteMicrovmImageVersionOutput>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImageVersion",
@@ -921,13 +927,13 @@ export const getMicrovm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetMicrovmRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetMicrovmResponse>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovm",
@@ -953,13 +959,13 @@ export const getMicrovmImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetMicrovmImageInput>,
   output: __S(121, __c15, 1) as any as S.Schema<GetMicrovmImageOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImage",
@@ -985,13 +991,13 @@ export const getMicrovmImageBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetMicrovmImageBuildInput>,
   output: __S(130, __c16, 2) as any as S.Schema<GetMicrovmImageBuildOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageBuild",
@@ -1017,13 +1023,13 @@ export const getMicrovmImageVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetMicrovmImageVersionInput>,
   output: __S(144, __c18, 0) as any as S.Schema<GetMicrovmImageVersionOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageVersion",
@@ -1049,12 +1055,13 @@ export const listManagedMicrovmImages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListManagedMicrovmImagesInput>,
   output: __S(155, __c19, 3) as any as S.Schema<ListManagedMicrovmImagesOutput>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedMicrovmImages",
@@ -1087,13 +1094,13 @@ export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListManagedMicrovmImageVersionsInput>,
   output: __S(163, __c20, 3) as any as S.Schema<ListManagedMicrovmImageVersionsOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedMicrovmImageVersions",
@@ -1126,13 +1133,13 @@ export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListMicrovmImageBuildsInput>,
   output: __S(171, __c21, 3) as any as S.Schema<ListMicrovmImageBuildsOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMicrovmImageBuilds",
@@ -1164,12 +1171,13 @@ export const listMicrovmImages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListMicrovmImagesRequest>,
   output: __S(179, __c22, 3) as any as S.Schema<ListMicrovmImagesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMicrovmImages",
@@ -1202,13 +1210,13 @@ export const listMicrovmImageVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ListMicrovmImageVersionsInput>,
   output: __S(186, __c23, 2) as any as S.Schema<ListMicrovmImageVersionsOutput>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMicrovmImageVersions",
@@ -1241,13 +1249,13 @@ export const listMicrovms: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListMicrovmsRequest>,
   output: __S(195, __c24, 3) as any as S.Schema<ListMicrovmsResponse>,
-  errors: [
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMicrovms",
@@ -1287,11 +1295,13 @@ export const listTags: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
@@ -1318,14 +1328,13 @@ export const resumeMicrovm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<ResumeMicrovmRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ResumeMicrovmResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeMicrovm",
@@ -1355,15 +1364,17 @@ export const runMicrovm: API.OperationMethod<
   input: __S(216, __c27, 0) as any as S.Schema<RunMicrovmRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<RunMicrovmResponse>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InsufficientCapacityException,
-    InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunMicrovm",
@@ -1390,14 +1401,13 @@ export const suspendMicrovm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<SuspendMicrovmRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<SuspendMicrovmResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendMicrovm",
@@ -1433,11 +1443,13 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1464,14 +1476,13 @@ export const terminateMicrovm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<TerminateMicrovmRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<TerminateMicrovmResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateMicrovm",
@@ -1507,11 +1518,13 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1539,15 +1552,13 @@ export const updateMicrovmImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<UpdateMicrovmImageRequest>,
   output: __S(257, __c32, 1) as any as S.Schema<UpdateMicrovmImageResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImage",
@@ -1574,14 +1585,13 @@ export const updateMicrovmImageVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<UpdateMicrovmImageVersionRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<UpdateMicrovmImageVersionResponse>,
-  errors: [
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImageVersion",
@@ -1654,6 +1664,7 @@ function __c3(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           name: S.String,
           tags: S.optional(__S(40, __c5, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -1689,6 +1700,7 @@ function __c3(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           tags: S.optional(__S(40, __c5, 0)),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           imageVersion: S.String,
@@ -1893,6 +1905,7 @@ function __c14(j: number): any {
           startedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           terminatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           stateReason: S.optional(S.String),
+          kmsKeyIdentifier: S.optional(S.String),
           ingressNetworkConnectors: S.optional(__S(32, __c4, 0)),
           egressNetworkConnectors: S.optional(__S(32, __c4, 0)),
         }),
@@ -2016,6 +2029,7 @@ function __c18(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           imageArn: S.String,
           imageVersion: S.String,
           state: S.String,
@@ -2304,6 +2318,7 @@ function __c27(j: number): any {
           executionRoleArn: S.optional(S.String),
           idlePolicy: S.optional(__S(112, __c14, 0)),
           logging: S.optional(__S(65, __c8, 1)),
+          kmsKeyIdentifier: S.optional(S.String),
           runHookPayload: S.optional(SensitiveString),
           maximumDurationInSeconds: S.optional(S.Number),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -2410,6 +2425,7 @@ function __c32(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           imageIdentifier: S.String.pipe(T.HttpLabel("imageIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -2444,6 +2460,7 @@ function __c32(j: number): any {
           additionalOsCapabilities: S.optional(__S(75, __c9, 3)),
           hooks: S.optional(__S(78, __c9, 6)),
           environmentVariables: S.optional(__S(8, __c1, 0)),
+          kmsKeyIdentifier: S.optional(S.String),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           imageVersion: S.String,
         }),

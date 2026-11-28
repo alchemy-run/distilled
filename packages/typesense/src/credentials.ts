@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "TypesenseCredentials",
   ) {}
 
@@ -35,19 +35,26 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("TYPESENSE_API_URL"),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "TYPESENSE_API_KEY and TYPESENSE_API_URL environment variables are required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "TYPESENSE_API_KEY and TYPESENSE_API_URL environment variables are required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

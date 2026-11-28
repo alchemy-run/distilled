@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -202,6 +203,7 @@ export type ProviderType =
   | "GitLab"
   | "GitLabSelfManaged"
   | "AzureDevOps"
+  | "GitHubEnterpriseCloudDataResidency"
   | (string & {});
 export type ConnectionName = string;
 export type TagKey = string;
@@ -212,11 +214,13 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export type HostArn = string;
+export type Url = string;
 export interface CreateConnectionInput {
   ProviderType?: ProviderType | undefined;
   ConnectionName: string;
   Tags?: Tag[] | undefined;
   HostArn?: string | undefined;
+  ProviderEndpoint?: string | undefined;
 }
 export type ConnectionArn = string;
 export interface CreateConnectionOutput {
@@ -224,7 +228,6 @@ export interface CreateConnectionOutput {
   Tags?: Tag[] | undefined;
 }
 export type HostName = string;
-export type Url = string;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
@@ -337,6 +340,7 @@ export interface Connection {
   OwnerAccountId?: string | undefined;
   ConnectionStatus?: ConnectionStatus | undefined;
   HostArn?: string | undefined;
+  ProviderEndpoint?: string | undefined;
 }
 export interface GetConnectionOutput {
   Connection?: Connection | undefined;
@@ -474,8 +478,8 @@ export interface GetSyncConfigurationOutput {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectionsInput {
-  ProviderTypeFilter?: ProviderType | undefined;
   HostArnFilter?: string | undefined;
+  ProviderTypeFilter?: ProviderType | undefined;
   MaxResults?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -599,9 +603,11 @@ export interface UpdateSyncConfigurationOutput {
 }
 export type ErrorMessage = string;
 export type CreateConnectionError =
+  | InvalidInputException
   | LimitExceededException
   | ResourceNotFoundException
   | ResourceUnavailableException
+  | UnsupportedProviderTypeException
   | CommonErrors;
 /**
  * Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so
@@ -616,7 +622,14 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateConnectionInput>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateConnectionOutput>,
-  errors: [LimitExceededException, ResourceNotFoundException, ResourceUnavailableException],
+  errors: [
+    InvalidInputException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ResourceUnavailableException,
+    UnsupportedProviderTypeException,
+  ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
@@ -643,6 +656,7 @@ export const createHost: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<CreateHostInput>,
   output: __S(9, __c2, 1) as any as S.Schema<CreateHostOutput>,
   errors: [LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHost",
@@ -657,6 +671,7 @@ export type CreateRepositoryLinkError =
   | InvalidInputException
   | LimitExceededException
   | ResourceAlreadyExistsException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -677,8 +692,10 @@ export const createRepositoryLink: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
     ResourceAlreadyExistsException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryLink",
@@ -693,6 +710,7 @@ export type CreateSyncConfigurationError =
   | InvalidInputException
   | LimitExceededException
   | ResourceAlreadyExistsException
+  | ResourceNotFoundException
   | ThrottlingException
   | CommonErrors;
 /**
@@ -715,8 +733,10 @@ export const createSyncConfiguration: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
     ResourceAlreadyExistsException,
+    ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSyncConfiguration",
@@ -737,6 +757,7 @@ export const deleteConnection: API.OperationMethod<
   input: __S(44, __c11, 0) as any as S.Schema<DeleteConnectionInput>,
   output: __S(48, __c12, 0) as any as S.Schema<DeleteConnectionOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
@@ -762,6 +783,7 @@ export const deleteHost: API.OperationMethod<
   input: __S(52, __c13, 0) as any as S.Schema<DeleteHostInput>,
   output: __S(48, __c12, 0) as any as S.Schema<DeleteHostOutput>,
   errors: [ResourceNotFoundException, ResourceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHost",
@@ -800,6 +822,7 @@ export const deleteRepositoryLink: API.OperationMethod<
     ThrottlingException,
     UnsupportedProviderTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryLink",
@@ -834,6 +857,7 @@ export const deleteSyncConfiguration: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyncConfiguration",
@@ -857,6 +881,7 @@ export const getConnection: API.OperationMethod<
   input: __S(64, __c16, 0) as any as S.Schema<GetConnectionInput>,
   output: __S(65, __c16, 1) as any as S.Schema<GetConnectionOutput>,
   errors: [ResourceNotFoundException, ResourceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -878,6 +903,7 @@ export const getHost: API.OperationMethod<
   input: __S(72, __c18, 0) as any as S.Schema<GetHostInput>,
   output: __S(73, __c18, 1) as any as S.Schema<GetHostOutput>,
   errors: [ResourceNotFoundException, ResourceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHost",
@@ -913,6 +939,7 @@ export const getRepositoryLink: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryLink",
@@ -946,6 +973,7 @@ export const getRepositorySyncStatus: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
@@ -979,6 +1007,7 @@ export const getResourceSyncStatus: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSyncStatus",
@@ -1011,6 +1040,7 @@ export const getSyncBlockerSummary: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncBlockerSummary",
@@ -1043,6 +1073,7 @@ export const getSyncConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncConfiguration",
@@ -1064,6 +1095,7 @@ export const listConnections: API.PaginatedOperationMethod<
   input: __S(104, __c26, 0) as any as S.Schema<ListConnectionsInput>,
   output: __S(106, __c26, 2) as any as S.Schema<ListConnectionsOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnections",
@@ -1090,6 +1122,7 @@ export const listHosts: API.PaginatedOperationMethod<
   input: __S(108, __c27, 0) as any as S.Schema<ListHostsInput>,
   output: __S(111, __c27, 3) as any as S.Schema<ListHostsOutput>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHosts",
@@ -1130,6 +1163,7 @@ export const listRepositoryLinks: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositoryLinks",
@@ -1167,6 +1201,7 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositorySyncDefinitions",
@@ -1200,6 +1235,7 @@ export const listSyncConfigurations: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSyncConfigurations",
@@ -1225,6 +1261,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(124, __c31, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(125, __c31, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1246,6 +1283,7 @@ export const tagResource: API.OperationMethod<
   input: __S(128, __c32, 0) as any as S.Schema<TagResourceInput>,
   output: __S(48, __c12, 0) as any as S.Schema<TagResourceOutput>,
   errors: [LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1266,6 +1304,7 @@ export const untagResource: API.OperationMethod<
   input: __S(132, __c33, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(48, __c12, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1296,6 +1335,7 @@ export const updateHost: API.OperationMethod<
     ResourceUnavailableException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHost",
@@ -1334,6 +1374,7 @@ export const updateRepositoryLink: API.OperationMethod<
     ThrottlingException,
     UpdateOutOfSyncException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryLink",
@@ -1370,6 +1411,7 @@ export const updateSyncBlocker: API.OperationMethod<
     SyncBlockerDoesNotExistException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncBlocker",
@@ -1406,6 +1448,7 @@ export const updateSyncConfiguration: API.OperationMethod<
     ThrottlingException,
     UpdateOutOfSyncException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncConfiguration",
@@ -1423,6 +1466,7 @@ function __c0(j: number): any {
           ConnectionName: S.String,
           Tags: S.optional(__S(5, __c1, 1)),
           HostArn: S.optional(S.String),
+          ProviderEndpoint: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateConnectionInput" });
     case 1:
@@ -1634,6 +1678,7 @@ function __c17(j: number): any {
           OwnerAccountId: S.optional(S.String),
           ConnectionStatus: S.optional(S.String),
           HostArn: S.optional(S.String),
+          ProviderEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "Connection" });
   }
@@ -1801,8 +1846,8 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ProviderTypeFilter: S.optional(S.String),
           HostArnFilter: S.optional(S.String),
+          ProviderTypeFilter: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),

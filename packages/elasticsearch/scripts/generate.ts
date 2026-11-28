@@ -5,7 +5,9 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Elasticsearch Effect SDK.
  *
  * Input:  .generated-specs/elasticsearch.json  (written by scripts/convert.ts)
- * Output: src/services/elasticsearch.ts  +  src/services/index.ts
+ * Output: src/services/elasticsearch.ts  +  src/services/index.ts, and the
+ *         operations convert marks unstable in
+ *         src/unstable-services/elasticsearch.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Elasticsearch's provider
@@ -65,7 +67,7 @@ const elasticsearchSpec: SdkSpec = {
   operationDecl: {
     contextType: "ElasticsearchOpContext",
     commonErrorType: "ElasticsearchOpError",
-    commonErrorClasses: ["UnknownElasticsearchError"],
+    serviceErrors: "ElasticsearchServiceErrors",
     protocol: "ElasticsearchProtocol",
     retry: "Retry.Retry",
   },
@@ -89,5 +91,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => elasticsearchSpec,
 });

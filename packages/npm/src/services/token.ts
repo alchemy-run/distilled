@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNpmError } from "../errors.ts";
+import { NpmServiceErrors } from "../errors.ts";
 import { NpmProtocol, type NpmOpError, type NpmOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -99,7 +99,7 @@ export type CreateTokenRequestPackagesAndScopesPermission =
 export type CreateTokenRequestOrgsPermission = "read-only" | "read-write" | "no-access";
 export interface CreateTokenRequest {
   /** One-time password for two-factor authentication. Always required for this endpoint. **How to obtain the OTP:** - If 2FA is enabled on your account, provide the OTP from your configured 2FA method - If 2FA is not enabled, an email OTP will be sent and must be provided (format: `<8-digit-otp-from-email>`) - For WebAuthn users, the OTP is returned by polling the `doneUrl` which returns an OTP code after hardware authentication (format: `<16-digit-otp>`) */
-  npmOtp: string;
+  npmOtp: string | Redacted.Redacted<string>;
   /** Authentication type for web-based flow. When set to "web", enables browser-based authentication flow for WebAuthn users. */
   npmAuthType?: CreateTokenRequestNpmAuthType | (string & {}) | undefined;
   /** Command context for the request. When set to "token", indicates this is a token creation command. */
@@ -182,7 +182,7 @@ export interface DeleteTokenRequest {
   /** The token identifier to delete. Can be: - A UUID (e.g., `12345678-1234-1234-1234-123456789abc`) - An npm token (e.g., `npm_abcdefghijklmnopqrstuvwxyz0123456789`) */
   token: string | Redacted.Redacted<string>;
   /** One-time password for two-factor authentication. Required if the user has 2FA enabled. */
-  npmOtp?: string | undefined;
+  npmOtp?: string | Redacted.Redacted<string> | undefined;
   /** Authentication type for web-based flow. When set to "web", enables browser-based authentication flow for WebAuthn users. */
   npmAuthType?: DeleteTokenRequestNpmAuthType | (string & {}) | undefined;
   /** Command context for the request. When set to "token", indicates this is a token deletion command. */
@@ -225,7 +225,7 @@ export interface ListTokensResponseObjectsItem {
   /** The token ID. */
   key?: string | undefined;
   /** Redacted token in format: npm_aBcD...7890 (first 8 chars + ... + last 4 chars) */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Indicates if the token has readonly permissions */
   readonly?: boolean | undefined;
   /** Indicates if the token can bypass 2FA requirements for automation flows. When `true`, the token is rejected (`403 Forbidden`) by account, token, and org/team/package governance write endpoints. */
@@ -275,7 +275,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateTokenRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CreateTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownNpmError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NpmServiceErrors,
   protocol: NpmProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -292,7 +293,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNpmError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NpmServiceErrors,
   protocol: NpmProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -309,7 +311,8 @@ export const listTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListTokensRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<ListTokensResponse>,
-  errors: [UnknownNpmError],
+  errors: [],
+  serviceErrors: NpmServiceErrors,
   protocol: NpmProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -342,7 +345,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          npmOtp: S.String.pipe(T.Header("npm-otp")),
+          npmOtp: S.String.pipe(T.Header("npm-otp"), T.SensitiveValue({})),
           npmAuthType: S.optional(S.String.pipe(T.Header("npm-auth-type"))),
           npmCommand: S.optional(S.String.pipe(T.Header("npm-command"))),
           password: S.String.pipe(T.SensitiveValue({})),
@@ -408,7 +411,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.String.pipe(T.Label(), T.SensitiveValue({})),
-          npmOtp: S.optional(S.String.pipe(T.Header("npm-otp"))),
+          npmOtp: S.optional(S.String.pipe(T.Header("npm-otp"), T.SensitiveValue({}))),
           npmAuthType: S.optional(S.String.pipe(T.Header("npm-auth-type"))),
           npmCommand: S.optional(S.String.pipe(T.Header("npm-command"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/-/npm/v1/tokens/token/{token}", code: 200 })),
@@ -433,7 +436,7 @@ function __c5(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           expiry: S.optional(S.String),
           key: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           readonly: S.optional(S.Boolean),
           bypass_2fa: S.optional(S.Boolean),
           cidr: S.optional(S.NullOr(__S(24, __c3, 0))),

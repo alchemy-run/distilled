@@ -6,7 +6,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *
  * Input:  .generated-specs/<slug>.json  (one model per Scaleway API service
  *         and version, written by scripts/convert.ts)
- * Output: src/services/<slug>.ts  +  src/services/index.ts
+ * Output: src/services/<slug>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for the alpha and beta API versions
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Scaleway's provider spec:
@@ -93,19 +94,6 @@ const spec: SdkSpec = {
   paginationProfileFor: (trait) => (trait?.mode === "token" ? "token" : "page"),
 
   shapeOverride: ({ name, def }) => {
-    // `…Raw` file downloads (scripts/convert.ts `addRawDownload`): the
-    // output IS the response body's bytes.
-    if (
-      def.type === "structure" &&
-      Object.keys(def.members ?? {}).length === 1 &&
-      def.members.body?.target === "smithy.api#Blob" &&
-      RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-    ) {
-      return [
-        `export type ${name} = Uint8Array;`,
-        `export const ${name} = /*@__PURE__*/ S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as any as S.Schema<${name}>;\n`,
-      ];
-    }
     // Maps of secrets (Serverless Containers' `secret_environment_variables`
     // on create/update): each value accepts `Redacted`.
     if (def.type === "map" && SENSITIVE_TRAIT in (def.traits ?? {})) {
@@ -122,7 +110,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ScalewayOpContext",
     commonErrorType: "ScalewayOpError",
-    commonErrorClasses: ["UnknownScalewayError"],
+    serviceErrors: "ScalewayServiceErrors",
     protocol: "ScalewayProtocol",
     retry: "Retry.Retry",
   },
@@ -142,5 +130,6 @@ runGeneratorCli({
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
+  unstableOutDir: "src/unstable-services",
   spec: () => spec,
 });

@@ -3,7 +3,7 @@
  *
  * API-compatible port of the distilled v0 axiom credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
@@ -29,9 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "AxiomCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("AxiomCredentials") {}
 
 /** Layer from a redacted API token + optional base URL / org ID. */
 export const fromApiKey = (config: {
@@ -64,30 +62,36 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
  * - `AXIOM_URL` (optional) -- override the API base URL (for self-hosted or
  *   regional edge deployments). Defaults to `https://api.axiom.co`.
  * - `AXIOM_ORG_ID` (optional) -- organization ID, required for PATs.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const config = yield* envConfig.pipe(
-      Effect.mapError(
-        () =>
-          new ConfigError({
-            message: "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
-          }),
-      ),
-    );
-    const apiKey = Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.apiKey);
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const config = yield* envConfig.pipe(
+        Effect.mapError(
+          () =>
+            new ConfigError({
+              message: "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
+            }),
+        ),
+      );
+      const apiKey = Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.apiKey);
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: config.apiBaseUrl,
-      orgId: Option.getOrUndefined(config.orgId),
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: config.apiBaseUrl,
+        orgId: Option.getOrUndefined(config.orgId),
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

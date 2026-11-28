@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { ConvexServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { ConvexDeploymentProtocol, type ConvexOpError, type ConvexOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -199,7 +200,8 @@ export type LogTopic =
   | "storage_api_bandwidth"
   | "ai_gateway_usage"
   | "log_stream_egress"
-  | "custom_audit";
+  | "custom_audit"
+  | "s3_export_stats";
 /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
 export type CreateLogStreamArgsCase0TopicsList = Array<LogTopic | (string & {})>;
 export type CreateLogStreamArgsCase0LogStreamType = "datadog";
@@ -295,9 +297,9 @@ export interface CreateLogStreamArgsCase6 {
   bucket: string;
   /** AWS region the bucket lives in, e.g. `us-east-1`. */
   region: string;
-  /** Key prefix within the bucket. Omit to write at the bucket root. */
+  /** Folder in the bucket to put the export under. Convex writes to `<prefix>/<deployment-name>/data-lake/`, or to `<deployment-name>/data-lake/` if you omit it. */
   prefix?: string | null | undefined;
-  /** ARN of a role in the bucket's account that Convex assumes to write. Omit it to create the export first: the response carries the `roleExternalId` the role's trust policy needs, and the export waits until an update supplies the ARN. */
+  /** ARN of the IAM role Convex assumes to write. The role must be named `ConvexIntegrations-<roleExternalId>`, with path `/convex/`. Omit it to create the export first: the response carries the `roleExternalId` the role's name and trust policy need, and the export waits until an update sets the ARN. */
   roleArn?: string | undefined;
   selection?: Selection | null | undefined;
   logStreamType: CreateLogStreamArgsCase6LogStreamType;
@@ -317,7 +319,7 @@ export type CreateLogStreamResponseCase0LogStreamType = "webhook";
 export interface CreateLogStreamResponseCase0 {
   id: string;
   /** Use this secret to verify webhook signatures. */
-  hmacSecret: string;
+  hmacSecret: Redacted.Redacted<string>;
   logStreamType: CreateLogStreamResponseCase0LogStreamType;
 }
 export type CreateLogStreamResponseCase1LogStreamType = "datadog";
@@ -414,7 +416,7 @@ export interface ActiveDataSyncSnapshotting {
   numDocumentsInCurrentTable: number;
   /** Total documents in the current table, as of a recent snapshot. */
   totalDocumentsInCurrentTable: number;
-  /** Documents synced over the sync's lifetime, including deletions and re-synced revisions of documents that changed mid-sync -- so this can slightly exceed `totalDocuments`. */
+  /** Documents in the selected tables traversed so far, counted as of the same snapshot as `totalDocuments`. */
   numDocumentsSynced: number;
   /** Total documents across all selected tables, as of a recent snapshot. */
   totalDocuments: number;
@@ -463,28 +465,6 @@ export interface GetCanonicalUrlsRequest {}
 export interface GetCanonicalUrlsResponse {
   convexCloudUrl: string;
   convexSiteUrl: string;
-}
-export interface GetCurrentUsageRequest {}
-/** The user-facing unit a metric's limits and usage are expressed in. */
-export type MetricUnit = "calls" | "GB" | "Query-GB" | "GB-hours" | "dollars";
-/** Usage in each calendar-aligned window currently in progress. */
-export interface WindowUsageResponse {
-  currentDay: number;
-  currentMonth: number;
-}
-/** Current-window usage for a single metric. */
-export interface MetricUsageResponse {
-  /** The unit `usage` is expressed in, matching the unit this metric's configured limits use. */
-  unit: MetricUnit;
-  usage: WindowUsageResponse;
-}
-export type GetCurrentUsageResponseMetricsMap = { [key: string]: MetricUsageResponse | undefined };
-/** Progress of the historical-usage backfill. Only `complete` guarantees the reported usage reflects the full window. While the status is `pending` or `partial`, history from before this deployment was loaded may not be hydrated yet and the numbers can understate actual usage, so retry later for an accurate total. `failed` means the backfill couldn't hydrate any history. */
-export type SeedStatusResponse = "pending" | "partial" | "complete" | "failed";
-/** Current usage across every metric, keyed by the same metric name the usage limit config API uses. */
-export interface GetCurrentUsageResponse {
-  metrics: GetCurrentUsageResponseMetricsMap;
-  seedStatus: SeedStatusResponse;
 }
 export interface GetDeploymentInfoRequest {}
 export type DeploymentInfoResponseCase0Kind = "cloud";
@@ -567,7 +547,7 @@ export interface LogStreamConfigCase1 {
   /** Format for the webhook payload. JSONL sends one object per line of request, JSON sends one array per request. */
   format: WebhookFormat;
   /** Use this secret to verify webhook signatures. */
-  hmacSecret: string;
+  hmacSecret: Redacted.Redacted<string>;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
   topics?: LogStreamConfigCase1TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase1LogStreamType;
@@ -635,9 +615,9 @@ export interface LogStreamConfigCase6 {
   bucket: string;
   /** AWS region the bucket lives in. */
   region: string;
-  /** Key prefix within the bucket. */
+  /** Folder in the bucket the export is under, if any. */
   prefix?: string | null | undefined;
-  /** ARN of the role Convex assumes to write. Empty until the admin pastes it. */
+  /** ARN of the role Convex assumes to write. Empty if it hasn't been set yet, and the export doesn't sync while it's empty. */
   roleArn: string;
   /** Value the role's trust policy must require as `sts:ExternalId`. */
   roleExternalId: string;
@@ -765,8 +745,10 @@ export interface ListDeploymentAuditLogEventsResponse {
   pagination: PaginationMetadata;
 }
 export interface ListEnvironmentVariablesRequest {}
+/** The value of every environment variable that isn't a secret, by name. */
 export type ListEnvVarsResponseEnvironmentVariablesMap = { [key: string]: string | undefined };
 export interface ListEnvVarsResponse {
+  /** The value of every environment variable that isn't a secret, by name. */
   environmentVariables: ListEnvVarsResponseEnvironmentVariablesMap;
 }
 export interface ListIntegrationsRequest {}
@@ -958,7 +940,7 @@ export interface UpdateLogStreamArgsCase5 {
 }
 export type UpdateLogStreamArgsCase6LogStreamType = "s3Export";
 export interface UpdateLogStreamArgsCase6 {
-  /** The role ARN from the customer's stack. Role exports only; sets or replaces the ARN, within the same AWS account. */
+  /** ARN of the IAM role Convex assumes to write. The role must be named `ConvexIntegrations-<roleExternalId>`, with path `/convex/`. Set it to finish a pending export, or to switch to a role in another account. */
   roleArn?: string | null | undefined;
   selection?: Selection | null | undefined;
   logStreamType: UpdateLogStreamArgsCase6LogStreamType;
@@ -1009,6 +991,7 @@ export const createIntegration: API.OperationMethod<
     LogStreamingNotEnabled,
     LogStreamAlreadyExists,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1031,6 +1014,7 @@ export const createUsageLimit: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<CreateUsageLimitRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<UsageLimitResponse>,
   errors: [DuplicateUsageLimit, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1060,6 +1044,7 @@ export const deleteIntegration: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1089,6 +1074,7 @@ export const deleteUsageLimit: API.OperationMethod<
     BadDeployKey,
     OperationNotPermitted,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1111,6 +1097,7 @@ export const getActiveSync: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<GetActiveSyncRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<ActiveDataSync>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1132,31 +1119,11 @@ export const getCanonicalUrls: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<GetCanonicalUrlsRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<GetCanonicalUrlsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCanonicalUrls",
-}));
-
-export type GetCurrentUsageError =
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** Get current usage Get the values for each usage metric for the current day and month (UTC) The reported usage is only guaranteed to reflect the full window when `seedStatus` is `complete`. A `pending` or `partial` status means the backfill is still in progress and the returned usage may understate actual usage, so retry later for an accurate total. */
-export const getCurrentUsage: API.OperationMethod<
-  GetCurrentUsageRequest,
-  GetCurrentUsageResponse,
-  GetCurrentUsageError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetCurrentUsageRequest>,
-  output: __S(84, __c10, 4) as any as S.Schema<GetCurrentUsageResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetCurrentUsage",
 }));
 
 export type GetDeploymentInfoError =
@@ -1171,9 +1138,10 @@ export const getDeploymentInfo: API.OperationMethod<
   GetDeploymentInfoError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetDeploymentInfoRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<GetDeploymentInfoResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetDeploymentInfoRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<GetDeploymentInfoResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1194,8 +1162,8 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GetIntegrationResponse>,
   errors: [
     MalformedAccessToken,
     BadDeployKey,
@@ -1203,6 +1171,7 @@ export const getIntegration: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1222,9 +1191,10 @@ export const listActiveSyncs: API.OperationMethod<
   ListActiveSyncsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListActiveSyncsRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<ListActiveSyncsResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListActiveSyncsRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<ListActiveSyncsResponse>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1246,9 +1216,10 @@ export const listAuditLogEvents: API.PaginatedOperationMethod<
   DeploymentAuditLogEventResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(120, __c15, 0) as any as S.Schema<ListAuditLogEventsRequest>,
-    output: __S(123, __c15, 3) as any as S.Schema<ListDeploymentAuditLogEventsResponse>,
+    input: __S(112, __c14, 0) as any as S.Schema<ListAuditLogEventsRequest>,
+    output: __S(115, __c14, 3) as any as S.Schema<ListDeploymentAuditLogEventsResponse>,
     errors: [AuditLogsTooOld, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+    serviceErrors: ConvexServiceErrors,
     protocol: ConvexDeploymentProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1269,16 +1240,17 @@ export type ListEnvironmentVariablesError =
   | BadDeployKey
   | OperationNotPermitted
   | ConvexOpError;
-/** List environment variables Get all environment variables in a deployment. In the future this might not include "secret" environment variables. */
+/** List environment variables Get the environment variables in a deployment that aren't secrets. */
 export const listEnvironmentVariables: API.OperationMethod<
   ListEnvironmentVariablesRequest,
   ListEnvVarsResponse,
   ListEnvironmentVariablesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c16, 1) as any as S.Schema<ListEnvironmentVariablesRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<ListEnvVarsResponse>,
+  input: __S(121, __c15, 1) as any as S.Schema<ListEnvironmentVariablesRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<ListEnvVarsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1297,9 +1269,10 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<ListIntegrationsResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<ListIntegrationsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1318,9 +1291,10 @@ export const listUsageLimits: API.OperationMethod<
   ListUsageLimitsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListUsageLimitsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListUsageLimitsResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListUsageLimitsRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListUsageLimitsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1339,9 +1313,10 @@ export const pauseDeployment: API.OperationMethod<
   PauseDeploymentError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<PauseDeploymentRequest>,
+  input: __S(144, __c18, 0) as any as S.Schema<PauseDeploymentRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<PauseDeploymentResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1363,8 +1338,8 @@ export const rotateIntegrationWebhookSecret: API.OperationMethod<
   RotateIntegrationWebhookSecretError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<RotateIntegrationWebhookSecretRequest>,
-  output: __S(162, __c20, 2) as any as S.Schema<RotateIntegrationWebhookSecretResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<RotateIntegrationWebhookSecretRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<RotateIntegrationWebhookSecretResponse>,
   errors: [
     MalformedAccessToken,
     BadDeployKey,
@@ -1373,6 +1348,7 @@ export const rotateIntegrationWebhookSecret: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1392,9 +1368,10 @@ export const startDataSync: API.OperationMethod<
   StartDataSyncError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(169, __c21, 1) as any as S.Schema<StartDataSyncRequest>,
-  output: __S(174, __c21, 6) as any as S.Schema<DataSyncResponse>,
+  input: __S(161, __c20, 1) as any as S.Schema<StartDataSyncRequest>,
+  output: __S(166, __c20, 6) as any as S.Schema<DataSyncResponse>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1414,9 +1391,10 @@ export const unpauseDeployment: API.OperationMethod<
   UnpauseDeploymentError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UnpauseDeploymentRequest>,
+  input: __S(168, __c21, 0) as any as S.Schema<UnpauseDeploymentRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UnpauseDeploymentResponse>,
   errors: [UnpauseDeploymentFailed, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1435,9 +1413,10 @@ export const updateCanonicalUrl: API.OperationMethod<
   UpdateCanonicalUrlError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateCanonicalUrlRequest>,
+  input: __S(176, __c22, 0) as any as S.Schema<UpdateCanonicalUrlRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateCanonicalUrlResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1458,7 +1437,7 @@ export const updateEnvironmentVariables: API.OperationMethod<
   UpdateEnvironmentVariablesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(194, __c24, 2) as any as S.Schema<UpdateEnvironmentVariablesRequest>,
+  input: __S(186, __c23, 2) as any as S.Schema<UpdateEnvironmentVariablesRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateEnvironmentVariablesResponse>,
   errors: [
     AuthConfigMissingEnvironmentVariable,
@@ -1467,6 +1446,7 @@ export const updateEnvironmentVariables: API.OperationMethod<
     BadDeployKey,
     OperationNotPermitted,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1480,14 +1460,14 @@ export type UpdateIntegrationError =
   | InvalidLogStreamId
   | LogStreamDoesntExist
   | ConvexOpError;
-/** Update integration Update an existing integration for the deployment. Omit a field to keep the existing value, and use `null` to unset a field. */
+/** Update integration Update an existing integration for the deployment. Omit a field to keep the existing value, and use `null` to unset a field. For S3 exports, `null` keeps the existing value too. */
 export const updateIntegration: API.OperationMethod<
   UpdateIntegrationRequest,
   UpdateIntegrationResponse,
   UpdateIntegrationError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateIntegrationRequest>,
+  input: __S(192, __c24, 0) as any as S.Schema<UpdateIntegrationRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateIntegrationResponse>,
   errors: [
     MalformedAccessToken,
@@ -1496,6 +1476,7 @@ export const updateIntegration: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1516,7 +1497,7 @@ export const updateUsageLimit: API.OperationMethod<
   UpdateUsageLimitError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<UpdateUsageLimitRequest>,
+  input: __S(200, __c25, 0) as any as S.Schema<UpdateUsageLimitRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<UsageLimitResponse>,
   errors: [
     UsageLimitNotFound,
@@ -1525,6 +1506,7 @@ export const updateUsageLimit: API.OperationMethod<
     BadDeployKey,
     OperationNotPermitted,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1652,37 +1634,6 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/get_current_usage", code: 200 })),
-      ).annotate({ identifier: "GetCurrentUsageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          currentDay: S.Number.pipe(T.Body("current_day")),
-          currentMonth: S.Number.pipe(T.Body("current_month")),
-        }),
-      ).annotate({ identifier: "WindowUsageResponse" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          unit: S.String,
-          usage: __S(81, __c10, 1),
-        }),
-      ).annotate({ identifier: "MetricUsageResponse" });
-    case 3:
-      return S.Record(S.String, __S(82, __c10, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          metrics: __S(83, __c10, 3),
-          seedStatus: S.String,
-        }),
-      ).annotate({ identifier: "GetCurrentUsageResponse" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/deployment_info", code: 200 })),
       ).annotate({ identifier: "GetDeploymentInfoRequest" });
     case 1:
@@ -1691,7 +1642,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1705,7 +1656,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1719,13 +1670,13 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          syncs: __S(105, __c13, 1),
-          pagination: __S(112, __c14, 0),
+          syncs: __S(97, __c12, 1),
+          pagination: __S(104, __c13, 0),
         }),
       ).annotate({ identifier: "ListActiveSyncsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1736,7 +1687,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PaginationMetadata" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1760,17 +1711,17 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentAuditLogEventResponse" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(122, __c15, 2),
-          pagination: __S(112, __c14, 0),
+          items: __S(114, __c14, 2),
+          pagination: __S(104, __c13, 0),
         }),
       ).annotate({ identifier: "ListDeploymentAuditLogEventsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1781,12 +1732,12 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentVariables: __S(128, __c16, 0),
+          environmentVariables: __S(120, __c15, 0),
         }),
       ).annotate({ identifier: "ListEnvVarsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1795,12 +1746,12 @@ function __c17(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(137, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(129, __c16, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIntegrationsResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1811,12 +1762,12 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          usageLimits: __S(145, __c18, 1),
+          usageLimits: __S(137, __c17, 1),
         }),
       ).annotate({ identifier: "ListUsageLimitsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1824,7 +1775,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PauseDeploymentRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1842,12 +1793,12 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "RotateLogStreamSecretResponse" });
     case 2:
-      return S.suspend(() => __S(161, __c20, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(153, __c19, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RotateIntegrationWebhookSecretResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1862,7 +1813,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.NullOr(S.String)),
-          selection: S.optional(__S(168, __c21, 0)),
+          selection: S.optional(__S(160, __c20, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/data/sync", code: 200 })),
       ).annotate({ identifier: "StartDataSyncRequest" });
     case 2:
@@ -1873,7 +1824,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "DataSyncTruncate" });
     case 3:
-      return S.Array(__S(170, __c21, 2));
+      return S.Array(__S(162, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1885,20 +1836,20 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "DataSyncValue" });
     case 5:
-      return S.Array(__S(172, __c21, 4));
+      return S.Array(__S(164, __c20, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           status: S.Unknown,
-          truncates: __S(171, __c21, 3),
-          values: __S(173, __c21, 5),
+          truncates: __S(163, __c20, 3),
+          values: __S(165, __c20, 5),
           syncId: S.String,
-          pagination: __S(112, __c14, 0),
+          pagination: __S(104, __c13, 0),
         }),
       ).annotate({ identifier: "DataSyncResponse" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1906,7 +1857,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UnpauseDeploymentRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1917,7 +1868,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateCanonicalUrlRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1927,16 +1878,16 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvVarRequest" });
     case 1:
-      return S.Array(__S(192, __c24, 0));
+      return S.Array(__S(184, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          changes: __S(193, __c24, 1),
+          changes: __S(185, __c23, 1),
         }).pipe(T.Http({ method: "POST", uri: "/update_environment_variables", code: 200 })),
       ).annotate({ identifier: "UpdateEnvironmentVariablesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1947,7 +1898,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

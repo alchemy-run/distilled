@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { SlackError, SlackRateLimited } from "../errors.ts";
+import { SlackServiceErrors } from "../errors.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -33,7 +33,7 @@ export interface RotateTokenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The app configuration token used to access App Manifest APIs */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Refresh token for this credential */
   refresh_token: string | Redacted.Redacted<string>;
   /** ID of the team associated with the access token. */
@@ -55,7 +55,8 @@ export const rotateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<RotateTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<RotateTokenResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82,7 +83,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
           team_id: S.String,
           user_id: S.String,

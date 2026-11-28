@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTriggerDevError } from "../errors.ts";
+import { TriggerDevServiceErrors } from "../errors.ts";
 import {
   TriggerDevProtocol,
   type TriggerDevOpError,
@@ -37,15 +37,15 @@ export class BadRequest
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(41, __c5, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(34, __c4, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c4, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(26, __c3, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           S.String,
         ]),
       ),
@@ -73,14 +73,18 @@ export class Conflict
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   )
 {
-  declare readonly body?: ErrorResponse | string;
+  declare readonly body?: Error403Body | ErrorResponse | string;
 }
 
 export class Forbidden
@@ -90,8 +94,8 @@ export class Forbidden
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           S.String,
         ]),
       ),
@@ -110,13 +114,13 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
           /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(272, __c34, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(16, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(264, __c33, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           S.String,
         ]),
       ),
@@ -143,10 +147,10 @@ export class UnprocessableEntity
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(34, __c4, 2)),
-          /*@__PURE__*/ S.suspend(() => __S(272, __c34, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(26, __c3, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(264, __c33, 0)),
           S.String,
         ]),
       ),
@@ -3058,9 +3062,10 @@ export const activateScheduleV1: API.OperationMethod<
   ActivateScheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<ActivateScheduleV1Request>,
-  output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(480, __c60, 0) as any as S.Schema<ActivateScheduleV1Request>,
+  output: __S(499, __c62, 3) as any as S.Schema<ScheduleObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3080,9 +3085,10 @@ export const addDashboardWidgetV1: API.OperationMethod<
   AddDashboardWidgetV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<AddDashboardWidgetV1Request>,
-  output: __S(657, __c82, 1) as any as S.Schema<AddDashboardWidgetV1Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(648, __c81, 0) as any as S.Schema<AddDashboardWidgetV1Request>,
+  output: __S(649, __c81, 1) as any as S.Schema<AddDashboardWidgetV1Response>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3097,9 +3103,10 @@ export const addRunTagsV1: API.OperationMethod<
   AddRunTagsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<AddRunTagsV1Request>,
-  output: __S(753, __c94, 1) as any as S.Schema<AddRunTagsV1Response>,
-  errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(744, __c93, 0) as any as S.Schema<AddRunTagsV1Request>,
+  output: __S(745, __c93, 1) as any as S.Schema<AddRunTagsV1Response>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3114,9 +3121,10 @@ export const bulkAbortActionV1: API.OperationMethod<
   BulkAbortActionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<BulkAbortActionV1Request>,
-  output: __S(857, __c107, 1) as any as S.Schema<AbortBulkActionResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(848, __c106, 0) as any as S.Schema<BulkAbortActionV1Request>,
+  output: __S(849, __c106, 1) as any as S.Schema<AbortBulkActionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3131,9 +3139,10 @@ export const cancelRunV1: API.OperationMethod<
   CancelRunV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<CancelRunV1Request>,
-  output: __S(952, __c119, 0) as any as S.Schema<CancelRunV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(936, __c117, 0) as any as S.Schema<CancelRunV1Request>,
+  output: __S(944, __c118, 0) as any as S.Schema<CancelRunV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3148,9 +3157,10 @@ export const cancelWebhookWaiterV1: API.OperationMethod<
   CancelWebhookWaiterV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CancelWebhookWaiterV1Request>,
-  output: __S(49, __c6, 1) as any as S.Schema<CancelWebhookWaiterResponse>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(40, __c5, 0) as any as S.Schema<CancelWebhookWaiterV1Request>,
+  output: __S(41, __c5, 1) as any as S.Schema<CancelWebhookWaiterResponse>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3165,9 +3175,10 @@ export const closeSessionV1: API.OperationMethod<
   CloseSessionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CloseSessionV1Request>,
-  output: __S(80, __c10, 0) as any as S.Schema<SessionObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(48, __c6, 0) as any as S.Schema<CloseSessionV1Request>,
+  output: __S(72, __c9, 0) as any as S.Schema<SessionObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3182,9 +3193,10 @@ export const completeWaitpointTokenCallbackV1: API.OperationMethod<
   CompleteWaitpointTokenCallbackV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CompleteWaitpointTokenCallbackV1Request>,
-  output: __S(96, __c12, 0) as any as S.Schema<CompleteWaitpointTokenResponse>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(80, __c10, 0) as any as S.Schema<CompleteWaitpointTokenCallbackV1Request>,
+  output: __S(88, __c11, 0) as any as S.Schema<CompleteWaitpointTokenResponse>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3199,9 +3211,10 @@ export const completeWaitpointTokenV1: API.OperationMethod<
   CompleteWaitpointTokenV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CompleteWaitpointTokenV1Request>,
-  output: __S(96, __c12, 0) as any as S.Schema<CompleteWaitpointTokenResponse>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(96, __c12, 0) as any as S.Schema<CompleteWaitpointTokenV1Request>,
+  output: __S(88, __c11, 0) as any as S.Schema<CompleteWaitpointTokenResponse>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3216,9 +3229,10 @@ export const createBulkActionV1: API.OperationMethod<
   CreateBulkActionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateBulkActionV1Request>,
-  output: __S(120, __c15, 0) as any as S.Schema<CreateBulkActionV1Response>,
-  errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(104, __c13, 0) as any as S.Schema<CreateBulkActionV1Request>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateBulkActionV1Response>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3233,16 +3247,17 @@ export const createDashboardV1: API.OperationMethod<
   CreateDashboardV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<CreateDashboardV1Request>,
-  output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [BadRequest, Forbidden, UnknownTriggerDevError],
+  input: __S(120, __c15, 0) as any as S.Schema<CreateDashboardV1Request>,
+  output: __S(659, __c82, 3) as any as S.Schema<DashboardObject>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDashboardV1",
 }));
 
-export type CreateProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
+export type CreateProjectEnvvarV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
 /** Create environment variable Create a new environment variable for a specific project and environment. */
 export const createProjectEnvvarV1: API.OperationMethod<
   CreateProjectEnvvarV1Request,
@@ -3250,9 +3265,10 @@ export const createProjectEnvvarV1: API.OperationMethod<
   CreateProjectEnvvarV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<CreateProjectEnvvarV1Request>,
-  output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(136, __c17, 0) as any as S.Schema<CreateProjectEnvvarV1Request>,
+  output: __S(88, __c11, 0) as any as S.Schema<SucceedResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3267,9 +3283,10 @@ export const createScheduleV1: API.OperationMethod<
   CreateScheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<CreateScheduleV1Request>,
-  output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(144, __c18, 0) as any as S.Schema<CreateScheduleV1Request>,
+  output: __S(499, __c62, 3) as any as S.Schema<ScheduleObject>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3284,9 +3301,10 @@ export const createSessionV1: API.OperationMethod<
   CreateSessionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<CreateSessionV1Request>,
-  output: __S(161, __c20, 1) as any as S.Schema<CreateSessionV1Response>,
-  errors: [Conflict, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(152, __c19, 0) as any as S.Schema<CreateSessionV1Request>,
+  output: __S(153, __c19, 1) as any as S.Schema<CreateSessionV1Response>,
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3301,9 +3319,10 @@ export const createWaitpointTokenV1: API.OperationMethod<
   CreateWaitpointTokenV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<CreateWaitpointTokenV1Request>,
-  output: __S(169, __c21, 1) as any as S.Schema<CreateWaitpointTokenResponse>,
-  errors: [UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(160, __c20, 0) as any as S.Schema<CreateWaitpointTokenV1Request>,
+  output: __S(161, __c20, 1) as any as S.Schema<CreateWaitpointTokenResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3318,9 +3337,10 @@ export const createWebhookWaiterV1: API.OperationMethod<
   CreateWebhookWaiterV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c22, 1) as any as S.Schema<CreateWebhookWaiterV1Request>,
-  output: __S(178, __c22, 2) as any as S.Schema<CreateWebhookWaiterResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(169, __c21, 1) as any as S.Schema<CreateWebhookWaiterV1Request>,
+  output: __S(170, __c21, 2) as any as S.Schema<CreateWebhookWaiterResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3335,9 +3355,10 @@ export const deactivateScheduleV1: API.OperationMethod<
   DeactivateScheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DeactivateScheduleV1Request>,
-  output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(176, __c22, 0) as any as S.Schema<DeactivateScheduleV1Request>,
+  output: __S(499, __c62, 3) as any as S.Schema<ScheduleObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3352,9 +3373,10 @@ export const deleteDashboardV1: API.OperationMethod<
   DeleteDashboardV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<DeleteDashboardV1Request>,
-  output: __S(952, __c119, 0) as any as S.Schema<DeleteDashboardV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteDashboardV1Request>,
+  output: __S(944, __c118, 0) as any as S.Schema<DeleteDashboardV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3369,16 +3391,17 @@ export const deleteDashboardWidgetV1: API.OperationMethod<
   DeleteDashboardWidgetV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<DeleteDashboardWidgetV1Request>,
-  output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteDashboardWidgetV1Request>,
+  output: __S(659, __c82, 3) as any as S.Schema<DashboardObject>,
+  errors: [NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDashboardWidgetV1",
 }));
 
-export type DeleteProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
+export type DeleteProjectEnvvarV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
 /** Delete environment variable Delete a specific environment variable for a specific project and environment. */
 export const deleteProjectEnvvarV1: API.OperationMethod<
   DeleteProjectEnvvarV1Request,
@@ -3386,9 +3409,10 @@ export const deleteProjectEnvvarV1: API.OperationMethod<
   DeleteProjectEnvvarV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<DeleteProjectEnvvarV1Request>,
-  output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteProjectEnvvarV1Request>,
+  output: __S(88, __c11, 0) as any as S.Schema<SucceedResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3403,9 +3427,10 @@ export const deleteScheduleV1: API.OperationMethod<
   DeleteScheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<DeleteScheduleV1Request>,
-  output: __S(120, __c15, 0) as any as S.Schema<DeleteScheduleV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteScheduleV1Request>,
+  output: __S(112, __c14, 0) as any as S.Schema<DeleteScheduleV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3420,9 +3445,10 @@ export const disableWebhookEndpointV1: API.OperationMethod<
   DisableWebhookEndpointV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<DisableWebhookEndpointV1Request>,
-  output: __S(234, __c29, 2) as any as S.Schema<DisableWebhookEndpointV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(216, __c27, 0) as any as S.Schema<DisableWebhookEndpointV1Request>,
+  output: __S(226, __c28, 2) as any as S.Schema<DisableWebhookEndpointV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3437,9 +3463,10 @@ export const enableWebhookEndpointV1: API.OperationMethod<
   EnableWebhookEndpointV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<EnableWebhookEndpointV1Request>,
-  output: __S(234, __c29, 2) as any as S.Schema<EnableWebhookEndpointV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(232, __c29, 0) as any as S.Schema<EnableWebhookEndpointV1Request>,
+  output: __S(226, __c28, 2) as any as S.Schema<EnableWebhookEndpointV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3454,9 +3481,10 @@ export const executeQueryV1: API.OperationMethod<
   ExecuteQueryV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ExecuteQueryV1Request>,
-  output: __S(249, __c31, 1) as any as S.Schema<ExecuteQueryV1Response>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(240, __c30, 0) as any as S.Schema<ExecuteQueryV1Request>,
+  output: __S(241, __c30, 1) as any as S.Schema<ExecuteQueryV1Response>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3471,9 +3499,10 @@ export const getBatchResultsV1: API.OperationMethod<
   GetBatchResultsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetBatchResultsV1Request>,
-  output: __S(258, __c32, 2) as any as S.Schema<GetBatchResultsV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(248, __c31, 0) as any as S.Schema<GetBatchResultsV1Request>,
+  output: __S(250, __c31, 2) as any as S.Schema<GetBatchResultsV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3488,9 +3517,10 @@ export const getBatchV1: API.OperationMethod<
   GetBatchV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<GetBatchV1Request>,
-  output: __S(283, __c35, 3) as any as S.Schema<GetBatchV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(272, __c34, 0) as any as S.Schema<GetBatchV1Request>,
+  output: __S(275, __c34, 3) as any as S.Schema<GetBatchV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3505,9 +3535,10 @@ export const getBulkActionV1: API.OperationMethod<
   GetBulkActionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetBulkActionV1Request>,
-  output: __S(297, __c37, 1) as any as S.Schema<BulkActionObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(280, __c35, 0) as any as S.Schema<GetBulkActionV1Request>,
+  output: __S(289, __c36, 1) as any as S.Schema<BulkActionObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3522,9 +3553,10 @@ export const getConcurrencyLimitV1: API.OperationMethod<
   GetConcurrencyLimitV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetConcurrencyLimitV1Request>,
-  output: __S(305, __c38, 1) as any as S.Schema<GetConcurrencyLimitV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(296, __c37, 0) as any as S.Schema<GetConcurrencyLimitV1Request>,
+  output: __S(297, __c37, 1) as any as S.Schema<GetConcurrencyLimitV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3539,9 +3571,10 @@ export const getDashboardV1: API.OperationMethod<
   GetDashboardV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetDashboardV1Request>,
-  output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(304, __c38, 0) as any as S.Schema<GetDashboardV1Request>,
+  output: __S(659, __c82, 3) as any as S.Schema<DashboardObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3556,9 +3589,10 @@ export const getDeploymentV1: API.OperationMethod<
   GetDeploymentV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetDeploymentV1Request>,
-  output: __S(324, __c40, 4) as any as S.Schema<GetDeploymentV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(312, __c39, 0) as any as S.Schema<GetDeploymentV1Request>,
+  output: __S(316, __c39, 4) as any as S.Schema<GetDeploymentV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3573,9 +3607,10 @@ export const getErrorV1: API.OperationMethod<
   GetErrorV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetErrorV1Request>,
-  output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(320, __c40, 0) as any as S.Schema<GetErrorV1Request>,
+  output: __S(328, __c41, 0) as any as S.Schema<ErrorObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3590,9 +3625,10 @@ export const getLatestDeploymentV1: API.OperationMethod<
   GetLatestDeploymentV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<GetLatestDeploymentV1Request>,
-  output: __S(345, __c43, 1) as any as S.Schema<GetLatestDeploymentV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(336, __c42, 0) as any as S.Schema<GetLatestDeploymentV1Request>,
+  output: __S(337, __c42, 1) as any as S.Schema<GetLatestDeploymentV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3607,9 +3643,10 @@ export const getProjectEnvvarV1: API.OperationMethod<
   GetProjectEnvvarV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetProjectEnvvarV1Request>,
-  output: __S(353, __c44, 1) as any as S.Schema<EnvVarValue>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(344, __c43, 0) as any as S.Schema<GetProjectEnvvarV1Request>,
+  output: __S(345, __c43, 1) as any as S.Schema<EnvVarValue>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3624,9 +3661,10 @@ export const getQuerySchemaV1: API.OperationMethod<
   GetQuerySchemaV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<GetQuerySchemaV1Request>,
-  output: __S(365, __c45, 5) as any as S.Schema<GetQuerySchemaV1Response>,
-  errors: [UnknownTriggerDevError],
+  input: __S(352, __c44, 0) as any as S.Schema<GetQuerySchemaV1Request>,
+  output: __S(357, __c44, 5) as any as S.Schema<GetQuerySchemaV1Response>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3641,9 +3679,10 @@ export const getQueueV1: API.OperationMethod<
   GetQueueV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetQueueV1Request>,
-  output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(360, __c45, 0) as any as S.Schema<GetQueueV1Request>,
+  output: __S(369, __c46, 1) as any as S.Schema<QueueObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3658,9 +3697,10 @@ export const getRunEventsV1: API.OperationMethod<
   GetRunEventsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<GetRunEventsV1Request>,
-  output: __S(391, __c48, 7) as any as S.Schema<GetRunEventsV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(376, __c47, 0) as any as S.Schema<GetRunEventsV1Request>,
+  output: __S(383, __c47, 7) as any as S.Schema<GetRunEventsV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3675,9 +3715,10 @@ export const getRunResultV1: API.OperationMethod<
   GetRunResultV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<GetRunResultV1Request>,
-  output: __S(265, __c33, 1) as any as S.Schema<GetRunResultV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(384, __c48, 0) as any as S.Schema<GetRunResultV1Request>,
+  output: __S(257, __c32, 1) as any as S.Schema<GetRunResultV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3692,9 +3733,10 @@ export const getRunTraceV1: API.OperationMethod<
   GetRunTraceV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<GetRunTraceV1Request>,
-  output: __S(401, __c50, 1) as any as S.Schema<GetRunTraceV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(392, __c49, 0) as any as S.Schema<GetRunTraceV1Request>,
+  output: __S(393, __c49, 1) as any as S.Schema<GetRunTraceV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3709,9 +3751,10 @@ export const getRunV1: API.OperationMethod<
   GetRunV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<GetRunV1Request>,
-  output: __S(423, __c52, 7) as any as S.Schema<GetRunV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(400, __c50, 0) as any as S.Schema<GetRunV1Request>,
+  output: __S(415, __c51, 7) as any as S.Schema<GetRunV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3726,9 +3769,10 @@ export const getScheduleV1: API.OperationMethod<
   GetScheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<GetScheduleV1Request>,
-  output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(416, __c52, 0) as any as S.Schema<GetScheduleV1Request>,
+  output: __S(499, __c62, 3) as any as S.Schema<ScheduleObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3743,9 +3787,10 @@ export const getSessionV1: API.OperationMethod<
   GetSessionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<GetSessionV1Request>,
-  output: __S(80, __c10, 0) as any as S.Schema<SessionObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(424, __c53, 0) as any as S.Schema<GetSessionV1Request>,
+  output: __S(72, __c9, 0) as any as S.Schema<SessionObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3760,9 +3805,10 @@ export const getTimezonesV1: API.OperationMethod<
   GetTimezonesV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<GetTimezonesV1Request>,
-  output: __S(441, __c55, 1) as any as S.Schema<GetTimezonesResult>,
-  errors: [UnknownTriggerDevError],
+  input: __S(432, __c54, 0) as any as S.Schema<GetTimezonesV1Request>,
+  output: __S(433, __c54, 1) as any as S.Schema<GetTimezonesResult>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3777,9 +3823,10 @@ export const getWaitpointTokenV1: API.OperationMethod<
   GetWaitpointTokenV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<GetWaitpointTokenV1Request>,
-  output: __S(456, __c57, 0) as any as S.Schema<WaitpointTokenObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(440, __c55, 0) as any as S.Schema<GetWaitpointTokenV1Request>,
+  output: __S(448, __c56, 0) as any as S.Schema<WaitpointTokenObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3794,9 +3841,10 @@ export const getWebhookDeliveryV1: API.OperationMethod<
   GetWebhookDeliveryV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(465, __c58, 1) as any as S.Schema<GetWebhookDeliveryV1Request>,
-  output: __S(469, __c58, 5) as any as S.Schema<GetWebhookDeliveryV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(457, __c57, 1) as any as S.Schema<GetWebhookDeliveryV1Request>,
+  output: __S(461, __c57, 5) as any as S.Schema<GetWebhookDeliveryV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3811,9 +3859,10 @@ export const getWebhookEndpointV1: API.OperationMethod<
   GetWebhookEndpointV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<GetWebhookEndpointV1Request>,
-  output: __S(234, __c29, 2) as any as S.Schema<GetWebhookEndpointV1Response>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(472, __c59, 0) as any as S.Schema<GetWebhookEndpointV1Request>,
+  output: __S(226, __c28, 2) as any as S.Schema<GetWebhookEndpointV1Response>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3828,9 +3877,10 @@ export const ignoreErrorV1: API.OperationMethod<
   IgnoreErrorV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<IgnoreErrorV1Request>,
-  output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(504, __c63, 0) as any as S.Schema<IgnoreErrorV1Request>,
+  output: __S(328, __c41, 0) as any as S.Schema<ErrorObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3845,9 +3895,10 @@ export const listBulkActionsV1: API.OperationMethod<
   ListBulkActionsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<ListBulkActionsV1Request>,
-  output: __S(522, __c65, 2) as any as S.Schema<ListBulkActionsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(512, __c64, 0) as any as S.Schema<ListBulkActionsV1Request>,
+  output: __S(514, __c64, 2) as any as S.Schema<ListBulkActionsResult>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3862,9 +3913,10 @@ export const listConcurrencyLimitsV1: API.OperationMethod<
   ListConcurrencyLimitsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<ListConcurrencyLimitsV1Request>,
-  output: __S(546, __c68, 2) as any as S.Schema<ListConcurrencyLimitsV1Response>,
-  errors: [UnknownTriggerDevError],
+  input: __S(536, __c67, 0) as any as S.Schema<ListConcurrencyLimitsV1Request>,
+  output: __S(538, __c67, 2) as any as S.Schema<ListConcurrencyLimitsV1Response>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3879,9 +3931,10 @@ export const listDashboardsV1: API.OperationMethod<
   ListDashboardsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<ListDashboardsV1Request>,
-  output: __S(573, __c71, 5) as any as S.Schema<ListDashboardsV1Response>,
-  errors: [UnknownTriggerDevError],
+  input: __S(560, __c70, 0) as any as S.Schema<ListDashboardsV1Request>,
+  output: __S(565, __c70, 5) as any as S.Schema<ListDashboardsV1Response>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3896,9 +3949,10 @@ export const listDeploymentsV1: API.OperationMethod<
   ListDeploymentsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<ListDeploymentsV1Request>,
-  output: __S(580, __c72, 4) as any as S.Schema<ListDeploymentsV1Response>,
-  errors: [UnknownTriggerDevError],
+  input: __S(568, __c71, 0) as any as S.Schema<ListDeploymentsV1Request>,
+  output: __S(572, __c71, 4) as any as S.Schema<ListDeploymentsV1Response>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3913,9 +3967,10 @@ export const listErrorsV1: API.OperationMethod<
   ListErrorsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(585, __c73, 1) as any as S.Schema<ListErrorsV1Request>,
-  output: __S(588, __c73, 4) as any as S.Schema<ListErrorsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(577, __c72, 1) as any as S.Schema<ListErrorsV1Request>,
+  output: __S(580, __c72, 4) as any as S.Schema<ListErrorsResult>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3930,9 +3985,10 @@ export const listProjectEnvvarsV1: API.OperationMethod<
   ListProjectEnvvarsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<ListProjectEnvvarsV1Request>,
-  output: __S(601, __c75, 1) as any as S.Schema<ListProjectEnvvarsV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(592, __c74, 0) as any as S.Schema<ListProjectEnvvarsV1Request>,
+  output: __S(593, __c74, 1) as any as S.Schema<ListProjectEnvvarsV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3947,9 +4003,10 @@ export const listProjectRunsV1: API.OperationMethod<
   ListProjectRunsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(617, __c77, 1) as any as S.Schema<ListProjectRunsV1Request>,
-  output: __S(627, __c78, 3) as any as S.Schema<ListRunsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(609, __c76, 1) as any as S.Schema<ListProjectRunsV1Request>,
+  output: __S(619, __c77, 3) as any as S.Schema<ListRunsResult>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3964,9 +4021,10 @@ export const listQueuesV1: API.OperationMethod<
   ListQueuesV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<ListQueuesV1Request>,
-  output: __S(642, __c80, 2) as any as S.Schema<ListQueuesResult>,
-  errors: [UnknownTriggerDevError],
+  input: __S(632, __c79, 0) as any as S.Schema<ListQueuesV1Request>,
+  output: __S(634, __c79, 2) as any as S.Schema<ListQueuesResult>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3981,9 +4039,10 @@ export const listRunsV1: API.OperationMethod<
   ListRunsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(649, __c81, 1) as any as S.Schema<ListRunsV1Request>,
-  output: __S(627, __c78, 3) as any as S.Schema<ListRunsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(641, __c80, 1) as any as S.Schema<ListRunsV1Request>,
+  output: __S(619, __c77, 3) as any as S.Schema<ListRunsResult>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3998,9 +4057,10 @@ export const listSchedulesV1: API.OperationMethod<
   ListSchedulesV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<ListSchedulesV1Request>,
-  output: __S(674, __c84, 2) as any as S.Schema<ListSchedulesResult>,
-  errors: [UnknownTriggerDevError],
+  input: __S(664, __c83, 0) as any as S.Schema<ListSchedulesV1Request>,
+  output: __S(666, __c83, 2) as any as S.Schema<ListSchedulesResult>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4015,9 +4075,10 @@ export const listSessionsV1: API.OperationMethod<
   ListSessionsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(681, __c85, 1) as any as S.Schema<ListSessionsV1Request>,
-  output: __S(683, __c85, 3) as any as S.Schema<ListSessionsResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(673, __c84, 1) as any as S.Schema<ListSessionsV1Request>,
+  output: __S(675, __c84, 3) as any as S.Schema<ListSessionsResult>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4032,9 +4093,10 @@ export const listWaitpointTokensV1: API.OperationMethod<
   ListWaitpointTokensV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<ListWaitpointTokensV1Request>,
-  output: __S(691, __c86, 3) as any as S.Schema<ListWaitpointTokensResult>,
-  errors: [UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(680, __c85, 0) as any as S.Schema<ListWaitpointTokensV1Request>,
+  output: __S(683, __c85, 3) as any as S.Schema<ListWaitpointTokensResult>,
+  errors: [UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4049,9 +4111,10 @@ export const listWebhookDeliveriesV1: API.OperationMethod<
   ListWebhookDeliveriesV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<ListWebhookDeliveriesV1Request>,
-  output: __S(699, __c87, 3) as any as S.Schema<ListWebhookDeliveriesResult>,
-  errors: [BadRequest, UnknownTriggerDevError],
+  input: __S(688, __c86, 0) as any as S.Schema<ListWebhookDeliveriesV1Request>,
+  output: __S(691, __c86, 3) as any as S.Schema<ListWebhookDeliveriesResult>,
+  errors: [BadRequest],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4066,9 +4129,10 @@ export const listWebhookEndpointsV1: API.OperationMethod<
   ListWebhookEndpointsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<ListWebhookEndpointsV1Request>,
-  output: __S(707, __c88, 3) as any as S.Schema<ListWebhookEndpointsResult>,
-  errors: [UnknownTriggerDevError],
+  input: __S(696, __c87, 0) as any as S.Schema<ListWebhookEndpointsV1Request>,
+  output: __S(699, __c87, 3) as any as S.Schema<ListWebhookEndpointsResult>,
+  errors: [],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4083,9 +4147,10 @@ export const overrideConcurrencyLimitV1: API.OperationMethod<
   OverrideConcurrencyLimitV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<OverrideConcurrencyLimitV1Request>,
-  output: __S(713, __c89, 1) as any as S.Schema<OverrideConcurrencyLimitV1Response>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(704, __c88, 0) as any as S.Schema<OverrideConcurrencyLimitV1Request>,
+  output: __S(705, __c88, 1) as any as S.Schema<OverrideConcurrencyLimitV1Response>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4100,9 +4165,10 @@ export const overrideQueueConcurrencyV1: API.OperationMethod<
   OverrideQueueConcurrencyV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<OverrideQueueConcurrencyV1Request>,
-  output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(712, __c89, 0) as any as S.Schema<OverrideQueueConcurrencyV1Request>,
+  output: __S(369, __c46, 1) as any as S.Schema<QueueObject>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4117,9 +4183,10 @@ export const pauseConcurrencyLimitV1: API.OperationMethod<
   PauseConcurrencyLimitV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<PauseConcurrencyLimitV1Request>,
-  output: __S(561, __c70, 1) as any as S.Schema<ConcurrencyLimitObject>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(720, __c90, 0) as any as S.Schema<PauseConcurrencyLimitV1Request>,
+  output: __S(553, __c69, 1) as any as S.Schema<ConcurrencyLimitObject>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4134,9 +4201,10 @@ export const pauseQueueV1: API.OperationMethod<
   PauseQueueV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<PauseQueueV1Request>,
-  output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(728, __c91, 0) as any as S.Schema<PauseQueueV1Request>,
+  output: __S(369, __c46, 1) as any as S.Schema<QueueObject>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4151,9 +4219,10 @@ export const promoteDeploymentV1: API.OperationMethod<
   PromoteDeploymentV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<PromoteDeploymentV1Request>,
-  output: __S(745, __c93, 1) as any as S.Schema<PromoteDeploymentV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(736, __c92, 0) as any as S.Schema<PromoteDeploymentV1Request>,
+  output: __S(737, __c92, 1) as any as S.Schema<PromoteDeploymentV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4173,9 +4242,10 @@ export const replaceDashboardV1: API.OperationMethod<
   ReplaceDashboardV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<ReplaceDashboardV1Request>,
-  output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(752, __c94, 0) as any as S.Schema<ReplaceDashboardV1Request>,
+  output: __S(659, __c82, 3) as any as S.Schema<DashboardObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4190,9 +4260,10 @@ export const replayWebhookDeliveryV1: API.OperationMethod<
   ReplayWebhookDeliveryV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<ReplayWebhookDeliveryV1Request>,
-  output: __S(769, __c96, 1) as any as S.Schema<ReplayWebhookDeliveryResponse>,
-  errors: [Forbidden, NotFound, UnknownTriggerDevError],
+  input: __S(760, __c95, 0) as any as S.Schema<ReplayWebhookDeliveryV1Request>,
+  output: __S(761, __c95, 1) as any as S.Schema<ReplayWebhookDeliveryResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4207,9 +4278,10 @@ export const resetConcurrencyLimitV1: API.OperationMethod<
   ResetConcurrencyLimitV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<ResetConcurrencyLimitV1Request>,
-  output: __S(777, __c97, 1) as any as S.Schema<ResetConcurrencyLimitV1Response>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(768, __c96, 0) as any as S.Schema<ResetConcurrencyLimitV1Request>,
+  output: __S(769, __c96, 1) as any as S.Schema<ResetConcurrencyLimitV1Response>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4224,9 +4296,10 @@ export const resetQueueConcurrencyV1: API.OperationMethod<
   ResetQueueConcurrencyV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<ResetQueueConcurrencyV1Request>,
-  output: __S(377, __c47, 1) as any as S.Schema<QueueObject>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(776, __c97, 0) as any as S.Schema<ResetQueueConcurrencyV1Request>,
+  output: __S(369, __c46, 1) as any as S.Schema<QueueObject>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4241,9 +4314,10 @@ export const resolveErrorV1: API.OperationMethod<
   ResolveErrorV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<ResolveErrorV1Request>,
-  output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(784, __c98, 0) as any as S.Schema<ResolveErrorV1Request>,
+  output: __S(328, __c41, 0) as any as S.Schema<ErrorObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4258,9 +4332,10 @@ export const rotateWebhookEndpointSecretV1: API.OperationMethod<
   RotateWebhookEndpointSecretV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<RotateWebhookEndpointSecretV1Request>,
-  output: __S(801, __c100, 1) as any as S.Schema<RotateWebhookEndpointSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(792, __c99, 0) as any as S.Schema<RotateWebhookEndpointSecretV1Request>,
+  output: __S(793, __c99, 1) as any as S.Schema<RotateWebhookEndpointSecretResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4275,9 +4350,10 @@ export const runReplayV1: API.OperationMethod<
   RunReplayV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<RunReplayV1Request>,
-  output: __S(952, __c119, 0) as any as S.Schema<RunReplayV1Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownTriggerDevError],
+  input: __S(800, __c100, 0) as any as S.Schema<RunReplayV1Request>,
+  output: __S(944, __c118, 0) as any as S.Schema<RunReplayV1Response>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4292,9 +4368,10 @@ export const runRescheduleV1: API.OperationMethod<
   RunRescheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<RunRescheduleV1Request>,
-  output: __S(423, __c52, 7) as any as S.Schema<RunRescheduleV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(808, __c101, 0) as any as S.Schema<RunRescheduleV1Request>,
+  output: __S(415, __c51, 7) as any as S.Schema<RunRescheduleV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4309,9 +4386,10 @@ export const setWebhookEndpointSecretV1: API.OperationMethod<
   SetWebhookEndpointSecretV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<SetWebhookEndpointSecretV1Request>,
-  output: __S(825, __c103, 1) as any as S.Schema<SetWebhookEndpointSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(816, __c102, 0) as any as S.Schema<SetWebhookEndpointSecretV1Request>,
+  output: __S(817, __c102, 1) as any as S.Schema<SetWebhookEndpointSecretResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4326,9 +4404,10 @@ export const triggerBatchTaskByIdV1: API.OperationMethod<
   TriggerBatchTaskByIdV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(834, __c104, 2) as any as S.Schema<TriggerBatchTaskByIdV1Request>,
-  output: __S(840, __c105, 0) as any as S.Schema<BatchTriggerTaskResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(826, __c103, 2) as any as S.Schema<TriggerBatchTaskByIdV1Request>,
+  output: __S(832, __c104, 0) as any as S.Schema<BatchTriggerTaskResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4343,9 +4422,10 @@ export const triggerBatchTaskV1: API.OperationMethod<
   TriggerBatchTaskV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(866, __c108, 2) as any as S.Schema<TriggerBatchTaskV1Request>,
-  output: __S(840, __c105, 0) as any as S.Schema<BatchTriggerTaskResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(858, __c107, 2) as any as S.Schema<TriggerBatchTaskV1Request>,
+  output: __S(832, __c104, 0) as any as S.Schema<BatchTriggerTaskResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4360,9 +4440,10 @@ export const triggerTaskV1: API.OperationMethod<
   TriggerTaskV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<TriggerTaskV1Request>,
-  output: __S(952, __c119, 0) as any as S.Schema<TriggerTaskResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(864, __c108, 0) as any as S.Schema<TriggerTaskV1Request>,
+  output: __S(944, __c118, 0) as any as S.Schema<TriggerTaskResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4377,9 +4458,10 @@ export const unresolveErrorV1: API.OperationMethod<
   UnresolveErrorV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<UnresolveErrorV1Request>,
-  output: __S(336, __c42, 0) as any as S.Schema<ErrorObject>,
-  errors: [NotFound, UnknownTriggerDevError],
+  input: __S(872, __c109, 0) as any as S.Schema<UnresolveErrorV1Request>,
+  output: __S(328, __c41, 0) as any as S.Schema<ErrorObject>,
+  errors: [NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4394,9 +4476,10 @@ export const updateDashboardV1: API.OperationMethod<
   UpdateDashboardV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<UpdateDashboardV1Request>,
-  output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(880, __c110, 0) as any as S.Schema<UpdateDashboardV1Request>,
+  output: __S(659, __c82, 3) as any as S.Schema<DashboardObject>,
+  errors: [NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4411,16 +4494,17 @@ export const updateDashboardWidgetV1: API.OperationMethod<
   UpdateDashboardWidgetV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<UpdateDashboardWidgetV1Request>,
-  output: __S(667, __c83, 3) as any as S.Schema<DashboardObject>,
-  errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
+  input: __S(888, __c111, 0) as any as S.Schema<UpdateDashboardWidgetV1Request>,
+  output: __S(659, __c82, 3) as any as S.Schema<DashboardObject>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDashboardWidgetV1",
 }));
 
-export type UpdateProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
+export type UpdateProjectEnvvarV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
 /** Update environment variable Update a specific environment variable for a specific project and environment. */
 export const updateProjectEnvvarV1: API.OperationMethod<
   UpdateProjectEnvvarV1Request,
@@ -4428,9 +4512,10 @@ export const updateProjectEnvvarV1: API.OperationMethod<
   UpdateProjectEnvvarV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<UpdateProjectEnvvarV1Request>,
-  output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(896, __c112, 0) as any as S.Schema<UpdateProjectEnvvarV1Request>,
+  output: __S(88, __c11, 0) as any as S.Schema<SucceedResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4445,9 +4530,10 @@ export const updateRunMetadataV1: API.OperationMethod<
   UpdateRunMetadataV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<UpdateRunMetadataV1Request>,
-  output: __S(913, __c114, 1) as any as S.Schema<UpdateRunMetadataV1Response>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(904, __c113, 0) as any as S.Schema<UpdateRunMetadataV1Request>,
+  output: __S(905, __c113, 1) as any as S.Schema<UpdateRunMetadataV1Response>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4462,9 +4548,10 @@ export const updateScheduleV1: API.OperationMethod<
   UpdateScheduleV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<UpdateScheduleV1Request>,
-  output: __S(507, __c63, 3) as any as S.Schema<ScheduleObject>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(912, __c114, 0) as any as S.Schema<UpdateScheduleV1Request>,
+  output: __S(499, __c62, 3) as any as S.Schema<ScheduleObject>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4479,16 +4566,17 @@ export const updateSessionV1: API.OperationMethod<
   UpdateSessionV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<UpdateSessionV1Request>,
-  output: __S(80, __c10, 0) as any as S.Schema<SessionObject>,
-  errors: [NotFound, UnprocessableEntity, UnknownTriggerDevError],
+  input: __S(920, __c115, 0) as any as S.Schema<UpdateSessionV1Request>,
+  output: __S(72, __c9, 0) as any as S.Schema<SessionObject>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSessionV1",
 }));
 
-export type UploadProjectEnvvarsV1Error = BadRequest | NotFound | TriggerDevOpError;
+export type UploadProjectEnvvarsV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
 /** Upload environment variables Upload mulitple environment variables for a specific project and environment. */
 export const uploadProjectEnvvarsV1: API.OperationMethod<
   UploadProjectEnvvarsV1Request,
@@ -4496,9 +4584,10 @@ export const uploadProjectEnvvarsV1: API.OperationMethod<
   UploadProjectEnvvarsV1Error,
   TriggerDevOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<UploadProjectEnvvarsV1Request>,
-  output: __S(96, __c12, 0) as any as S.Schema<SucceedResponse>,
-  errors: [BadRequest, NotFound, UnknownTriggerDevError],
+  input: __S(928, __c116, 0) as any as S.Schema<UploadProjectEnvvarsV1Request>,
+  output: __S(88, __c11, 0) as any as S.Schema<SucceedResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TriggerDevServiceErrors,
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4509,6 +4598,12 @@ export const uploadProjectEnvvarsV1: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error403Body" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           error: S.String,
@@ -4523,47 +4618,37 @@ function __c1(j: number): any {
         S.Struct({
           error: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Error403Body" });
+      ).annotate({ identifier: "Error400Body3" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Error400Body3" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           code: S.String,
           message: S.String,
-          path: S.optional(__S(24, __c3, 0)),
+          path: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ErrorWithDetailsResponseDetailsItem" });
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           error: S.String,
-          details: S.optional(__S(33, __c4, 1)),
+          details: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "ErrorWithDetailsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -4571,13 +4656,13 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           error: S.optional(S.String),
-          issues: S.optional(__S(40, __c5, 0)),
-          variableErrors: S.optional(__S(40, __c5, 0)),
+          issues: S.optional(__S(32, __c4, 0)),
+          variableErrors: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "InvalidEnvVarsRequestResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4597,7 +4682,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CancelWebhookWaiterResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4608,21 +4693,21 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CloseSessionV1Request" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          basePayload: __S(64, __c8, 0),
+          basePayload: __S(56, __c7, 0),
           machine: S.optional(S.String),
           queue: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(16, __c2, 0)),
           maxAttempts: S.optional(S.Number),
           maxDuration: S.optional(S.Number),
           lockToVersion: S.optional(S.String),
@@ -4632,7 +4717,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SessionTriggerConfig" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4641,10 +4726,10 @@ function __c10(j: number): any {
           externalId: S.optional(S.NullOr(S.String)),
           type: S.String,
           taskIdentifier: S.String,
-          triggerConfig: S.optional(__S(72, __c9, 0)),
+          triggerConfig: S.optional(__S(64, __c8, 0)),
           currentRunId: S.optional(S.NullOr(S.String)),
-          tags: __S(24, __c3, 0),
-          metadata: S.optional(S.NullOr(__S(64, __c8, 0))),
+          tags: __S(16, __c2, 0),
+          metadata: S.optional(S.NullOr(__S(56, __c7, 0))),
           closedAt: S.optional(S.NullOr(S.String)),
           closedReason: S.optional(S.NullOr(S.String)),
           expiresAt: S.optional(S.NullOr(S.String)),
@@ -4654,7 +4739,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SessionObject" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4671,7 +4756,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CompleteWaitpointTokenCallbackV1Request" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4681,7 +4766,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CompleteWaitpointTokenResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4698,7 +4783,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CompleteWaitpointTokenV1Request" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4708,25 +4793,25 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateBulkActionV1Request" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateBulkActionV1Response" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
           description: S.optional(S.String),
-          widgets: S.optional(__S(137, __c17, 1)),
+          widgets: S.optional(__S(129, __c16, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/query/dashboards", code: 200 })),
       ).annotate({ identifier: "CreateDashboardV1Request" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4736,14 +4821,14 @@ function __c17(j: number): any {
           query: S.optional(S.String),
           display: S.Unknown,
           fillGaps: S.optional(S.Boolean),
-          position: S.optional(__S(664, __c83, 0)),
+          position: S.optional(__S(656, __c82, 0)),
         }),
       ).annotate({ identifier: "DashboardWidgetInput" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(128, __c16, 0));
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4758,7 +4843,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateProjectEnvvarV1Request" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4772,17 +4857,17 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateScheduleV1Request" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           taskIdentifier: S.String,
-          triggerConfig: __S(72, __c9, 0),
+          triggerConfig: __S(64, __c8, 0),
           externalId: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
-          metadata: S.optional(__S(64, __c8, 0)),
+          tags: S.optional(__S(16, __c2, 0)),
+          metadata: S.optional(__S(56, __c7, 0)),
           expiresAt: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/sessions", code: 200 })),
       ).annotate({ identifier: "CreateSessionV1Request" });
@@ -4793,10 +4878,10 @@ function __c20(j: number): any {
           externalId: S.optional(S.NullOr(S.String)),
           type: S.String,
           taskIdentifier: S.String,
-          triggerConfig: S.optional(__S(72, __c9, 0)),
+          triggerConfig: S.optional(__S(64, __c8, 0)),
           currentRunId: S.optional(S.NullOr(S.String)),
-          tags: __S(24, __c3, 0),
-          metadata: S.optional(S.NullOr(__S(64, __c8, 0))),
+          tags: __S(16, __c2, 0),
+          metadata: S.optional(S.NullOr(__S(56, __c7, 0))),
           closedAt: S.optional(S.NullOr(S.String)),
           closedReason: S.optional(S.NullOr(S.String)),
           expiresAt: S.optional(S.NullOr(S.String)),
@@ -4809,7 +4894,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateSessionV1Response" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4830,7 +4915,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateWaitpointTokenResponse" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -4838,7 +4923,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpointId: S.String.pipe(T.Label()),
-          match: S.optional(__S(176, __c22, 0)),
+          match: S.optional(__S(168, __c21, 0)),
           filter: S.optional(S.String),
           timeout: S.optional(S.String),
           tags: S.optional(S.Unknown),
@@ -4863,7 +4948,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateWebhookWaiterResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4875,7 +4960,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeactivateScheduleV1Request" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4887,7 +4972,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteDashboardV1Request" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4905,7 +4990,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteDashboardWidgetV1Request" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4923,7 +5008,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectEnvvarV1Request" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4933,7 +5018,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteScheduleV1Request" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4949,7 +5034,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DisableWebhookEndpointV1Request" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4961,7 +5046,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "DisableWebhookEndpointV1ResponseSubscribersItem" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4976,13 +5061,13 @@ function __c29(j: number): any {
           url: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          subscribers: __S(233, __c29, 1),
+          subscribers: __S(225, __c28, 1),
           setupPrompt: S.String,
         }),
       ).annotate({ identifier: "DisableWebhookEndpointV1Response" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4998,7 +5083,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "EnableWebhookEndpointV1Request" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5017,7 +5102,7 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5026,17 +5111,17 @@ function __c32(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/batches/{batchId}/results", code: 200 })),
       ).annotate({ identifier: "GetBatchResultsV1Request" });
     case 1:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(257, __c32, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          items: S.optional(__S(257, __c32, 1)),
+          items: S.optional(__S(249, __c31, 1)),
         }),
       ).annotate({ identifier: "GetBatchResultsV1Response" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5052,13 +5137,13 @@ function __c33(j: number): any {
           output: S.optional(S.String),
           outputType: S.optional(S.String),
           error: S.optional(S.Unknown),
-          usage: S.optional(__S(264, __c33, 0)),
+          usage: S.optional(__S(256, __c32, 0)),
           taskIdentifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBatchResultsV1ResponseItemsItem" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5070,7 +5155,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "WebhookWaiterErrorResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5088,7 +5173,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "GetBatchV1ResponseErrorsItem" });
     case 2:
-      return S.Array(__S(281, __c35, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5098,15 +5183,15 @@ function __c35(j: number): any {
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
           runCount: S.optional(S.Number),
-          runs: S.optional(__S(24, __c3, 0)),
+          runs: S.optional(__S(16, __c2, 0)),
           successfulRunCount: S.optional(S.NullOr(S.Number)),
           failedRunCount: S.optional(S.NullOr(S.Number)),
-          errors: S.optional(S.NullOr(__S(282, __c35, 2))),
+          errors: S.optional(S.NullOr(__S(274, __c34, 2))),
         }),
       ).annotate({ identifier: "GetBatchV1Response" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5116,7 +5201,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetBulkActionV1Request" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5133,14 +5218,14 @@ function __c37(j: number): any {
           name: S.optional(S.String),
           type: S.String,
           status: S.String,
-          counts: __S(296, __c37, 0),
+          counts: __S(288, __c36, 0),
           createdAt: S.String,
           completedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "BulkActionObject" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5155,7 +5240,7 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5167,7 +5252,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetDashboardV1Request" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5185,13 +5270,13 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "GetDeploymentV1ResponseWorkerTasksItem" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(313, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           version: S.optional(S.String),
-          tasks: S.optional(__S(322, __c40, 2)),
+          tasks: S.optional(__S(314, __c39, 2)),
         }),
       ).annotate({ identifier: "GetDeploymentV1ResponseWorker" });
     case 4:
@@ -5207,12 +5292,12 @@ function __c40(j: number): any {
           externalId: S.optional(S.String),
           externalBuildData: S.optional(S.NullOr(S.Unknown)),
           errorData: S.optional(S.NullOr(S.Unknown)),
-          worker: S.optional(S.NullOr(__S(323, __c40, 3))),
+          worker: S.optional(S.NullOr(__S(315, __c39, 3))),
         }),
       ).annotate({ identifier: "GetDeploymentV1Response" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5222,7 +5307,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetErrorV1Request" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,7 +5320,7 @@ function __c42(j: number): any {
           count: S.Number,
           firstSeen: S.String,
           lastSeen: S.String,
-          affectedVersions: __S(24, __c3, 0),
+          affectedVersions: __S(16, __c2, 0),
           status: S.String,
           resolvedAt: S.optional(S.NullOr(S.String)),
           resolvedInVersion: S.optional(S.NullOr(S.String)),
@@ -5250,7 +5335,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ErrorObject" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5270,7 +5355,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetLatestDeploymentV1Response" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5294,7 +5379,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "EnvVarValue" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5307,32 +5392,32 @@ function __c45(j: number): any {
           type: S.optional(S.String),
           description: S.optional(S.String),
           example: S.optional(S.String),
-          allowedValues: S.optional(__S(24, __c3, 0)),
+          allowedValues: S.optional(__S(16, __c2, 0)),
           coreColumn: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetQuerySchemaV1ResponseTablesItemColumnsItem" });
     case 2:
-      return S.Array(__S(361, __c45, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           description: S.optional(S.String),
           timeColumn: S.optional(S.String),
-          columns: S.optional(__S(362, __c45, 2)),
+          columns: S.optional(__S(354, __c44, 2)),
         }),
       ).annotate({ identifier: "GetQuerySchemaV1ResponseTablesItem" });
     case 4:
-      return S.Array(__S(363, __c45, 3));
+      return S.Array(__S(355, __c44, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(364, __c45, 4)),
+          tables: S.optional(__S(356, __c44, 4)),
         }),
       ).annotate({ identifier: "GetQuerySchemaV1Response" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5343,7 +5428,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetQueueV1Request" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5366,12 +5451,12 @@ function __c47(j: number): any {
           queued: S.Number,
           paused: S.Boolean,
           concurrencyLimit: S.optional(S.NullOr(S.Number)),
-          concurrency: S.optional(__S(376, __c47, 0)),
+          concurrency: S.optional(__S(368, __c46, 0)),
         }),
       ).annotate({ identifier: "QueueObject" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5388,7 +5473,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "GetRunEventsV1ResponseEventsItemEventsItem" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(377, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5401,7 +5486,7 @@ function __c48(j: number): any {
         S.Struct({
           icon: S.optional(S.String),
           variant: S.optional(S.String),
-          accessory: S.optional(__S(387, __c48, 3)),
+          accessory: S.optional(__S(379, __c47, 3)),
         }),
       ).annotate({ identifier: "GetRunEventsV1ResponseEventsItemStyle" });
     case 5:
@@ -5420,21 +5505,21 @@ function __c48(j: number): any {
           kind: S.optional(S.String),
           attemptNumber: S.optional(S.NullOr(S.Number)),
           taskSlug: S.optional(S.String),
-          events: S.optional(__S(386, __c48, 2)),
-          style: S.optional(__S(388, __c48, 4)),
+          events: S.optional(__S(378, __c47, 2)),
+          style: S.optional(__S(380, __c47, 4)),
         }),
       ).annotate({ identifier: "GetRunEventsV1ResponseEventsItem" });
     case 6:
-      return S.Array(__S(389, __c48, 5));
+      return S.Array(__S(381, __c47, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(390, __c48, 6)),
+          events: S.optional(__S(382, __c47, 6)),
         }),
       ).annotate({ identifier: "GetRunEventsV1Response" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5444,7 +5529,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetRunResultV1Request" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5460,7 +5545,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5470,7 +5555,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetRunV1Request" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5488,7 +5573,7 @@ function __c52(j: number): any {
           delayedUntil: S.optional(S.String),
           ttl: S.optional(S.Unknown),
           expiredAt: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(16, __c2, 0)),
           metadata: S.optional(S.Unknown),
           costInCents: S.optional(S.Number),
           baseCostInCents: S.optional(S.Number),
@@ -5499,13 +5584,13 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "CommonRunObject" });
     case 1:
-      return S.Array(__S(416, __c52, 0));
+      return S.Array(__S(408, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          root: S.optional(__S(416, __c52, 0)),
-          parent: S.optional(__S(416, __c52, 0)),
-          children: S.optional(__S(417, __c52, 1)),
+          root: S.optional(__S(408, __c51, 0)),
+          parent: S.optional(__S(408, __c51, 0)),
+          children: S.optional(__S(409, __c51, 1)),
         }),
       ).annotate({ identifier: "GetRunV1ResponseRelatedRuns" });
     case 3:
@@ -5514,7 +5599,7 @@ function __c52(j: number): any {
           id: S.String,
           externalId: S.optional(S.String),
           deduplicationKey: S.optional(S.String),
-          generator: __S(496, __c62, 0),
+          generator: __S(488, __c61, 0),
         }),
       ).annotate({ identifier: "GetRunV1ResponseSchedule" });
     case 4:
@@ -5530,7 +5615,7 @@ function __c52(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
-          error: S.optional(__S(420, __c52, 4)),
+          error: S.optional(__S(412, __c51, 4)),
           createdAt: S.String,
           updatedAt: S.String,
           startedAt: S.optional(S.String),
@@ -5538,7 +5623,7 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "GetRunV1ResponseAttemptsItem" });
     case 6:
-      return S.Array(__S(421, __c52, 5));
+      return S.Array(__S(413, __c51, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -5555,7 +5640,7 @@ function __c52(j: number): any {
           delayedUntil: S.optional(S.String),
           ttl: S.optional(S.Unknown),
           expiredAt: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(16, __c2, 0)),
           metadata: S.optional(S.Unknown),
           costInCents: S.optional(S.Number),
           baseCostInCents: S.optional(S.Number),
@@ -5567,14 +5652,14 @@ function __c52(j: number): any {
           payloadPresignedUrl: S.optional(S.String),
           output: S.optional(S.Unknown),
           outputPresignedUrl: S.optional(S.String),
-          relatedRuns: S.optional(__S(418, __c52, 2)),
-          schedule: S.optional(__S(419, __c52, 3)),
-          attempts: __S(422, __c52, 6),
+          relatedRuns: S.optional(__S(410, __c51, 2)),
+          schedule: S.optional(__S(411, __c51, 3)),
+          attempts: __S(414, __c51, 6),
         }),
       ).annotate({ identifier: "GetRunV1Response" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5584,7 +5669,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetScheduleV1Request" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5594,7 +5679,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetSessionV1Request" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5605,12 +5690,12 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timezones: S.optional(__S(24, __c3, 0)),
+          timezones: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "GetTimezonesResult" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5622,7 +5707,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetWaitpointTokenV1Request" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5637,13 +5722,13 @@ function __c57(j: number): any {
           output: S.optional(S.NullOr(S.String)),
           outputType: S.optional(S.NullOr(S.String)),
           outputIsError: S.optional(S.NullOr(S.Boolean)),
-          tags: __S(24, __c3, 0),
+          tags: __S(16, __c2, 0),
           createdAt: S.String,
         }),
       ).annotate({ identifier: "WaitpointTokenObject" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -5673,16 +5758,16 @@ function __c58(j: number): any {
           error: S.NullOr(S.String),
           runId: S.NullOr(S.String),
           sessionId: S.NullOr(S.String),
-          waiters: S.NullOr(__S(466, __c58, 2)),
+          waiters: S.NullOr(__S(458, __c57, 2)),
         }),
       ).annotate({ identifier: "WebhookDeliveryTarget" });
     case 4:
-      return S.Array(__S(467, __c58, 3));
+      return S.Array(__S(459, __c57, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          endpoint: S.NullOr(__S(472, __c59, 0)),
+          endpoint: S.NullOr(__S(464, __c58, 0)),
           status: S.String,
           externalDeliveryId: S.String,
           isTest: S.Boolean,
@@ -5690,17 +5775,17 @@ function __c58(j: number): any {
           processedAt: S.NullOr(S.String),
           idempotencyKey: S.String,
           event: S.Unknown,
-          headers: S.NullOr(__S(464, __c58, 0)),
+          headers: S.NullOr(__S(456, __c57, 0)),
           rawBodyHash: S.NullOr(S.String),
           error: S.NullOr(S.String),
           filterReason: S.NullOr(S.String),
-          targets: __S(468, __c58, 4),
+          targets: __S(460, __c57, 4),
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "GetWebhookDeliveryV1Response" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5711,7 +5796,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetWebhookDeliveryV1ResponseEndpoint" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5723,7 +5808,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetWebhookEndpointV1Request" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5735,7 +5820,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ActivateScheduleV1Request" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5747,7 +5832,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ScheduleObjectGenerator" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5765,7 +5850,7 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "ScheduleEnvironment" });
     case 2:
-      return S.Array(__S(505, __c63, 1));
+      return S.Array(__S(497, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5775,16 +5860,16 @@ function __c63(j: number): any {
           active: S.optional(S.Boolean),
           deduplicationKey: S.optional(S.String),
           externalId: S.optional(S.String),
-          generator: S.optional(__S(496, __c62, 0)),
+          generator: S.optional(__S(488, __c61, 0)),
           timezone: S.optional(S.String),
           nextRun: S.optional(S.String),
-          appliedSchedulePolicy: S.optional(__S(504, __c63, 0)),
-          environments: S.optional(__S(506, __c63, 2)),
+          appliedSchedulePolicy: S.optional(__S(496, __c62, 0)),
+          environments: S.optional(__S(498, __c62, 2)),
         }),
       ).annotate({ identifier: "ScheduleObject" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5798,26 +5883,26 @@ function __c64(j: number): any {
       ).annotate({ identifier: "IgnoreErrorV1Request" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(528, __c66, 0).pipe(T.Query())),
+          page: S.optional(__S(520, __c65, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/bulk-actions", code: 200 })),
       ).annotate({ identifier: "ListBulkActionsV1Request" });
     case 1:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(289, __c36, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(521, __c65, 1),
-          pagination: __S(536, __c67, 0),
+          data: __S(513, __c64, 1),
+          pagination: __S(528, __c66, 0),
         }),
       ).annotate({ identifier: "ListBulkActionsResult" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5829,7 +5914,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ListBulkActionsV1RequestPage" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5840,7 +5925,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "ListBulkActionsResultPagination" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5850,17 +5935,17 @@ function __c68(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/concurrency-limits", code: 200 })),
       ).annotate({ identifier: "ListConcurrencyLimitsV1Request" });
     case 1:
-      return S.Array(__S(561, __c70, 1));
+      return S.Array(__S(553, __c69, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(545, __c68, 1)),
-          pagination: S.optional(__S(552, __c69, 0)),
+          data: S.optional(__S(537, __c67, 1)),
+          pagination: S.optional(__S(544, __c68, 0)),
         }),
       ).annotate({ identifier: "ListConcurrencyLimitsV1Response" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5872,7 +5957,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ListConcurrencyLimitsV1ResponsePagination" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5888,8 +5973,8 @@ function __c70(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          perKey: __S(560, __c70, 0),
-          total: __S(560, __c70, 0),
+          perKey: __S(552, __c69, 0),
+          total: __S(552, __c69, 0),
           running: S.Number,
           queued: S.Number,
           paused: S.optional(S.Boolean),
@@ -5897,7 +5982,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ConcurrencyLimitObject" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5913,7 +5998,7 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "ListDashboardsV1ResponseDashboardsItemWidgetsItem" });
     case 2:
-      return S.Array(__S(569, __c71, 1));
+      return S.Array(__S(561, __c70, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5921,20 +6006,20 @@ function __c71(j: number): any {
           title: S.optional(S.String),
           type: S.optional(S.String),
           description: S.optional(S.String),
-          widgets: S.optional(__S(570, __c71, 2)),
+          widgets: S.optional(__S(562, __c70, 2)),
         }),
       ).annotate({ identifier: "ListDashboardsV1ResponseDashboardsItem" });
     case 4:
-      return S.Array(__S(571, __c71, 3));
+      return S.Array(__S(563, __c70, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dashboards: S.optional(__S(572, __c71, 4)),
+          dashboards: S.optional(__S(564, __c70, 4)),
         }),
       ).annotate({ identifier: "ListDashboardsV1Response" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5964,7 +6049,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "ListDeploymentsV1ResponseDataItem" });
     case 2:
-      return S.Array(__S(577, __c72, 1));
+      return S.Array(__S(569, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5974,20 +6059,20 @@ function __c72(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(578, __c72, 2)),
-          pagination: S.optional(__S(579, __c72, 3)),
+          data: S.optional(__S(570, __c71, 2)),
+          pagination: S.optional(__S(571, __c71, 3)),
         }),
       ).annotate({ identifier: "ListDeploymentsV1Response" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskIdentifier: S.optional(__S(24, __c3, 0)),
-          version: S.optional(__S(24, __c3, 0)),
-          status: S.optional(__S(592, __c74, 0)),
+          taskIdentifier: S.optional(__S(16, __c2, 0)),
+          version: S.optional(__S(16, __c2, 0)),
+          status: S.optional(__S(584, __c73, 0)),
           search: S.optional(S.String),
           from: S.optional(S.String),
           to: S.optional(S.String),
@@ -5997,8 +6082,8 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(528, __c66, 0).pipe(T.Query())),
-          filter: S.optional(__S(584, __c73, 0).pipe(T.Query())),
+          page: S.optional(__S(520, __c65, 0).pipe(T.Query())),
+          filter: S.optional(__S(576, __c72, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/errors", code: 200 })),
       ).annotate({ identifier: "ListErrorsV1Request" });
     case 2:
@@ -6018,23 +6103,23 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "ErrorListItem" });
     case 3:
-      return S.Array(__S(586, __c73, 2));
+      return S.Array(__S(578, __c72, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(587, __c73, 3)),
-          pagination: S.optional(__S(536, __c67, 0)),
+          data: S.optional(__S(579, __c72, 3)),
+          pagination: S.optional(__S(528, __c66, 0)),
         }),
       ).annotate({ identifier: "ListErrorsResult" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6046,12 +6131,12 @@ function __c75(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectEnvvarsV1Request" });
     case 1:
-      return S.suspend(() => __S(609, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(601, __c75, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectEnvvarsV1Response",
       });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6061,37 +6146,37 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "EnvVar" });
     case 1:
-      return S.Array(__S(608, __c76, 0));
+      return S.Array(__S(600, __c75, 0));
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(__S(632, __c79, 0)),
-          status: S.optional(__S(592, __c74, 0)),
-          taskIdentifier: S.optional(__S(24, __c3, 0)),
-          version: S.optional(__S(24, __c3, 0)),
+          createdAt: S.optional(__S(624, __c78, 0)),
+          status: S.optional(__S(584, __c73, 0)),
+          taskIdentifier: S.optional(__S(16, __c2, 0)),
+          version: S.optional(__S(16, __c2, 0)),
           bulkAction: S.optional(S.String),
           schedule: S.optional(S.String),
           isTest: S.optional(S.Boolean),
-          tag: S.optional(__S(24, __c3, 0)),
+          tag: S.optional(__S(16, __c2, 0)),
           error: S.optional(S.String),
-          env: S.optional(__S(592, __c74, 0)),
+          env: S.optional(__S(584, __c73, 0)),
         }),
       ).annotate({ identifier: "ListProjectRunsV1RequestFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           projectRef: S.String.pipe(T.Label()),
-          page: S.optional(__S(528, __c66, 0).pipe(T.Query())),
-          filter: S.optional(__S(616, __c77, 0).pipe(T.Query())),
+          page: S.optional(__S(520, __c65, 0).pipe(T.Query())),
+          filter: S.optional(__S(608, __c76, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{projectRef}/runs", code: 200 })),
       ).annotate({ identifier: "ListProjectRunsV1Request" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6108,7 +6193,7 @@ function __c78(j: number): any {
           status: S.String,
           taskIdentifier: S.String,
           version: S.optional(S.String),
-          env: __S(624, __c78, 0),
+          env: __S(616, __c77, 0),
           idempotencyKey: S.optional(S.String),
           isTest: S.Boolean,
           createdAt: S.String,
@@ -6118,24 +6203,24 @@ function __c78(j: number): any {
           delayedUntil: S.optional(S.String),
           ttl: S.optional(S.Unknown),
           expiredAt: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
+          tags: S.optional(__S(16, __c2, 0)),
           costInCents: S.optional(S.Number),
           baseCostInCents: S.optional(S.Number),
           durationMs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListRunItem" });
     case 2:
-      return S.Array(__S(625, __c78, 1));
+      return S.Array(__S(617, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(626, __c78, 2)),
-          pagination: S.optional(__S(536, __c67, 0)),
+          data: S.optional(__S(618, __c77, 2)),
+          pagination: S.optional(__S(528, __c66, 0)),
         }),
       ).annotate({ identifier: "ListRunsResult" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6147,7 +6232,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ListProjectRunsV1RequestFilterCreatedAt" });
   }
 }
-function __c80(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6157,42 +6242,42 @@ function __c80(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/queues", code: 200 })),
       ).annotate({ identifier: "ListQueuesV1Request" });
     case 1:
-      return S.Array(__S(377, __c47, 1));
+      return S.Array(__S(369, __c46, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(641, __c80, 1),
-          pagination: __S(552, __c69, 0),
+          data: __S(633, __c79, 1),
+          pagination: __S(544, __c68, 0),
         }),
       ).annotate({ identifier: "ListQueuesResult" });
   }
 }
-function __c81(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(__S(632, __c79, 0)),
-          status: S.optional(__S(592, __c74, 0)),
-          taskIdentifier: S.optional(__S(24, __c3, 0)),
-          version: S.optional(__S(24, __c3, 0)),
+          createdAt: S.optional(__S(624, __c78, 0)),
+          status: S.optional(__S(584, __c73, 0)),
+          taskIdentifier: S.optional(__S(16, __c2, 0)),
+          version: S.optional(__S(16, __c2, 0)),
           bulkAction: S.optional(S.String),
           schedule: S.optional(S.String),
           isTest: S.optional(S.Boolean),
-          tag: S.optional(__S(24, __c3, 0)),
+          tag: S.optional(__S(16, __c2, 0)),
           error: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommonRunsFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(528, __c66, 0).pipe(T.Query())),
-          filter: S.optional(__S(648, __c81, 0).pipe(T.Query())),
+          page: S.optional(__S(520, __c65, 0).pipe(T.Query())),
+          filter: S.optional(__S(640, __c80, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/runs", code: 200 })),
       ).annotate({ identifier: "ListRunsV1Request" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6203,7 +6288,7 @@ function __c82(j: number): any {
           query: S.optional(S.String),
           display: S.Unknown,
           fillGaps: S.optional(S.Boolean),
-          position: S.optional(__S(664, __c83, 0)),
+          position: S.optional(__S(656, __c82, 0)),
           revision: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -6217,12 +6302,12 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           widgetId: S.optional(S.String),
-          dashboard: S.optional(__S(667, __c83, 3)),
+          dashboard: S.optional(__S(659, __c82, 3)),
         }),
       ).annotate({ identifier: "AddDashboardWidgetV1Response" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6241,11 +6326,11 @@ function __c83(j: number): any {
           query: S.optional(S.String),
           display: S.optional(S.Unknown),
           fillGaps: S.optional(S.Boolean),
-          position: S.optional(__S(664, __c83, 0)),
+          position: S.optional(__S(656, __c82, 0)),
         }),
       ).annotate({ identifier: "DashboardObjectWidgetsItem" });
     case 2:
-      return S.Array(__S(665, __c83, 1));
+      return S.Array(__S(657, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6255,12 +6340,12 @@ function __c83(j: number): any {
           revision: S.optional(S.String),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          widgets: S.optional(__S(666, __c83, 2)),
+          widgets: S.optional(__S(658, __c82, 2)),
         }),
       ).annotate({ identifier: "DashboardObject" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6270,48 +6355,48 @@ function __c84(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/schedules", code: 200 })),
       ).annotate({ identifier: "ListSchedulesV1Request" });
     case 1:
-      return S.Array(__S(507, __c63, 3));
+      return S.Array(__S(499, __c62, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(673, __c84, 1)),
-          pagination: S.optional(__S(552, __c69, 0)),
+          data: S.optional(__S(665, __c83, 1)),
+          pagination: S.optional(__S(544, __c68, 0)),
         }),
       ).annotate({ identifier: "ListSchedulesResult" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(24, __c3, 0)),
-          tags: S.optional(__S(24, __c3, 0)),
-          taskIdentifier: S.optional(__S(24, __c3, 0)),
+          type: S.optional(__S(16, __c2, 0)),
+          tags: S.optional(__S(16, __c2, 0)),
+          taskIdentifier: S.optional(__S(16, __c2, 0)),
           externalId: S.optional(S.String),
-          status: S.optional(__S(592, __c74, 0)),
-          createdAt: S.optional(__S(632, __c79, 0)),
+          status: S.optional(__S(584, __c73, 0)),
+          createdAt: S.optional(__S(624, __c78, 0)),
         }),
       ).annotate({ identifier: "SessionsFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(528, __c66, 0).pipe(T.Query())),
-          filter: S.optional(__S(680, __c85, 0).pipe(T.Query())),
+          page: S.optional(__S(520, __c65, 0).pipe(T.Query())),
+          filter: S.optional(__S(672, __c84, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions", code: 200 })),
       ).annotate({ identifier: "ListSessionsV1Request" });
     case 2:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(72, __c9, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(682, __c85, 2)),
-          pagination: S.optional(__S(536, __c67, 0)),
+          data: S.optional(__S(674, __c84, 2)),
+          pagination: S.optional(__S(528, __c66, 0)),
         }),
       ).annotate({ identifier: "ListSessionsResult" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6330,7 +6415,7 @@ function __c86(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/waitpoints/tokens", code: 200 })),
       ).annotate({ identifier: "ListWaitpointTokensV1Request" });
     case 1:
-      return S.Array(__S(456, __c57, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6341,13 +6426,13 @@ function __c86(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(689, __c86, 1),
-          pagination: __S(690, __c86, 2),
+          data: __S(681, __c85, 1),
+          pagination: __S(682, __c85, 2),
         }),
       ).annotate({ identifier: "ListWaitpointTokensResult" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6366,7 +6451,7 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          endpoint: S.NullOr(__S(472, __c59, 0)),
+          endpoint: S.NullOr(__S(464, __c58, 0)),
           status: S.String,
           externalDeliveryId: S.String,
           isTest: S.Boolean,
@@ -6375,17 +6460,17 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "WebhookDeliveryListItem" });
     case 2:
-      return S.Array(__S(697, __c87, 1));
+      return S.Array(__S(689, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(698, __c87, 2),
-          pagination: __S(536, __c67, 0),
+          data: __S(690, __c86, 2),
+          pagination: __S(528, __c66, 0),
         }),
       ).annotate({ identifier: "ListWebhookDeliveriesResult" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6410,16 +6495,16 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "WebhookEndpointObject" });
     case 2:
-      return S.Array(__S(705, __c88, 1));
+      return S.Array(__S(697, __c87, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(706, __c88, 2),
+          data: __S(698, __c87, 2),
         }),
       ).annotate({ identifier: "ListWebhookEndpointsResult" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6436,7 +6521,7 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6454,7 +6539,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "OverrideQueueConcurrencyV1Request" });
   }
 }
-function __c91(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6467,7 +6552,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "PauseConcurrencyLimitV1Request" });
   }
 }
-function __c92(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6479,7 +6564,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "PauseQueueV1Request" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6499,7 +6584,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "PromoteDeploymentV1Response" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6516,7 +6601,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "AddRunTagsV1Response" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6524,7 +6609,7 @@ function __c95(j: number): any {
           dashboardId: S.String.pipe(T.Label()),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          widgets: __S(137, __c17, 1),
+          widgets: __S(129, __c16, 1),
           revision: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/query/dashboards/{dashboardId}", code: 200 }),
@@ -6532,7 +6617,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ReplaceDashboardV1Request" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6556,7 +6641,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ReplayWebhookDeliveryResponse" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6573,7 +6658,7 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6590,7 +6675,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ResetQueueConcurrencyV1Request" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6601,7 +6686,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ResolveErrorV1Request" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6627,7 +6712,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "RotateWebhookEndpointSecretResponse" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6635,7 +6720,7 @@ function __c101(j: number): any {
           runId: S.String.pipe(T.Label()),
           payload: S.optional(S.Unknown),
           payloadType: S.optional(S.String),
-          metadata: S.optional(__S(64, __c8, 0)),
+          metadata: S.optional(__S(56, __c7, 0)),
           tags: S.optional(S.Unknown),
           queue: S.optional(S.String),
           concurrencyKey: S.optional(S.String),
@@ -6653,7 +6738,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "RunReplayV1Request" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6664,7 +6749,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "RunRescheduleV1Request" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6690,39 +6775,39 @@ function __c103(j: number): any {
       ).annotate({ identifier: "SetWebhookEndpointSecretResponse" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           payload: S.optional(S.Unknown),
           context: S.optional(S.Unknown),
-          options: S.optional(__S(849, __c106, 1)),
+          options: S.optional(__S(841, __c105, 1)),
         }),
       ).annotate({ identifier: "TriggerTaskRequestBody" });
     case 1:
-      return S.Array(__S(832, __c104, 0));
+      return S.Array(__S(824, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           taskIdentifier: S.String.pipe(T.Label()),
-          items: __S(833, __c104, 1),
+          items: __S(825, __c103, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/tasks/{taskIdentifier}/batch", code: 200 })),
       ).annotate({ identifier: "TriggerBatchTaskByIdV1Request" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           batchId: S.String,
-          runs: __S(24, __c3, 0),
+          runs: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "BatchTriggerTaskResponse" });
   }
 }
-function __c106(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6734,7 +6819,7 @@ function __c106(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          queue: S.optional(__S(848, __c106, 0)),
+          queue: S.optional(__S(840, __c105, 0)),
           concurrencyKey: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           ttl: S.optional(S.Unknown),
@@ -6745,7 +6830,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "TriggerTaskRequestBodyOptions" });
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6763,28 +6848,28 @@ function __c107(j: number): any {
       ).annotate({ identifier: "AbortBulkActionResponse" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           payload: S.optional(S.Unknown),
           context: S.optional(S.Unknown),
-          options: S.optional(__S(849, __c106, 1)),
+          options: S.optional(__S(841, __c105, 1)),
           task: S.String,
         }),
       ).annotate({ identifier: "BatchTriggerTaskRequestBodyItem" });
     case 1:
-      return S.Array(__S(864, __c108, 0));
+      return S.Array(__S(856, __c107, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(865, __c108, 1),
+          items: __S(857, __c107, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/tasks/batch", code: 200 })),
       ).annotate({ identifier: "TriggerBatchTaskV1Request" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6792,14 +6877,14 @@ function __c109(j: number): any {
           taskIdentifier: S.String.pipe(T.Label()),
           payload: S.optional(S.Unknown),
           context: S.optional(S.Unknown),
-          options: S.optional(__S(849, __c106, 1)),
+          options: S.optional(__S(841, __c105, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/tasks/{taskIdentifier}/trigger", code: 200 }),
         ),
       ).annotate({ identifier: "TriggerTaskV1Request" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6809,7 +6894,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UnresolveErrorV1Request" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6824,7 +6909,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateDashboardV1Request" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6835,7 +6920,7 @@ function __c112(j: number): any {
           query: S.optional(S.String),
           display: S.optional(S.Unknown),
           fillGaps: S.optional(S.Boolean),
-          position: S.optional(__S(664, __c83, 0)),
+          position: S.optional(__S(656, __c82, 0)),
           revision: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -6847,7 +6932,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateDashboardWidgetV1Request" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6866,7 +6951,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateProjectEnvvarV1Request" });
   }
 }
-function __c114(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6883,7 +6968,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateRunMetadataV1Response" });
   }
 }
-function __c115(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6897,27 +6982,27 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateScheduleV1Request" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           session: S.String.pipe(T.Label()),
-          tags: S.optional(__S(24, __c3, 0)),
-          metadata: S.optional(S.NullOr(__S(64, __c8, 0))),
+          tags: S.optional(__S(16, __c2, 0)),
+          metadata: S.optional(S.NullOr(__S(56, __c7, 0))),
           externalId: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/sessions/{session}", code: 200 })),
       ).annotate({ identifier: "UpdateSessionV1Request" });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectRef: S.String.pipe(T.Label()),
           env: S.String.pipe(T.Label()),
-          variables: __S(609, __c76, 1),
+          variables: __S(601, __c75, 1),
           override: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -6929,7 +7014,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UploadProjectEnvvarsV1Request" });
   }
 }
-function __c118(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6939,7 +7024,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "CancelRunV1Request" });
   }
 }
-function __c119(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

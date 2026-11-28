@@ -30,6 +30,12 @@ const CORE_ERROR_CLASSES = [
   "UnprocessableEntity",
 ];
 
+/** The errors declared on the service: the list `src/errors.ts` exports. */
+const SERVICE_ERRORS = "FlyIoServiceErrors";
+
+/** Every name a generated module can import from `../errors.ts`, sorted. */
+const ERROR_IMPORTS = [...CORE_ERROR_CLASSES, SERVICE_ERRORS].sort();
+
 const namespaceOf = (model: any): string => {
   for (const id of Object.keys(model.shapes ?? {})) {
     const ns = String(id).split("#")[0] ?? "";
@@ -39,9 +45,9 @@ const namespaceOf = (model: any): string => {
 };
 
 const pruneCoreErrorImport = (code: string): string => {
-  const importLine = `import { ${CORE_ERROR_CLASSES.join(", ")} } from "../errors.ts";`;
+  const importLine = `import { ${ERROR_IMPORTS.join(", ")} } from "../errors.ts";`;
   const rest = code.replace(importLine, "");
-  const used = CORE_ERROR_CLASSES.filter((n) => new RegExp(`\\b${n}\\b`).test(rest));
+  const used = ERROR_IMPORTS.filter((n) => new RegExp(`\\b${n}\\b`).test(rest));
   return code.replace(
     importLine,
     used.length
@@ -58,8 +64,6 @@ const restSpec = (opts: {
   pagination?: boolean;
   /** Surface sensitive strings as `string | Redacted`. */
   sensitiveTs?: boolean;
-  /** Type httpPayload Blob members as `Uint8Array | string` (Sprites writeFile / exec stdin). */
-  blobBody?: boolean;
 }): SdkSpec => ({
   unionStyle: "primitive",
   nullableTrait: NULLABLE_TRAIT,
@@ -76,14 +80,11 @@ const restSpec = (opts: {
   memberTraitPipes: {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
-  ...(opts.sensitiveTs || opts.blobBody
+  ...(opts.sensitiveTs
     ? {
         memberTsType: (m: { traits?: Record<string, unknown>; nullable?: boolean }) => {
           if (opts.sensitiveTs && "smithy.api#sensitive" in (m.traits ?? {})) {
             return `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`;
-          }
-          if (opts.blobBody && "smithy.api#httpPayload" in (m.traits ?? {})) {
-            return "Uint8Array | string";
           }
           return undefined;
         },
@@ -106,6 +107,7 @@ const restSpec = (opts: {
     contextType: opts.contextType,
     commonErrorType: opts.errorType,
     commonErrorClasses: [],
+    serviceErrors: SERVICE_ERRORS,
     protocol: opts.protocol,
     retry: "Retry.Retry",
   },
@@ -122,7 +124,7 @@ const restSpec = (opts: {
     (hasPaginated && opts.pagination
       ? `import { paginateCursor } from "../pagination.ts";\n`
       : "") +
-    `import { ${CORE_ERROR_CLASSES.join(", ")} } from "../errors.ts";\n` +
+    `import { ${ERROR_IMPORTS.join(", ")} } from "../errors.ts";\n` +
     `import * as Retry from "../retry.ts";\n\n` +
     `export type { ${opts.errorType}, ${opts.contextType} };\n\n`,
   postProcess: (code) => {
@@ -162,7 +164,6 @@ runGeneratorCli({
         sourceNote: ".generated-specs (sprites OpenAPI)",
         pagination: true,
         sensitiveTs: true,
-        blobBody: true,
       });
     }
     if (ns === "com.flyio.mpg") {

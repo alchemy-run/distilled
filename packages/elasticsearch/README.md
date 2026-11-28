@@ -23,10 +23,23 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Elasticsearch.CredentialsFromEnv,
-  Elasticsearch.ElasticsearchProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Beta and experimental operations
+
+Elastic marks some operations Beta or Experimental (`x-state`), for example
+connectors, search applications and the task management API. They import from
+`unstable/elasticsearch`; the package root exports only the generally
+available operations:
+
+```ts
+import * as Elasticsearch from "@distilled.cloud/elasticsearch";
+import * as Unstable from "@distilled.cloud/elasticsearch/unstable/elasticsearch";
+
+const tasks = yield* Unstable.listTasks({});
 ```
 
 ## Auth

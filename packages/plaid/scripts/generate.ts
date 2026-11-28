@@ -66,7 +66,7 @@ const plaidSpec: SdkSpec = {
   operationDecl: {
     contextType: "PlaidOpContext",
     commonErrorType: "PlaidOpError",
-    commonErrorClasses: ["UnknownPlaidError"],
+    serviceErrors: "PlaidServiceErrors",
     protocol: "PlaidProtocol",
     retry: "Retry.Retry",
   },
@@ -90,5 +90,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => plaidSpec,
 });

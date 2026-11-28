@@ -2,7 +2,7 @@
  * Convex credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials, so the protocol layer picks up rotations per request.
+ * credentials, so the protocol picks up rotations per request.
  *
  * Convex speaks from two places. The Management API lives at
  * `https://api.convex.dev/v1`. The Deployment API and the public HTTP API
@@ -31,7 +31,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "ConvexCredentials",
   ) {}
 
@@ -42,16 +42,24 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-/** Reads `CONVEX_ACCESS_TOKEN`, and `CONVEX_API_BASE_URL` when set. */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads `CONVEX_ACCESS_TOKEN`, and `CONVEX_API_BASE_URL` when set.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "CONVEX_ACCESS_TOKEN environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "CONVEX_ACCESS_TOKEN environment variable is required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

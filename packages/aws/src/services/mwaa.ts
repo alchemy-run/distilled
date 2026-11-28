@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -466,6 +467,7 @@ export const createCliToken: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<CreateCliTokenRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<CreateCliTokenResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCliToken",
@@ -497,6 +499,7 @@ export const createEnvironment: API.OperationMethod<
     ValidationException,
     MwaaExecutionRoleNotAssumable,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
@@ -528,6 +531,7 @@ export const createWebLoginToken: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebLoginToken",
@@ -559,6 +563,7 @@ export const deleteEnvironment: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
@@ -584,6 +589,7 @@ export const getEnvironment: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<GetEnvironmentInput>,
   output: __S(30, __c3, 6) as any as S.Schema<GetEnvironmentOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
@@ -619,6 +625,7 @@ export const invokeRestApi: API.OperationMethod<
     RestApiServerException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeRestApi",
@@ -641,6 +648,7 @@ export const listEnvironments: API.PaginatedOperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<ListEnvironmentsInput>,
   output: __S(41, __c5, 1) as any as S.Schema<ListEnvironmentsOutput>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
@@ -672,6 +680,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(49, __c6, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -693,6 +702,7 @@ export const publishMetrics: API.OperationMethod<
   input: __S(61, __c7, 5) as any as S.Schema<PublishMetricsInput>,
   output: __S(16, __c2, 0) as any as S.Schema<PublishMetricsOutput>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishMetrics",
@@ -718,6 +728,7 @@ export const tagResource: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<TagResourceInput>,
   output: __S(16, __c2, 0) as any as S.Schema<TagResourceOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -743,6 +754,7 @@ export const untagResource: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(16, __c2, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -774,6 +786,7 @@ export const updateEnvironment: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",

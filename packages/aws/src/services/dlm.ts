@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -517,6 +518,7 @@ export const createLifecyclePolicy: API.OperationMethod<
   input: __S(96, __c3, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<CreateLifecyclePolicyResponse>,
   errors: [InternalServerException, InvalidRequestException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
@@ -545,6 +547,7 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   input: __S(224, __c7, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
   errors: [InternalServerException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
@@ -577,6 +580,7 @@ export const getLifecyclePolicies: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicies",
@@ -601,6 +605,7 @@ export const getLifecyclePolicy: API.OperationMethod<
   input: __S(320, __c10, 0) as any as S.Schema<GetLifecyclePolicyRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<GetLifecyclePolicyResponse>,
   errors: [InternalServerException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
@@ -625,6 +630,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(352, __c11, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -649,6 +655,7 @@ export const tagResource: API.OperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -673,6 +680,7 @@ export const untagResource: API.OperationMethod<
   input: __S(32, __c1, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -706,6 +714,7 @@ export const updateLifecyclePolicy: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",

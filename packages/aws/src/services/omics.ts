@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -307,7 +308,7 @@ export interface CreateConfigurationRequest {
   description?: string | undefined;
   runConfigurations: RunConfigurations;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
 }
 export type ConfigurationArn = string;
 export type ConfigurationUuid = string;
@@ -394,7 +395,7 @@ export interface CreateRunCacheRequest {
   cacheS3Location: string;
   description?: string | undefined;
   name?: string | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   cacheBucketOwnerId?: string | undefined;
 }
@@ -415,7 +416,7 @@ export interface CreateRunGroupRequest {
   maxRuns?: number | undefined;
   maxDuration?: number | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   maxGpus?: number | undefined;
 }
 export type RunGroupArn = string;
@@ -560,7 +561,7 @@ export interface CreateWorkflowRequest {
   parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
   storageCapacity?: number | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   accelerators?: string | undefined;
   storageType?: string | undefined;
   containerRegistryMap?: ContainerRegistryMap | undefined;
@@ -595,7 +596,7 @@ export interface CreateWorkflowVersionRequest {
   engine?: string | undefined;
   main?: string | undefined;
   parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   storageType?: string | undefined;
   storageCapacity?: number | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -846,6 +847,7 @@ export interface DefaultRunSetting {
   sessionPolicy?: string | undefined;
   engineSettings?: any | undefined;
   scratchStorageMode?: string | undefined;
+  requesterPaysEnabled?: boolean | undefined;
 }
 export interface SubmissionSummary {
   successfulStartSubmissionCount?: number | undefined;
@@ -1151,6 +1153,7 @@ export interface ConfigurationDetails {
   uuid?: string | undefined;
 }
 export type RunOutputUriPrefixMode = string;
+export type RunParametersUriOrPresignedUrl = string;
 export interface GetRunResponse {
   arn?: string | undefined;
   id?: string | undefined;
@@ -1196,6 +1199,8 @@ export interface GetRunResponse {
   engineSettings?: any | undefined;
   sessionPolicy?: string | undefined;
   outputUriPrefixMode?: string | undefined;
+  requesterPaysEnabled?: boolean | undefined;
+  parametersUri?: string | undefined;
 }
 export interface GetRunCacheRequest {
   id: string;
@@ -2201,6 +2206,7 @@ export interface StartReferenceImportJobResponse {
   creationTime: Date;
 }
 export type RunRequestId = string;
+export type RunParametersUri = string;
 export interface StartRunRequest {
   workflowId?: string | undefined;
   workflowType?: string | undefined;
@@ -2216,7 +2222,7 @@ export interface StartRunRequest {
   outputUri: string;
   logLevel?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   retentionMode?: string | undefined;
   storageType?: string | undefined;
   workflowOwnerId?: string | undefined;
@@ -2227,6 +2233,8 @@ export interface StartRunRequest {
   sessionPolicy?: string | undefined;
   engineSettings?: any | undefined;
   outputUriPrefixMode?: string | undefined;
+  requesterPaysEnabled?: boolean | undefined;
+  parametersUri?: string | undefined;
 }
 export interface StartRunResponse {
   arn?: string | undefined;
@@ -2256,7 +2264,7 @@ export type BatchRunSettings =
   | { inlineSettings?: undefined; s3UriSettings: string };
 export interface StartRunBatchRequest {
   batchName?: string | undefined;
-  requestId: string;
+  requestId?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   defaultRunSetting: DefaultRunSetting;
   batchRunSettings: BatchRunSettings;
@@ -2435,6 +2443,7 @@ export const abortMultipartReadSetUpload: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartReadSetUpload",
@@ -2472,6 +2481,7 @@ export const acceptShare: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptShare",
@@ -2507,6 +2517,7 @@ export const batchDeleteReadSet: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteReadSet",
@@ -2542,6 +2553,7 @@ export const cancelAnnotationImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAnnotationImportJob",
@@ -2581,6 +2593,7 @@ export const cancelRun: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRun",
@@ -2622,6 +2635,7 @@ export const cancelRunBatch: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRunBatch",
@@ -2657,6 +2671,7 @@ export const cancelVariantImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelVariantImportJob",
@@ -2698,6 +2713,7 @@ export const completeMultipartReadSetUpload: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartReadSetUpload",
@@ -2737,6 +2753,7 @@ export const createAnnotationStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnnotationStore",
@@ -2774,6 +2791,7 @@ export const createAnnotationStoreVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnnotationStoreVersion",
@@ -2813,6 +2831,7 @@ export const createConfiguration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
@@ -2862,6 +2881,7 @@ export const createMultipartReadSetUpload: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultipartReadSetUpload",
@@ -2899,6 +2919,7 @@ export const createReferenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReferenceStore",
@@ -2940,6 +2961,7 @@ export const createRunCache: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRunCache",
@@ -2979,6 +3001,7 @@ export const createRunGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRunGroup",
@@ -3028,6 +3051,7 @@ export const createSequenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSequenceStore",
@@ -3073,6 +3097,7 @@ export const createShare: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateShare",
@@ -3112,6 +3137,7 @@ export const createVariantStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVariantStore",
@@ -3163,6 +3189,7 @@ export const createWorkflow: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
@@ -3210,6 +3237,7 @@ export const createWorkflowVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowVersion",
@@ -3247,6 +3275,7 @@ export const deleteAnnotationStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnnotationStore",
@@ -3282,6 +3311,7 @@ export const deleteAnnotationStoreVersions: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnnotationStoreVersions",
@@ -3323,6 +3353,7 @@ export const deleteBatch: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatch",
@@ -3362,6 +3393,7 @@ export const deleteConfiguration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
@@ -3401,6 +3433,7 @@ export const deleteReference: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReference",
@@ -3440,6 +3473,7 @@ export const deleteReferenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReferenceStore",
@@ -3485,6 +3519,7 @@ export const deleteRun: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRun",
@@ -3526,6 +3561,7 @@ export const deleteRunBatch: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRunBatch",
@@ -3567,6 +3603,7 @@ export const deleteRunCache: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRunCache",
@@ -3612,6 +3649,7 @@ export const deleteRunGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRunGroup",
@@ -3649,6 +3687,7 @@ export const deleteS3AccessPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteS3AccessPolicy",
@@ -3690,6 +3729,7 @@ export const deleteSequenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSequenceStore",
@@ -3727,6 +3767,7 @@ export const deleteShare: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteShare",
@@ -3764,6 +3805,7 @@ export const deleteVariantStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVariantStore",
@@ -3809,6 +3851,7 @@ export const deleteWorkflow: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
@@ -3850,6 +3893,7 @@ export const deleteWorkflowVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowVersion",
@@ -3885,6 +3929,7 @@ export const getAnnotationImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnnotationImportJob",
@@ -3920,6 +3965,7 @@ export const getAnnotationStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnnotationStore",
@@ -3953,6 +3999,7 @@ export const getAnnotationStoreVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnnotationStoreVersion",
@@ -3988,6 +4035,7 @@ export const getBatch: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatch",
@@ -4027,6 +4075,7 @@ export const getConfiguration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
@@ -4066,6 +4115,7 @@ export const getReadSet: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadSet",
@@ -4101,6 +4151,7 @@ export const getReadSetActivationJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadSetActivationJob",
@@ -4136,6 +4187,7 @@ export const getReadSetExportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadSetExportJob",
@@ -4171,6 +4223,7 @@ export const getReadSetImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadSetImportJob",
@@ -4206,6 +4259,7 @@ export const getReadSetMetadata: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadSetMetadata",
@@ -4245,6 +4299,7 @@ export const getReference: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReference",
@@ -4280,6 +4335,7 @@ export const getReferenceImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReferenceImportJob",
@@ -4315,6 +4371,7 @@ export const getReferenceMetadata: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReferenceMetadata",
@@ -4350,6 +4407,7 @@ export const getReferenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReferenceStore",
@@ -4391,6 +4449,7 @@ export const getRun: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRun",
@@ -4432,6 +4491,7 @@ export const getRunCache: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRunCache",
@@ -4471,6 +4531,7 @@ export const getRunGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRunGroup",
@@ -4510,6 +4571,7 @@ export const getRunTask: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRunTask",
@@ -4549,6 +4611,7 @@ export const getS3AccessPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetS3AccessPolicy",
@@ -4584,6 +4647,7 @@ export const getSequenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSequenceStore",
@@ -4621,6 +4685,7 @@ export const getShare: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShare",
@@ -4656,6 +4721,7 @@ export const getVariantImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVariantImportJob",
@@ -4693,6 +4759,7 @@ export const getVariantStore: API.OperationMethod<
     ValidationException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVariantStore",
@@ -4736,6 +4803,7 @@ export const getWorkflow: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
@@ -4775,6 +4843,7 @@ export const getWorkflowVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowVersion",
@@ -4811,6 +4880,7 @@ export const listAnnotationImportJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnnotationImportJobs",
@@ -4853,6 +4923,7 @@ export const listAnnotationStores: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnnotationStores",
@@ -4893,6 +4964,7 @@ export const listAnnotationStoreVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnnotationStoreVersions",
@@ -4933,6 +5005,7 @@ export const listBatch: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBatch",
@@ -4979,6 +5052,7 @@ export const listConfigurations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurations",
@@ -5025,6 +5099,7 @@ export const listMultipartReadSetUploads: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMultipartReadSetUploads",
@@ -5067,6 +5142,7 @@ export const listReadSetActivationJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReadSetActivationJobs",
@@ -5109,6 +5185,7 @@ export const listReadSetExportJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReadSetExportJobs",
@@ -5151,6 +5228,7 @@ export const listReadSetImportJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReadSetImportJobs",
@@ -5193,6 +5271,7 @@ export const listReadSets: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReadSets",
@@ -5239,6 +5318,7 @@ export const listReadSetUploadParts: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReadSetUploadParts",
@@ -5281,6 +5361,7 @@ export const listReferenceImportJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReferenceImportJobs",
@@ -5325,6 +5406,7 @@ export const listReferences: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReferences",
@@ -5367,6 +5449,7 @@ export const listReferenceStores: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReferenceStores",
@@ -5413,6 +5496,7 @@ export const listRunCaches: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRunCaches",
@@ -5459,6 +5543,7 @@ export const listRunGroups: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRunGroups",
@@ -5507,6 +5592,7 @@ export const listRuns: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuns",
@@ -5553,6 +5639,7 @@ export const listRunsInBatch: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRunsInBatch",
@@ -5599,6 +5686,7 @@ export const listRunTasks: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRunTasks",
@@ -5641,6 +5729,7 @@ export const listSequenceStores: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSequenceStores",
@@ -5685,6 +5774,7 @@ export const listShares: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListShares",
@@ -5730,6 +5820,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -5766,6 +5857,7 @@ export const listVariantImportJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVariantImportJobs",
@@ -5808,6 +5900,7 @@ export const listVariantStores: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVariantStores",
@@ -5854,6 +5947,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflows",
@@ -5900,6 +5994,7 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflowVersions",
@@ -5943,6 +6038,7 @@ export const putS3AccessPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutS3AccessPolicy",
@@ -5980,6 +6076,7 @@ export const startAnnotationImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnnotationImportJob",
@@ -6019,6 +6116,7 @@ export const startReadSetActivationJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReadSetActivationJob",
@@ -6058,6 +6156,7 @@ export const startReadSetExportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReadSetExportJob",
@@ -6095,6 +6194,7 @@ export const startReadSetImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReadSetImportJob",
@@ -6132,6 +6232,7 @@ export const startReferenceImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReferenceImportJob",
@@ -6203,6 +6304,7 @@ export const startRun: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRun",
@@ -6244,6 +6346,7 @@ export const startRunBatch: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRunBatch",
@@ -6281,6 +6384,7 @@ export const startVariantImportJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVariantImportJob",
@@ -6320,6 +6424,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -6359,6 +6464,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -6394,6 +6500,7 @@ export const updateAnnotationStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnnotationStore",
@@ -6427,6 +6534,7 @@ export const updateAnnotationStoreVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnnotationStoreVersion",
@@ -6468,6 +6576,7 @@ export const updateRunCache: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRunCache",
@@ -6521,6 +6630,7 @@ export const updateRunGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRunGroup",
@@ -6558,6 +6668,7 @@ export const updateSequenceStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSequenceStore",
@@ -6593,6 +6704,7 @@ export const updateVariantStore: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVariantStore",
@@ -6646,6 +6758,7 @@ export const updateWorkflow: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
@@ -6685,6 +6798,7 @@ export const updateWorkflowVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowVersion",
@@ -6726,6 +6840,7 @@ export const uploadReadSetPart: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadReadSetPart",
@@ -6914,7 +7029,7 @@ function __c5(j: number): any {
           outputUri: S.String,
           logLevel: S.optional(S.String),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           retentionMode: S.optional(S.String),
           storageType: S.optional(S.String),
           workflowOwnerId: S.optional(S.String),
@@ -6925,6 +7040,8 @@ function __c5(j: number): any {
           sessionPolicy: S.optional(S.String),
           engineSettings: S.optional(S.Any),
           outputUriPrefixMode: S.optional(S.String),
+          requesterPaysEnabled: S.optional(S.Boolean),
+          parametersUri: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/run" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartRunRequest" });
     case 1:
@@ -6968,7 +7085,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           batchName: S.optional(S.String),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(256, __c32, 0)),
           defaultRunSetting: __S(624, __c78, 0),
           batchRunSettings: __S(50, __c6, 2),
@@ -7602,7 +7719,7 @@ function __c39(j: number): any {
           description: S.optional(S.String),
           runConfigurations: __S(313, __c39, 1),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/configuration" }), svc, auth, proto, ver, rules),
         ),
@@ -7727,7 +7844,7 @@ function __c45(j: number): any {
           cacheS3Location: S.String,
           description: S.optional(S.String),
           name: S.optional(S.String),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(256, __c32, 0)),
           cacheBucketOwnerId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/runCache" }), svc, auth, proto, ver, rules)),
@@ -7753,7 +7870,7 @@ function __c46(j: number): any {
           maxRuns: S.optional(S.Number),
           maxDuration: S.optional(S.Number),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           maxGpus: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/runGroup" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRunGroupRequest" });
@@ -7884,7 +8001,7 @@ function __c52(j: number): any {
           parameterTemplate: S.optional(__S(433, __c54, 1)),
           storageCapacity: S.optional(S.Number),
           tags: S.optional(__S(256, __c32, 0)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           accelerators: S.optional(S.String),
           storageType: S.optional(S.String),
           containerRegistryMap: S.optional(__S(438, __c54, 6)),
@@ -7975,7 +8092,7 @@ function __c55(j: number): any {
           engine: S.optional(S.String),
           main: S.optional(S.String),
           parameterTemplate: S.optional(__S(433, __c54, 1)),
-          requestId: S.String.pipe(T.IdempotencyToken()),
+          requestId: S.optional(S.String).pipe(T.IdempotencyToken()),
           storageType: S.optional(S.String),
           storageCapacity: S.optional(S.Number),
           tags: S.optional(__S(256, __c32, 0)),
@@ -8522,6 +8639,7 @@ function __c78(j: number): any {
           sessionPolicy: S.optional(S.String),
           engineSettings: S.optional(S.Any),
           scratchStorageMode: S.optional(S.String),
+          requesterPaysEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DefaultRunSetting" });
   }
@@ -8992,6 +9110,8 @@ function __c93(j: number): any {
           engineSettings: S.optional(S.Any),
           sessionPolicy: S.optional(S.String),
           outputUriPrefixMode: S.optional(S.String),
+          requesterPaysEnabled: S.optional(S.Boolean),
+          parametersUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }

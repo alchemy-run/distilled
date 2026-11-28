@@ -4,7 +4,7 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  *
  * API-compatible port of the distilled repo's turso credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials, so the protocol layer picks up rotations per request. Turso
+ * credentials, so the protocol picks up rotations per request. Turso
  * auth is a plain bearer token (`Authorization: Bearer <apiKey>`).
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
@@ -21,26 +21,31 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "TursoCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("TursoCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.String("TURSO_API_KEY"),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "TURSO_API_KEY environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "TURSO_API_KEY environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ apiKey }) => ({
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: DEFAULT_API_BASE_URL,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ apiKey }) => ({
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: DEFAULT_API_BASE_URL,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );

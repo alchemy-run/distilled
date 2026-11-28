@@ -140,6 +140,15 @@ export const errorCategories = (
  */
 export const ERROR_BODIES_TRAIT = "distilled.errors#bodies";
 
+/**
+ * Marks the member of a synthesized response wrapper that receives the whole
+ * response body (bare array/scalar bodies, binary downloads). SdkSpecs bind
+ * it with a `rootPipe` (`T.RawResponseRoot()` from `core/protocol-rest`), so
+ * a sole such member makes the emitted response type the payload type. A
+ * `Blob` one is a binary download: see {@link binaryBody}.
+ */
+export const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
+
 /** The HTTP statuses an error class stands for: its `httpError`, then its matchers' statuses. */
 const errorStatuses = (
   traits: Record<string, any> | undefined,
@@ -215,7 +224,30 @@ export interface EmittedMember {
   readonly nullable: boolean;
   readonly doc: string | undefined;
   readonly traits: Record<string, any>;
+  /** A binary upload's body: see {@link rawUploadBody}. */
+  readonly rawUpload?: boolean;
 }
+
+/**
+ * A binary download's body: a `Blob` member receiving the whole response
+ * ({@link RAW_RESPONSE_TRAIT}). It decodes as a stream of the response's
+ * bytes (`T.BinaryResponse()`, core `protocol-rest`), whatever the SDK's `Blob`
+ * prelude is for requests. `finalizeConvert` gives its output a
+ * `contentType` header member (`./binary-response.ts`).
+ */
+/** Core `protocol-rest` schemas (and types) a generated module imports when it names them. */
+const CORE_BODY_SCHEMAS = ["BinaryStream", "RawBody"] as const;
+
+/**
+ * A binary upload's body: a `Blob` member sent as the whole request body
+ * (`smithy.api#httpPayload`) of an operation that is not multipart. It takes
+ * what core `buildRequest` sends verbatim, a stream included (core
+ * `RawBody`), whatever the SDK's `Blob` prelude is.
+ */
+export const rawUploadBody = (m: Pick<EmittedMember, "rawUpload">): boolean => m.rawUpload === true;
+
+export const binaryBody = (m: Pick<EmittedMember, "target" | "traits">): boolean =>
+  m.target === "smithy.api#Blob" && RAW_RESPONSE_TRAIT in m.traits;
 
 export interface PaginationProfile {
   /** Protocol const for paginated ops. Defaults to operationDecl.protocol. */
@@ -557,11 +589,32 @@ export interface SdkSpec {
     readonly contextType: string;
     /** Base of the per-op error union alias (e.g. `CloudflareOpError`). */
     readonly commonErrorType: string;
-    /** Error classes appended to every op's `errors: [...]` list. */
-    readonly commonErrorClasses: readonly string[];
+    /**
+     * Error classes appended to every op's `errors: [...]` list. Leave it
+     * out: a service's errors go in `serviceErrors`, and a protocol's errors
+     * reach every operation through its type.
+     */
+    readonly commonErrorClasses?: readonly string[];
+    /**
+     * The errors declared on the service: the name of a list of error
+     * classes that `../errors.ts` exports. Every operation gets it as its
+     * `serviceErrors`, next to its own `errors`.
+     */
+    readonly serviceErrors?: string;
     readonly protocol: string;
     /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
     readonly retry?: string;
+    /**
+     * A type intersected with every operation's input: optional members the
+     * protocol reads and never sends, e.g. `maxMessageBytes` from
+     * `MaxMessageBytesInput` in `@distilled.cloud/core/max-message-bytes`.
+     * An input that models a member of the same name keeps its own.
+     */
+    readonly callInput?: {
+      readonly type: string;
+      readonly from: string;
+      readonly member: string;
+    };
     /**
      * Extra config lines inserted before the pagination entry (e.g. AWS's
      * `operationName` and `endpointHostPrefix`).
@@ -797,6 +850,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         )
       : undefined;
 
+  const opInputIds = new Set(selected.map((op) => op.def.__input));
   const memberInfos = (d: any, ownerId?: string): EmittedMember[] =>
     memberBases(d, memberName).map((base) => {
       const traits = base.traits;
@@ -806,10 +860,23 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // A member with a default (Smithy 2.0 `@default`) is always present
         // in a response, so response-only shapes require it. Shapes a
         // request also reaches keep it optional: the sender may omit it.
+        // An operation input's idempotency token is optional even when the
+        // spec requires it: core fills a missing one on every call.
         required:
-          base.required ||
+          (base.required &&
+            !(
+              "smithy.api#idempotencyToken" in traits &&
+              ownerId !== undefined &&
+              opInputIds.has(ownerId)
+            )) ||
           (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
+        rawUpload:
+          binding === "rawBody" &&
+          base.target === "smithy.api#Blob" &&
+          ownerId !== undefined &&
+          httpFor[ownerId] !== undefined &&
+          httpFor[ownerId].contentType !== "multipart",
         wire: smithyWireName(traits, base.name, wireKind(binding)),
         nullable:
           (spec.nullableTrait ? spec.nullableTrait in traits : false) ||
@@ -886,6 +953,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     }
   };
 
+  /** Trait-table pipes: trait value JSON-inlined as the argument. */
+  const traitTablePipes = (info: EmittedMember): string[] =>
+    Object.entries(spec.memberTraitPipes ?? {})
+      .filter(([trait]) => info.traits[trait] !== undefined)
+      .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`);
+
   const memberPipes =
     spec.memberPipes ??
     ((info: EmittedMember) => [
@@ -894,11 +967,16 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(spec.extraBindings ?? [])
         .filter((b) => b.binding === info.binding && b.trait in info.traits)
         .map((b) => b.pipe),
-      // Trait-table pipes: trait value JSON-inlined as the argument.
-      ...Object.entries(spec.memberTraitPipes ?? {})
-        .filter(([trait]) => info.traits[trait] !== undefined)
-        .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
+      ...traitTablePipes(info),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
+      // Core fills a missing token once per call, before the retry.
+      ...("smithy.api#idempotencyToken" in info.traits
+        ? [
+            info.traits["distilled.idempotency#format"] === "uuidv7"
+              ? `T.IdempotencyToken("uuidv7")`
+              : "T.IdempotencyToken()",
+          ]
+        : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 
@@ -906,15 +984,21 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     info: EmittedMember,
     tsRefFn: (target: string) => string,
   ): string | undefined =>
+    (binaryBody(info) ? "BinaryStream" : rawUploadBody(info) ? "RawBody" : undefined) ??
     spec.memberTsType?.(info, tsRefFn) ??
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
 
   const memberExpr = (info: EmittedMember, selfIdx: number): string => {
-    let expr =
-      spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
+    const binary = binaryBody(info);
+    let expr = binary
+      ? "BinaryStream"
+      : rawUploadBody(info)
+        ? "RawBody"
+        : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ??
+          ref(info.target, selfIdx));
     if (info.nullable) expr = `S.NullOr(${expr})`;
-    const pipes = memberPipes(info);
+    const pipes = [...memberPipes(info), ...(binary ? ["T.BinaryResponse()"] : [])];
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
     return expr;
   };
@@ -1111,14 +1195,22 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         // key dictionary so opaque content (union cases, freeform maps)
         // nested in the payload decodes with the same wire mapping as
         // struct-form roots.
+        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
+        // The member's trait-table pipes (a sensitive mark) move to the
+        // root with its payload, and so does the TS type they imply.
+        const rootMember: EmittedMember = { ...memberInfos(d, id)[0]!, nullable };
+        const traitPipes = traitTablePipes(rootMember);
         const rootPipes = [
           soleMemberRoot.rootPipe,
+          ...traitPipes,
           ...(spec.rootKeyDictionary && opIoShapes.has(id)
             ? [`T.KeyDictionary(KEY_DICTIONARY)`]
             : []),
         ];
-        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
-        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
+        const rootType =
+          (traitPipes.length ? memberTsTypeOf(rootMember, tsRef) : undefined) ??
+          `${tsRef(m.target)}${nullable ? " | null" : ""}`;
+        out.push(`export type ${name} = ${rootType};`);
         out.push(
           suspendConst({
             name,
@@ -1394,7 +1486,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (!decl) {
         throw new Error("SdkSpec needs either operationDecl or operation");
       }
-      const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
+      const errList = [...ctx.errorNames, ...(decl.commonErrorClasses ?? [])];
       const overrides = decl.overrides?.(ctx);
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
@@ -1435,10 +1527,17 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         : streamWhen !== undefined
           ? tsRef(streamWhen.items)
           : undefined;
+      const callInput =
+        decl.callInput !== undefined &&
+        !memberInfos(shapes[ctx.op.def.__input] ?? {}).some(
+          (m) => m.tsName === decl.callInput!.member,
+        )
+          ? ` & ${decl.callInput.type}`
+          : "";
       const typeAnnotation =
         overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
-          `  ${ctx.inputName},\n` +
+          `  ${ctx.inputName}${callInput},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
           `  ${contextType}` +
@@ -1452,6 +1551,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  input: ${ctx.inputName},\n` +
         `  output: ${ctx.outputSchema},\n` +
         `  errors: [${errList.join(", ")}],\n` +
+        (decl.serviceErrors ? `  serviceErrors: ${decl.serviceErrors},\n` : "") +
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
@@ -1807,6 +1907,15 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         ]),
       ),
     ];
+    // The service's error list is a value only operations read: like the
+    // protocol, a module without operations (GitHub's webhook payloads) does
+    // not import it.
+    const errorImports = [
+      ...(decl.commonErrorClasses ?? []),
+      ...(decl.serviceErrors && (spec.operation || usedProtocols.size > 0)
+        ? [decl.serviceErrors]
+        : []),
+    ].sort();
     return (
       `// AUTO-GENERATED by scripts/generate.ts${
         spec.sourceNote ? ` from ${spec.sourceNote}` : ""
@@ -1825,8 +1934,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       (ctx.hasPaginated && pagImports.length
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
-      (decl.commonErrorClasses.length
-        ? `import { ${[...decl.commonErrorClasses].sort().join(", ")} } from "../errors.ts";\n`
+      (errorImports.length ? `import { ${errorImports.join(", ")} } from "../errors.ts";\n` : "") +
+      (decl.callInput
+        ? `import type { ${decl.callInput.type} } from "${decl.callInput.from}";\n`
         : "") +
       (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.
@@ -1875,11 +1985,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   })();
   // After the header's last import (imports are hoisted either way).
   const withImport = (text: string): string => {
-    if (telemetryImports.size === 0) return text;
-    const line = [...telemetryImports]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
-      .join("");
+    // Core's body schemas: `BinaryStream` for a binary download, `RawBody`
+    // for a binary upload.
+    const streamTypes = CORE_BODY_SCHEMAS.filter((name) => new RegExp(`\\b${name}\\b`).test(text));
+    if (telemetryImports.size === 0 && streamTypes.length === 0) return text;
+    const line =
+      [...telemetryImports]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
+        .join("") +
+      (streamTypes.length > 0
+        ? `import { ${streamTypes.join(", ")} } from "@distilled.cloud/core/protocol-rest";\n`
+        : "");
     const last = [...text.matchAll(/^import [^;]*;\n/gm)].pop();
     if (last === undefined) return line + text;
     const at = last.index! + last[0].length;

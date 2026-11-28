@@ -13,8 +13,9 @@ const credentials = (env: Record<string, string>) =>
       const config = yield* resolve;
       return { token: Redacted.value(config.apiToken), apiBaseUrl: config.apiBaseUrl };
     }).pipe(
+      // The layer reads the environment when it is built.
       Effect.provide(
-        Layer.mergeAll(
+        Layer.provide(
           NetBird.CredentialsFromEnv,
           Layer.succeed(ConfigProvider.ConfigProvider, ConfigProvider.fromUnknown(env)),
         ),

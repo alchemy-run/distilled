@@ -8,6 +8,10 @@
  * `x-amz-retry-after` / `x-distilled-retry-after` headers work for all of
  * them. A protocol that calls `client.execute` directly still retries, on
  * the plain backoff, outside the budget.
+ *
+ * A body it cannot send twice (the caller's own stream) makes the call
+ * `oneShot`: the retry layer then never sends it again. A stream body is
+ * one-shot unless the protocol says otherwise (S3 replays a Blob's stream).
  */
 import type * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -22,11 +26,12 @@ export const send = (
   context: Context.Context<any>,
   client: HttpClient.HttpClient,
   request: HttpClientRequest.HttpClientRequest,
+  oneShot?: boolean,
 ): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> =>
   // Inside `suspend`: the retry layer runs this same effect again for each
   // attempt, and each attempt must record its own request.
   Effect.suspend(() => {
-    RetryState.recordRequest(request.url);
+    RetryState.recordRequest(request.url, oneShot ?? request.body._tag === "Stream");
     return Effect.map(Telemetry.execute(context, client, request), (response) => {
       RetryState.recordResponse(
         response.status,

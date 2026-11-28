@@ -1,0 +1,43 @@
+{
+  "description": "List the commits on a pull request as a paginated list of commits. The spec gives its 200 response no content, only the description \"A paginated list of commits made on the given pull request, in chronological order\", so it came out with no output. Its body is the same collection envelope as listCommits (`paginated_changeset`: `{ values: commit[], next?, page?, pagelen? }`), so it reuses that shape and paginates the same way (see pagination.json).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommits/output/target",
+      "value": "org.bitbucket#PaginatedChangeset"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommitsRequest/members/page",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "page",
+          "smithy.api#documentation": "The page to return: the `page` query value of the previous response's `next` URL."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommitsRequest/members/pagelen",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#httpQuery": "pagelen",
+          "smithy.api#documentation": "The number of commits per page."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdCommits/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    }
+  ]
+}

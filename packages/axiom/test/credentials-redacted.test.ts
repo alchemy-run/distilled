@@ -6,7 +6,8 @@ import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { Credentials } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
-import { createAPIToken, getNotifier } from "../src/services/v2.ts";
+import { createAPIToken } from "../src/services/v2.ts";
+import { getNotifier } from "../src/unstable-services/v2.ts";
 
 const respondWith = (body: unknown) =>
   Layer.mergeAll(

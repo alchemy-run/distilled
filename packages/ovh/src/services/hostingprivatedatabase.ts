@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -59,7 +59,7 @@ export interface ConfirmHostingPrivateDatabaseTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmHostingPrivateDatabaseTerminationResponse = string;
 export interface CopyHostingPrivateDatabaseDatabaseRequest {
@@ -415,7 +415,7 @@ export interface HostingPrivateDatabaseGraphEndpoint {
   /** The OpenTSDB host */
   host?: string | null | undefined;
   /** A read-only token */
-  readToken?: string | null | undefined;
+  readToken?: string | Redacted.Redacted<string> | null | undefined;
   /** A read-only token ID */
   readTokenId?: string | null | undefined;
 }
@@ -691,7 +691,7 @@ export interface HostingPrivateDatabaseMetricsToken {
   /** Backend url */
   endpoint?: string | undefined;
   /** Generated token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetHostingPrivateDatabaseServiceInfosRequest {
   /** Service name */
@@ -1167,7 +1167,8 @@ export const confirmHostingPrivateDatabaseTermination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConfirmHostingPrivateDatabaseTerminationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ConfirmHostingPrivateDatabaseTerminationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1184,7 +1185,8 @@ export const copyHostingPrivateDatabaseDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CopyHostingPrivateDatabaseDatabaseRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<HostingPrivateDatabaseDatabaseCopy>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1201,7 +1203,8 @@ export const copyHostingPrivateDatabaseDatabaseRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<CopyHostingPrivateDatabaseDatabaseRestoreRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1218,7 +1221,8 @@ export const createHostingPrivateDatabaseChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<CreateHostingPrivateDatabaseChangeContactRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<CreateHostingPrivateDatabaseChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1239,7 +1243,8 @@ export const createHostingPrivateDatabaseChangeFtpPassword: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateHostingPrivateDatabaseChangeFtpPasswordRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1256,7 +1261,8 @@ export const createHostingPrivateDatabaseChangeVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<CreateHostingPrivateDatabaseChangeVersionRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1273,7 +1279,8 @@ export const createHostingPrivateDatabaseDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<CreateHostingPrivateDatabaseDatabaseRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1290,7 +1297,8 @@ export const createHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<CreateHostingPrivateDatabaseDatabaseDumpRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1307,7 +1315,8 @@ export const createHostingPrivateDatabaseDatabaseWizard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<CreateHostingPrivateDatabaseDatabaseWizardRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1324,7 +1333,8 @@ export const createHostingPrivateDatabaseLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<CreateHostingPrivateDatabaseLogSubscriptionRequest>,
   output: __S(680, __c85, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1341,7 +1351,8 @@ export const createHostingPrivateDatabaseLogUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateHostingPrivateDatabaseLogUrlRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1358,7 +1369,8 @@ export const createHostingPrivateDatabaseQuotaRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<CreateHostingPrivateDatabaseQuotaRefreshRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1375,7 +1387,8 @@ export const createHostingPrivateDatabaseUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<CreateHostingPrivateDatabaseUserRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1392,7 +1405,8 @@ export const createHostingPrivateDatabaseUserChangePassword: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateHostingPrivateDatabaseUserChangePasswordRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1409,7 +1423,8 @@ export const createHostingPrivateDatabaseUserGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<CreateHostingPrivateDatabaseUserGrantRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1426,7 +1441,8 @@ export const createHostingPrivateDatabaseWebhostingNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<CreateHostingPrivateDatabaseWebhostingNetworkRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1443,7 +1459,8 @@ export const createHostingPrivateDatabaseWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<CreateHostingPrivateDatabaseWhitelistRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1460,7 +1477,8 @@ export const deleteHostingPrivateDatabaseDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteHostingPrivateDatabaseDatabaseRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1477,7 +1495,8 @@ export const deleteHostingPrivateDatabaseDatabaseCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<DeleteHostingPrivateDatabaseDatabaseCopyRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<DeleteHostingPrivateDatabaseDatabaseCopyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1494,7 +1513,8 @@ export const deleteHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteHostingPrivateDatabaseDatabaseDumpRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1511,7 +1531,8 @@ export const deleteHostingPrivateDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<DeleteHostingPrivateDatabaseDumpRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1528,7 +1549,8 @@ export const deleteHostingPrivateDatabaseLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteHostingPrivateDatabaseLogSubscriptionRequest>,
   output: __S(680, __c85, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1545,7 +1567,8 @@ export const deleteHostingPrivateDatabaseUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<DeleteHostingPrivateDatabaseUserRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1562,7 +1585,8 @@ export const deleteHostingPrivateDatabaseUserGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteHostingPrivateDatabaseUserGrantRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1583,7 +1607,8 @@ export const deleteHostingPrivateDatabaseWebhostingNetwork: API.OperationMethod<
     0,
   ) as any as S.Schema<DeleteHostingPrivateDatabaseWebhostingNetworkRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1600,7 +1625,8 @@ export const deleteHostingPrivateDatabaseWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DeleteHostingPrivateDatabaseWhitelistRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1621,7 +1647,8 @@ export const disableHostingPrivateDatabaseDatabaseExtension: API.OperationMethod
     0,
   ) as any as S.Schema<DisableHostingPrivateDatabaseDatabaseExtensionRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1642,7 +1669,8 @@ export const enableHostingPrivateDatabaseDatabaseExtension: API.OperationMethod<
     0,
   ) as any as S.Schema<EnableHostingPrivateDatabaseDatabaseExtensionRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1663,7 +1691,8 @@ export const generateHostingPrivateDatabaseTemporaryLogsLink: API.OperationMetho
     0,
   ) as any as S.Schema<GenerateHostingPrivateDatabaseTemporaryLogsLinkRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<HostingPrivateDatabaseTemporaryUrlInformations>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1680,7 +1709,8 @@ export const getHostingPrivateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetHostingPrivateDatabaseRequest>,
   output: __S(222, __c27, 6) as any as S.Schema<HostingPrivateDatabaseServiceWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1697,7 +1727,8 @@ export const getHostingPrivateDatabaseDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetHostingPrivateDatabaseDatabaseRequest>,
   output: __S(259, __c32, 3) as any as S.Schema<HostingPrivateDatabaseDatabase>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1714,7 +1745,8 @@ export const getHostingPrivateDatabaseDatabaseCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetHostingPrivateDatabaseDatabaseCopyRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<HostingPrivateDatabaseDatabaseCopy>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1731,7 +1763,8 @@ export const getHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetHostingPrivateDatabaseDatabaseDumpRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<HostingPrivateDatabaseDatabaseDump>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1748,7 +1781,8 @@ export const getHostingPrivateDatabaseDatabaseExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetHostingPrivateDatabaseDatabaseExtensionRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<HostingPrivateDatabaseExtension>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1765,7 +1799,8 @@ export const getHostingPrivateDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetHostingPrivateDatabaseDumpRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<HostingPrivateDatabaseDump>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1782,7 +1817,8 @@ export const getHostingPrivateDatabaseLogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<GetHostingPrivateDatabaseLogKindRequest>,
   output: __S(305, __c38, 1) as any as S.Schema<DbaasLogsLogKind>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1799,7 +1835,8 @@ export const getHostingPrivateDatabaseLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetHostingPrivateDatabaseLogSubscriptionRequest>,
   output: __S(314, __c39, 2) as any as S.Schema<DbaasLogsLogSubscription>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1816,7 +1853,8 @@ export const getHostingPrivateDatabaseMetricsToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetHostingPrivateDatabaseMetricsTokenRequest>,
   output: __S(321, __c40, 1) as any as S.Schema<HostingPrivateDatabaseMetricsToken>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1833,7 +1871,8 @@ export const getHostingPrivateDatabaseServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetHostingPrivateDatabaseServiceInfosRequest>,
   output: __S(329, __c41, 1) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1850,7 +1889,8 @@ export const getHostingPrivateDatabaseTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetHostingPrivateDatabaseTaskRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1867,7 +1907,8 @@ export const getHostingPrivateDatabaseUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetHostingPrivateDatabaseUserRequest>,
   output: __S(363, __c45, 3) as any as S.Schema<HostingPrivateDatabaseUser>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1884,7 +1925,8 @@ export const getHostingPrivateDatabaseUserGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetHostingPrivateDatabaseUserGrantRequest>,
   output: __S(369, __c46, 1) as any as S.Schema<HostingPrivateDatabaseUserGrant>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1901,7 +1943,8 @@ export const getHostingPrivateDatabaseWebhostingNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetHostingPrivateDatabaseWebhostingNetworkRequest>,
   output: __S(377, __c47, 1) as any as S.Schema<HostingPrivateDatabaseWebhostingNetwork>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1918,7 +1961,8 @@ export const getHostingPrivateDatabaseWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetHostingPrivateDatabaseWhitelistRequest>,
   output: __S(385, __c48, 1) as any as S.Schema<HostingPrivateDatabaseWhitelist>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1935,7 +1979,8 @@ export const importHostingPrivateDatabaseDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<ImportHostingPrivateDatabaseDatabaseRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1952,7 +1997,8 @@ export const listHostingPrivateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(402, __c50, 2) as any as S.Schema<ListHostingPrivateDatabaseRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1973,7 +2019,8 @@ export const listHostingPrivateDatabaseAvailableOrderCapacities: API.OperationMe
     0,
   ) as any as S.Schema<ListHostingPrivateDatabaseAvailableOrderCapacitiesRequest>,
   output: __S(417, __c52, 1) as any as S.Schema<HostingPrivateDatabaseAvailableOrderCapacities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1994,7 +2041,8 @@ export const listHostingPrivateDatabaseAvailableVersions: API.OperationMethod<
     __c54,
     1,
   ) as any as S.Schema<ListHostingPrivateDatabaseAvailableVersionsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2011,7 +2059,8 @@ export const listHostingPrivateDatabaseConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<ListHostingPrivateDatabaseConfigRequest>,
   output: __S(450, __c56, 2) as any as S.Schema<HostingPrivateDatabaseConfigs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2028,7 +2077,8 @@ export const listHostingPrivateDatabaseCpuThrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<ListHostingPrivateDatabaseCpuThrottleRequest>,
   output: __S(459, __c57, 3) as any as S.Schema<ListHostingPrivateDatabaseCpuThrottleResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2045,7 +2095,8 @@ export const listHostingPrivateDatabaseDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<ListHostingPrivateDatabaseDatabaseRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseDatabaseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2062,7 +2113,8 @@ export const listHostingPrivateDatabaseDatabaseCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<ListHostingPrivateDatabaseDatabaseCopyRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseDatabaseCopyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2079,7 +2131,8 @@ export const listHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ListHostingPrivateDatabaseDatabaseDumpRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<ListHostingPrivateDatabaseDatabaseDumpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2100,7 +2153,8 @@ export const listHostingPrivateDatabaseDatabaseExtension: API.OperationMethod<
     __c51,
     0,
   ) as any as S.Schema<ListHostingPrivateDatabaseDatabaseExtensionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2117,7 +2171,8 @@ export const listHostingPrivateDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ListHostingPrivateDatabaseDumpRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<ListHostingPrivateDatabaseDumpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2134,7 +2189,8 @@ export const listHostingPrivateDatabaseLogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListHostingPrivateDatabaseLogKindRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseLogKindResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2151,7 +2207,8 @@ export const listHostingPrivateDatabaseLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListHostingPrivateDatabaseLogSubscriptionRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2168,7 +2225,8 @@ export const listHostingPrivateDatabaseOom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListHostingPrivateDatabaseOomRequest>,
   output: __S(531, __c66, 3) as any as S.Schema<ListHostingPrivateDatabaseOomResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2185,7 +2243,8 @@ export const listHostingPrivateDatabaseTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ListHostingPrivateDatabaseTasksRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<ListHostingPrivateDatabaseTasksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2202,7 +2261,8 @@ export const listHostingPrivateDatabaseUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListHostingPrivateDatabaseUserRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2219,7 +2279,8 @@ export const listHostingPrivateDatabaseUserGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<ListHostingPrivateDatabaseUserGrantRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseUserGrantResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2236,7 +2297,8 @@ export const listHostingPrivateDatabaseWebs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListHostingPrivateDatabaseWebsRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseWebsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2253,7 +2315,8 @@ export const listHostingPrivateDatabaseWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListHostingPrivateDatabaseWhitelistRequest>,
   output: __S(408, __c51, 0) as any as S.Schema<ListHostingPrivateDatabaseWhitelistResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2270,7 +2333,8 @@ export const putHostingPrivateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<PutHostingPrivateDatabaseRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PutHostingPrivateDatabaseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2287,7 +2351,8 @@ export const putHostingPrivateDatabaseServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<PutHostingPrivateDatabaseServiceInfosRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PutHostingPrivateDatabaseServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2304,7 +2369,8 @@ export const putHostingPrivateDatabaseWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<PutHostingPrivateDatabaseWhitelistRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PutHostingPrivateDatabaseWhitelistResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2321,7 +2387,8 @@ export const restartHostingPrivateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<RestartHostingPrivateDatabaseRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2338,7 +2405,8 @@ export const restoreHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<RestoreHostingPrivateDatabaseDatabaseDumpRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2355,7 +2423,8 @@ export const restoreHostingPrivateDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<RestoreHostingPrivateDatabaseDumpRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2372,7 +2441,8 @@ export const terminateHostingPrivateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<TerminateHostingPrivateDatabaseRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<TerminateHostingPrivateDatabaseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2389,7 +2459,8 @@ export const updateHostingPrivateDatabaseConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(650, __c81, 2) as any as S.Schema<UpdateHostingPrivateDatabaseConfigRequest>,
   output: __S(450, __c56, 2) as any as S.Schema<HostingPrivateDatabaseConfigs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2406,7 +2477,8 @@ export const updateHostingPrivateDatabaseUserGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<UpdateHostingPrivateDatabaseUserGrantRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<HostingPrivateDatabaseTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2423,7 +2495,7 @@ function __c0(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2881,7 +2953,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.NullOr(S.String)),
-          readToken: S.optional(S.NullOr(S.String)),
+          readToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           readTokenId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "HostingPrivateDatabaseGraphEndpoint" });
@@ -3199,7 +3271,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingPrivateDatabaseMetricsToken" });
   }

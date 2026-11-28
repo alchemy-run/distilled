@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDaytonaError } from "../errors.ts";
+import { DaytonaServiceErrors } from "../errors.ts";
 import { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -304,6 +304,8 @@ export interface Organization {
   sandboxLimitedNetworkEgress: boolean;
   /** Whether the proxy shows the preview URL warning page for this organization */
   previewWarningEnabled: boolean;
+  /** Whether zero data retention is enabled for this organization. Set by Daytona; read-only through the API. */
+  zeroDataRetention: boolean;
   /** Whether this organization may configure SSO identity providers */
   ssoEnabled: boolean;
   /** Whether this organization may use SCIM directory sync */
@@ -553,16 +555,29 @@ export type GpuType =
   | "H200"
   | "B200"
   | "B300"
+  | "L40S"
   | "RTX-PRO-6000"
   | "RTX-4090"
   | "RTX-5090"
   | "MI355X";
+export interface GpuSandboxCapacity {
+  /** GPU units per sandbox. */
+  gpuCount: number;
+  /** Estimated number of on-demand sandboxes that fit at observation time, including immediately reclaimable spot capacity. */
+  onDemand: number;
+  /** Estimated number of spot sandboxes that fit in free capacity at observation time. */
+  spot: number;
+}
+/** Observed estimates of sandbox counts for each supported GPU count, ordered ascending and including zero counts. Each sandbox must fit on one runner. Sizes and purchase types are alternative uses of the same capacity; counts must not be added together. Capacity is not reserved; sandbox creation remains authoritative. */
+export type GpuCapacityAvailableSandboxesList = Array<GpuSandboxCapacity>;
 export interface GpuCapacity {
   gpuType: GpuType;
   /** GPU units available for on-demand placement across schedulable runners, including capacity occupied by spot sandboxes that are immediately reclaimable. */
   availableOnDemand: number;
   /** GPU units currently free for spot placement across schedulable runners. */
   availableSpot: number;
+  /** Observed estimates of sandbox counts for each supported GPU count, ordered ascending and including zero counts. Each sandbox must fit on one runner. Sizes and purchase types are alternative uses of the same capacity; counts must not be added together. Capacity is not reserved; sandbox creation remains authoritative. */
+  availableSandboxes: GpuCapacityAvailableSandboxesList;
 }
 export type GpuCapacityResponseCapacityList = Array<GpuCapacity>;
 export interface GpuCapacityResponse {
@@ -672,6 +687,13 @@ export interface SandboxIdentity {
   sandboxId: string;
   /** Organization ID */
   organizationId: string;
+}
+export interface GetTelemetryDisabledOrganizationIdsRequest {}
+/** IDs of organizations whose sandbox telemetry must not be stored (zero data retention or telemetry turned off) */
+export type TelemetryDisabledOrganizationsOrganizationIdsList = Array<string>;
+export interface TelemetryDisabledOrganizations {
+  /** IDs of organizations whose sandbox telemetry must not be stored (zero data retention or telemetry turned off) */
+  organizationIds: TelemetryDisabledOrganizationsOrganizationIdsList;
 }
 export interface LeaveOrganizationRequest {
   /** Organization ID */
@@ -984,8 +1006,9 @@ export const acceptOrganizationInvitation: API.OperationMethod<
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AcceptOrganizationInvitationRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [OrganizationInvitationNotFound, UnknownDaytonaError],
+  output: __S(32, __c4, 0) as any as S.Schema<OrganizationInvitation>,
+  errors: [OrganizationInvitationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1000,9 +1023,10 @@ export const cancelOrganizationInvitation: API.OperationMethod<
   CancelOrganizationInvitationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<CancelOrganizationInvitationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<CancelOrganizationInvitationResponse>,
-  errors: [OrganizationInvitationNotFound, UnknownDaytonaError],
+  input: __S(40, __c5, 0) as any as S.Schema<CancelOrganizationInvitationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CancelOrganizationInvitationResponse>,
+  errors: [OrganizationInvitationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1017,9 +1041,10 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<Organization>,
-  errors: [UnknownDaytonaError],
+  input: __S(56, __c7, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<Organization>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1037,9 +1062,10 @@ export const createOrganizationIdentityProvider: API.OperationMethod<
   CreateOrganizationIdentityProviderError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(45, __c11, 1) as any as S.Schema<CreateOrganizationIdentityProviderRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<IdentityProvider>,
-  errors: [OrganizationNotFound, SsoNotEnabled, UnknownDaytonaError],
+  input: __S(89, __c11, 1) as any as S.Schema<CreateOrganizationIdentityProviderRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<IdentityProvider>,
+  errors: [OrganizationNotFound, SsoNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1054,9 +1080,10 @@ export const createOrganizationInvitation: API.OperationMethod<
   CreateOrganizationInvitationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(112, __c14, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<OrganizationInvitation>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1074,9 +1101,10 @@ export const createOrganizationRole: API.OperationMethod<
   CreateOrganizationRoleError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<CreateOrganizationRoleRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<OrganizationRole>,
-  errors: [OrganizationNotFound, OrganizationRoleAlreadyExists, UnknownDaytonaError],
+  input: __S(120, __c15, 0) as any as S.Schema<CreateOrganizationRoleRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<OrganizationRole>,
+  errors: [OrganizationNotFound, OrganizationRoleAlreadyExists],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1091,9 +1119,10 @@ export const createRegion: API.OperationMethod<
   CreateRegionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<CreateRegionRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<CreateRegionResponse>,
-  errors: [RegionAlreadyExists, CustomRegionsUnavailable, UnknownDaytonaError],
+  input: __S(128, __c16, 0) as any as S.Schema<CreateRegionRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<CreateRegionResponse>,
+  errors: [RegionAlreadyExists, CustomRegionsUnavailable],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1108,9 +1137,10 @@ export const declineOrganizationInvitation: API.OperationMethod<
   DeclineOrganizationInvitationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<DeclineOrganizationInvitationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeclineOrganizationInvitationResponse>,
-  errors: [OrganizationInvitationNotFound, UnknownDaytonaError],
+  input: __S(136, __c17, 0) as any as S.Schema<DeclineOrganizationInvitationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeclineOrganizationInvitationResponse>,
+  errors: [OrganizationInvitationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1125,9 +1155,10 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOrganizationResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteOrganizationResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1142,9 +1173,10 @@ export const deleteOrganizationIdentityProvider: API.OperationMethod<
   DeleteOrganizationIdentityProviderError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<DeleteOrganizationIdentityProviderRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOrganizationIdentityProviderResponse>,
-  errors: [IdentityProviderNotFound, UnknownDaytonaError],
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteOrganizationIdentityProviderRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteOrganizationIdentityProviderResponse>,
+  errors: [IdentityProviderNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1159,9 +1191,10 @@ export const deleteOrganizationMember: API.OperationMethod<
   DeleteOrganizationMemberError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<DeleteOrganizationMemberRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOrganizationMemberResponse>,
-  errors: [OrganizationMemberNotFound, UnknownDaytonaError],
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteOrganizationMemberRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteOrganizationMemberResponse>,
+  errors: [OrganizationMemberNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1176,9 +1209,10 @@ export const deleteOrganizationOtelConfig: API.OperationMethod<
   DeleteOrganizationOtelConfigError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<DeleteOrganizationOtelConfigRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOrganizationOtelConfigResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteOrganizationOtelConfigRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteOrganizationOtelConfigResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1193,9 +1227,10 @@ export const deleteOrganizationRole: API.OperationMethod<
   DeleteOrganizationRoleError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<DeleteOrganizationRoleRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteOrganizationRoleResponse>,
-  errors: [OrganizationRoleNotFound, UnknownDaytonaError],
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteOrganizationRoleRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteOrganizationRoleResponse>,
+  errors: [OrganizationRoleNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1210,9 +1245,10 @@ export const deleteRegion: API.OperationMethod<
   DeleteRegionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<DeleteRegionRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DeleteRegionResponse>,
-  errors: [RegionNotFound, UnknownDaytonaError],
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteRegionRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteRegionResponse>,
+  errors: [RegionNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1227,9 +1263,10 @@ export const generateWorkosAdminPortalLink: API.OperationMethod<
   GenerateWorkosAdminPortalLinkError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<GenerateWorkosAdminPortalLinkRequest>,
-  output: __S(97, __c24, 1) as any as S.Schema<WorkosAdminPortalLink>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(192, __c24, 0) as any as S.Schema<GenerateWorkosAdminPortalLinkRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<WorkosAdminPortalLink>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1244,9 +1281,10 @@ export const getGpuCapacity: API.OperationMethod<
   GetGpuCapacityError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<GetGpuCapacityRequest>,
-  output: __S(103, __c25, 3) as any as S.Schema<GpuCapacityResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(200, __c25, 0) as any as S.Schema<GetGpuCapacityRequest>,
+  output: __S(205, __c25, 5) as any as S.Schema<GpuCapacityResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1261,9 +1299,10 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<Organization>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(208, __c26, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<Organization>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1278,9 +1317,10 @@ export const getOrganizationIdentityProvider: API.OperationMethod<
   GetOrganizationIdentityProviderError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<GetOrganizationIdentityProviderRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<IdentityProvider>,
-  errors: [IdentityProviderNotFound, UnknownDaytonaError],
+  input: __S(216, __c27, 0) as any as S.Schema<GetOrganizationIdentityProviderRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<IdentityProvider>,
+  errors: [IdentityProviderNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1296,16 +1336,17 @@ export const getOrganizationInvitationsCountForAuthenticatedUser: API.OperationM
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    112,
+    224,
     __c28,
     0,
   ) as any as S.Schema<GetOrganizationInvitationsCountForAuthenticatedUserRequest>,
   output: __S(
-    113,
+    225,
     __c28,
     1,
   ) as any as S.Schema<GetOrganizationInvitationsCountForAuthenticatedUserResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1320,9 +1361,10 @@ export const getOrganizationOtelConfig: API.OperationMethod<
   GetOrganizationOtelConfigError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<GetOrganizationOtelConfigRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<OtelConfig>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(232, __c29, 0) as any as S.Schema<GetOrganizationOtelConfigRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<OtelConfig>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1337,9 +1379,10 @@ export const getOrganizationOtelConfigBySandboxAuthToken: API.OperationMethod<
   GetOrganizationOtelConfigBySandboxAuthTokenError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<GetOrganizationOtelConfigBySandboxAuthTokenRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<OtelConfig>,
-  errors: [UnknownDaytonaError],
+  input: __S(240, __c30, 0) as any as S.Schema<GetOrganizationOtelConfigBySandboxAuthTokenRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<OtelConfig>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1354,9 +1397,10 @@ export const getOrganizationUsageOverview: API.OperationMethod<
   GetOrganizationUsageOverviewError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<GetOrganizationUsageOverviewRequest>,
-  output: __S(127, __c31, 3) as any as S.Schema<OrganizationUsageOverview>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(248, __c31, 0) as any as S.Schema<GetOrganizationUsageOverviewRequest>,
+  output: __S(251, __c31, 3) as any as S.Schema<OrganizationUsageOverview>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1371,9 +1415,10 @@ export const getRegion: API.OperationMethod<
   GetRegionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<GetRegionRequest>,
-  output: __S(132, __c33, 0) as any as S.Schema<Region>,
-  errors: [RegionNotFound, UnknownDaytonaError],
+  input: __S(256, __c32, 0) as any as S.Schema<GetRegionRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<Region>,
+  errors: [RegionNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1388,13 +1433,32 @@ export const getSandboxIdentityBySandboxAuthToken: API.OperationMethod<
   GetSandboxIdentityBySandboxAuthTokenError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<GetSandboxIdentityBySandboxAuthTokenRequest>,
-  output: __S(137, __c34, 1) as any as S.Schema<SandboxIdentity>,
-  errors: [UnknownDaytonaError],
+  input: __S(272, __c34, 0) as any as S.Schema<GetSandboxIdentityBySandboxAuthTokenRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<SandboxIdentity>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandboxIdentityBySandboxAuthToken",
+}));
+
+export type GetTelemetryDisabledOrganizationIdsError = DaytonaOpError;
+/** List organizations whose sandbox telemetry must not be stored Used by the OTEL collector's store pipeline to drop these organizations' records before ClickHouse. Read from the database on every call; the collector polls it. */
+export const getTelemetryDisabledOrganizationIds: API.OperationMethod<
+  GetTelemetryDisabledOrganizationIdsRequest,
+  TelemetryDisabledOrganizations,
+  GetTelemetryDisabledOrganizationIdsError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(280, __c35, 0) as any as S.Schema<GetTelemetryDisabledOrganizationIdsRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<TelemetryDisabledOrganizations>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelemetryDisabledOrganizationIds",
 }));
 
 export type LeaveOrganizationError = OrganizationNotFound | DaytonaOpError;
@@ -1405,9 +1469,10 @@ export const leaveOrganization: API.OperationMethod<
   LeaveOrganizationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<LeaveOrganizationRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<LeaveOrganizationResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(288, __c36, 0) as any as S.Schema<LeaveOrganizationRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<LeaveOrganizationResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1422,9 +1487,10 @@ export const listAvailableRegions: API.OperationMethod<
   ListAvailableRegionsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c36, 0) as any as S.Schema<ListAvailableRegionsRequest>,
-  output: __S(146, __c36, 2) as any as S.Schema<ListAvailableRegionsResponse>,
-  errors: [UnknownDaytonaError],
+  input: __S(296, __c37, 0) as any as S.Schema<ListAvailableRegionsRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<ListAvailableRegionsResponse>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1439,9 +1505,10 @@ export const listAvailableSandboxClasses: API.OperationMethod<
   ListAvailableSandboxClassesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<ListAvailableSandboxClassesRequest>,
-  output: __S(151, __c37, 3) as any as S.Schema<ListAvailableSandboxClassesResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(304, __c38, 0) as any as S.Schema<ListAvailableSandboxClassesRequest>,
+  output: __S(307, __c38, 3) as any as S.Schema<ListAvailableSandboxClassesResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1456,9 +1523,10 @@ export const listOrganizationIdentityProviders: API.OperationMethod<
   ListOrganizationIdentityProvidersError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c38, 0) as any as S.Schema<ListOrganizationIdentityProvidersRequest>,
-  output: __S(154, __c38, 2) as any as S.Schema<ListOrganizationIdentityProvidersResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(312, __c39, 0) as any as S.Schema<ListOrganizationIdentityProvidersRequest>,
+  output: __S(314, __c39, 2) as any as S.Schema<ListOrganizationIdentityProvidersResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1473,9 +1541,10 @@ export const listOrganizationInvitations: API.OperationMethod<
   ListOrganizationInvitationsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
-  output: __S(161, __c40, 1) as any as S.Schema<ListOrganizationInvitationsResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(320, __c40, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
+  output: __S(329, __c41, 1) as any as S.Schema<ListOrganizationInvitationsResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1491,16 +1560,17 @@ export const listOrganizationInvitationsForAuthenticatedUser: API.OperationMetho
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    164,
-    __c41,
+    336,
+    __c42,
     0,
   ) as any as S.Schema<ListOrganizationInvitationsForAuthenticatedUserRequest>,
   output: __S(
-    161,
-    __c40,
+    329,
+    __c41,
     1,
   ) as any as S.Schema<ListOrganizationInvitationsForAuthenticatedUserResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1515,9 +1585,10 @@ export const listOrganizationMembers: API.OperationMethod<
   ListOrganizationMembersError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c42, 0) as any as S.Schema<ListOrganizationMembersRequest>,
-  output: __S(170, __c42, 2) as any as S.Schema<ListOrganizationMembersResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(344, __c43, 0) as any as S.Schema<ListOrganizationMembersRequest>,
+  output: __S(346, __c43, 2) as any as S.Schema<ListOrganizationMembersResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1532,9 +1603,10 @@ export const listOrganizationRoles: API.OperationMethod<
   ListOrganizationRolesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<ListOrganizationRolesRequest>,
-  output: __S(177, __c44, 1) as any as S.Schema<ListOrganizationRolesResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(360, __c45, 0) as any as S.Schema<ListOrganizationRolesRequest>,
+  output: __S(361, __c45, 1) as any as S.Schema<ListOrganizationRolesResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1549,9 +1621,10 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(180, __c45, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(182, __c45, 2) as any as S.Schema<ListOrganizationsResponse>,
-  errors: [UnknownDaytonaError],
+  input: __S(368, __c46, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(370, __c46, 2) as any as S.Schema<ListOrganizationsResponse>,
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1566,9 +1639,10 @@ export const listWorkosSsoConnections: API.OperationMethod<
   ListWorkosSsoConnectionsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c46, 0) as any as S.Schema<ListWorkosSsoConnectionsRequest>,
-  output: __S(187, __c46, 3) as any as S.Schema<ListWorkosSsoConnectionsResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(376, __c47, 0) as any as S.Schema<ListWorkosSsoConnectionsRequest>,
+  output: __S(379, __c47, 3) as any as S.Schema<ListWorkosSsoConnectionsResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1583,9 +1657,10 @@ export const regenerateProxyApiKey: API.OperationMethod<
   RegenerateProxyApiKeyError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(188, __c47, 0) as any as S.Schema<RegenerateProxyApiKeyRequest>,
-  output: __S(192, __c48, 0) as any as S.Schema<RegenerateApiKeyResponse>,
-  errors: [RegionNotFound, UnknownDaytonaError],
+  input: __S(384, __c48, 0) as any as S.Schema<RegenerateProxyApiKeyRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<RegenerateApiKeyResponse>,
+  errors: [RegionNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1600,9 +1675,10 @@ export const regenerateSnapshotManagerCredentials: API.OperationMethod<
   RegenerateSnapshotManagerCredentialsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c49, 0) as any as S.Schema<RegenerateSnapshotManagerCredentialsRequest>,
-  output: __S(197, __c49, 1) as any as S.Schema<SnapshotManagerCredentials>,
-  errors: [RegionNotFound, UnknownDaytonaError],
+  input: __S(400, __c50, 0) as any as S.Schema<RegenerateSnapshotManagerCredentialsRequest>,
+  output: __S(401, __c50, 1) as any as S.Schema<SnapshotManagerCredentials>,
+  errors: [RegionNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1617,9 +1693,10 @@ export const regenerateSshGatewayApiKey: API.OperationMethod<
   RegenerateSshGatewayApiKeyError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c50, 0) as any as S.Schema<RegenerateSshGatewayApiKeyRequest>,
-  output: __S(192, __c48, 0) as any as S.Schema<RegenerateApiKeyResponse>,
-  errors: [RegionNotFound, UnknownDaytonaError],
+  input: __S(408, __c51, 0) as any as S.Schema<RegenerateSshGatewayApiKeyRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<RegenerateApiKeyResponse>,
+  errors: [RegionNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1637,9 +1714,10 @@ export const setOrganizationDefaultRegion: API.OperationMethod<
   SetOrganizationDefaultRegionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(204, __c51, 0) as any as S.Schema<SetOrganizationDefaultRegionRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<SetOrganizationDefaultRegionResponse>,
-  errors: [OrganizationNotFound, DefaultRegionAlreadySet, UnknownDaytonaError],
+  input: __S(416, __c52, 0) as any as S.Schema<SetOrganizationDefaultRegionRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<SetOrganizationDefaultRegionResponse>,
+  errors: [OrganizationNotFound, DefaultRegionAlreadySet],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1657,9 +1735,10 @@ export const testOrganizationIdentityProviderConnection: API.OperationMethod<
   TestOrganizationIdentityProviderConnectionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c52, 0) as any as S.Schema<TestOrganizationIdentityProviderConnectionRequest>,
-  output: __S(209, __c52, 1) as any as S.Schema<TestIdentityProviderConnectionResponse>,
-  errors: [OrganizationNotFound, SsoNotEnabled, UnknownDaytonaError],
+  input: __S(424, __c53, 0) as any as S.Schema<TestOrganizationIdentityProviderConnectionRequest>,
+  output: __S(425, __c53, 1) as any as S.Schema<TestIdentityProviderConnectionResponse>,
+  errors: [OrganizationNotFound, SsoNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1674,9 +1753,10 @@ export const updateAccessForOrganizationMember: API.OperationMethod<
   UpdateAccessForOrganizationMemberError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(212, __c53, 0) as any as S.Schema<UpdateAccessForOrganizationMemberRequest>,
-  output: __S(172, __c43, 0) as any as S.Schema<OrganizationUser>,
-  errors: [OrganizationMemberNotFound, UnknownDaytonaError],
+  input: __S(432, __c54, 0) as any as S.Schema<UpdateAccessForOrganizationMemberRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<OrganizationUser>,
+  errors: [OrganizationMemberNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1691,9 +1771,10 @@ export const updateExperimentalConfig: API.OperationMethod<
   UpdateExperimentalConfigError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(217, __c54, 1) as any as S.Schema<UpdateExperimentalConfigRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateExperimentalConfigResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(441, __c55, 1) as any as S.Schema<UpdateExperimentalConfigRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateExperimentalConfigResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1711,9 +1792,10 @@ export const updateOrganizationDefaultQueueTimeout: API.OperationMethod<
   UpdateOrganizationDefaultQueueTimeoutError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(220, __c55, 0) as any as S.Schema<UpdateOrganizationDefaultQueueTimeoutRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateOrganizationDefaultQueueTimeoutResponse>,
-  errors: [OrganizationNotFound, DefaultQueueTimeoutUnavailable, UnknownDaytonaError],
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateOrganizationDefaultQueueTimeoutRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateOrganizationDefaultQueueTimeoutResponse>,
+  errors: [OrganizationNotFound, DefaultQueueTimeoutUnavailable],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1731,9 +1813,10 @@ export const updateOrganizationIdentityProvider: API.OperationMethod<
   UpdateOrganizationIdentityProviderError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c56, 1) as any as S.Schema<UpdateOrganizationIdentityProviderRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<IdentityProvider>,
-  errors: [IdentityProviderNotFound, SsoNotEnabled, UnknownDaytonaError],
+  input: __S(457, __c57, 1) as any as S.Schema<UpdateOrganizationIdentityProviderRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<IdentityProvider>,
+  errors: [IdentityProviderNotFound, SsoNotEnabled],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1748,9 +1831,10 @@ export const updateOrganizationInvitation: API.OperationMethod<
   UpdateOrganizationInvitationError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<UpdateOrganizationInvitationRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [OrganizationInvitationNotFound, UnknownDaytonaError],
+  input: __S(464, __c58, 0) as any as S.Schema<UpdateOrganizationInvitationRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<OrganizationInvitation>,
+  errors: [OrganizationInvitationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1765,9 +1849,10 @@ export const updateOrganizationOtelConfig: API.OperationMethod<
   UpdateOrganizationOtelConfigError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c58, 0) as any as S.Schema<UpdateOrganizationOtelConfigRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateOrganizationOtelConfigResponse>,
-  errors: [OrganizationNotFound, UnknownDaytonaError],
+  input: __S(472, __c59, 0) as any as S.Schema<UpdateOrganizationOtelConfigRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateOrganizationOtelConfigResponse>,
+  errors: [OrganizationNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1782,9 +1867,10 @@ export const updateOrganizationRole: API.OperationMethod<
   UpdateOrganizationRoleError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(236, __c59, 0) as any as S.Schema<UpdateOrganizationRoleRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<OrganizationRole>,
-  errors: [OrganizationRoleNotFound, UnknownDaytonaError],
+  input: __S(480, __c60, 0) as any as S.Schema<UpdateOrganizationRoleRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<OrganizationRole>,
+  errors: [OrganizationRoleNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1799,9 +1885,10 @@ export const updateRegion: API.OperationMethod<
   UpdateRegionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c60, 0) as any as S.Schema<UpdateRegionRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<UpdateRegionResponse>,
-  errors: [RegionNotFound, UnknownDaytonaError],
+  input: __S(488, __c61, 0) as any as S.Schema<UpdateRegionRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateRegionResponse>,
+  errors: [RegionNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1839,7 +1926,7 @@ function __c2(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          permissions: __S(4, __c1, 0),
+          permissions: __S(8, __c1, 0),
           isGlobal: S.Boolean,
           createdAt: S.String,
           updatedAt: S.String,
@@ -1850,7 +1937,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(16, __c2, 0));
   }
 }
 function __c4(j: number): any {
@@ -1866,7 +1953,7 @@ function __c4(j: number): any {
           expiresAt: S.String,
           status: S.String,
           role: S.String,
-          assignedRoles: __S(12, __c3, 0),
+          assignedRoles: __S(24, __c3, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
@@ -1915,7 +2002,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          headers: S.optional(S.NullOr(__S(36, __c9, 0))),
+          headers: S.optional(S.NullOr(__S(72, __c9, 0))),
           organizationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OtelConfig" });
@@ -1952,6 +2039,7 @@ function __c10(j: number): any {
           defaultQueueTimeout: S.NullOr(S.Number),
           sandboxLimitedNetworkEgress: S.Boolean,
           previewWarningEnabled: S.Boolean,
+          zeroDataRetention: S.Boolean,
           ssoEnabled: S.Boolean,
           scimEnabled: S.Boolean,
           defaultRegionId: S.optional(S.String),
@@ -1963,7 +2051,7 @@ function __c10(j: number): any {
           sandboxCreateRateLimit: S.NullOr(S.Number),
           sandboxLifecycleRateLimit: S.NullOr(S.Number),
           experimentalConfig: S.Unknown,
-          otelConfig: S.NullOr(__S(32, __c8, 0)),
+          otelConfig: S.NullOr(__S(64, __c8, 0)),
           authenticatedRateLimitTtlSeconds: S.NullOr(S.Number),
           sandboxCreateRateLimitTtlSeconds: S.NullOr(S.Number),
           sandboxLifecycleRateLimitTtlSeconds: S.NullOr(S.Number),
@@ -1987,11 +2075,11 @@ function __c11(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           name: S.String,
-          oidcConfig: __S(44, __c11, 0),
-          emailDomains: __S(48, __c12, 0),
+          oidcConfig: __S(88, __c11, 0),
+          emailDomains: __S(96, __c12, 0),
           allowAnyDomain: S.optional(S.Boolean),
           trustEmailVerified: S.optional(S.Boolean),
-          defaultAssignedRoleIds: S.optional(__S(48, __c12, 0)),
+          defaultAssignedRoleIds: S.optional(__S(96, __c12, 0)),
           enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2025,11 +2113,11 @@ function __c13(j: number): any {
           id: S.String,
           organizationId: S.String,
           name: S.String,
-          oidcConfig: __S(52, __c13, 0),
-          emailDomains: __S(48, __c12, 0),
+          oidcConfig: __S(104, __c13, 0),
+          emailDomains: __S(96, __c12, 0),
           allowAnyDomain: S.Boolean,
           trustEmailVerified: S.Boolean,
-          defaultAssignedRoleIds: __S(48, __c12, 0),
+          defaultAssignedRoleIds: __S(96, __c12, 0),
           enabled: S.Boolean,
           createdAt: S.String,
           updatedAt: S.String,
@@ -2045,7 +2133,7 @@ function __c14(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           email: S.String,
           role: S.String,
-          assignedRoleIds: __S(48, __c12, 0),
+          assignedRoleIds: __S(96, __c12, 0),
           expiresAt: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/organizations/{organizationId}/invitations", code: 200 }),
@@ -2061,7 +2149,7 @@ function __c15(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           name: S.String,
           description: S.String,
-          permissions: __S(4, __c1, 0),
+          permissions: __S(8, __c1, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/organizations/{organizationId}/roles", code: 200 }),
         ),
@@ -2236,18 +2324,29 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          gpuType: S.String,
-          availableOnDemand: S.Number,
-          availableSpot: S.Number,
+          gpuCount: S.Number,
+          onDemand: S.Number,
+          spot: S.Number,
         }),
-      ).annotate({ identifier: "GpuCapacity" });
+      ).annotate({ identifier: "GpuSandboxCapacity" });
     case 2:
-      return S.Array(__S(101, __c25, 1));
+      return S.Array(__S(201, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          gpuType: S.String,
+          availableOnDemand: S.Number,
+          availableSpot: S.Number,
+          availableSandboxes: __S(202, __c25, 2),
+        }),
+      ).annotate({ identifier: "GpuCapacity" });
+    case 4:
+      return S.Array(__S(203, __c25, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           observedAt: S.String,
-          capacity: __S(102, __c25, 2),
+          capacity: __S(204, __c25, 4),
         }),
       ).annotate({ identifier: "GpuCapacityResponse" });
   }
@@ -2342,7 +2441,7 @@ function __c31(j: number): any {
           currentDiskUsage: S.Number,
           totalGpuQuota: S.Number,
           currentGpuUsage: S.Number,
-          allowedGpuTypes: S.optional(__S(4, __c1, 0)),
+          allowedGpuTypes: S.optional(__S(8, __c1, 0)),
           maxCpuPerSandbox: S.NullOr(S.Number),
           maxMemoryPerSandbox: S.NullOr(S.Number),
           maxDiskPerSandbox: S.NullOr(S.Number),
@@ -2353,11 +2452,11 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "RegionUsageOverview" });
     case 2:
-      return S.Array(__S(125, __c31, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regionUsage: __S(126, __c31, 2),
+          regionUsage: __S(250, __c31, 2),
           totalSnapshotQuota: S.Number,
           currentSnapshotUsage: S.Number,
           totalVolumeQuota: S.Number,
@@ -2426,6 +2525,26 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/organizations/sandbox-telemetry/disabled-organization-ids",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTelemetryDisabledOrganizationIdsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          organizationIds: __S(96, __c12, 0),
+        }),
+      ).annotate({ identifier: "TelemetryDisabledOrganizations" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
         }).pipe(
@@ -2434,7 +2553,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "LeaveOrganizationRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2443,14 +2562,14 @@ function __c36(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/regions", code: 200 })),
       ).annotate({ identifier: "ListAvailableRegionsRequest" });
     case 1:
-      return S.Array(__S(132, __c33, 0));
+      return S.Array(__S(264, __c33, 0));
     case 2:
-      return S.suspend(() => __S(145, __c36, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(297, __c37, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAvailableRegionsResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2470,18 +2589,18 @@ function __c37(j: number): any {
           regionId: S.String,
           sandboxClass: S.String,
           gpuAvailable: S.Boolean,
-          allowedGpuTypes: S.optional(__S(4, __c1, 0)),
+          allowedGpuTypes: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "AvailableSandboxClass" });
     case 2:
-      return S.Array(__S(149, __c37, 1));
+      return S.Array(__S(305, __c38, 1));
     case 3:
-      return S.suspend(() => __S(150, __c37, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(306, __c38, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAvailableSandboxClassesResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2496,14 +2615,14 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationIdentityProvidersRequest" });
     case 1:
-      return S.Array(__S(53, __c13, 1));
+      return S.Array(__S(105, __c13, 1));
     case 2:
-      return S.suspend(() => __S(153, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(313, __c39, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationIdentityProvidersResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2515,17 +2634,17 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListOrganizationInvitationsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16, __c4, 0));
+      return S.Array(__S(32, __c4, 0));
     case 1:
-      return S.suspend(() => __S(160, __c40, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(328, __c41, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationInvitationsResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2533,7 +2652,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListOrganizationInvitationsForAuthenticatedUserRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2542,14 +2661,14 @@ function __c42(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationId}/users", code: 200 })),
       ).annotate({ identifier: "ListOrganizationMembersRequest" });
     case 1:
-      return S.Array(__S(172, __c43, 0));
+      return S.Array(__S(352, __c44, 0));
     case 2:
-      return S.suspend(() => __S(169, __c42, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(345, __c43, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationMembersResponse",
       });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2559,14 +2678,14 @@ function __c43(j: number): any {
           name: S.String,
           email: S.String,
           role: S.String,
-          assignedRoles: __S(12, __c3, 0),
+          assignedRoles: __S(24, __c3, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "OrganizationUser" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2575,26 +2694,26 @@ function __c44(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationId}/roles", code: 200 })),
       ).annotate({ identifier: "ListOrganizationRolesRequest" });
     case 1:
-      return S.suspend(() => __S(12, __c3, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(24, __c3, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationRolesResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/organizations", code: 200 })),
       ).annotate({ identifier: "ListOrganizationsRequest" });
     case 1:
-      return S.Array(__S(40, __c10, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
-      return S.suspend(() => __S(181, __c45, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(369, __c46, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationsResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2615,20 +2734,20 @@ function __c46(j: number): any {
           name: S.String,
           connectionType: S.String,
           state: S.String,
-          domains: __S(48, __c12, 0),
+          domains: __S(96, __c12, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "WorkosSsoConnection" });
     case 2:
-      return S.Array(__S(185, __c46, 1));
+      return S.Array(__S(377, __c47, 1));
     case 3:
-      return S.suspend(() => __S(186, __c46, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(378, __c47, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWorkosSsoConnectionsResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2641,7 +2760,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RegenerateProxyApiKeyRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2651,7 +2770,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RegenerateApiKeyResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2675,7 +2794,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SnapshotManagerCredentials" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2692,7 +2811,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RegenerateSshGatewayApiKeyRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2709,7 +2828,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SetOrganizationDefaultRegionRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2734,7 +2853,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "TestIdentityProviderConnectionResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2742,7 +2861,7 @@ function __c53(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           role: S.String,
-          assignedRoleIds: __S(48, __c12, 0),
+          assignedRoleIds: __S(96, __c12, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2753,7 +2872,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateAccessForOrganizationMemberRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -2761,7 +2880,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c54, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(440, __c55, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2772,7 +2891,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateExperimentalConfigRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2789,7 +2908,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationDefaultQueueTimeoutRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2806,11 +2925,11 @@ function __c56(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          oidcConfig: S.optional(__S(224, __c56, 0)),
-          emailDomains: S.optional(__S(48, __c12, 0)),
+          oidcConfig: S.optional(__S(456, __c57, 0)),
+          emailDomains: S.optional(__S(96, __c12, 0)),
           allowAnyDomain: S.optional(S.Boolean),
           trustEmailVerified: S.optional(S.Boolean),
-          defaultAssignedRoleIds: S.optional(__S(48, __c12, 0)),
+          defaultAssignedRoleIds: S.optional(__S(96, __c12, 0)),
           enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2822,7 +2941,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationIdentityProviderRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2830,7 +2949,7 @@ function __c57(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           invitationId: S.String.pipe(T.Label()),
           role: S.String,
-          assignedRoleIds: __S(48, __c12, 0),
+          assignedRoleIds: __S(96, __c12, 0),
           expiresAt: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2842,21 +2961,21 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationInvitationRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           endpoint: S.String,
-          headers: S.optional(S.NullOr(__S(36, __c9, 0))),
+          headers: S.optional(S.NullOr(__S(72, __c9, 0))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/organizations/{organizationId}/otel-config", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateOrganizationOtelConfigRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2865,7 +2984,7 @@ function __c59(j: number): any {
           roleId: S.String.pipe(T.Label()),
           name: S.String,
           description: S.String,
-          permissions: __S(4, __c1, 0),
+          permissions: __S(8, __c1, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2876,7 +2995,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationRoleRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

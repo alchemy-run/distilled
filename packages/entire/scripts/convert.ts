@@ -26,6 +26,8 @@
  *      write `.generated-specs/<module>.json`.
  *   5. Stamp `smithy.api#paginated` on the cursor-paged operations — see
  *      {@link paginationFor}.
+ *   6. Mark each experimental operation `smithy.api#unstable` — see
+ *      {@link isExperimental}. Generate puts it in `unstable/<module>`.
  *
  * Failures share one RFC 9457 problem document and are dispatched at
  * runtime from the status (`statusToErrorClass: {}`).
@@ -113,6 +115,15 @@ const isEventStream = (op: any): boolean => {
     })
   );
 };
+
+/**
+ * An operation Entire publishes as experimental: `x-entire-experimental:
+ * true` on the operation, or the cell's `experimental` tag ("Shapes may
+ * change without notice").
+ */
+const isExperimental = (op: any): boolean =>
+  op["x-entire-experimental"] === true ||
+  (Array.isArray(op.tags) && op.tags.includes("experimental"));
 
 const usedModules = new Map<string, string>();
 let written = 0;
@@ -251,6 +262,7 @@ for (const api of APIS) {
         // replaces require `If-Match`; both are modeled header members.
         headerParams: true,
         operationNames: OPERATION_NAMES,
+        unstableOperation: isExperimental,
       },
     );
 

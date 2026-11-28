@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -262,6 +263,7 @@ export const closeTunnel: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CloseTunnelRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CloseTunnelResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseTunnel",
@@ -284,6 +286,7 @@ export const describeTunnel: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<DescribeTunnelRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<DescribeTunnelResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTunnel",
@@ -304,6 +307,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(28, __c7, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -328,6 +332,7 @@ export const listTunnels: API.PaginatedOperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<ListTunnelsRequest>,
   output: __S(35, __c8, 3) as any as S.Schema<ListTunnelsResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTunnels",
@@ -356,6 +361,7 @@ export const openTunnel: API.OperationMethod<
   input: __S(36, __c9, 0) as any as S.Schema<OpenTunnelRequest>,
   output: __S(37, __c9, 1) as any as S.Schema<OpenTunnelResponse>,
   errors: [LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OpenTunnel",
@@ -384,6 +390,7 @@ export const rotateTunnelAccessToken: API.OperationMethod<
   input: __S(40, __c10, 0) as any as S.Schema<RotateTunnelAccessTokenRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<RotateTunnelAccessTokenResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateTunnelAccessToken",
@@ -404,6 +411,7 @@ export const tagResource: API.OperationMethod<
   input: __S(44, __c11, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -424,6 +432,7 @@ export const untagResource: API.OperationMethod<
   input: __S(48, __c12, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -45,7 +45,8 @@ program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
 
 | Module | Host | Credential |
 | --- | --- | --- |
-| `sandboxes`, `templates`, `tags`, `volumes`, `secrets`, `snapshots`, `events`, `webhooks`, `auth`, `health`, `unstable` | `https://api.e2b.app` | team API key (`X-API-Key`) |
+| `sandboxes`, `templates`, `tags`, `volumes`, `secrets`, `snapshots`, `events`, `webhooks`, `auth`, `health` | `https://api.e2b.app` | team API key (`X-API-Key`) |
+| `unstable` (import `@distilled.cloud/e2b/unstable/unstable`), `auth`'s `getTeamStatus` and `getTeamLimits` (import `@distilled.cloud/e2b/unstable/auth`) | `https://api.e2b.app` | team API key (`X-API-Key`) |
 | `apiKeys` | `https://api.e2b.app` | access token (`Authorization: Bearer`) + team id (`X-Team-ID`) |
 | `envd`, `process`, `filesystem` | `https://sandbox.e2b.app` | the sandbox's envd access token — `sandboxConnection(...)` |
 | `volumeContent` | `https://api.e2b.app/volumecontent` | the volume's token — `volumeConnection(...)` |
@@ -54,6 +55,35 @@ program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
 are envd's server-streaming RPCs, returned as `Stream`s. Every other envd RPC
 is a generated unary operation (`process.sendProcessInput`,
 `filesystem.listDir`, …). The data-plane protocols never send the team API key.
+
+File reads (`envd.readFile`, `volumeContent.readVolumeFile`) return
+`{ body, contentType }`: the bytes as a `Stream<Uint8Array>` read as they
+arrive (`Stream.mkUint8Array` collects them). File writes
+(`envd.writeFiles`, `volumeContent.writeVolumeFile`) take `body` as bytes,
+text, a `Blob` or a `Stream<Uint8Array>`, sent as it is pulled and never
+retried.
+
+E2B serves some routes under `/unstable/` (tag `unstable`) and says they
+"may change or disappear without notice". Those operations import from
+`@distilled.cloud/e2b/unstable/<module>`, not `@distilled.cloud/e2b/<module>`:
+the whole `unstable` module, and `getTeamStatus` and `getTeamLimits` from
+`unstable/auth`. The rest of `auth` stays on the stable path.
+
+### Run as a user
+
+envd runs a call as the template's default user. To run it as another Linux
+user, pass `username` on the call, or provide `E2B.RunAsUser.of(...)` for a
+whole scope; the call's own `username` wins. It applies to
+`process.startProcess`, the `filesystem` calls (`statPath`, `listDir`,
+`makeDir`, `movePath`, `removePath`, `watchDir`) and the file calls
+(`envd.readFile`, `writeFiles`, `composeFiles`), as in E2B's SDK.
+
+```ts
+// One call:
+Process.startProcess({ process: { cmd: "whoami" }, username: "root" });
+// Every envd call in the scope:
+program.pipe(Effect.provide(E2B.RunAsUser.of("root")));
+```
 
 ## Auth
 

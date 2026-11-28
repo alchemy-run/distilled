@@ -24,13 +24,20 @@
  * `process.connectProcess` and `filesystem.watchDir`.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
+import * as MaxMessageBytes from "@distilled.cloud/core/max-message-bytes";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
-import { ENVD_PORT, envdBaseUrlFor, SandboxConnection } from "./credentials.ts";
+import {
+  ENVD_PORT,
+  envdBaseUrlFor,
+  resolveSandboxConnection,
+  type SandboxConnection,
+} from "./credentials.ts";
 import {
   BadRequest,
   Conflict,
@@ -42,6 +49,7 @@ import {
   Unauthorized,
   UnknownE2BError,
 } from "./errors.ts";
+import { basicAuthorization, RunAsUser } from "./run-as-user.ts";
 
 // =============================================================================
 // Messages
@@ -68,6 +76,8 @@ export interface StartProcessRequest {
   readonly tag?: string;
   /** Keep stdin open for `process.sendInput`. */
   readonly stdin?: boolean;
+  /** The Linux user to run the command as; else the `RunAsUser` layer's, else the template's default. */
+  readonly username?: string;
 }
 
 /** Selects a running process by pid or by the tag it was started with. */
@@ -99,6 +109,8 @@ export interface WatchDirRequest {
   readonly includeEntry?: boolean;
   /** Allow watching network mounts (NFS, CIFS, SMB, FUSE); events there may be unreliable. */
   readonly allowNetworkMounts?: boolean;
+  /** The Linux user to watch as (resolves a relative path); else the `RunAsUser` layer's. */
+  readonly username?: string;
 }
 
 export type FilesystemEventType =
@@ -177,11 +189,14 @@ const parseJson = (bytes: Uint8Array): unknown => {
 
 /**
  * Splits a chunk into the envelopes it completes, keeping the remainder.
- * Pure, so a chunk boundary anywhere (mid-header, mid-payload) is safe.
+ * Pure, so a chunk boundary anywhere (mid-header, mid-payload) is safe. An
+ * envelope announcing more than `limit` bytes is left at the start of the
+ * remainder, undecoded.
  */
 export const takeEnvelopes = (
   buffer: Uint8Array,
   chunk: Uint8Array,
+  limit: number = Infinity,
 ): readonly [remainder: Uint8Array, envelopes: ReadonlyArray<Envelope>] => {
   let data = concat(buffer, chunk);
   const envelopes: Envelope[] = [];
@@ -189,7 +204,7 @@ export const takeEnvelopes = (
     const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
     const flags = view.getUint8(0);
     const length = view.getUint32(1, false);
-    if (data.length < HEADER_BYTES + length) break;
+    if (length > limit || data.length < HEADER_BYTES + length) break;
     const json = parseJson(data.subarray(HEADER_BYTES, HEADER_BYTES + length));
     envelopes.push(
       (flags & END_STREAM_FLAG) !== 0 ? { _tag: "End", json } : { _tag: "Message", json },
@@ -197,6 +212,56 @@ export const takeEnvelopes = (
     data = data.slice(HEADER_BYTES + length);
   }
   return [data, envelopes];
+};
+
+/** The payload length the next envelope in `buffer` announces, if it is over `limit`. */
+const oversizedEnvelope = (buffer: Uint8Array, limit: number): number | undefined => {
+  if (buffer.length < HEADER_BYTES) return undefined;
+  const length = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength).getUint32(
+    1,
+    false,
+  );
+  return length > limit ? length : undefined;
+};
+
+/** {@link takeEnvelopes}, failing once the next envelope announces more than `limit` bytes. */
+const takeEnvelopesBounded =
+  (limit: number) =>
+  (
+    buffer: Uint8Array,
+    chunk: Uint8Array,
+  ): Effect.Effect<
+    readonly [remainder: Uint8Array, envelopes: ReadonlyArray<Envelope>],
+    E2BParseError
+  > => {
+    const [remainder, envelopes] = takeEnvelopes(buffer, chunk, limit);
+    const length = oversizedEnvelope(remainder, limit);
+    return length === undefined
+      ? Effect.succeed([remainder, envelopes] as const)
+      : Effect.fail(
+          new E2BParseError({
+            body: undefined,
+            cause: `envd stream envelope of ${length} bytes is over the ${limit}-byte limit (maxMessageBytes)`,
+          }),
+        );
+  };
+
+/** `request` without the SDK-only `maxMessageBytes`, which envd does not know. */
+/** The request message without the members the SDK reads: `maxMessageBytes`, `username`. */
+const wireRequest = (request: unknown): unknown => {
+  if (
+    request === null ||
+    typeof request !== "object" ||
+    !("maxMessageBytes" in request || "username" in request)
+  ) {
+    return request;
+  }
+  const {
+    maxMessageBytes: _,
+    username: __,
+    ...rest
+  } = request as MaxMessageBytes.MaxMessageBytesInput & { readonly username?: string };
+  return rest;
 };
 
 /**
@@ -248,27 +313,25 @@ const errorOf = (json: unknown): { code?: string; message?: string } | undefined
   };
 };
 
-const missingSandbox = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
-  }),
-);
-
 /**
  * Calls a server-streaming envd RPC and streams its decoded messages.
- * Exported for RPCs envd adds before this module models them.
+ * Exported for RPCs envd adds before this module models them. With
+ * `runAsUser`, the RPC takes a run-as user: the request's `username`, else
+ * the {@link RunAsUser} layer's, sent as `Authorization: Basic`.
  */
 export const serverStream = (
   method: string,
   request: unknown,
+  options?: { readonly runAsUser?: boolean },
 ): Stream.Stream<unknown, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   Stream.unwrap(
     Effect.gen(function* () {
-      const sandbox = yield* Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
-        option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
-      );
+      const sandbox = yield* resolveSandboxConnection;
       const client = yield* HttpClient.HttpClient;
+      const limit = MaxMessageBytes.resolve(yield* Effect.context(), request);
+      if (typeof limit !== "number") {
+        return yield* new ConfigError({ message: limit.invalid });
+      }
       const headers: Record<string, string> = {
         "Connect-Protocol-Version": "1",
         "E2b-Sandbox-Id": sandbox.sandboxId,
@@ -277,10 +340,19 @@ export const serverStream = (
       if (sandbox.accessToken !== undefined) {
         headers["X-Access-Token"] = Redacted.value(sandbox.accessToken);
       }
+      if (options?.runAsUser === true) {
+        const username =
+          (request as { readonly username?: string } | null)?.username ??
+          Option.getOrUndefined(yield* Effect.serviceOption(RunAsUser));
+        if (username !== undefined) headers.Authorization = basicAuthorization(username);
+      }
       const response = yield* client.execute(
         HttpClientRequest.post(`${envdBaseUrlFor(sandbox)}/${method}`).pipe(
           HttpClientRequest.setHeaders(headers),
-          HttpClientRequest.bodyUint8Array(encodeEnvelope(request), "application/connect+json"),
+          HttpClientRequest.bodyUint8Array(
+            encodeEnvelope(wireRequest(request)),
+            "application/connect+json",
+          ),
         ),
       );
       if (response.status < 200 || response.status >= 300) {
@@ -312,7 +384,7 @@ export const serverStream = (
         );
       }
       return response.stream.pipe(
-        Stream.mapAccum(() => new Uint8Array(0), takeEnvelopes),
+        Stream.mapAccumEffect(() => new Uint8Array(0), takeEnvelopesBounded(limit)),
         Stream.mapEffect((envelope) => {
           if (envelope._tag === "Message") {
             return Effect.succeed([envelope.json] as ReadonlyArray<unknown>);
@@ -381,15 +453,15 @@ const decodeWith =
  * {@link connectProcess} or stopped with `process.sendSignal`.
  */
 export const startProcess = (
-  request: StartProcessRequest,
+  request: StartProcessRequest & MaxMessageBytes.MaxMessageBytesInput,
 ): Stream.Stream<ProcessEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
-  serverStream("process.Process/Start", request).pipe(
+  serverStream("process.Process/Start", request, { runAsUser: true }).pipe(
     Stream.mapEffect(decodeWith(decodeProcessEvent)),
   );
 
 /** Re-attaches to a running process and streams its events from now on. */
 export const connectProcess = (
-  request: ConnectProcessRequest,
+  request: ConnectProcessRequest & MaxMessageBytes.MaxMessageBytesInput,
 ): Stream.Stream<ProcessEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   serverStream("process.Process/Connect", request).pipe(
     Stream.mapEffect(decodeWith(decodeProcessEvent)),
@@ -420,8 +492,8 @@ export const decodeWatchDirEvent = (message: unknown): WatchDirEvent | E2BParseE
 
 /** Watches a directory and streams its changes until the stream is interrupted. */
 export const watchDir = (
-  request: WatchDirRequest,
+  request: WatchDirRequest & MaxMessageBytes.MaxMessageBytesInput,
 ): Stream.Stream<WatchDirEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
-  serverStream("filesystem.Filesystem/WatchDir", request).pipe(
+  serverStream("filesystem.Filesystem/WatchDir", request, { runAsUser: true }).pipe(
     Stream.mapEffect(decodeWith(decodeWatchDirEvent)),
   );

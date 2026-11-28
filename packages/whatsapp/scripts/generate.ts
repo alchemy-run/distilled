@@ -125,7 +125,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "WhatsAppOpContext",
     commonErrorType: "WhatsAppOpError",
-    commonErrorClasses: ["UnknownWhatsAppError"],
+    serviceErrors: "WhatsAppServiceErrors",
     protocol: "WhatsAppProtocol",
     retry: "Retry.Retry",
   },

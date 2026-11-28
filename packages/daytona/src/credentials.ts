@@ -3,8 +3,8 @@
  *
  * The `Credentials` service resolves `{ apiKey, apiBaseUrl, analyticsBaseUrl,
  * toolboxBaseUrl, sandboxId?, organizationId? }` per request; the protocol
- * layer formats the `Authorization: Bearer <apiKey>` header from it. The
- * key is a Daytona API key from https://app.daytona.io/dashboard/keys.
+ * formats the `Authorization: Bearer <apiKey>` header from it. The key is a
+ * Daytona API key from https://app.daytona.io/dashboard/keys.
  *
  * Daytona speaks from THREE endpoints:
  *
@@ -58,7 +58,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "DaytonaCredentials",
   ) {}
 
@@ -79,25 +79,32 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "DAYTONA_API_KEY environment variable is required",
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "DAYTONA_API_KEY environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(
+        ({ apiKey, apiBaseUrl, analyticsBaseUrl, toolboxBaseUrl, sandboxId, organizationId }) => ({
+          apiKey,
+          apiBaseUrl,
+          analyticsBaseUrl,
+          toolboxBaseUrl,
+          sandboxId: sandboxId._tag === "Some" ? sandboxId.value : undefined,
+          organizationId: organizationId._tag === "Some" ? organizationId.value : undefined,
         }),
+      ),
     ),
-    /*@__PURE__*/ Effect.map(
-      ({ apiKey, apiBaseUrl, analyticsBaseUrl, toolboxBaseUrl, sandboxId, organizationId }) => ({
-        apiKey,
-        apiBaseUrl,
-        analyticsBaseUrl,
-        toolboxBaseUrl,
-        sandboxId: sandboxId._tag === "Some" ? sandboxId.value : undefined,
-        organizationId: organizationId._tag === "Some" ? organizationId.value : undefined,
-      }),
-    ),
+    (config) => Effect.succeed(config),
   ),
 );
 

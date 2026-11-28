@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOpencodeError } from "../errors.ts";
+import { OpencodeServiceErrors } from "../errors.ts";
 import { OpencodeProtocol, type OpencodeOpError, type OpencodeOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -62,9 +62,9 @@ export class Conflict
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
           /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
           S.String,
         ]),
       ),
@@ -86,7 +86,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1488, __c93, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(576, __c36, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -103,25 +103,14 @@ export class NotFound
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(2016, __c126, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(1056, __c66, 0)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(2017, __c126, 1)),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(2018, __c126, 2)),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(2019, __c126, 3)),
+          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(2020, __c126, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(1057, __c66, 1)),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
@@ -131,7 +120,8 @@ export class NotFound
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
           /*@__PURE__*/ S.suspend(() => S.Unknown),
-          /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
           S.String,
         ]),
       ),
@@ -145,133 +135,51 @@ export class NotFound
     | Error404Body8
     | SessionNotFoundErrorEncoded
     | Error404Body3
-    | Error404Body12
-    | Error404Body14
-    | PtyNotFoundErrorEncoded
     | Error404Body13
-    | Error404Body17
-    | Error404Body18
-    | ProjectNotFoundErrorEncoded
+    | Error404Body14
     | Error404Body19
-    | ScheduleNotFoundErrorEncoded
-    | Error404Body21
-    | Error404Body9
-    | Error404Body6
+    | ProjectNotFoundErrorEncoded
     | Error404Body4
     | Error404Body
-    | FileNotFoundErrorEncoded
+    | Error404Body12
     | Error404Body11
-    | Error404Body10
-    | Error404Body15
-    | Error404Body22
     | Error404Body16
+    | Error404Body24
+    | Error404Body17
     | Error404Body2
     | Error404Body5
     | Error404Body7
-    | Error404Body20
     | PermissionSavedNotFoundErrorEncoded
     | string;
-}
-
-export class UnprocessableEntity
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
-      code: S.Number,
-      message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2288, __c143, 0)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
-    }).pipe(C.withBadRequestError),
-    [{ status: 422 }],
-  )
-{
-  declare readonly body?: UnsupportedModelErrorEncoded | string;
 }
 
 export interface ActivateCredentialRequest {
   credentialID: string;
 }
 export interface ActivateCredentialResponse {}
-export interface AddExperimentalIntegrationWellknownRequestLocation {
+export interface CancelIntegrationCommandRequestLocation {
+  /** Absolute path of the directory. */
   directory?: string | null | undefined;
 }
-export interface AddExperimentalIntegrationWellknownRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  url: string;
-}
-export interface AddExperimentalIntegrationWellknownResponse {}
-export type AddExperimentalMcpRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export type McpLocalConfigEncodedType = "local";
-export type McpLocalConfigEncodedCommandList = Array<string>;
-export type McpLocalConfigEncodedEnvironmentMap = { [key: string]: string | undefined };
-export interface McpLocalConfigEncodedTimeout {
-  startup?: number | undefined;
-  catalog?: number | undefined;
-  execution?: number | undefined;
-}
-/** MCP protocol negotiation. "legacy" (default) opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "auto" probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "2026-07-28" requires that revision and fails otherwise. */
-export type McpProtocol = "legacy" | "auto" | "2026-07-28";
-export interface McpLocalConfigEncoded {
-  type: McpLocalConfigEncodedType;
-  command: McpLocalConfigEncodedCommandList;
-  cwd?: string | undefined;
-  environment?: McpLocalConfigEncodedEnvironmentMap | undefined;
-  disabled?: boolean | undefined;
-  codemode?: boolean | undefined;
-  timeout?: McpLocalConfigEncodedTimeout | undefined;
-  protocol?: McpProtocol | (string & {}) | undefined;
-  pool?: boolean | undefined;
-}
-export type McpRemoteConfigEncodedType = "remote";
-export type McpRemoteConfigEncodedHeadersMap = { [key: string]: string | undefined };
-export interface McpOAuthConfigEncoded {
-  client_id?: string | undefined;
-  client_secret?: string | Redacted.Redacted<string> | undefined;
-  scope?: string | undefined;
-  callback_port?: number | undefined;
-  redirect_uri?: string | undefined;
-  auth_server_metadata_url?: string | undefined;
-}
-export type McpRemoteConfigEncodedOauth = McpOAuthConfigEncoded | boolean;
-export type McpRemoteConfigEncodedTimeout = McpLocalConfigEncodedTimeout;
-export interface McpRemoteConfigEncoded {
-  type: McpRemoteConfigEncodedType;
-  url: string;
-  headers?: McpRemoteConfigEncodedHeadersMap | undefined;
-  oauth?: McpRemoteConfigEncodedOauth | undefined;
-  disabled?: boolean | undefined;
-  codemode?: boolean | undefined;
-  timeout?: McpLocalConfigEncodedTimeout | undefined;
-  protocol?: McpProtocol | (string & {}) | undefined;
-  pool?: boolean | undefined;
-}
-export type AddExperimentalMcpRequestConfig = McpLocalConfigEncoded | McpRemoteConfigEncoded;
-export interface AddExperimentalMcpRequest {
-  server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  config: AddExperimentalMcpRequestConfig;
-}
-export interface AddExperimentalMcpResponse {}
-export type CancelIntegrationCommandRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
 export interface CancelIntegrationCommandRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface CancelIntegrationCommandResponse {}
-export type CancelIntegrationOauthRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type CancelIntegrationOauthRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface CancelIntegrationOauthRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface CancelIntegrationOauthResponse {}
 export interface CancelSessionFormRequest {
   sessionID: string;
   formID: string;
+  /** Why the form was not answered, passed on to the asker. */
   message?: string | undefined;
 }
 export interface CancelSessionFormResponse {}
@@ -280,9 +188,10 @@ export interface CancelSessionInboxRequest {
   inboxID: string;
 }
 export interface CancelSessionInboxResponse {}
-export type CheckPluginRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type CheckPluginRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface CheckPluginRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   target?: string | null | undefined;
 }
 export interface LocationPublicRef {
@@ -350,6 +259,7 @@ export interface CommitSessionRevertRequest {
   sessionID: string;
 }
 export interface CommitSessionRevertResponse {}
+/** steer delivers before the agent's next model call, even mid-work. queue waits until the agent finishes its current work, then delivers one queued item at a time. Sending defaults to steer. */
 export type SessionInboxDelivery = "steer" | "queue";
 export interface CompactSessionRequest {
   sessionID: string;
@@ -371,12 +281,12 @@ export interface SessionInboxCompaction {
 export interface CompactSessionResponse {
   data: SessionInboxCompaction;
 }
-export type CompleteIntegrationOauthRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type CompleteIntegrationOauthRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface CompleteIntegrationOauthRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   code?: string | null | undefined;
 }
 export interface CompleteIntegrationOauthResponse {}
@@ -388,28 +298,11 @@ export interface ConfigShellOption {
 }
 export type ConfigShellsResponseBodyList = Array<ConfigShellOption>;
 export type ConfigShellsResponse = ConfigShellsResponseBodyList;
-export type ConnectExperimentalMcpRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ConnectExperimentalMcpRequest {
-  server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export interface ConnectExperimentalMcpResponse {}
-export interface ConnectExperimentalPersistentPtyRequest {
-  ptyID: string;
-  cursor?: string | undefined;
-  role?: string | undefined;
-  attachment_id?: string | undefined;
-  takeover?: string | undefined;
-  input_protocol?: string | undefined;
-  ticket?: string | undefined;
-}
-export type ConnectExperimentalPersistentPtyResponse = boolean;
-export type ConnectIntegrationCommandRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type ConnectIntegrationCommandRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ConnectIntegrationCommandRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   methodID: string;
   label?: string | null | undefined;
 }
@@ -433,15 +326,15 @@ export interface ConnectIntegrationCommandResponse {
   location: LocationPublicRef;
   data: IntegrationCommandAttempt;
 }
-export type ConnectIntegrationOauthRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type ConnectIntegrationOauthRequestLocation = CancelIntegrationCommandRequestLocation;
 export type FormValueCase2 = "Infinity" | "-Infinity" | "NaN";
 export type FormValueCase4List = Array<string>;
 export type FormValue = string | number | FormValueCase2 | boolean | FormValueCase4List;
 export type FormAnswer = { [key: string]: FormValue | undefined };
 export interface ConnectIntegrationOauthRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   methodID: string;
   answer?: FormAnswer | null | undefined;
   label?: string | null | undefined;
@@ -473,8 +366,11 @@ export interface ConnectIntegrationOauthResponse {
 }
 export interface ConnectPtyRequest {
   ptyID: string;
+  /** Absolute path of the location directory. Omit to use the server's default location. */
   location_directory_?: string | undefined;
+  /** Output offset to replay from. Use -1 to start at the current end; omit to replay all retained output. */
   cursor?: string | undefined;
+  /** Single-use ticket from pty.connect.token, which authorizes the connection without the usual credentials. */
   ticket?: string | undefined;
 }
 export type ConnectPtyResponse = boolean;
@@ -482,7 +378,7 @@ export interface ConnectServerRequest {
   code: string;
 }
 export interface PairingSession {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type CredentialOAuthType = "oauth";
 export interface CredentialOAuth {
@@ -523,220 +419,12 @@ export interface CredentialEntry {
 export interface CreateCredentialResponse {
   data: CredentialEntry;
 }
-export type CreateExperimentalArtifactRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export type CreateExperimentalArtifactRequestFilesMap = { [key: string]: string | undefined };
-export interface CreateExperimentalArtifactRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  title: string;
-  files: CreateExperimentalArtifactRequestFilesMap;
-  entry?: string | undefined;
-  provider?: string | undefined;
-  sessionID?: string | undefined;
-}
-export interface ArtifactTime {
-  created: number;
-  updated: number;
-}
-export interface ArtifactInfo {
-  id: string;
-  provider: string;
-  sessionID?: string | undefined;
-  title: string;
-  entry: string;
-  url: string;
-  time: ArtifactTime;
-}
-export interface CreateExperimentalArtifactResponse {
-  location: LocationPublicRef;
-  data: ArtifactInfo;
-}
-export type CreateExperimentalPersistentPtyRequestArgsList = Array<string>;
-export type CreateExperimentalPersistentPtyRequestEnvMap = { [key: string]: string | undefined };
-export interface CreateExperimentalPersistentPtyRequestSize {
-  cols: number;
-  rows: number;
-}
-export interface CreateExperimentalPersistentPtyRequest {
-  sessionID: string;
-  command?: string | undefined;
-  args: CreateExperimentalPersistentPtyRequestArgsList;
-  cwd?: string | undefined;
-  title: string;
-  env: CreateExperimentalPersistentPtyRequestEnvMap;
-  size?: CreateExperimentalPersistentPtyRequestSize | undefined;
-}
-export type PersistentPtyInfoArgsList = Array<string>;
-export type PersistentPtyInfoStatus = "running" | "exited";
-export type PersistentPtyInfoSize = CreateExperimentalPersistentPtyRequestSize;
-export interface PersistentPtyInfoOutput {
-  head: number;
-  tail: number;
-}
-export interface PersistentPtyInfo {
-  id: string;
-  title: string;
-  command: string;
-  args: PersistentPtyInfoArgsList;
-  cwd: string;
-  status: PersistentPtyInfoStatus;
-  pid: number;
-  exitCode?: number | undefined;
-  sessionID: string;
-  userTitle: string | null;
-  foregroundProcess: string | null;
-  size: CreateExperimentalPersistentPtyRequestSize;
-  output: PersistentPtyInfoOutput;
-}
-export interface CreateExperimentalPersistentPtyResponse {
-  data: PersistentPtyInfo;
-}
-export interface ScheduleWhenInputCase0 {
-  in: string;
-  at?: unknown | undefined;
-  every?: unknown | undefined;
-  cron?: unknown | undefined;
-  tz?: string | undefined;
-}
-export interface ScheduleWhenInputCase1 {
-  at: string;
-  in?: unknown | undefined;
-  every?: unknown | undefined;
-  cron?: unknown | undefined;
-  tz?: string | undefined;
-}
-export interface ScheduleWhenInputCase2 {
-  every: string;
-  in?: unknown | undefined;
-  at?: unknown | undefined;
-  cron?: unknown | undefined;
-  tz?: string | undefined;
-}
-export interface ScheduleWhenInputCase3 {
-  cron: string;
-  in?: unknown | undefined;
-  at?: unknown | undefined;
-  every?: unknown | undefined;
-  tz?: string | undefined;
-}
-export type ScheduleWhenInput =
-  | ScheduleWhenInputCase0
-  | ScheduleWhenInputCase1
-  | ScheduleWhenInputCase2
-  | ScheduleWhenInputCase3;
-export interface ScheduleConditionInputCase0 {
-  /** Shell command to run in the Session's directory. Alone, exit 0 wakes and stdout is appended. */
-  run: string;
-  is?: string | undefined;
-  matches?: string | undefined;
-  changes?: boolean | undefined;
-  code?: unknown | undefined;
-}
-export interface ScheduleConditionInputCase1 {
-  /** Code Mode JavaScript check (no fetch; 30s, 20 tool calls, 32 KB output cap). Call tools statically as tools.<ns>.<tool>(...) or tools["ns-name"].tool(...); each is authorized once at creation to run unattended. Runs once at creation with state = null (if baselines state without waking; until matches immediately if true), with globals state, now (epoch ms) and runs. Return a boolean or { wake, state?, message? } (message is appended to prompt on wake), e.g.: const t = await tools.slack.read_thread({ id }); return { wake: state !== null && t.count > state.count, state: { count: t.count }, message: "New reply" } */
-  code: string;
-  run?: unknown | undefined;
-  is?: unknown | undefined;
-  matches?: unknown | undefined;
-  changes?: unknown | undefined;
-}
-export type ScheduleConditionInput = ScheduleConditionInputCase0 | ScheduleConditionInputCase1;
-export interface ScheduleEnds {
-  after?: string | undefined;
-  at?: string | undefined;
-  times?: number | undefined;
-}
-export interface CreateExperimentalScheduleRequest {
-  sessionID: string;
-  name?: string | undefined;
-  when?: ScheduleWhenInput | undefined;
-  if?: ScheduleConditionInput | undefined;
-  until?: ScheduleConditionInput | undefined;
-  ends?: ScheduleEnds | undefined;
-  /** The message the Session receives when the schedule wakes. */
-  prompt: string;
-}
-export type ScheduleWhenInType = "in";
-export interface ScheduleWhenIn {
-  type: ScheduleWhenInType;
-  in: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhenAtType = "at";
-export interface ScheduleWhenAt {
-  type: ScheduleWhenAtType;
-  at: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhenEveryType = "every";
-export interface ScheduleWhenEvery {
-  type: ScheduleWhenEveryType;
-  every: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhenCronType = "cron";
-export interface ScheduleWhenCron {
-  type: ScheduleWhenCronType;
-  cron: string;
-  tz?: string | undefined;
-}
-export type ScheduleWhen = ScheduleWhenIn | ScheduleWhenAt | ScheduleWhenEvery | ScheduleWhenCron;
-export type ScheduleConditionShellType = "shell";
-export interface ScheduleConditionShell {
-  type: ScheduleConditionShellType;
-  run: string;
-  is?: string | undefined;
-  matches?: string | undefined;
-  changes?: boolean | undefined;
-}
-export type ScheduleConditionCodeType = "code";
-export interface ScheduleConditionCode {
-  type: ScheduleConditionCodeType;
-  code: string;
-}
-export type ScheduleCondition = ScheduleConditionShell | ScheduleConditionCode;
-export type ScheduleActionPromptType = "prompt";
-export interface ScheduleActionPrompt {
-  type: ScheduleActionPromptType;
-  prompt: string;
-}
-export type ScheduleStatus = "active" | "paused" | "done";
-export type ScheduleOutcome =
-  | "fired"
-  | "late"
-  | "checked"
-  | "expired"
-  | "skipped"
-  | "disabled"
-  | "failed";
-export type ScheduleInfoTime = ArtifactTime;
-export interface ScheduleInfo {
-  id: string;
-  sessionID?: string | undefined;
-  name?: string | undefined;
-  when: ScheduleWhen;
-  tz: string;
-  if?: ScheduleCondition | undefined;
-  until?: ScheduleCondition | undefined;
-  action: ScheduleActionPrompt;
-  status: ScheduleStatus;
-  nextDueAt?: number | undefined;
-  endsAt?: number | undefined;
-  remainingRuns?: number | undefined;
-  runCount: number;
-  lastFiredAt?: number | undefined;
-  lastOutcome?: ScheduleOutcome | undefined;
-  lastOutput?: string | undefined;
-  time: ArtifactTime;
-}
-export interface CreateExperimentalScheduleResponse {
-  data: ScheduleInfo;
-}
-export type CreatePtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type CreatePtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export type CreatePtyRequestArgsList = Array<string>;
 export type CreatePtyRequestEnvMap = { [key: string]: string | undefined };
 export interface CreatePtyRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   command?: string | undefined;
   args?: CreatePtyRequestArgsList | undefined;
   cwd?: string | undefined;
@@ -772,13 +460,18 @@ export interface PermissionRule {
 }
 export type PermissionRuleset = Array<PermissionRule>;
 export interface CreateSessionRequest {
+  /** If a session with this ID already exists, it is returned unchanged, so retries are safe. */
   id?: string | null | undefined;
+  /** Creates a child session at the parent's location. Each time the child finishes running, it sends its last reply to the parent as a `<background-result kind="subagent">` message and wakes the parent, unless the parent has a staged revert. */
   parentID?: string | null | undefined;
   title?: string | null | undefined;
   agent?: string | null | undefined;
   model?: ModelRef | null | undefined;
+  /** Defaults to the server's working directory. Ignored when parentID is set. */
   location?: LocationPublicRef | null | undefined;
+  /** Opaque to OpenCode. Child sessions inherit the parent's metadata unless you pass your own. */
   metadata?: unknown | null | undefined;
+  /** Applied on top of the agent's rules. Child sessions inherit the parent's rules unless you pass your own. */
   permissions?: PermissionRuleset | null | undefined;
 }
 export type SessionForkBoundaryCase0Type = "before";
@@ -821,7 +514,7 @@ export interface FileDiffInfo {
   patch: string;
   additions: number;
   deletions: number;
-  status: FileDiffInfoStatus | (string & {});
+  status: FileDiffInfoStatus;
   more?: boolean | undefined;
 }
 export type SessionRevertFilesList = Array<FileDiffInfo>;
@@ -840,7 +533,7 @@ export interface SessionInfo {
   model?: ModelRef | undefined;
   cost: number;
   tokens: TokenUsageInfo;
-  outcome?: SessionInfoOutcome | (string & {}) | undefined;
+  outcome?: SessionInfoOutcome | undefined;
   time: SessionInfoTime;
   title?: string | undefined;
   subpath?: string | undefined;
@@ -1014,9 +707,10 @@ export interface CreateSessionPermissionResponseData {
 export interface CreateSessionPermissionResponse {
   data: CreateSessionPermissionResponseData;
 }
-export type CreateShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type CreateShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface CreateShellRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   command: string;
   cwd?: string | undefined;
   timeout?: number | undefined;
@@ -1056,6 +750,7 @@ export interface WorktreeInfo {
   directory: string;
 }
 export interface DebugHeapDumpRequest {
+  /** Absolute server-local directory to write the snapshot into, created when missing. Defaults to the server's log directory. */
   directory?: string | undefined;
 }
 export type DebugHeapDumpResponseMemoryRssCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -1086,543 +781,776 @@ export interface DebugHeapDumpResponse {
   /** The server process's memory in bytes, read just before the snapshot (Node's process.memoryUsage()). rss covers native memory the snapshot cannot show. */
   memory: DebugHeapDumpResponseMemory;
 }
-export type DebugLocationEvictRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type DebugLocationEvictRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface DebugLocationEvictRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface DebugLocationEvictResponse {}
-export type DeleteExperimentalArtifactRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface DeleteExperimentalArtifactRequest {
-  artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+export interface ForkSessionRequest {
+  sessionID: string;
+  before?: string | null | undefined;
 }
-export interface DeleteExperimentalArtifactResponse {}
-export interface DeleteExperimentalScheduleRequest {
-  scheduleID: string;
+export interface ForkSessionResponse {
+  data: SessionInfo;
 }
-export interface DeleteExperimentalScheduleResponse {}
-export type DisconnectExperimentalMcpRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface DisconnectExperimentalMcpRequest {
-  server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+export type FsFindRequestLocation = CancelIntegrationCommandRequestLocation;
+export type FsFindRequestType = "file" | "directory";
+export interface FsFindRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+  query: string;
+  type?: FsFindRequestType | (string & {}) | undefined;
+  limit?: string | undefined;
 }
-export interface DisconnectExperimentalMcpResponse {}
-export type ExperimentalArtifactsProvidersRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalArtifactsProvidersRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+export type FileSystemEntryType = "file" | "directory";
+export interface FileSystemEntry {
+  path: string;
+  type: FileSystemEntryType;
 }
-export type ArtifactCapability = "static" | "server-code" | "sqlite" | "durable-objects";
-export type ArtifactProviderCapabilitiesList = Array<ArtifactCapability>;
-export interface ArtifactProvider {
+export type FsFindResponseDataList = Array<FileSystemEntry>;
+export interface FsFindResponse {
+  location: LocationPublicRef;
+  data: FsFindResponseDataList;
+}
+export interface GenerateSessionRequest {
+  sessionID: string;
+  prompt: string;
+}
+export interface SessionGenerateResponseData {
+  text: string;
+  tokens: TokenUsageInfo;
+  cost: number;
+}
+export interface SessionGenerateResponse {
+  data: SessionGenerateResponseData;
+}
+export type GetAgentRequestLocation = CancelIntegrationCommandRequestLocation;
+export interface GetAgentRequest {
+  agentID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+}
+export type ProviderSettingsTimeout = number | boolean;
+export type ProviderSettingsHeaderTimeout = number | boolean;
+export type ProviderSettingsChunkTimeout = number | boolean;
+export type ProviderCompactionCase0Type = "summary";
+export interface ProviderCompactionCase0 {
+  type: ProviderCompactionCase0Type;
+}
+export type ProviderCompactionCase1Type = "native";
+export interface ProviderCompactionCase1 {
+  type: ProviderCompactionCase1Type;
+}
+export type ProviderCompaction = ProviderCompactionCase0 | ProviderCompactionCase1;
+export type ProviderCacheWarmingCase1IntervalCase0 = "auto";
+export type ProviderCacheWarmingCase1Interval = ProviderCacheWarmingCase1IntervalCase0 | string;
+export interface ProviderCacheWarmingCase1 {
+  interval?: ProviderCacheWarmingCase1Interval | undefined;
+  duration?: string | undefined;
+}
+export type ProviderCacheWarming = boolean | ProviderCacheWarmingCase1;
+export interface ProviderCache {
+  ttl?: string | undefined;
+  warming?: ProviderCacheWarming | undefined;
+}
+export type ProviderTransport = "http" | "websocket";
+export type ProviderEncoding = "zstd" | "gzip" | "none";
+export interface ProviderTls {
+  /** PEM client certificate, usually `{file:/path/to/client.pem}` */
+  cert: string;
+  /** PEM private key, usually `{file:/path/to/client.key}` */
+  key: string;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
+}
+export interface ProviderSettings {
+  timeout?: ProviderSettingsTimeout | undefined;
+  headerTimeout?: ProviderSettingsHeaderTimeout | undefined;
+  chunkTimeout?: ProviderSettingsChunkTimeout | undefined;
+  compaction?: ProviderCompaction | undefined;
+  cache?: ProviderCache | undefined;
+  transport?: ProviderTransport | undefined;
+  encoding?: ProviderEncoding | undefined;
+  tls?: ProviderTls | undefined;
+  [key: string]: unknown;
+}
+export type ProviderRequestHeadersMap = { [key: string]: string | undefined };
+export interface ProviderRequest {
+  settings: ProviderSettings;
+  headers: ProviderRequestHeadersMap;
+  body: unknown;
+}
+export interface AgentInfoInstructionsCase1 {
+  selected: string;
+  unselected: string;
+}
+export type AgentInfoInstructions = string | AgentInfoInstructionsCase1;
+export type AgentInfoMode = "subagent" | "primary" | "all";
+export interface AgentInfo {
   id: string;
   name: string;
-  capabilities: ArtifactProviderCapabilitiesList;
-  default: boolean;
-}
-export type ExperimentalArtifactsProvidersResponseDataList = Array<ArtifactProvider>;
-export interface ExperimentalArtifactsProvidersResponse {
-  location: LocationPublicRef;
-  data: ExperimentalArtifactsProvidersResponseDataList;
-}
-export type ExperimentalArtifactsViewRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalArtifactsViewRequest {
-  artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export interface ExperimentalArtifactsViewResponse {}
-export type ExperimentalFsUnwatchRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalFsUnwatchRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  /** A file path relative to the requested location. */
-  path: string;
-}
-export interface ExperimentalFsUnwatchResponse {}
-export type ExperimentalFsWriteRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalFsWriteRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  path: string;
-}
-export interface FileSystemWrite {
-  path: string;
-}
-export interface ExperimentalFsWriteResponse {
-  location: LocationPublicRef;
-  data: FileSystemWrite;
-}
-export type GenerateDecisionTextPartType = "text";
-export interface GenerateDecisionTextPart {
-  type: GenerateDecisionTextPartType;
-  text: string;
-}
-export type GenerateDecisionJsonPartType = "json";
-export interface GenerateDecisionJsonPart {
-  type: GenerateDecisionJsonPartType;
-  value: unknown;
-}
-export type GenerateDecisionFilePartType = "file";
-export interface GenerateDecisionFilePart {
-  type: GenerateDecisionFilePartType;
-  data: string;
-  mime: string;
-  name?: string | undefined;
-}
-export type GenerateDecisionPart =
-  | GenerateDecisionTextPart
-  | GenerateDecisionJsonPart
-  | GenerateDecisionFilePart;
-/** The evidence every question is asked about, in order */
-export type ExperimentalGenerateDecisionsRequestInputList = Array<GenerateDecisionPart>;
-export type GeneratePredicateQuestionType = "predicate";
-/** The probability that a statement is true */
-export interface GeneratePredicateQuestion {
-  type: GeneratePredicateQuestionType;
-  /** Unique within the request; echoed on the matching answer */
-  name: string;
-  instructions: string;
-}
-export type GenerateChoiceQuestionType = "choice";
-/** Choice values are typed: true and "true" are different values */
-export type GenerateChoiceValue = string | boolean;
-export interface GenerateChoiceQuestionChoicesItem {
-  value: GenerateChoiceValue;
+  model?: ModelRef | undefined;
+  request: ProviderRequest;
+  system?: string | undefined;
+  instructions?: AgentInfoInstructions | undefined;
   description?: string | undefined;
+  mode: AgentInfoMode;
+  hidden: boolean;
+  color?: string | undefined;
+  steps?: number | undefined;
+  permissions: PermissionRuleset;
 }
-export type GenerateChoiceQuestionChoicesList = Array<GenerateChoiceQuestionChoicesItem>;
-/** Pick one value from a fixed set */
-export interface GenerateChoiceQuestion {
-  type: GenerateChoiceQuestionType;
-  /** Unique within the request; echoed on the matching answer */
-  name: string;
-  instructions: string;
-  choices: GenerateChoiceQuestionChoicesList;
+export interface GetAgentResponse {
+  location: LocationPublicRef;
+  data: AgentInfo;
 }
-export type GenerateScoreQuestionType = "score";
-export interface GenerateScoreQuestionLevelsItem {
-  label: string;
+export type GetConfigRequestLocation = CancelIntegrationCommandRequestLocation;
+export interface GetConfigRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+}
+export type ConfigDocumentEncodedType = "document";
+export interface ConfigInfoEncodedModelCase1 {
+  providerID: string;
+  model: string;
+  variant?: string | undefined;
+}
+export type ConfigInfoEncodedModel = string | ConfigInfoEncodedModelCase1;
+export type ConfigInfoEncodedUpdate = "disable" | "notify" | "auto";
+export type ConfigInfoEncodedShare = "manual" | "auto" | "disabled";
+export interface ConfigInfoEncodedEnterprise {
+  url?: string | undefined;
+}
+export type ConfigInfoEncodedPoliciesItemAction =
+  | "provider.use"
+  | "tool.use"
+  | "integration.connect"
+  | "integration.use"
+  | "mcp.use"
+  | "skill.use"
+  | "plugin.use"
+  | "websearch.use";
+export type ConfigInfoEncodedPoliciesItemEffect = "allow" | "deny";
+export interface ConfigInfoEncodedPoliciesItem {
+  action: ConfigInfoEncodedPoliciesItemAction;
+  resource: string;
+  effect: ConfigInfoEncodedPoliciesItemEffect;
+}
+export type ConfigInfoEncodedPoliciesList = Array<ConfigInfoEncodedPoliciesItem>;
+export type ConfigAgentEncodedModelCase1 = ConfigInfoEncodedModelCase1;
+export type ConfigAgentEncodedModel = string | ConfigInfoEncodedModelCase1;
+export type ConfigAgentEncodedRequestHeadersMap = { [key: string]: string | undefined };
+export interface ConfigAgentEncodedRequest {
+  headers?: ConfigAgentEncodedRequestHeadersMap | undefined;
+  body?: unknown | undefined;
+}
+export type ConfigAgentEncodedMode = "subagent" | "primary" | "all";
+export interface ConfigAgentEncoded {
+  model?: ConfigAgentEncodedModel | undefined;
+  request?: ConfigAgentEncodedRequest | undefined;
+  system?: string | undefined;
   description?: string | undefined;
+  mode?: ConfigAgentEncodedMode | undefined;
+  hidden?: boolean | undefined;
+  color?: string | undefined;
+  steps?: number | undefined;
+  disabled?: boolean | undefined;
+  permissions?: PermissionRuleset | undefined;
 }
-export type GenerateScoreQuestionLevelsList = Array<GenerateScoreQuestionLevelsItem>;
-/** Place the input on ordered levels, lowest first */
-export interface GenerateScoreQuestion {
-  type: GenerateScoreQuestionType;
-  /** Unique within the request; echoed on the matching answer */
-  name: string;
-  instructions: string;
-  levels: GenerateScoreQuestionLevelsList;
+export type ConfigInfoEncodedAgentsMap = { [key: string]: ConfigAgentEncoded | undefined };
+export type ConfigInfoEncodedWatcherIgnoreList = Array<string>;
+export interface ConfigInfoEncodedWatcher {
+  ignore?: ConfigInfoEncodedWatcherIgnoreList | undefined;
 }
-export type GenerateDecisionQuestion =
-  | GeneratePredicateQuestion
-  | GenerateChoiceQuestion
-  | GenerateScoreQuestion;
-/** Question names must be unique; duplicates fail with InvalidRequestError */
-export type ExperimentalGenerateDecisionsRequestQuestionsList = Array<GenerateDecisionQuestion>;
-export interface ExperimentalGenerateDecisionsRequest {
-  model: ModelRef;
-  /** The evidence every question is asked about, in order */
-  input: ExperimentalGenerateDecisionsRequestInputList;
-  /** Question names must be unique; duplicates fail with InvalidRequestError */
-  questions: ExperimentalGenerateDecisionsRequestQuestionsList;
+export type ConfigFormatterEntryEncodedCommandList = Array<string>;
+export type ConfigFormatterEntryEncodedEnvironmentMap = { [key: string]: string | undefined };
+export type ConfigFormatterEntryEncodedExtensionsList = Array<string>;
+export interface ConfigFormatterEntryEncoded {
+  disabled?: boolean | undefined;
+  command?: ConfigFormatterEntryEncodedCommandList | undefined;
+  environment?: ConfigFormatterEntryEncodedEnvironmentMap | undefined;
+  extensions?: ConfigFormatterEntryEncodedExtensionsList | undefined;
 }
-export type GeneratePredicateAnswerType = "predicate";
-export interface GeneratePredicateAnswer {
-  type: GeneratePredicateAnswerType;
-  name: string;
-  probability: number;
+export type ConfigInfoEncodedFormatterCase1Map = {
+  [key: string]: ConfigFormatterEntryEncoded | undefined;
+};
+export type ConfigInfoEncodedFormatter = boolean | ConfigInfoEncodedFormatterCase1Map;
+export interface ConfigInfoEncodedLspCase1ValueCase0 {
+  disabled: boolean;
 }
-export type GenerateChoiceAnswerType = "choice";
-export interface GenerateChoiceAnswerProbabilitiesItem {
-  value: GenerateChoiceValue;
-  probability: number;
+export type ConfigLSPServerEncodedCommandList = Array<string>;
+export type ConfigLSPServerEncodedExtensionsList = Array<string>;
+export type ConfigLSPServerEncodedEnvMap = { [key: string]: string | undefined };
+export interface ConfigLSPServerEncoded {
+  command: ConfigLSPServerEncodedCommandList;
+  extensions?: ConfigLSPServerEncodedExtensionsList | undefined;
+  disabled?: boolean | undefined;
+  env?: ConfigLSPServerEncodedEnvMap | undefined;
+  initialization?: unknown | undefined;
 }
-export type GenerateChoiceAnswerProbabilitiesList = Array<GenerateChoiceAnswerProbabilitiesItem>;
-export interface GenerateChoiceAnswer {
-  type: GenerateChoiceAnswerType;
-  name: string;
-  choice: GenerateChoiceValue;
-  probabilities: GenerateChoiceAnswerProbabilitiesList;
-  confidence: number;
+export type ConfigInfoEncodedLspCase1Value =
+  | ConfigInfoEncodedLspCase1ValueCase0
+  | ConfigLSPServerEncoded;
+export type ConfigInfoEncodedLspCase1Map = {
+  [key: string]: ConfigInfoEncodedLspCase1Value | undefined;
+};
+export type ConfigInfoEncodedLsp = boolean | ConfigInfoEncodedLspCase1Map;
+export interface ConfigInfoEncodedMediaImage {
+  auto_resize?: boolean | undefined;
+  max_width?: number | undefined;
+  max_height?: number | undefined;
+  max_base64_bytes?: number | undefined;
 }
-export type GenerateScoreAnswerType = "score";
-export interface GenerateScoreAnswerProbabilitiesItem {
-  value: number;
-  label: string;
-  probability: number;
+export interface ConfigInfoEncodedMedia {
+  image?: ConfigInfoEncodedMediaImage | undefined;
 }
-export type GenerateScoreAnswerProbabilitiesList = Array<GenerateScoreAnswerProbabilitiesItem>;
-export interface GenerateScoreAnswer {
-  type: GenerateScoreAnswerType;
-  name: string;
-  /** Probability-weighted level index, so it can fall between levels */
-  score: number;
-  probabilities: GenerateScoreAnswerProbabilitiesList;
-  confidence: number;
+export interface ConfigInfoEncodedToolOutput {
+  max_lines?: number | undefined;
+  max_bytes?: number | undefined;
 }
-export type GenerateErrorAnswerType = "error";
-/** This one question has no answer; the other answers still came back */
-export interface GenerateErrorAnswer {
-  type: GenerateErrorAnswerType;
-  name: string;
-  /** Why the question has no answer, for example refusal */
-  reason: string;
-  message?: string | undefined;
+export interface ConfigInfoEncodedMcpTimeout {
+  startup?: number | undefined;
+  catalog?: number | undefined;
+  execution?: number | undefined;
 }
-export type GenerateDecisionAnswer =
-  | GeneratePredicateAnswer
-  | GenerateChoiceAnswer
-  | GenerateScoreAnswer
-  | GenerateErrorAnswer;
-/** One answer per question, in question order */
-export type GenerateDecisionResultAnswersList = Array<GenerateDecisionAnswer>;
-/** Token counts, when the provider reports them */
-export interface GenerateUsage {
+export type McpLocalConfigEncodedType = "local";
+export type McpLocalConfigEncodedCommandList = Array<string>;
+export type McpLocalConfigEncodedEnvironmentMap = { [key: string]: string | undefined };
+export type McpLocalConfigEncodedTimeout = ConfigInfoEncodedMcpTimeout;
+/** MCP protocol negotiation. "auto" (default) probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "legacy" opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "2026-07-28" requires that revision and fails otherwise. */
+export type McpProtocol = "legacy" | "auto" | "2026-07-28";
+export interface McpLocalConfigEncoded {
+  type: McpLocalConfigEncodedType;
+  command: McpLocalConfigEncodedCommandList;
+  cwd?: string | undefined;
+  environment?: McpLocalConfigEncodedEnvironmentMap | undefined;
+  disabled?: boolean | undefined;
+  codemode?: boolean | undefined;
+  timeout?: ConfigInfoEncodedMcpTimeout | undefined;
+  protocol?: McpProtocol | undefined;
+  pool?: boolean | undefined;
+}
+export type McpRemoteConfigEncodedType = "remote";
+export type McpRemoteConfigEncodedHeadersMap = { [key: string]: string | undefined };
+export interface McpOAuthConfigEncoded {
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  scope?: string | undefined;
+  callback_port?: number | undefined;
+  redirect_uri?: string | undefined;
+  auth_server_metadata_url?: string | undefined;
+}
+export type McpRemoteConfigEncodedOauth = McpOAuthConfigEncoded | boolean;
+export type McpRemoteConfigEncodedTimeout = ConfigInfoEncodedMcpTimeout;
+export interface McpRemoteConfigEncoded {
+  type: McpRemoteConfigEncodedType;
+  url: string;
+  headers?: McpRemoteConfigEncodedHeadersMap | undefined;
+  oauth?: McpRemoteConfigEncodedOauth | undefined;
+  disabled?: boolean | undefined;
+  codemode?: boolean | undefined;
+  timeout?: ConfigInfoEncodedMcpTimeout | undefined;
+  protocol?: McpProtocol | undefined;
+  pool?: boolean | undefined;
+}
+export type ConfigInfoEncodedMcpServersValue = McpLocalConfigEncoded | McpRemoteConfigEncoded;
+export type ConfigInfoEncodedMcpServersMap = {
+  [key: string]: ConfigInfoEncodedMcpServersValue | undefined;
+};
+export interface ConfigInfoEncodedMcp {
+  timeout?: ConfigInfoEncodedMcpTimeout | undefined;
+  servers?: ConfigInfoEncodedMcpServersMap | undefined;
+}
+export interface ConfigInfoEncodedCompactionKeep {
+  tokens?: number | undefined;
+}
+export type ConfigInfoEncodedCompactionBuffer = string | number;
+export interface ConfigInfoEncodedCompaction {
+  auto?: boolean | undefined;
+  background?: boolean | undefined;
+  keep?: ConfigInfoEncodedCompactionKeep | undefined;
+  buffer?: ConfigInfoEncodedCompactionBuffer | undefined;
+}
+export type ConfigInfoEncodedSkillsList = Array<string>;
+export type ConfigCommandEncodedModelCase1 = ConfigInfoEncodedModelCase1;
+export type ConfigCommandEncodedModel = string | ConfigInfoEncodedModelCase1;
+export interface ConfigCommandEncoded {
+  template: string;
+  description?: string | undefined;
+  agent?: string | undefined;
+  model?: ConfigCommandEncodedModel | undefined;
+  subagent?: boolean | undefined;
+  /** Deprecated alias for subagent. */
+  subtask?: boolean | undefined;
+}
+export type ConfigInfoEncodedCommandsMap = { [key: string]: ConfigCommandEncoded | undefined };
+export type ConfigInfoEncodedInstructionsList = Array<string>;
+export interface ConfigReferenceGitEncoded {
+  repository: string;
+  branch?: string | undefined;
+  description?: string | undefined;
+  hidden?: boolean | undefined;
+}
+export interface ConfigReferenceLocalEncoded {
+  path: string;
+  description?: string | undefined;
+  hidden?: boolean | undefined;
+}
+export type ConfigInfoEncodedReferencesValue =
+  | string
+  | ConfigReferenceGitEncoded
+  | ConfigReferenceLocalEncoded;
+export type ConfigInfoEncodedReferencesMap = {
+  [key: string]: ConfigInfoEncodedReferencesValue | undefined;
+};
+/** Reuse a randomly selected provider until it is rate limited, then switch to another available provider. */
+export type ConfigWebSearchInfoEncodedProviderCase0 = "random";
+export type ConfigWebSearchInfoEncodedProvider = ConfigWebSearchInfoEncodedProviderCase0 | string;
+export interface ConfigWebSearchInfoEncoded {
+  provider: ConfigWebSearchInfoEncodedProvider;
+}
+export type ConfigInfoEncodedWebsearch = boolean | ConfigWebSearchInfoEncoded;
+export interface ConfigPluginEntryEncoded {
+  package: string;
+  options?: unknown | undefined;
+}
+export type ConfigInfoEncodedPluginsItem = string | ConfigPluginEntryEncoded;
+export type ConfigInfoEncodedPluginsList = Array<ConfigInfoEncodedPluginsItem>;
+export type ConfigWorktree = LocationPublicRef;
+export type ConfigWarmingEncodedIntervalCase0 = "auto";
+export type ConfigWarmingEncodedInterval = ConfigWarmingEncodedIntervalCase0 | string;
+export interface ConfigWarmingEncoded {
+  prompt?: string | undefined;
+  interval?: ConfigWarmingEncodedInterval | undefined;
+  duration?: string | undefined;
+}
+export type ConfigInfoEncodedWarming = boolean | ConfigWarmingEncoded;
+export type ConfigProviderEncodedEnvList = Array<string>;
+export type ModelReasoningFieldCase0 = "reasoning" | "reasoning_content" | "reasoning_text";
+export type ModelReasoningField = ModelReasoningFieldCase0 | string;
+export type ModelMaxTokensField = "max_completion_tokens" | "max_tokens";
+export type ModelCacheFormat = "anthropic" | "alibaba";
+export type ModelMediaInput = "assets" | "state" | "root";
+export interface ProviderCompatibility {
+  reasoningField?: ModelReasoningField | undefined;
+  requireReasoning?: boolean | undefined;
+  maxTokensField?: ModelMaxTokensField | undefined;
+  requireFinishReason?: boolean | undefined;
+  requireAssistantAfterTool?: boolean | undefined;
+  supportsPromptCacheKey?: boolean | undefined;
+  streamUsage?: boolean | undefined;
+  cacheFormat?: ModelCacheFormat | undefined;
+  mediaInput?: ModelMediaInput | undefined;
+}
+export type ConfigProviderSettingsTimeout = number | boolean;
+export type ConfigProviderSettingsHeaderTimeout = number | boolean;
+export type ConfigProviderSettingsChunkTimeout = number | boolean;
+export interface ConfigProviderSettings {
+  timeout?: ConfigProviderSettingsTimeout | undefined;
+  headerTimeout?: ConfigProviderSettingsHeaderTimeout | undefined;
+  chunkTimeout?: ConfigProviderSettingsChunkTimeout | undefined;
+  compaction?: ProviderCompaction | undefined;
+  cache?: ProviderCache | undefined;
+  transport?: ProviderTransport | undefined;
+  encoding?: ProviderEncoding | undefined;
+  tls?: ProviderTls | undefined;
+  [key: string]: unknown;
+}
+export type ConfigProviderEncodedHeadersMap = { [key: string]: string | undefined };
+export type ModelTypeCase0 = "chat" | "decision" | "image" | "video";
+export type ModelType = ModelTypeCase0 | string;
+export interface ModelCompatibility {
+  reasoningField?: ModelReasoningField | undefined;
+  requireReasoning?: boolean | undefined;
+  maxTokensField?: ModelMaxTokensField | undefined;
+  requireFinishReason?: boolean | undefined;
+  requireAssistantAfterTool?: boolean | undefined;
+  supportsPromptCacheKey?: boolean | undefined;
+  streamUsage?: boolean | undefined;
+  cacheFormat?: ModelCacheFormat | undefined;
+  supportsThinkingBlockBinding?: boolean | undefined;
+  supportsEffortUpdates?: boolean | undefined;
+  mediaInput?: ModelMediaInput | undefined;
+}
+export interface ConfigModelSettings {
+  compaction?: ProviderCompaction | undefined;
+  cache?: ProviderCache | undefined;
+  encoding?: ProviderEncoding | undefined;
+  [key: string]: unknown;
+}
+export type ConfigModelEncodedHeadersMap = { [key: string]: string | undefined };
+export type ToolFreeformFormat = "text" | "regex" | "lark";
+export type ConfigModelCapabilitiesFreeformList = Array<ToolFreeformFormat>;
+export type ConfigModelCapabilitiesInputList = Array<string>;
+export type ConfigModelCapabilitiesOutputList = Array<string>;
+export interface ConfigModelReasoningCase0 {
+  supported: boolean;
+}
+export type ConfigModelReasoningCase1EffortList = Array<string>;
+export interface ConfigModelReasoningCase1Budget {
+  min?: number | undefined;
+  max?: number | undefined;
+}
+export interface ConfigModelReasoningCase1 {
+  supported: boolean;
+  toggle?: boolean | undefined;
+  effort?: ConfigModelReasoningCase1EffortList | undefined;
+  budget?: ConfigModelReasoningCase1Budget | undefined;
+}
+export type ConfigModelReasoning = ConfigModelReasoningCase0 | ConfigModelReasoningCase1;
+export interface ConfigModelCapabilities {
+  tools?: boolean | undefined;
+  freeform?: ConfigModelCapabilitiesFreeformList | undefined;
+  input?: ConfigModelCapabilitiesInputList | undefined;
+  output?: ConfigModelCapabilitiesOutputList | undefined;
+  temperature?: boolean | undefined;
+  reasoning?: ConfigModelReasoning | undefined;
+}
+export interface ConfigModelVariantSettings {
+  compaction?: ProviderCompaction | undefined;
+  encoding?: ProviderEncoding | undefined;
+  [key: string]: unknown;
+}
+export type ConfigModelEncodedVariantsItemHeadersMap = { [key: string]: string | undefined };
+export interface ConfigModelEncodedVariantsItem {
+  id: string;
+  settings?: ConfigModelVariantSettings | undefined;
+  headers?: ConfigModelEncodedVariantsItemHeadersMap | undefined;
+  body?: unknown | undefined;
+}
+export type ConfigModelEncodedVariantsList = Array<ConfigModelEncodedVariantsItem>;
+export type ConfigModelCostEncodedTierType = "context";
+export interface ConfigModelCostEncodedTier {
+  type: ConfigModelCostEncodedTierType;
+  size: number;
+}
+export interface ConfigModelCostEncodedCache {
+  read?: number | undefined;
+  write?: number | undefined;
+}
+export interface ConfigModelCostEncoded {
+  tier?: ConfigModelCostEncodedTier | undefined;
+  input: number;
+  output: number;
+  cache?: ConfigModelCostEncodedCache | undefined;
+}
+export type ConfigModelEncodedCostCase1List = Array<ConfigModelCostEncoded>;
+export type ConfigModelEncodedCost = ConfigModelCostEncoded | ConfigModelEncodedCostCase1List;
+export interface ConfigModelEncodedLimit {
+  context?: number | undefined;
   input?: number | undefined;
   output?: number | undefined;
 }
-export interface GenerateDecisionResult {
-  /** One answer per question, in question order */
-  answers: GenerateDecisionResultAnswersList;
-  cost?: number | undefined;
-  tokens?: GenerateUsage | undefined;
-  native?: unknown | undefined;
-}
-export interface GenerateDecisionsResponse {
-  data: GenerateDecisionResult;
-}
-export interface GenerateFile {
-  data: string;
-  mime: string;
+export interface ConfigModelEncoded {
+  modelID?: string | undefined;
+  type?: ModelType | undefined;
+  family?: string | undefined;
   name?: string | undefined;
+  /** Release date as YYYY-MM-DD or YYYY-MM */
+  releaseDate?: string | undefined;
+  compatibility?: ModelCompatibility | undefined;
+  package?: string | undefined;
+  settings?: ConfigModelSettings | undefined;
+  headers?: ConfigModelEncodedHeadersMap | undefined;
+  body?: unknown | undefined;
+  capabilities?: ConfigModelCapabilities | undefined;
+  variants?: ConfigModelEncodedVariantsList | undefined;
+  cost?: ConfigModelEncodedCost | undefined;
+  disabled?: boolean | undefined;
+  limit?: ConfigModelEncodedLimit | undefined;
 }
-export type ExperimentalGenerateImageRequestImagesList = Array<GenerateFile>;
-export type GenerateImageResolutionCase0 = "1K" | "2K" | "4K";
-/** Size tier such as 1K, 2K or 4K; 1K is about as many pixels as 1024x1024 at the requested aspect */
-export type GenerateImageResolution = GenerateImageResolutionCase0 | string;
-export interface ExperimentalGenerateImageRequest {
-  model: ModelRef;
-  prompt: string;
-  images?: ExperimentalGenerateImageRequestImagesList | undefined;
-  n?: number | undefined;
-  aspect?: string | undefined;
-  resolution?: GenerateImageResolution | undefined;
-}
-export type GenerateImageOutputType = "image";
-export interface GenerateImageOutput {
-  type: GenerateImageOutputType;
-  data: string;
-  mime: string;
+export type ConfigProviderEncodedModelsMap = { [key: string]: ConfigModelEncoded | undefined };
+export interface ConfigProviderEncoded {
+  canonical?: string | undefined;
   name?: string | undefined;
+  env?: ConfigProviderEncodedEnvList | undefined;
+  package?: string | undefined;
+  compatibility?: ProviderCompatibility | undefined;
+  settings?: ConfigProviderSettings | undefined;
+  headers?: ConfigProviderEncodedHeadersMap | undefined;
+  body?: unknown | undefined;
+  models?: ConfigProviderEncodedModelsMap | undefined;
 }
-export type GenerateImageResultImagesList = Array<GenerateImageOutput>;
-export interface GenerateImageResult {
-  images: GenerateImageResultImagesList;
-  cost?: number | undefined;
-  tokens?: GenerateUsage | undefined;
-  native?: unknown | undefined;
+export type ConfigInfoEncodedProvidersMap = { [key: string]: ConfigProviderEncoded | undefined };
+export type ConfigInfoEncodedExperimentalVideoGenerateCase1ModelCase1 = ConfigInfoEncodedModelCase1;
+export type ConfigInfoEncodedExperimentalVideoGenerateCase1Model =
+  | string
+  | ConfigInfoEncodedModelCase1;
+export interface ConfigInfoEncodedExperimentalVideoGenerateCase1 {
+  model?: ConfigInfoEncodedExperimentalVideoGenerateCase1Model | undefined;
 }
-export interface GenerateImageResponse {
-  data: GenerateImageResult;
+export type ConfigInfoEncodedExperimentalVideoGenerate =
+  | boolean
+  | ConfigInfoEncodedExperimentalVideoGenerateCase1;
+export type ConfigInfoEncodedExperimentalImageGenerateCase1ModelCase1 = ConfigInfoEncodedModelCase1;
+export type ConfigInfoEncodedExperimentalImageGenerateCase1Model =
+  | string
+  | ConfigInfoEncodedModelCase1;
+export interface ConfigInfoEncodedExperimentalImageGenerateCase1 {
+  model?: ConfigInfoEncodedExperimentalImageGenerateCase1Model | undefined;
 }
-export interface ExperimentalGenerateTextRequest {
-  prompt: string;
-  model?: ModelRef | null | undefined;
+export type ConfigInfoEncodedExperimentalImageGenerate =
+  | boolean
+  | ConfigInfoEncodedExperimentalImageGenerateCase1;
+export type ConfigInfoEncodedExperimentalLocationIdleTimeout = string | boolean;
+export type ConfigInfoEncodedExperimentalPoliciesItemAction =
+  | "provider.use"
+  | "tool.use"
+  | "integration.connect"
+  | "integration.use"
+  | "mcp.use"
+  | "skill.use"
+  | "plugin.use"
+  | "websearch.use";
+export type ConfigInfoEncodedExperimentalPoliciesItemEffect = "allow" | "deny";
+export interface ConfigInfoEncodedExperimentalPoliciesItem {
+  action: ConfigInfoEncodedExperimentalPoliciesItemAction;
+  resource: string;
+  effect: ConfigInfoEncodedExperimentalPoliciesItemEffect;
 }
-export interface GenerateTextResponseData {
-  text: string;
+export type ConfigInfoEncodedExperimentalPoliciesList =
+  Array<ConfigInfoEncodedExperimentalPoliciesItem>;
+export interface ConfigInfoEncodedExperimental {
+  portable_shell_scanner?: boolean | undefined;
+  codemode_vm?: boolean | undefined;
+  all_flags?: boolean | undefined;
+  todo?: boolean | undefined;
+  media_blob?: boolean | undefined;
+  artifacts?: boolean | undefined;
+  console_watches?: boolean | undefined;
+  recommended_api?: boolean | undefined;
+  model_speeds?: boolean | undefined;
+  full_codemode?: boolean | undefined;
+  codemode_agents?: boolean | undefined;
+  machines?: boolean | undefined;
+  home_memory?: boolean | undefined;
+  project_overlay?: boolean | undefined;
+  opencode_api?: boolean | undefined;
+  mcp_skills?: boolean | undefined;
+  compaction_jobs?: boolean | undefined;
+  sqlite_fts?: boolean | undefined;
+  browser_stream_tunnel?: boolean | undefined;
+  video_generate?: ConfigInfoEncodedExperimentalVideoGenerate | undefined;
+  part_rows?: boolean | undefined;
+  image_generate?: ConfigInfoEncodedExperimentalImageGenerate | undefined;
+  subagent_depth?: number | undefined;
+  location_idle_timeout?: ConfigInfoEncodedExperimentalLocationIdleTimeout | undefined;
+  policies?: ConfigInfoEncodedExperimentalPoliciesList | undefined;
 }
-export interface GenerateTextResponse {
-  data: GenerateTextResponseData;
-}
-export type ExperimentalMcpClientRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalMcpClientRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  name: string;
-  ticket?: string | undefined;
-}
-export type ExperimentalMcpClientResponse = boolean;
-export type ExperimentalMcpClientTokenRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalMcpClientTokenRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  name: string;
-}
-export interface PtyTicketConnectToken {
-  ticket: string;
-  expires_in: number;
-}
-export interface ExperimentalMcpClientTokenResponse {
-  location: LocationPublicRef;
-  data: PtyTicketConnectToken;
-}
-export interface ExperimentalMigrationV1StatusRequest {}
-export type ExperimentalMigrationV1StatusResponseBodyCase0Status = "required" | "completed";
-export interface ExperimentalMigrationV1StatusResponseBodyCase0 {
-  status: ExperimentalMigrationV1StatusResponseBodyCase0Status;
-}
-export type ExperimentalMigrationV1StatusResponseBodyCase1Status = "running";
-export interface ExperimentalMigrationV1StatusResponseBodyCase1Progress {
-  label: string;
-  numerator?: number | null | undefined;
-  denominator?: number | null | undefined;
-}
-export interface ExperimentalMigrationV1StatusResponseBodyCase1 {
-  status: ExperimentalMigrationV1StatusResponseBodyCase1Status;
-  progress: ExperimentalMigrationV1StatusResponseBodyCase1Progress;
-}
-export type ExperimentalMigrationV1StatusResponseBodyCase2Status = "error";
-export interface ExperimentalMigrationV1StatusResponseBodyCase2 {
-  status: ExperimentalMigrationV1StatusResponseBodyCase2Status;
-  error: string;
-}
-export type ExperimentalMigrationV1StatusResponseBody =
-  | ExperimentalMigrationV1StatusResponseBodyCase0
-  | ExperimentalMigrationV1StatusResponseBodyCase1
-  | ExperimentalMigrationV1StatusResponseBodyCase2;
-export type ExperimentalMigrationV1StatusResponse = ExperimentalMigrationV1StatusResponseBody;
-export interface ExperimentalPersistentPtyConnectTokenRequest {
-  ptyID: string;
-}
-export interface ExperimentalPersistentPtyConnectTokenResponse {
-  data: PtyTicketConnectToken;
-}
-export interface ExperimentalPersistentPtyHandoffRequest {}
-export type PersistentPtyHandoffExpiresAtCase1 = "Infinity" | "-Infinity" | "NaN";
-export type PersistentPtyHandoffExpiresAt = number | PersistentPtyHandoffExpiresAtCase1;
-export interface PersistentPtyHandoff {
-  directory: string;
-  instanceID: string;
-  ticket: string;
-  expiresAt: PersistentPtyHandoffExpiresAt;
-}
-export interface ExperimentalPersistentPtyHandoffResponse {
-  handoff: PersistentPtyHandoff | null;
-}
-export interface ExperimentalPersistentPtyShutdownRequest {}
-export interface ExperimentalPersistentPtyShutdownResponse {}
-export interface ExperimentalPersistentPtySnapshotRequest {
-  ptyID: string;
-}
-export interface PersistentPtySnapshotCursor {
-  x: number;
-  y: number;
-}
-export interface PersistentPtySnapshot {
-  info: PersistentPtyInfo;
-  text: string;
-  checkpoint: string;
-  cursor: PersistentPtySnapshotCursor;
-}
-export interface ExperimentalPersistentPtySnapshotResponse {
-  data: PersistentPtySnapshot;
-}
-export interface ExperimentalSessionLogRequest {
-  sessionID: string;
-  after?: string | undefined;
-  follow?: boolean | undefined;
-}
-export interface ExperimentalSessionLogResponse {}
-export interface ExperimentalSessionSkillRequest {
-  sessionID: string;
-  id: string;
-  resume?: boolean | null | undefined;
-}
-export interface ExperimentalSessionSkillResponse {}
-export type ExperimentalSessionStatsRequestTools = "none" | "summary" | "detail";
-export interface ExperimentalSessionStatsRequest {
-  from?: string | undefined;
-  to?: string | undefined;
-  project?: string | undefined;
+export interface ConfigInfoEncoded {
+  _schema?: string | undefined;
+  shell?: string | undefined;
+  model?: ConfigInfoEncodedModel | undefined;
+  default_agent?: string | undefined;
+  update?: ConfigInfoEncodedUpdate | undefined;
+  share?: ConfigInfoEncodedShare | undefined;
+  enterprise?: ConfigInfoEncodedEnterprise | undefined;
+  username?: string | undefined;
   timezone?: string | undefined;
-  tools?: ExperimentalSessionStatsRequestTools | (string & {}) | undefined;
+  automations?: boolean | undefined;
+  permissions?: PermissionRuleset | undefined;
+  policies?: ConfigInfoEncodedPoliciesList | undefined;
+  agents?: ConfigInfoEncodedAgentsMap | undefined;
+  snapshots?: boolean | undefined;
+  watcher?: ConfigInfoEncodedWatcher | undefined;
+  formatter?: ConfigInfoEncodedFormatter | undefined;
+  lsp?: ConfigInfoEncodedLsp | undefined;
+  media?: ConfigInfoEncodedMedia | undefined;
+  tool_output?: ConfigInfoEncodedToolOutput | undefined;
+  mcp?: ConfigInfoEncodedMcp | undefined;
+  compaction?: ConfigInfoEncodedCompaction | undefined;
+  skills?: ConfigInfoEncodedSkillsList | undefined;
+  commands?: ConfigInfoEncodedCommandsMap | undefined;
+  instructions?: ConfigInfoEncodedInstructionsList | undefined;
+  references?: ConfigInfoEncodedReferencesMap | undefined;
+  websearch?: ConfigInfoEncodedWebsearch | undefined;
+  plugins?: ConfigInfoEncodedPluginsList | undefined;
+  worktree?: LocationPublicRef | undefined;
+  warming?: ConfigInfoEncodedWarming | undefined;
+  providers?: ConfigInfoEncodedProvidersMap | undefined;
+  experimental?: ConfigInfoEncodedExperimental | undefined;
 }
-export interface SessionStatsInfoRange {
-  from: number;
-  to: number;
+export interface ConfigDocumentEncoded {
+  type: ConfigDocumentEncodedType;
+  path?: string | undefined;
+  info: ConfigInfoEncoded;
 }
-export type SessionStatsToolsCase0Mode = "none";
-export interface SessionStatsToolsCase0 {
-  mode: SessionStatsToolsCase0Mode;
+export type ConfigDirectoryEncodedType = "directory";
+export interface ConfigDirectoryEncoded {
+  type: ConfigDirectoryEncodedType;
+  path: string;
 }
-export type SessionStatsToolsCase1Mode = "summary";
-export interface SessionStatsToolTotals {
-  calls: number;
-  succeeded: number;
-  failed: number;
-  unfinished: number;
+export type ConfigEntry = ConfigDocumentEncoded | ConfigDirectoryEncoded;
+export type GetConfigResponseBodyList = Array<ConfigEntry>;
+export type GetConfigResponse = GetConfigResponseBodyList;
+export type GetIntegrationRequestLocation = CancelIntegrationCommandRequestLocation;
+export interface GetIntegrationRequest {
+  integrationID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
-export interface SessionStatsToolsCase1 {
-  mode: SessionStatsToolsCase1Mode;
-  totals: SessionStatsToolTotals;
-}
-export type SessionStatsToolsCase2Mode = "detail";
-export interface SessionStatsToolUsage {
-  name: string;
-  calls: number;
-  succeeded: number;
-  failed: number;
-  unfinished: number;
-  durationP50?: number | undefined;
-}
-export type SessionStatsToolsCase2UsageList = Array<SessionStatsToolUsage>;
-export interface SessionStatsToolsCase2 {
-  mode: SessionStatsToolsCase2Mode;
-  totals: SessionStatsToolTotals;
-  usage: SessionStatsToolsCase2UsageList;
-}
-export type SessionStatsTools =
-  | SessionStatsToolsCase0
-  | SessionStatsToolsCase1
-  | SessionStatsToolsCase2;
-export interface SessionStatsActivity {
-  date: string;
-  steps: number;
-}
-export type SessionStatsInfoActivityList = Array<SessionStatsActivity>;
-export interface SessionStatsModelUsage {
-  model: ModelRef;
-  steps: number;
-  tokens: TokenUsageInfo;
-  cost: number;
-}
-export type SessionStatsInfoModelsList = Array<SessionStatsModelUsage>;
-export interface SessionStatsInfo {
-  range: SessionStatsInfoRange;
-  sessions: number;
-  subagents: number;
-  prompts: number;
-  steps: number;
-  tokens: TokenUsageInfo;
-  cost: number;
-  tools: SessionStatsTools;
-  activeDays: number;
-  streak: number;
-  activity: SessionStatsInfoActivityList;
-  models: SessionStatsInfoModelsList;
-}
-export interface ExperimentalSessionStatsResponse {
-  data: SessionStatsInfo;
-}
-export type ExperimentalUsageLimitsRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ExperimentalUsageLimitsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export interface UsageLimitsInfoWorkspace {
+export type IntegrationOAuthMethodType = "oauth";
+export interface IntegrationOAuthMethod {
   id: string;
-  name?: string | undefined;
-  usageURL: string;
+  type: IntegrationOAuthMethodType;
+  label: string;
+  form?: FormFields | undefined;
 }
-export interface UsageLimitsMeter {
-  percent: number;
-  limited: boolean;
-  /** Milliseconds since the Unix epoch */
-  resetsAt: number;
-}
-export interface UsageLimitsGo {
-  rolling: UsageLimitsMeter;
-  weekly: UsageLimitsMeter;
-  monthly: UsageLimitsMeter;
-}
-export type UsageLimitsBudgetScope = "each" | "combined";
-export type UsageLimitsBudgetPer = "set" | "model";
-export type UsageLimitsBudgetCoverage = "all" | "models";
-export interface UsageLimitsBudgetModel {
-  providerID: string;
-  modelID: string;
-  name: string;
-  spent?: number | undefined;
-}
-export type UsageLimitsBudgetModelsList = Array<UsageLimitsBudgetModel>;
-export type UsageLimitsBudgetVendorsList = Array<string>;
-export interface UsageLimitsBudget {
+export type IntegrationCommandMethodType = "command";
+export type IntegrationCommandMethodCommandList = Array<string>;
+export interface IntegrationCommandMethod {
   id: string;
-  limit: number;
-  spent: number;
-  scope: UsageLimitsBudgetScope;
-  per: UsageLimitsBudgetPer;
-  coverage: UsageLimitsBudgetCoverage;
-  models: UsageLimitsBudgetModelsList;
-  vendors: UsageLimitsBudgetVendorsList;
-  inputPriceAtLeast?: number | undefined;
-  picked: boolean;
-  shared: boolean;
-  /** Milliseconds since the Unix epoch */
-  resetsAt: number;
+  type: IntegrationCommandMethodType;
+  label: string;
+  command: IntegrationCommandMethodCommandList;
 }
-export type UsageLimitsInfoBudgetsList = Array<UsageLimitsBudget>;
-export interface UsageLimitsInfo {
-  workspace: UsageLimitsInfoWorkspace;
-  go?: UsageLimitsGo | undefined;
-  budgets: UsageLimitsInfoBudgetsList;
+export type IntegrationKeyMethodType = "key";
+export interface IntegrationKeyMethod {
+  type: IntegrationKeyMethodType;
+  label?: string | undefined;
+  form?: FormFields | undefined;
 }
-export interface ExperimentalUsageLimitsResponse {
+export type IntegrationExternalMethodType = "external";
+export interface IntegrationExternalMethod {
+  id: string;
+  type: IntegrationExternalMethodType;
+  label: string;
+  form?: FormFields | undefined;
+}
+export type IntegrationEnvMethodType = "env";
+export type IntegrationEnvMethodNamesList = Array<string>;
+export interface IntegrationEnvMethod {
+  type: IntegrationEnvMethodType;
+  names: IntegrationEnvMethodNamesList;
+}
+export type IntegrationMethod =
+  | IntegrationOAuthMethod
+  | IntegrationCommandMethod
+  | IntegrationKeyMethod
+  | IntegrationExternalMethod
+  | IntegrationEnvMethod;
+export type IntegrationInfoMethodsList = Array<IntegrationMethod>;
+export type ConnectionCredentialInfoType = "credential";
+export type ConnectionCredentialInfoMethod = "key" | "oauth" | "external";
+export type ConnectionStatusStatus = "needs_auth";
+export interface ConnectionStatus {
+  status: ConnectionStatusStatus;
+  message: string;
+  url?: string | undefined;
+}
+export interface ConnectionCredentialInfo {
+  type: ConnectionCredentialInfoType;
+  id: string;
+  label: string;
+  method: ConnectionCredentialInfoMethod;
+  status?: ConnectionStatus | undefined;
+}
+export type ConnectionEnvInfoType = "env";
+export interface ConnectionEnvInfo {
+  type: ConnectionEnvInfoType;
+  name: string;
+  status?: ConnectionStatus | undefined;
+}
+export type ConnectionInfo = ConnectionCredentialInfo | ConnectionEnvInfo;
+export type IntegrationInfoConnectionsList = Array<ConnectionInfo>;
+export interface IntegrationInfo {
+  id: string;
+  name: string;
+  metadata?: unknown | undefined;
+  methods: IntegrationInfoMethodsList;
+  connections: IntegrationInfoConnectionsList;
+}
+export interface GetIntegrationResponse {
   location: LocationPublicRef;
-  data: UsageLimitsInfo | null;
+  data: IntegrationInfo;
 }
-export interface ExperimentalVoiceModelsRequest {}
-export type VoiceTransportType = "webrtc" | "websocket";
-export type VoiceModelTransportsList = Array<VoiceTransportType>;
-export interface VoiceModel {
-  model: string;
-  provider: string;
-  transports: VoiceModelTransportsList;
-  available: boolean;
+export type GetLocationRequestLocation = CancelIntegrationCommandRequestLocation;
+export interface GetLocationRequest {
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
-export type VoiceModelsResponseDataModelsList = Array<VoiceModel>;
-export interface VoiceModelsResponseData {
-  models: VoiceModelsResponseDataModelsList;
-  default?: string | null | undefined;
+export interface LocationPublicInfoProject {
+  id: string;
+  directory: string;
+  canonical: string;
 }
-export interface VoiceModelsResponse {
-  data: VoiceModelsResponseData;
+export interface LocationPublicInfo {
+  directory: string;
+  project: LocationPublicInfoProject;
 }
-export type VoiceWebRTCTransportInputType = "webrtc";
-export type VoiceWebRTCTransportInputDcidCase1 = "Infinity" | "-Infinity" | "NaN";
-export type VoiceWebRTCTransportInputDcid = number | VoiceWebRTCTransportInputDcidCase1;
-export interface VoiceWebRTCTransportInput {
-  type: VoiceWebRTCTransportInputType;
-  sdp: string;
-  dcid?: VoiceWebRTCTransportInputDcid | null | undefined;
+export type GetProviderRequestLocation = CancelIntegrationCommandRequestLocation;
+export interface GetProviderRequest {
+  providerID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
-export type VoiceWebSocketTransportInputType = "websocket";
-export interface VoiceWebSocketTransportInput {
-  type: VoiceWebSocketTransportInputType;
+export type ProviderInfoActivation = "auto" | "enabled" | "disabled";
+export type ProviderInfoHeadersMap = { [key: string]: string | undefined };
+export interface ProviderInfo {
+  id: string;
+  canonical?: string | undefined;
+  integrationID?: string | undefined;
+  name: string;
+  activation: ProviderInfoActivation;
+  package: string;
+  compatibility?: ProviderCompatibility | undefined;
+  settings?: ProviderSettings | undefined;
+  headers?: ProviderInfoHeadersMap | undefined;
+  body?: unknown | undefined;
 }
-export type VoiceTransportInput = VoiceWebRTCTransportInput | VoiceWebSocketTransportInput;
-export interface ExperimentalVoiceSessionRequest {
-  model: string;
-  session?: unknown | null | undefined;
-  transport: VoiceTransportInput;
+export interface GetProviderResponse {
+  location: LocationPublicRef;
+  data: ProviderInfo;
 }
-export type VoiceWebRTCTransportType = "webrtc";
-export interface VoiceWebRTCTransport {
-  type: VoiceWebRTCTransportType;
-  sdp: string;
+export type GetPtyRequestLocation = CancelIntegrationCommandRequestLocation;
+export interface GetPtyRequest {
+  ptyID: string;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
-export type VoiceWebSocketTransportType = "websocket";
-export type VoiceWebSocketTransportExpiresAtCase1 = "Infinity" | "-Infinity" | "NaN";
-export type VoiceWebSocketTransportExpiresAt = number | VoiceWebSocketTransportExpiresAtCase1;
-export interface VoiceWebSocketTransport {
-  type: VoiceWebSocketTransportType;
-  url: string;
-  token: string;
-  expiresAt: VoiceWebSocketTransportExpiresAt;
+export interface GetPtyResponse {
+  location: LocationPublicRef;
+  data: Pty;
 }
-export type VoiceTransport = VoiceWebRTCTransport | VoiceWebSocketTransport;
-export interface VoiceSessionResponseData {
-  transport: VoiceTransport;
-}
-export interface VoiceSessionResponse {
-  data: VoiceSessionResponseData;
-}
-export interface ExportExperimentalSessionRequest {
+export interface GetSessionRequest {
   sessionID: string;
-  sanitize?: boolean | undefined;
+}
+export interface GetSessionResponse {
+  data: SessionInfo;
+}
+export interface GetSessionFormRequest {
+  sessionID: string;
+  formID: string;
+}
+export type FormStateCase0Status = "pending";
+export interface FormStateCase0 {
+  status: FormStateCase0Status;
+}
+export type FormStateCase1Status = "answered";
+export interface FormStateCase1 {
+  status: FormStateCase1Status;
+  answer: FormAnswer;
+}
+export type FormStateCase2Status = "cancelled";
+export interface FormStateCase2 {
+  status: FormStateCase2Status;
+  message?: string | undefined;
+}
+export type FormState = FormStateCase0 | FormStateCase1 | FormStateCase2;
+export interface FormDetail {
+  id: string;
+  sessionID: string;
+  title: string;
+  metadata?: unknown | undefined;
+  fields: FormFields;
+  state: FormState;
+}
+export interface GetSessionFormResponse {
+  data: FormDetail;
+}
+export interface GetSessionMessageRequest {
+  sessionID: string;
+  messageID: string;
 }
 export type SessionMessageAgentSelectedTime = SessionInboxCompactionTime;
 export type SessionMessageAgentSelectedType = "agent-switched";
@@ -1686,6 +1614,7 @@ export interface PromptFileAttachment {
   mention?: PromptMention | undefined;
 }
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
+/** An agent @-mentioned in the prompt, such as @explore, to suggest the model use it. Only the @name in text reaches the model; this records which agent it names and doesn't change the session's own agent. */
 export interface PromptAgentAttachment {
   name: string;
   mention?: PromptMention | undefined;
@@ -1767,6 +1696,7 @@ export interface SessionMessageShell {
 }
 export interface SessionMessageAssistantTime {
   created: number;
+  firstToken?: number | undefined;
   streamed?: number | undefined;
   completed?: number | undefined;
 }
@@ -1968,713 +1898,6 @@ export type SessionMessageInfo =
   | SessionMessageAssistant
   | SessionMessageCompaction
   | SessionMessageIdle;
-export type SessionTransferDataMessagesList = Array<SessionMessageInfo>;
-export interface SessionTransferData {
-  info: SessionInfo;
-  messages: SessionTransferDataMessagesList;
-}
-export interface ExportExperimentalSessionResponse {
-  data: SessionTransferData;
-}
-export interface ForkSessionRequest {
-  sessionID: string;
-  before?: string | null | undefined;
-}
-export interface ForkSessionResponse {
-  data: SessionInfo;
-}
-export type FsFindRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export type FsFindRequestType = "file" | "directory";
-export interface FsFindRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  query: string;
-  type?: FsFindRequestType | (string & {}) | undefined;
-  limit?: string | undefined;
-}
-export type FileSystemEntryType = "file" | "directory";
-export interface FileSystemEntry {
-  path: string;
-  type: FileSystemEntryType;
-}
-export type FsFindResponseDataList = Array<FileSystemEntry>;
-export interface FsFindResponse {
-  location: LocationPublicRef;
-  data: FsFindResponseDataList;
-}
-export interface GenerateSessionRequest {
-  sessionID: string;
-  prompt: string;
-}
-export type SessionGenerateResponseData = GenerateTextResponseData;
-export interface SessionGenerateResponse {
-  data: GenerateTextResponseData;
-}
-export type GetAgentRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetAgentRequest {
-  agentID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export type ProviderSettingsTimeout = number | boolean;
-export type ProviderSettingsHeaderTimeout = number | boolean;
-export type ProviderSettingsChunkTimeout = number | boolean;
-export type ProviderCompactionCase0Type = "summary";
-export interface ProviderCompactionCase0 {
-  type: ProviderCompactionCase0Type;
-}
-export type ProviderCompactionCase1Type = "native";
-export interface ProviderCompactionCase1 {
-  type: ProviderCompactionCase1Type;
-}
-export type ProviderCompaction = ProviderCompactionCase0 | ProviderCompactionCase1;
-export type ProviderCacheWarmingCase1IntervalCase0 = "auto";
-export type ProviderCacheWarmingCase1Interval = ProviderCacheWarmingCase1IntervalCase0 | string;
-export interface ProviderCacheWarmingCase1 {
-  interval?: ProviderCacheWarmingCase1Interval | undefined;
-  duration?: string | undefined;
-}
-export type ProviderCacheWarming = boolean | ProviderCacheWarmingCase1;
-export interface ProviderCache {
-  ttl?: string | undefined;
-  warming?: ProviderCacheWarming | undefined;
-}
-export type ProviderTransport = "http" | "websocket";
-export type ProviderEncoding = "zstd" | "gzip" | "none";
-export interface ProviderSettings {
-  timeout?: ProviderSettingsTimeout | undefined;
-  headerTimeout?: ProviderSettingsHeaderTimeout | undefined;
-  chunkTimeout?: ProviderSettingsChunkTimeout | undefined;
-  compaction?: ProviderCompaction | undefined;
-  cache?: ProviderCache | undefined;
-  transport?: ProviderTransport | undefined;
-  encoding?: ProviderEncoding | undefined;
-  [key: string]: unknown;
-}
-export type ProviderRequestHeadersMap = { [key: string]: string | undefined };
-export interface ProviderRequest {
-  settings: ProviderSettings;
-  headers: ProviderRequestHeadersMap;
-  body: unknown;
-}
-export type AgentInfoMode = "subagent" | "primary" | "all";
-export interface AgentInfo {
-  id: string;
-  name: string;
-  model?: ModelRef | undefined;
-  request: ProviderRequest;
-  system?: string | undefined;
-  description?: string | undefined;
-  mode: AgentInfoMode;
-  hidden: boolean;
-  color?: string | undefined;
-  steps?: number | undefined;
-  permissions: PermissionRuleset;
-}
-export interface GetAgentResponse {
-  location: LocationPublicRef;
-  data: AgentInfo;
-}
-export type GetConfigRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetConfigRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export type ConfigDocumentEncodedType = "document";
-export interface ConfigInfoEncodedModelCase1 {
-  providerID: string;
-  model: string;
-  variant?: string | undefined;
-}
-export type ConfigInfoEncodedModel = string | ConfigInfoEncodedModelCase1;
-export type ConfigInfoEncodedUpdate = "disable" | "notify" | "auto";
-export type ConfigInfoEncodedShare = "manual" | "auto" | "disabled";
-export interface ConfigInfoEncodedEnterprise {
-  url?: string | undefined;
-}
-export type ConfigInfoEncodedPoliciesItemAction =
-  | "provider.use"
-  | "tool.use"
-  | "integration.connect"
-  | "integration.use"
-  | "mcp.use"
-  | "skill.use"
-  | "plugin.use"
-  | "websearch.use";
-export type ConfigInfoEncodedPoliciesItemEffect = "allow" | "deny";
-export interface ConfigInfoEncodedPoliciesItem {
-  action: ConfigInfoEncodedPoliciesItemAction;
-  resource: string;
-  effect: ConfigInfoEncodedPoliciesItemEffect;
-}
-export type ConfigInfoEncodedPoliciesList = Array<ConfigInfoEncodedPoliciesItem>;
-export type ConfigAgentEncodedModelCase1 = ConfigInfoEncodedModelCase1;
-export type ConfigAgentEncodedModel = string | ConfigInfoEncodedModelCase1;
-export type ConfigAgentEncodedRequestHeadersMap = { [key: string]: string | undefined };
-export interface ConfigAgentEncodedRequest {
-  headers?: ConfigAgentEncodedRequestHeadersMap | undefined;
-  body?: unknown | undefined;
-}
-export type ConfigAgentEncodedMode = "subagent" | "primary" | "all";
-export interface ConfigAgentEncoded {
-  model?: ConfigAgentEncodedModel | undefined;
-  request?: ConfigAgentEncodedRequest | undefined;
-  system?: string | undefined;
-  description?: string | undefined;
-  mode?: ConfigAgentEncodedMode | undefined;
-  hidden?: boolean | undefined;
-  color?: string | undefined;
-  steps?: number | undefined;
-  disabled?: boolean | undefined;
-  permissions?: PermissionRuleset | undefined;
-}
-export type ConfigInfoEncodedAgentsMap = { [key: string]: ConfigAgentEncoded | undefined };
-export type ConfigInfoEncodedWatcherIgnoreList = Array<string>;
-export interface ConfigInfoEncodedWatcher {
-  ignore?: ConfigInfoEncodedWatcherIgnoreList | undefined;
-}
-export type ConfigFormatterEntryEncodedCommandList = Array<string>;
-export type ConfigFormatterEntryEncodedEnvironmentMap = { [key: string]: string | undefined };
-export type ConfigFormatterEntryEncodedExtensionsList = Array<string>;
-export interface ConfigFormatterEntryEncoded {
-  disabled?: boolean | undefined;
-  command?: ConfigFormatterEntryEncodedCommandList | undefined;
-  environment?: ConfigFormatterEntryEncodedEnvironmentMap | undefined;
-  extensions?: ConfigFormatterEntryEncodedExtensionsList | undefined;
-}
-export type ConfigInfoEncodedFormatterCase1Map = {
-  [key: string]: ConfigFormatterEntryEncoded | undefined;
-};
-export type ConfigInfoEncodedFormatter = boolean | ConfigInfoEncodedFormatterCase1Map;
-export interface ConfigInfoEncodedLspCase1ValueCase0 {
-  disabled: boolean;
-}
-export type ConfigLSPServerEncodedCommandList = Array<string>;
-export type ConfigLSPServerEncodedExtensionsList = Array<string>;
-export type ConfigLSPServerEncodedEnvMap = { [key: string]: string | undefined };
-export interface ConfigLSPServerEncoded {
-  command: ConfigLSPServerEncodedCommandList;
-  extensions?: ConfigLSPServerEncodedExtensionsList | undefined;
-  disabled?: boolean | undefined;
-  env?: ConfigLSPServerEncodedEnvMap | undefined;
-  initialization?: unknown | undefined;
-}
-export type ConfigInfoEncodedLspCase1Value =
-  | ConfigInfoEncodedLspCase1ValueCase0
-  | ConfigLSPServerEncoded;
-export type ConfigInfoEncodedLspCase1Map = {
-  [key: string]: ConfigInfoEncodedLspCase1Value | undefined;
-};
-export type ConfigInfoEncodedLsp = boolean | ConfigInfoEncodedLspCase1Map;
-export interface ConfigInfoEncodedMediaImage {
-  auto_resize?: boolean | undefined;
-  max_width?: number | undefined;
-  max_height?: number | undefined;
-  max_base64_bytes?: number | undefined;
-}
-export interface ConfigInfoEncodedMedia {
-  image?: ConfigInfoEncodedMediaImage | undefined;
-}
-export interface ConfigInfoEncodedToolOutput {
-  max_lines?: number | undefined;
-  max_bytes?: number | undefined;
-}
-export type ConfigInfoEncodedMcpTimeout = McpLocalConfigEncodedTimeout;
-export type ConfigInfoEncodedMcpServersValue = McpLocalConfigEncoded | McpRemoteConfigEncoded;
-export type ConfigInfoEncodedMcpServersMap = {
-  [key: string]: ConfigInfoEncodedMcpServersValue | undefined;
-};
-export interface ConfigInfoEncodedMcp {
-  timeout?: McpLocalConfigEncodedTimeout | undefined;
-  servers?: ConfigInfoEncodedMcpServersMap | undefined;
-}
-export interface ConfigInfoEncodedCompactionKeep {
-  tokens?: number | undefined;
-}
-export type ConfigInfoEncodedCompactionBuffer = string | number;
-export interface ConfigInfoEncodedCompaction {
-  auto?: boolean | undefined;
-  keep?: ConfigInfoEncodedCompactionKeep | undefined;
-  buffer?: ConfigInfoEncodedCompactionBuffer | undefined;
-}
-export type ConfigInfoEncodedSkillsList = Array<string>;
-export type ConfigCommandEncodedModelCase1 = ConfigInfoEncodedModelCase1;
-export type ConfigCommandEncodedModel = string | ConfigInfoEncodedModelCase1;
-export interface ConfigCommandEncoded {
-  template: string;
-  description?: string | undefined;
-  agent?: string | undefined;
-  model?: ConfigCommandEncodedModel | undefined;
-  subagent?: boolean | undefined;
-  /** Deprecated alias for subagent. */
-  subtask?: boolean | undefined;
-}
-export type ConfigInfoEncodedCommandsMap = { [key: string]: ConfigCommandEncoded | undefined };
-export type ConfigInfoEncodedInstructionsList = Array<string>;
-export interface ConfigReferenceGitEncoded {
-  repository: string;
-  branch?: string | undefined;
-  description?: string | undefined;
-  hidden?: boolean | undefined;
-}
-export interface ConfigReferenceLocalEncoded {
-  path: string;
-  description?: string | undefined;
-  hidden?: boolean | undefined;
-}
-export type ConfigInfoEncodedReferencesValue =
-  | string
-  | ConfigReferenceGitEncoded
-  | ConfigReferenceLocalEncoded;
-export type ConfigInfoEncodedReferencesMap = {
-  [key: string]: ConfigInfoEncodedReferencesValue | undefined;
-};
-/** Reuse a randomly selected provider until it is rate limited, then switch to another available provider. */
-export type ConfigWebSearchInfoEncodedProviderCase0 = "random";
-export type ConfigWebSearchInfoEncodedProvider = ConfigWebSearchInfoEncodedProviderCase0 | string;
-export interface ConfigWebSearchInfoEncoded {
-  provider: ConfigWebSearchInfoEncodedProvider;
-}
-export type ConfigInfoEncodedWebsearch = boolean | ConfigWebSearchInfoEncoded;
-export interface ConfigPluginEntryEncoded {
-  package: string;
-  options?: unknown | undefined;
-}
-export type ConfigInfoEncodedPluginsItem = string | ConfigPluginEntryEncoded;
-export type ConfigInfoEncodedPluginsList = Array<ConfigInfoEncodedPluginsItem>;
-export type ConfigWorktree = LocationPublicRef;
-export type ConfigWarmingEncodedIntervalCase0 = "auto";
-export type ConfigWarmingEncodedInterval = ConfigWarmingEncodedIntervalCase0 | string;
-export interface ConfigWarmingEncoded {
-  prompt?: string | undefined;
-  interval?: ConfigWarmingEncodedInterval | undefined;
-  duration?: string | undefined;
-}
-export type ConfigInfoEncodedWarming = boolean | ConfigWarmingEncoded;
-export type ConfigProviderEncodedEnvList = Array<string>;
-export type ModelReasoningFieldCase0 = "reasoning" | "reasoning_content" | "reasoning_text";
-export type ModelReasoningField = ModelReasoningFieldCase0 | string;
-export type ModelMaxTokensField = "max_completion_tokens" | "max_tokens";
-export type ModelCacheFormat = "anthropic" | "alibaba";
-export type ModelMediaInput = "assets" | "state" | "root";
-export interface ProviderCompatibility {
-  reasoningField?: ModelReasoningField | undefined;
-  requireReasoning?: boolean | undefined;
-  maxTokensField?: ModelMaxTokensField | undefined;
-  requireFinishReason?: boolean | undefined;
-  requireAssistantAfterTool?: boolean | undefined;
-  supportsPromptCacheKey?: boolean | undefined;
-  streamUsage?: boolean | undefined;
-  cacheFormat?: ModelCacheFormat | undefined;
-  mediaInput?: ModelMediaInput | undefined;
-}
-export type ConfigProviderSettingsTimeout = number | boolean;
-export type ConfigProviderSettingsHeaderTimeout = number | boolean;
-export type ConfigProviderSettingsChunkTimeout = number | boolean;
-export interface ConfigProviderSettings {
-  timeout?: ConfigProviderSettingsTimeout | undefined;
-  headerTimeout?: ConfigProviderSettingsHeaderTimeout | undefined;
-  chunkTimeout?: ConfigProviderSettingsChunkTimeout | undefined;
-  compaction?: ProviderCompaction | undefined;
-  cache?: ProviderCache | undefined;
-  transport?: ProviderTransport | undefined;
-  encoding?: ProviderEncoding | undefined;
-  [key: string]: unknown;
-}
-export type ConfigProviderEncodedHeadersMap = { [key: string]: string | undefined };
-export type ModelTypeCase0 = "chat" | "decision" | "image";
-export type ModelType = ModelTypeCase0 | string;
-export interface ModelCompatibility {
-  reasoningField?: ModelReasoningField | undefined;
-  requireReasoning?: boolean | undefined;
-  maxTokensField?: ModelMaxTokensField | undefined;
-  requireFinishReason?: boolean | undefined;
-  requireAssistantAfterTool?: boolean | undefined;
-  supportsPromptCacheKey?: boolean | undefined;
-  streamUsage?: boolean | undefined;
-  cacheFormat?: ModelCacheFormat | undefined;
-  supportsThinkingBlockBinding?: boolean | undefined;
-  supportsEffortUpdates?: boolean | undefined;
-  mediaInput?: ModelMediaInput | undefined;
-}
-export interface ConfigModelSettings {
-  compaction?: ProviderCompaction | undefined;
-  cache?: ProviderCache | undefined;
-  encoding?: ProviderEncoding | undefined;
-  [key: string]: unknown;
-}
-export type ConfigModelEncodedHeadersMap = { [key: string]: string | undefined };
-export type ConfigModelCapabilitiesInputList = Array<string>;
-export type ConfigModelCapabilitiesOutputList = Array<string>;
-export interface ConfigModelReasoningCase0 {
-  supported: boolean;
-}
-export type ConfigModelReasoningCase1EffortList = Array<string>;
-export interface ConfigModelReasoningCase1Budget {
-  min?: number | undefined;
-  max?: number | undefined;
-}
-export interface ConfigModelReasoningCase1 {
-  supported: boolean;
-  toggle?: boolean | undefined;
-  effort?: ConfigModelReasoningCase1EffortList | undefined;
-  budget?: ConfigModelReasoningCase1Budget | undefined;
-}
-export type ConfigModelReasoning = ConfigModelReasoningCase0 | ConfigModelReasoningCase1;
-export interface ConfigModelCapabilities {
-  tools?: boolean | undefined;
-  input?: ConfigModelCapabilitiesInputList | undefined;
-  output?: ConfigModelCapabilitiesOutputList | undefined;
-  temperature?: boolean | undefined;
-  reasoning?: ConfigModelReasoning | undefined;
-}
-export interface ConfigModelVariantSettings {
-  compaction?: ProviderCompaction | undefined;
-  encoding?: ProviderEncoding | undefined;
-  [key: string]: unknown;
-}
-export type ConfigModelEncodedVariantsItemHeadersMap = { [key: string]: string | undefined };
-export interface ConfigModelEncodedVariantsItem {
-  id: string;
-  settings?: ConfigModelVariantSettings | undefined;
-  headers?: ConfigModelEncodedVariantsItemHeadersMap | undefined;
-  body?: unknown | undefined;
-}
-export type ConfigModelEncodedVariantsList = Array<ConfigModelEncodedVariantsItem>;
-export type ConfigModelCostEncodedTierType = "context";
-export interface ConfigModelCostEncodedTier {
-  type: ConfigModelCostEncodedTierType;
-  size: number;
-}
-export interface ConfigModelCostEncodedCache {
-  read?: number | undefined;
-  write?: number | undefined;
-}
-export interface ConfigModelCostEncoded {
-  tier?: ConfigModelCostEncodedTier | undefined;
-  input: number;
-  output: number;
-  cache?: ConfigModelCostEncodedCache | undefined;
-}
-export type ConfigModelEncodedCostCase1List = Array<ConfigModelCostEncoded>;
-export type ConfigModelEncodedCost = ConfigModelCostEncoded | ConfigModelEncodedCostCase1List;
-export interface ConfigModelEncodedLimit {
-  context?: number | undefined;
-  input?: number | undefined;
-  output?: number | undefined;
-}
-export interface ConfigModelEncoded {
-  modelID?: string | undefined;
-  type?: ModelType | undefined;
-  family?: string | undefined;
-  name?: string | undefined;
-  /** Release date as YYYY-MM-DD or YYYY-MM */
-  releaseDate?: string | undefined;
-  compatibility?: ModelCompatibility | undefined;
-  package?: string | undefined;
-  settings?: ConfigModelSettings | undefined;
-  headers?: ConfigModelEncodedHeadersMap | undefined;
-  body?: unknown | undefined;
-  capabilities?: ConfigModelCapabilities | undefined;
-  variants?: ConfigModelEncodedVariantsList | undefined;
-  cost?: ConfigModelEncodedCost | undefined;
-  disabled?: boolean | undefined;
-  limit?: ConfigModelEncodedLimit | undefined;
-}
-export type ConfigProviderEncodedModelsMap = { [key: string]: ConfigModelEncoded | undefined };
-export interface ConfigProviderEncoded {
-  canonical?: string | undefined;
-  name?: string | undefined;
-  env?: ConfigProviderEncodedEnvList | undefined;
-  package?: string | undefined;
-  compatibility?: ProviderCompatibility | undefined;
-  settings?: ConfigProviderSettings | undefined;
-  headers?: ConfigProviderEncodedHeadersMap | undefined;
-  body?: unknown | undefined;
-  models?: ConfigProviderEncodedModelsMap | undefined;
-}
-export type ConfigInfoEncodedProvidersMap = { [key: string]: ConfigProviderEncoded | undefined };
-export type ConfigInfoEncodedExperimentalImageGenerateCase1ModelCase1 = ConfigInfoEncodedModelCase1;
-export type ConfigInfoEncodedExperimentalImageGenerateCase1Model =
-  | string
-  | ConfigInfoEncodedModelCase1;
-export interface ConfigInfoEncodedExperimentalImageGenerateCase1 {
-  model?: ConfigInfoEncodedExperimentalImageGenerateCase1Model | undefined;
-}
-export type ConfigInfoEncodedExperimentalImageGenerate =
-  | boolean
-  | ConfigInfoEncodedExperimentalImageGenerateCase1;
-export type ConfigInfoEncodedExperimentalLocationIdleTimeout = string | boolean;
-export type ConfigInfoEncodedExperimentalPoliciesItemAction =
-  | "provider.use"
-  | "tool.use"
-  | "integration.connect"
-  | "integration.use"
-  | "mcp.use"
-  | "skill.use"
-  | "plugin.use"
-  | "websearch.use";
-export type ConfigInfoEncodedExperimentalPoliciesItemEffect = "allow" | "deny";
-export interface ConfigInfoEncodedExperimentalPoliciesItem {
-  action: ConfigInfoEncodedExperimentalPoliciesItemAction;
-  resource: string;
-  effect: ConfigInfoEncodedExperimentalPoliciesItemEffect;
-}
-export type ConfigInfoEncodedExperimentalPoliciesList =
-  Array<ConfigInfoEncodedExperimentalPoliciesItem>;
-export interface ConfigInfoEncodedExperimental {
-  portable_shell_scanner?: boolean | undefined;
-  all_flags?: boolean | undefined;
-  todo?: boolean | undefined;
-  background_compaction?: boolean | undefined;
-  media_blob?: boolean | undefined;
-  schedules?: boolean | undefined;
-  artifacts?: boolean | undefined;
-  codemode_vm?: boolean | undefined;
-  part_rows?: boolean | undefined;
-  image_generate?: ConfigInfoEncodedExperimentalImageGenerate | undefined;
-  subagent_depth?: number | undefined;
-  location_idle_timeout?: ConfigInfoEncodedExperimentalLocationIdleTimeout | undefined;
-  policies?: ConfigInfoEncodedExperimentalPoliciesList | undefined;
-}
-export interface ConfigInfoEncoded {
-  _schema?: string | undefined;
-  shell?: string | undefined;
-  model?: ConfigInfoEncodedModel | undefined;
-  default_agent?: string | undefined;
-  update?: ConfigInfoEncodedUpdate | undefined;
-  share?: ConfigInfoEncodedShare | undefined;
-  enterprise?: ConfigInfoEncodedEnterprise | undefined;
-  username?: string | undefined;
-  timezone?: string | undefined;
-  permissions?: PermissionRuleset | undefined;
-  policies?: ConfigInfoEncodedPoliciesList | undefined;
-  agents?: ConfigInfoEncodedAgentsMap | undefined;
-  snapshots?: boolean | undefined;
-  watcher?: ConfigInfoEncodedWatcher | undefined;
-  formatter?: ConfigInfoEncodedFormatter | undefined;
-  lsp?: ConfigInfoEncodedLsp | undefined;
-  media?: ConfigInfoEncodedMedia | undefined;
-  tool_output?: ConfigInfoEncodedToolOutput | undefined;
-  mcp?: ConfigInfoEncodedMcp | undefined;
-  compaction?: ConfigInfoEncodedCompaction | undefined;
-  skills?: ConfigInfoEncodedSkillsList | undefined;
-  commands?: ConfigInfoEncodedCommandsMap | undefined;
-  instructions?: ConfigInfoEncodedInstructionsList | undefined;
-  references?: ConfigInfoEncodedReferencesMap | undefined;
-  websearch?: ConfigInfoEncodedWebsearch | undefined;
-  plugins?: ConfigInfoEncodedPluginsList | undefined;
-  worktree?: LocationPublicRef | undefined;
-  warming?: ConfigInfoEncodedWarming | undefined;
-  providers?: ConfigInfoEncodedProvidersMap | undefined;
-  experimental?: ConfigInfoEncodedExperimental | undefined;
-}
-export interface ConfigDocumentEncoded {
-  type: ConfigDocumentEncodedType;
-  path?: string | undefined;
-  info: ConfigInfoEncoded;
-}
-export type ConfigDirectoryEncodedType = "directory";
-export interface ConfigDirectoryEncoded {
-  type: ConfigDirectoryEncodedType;
-  path: string;
-}
-export type ConfigEntry = ConfigDocumentEncoded | ConfigDirectoryEncoded;
-export type GetConfigResponseBodyList = Array<ConfigEntry>;
-export type GetConfigResponse = GetConfigResponseBodyList;
-export type GetExperimentalArtifactRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetExperimentalArtifactRequest {
-  artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export type ArtifactContentFilesMap = { [key: string]: string | undefined };
-export interface ArtifactContent {
-  info: ArtifactInfo;
-  files: ArtifactContentFilesMap;
-}
-export interface GetExperimentalArtifactResponse {
-  location: LocationPublicRef;
-  data: ArtifactContent;
-}
-export interface GetExperimentalMediaRequest {
-  hash: string;
-}
-export interface GetExperimentalMediaResponse {}
-export interface GetExperimentalPersistentPtyRequest {
-  ptyID: string;
-}
-export interface GetExperimentalPersistentPtyResponse {
-  data: PersistentPtyInfo;
-}
-export interface GetExperimentalScheduleRequest {
-  scheduleID: string;
-}
-export interface GetExperimentalScheduleResponse {
-  data: ScheduleInfo;
-}
-export type GetIntegrationRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetIntegrationRequest {
-  integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export type IntegrationOAuthMethodType = "oauth";
-export interface IntegrationOAuthMethod {
-  id: string;
-  type: IntegrationOAuthMethodType;
-  label: string;
-  form?: FormFields | undefined;
-}
-export type IntegrationCommandMethodType = "command";
-export type IntegrationCommandMethodCommandList = Array<string>;
-export interface IntegrationCommandMethod {
-  id: string;
-  type: IntegrationCommandMethodType;
-  label: string;
-  command: IntegrationCommandMethodCommandList;
-}
-export type IntegrationKeyMethodType = "key";
-export interface IntegrationKeyMethod {
-  type: IntegrationKeyMethodType;
-  label?: string | undefined;
-  form?: FormFields | undefined;
-}
-export type IntegrationExternalMethodType = "external";
-export interface IntegrationExternalMethod {
-  id: string;
-  type: IntegrationExternalMethodType;
-  label: string;
-  form?: FormFields | undefined;
-}
-export type IntegrationEnvMethodType = "env";
-export type IntegrationEnvMethodNamesList = Array<string>;
-export interface IntegrationEnvMethod {
-  type: IntegrationEnvMethodType;
-  names: IntegrationEnvMethodNamesList;
-}
-export type IntegrationMethod =
-  | IntegrationOAuthMethod
-  | IntegrationCommandMethod
-  | IntegrationKeyMethod
-  | IntegrationExternalMethod
-  | IntegrationEnvMethod;
-export type IntegrationInfoMethodsList = Array<IntegrationMethod>;
-export type ConnectionCredentialInfoType = "credential";
-export type ConnectionCredentialInfoMethod = "key" | "oauth" | "external";
-export type ConnectionStatusStatus = "needs_auth";
-export interface ConnectionStatus {
-  status: ConnectionStatusStatus;
-  message: string;
-  url?: string | undefined;
-}
-export interface ConnectionCredentialInfo {
-  type: ConnectionCredentialInfoType;
-  id: string;
-  label: string;
-  method: ConnectionCredentialInfoMethod;
-  status?: ConnectionStatus | undefined;
-}
-export type ConnectionEnvInfoType = "env";
-export interface ConnectionEnvInfo {
-  type: ConnectionEnvInfoType;
-  name: string;
-  status?: ConnectionStatus | undefined;
-}
-export type ConnectionInfo = ConnectionCredentialInfo | ConnectionEnvInfo;
-export type IntegrationInfoConnectionsList = Array<ConnectionInfo>;
-export interface IntegrationInfo {
-  id: string;
-  name: string;
-  metadata?: unknown | undefined;
-  methods: IntegrationInfoMethodsList;
-  connections: IntegrationInfoConnectionsList;
-}
-export interface GetIntegrationResponse {
-  location: LocationPublicRef;
-  data: IntegrationInfo;
-}
-export type GetLocationRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetLocationRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export interface LocationPublicInfoProject {
-  id: string;
-  directory: string;
-  canonical: string;
-}
-export interface LocationPublicInfo {
-  directory: string;
-  project: LocationPublicInfoProject;
-}
-export type GetProviderRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetProviderRequest {
-  providerID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export type ProviderInfoActivation = "auto" | "enabled" | "disabled";
-export type ProviderInfoHeadersMap = { [key: string]: string | undefined };
-export interface ProviderInfo {
-  id: string;
-  canonical?: string | undefined;
-  integrationID?: string | undefined;
-  name: string;
-  activation: ProviderInfoActivation;
-  package: string;
-  compatibility?: ProviderCompatibility | undefined;
-  settings?: ProviderSettings | undefined;
-  headers?: ProviderInfoHeadersMap | undefined;
-  body?: unknown | undefined;
-}
-export interface GetProviderResponse {
-  location: LocationPublicRef;
-  data: ProviderInfo;
-}
-export type GetPtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface GetPtyRequest {
-  ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export interface GetPtyResponse {
-  location: LocationPublicRef;
-  data: Pty;
-}
-export interface GetSessionRequest {
-  sessionID: string;
-}
-export interface GetSessionResponse {
-  data: SessionInfo;
-}
-export interface GetSessionFormRequest {
-  sessionID: string;
-  formID: string;
-}
-export type FormStateCase0Status = "pending";
-export interface FormStateCase0 {
-  status: FormStateCase0Status;
-}
-export type FormStateCase1Status = "answered";
-export interface FormStateCase1 {
-  status: FormStateCase1Status;
-  answer: FormAnswer;
-}
-export type FormStateCase2Status = "cancelled";
-export interface FormStateCase2 {
-  status: FormStateCase2Status;
-  message?: string | undefined;
-}
-export type FormState = FormStateCase0 | FormStateCase1 | FormStateCase2;
-export interface FormDetail {
-  id: string;
-  sessionID: string;
-  title: string;
-  metadata?: unknown | undefined;
-  fields: FormFields;
-  state: FormState;
-}
-export interface GetSessionFormResponse {
-  data: FormDetail;
-}
-export interface GetSessionMessageRequest {
-  sessionID: string;
-  messageID: string;
-}
 export interface GetSessionMessageResponse {
   data: SessionMessageInfo;
 }
@@ -2697,18 +1920,20 @@ export interface PermissionRequest {
 export interface GetSessionPermissionResponse {
   data: PermissionRequest;
 }
-export type GetShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type GetShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetShellRequest {
   id: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface GetShellResponse {
   location: LocationPublicRef;
   data: ShellInfo;
 }
-export type GetVcsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type GetVcsRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface GetVcsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface VcsBranch {
   current?: string | undefined;
@@ -2722,21 +1947,12 @@ export interface GetVcsResponse {
   location: LocationPublicRef;
   data: VcsInfo;
 }
-export type ImportExperimentalSessionRequestMessagesList = Array<unknown>;
-export interface ImportExperimentalSessionRequest {
-  info: SessionInfo;
-  messages: ImportExperimentalSessionRequestMessagesList;
-  location?: LocationPublicRef | null | undefined;
-}
-export interface ImportExperimentalSessionResponse {
-  data: SessionInfo;
-}
-export type IntegrationCommandStatusRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type IntegrationCommandStatusRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface IntegrationCommandStatusRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type IntegrationCommandAttemptStatusCase0Status = "pending";
 export type IntegrationCommandAttemptStatusCase0TimeCreatedCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -2817,32 +2033,32 @@ export interface IntegrationCommandStatusResponse {
   location: LocationPublicRef;
   data: IntegrationCommandAttemptStatus;
 }
-export type IntegrationConnectExternalRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type IntegrationConnectExternalRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface IntegrationConnectExternalRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   methodID: string;
   answer?: FormAnswer | null | undefined;
   label?: string | null | undefined;
 }
 export interface IntegrationConnectExternalResponse {}
-export type IntegrationConnectKeyRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type IntegrationConnectKeyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface IntegrationConnectKeyRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   key: string;
   answer?: FormAnswer | null | undefined;
   label?: string | null | undefined;
 }
 export interface IntegrationConnectKeyResponse {}
-export type IntegrationOauthStatusRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type IntegrationOauthStatusRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface IntegrationOauthStatusRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type IntegrationAttemptStatusCase0Status = "pending";
 export type IntegrationAttemptStatusCase0TimeCreatedCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -2922,18 +2138,20 @@ export interface IntegrationOauthStatusResponse {
   location: LocationPublicRef;
   data: IntegrationAttemptStatus;
 }
-export type ListAgentRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListAgentRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListAgentRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListAgentResponseDataList = Array<AgentInfo>;
 export interface ListAgentResponse {
   location: LocationPublicRef;
   data: ListAgentResponseDataList;
 }
-export type ListCommandRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListCommandRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListCommandRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface CommandInfo {
   name: string;
@@ -2952,104 +2170,21 @@ export interface ListCredentialResponse {
 export interface ListDebugLocationRequest {}
 export type ListDebugLocationResponseBodyList = Array<LocationPublicRef>;
 export type ListDebugLocationResponse = ListDebugLocationResponseBodyList;
-export type ListExperimentalArtifactsRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface ListExperimentalArtifactsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  sessionID?: string | undefined;
-  provider?: string | undefined;
-}
-export type ListExperimentalArtifactsResponseDataList = Array<ArtifactInfo>;
-export interface ListExperimentalArtifactsResponse {
-  location: LocationPublicRef;
-  data: ListExperimentalArtifactsResponseDataList;
-}
-export type JobKind = "shell" | "subagent" | "image";
-export type JobStatus = "running" | "completed" | "error" | "cancelled";
-export interface ListExperimentalJobRequest {
-  sessionID?: string | undefined;
-  kind?: JobKind | (string & {}) | undefined;
-  status?: JobStatus | (string & {}) | undefined;
-  descendants?: boolean | undefined;
-}
-export type JobShellKind = "shell";
-export type JobTime = ShellInfoTime;
-export interface JobShell {
-  kind: JobShellKind;
-  id: string;
-  sessionID: string;
-  status: JobStatus;
-  title?: string | undefined;
-  time: ShellInfoTime;
-  shellID: string;
-  command: string;
-}
-export type JobSubagentKind = "subagent";
-export interface JobSubagent {
-  kind: JobSubagentKind;
-  id: string;
-  sessionID: string;
-  status: JobStatus;
-  title?: string | undefined;
-  time: ShellInfoTime;
-  childSessionID: string;
-  agent: string;
-  description: string;
-}
-export type JobImageKind = "image";
-export interface JobImage {
-  kind: JobImageKind;
-  id: string;
-  sessionID: string;
-  status: JobStatus;
-  title?: string | undefined;
-  time: ShellInfoTime;
-  path: string;
-  model: string;
-}
-export type JobInfo = JobShell | JobSubagent | JobImage;
-export type ListExperimentalJobResponseDataList = Array<JobInfo>;
-export interface ListExperimentalJobResponse {
-  data: ListExperimentalJobResponseDataList;
-}
-export interface ListExperimentalPersistentPtyRequest {
-  sessionID: string;
-}
-export type ListExperimentalPersistentPtyResponseDataList = Array<PersistentPtyInfo>;
-export interface ListExperimentalPersistentPtyResponse {
-  data: ListExperimentalPersistentPtyResponseDataList;
-}
-export interface ListExperimentalScheduleRequest {
-  sessionID: string;
-}
-export type ListExperimentalScheduleResponseDataList = Array<ScheduleInfo>;
-export interface ListExperimentalScheduleResponse {
-  data: ListExperimentalScheduleResponseDataList;
-}
-export interface ListExperimentalSessionInstructionsEntryRequest {
-  sessionID: string;
-}
-export interface InstructionEntryInfo {
-  key: string;
-  /** JSON value attached to the session's instructions */
-  value: unknown;
-}
-export type ListExperimentalSessionInstructionsEntryResponseDataList = Array<InstructionEntryInfo>;
-export interface ListExperimentalSessionInstructionsEntryResponse {
-  data: ListExperimentalSessionInstructionsEntryResponseDataList;
-}
-export type ListFormRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListFormRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListFormRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListFormResponseDataList = Array<FormInfo>;
 export interface ListFormResponse {
   location: LocationPublicRef;
   data: ListFormResponseDataList;
 }
-export type ListFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListFsRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListFsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** An absolute path or a path relative to the requested location. Defaults to the location directory. */
   path?: string | undefined;
 }
 export type ListFsResponseDataList = Array<FileSystemEntry>;
@@ -3057,18 +2192,20 @@ export interface ListFsResponse {
   location: LocationPublicRef;
   data: ListFsResponseDataList;
 }
-export type ListIntegrationRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListIntegrationRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListIntegrationRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListIntegrationResponseDataList = Array<IntegrationInfo>;
 export interface ListIntegrationResponse {
   location: LocationPublicRef;
   data: ListIntegrationResponseDataList;
 }
-export type ListMcpRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListMcpRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListMcpRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type McpStatusConnectedStatus = "connected";
 export interface McpStatusConnected {
@@ -3109,20 +2246,23 @@ export interface ListMcpResponse {
   location: LocationPublicRef;
   data: ListMcpResponseDataList;
 }
-export type ListModelRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListModelRequestLocation = CancelIntegrationCommandRequestLocation;
 export type ListModelRequestTypesCase1List = Array<ModelType>;
-/** Only list models of these types. Defaults to chat, the only type offered for sessions. */
 export type ListModelRequestTypes = ModelType | ListModelRequestTypesCase1List;
 export interface ListModelRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** Only list models of these types. Defaults to chat, the only type offered for sessions. */
   types?: ListModelRequestTypes | undefined;
 }
 export type ModelSettings = ConfigModelSettings;
 export type ModelInfoHeadersMap = { [key: string]: string | undefined };
+export type ModelCapabilitiesFreeformList = Array<ToolFreeformFormat>;
 export type ModelCapabilitiesInputList = Array<string>;
 export type ModelCapabilitiesOutputList = Array<string>;
 export interface ModelCapabilities {
   tools: boolean;
+  freeform?: ModelCapabilitiesFreeformList | undefined;
   input: ModelCapabilitiesInputList;
   output: ModelCapabilitiesOutputList;
   temperature?: boolean | undefined;
@@ -3136,6 +2276,14 @@ export interface ModelVariant {
   body?: unknown | undefined;
 }
 export type ModelInfoVariantsList = Array<ModelVariant>;
+export interface ModelSpeed {
+  base: string;
+  id: string;
+  faster: boolean;
+}
+export interface ModelInfoExperimental {
+  speed?: ModelSpeed | undefined;
+}
 export interface ModelInfoTime {
   released: number;
 }
@@ -3173,6 +2321,7 @@ export interface ModelInfo {
   body?: unknown | undefined;
   capabilities: ModelCapabilities;
   variants: ModelInfoVariantsList;
+  experimental?: ModelInfoExperimental | undefined;
   time: ModelInfoTime;
   cost: ModelInfoCostList;
   status: ModelInfoStatus;
@@ -3184,10 +2333,10 @@ export interface ListModelResponse {
   location: LocationPublicRef;
   data: ListModelResponseDataList;
 }
-export type ListPermissionRequestRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
+export type ListPermissionRequestRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListPermissionRequestRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListPermissionRequestResponseDataList = Array<PermissionRequest>;
 export interface ListPermissionRequestResponse {
@@ -3195,23 +2344,28 @@ export interface ListPermissionRequestResponse {
   data: ListPermissionRequestResponseDataList;
 }
 export interface ListPermissionSavedRequest {
+  /** Project whose saved permissions to list. Defaults to the project of the requested location. */
   projectID?: string | undefined;
 }
-export type PermissionSavedInfoTime = ArtifactTime;
+export interface PermissionSavedInfoTime {
+  created: number;
+  updated: number;
+}
 export interface PermissionSavedInfo {
   id: string;
   projectID: string;
   action: string;
   resource: string;
-  time: ArtifactTime;
+  time: PermissionSavedInfoTime;
 }
 export type ListPermissionSavedResponseDataList = Array<PermissionSavedInfo>;
 export interface ListPermissionSavedResponse {
   data: ListPermissionSavedResponseDataList;
 }
-export type ListPluginRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListPluginRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListPluginRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListPluginResponseDataList = Array<PluginInfo>;
 export interface ListPluginResponse {
@@ -3219,6 +2373,7 @@ export interface ListPluginResponse {
   data: ListPluginResponseDataList;
 }
 export interface ListProjectRequest {
+  /** Set to true to include archived projects. */
   archived?: boolean | undefined;
 }
 export interface ProjectIcon {
@@ -3249,27 +2404,30 @@ export interface Project {
 }
 export type ListProjectResponseBodyList = Array<Project>;
 export type ListProjectResponse = ListProjectResponseBodyList;
-export type ListProviderRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListProviderRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListProviderRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListProviderResponseDataList = Array<ProviderInfo>;
 export interface ListProviderResponse {
   location: LocationPublicRef;
   data: ListProviderResponseDataList;
 }
-export type ListPtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListPtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListPtyRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListPtyResponseDataList = Array<Pty>;
 export interface ListPtyResponse {
   location: LocationPublicRef;
   data: ListPtyResponseDataList;
 }
-export type ListReferenceRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListReferenceRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListReferenceRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ReferenceLocalSourceType = "local";
 export interface ReferenceLocalSource {
@@ -3297,17 +2455,24 @@ export interface ListReferenceResponse {
 }
 export type ListSessionRequestOrder = "asc" | "desc";
 export type ListSessionRequestParentIDCase1 = "null";
-/** Filter by parent session. Use null to return only root sessions. */
 export type ListSessionRequestParentID = string | ListSessionRequestParentIDCase1;
 export interface ListSessionRequest {
+  /** Maximum number of sessions to return. Defaults to the newest 50 sessions. */
   limit?: string | undefined;
+  /** Session order for the first page. Use desc for newest first or asc for oldest first. */
   order?: ListSessionRequestOrder | (string & {}) | undefined;
+  /** Only sessions whose title contains this text, ignoring case. % and _ act as wildcards. */
   search?: string | undefined;
+  /** Filter by parent session. Use null to return only root sessions. */
   parentID?: ListSessionRequestParentID | undefined;
+  /** Filter by archive state. Use true to return only archived sessions or false to exclude them. Omit to include both. */
   archived?: boolean | undefined;
+  /** Only sessions whose directory is exactly this absolute path. */
   directory?: string | undefined;
   project?: string | undefined;
+  /** With project, only sessions at this path relative to the project directory. */
   subpath?: string | undefined;
+  /** Opaque cursor from a previous page's cursor.next or cursor.previous. It carries that page's filters and order, so other filters are ignored. */
   cursor?: string | undefined;
 }
 export type SessionsResponseDataList = Array<SessionInfo>;
@@ -3403,9 +2568,13 @@ export type ListSessionMessageRequestType =
   | "idle";
 export interface ListSessionMessageRequest {
   sessionID: string;
+  /** Maximum number of messages to return. When omitted, the endpoint returns its default page size. */
   limit?: string | undefined;
+  /** Message order for the first page. Use desc for newest first or asc for oldest first. */
   order?: ListSessionMessageRequestOrder | (string & {}) | undefined;
+  /** Opaque pagination cursor returned as cursor.previous or cursor.next in the previous response. Do not combine with order. */
   cursor?: string | undefined;
+  /** Filter by message type before pagination. When omitted, all message types are returned. Pass the same type when following cursors. */
   type?: ListSessionMessageRequestType | (string & {}) | undefined;
 }
 export type SessionMessagesResponseDataList = Array<SessionMessageInfo>;
@@ -3421,18 +2590,20 @@ export type ListSessionPermissionResponseDataList = Array<PermissionRequest>;
 export interface ListSessionPermissionResponse {
   data: ListSessionPermissionResponseDataList;
 }
-export type ListShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListShellRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type ListShellResponseDataList = Array<ShellInfo>;
 export interface ListShellResponse {
   location: LocationPublicRef;
   data: ListShellResponseDataList;
 }
-export type ListSkillRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListSkillRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListSkillRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface SkillInfo {
   id: string;
@@ -3440,6 +2611,7 @@ export interface SkillInfo {
   description?: string | undefined;
   autoinvoke?: boolean | undefined;
   path: string;
+  /** The SKILL.md body. Empty for a skill whose body loads on demand, such as an MCP skill. */
   content: string;
 }
 export type ListSkillResponseDataList = Array<SkillInfo>;
@@ -3447,9 +2619,10 @@ export interface ListSkillResponse {
   location: LocationPublicRef;
   data: ListSkillResponseDataList;
 }
-export type ListVcsBranchRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ListVcsBranchRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ListVcsBranchRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   search?: string | undefined;
   limit?: string | undefined;
 }
@@ -3469,9 +2642,10 @@ export type WorktreeList = Array<WorktreeDirectory>;
 export type ListWorktreeResponse = WorktreeList;
 export interface LocationReloadRequest {}
 export interface LocationReloadResponse {}
-export type McpResourceCatalogRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type McpResourceCatalogRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface McpResourceCatalogRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface McpResource {
   server: string;
@@ -3497,9 +2671,10 @@ export interface McpResourceCatalogResponse {
   location: LocationPublicRef;
   data: McpResourceCatalog;
 }
-export type ModelDefaultRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ModelDefaultRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ModelDefaultRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface ModelDefaultResponse {
   location: LocationPublicRef;
@@ -3511,15 +2686,10 @@ export interface MoveSessionRequest {
   delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
 }
 export interface MoveSessionResponse {}
-export interface PauseExperimentalScheduleRequest {
-  scheduleID: string;
-}
-export interface PauseExperimentalScheduleResponse {
-  data: ScheduleInfo;
-}
-export type PluginGuiRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type PluginGuiRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface PluginGuiRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   id: string;
 }
 export interface PluginGuiBundle {
@@ -3531,45 +2701,24 @@ export interface PluginGuiResponse {
   location: LocationPublicRef;
   data: PluginGuiBundle;
 }
-export type PtyConnectTokenRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type PtyConnectTokenRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface PtyConnectTokenRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+}
+export interface PtyTicketConnectToken {
+  ticket: string;
+  expires_in: number;
 }
 export interface PtyConnectTokenResponse {
   location: LocationPublicRef;
   data: PtyTicketConnectToken;
 }
-export interface PutExperimentalSessionInstructionsEntryRequest {
-  sessionID: string;
-  key: string;
-  value: unknown;
-}
-export interface PutExperimentalSessionInstructionsEntryResponse {}
-export interface ReadExperimentalPersistentPtyRequest {
-  sessionID: string;
-  lines?: string | undefined;
-}
-export type PersistentPtyReadResultScreenCursor = PersistentPtySnapshotCursor;
-export interface PersistentPtyReadResultScreen {
-  text: string;
-  cols: number;
-  rows: number;
-  cursor: PersistentPtySnapshotCursor;
-}
-export interface PersistentPtyReadResult {
-  ptyID: string;
-  title: string;
-  cwd: string;
-  foregroundProcess: string | null;
-  screen: PersistentPtyReadResultScreen;
-}
-export interface ReadExperimentalPersistentPtyResponse {
-  data: PersistentPtyReadResult | null;
-}
-export type ReadFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ReadFsRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ReadFsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface ReadFsResponse {}
 export interface RefreshWorktreeRequest {
@@ -3580,40 +2729,26 @@ export interface RemoveCredentialRequest {
   credentialID: string;
 }
 export interface RemoveCredentialResponse {}
-export type RemoveExperimentalMcpRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export interface RemoveExperimentalMcpRequest {
-  server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-}
-export interface RemoveExperimentalMcpResponse {}
-export interface RemoveExperimentalPersistentPtyRequest {
-  ptyID: string;
-}
-export interface RemoveExperimentalPersistentPtyResponse {}
-export interface RemoveExperimentalSessionInstructionsEntryRequest {
-  sessionID: string;
-  key: string;
-}
-export interface RemoveExperimentalSessionInstructionsEntryResponse {}
 export interface RemovePermissionSavedRequest {
   id: string;
 }
 export interface RemovePermissionSavedResponse {}
-export type RemovePtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type RemovePtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface RemovePtyRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface RemovePtyResponse {}
 export interface RemoveSessionRequest {
   sessionID: string;
 }
 export interface RemoveSessionResponse {}
-export type RemoveShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type RemoveShellRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface RemoveShellRequest {
   id: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface RemoveShellResponse {}
 export interface RemoveWorktreeRequest {
@@ -3636,17 +2771,12 @@ export interface ReplySessionPermissionRequest {
   message?: string | null | undefined;
 }
 export interface ReplySessionPermissionResponse {}
-export interface ResumeExperimentalScheduleRequest {
-  scheduleID: string;
-}
-export interface ResumeExperimentalScheduleResponse {
-  data: ScheduleInfo;
-}
-export type RpcCallRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type RpcCallRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface RpcCallRequest {
   rpcID: string;
   method: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   input?: unknown | undefined;
 }
 export interface RpcOutput {
@@ -3682,6 +2812,7 @@ export interface SessionBackgroundRequest {
 }
 export interface SessionBackgroundResponse {}
 export interface PromptInputFileAttachment {
+  /** A file: URL on the server (a file, a directory, or ?start=N&end=M for lines of a text file), a data: URL, or a media: ref from a message. Up to 20 MB. */
   uri: string;
   source?: PromptFileSource | undefined;
   name?: string | undefined;
@@ -3698,6 +2829,7 @@ export type SessionCommandRequestSkillsList = Array<PromptInputSkillAttachment>;
 export interface SessionCommandRequest {
   sessionID: string;
   name: string;
+  /** The command's arguments. */
   text: string;
   files?: SessionCommandRequestFilesList | undefined;
   agents?: SessionCommandRequestAgentsList | undefined;
@@ -3714,8 +2846,11 @@ export interface SessionContextResponse {
 }
 export interface SessionDiffRequest {
   sessionID: string;
+  /** User message whose turn to diff. Defaults to the turn of the newest user message. */
   from?: string | undefined;
+  /** Later user message whose turn ends the range. Defaults to the turn of `from` alone. */
   to?: string | undefined;
+  /** Unchanged lines around each hunk. Omit for full-file patches. */
   context?: string | undefined;
 }
 export type SessionDiffResponseDataList = Array<FileDiffInfo>;
@@ -3730,6 +2865,7 @@ export interface SessionEnvironmentRequest {
 export interface SessionEnvironmentResponse {}
 export interface SessionInterruptRequest {
   sessionID: string;
+  /** Set to true to resume pending steering input and next-in-line control items after interrupting. */
   resume?: boolean | undefined;
 }
 export interface SessionInterruptResponse {
@@ -3741,13 +2877,16 @@ export type SessionPromptRequestAgentsList = Array<PromptAgentAttachment>;
 export type SessionPromptRequestSkillsList = Array<PromptInputSkillAttachment>;
 export interface SessionPromptRequest {
   sessionID: string;
+  /** Sending the same ID again returns the original item instead of adding a second one, so retries are safe. Reusing it in another session or for another kind of item fails with 409. */
   id?: string | null | undefined;
   text: string;
   files?: SessionPromptRequestFilesList | undefined;
   agents?: SessionPromptRequestAgentsList | undefined;
   skills?: SessionPromptRequestSkillsList | undefined;
+  /** Stored on the message. The model doesn't see it. */
   metadata?: unknown | undefined;
   delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
+  /** false adds the message to the inbox without starting the agent; it is delivered the next time the session runs. */
   resume?: boolean | null | undefined;
 }
 export interface SessionPromptResponse {
@@ -3779,11 +2918,15 @@ export interface SessionSwitchModelRequest {
 export interface SessionSwitchModelResponse {}
 export interface SessionSyntheticRequest {
   sessionID: string;
+  /** Sending the same ID again returns the original item instead of adding a second one, so retries are safe. Reusing it in another session or for another kind of item fails with 409. */
   id?: string | null | undefined;
   text: string;
+  /** Short label shown in the transcript instead of the full text. */
   description?: string | null | undefined;
+  /** Stored on the message. The model doesn't see it. */
   metadata?: unknown | undefined;
   delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
+  /** false adds the message to the inbox without starting the agent; it is delivered the next time the session runs. */
   resume?: boolean | null | undefined;
 }
 export interface SessionSyntheticResponse {
@@ -3794,11 +2937,14 @@ export interface SessionViewRequest {
   idle: number;
 }
 export interface SessionViewResponse {}
-export type ShellOutputRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type ShellOutputRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface ShellOutputRequest {
   id: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** Byte offset to read from, such as the cursor of the previous page. Defaults to 0. */
   cursor?: string | undefined;
+  /** Maximum number of bytes to return. Defaults to 65536. */
   limit?: string | undefined;
 }
 export type ShellOutputResponseData = SessionMessageShellOutput;
@@ -3842,6 +2988,7 @@ export type SubscribeEventRequestTypesCase0 =
   | "session.shell.started"
   | "session.shell.ended"
   | "session.step.started"
+  | "session.step.first-token"
   | "session.step.streamed"
   | "session.step.ended"
   | "session.step.failed"
@@ -3887,10 +3034,12 @@ export type SubscribeEventRequestTypesCase0 =
   | "shell.created"
   | "shell.exited"
   | "shell.deleted"
+  | "experimental.job.updated"
   | "form.created"
   | "form.replied"
   | "form.cancelled"
   | "websearch.updated"
+  | "experimental.push.updated"
   | "artifact.updated"
   | "session.status"
   | "session.idle"
@@ -3902,7 +3051,8 @@ export type SubscribeEventRequestTypesCase0 =
   | "installation.update-available"
   | "vcs.branch.updated"
   | "mcp.status.changed"
-  | "mcp.resources.changed";
+  | "mcp.resources.changed"
+  | "experimental.mcp.event";
 export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "location.shutdown"
   | "models-dev.refreshed"
@@ -3939,6 +3089,7 @@ export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "session.shell.started"
   | "session.shell.ended"
   | "session.step.started"
+  | "session.step.first-token"
   | "session.step.streamed"
   | "session.step.ended"
   | "session.step.failed"
@@ -3984,10 +3135,12 @@ export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "shell.created"
   | "shell.exited"
   | "shell.deleted"
+  | "experimental.job.updated"
   | "form.created"
   | "form.replied"
   | "form.cancelled"
   | "websearch.updated"
+  | "experimental.push.updated"
   | "artifact.updated"
   | "session.status"
   | "session.idle"
@@ -3999,15 +3152,16 @@ export type SubscribeEventRequestTypesCase2ItemCase0 =
   | "installation.update-available"
   | "vcs.branch.updated"
   | "mcp.status.changed"
-  | "mcp.resources.changed";
+  | "mcp.resources.changed"
+  | "experimental.mcp.event";
 export type SubscribeEventRequestTypesCase2Item = SubscribeEventRequestTypesCase2ItemCase0 | string;
 export type SubscribeEventRequestTypesCase2List = Array<SubscribeEventRequestTypesCase2Item>;
-/** Only send events of these types, plus the initial server.connected event. When omitted, all events are sent. */
 export type SubscribeEventRequestTypes =
   | SubscribeEventRequestTypesCase0
   | string
   | SubscribeEventRequestTypesCase2List;
 export interface SubscribeEventRequest {
+  /** Only send events of these types, plus the initial server.connected event. When omitted, all events are sent. */
   types?: SubscribeEventRequestTypes | undefined;
 }
 export interface SubscribeEventResponse {}
@@ -4016,35 +3170,6 @@ export interface UpdateCredentialRequest {
   label: string;
 }
 export interface UpdateCredentialResponse {}
-export type UpdateExperimentalArtifactRequestLocation =
-  AddExperimentalIntegrationWellknownRequestLocation;
-export type UpdateExperimentalArtifactRequestFilesMap = { [key: string]: string | undefined };
-export interface UpdateExperimentalArtifactRequest {
-  artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  title?: string | undefined;
-  files: UpdateExperimentalArtifactRequestFilesMap;
-  entry?: string | undefined;
-  sessionID?: string | undefined;
-}
-export interface UpdateExperimentalArtifactResponse {
-  location: LocationPublicRef;
-  data: ArtifactInfo;
-}
-export interface UpdateExperimentalConfigRequest {
-  shell: string | null;
-}
-export interface UpdateExperimentalConfigResponse {}
-export type UpdateExperimentalPersistentPtyRequestSize = CreateExperimentalPersistentPtyRequestSize;
-export interface UpdateExperimentalPersistentPtyRequest {
-  ptyID: string;
-  attachmentID?: string | undefined;
-  size?: CreateExperimentalPersistentPtyRequestSize | undefined;
-  title?: string | null | undefined;
-}
-export interface UpdateExperimentalPersistentPtyResponse {
-  data: PersistentPtyInfo;
-}
 export interface UpdatePermissionSavedRequest {
   id: string;
   action?: string | null | undefined;
@@ -4053,10 +3178,11 @@ export interface UpdatePermissionSavedRequest {
 export interface UpdatePermissionSavedResponse {
   data: PermissionSavedInfo;
 }
-export type UpdatePluginRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type UpdatePluginRequestLocation = CancelIntegrationCommandRequestLocation;
 export type UpdatePluginRequestTargetsList = Array<string>;
 export interface UpdatePluginRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   targets: UpdatePluginRequestTargetsList;
 }
 export interface UpdatePluginResponse {}
@@ -4067,14 +3193,15 @@ export interface UpdateProjectRequest {
   icon?: ProjectIcon | undefined;
   commands?: ProjectCommands | undefined;
 }
-export type UpdatePtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type UpdatePtyRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface UpdatePtyRequestSize {
   rows: number;
   cols: number;
 }
 export interface UpdatePtyRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   title?: string | undefined;
   size?: UpdatePtyRequestSize | undefined;
 }
@@ -4097,9 +3224,10 @@ export interface UpdateSessionInboxRequest {
   delivery: SessionInboxDelivery | (string & {});
 }
 export interface UpdateSessionInboxResponse {}
-export type VcsBaseRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type VcsBaseRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface VcsBaseRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type VcsBaseSource = "reflog" | "default";
 export interface VcsBase {
@@ -4111,11 +3239,12 @@ export interface VcsBaseResponse {
   location: LocationPublicRef;
   data: VcsBase | null;
 }
-export type VcsDiffRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type VcsDiffRequestLocation = CancelIntegrationCommandRequestLocation;
 export type VcsMode = "working" | "branch" | "committed";
 export type VcsUntracked = "files" | "folders";
 export interface VcsDiffRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   mode: VcsMode | (string & {});
   base?: string | undefined;
   context?: string | undefined;
@@ -4126,15 +3255,18 @@ export interface VcsDiffResponse {
   location: LocationPublicRef;
   data: VcsDiffResponseDataList;
 }
-export type VcsInitRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type VcsInitRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface VcsInitRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
+  /** VCS provider to initialize. Defaults to git. */
   provider?: string | undefined;
 }
 export interface VcsInitResponse {}
-export type VcsStatusRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type VcsStatusRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface VcsStatusRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export type VcsFileStatusStatus = "added" | "deleted" | "modified";
 export interface VcsFileStatus {
@@ -4148,20 +3280,10 @@ export interface VcsStatusResponse {
   location: LocationPublicRef;
   data: VcsStatusResponseDataList;
 }
-export interface WaitExperimentalSessionRequest {
-  sessionID: string;
-}
-export interface WaitExperimentalSessionResponse {}
-export type WatchExperimentalFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
-export interface WatchExperimentalFsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
-  /** A file path relative to the requested location. */
-  path: string;
-}
-export interface WatchExperimentalFsResponse {}
-export type WebsearchProvidersRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type WebsearchProvidersRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface WebsearchProvidersRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
 }
 export interface WebSearchProvider {
   id: string;
@@ -4172,9 +3294,10 @@ export interface WebsearchProvidersResponse {
   location: LocationPublicRef;
   data: WebsearchProvidersResponseDataList;
 }
-export type WebsearchQueryRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
+export type WebsearchQueryRequestLocation = CancelIntegrationCommandRequestLocation;
 export interface WebsearchQueryRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  /** Location to run the request in, sent as location[directory]. Omit to use the server's default location. */
+  location?: CancelIntegrationCommandRequestLocation | undefined;
   query: string;
   providerID?: string | undefined;
 }
@@ -4295,23 +3418,10 @@ export interface IntegrationAttemptNotFoundErrorEncoded {
   attemptID: string;
   message: string;
 }
-export type Error404Body12 =
+export type Error404Body13 =
   | IntegrationNotFoundErrorEncoded
   | IntegrationAttemptNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
-export type McpServerNotFoundErrorEncodedTag = "McpServerNotFoundError";
-export interface McpServerNotFoundErrorEncoded {
-  _tag: McpServerNotFoundErrorEncodedTag;
-  server: string;
-  message: string;
-}
-export type Error404Body14 = McpServerNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type PtyNotFoundErrorEncodedTag = "PtyNotFoundError";
-export interface PtyNotFoundErrorEncoded {
-  _tag: PtyNotFoundErrorEncodedTag;
-  ptyID: string;
-  message: string;
-}
 export type IntegrationMethodNotFoundErrorEncodedTag = "IntegrationMethodNotFoundError";
 export interface IntegrationMethodNotFoundErrorEncoded {
   _tag: IntegrationMethodNotFoundErrorEncodedTag;
@@ -4319,71 +3429,23 @@ export interface IntegrationMethodNotFoundErrorEncoded {
   methodID: string;
   message: string;
 }
-export type Error404Body13 =
+export type Error404Body14 =
   | IntegrationNotFoundErrorEncoded
   | IntegrationMethodNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
-export type Error404Body17 = PtyNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type ProviderNotFoundErrorEncodedTag = "ProviderNotFoundError";
-export interface ProviderNotFoundErrorEncoded {
-  _tag: ProviderNotFoundErrorEncodedTag;
-  providerID: string;
+export type PtyNotFoundErrorEncodedTag = "PtyNotFoundError";
+export interface PtyNotFoundErrorEncoded {
+  _tag: PtyNotFoundErrorEncodedTag;
+  ptyID: string;
   message: string;
 }
-export type Error404Body18 =
-  | ProviderNotFoundErrorEncoded
-  | SessionNotFoundErrorEncoded
-  | LocationNotFoundErrorEncoded;
+export type Error404Body19 = PtyNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type ProjectNotFoundErrorEncodedTag = "ProjectNotFoundError";
 export interface ProjectNotFoundErrorEncoded {
   _tag: ProjectNotFoundErrorEncodedTag;
   projectID: string;
   message: string;
 }
-export type ArtifactNotFoundErrorEncodedTag = "ArtifactNotFoundError";
-export interface ArtifactNotFoundErrorEncoded {
-  _tag: ArtifactNotFoundErrorEncodedTag;
-  artifactID: string;
-  message: string;
-}
-export type Error404Body19 = ArtifactNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type ScheduleNotFoundErrorEncodedTag = "ScheduleNotFoundError";
-export interface ScheduleNotFoundErrorEncoded {
-  _tag: ScheduleNotFoundErrorEncodedTag;
-  scheduleID: string;
-  message: string;
-}
-export type FileNotFoundErrorEncodedTag = "FileNotFoundError";
-export interface FileNotFoundErrorEncoded {
-  _tag: FileNotFoundErrorEncodedTag;
-  path: string;
-  message: string;
-}
-export type Error404Body21 =
-  | FileNotFoundErrorEncoded
-  | ArtifactNotFoundErrorEncoded
-  | LocationNotFoundErrorEncoded;
-export type ModelNotFoundErrorEncodedTag = "ModelNotFoundError";
-export interface ModelNotFoundErrorEncoded {
-  _tag: ModelNotFoundErrorEncodedTag;
-  providerID: string;
-  modelID: string;
-  message: string;
-}
-export type Error404Body9 =
-  | ProviderNotFoundErrorEncoded
-  | ModelNotFoundErrorEncoded
-  | LocationNotFoundErrorEncoded;
-export type SkillNotFoundErrorEncodedTag = "SkillNotFoundError";
-export interface SkillNotFoundErrorEncoded {
-  _tag: SkillNotFoundErrorEncodedTag;
-  skill: string;
-  message: string;
-}
-export type Error404Body6 =
-  | SessionNotFoundErrorEncoded
-  | SkillNotFoundErrorEncoded
-  | LocationNotFoundErrorEncoded;
 export type MessageNotFoundErrorEncodedTag = "MessageNotFoundError";
 export interface MessageNotFoundErrorEncoded {
   _tag: MessageNotFoundErrorEncodedTag;
@@ -4399,15 +3461,21 @@ export interface AgentNotFoundErrorEncoded {
   message: string;
 }
 export type Error404Body = AgentNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type Error404Body11 = IntegrationNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type Error404Body10 = ProviderNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body12 = IntegrationNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type ProviderNotFoundErrorEncodedTag = "ProviderNotFoundError";
+export interface ProviderNotFoundErrorEncoded {
+  _tag: ProviderNotFoundErrorEncodedTag;
+  providerID: string;
+  message: string;
+}
+export type Error404Body11 = ProviderNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type PermissionNotFoundErrorEncodedTag = "PermissionNotFoundError";
 export interface PermissionNotFoundErrorEncoded {
   _tag: PermissionNotFoundErrorEncodedTag;
   requestID: string;
   message: string;
 }
-export type Error404Body15 =
+export type Error404Body16 =
   | SessionNotFoundErrorEncoded
   | PermissionNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
@@ -4417,8 +3485,14 @@ export interface ShellNotFoundErrorEncoded {
   id: string;
   message: string;
 }
-export type Error404Body22 = ShellNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
-export type Error404Body16 = FileNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type Error404Body24 = ShellNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
+export type FileNotFoundErrorEncodedTag = "FileNotFoundError";
+export interface FileNotFoundErrorEncoded {
+  _tag: FileNotFoundErrorEncodedTag;
+  path: string;
+  message: string;
+}
+export type Error404Body17 = FileNotFoundErrorEncoded | LocationNotFoundErrorEncoded;
 export type PluginNotFoundErrorEncodedTag = "PluginNotFoundError";
 export interface PluginNotFoundErrorEncoded {
   _tag: PluginNotFoundErrorEncodedTag;
@@ -4440,22 +3514,10 @@ export type Error404Body7 =
   | MessageNotFoundErrorEncoded
   | SessionNotFoundErrorEncoded
   | LocationNotFoundErrorEncoded;
-export type Error404Body20 =
-  | SessionNotFoundErrorEncoded
-  | ArtifactNotFoundErrorEncoded
-  | LocationNotFoundErrorEncoded;
 export type PermissionSavedNotFoundErrorEncodedTag = "PermissionSavedNotFoundError";
 export interface PermissionSavedNotFoundErrorEncoded {
   _tag: PermissionSavedNotFoundErrorEncodedTag;
   id: string;
-  message: string;
-}
-export type UnsupportedModelErrorEncodedTag = "UnsupportedModelError";
-export interface UnsupportedModelErrorEncoded {
-  _tag: UnsupportedModelErrorEncodedTag;
-  providerID: string;
-  modelID: string;
-  capability: string;
   message: string;
 }
 export type ActivateCredentialError = BadRequest | OpencodeOpError;
@@ -4466,47 +3528,14 @@ export const activateCredential: API.OperationMethod<
   ActivateCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<ActivateCredentialRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ActivateCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(1312, __c82, 0) as any as S.Schema<ActivateCredentialRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ActivateCredentialResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateCredential",
-}));
-
-export type AddExperimentalIntegrationWellknownError = BadRequest | NotFound | OpencodeOpError;
-/** Add wellknown integration Discover and persist an experimental wellknown integration source. */
-export const addExperimentalIntegrationWellknown: API.OperationMethod<
-  AddExperimentalIntegrationWellknownRequest,
-  AddExperimentalIntegrationWellknownResponse,
-  AddExperimentalIntegrationWellknownError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<AddExperimentalIntegrationWellknownRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<AddExperimentalIntegrationWellknownResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "AddExperimentalIntegrationWellknown",
-}));
-
-export type AddExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
-/** Add MCP server Add an MCP server at runtime or replace an existing one, connecting it immediately. */
-export const addExperimentalMcp: API.OperationMethod<
-  AddExperimentalMcpRequest,
-  AddExperimentalMcpResponse,
-  AddExperimentalMcpError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<AddExperimentalMcpRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<AddExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "AddExperimentalMcp",
 }));
 
 export type CancelIntegrationCommandError = BadRequest | NotFound | OpencodeOpError;
@@ -4517,9 +3546,10 @@ export const cancelIntegrationCommand: API.OperationMethod<
   CancelIntegrationCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<CancelIntegrationCommandRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<CancelIntegrationCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1520, __c95, 0) as any as S.Schema<CancelIntegrationCommandRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelIntegrationCommandResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4534,9 +3564,10 @@ export const cancelIntegrationOauth: API.OperationMethod<
   CancelIntegrationOauthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<CancelIntegrationOauthRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<CancelIntegrationOauthResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1792, __c112, 0) as any as S.Schema<CancelIntegrationOauthRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelIntegrationOauthResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4551,9 +3582,10 @@ export const cancelSessionForm: API.OperationMethod<
   CancelSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<CancelSessionFormRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<CancelSessionFormResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(2000, __c125, 0) as any as S.Schema<CancelSessionFormRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelSessionFormResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4568,9 +3600,10 @@ export const cancelSessionInbox: API.OperationMethod<
   CancelSessionInboxError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CancelSessionInboxRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<CancelSessionInboxResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2176, __c136, 0) as any as S.Schema<CancelSessionInboxRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CancelSessionInboxResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4585,9 +3618,10 @@ export const checkPlugin: API.OperationMethod<
   CheckPluginError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CheckPluginRequest>,
-  output: __S(451, __c28, 3) as any as S.Schema<CheckPluginResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2352, __c147, 0) as any as S.Schema<CheckPluginRequest>,
+  output: __S(2371, __c148, 3) as any as S.Schema<CheckPluginResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4602,9 +3636,10 @@ export const clearSessionRevert: API.OperationMethod<
   ClearSessionRevertError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ClearSessionRevertRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ClearSessionRevertResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(48, __c3, 0) as any as S.Schema<ClearSessionRevertRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ClearSessionRevertResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4619,9 +3654,10 @@ export const commitSessionRevert: API.OperationMethod<
   CommitSessionRevertError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CommitSessionRevertRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<CommitSessionRevertResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(224, __c14, 0) as any as S.Schema<CommitSessionRevertRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CommitSessionRevertResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4629,16 +3665,17 @@ export const commitSessionRevert: API.OperationMethod<
 }));
 
 export type CompactSessionError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Compact session Durably admit a session compaction request. Steers by default: it runs at the next step boundary instead of waiting behind queued prompts. */
+/** Compact session Queue a summary of the session's history. Steers by default: it runs before the next model call, ahead of queued messages. */
 export const compactSession: API.OperationMethod<
   CompactSessionRequest,
   CompactSessionResponse,
   CompactSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CompactSessionRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<CompactSessionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(400, __c25, 0) as any as S.Schema<CompactSessionRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<CompactSessionResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4653,9 +3690,10 @@ export const completeIntegrationOauth: API.OperationMethod<
   CompleteIntegrationOauthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<CompleteIntegrationOauthRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<CompleteIntegrationOauthResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(432, __c27, 0) as any as S.Schema<CompleteIntegrationOauthRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CompleteIntegrationOauthResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4670,51 +3708,14 @@ export const configShells: API.OperationMethod<
   ConfigShellsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ConfigShellsRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<ConfigShellsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(448, __c28, 0) as any as S.Schema<ConfigShellsRequest>,
+  output: __S(451, __c28, 3) as any as S.Schema<ConfigShellsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigShells",
-}));
-
-export type ConnectExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
-/** Connect MCP server Connect an MCP server at runtime, overriding a disabled configuration until restart. */
-export const connectExperimentalMcp: API.OperationMethod<
-  ConnectExperimentalMcpRequest,
-  ConnectExperimentalMcpResponse,
-  ConnectExperimentalMcpError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ConnectExperimentalMcpRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ConnectExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ConnectExperimentalMcp",
-}));
-
-export type ConnectExperimentalPersistentPtyError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | OpencodeOpError;
-/** Connect to a persistent PTY Stream persistent PTY output through the OpenCode server. */
-export const connectExperimentalPersistentPty: API.OperationMethod<
-  ConnectExperimentalPersistentPtyRequest,
-  ConnectExperimentalPersistentPtyResponse,
-  ConnectExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ConnectExperimentalPersistentPtyRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<ConnectExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ConnectExperimentalPersistentPty",
 }));
 
 export type ConnectIntegrationCommandError = BadRequest | NotFound | OpencodeOpError;
@@ -4725,9 +3726,10 @@ export const connectIntegrationCommand: API.OperationMethod<
   ConnectIntegrationCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ConnectIntegrationCommandRequest>,
-  output: __S(1507, __c94, 3) as any as S.Schema<ConnectIntegrationCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(464, __c29, 0) as any as S.Schema<ConnectIntegrationCommandRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<ConnectIntegrationCommandResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4742,9 +3744,10 @@ export const connectIntegrationOauth: API.OperationMethod<
   ConnectIntegrationOauthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ConnectIntegrationOauthRequest>,
-  output: __S(1523, __c95, 3) as any as S.Schema<ConnectIntegrationOauthResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(480, __c30, 0) as any as S.Schema<ConnectIntegrationOauthRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<ConnectIntegrationOauthResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4759,9 +3762,10 @@ export const connectPty: API.OperationMethod<
   ConnectPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ConnectPtyRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<ConnectPtyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  input: __S(512, __c32, 0) as any as S.Schema<ConnectPtyRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<ConnectPtyResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4776,9 +3780,10 @@ export const connectServer: API.OperationMethod<
   ConnectServerError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ConnectServerRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<PairingSession>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(528, __c33, 0) as any as S.Schema<ConnectServerRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<PairingSession>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4793,63 +3798,14 @@ export const createCredential: API.OperationMethod<
   CreateCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<CreateCredentialRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<CreateCredentialResponse>,
-  errors: [BadRequest, Conflict, UnknownOpencodeError],
+  input: __S(544, __c34, 0) as any as S.Schema<CreateCredentialRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<CreateCredentialResponse>,
+  errors: [BadRequest, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCredential",
-}));
-
-export type CreateExperimentalArtifactError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Create artifact Publish a new artifact through the selected or default artifact provider. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const createExperimentalArtifact: API.OperationMethod<
-  CreateExperimentalArtifactRequest,
-  CreateExperimentalArtifactResponse,
-  CreateExperimentalArtifactError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<CreateExperimentalArtifactRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<CreateExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateExperimentalArtifact",
-}));
-
-export type CreateExperimentalPersistentPtyError = BadRequest | OpencodeOpError;
-export const createExperimentalPersistentPty: API.OperationMethod<
-  CreateExperimentalPersistentPtyRequest,
-  CreateExperimentalPersistentPtyResponse,
-  CreateExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateExperimentalPersistentPtyRequest>,
-  output: __S(1744, __c109, 0) as any as S.Schema<CreateExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateExperimentalPersistentPty",
-}));
-
-export type CreateExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Create schedule Schedule a prompt that wakes the Session once after a delay, at a time, every interval, or on a cron. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const createExperimentalSchedule: API.OperationMethod<
-  CreateExperimentalScheduleRequest,
-  CreateExperimentalScheduleResponse,
-  CreateExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1761, __c110, 1) as any as S.Schema<CreateExperimentalScheduleRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<CreateExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateExperimentalSchedule",
 }));
 
 export type CreatePtyError = BadRequest | NotFound | OpencodeOpError;
@@ -4860,9 +3816,10 @@ export const createPty: API.OperationMethod<
   CreatePtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<CreatePtyRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<CreatePtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(592, __c37, 0) as any as S.Schema<CreatePtyRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<CreatePtyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4877,9 +3834,10 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(1984, __c124, 0) as any as S.Schema<CreateSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(672, __c42, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<CreateSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4894,9 +3852,10 @@ export const createSessionForm: API.OperationMethod<
   CreateSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<CreateSessionFormRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<CreateSessionFormResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(816, __c51, 0) as any as S.Schema<CreateSessionFormRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<CreateSessionFormResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4911,9 +3870,10 @@ export const createSessionPermission: API.OperationMethod<
   CreateSessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<CreateSessionPermissionRequest>,
-  output: __S(2082, __c130, 2) as any as S.Schema<CreateSessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(864, __c54, 0) as any as S.Schema<CreateSessionPermissionRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<CreateSessionPermissionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4928,9 +3888,10 @@ export const createShell: API.OperationMethod<
   CreateShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<CreateShellRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<CreateShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(896, __c56, 0) as any as S.Schema<CreateShellRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<CreateShellResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4945,9 +3906,10 @@ export const createWorktree: API.OperationMethod<
   CreateWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<CreateWorktreeRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<WorktreeInfo>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(944, __c59, 0) as any as S.Schema<CreateWorktreeRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<WorktreeInfo>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4962,9 +3924,10 @@ export const debugHeapDump: API.OperationMethod<
   DebugHeapDumpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<DebugHeapDumpRequest>,
-  output: __S(2178, __c136, 2) as any as S.Schema<DebugHeapDumpResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(960, __c60, 0) as any as S.Schema<DebugHeapDumpRequest>,
+  output: __S(962, __c60, 2) as any as S.Schema<DebugHeapDumpResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4979,450 +3942,28 @@ export const debugLocationEvict: API.OperationMethod<
   DebugLocationEvictError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<DebugLocationEvictRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<DebugLocationEvictResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(976, __c61, 0) as any as S.Schema<DebugLocationEvictRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<DebugLocationEvictResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DebugLocationEvict",
 }));
 
-export type DeleteExperimentalArtifactError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Delete artifact Remove an artifact and its stored files. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const deleteExperimentalArtifact: API.OperationMethod<
-  DeleteExperimentalArtifactRequest,
-  DeleteExperimentalArtifactResponse,
-  DeleteExperimentalArtifactError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<DeleteExperimentalArtifactRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<DeleteExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteExperimentalArtifact",
-}));
-
-export type DeleteExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Delete schedule Delete a schedule. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const deleteExperimentalSchedule: API.OperationMethod<
-  DeleteExperimentalScheduleRequest,
-  DeleteExperimentalScheduleResponse,
-  DeleteExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DeleteExperimentalScheduleRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<DeleteExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteExperimentalSchedule",
-}));
-
-export type DisconnectExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
-/** Disconnect MCP server Disconnect an MCP server at runtime, removing its tools until reconnected. */
-export const disconnectExperimentalMcp: API.OperationMethod<
-  DisconnectExperimentalMcpRequest,
-  DisconnectExperimentalMcpResponse,
-  DisconnectExperimentalMcpError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<DisconnectExperimentalMcpRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<DisconnectExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DisconnectExperimentalMcp",
-}));
-
-export type ExperimentalArtifactsProvidersError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | OpencodeOpError;
-/** List artifact providers Return active artifact providers and default. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const experimentalArtifactsProviders: API.OperationMethod<
-  ExperimentalArtifactsProvidersRequest,
-  ExperimentalArtifactsProvidersResponse,
-  ExperimentalArtifactsProvidersError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ExperimentalArtifactsProvidersRequest>,
-  output: __S(2259, __c141, 3) as any as S.Schema<ExperimentalArtifactsProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalArtifactsProviders",
-}));
-
-export type ExperimentalArtifactsViewError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** View local artifact Serve HTML and static files from the local provider. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const experimentalArtifactsView: API.OperationMethod<
-  ExperimentalArtifactsViewRequest,
-  ExperimentalArtifactsViewResponse,
-  ExperimentalArtifactsViewError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<ExperimentalArtifactsViewRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalArtifactsViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalArtifactsView",
-}));
-
-export type ExperimentalFsUnwatchError = BadRequest | NotFound | OpencodeOpError;
-/** Unwatch file Stop watching one file relative to the requested location. Experimental: may change without compatibility guarantees. */
-export const experimentalFsUnwatch: API.OperationMethod<
-  ExperimentalFsUnwatchRequest,
-  ExperimentalFsUnwatchResponse,
-  ExperimentalFsUnwatchError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<ExperimentalFsUnwatchRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalFsUnwatchResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalFsUnwatch",
-}));
-
-export type ExperimentalFsWriteError = BadRequest | NotFound | OpencodeOpError;
-/** Write file Write the raw request body to an absolute path or a path relative to the requested location, creating parent directories, and return the resolved absolute path. Unlike read, the target is not confined to the location. Experimental: may change without compatibility guarantees. */
-export const experimentalFsWrite: API.OperationMethod<
-  ExperimentalFsWriteRequest,
-  ExperimentalFsWriteResponse,
-  ExperimentalFsWriteError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<ExperimentalFsWriteRequest>,
-  output: __S(2338, __c146, 2) as any as S.Schema<ExperimentalFsWriteResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalFsWrite",
-}));
-
-export type ExperimentalGenerateDecisionsError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | OpencodeOpError;
-/** Generate decisions Ask a decision model typed predicate, choice and score questions about the input and return one probability-bearing answer per question, in question order. Stateless: nothing is stored. */
-export const experimentalGenerateDecisions: API.OperationMethod<
-  ExperimentalGenerateDecisionsRequest,
-  GenerateDecisionsResponse,
-  ExperimentalGenerateDecisionsError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2354, __c147, 2) as any as S.Schema<ExperimentalGenerateDecisionsRequest>,
-  output: __S(2357, __c147, 5) as any as S.Schema<GenerateDecisionsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalGenerateDecisions",
-}));
-
-export type ExperimentalGenerateImageError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | OpencodeOpError;
-/** Generate images Generate or edit images with an image model using the server's base configuration and return them as base64. Stateless: nothing is stored. */
-export const experimentalGenerateImage: API.OperationMethod<
-  ExperimentalGenerateImageRequest,
-  GenerateImageResponse,
-  ExperimentalGenerateImageError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2387, __c149, 3) as any as S.Schema<ExperimentalGenerateImageRequest>,
-  output: __S(2390, __c149, 6) as any as S.Schema<GenerateImageResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalGenerateImage",
-}));
-
-export type ExperimentalGenerateTextError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | OpencodeOpError;
-/** Generate text Run one stateless model generation using the server's base configuration and return the assistant text. Uses the base configuration's default model when none is specified. */
-export const experimentalGenerateText: API.OperationMethod<
-  ExperimentalGenerateTextRequest,
-  GenerateTextResponse,
-  ExperimentalGenerateTextError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<ExperimentalGenerateTextRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<GenerateTextResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalGenerateText",
-}));
-
-export type ExperimentalMcpClientError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Attach client MCP server Upgrade to a WebSocket over which the client hosts an MCP server named after `name`; its tools stay available while the socket is open. One JSON-RPC message per text frame. Experimental: may change without compatibility guarantees. */
-export const experimentalMcpClient: API.OperationMethod<
-  ExperimentalMcpClientRequest,
-  ExperimentalMcpClientResponse,
-  ExperimentalMcpClientError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<ExperimentalMcpClientRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<ExperimentalMcpClientResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalMcpClient",
-}));
-
-export type ExperimentalMcpClientTokenError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Create client MCP WebSocket token Create a short-lived single-use ticket for opening a client MCP WebSocket connection from a browser. */
-export const experimentalMcpClientToken: API.OperationMethod<
-  ExperimentalMcpClientTokenRequest,
-  ExperimentalMcpClientTokenResponse,
-  ExperimentalMcpClientTokenError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<ExperimentalMcpClientTokenRequest>,
-  output: __S(2464, __c154, 0) as any as S.Schema<ExperimentalMcpClientTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalMcpClientToken",
-}));
-
-export type ExperimentalMigrationV1StatusError = BadRequest | OpencodeOpError;
-/** Get V1 migration status Return the progress of the V1 to V2 session history migration. */
-export const experimentalMigrationV1Status: API.OperationMethod<
-  ExperimentalMigrationV1StatusRequest,
-  ExperimentalMigrationV1StatusResponse,
-  ExperimentalMigrationV1StatusError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<ExperimentalMigrationV1StatusRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<ExperimentalMigrationV1StatusResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalMigrationV1Status",
-}));
-
-export type ExperimentalPersistentPtyConnectTokenError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | OpencodeOpError;
-export const experimentalPersistentPtyConnectToken: API.OperationMethod<
-  ExperimentalPersistentPtyConnectTokenRequest,
-  ExperimentalPersistentPtyConnectTokenResponse,
-  ExperimentalPersistentPtyConnectTokenError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<ExperimentalPersistentPtyConnectTokenRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<ExperimentalPersistentPtyConnectTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalPersistentPtyConnectToken",
-}));
-
-export type ExperimentalPersistentPtyHandoffError = BadRequest | OpencodeOpError;
-export const experimentalPersistentPtyHandoff: API.OperationMethod<
-  ExperimentalPersistentPtyHandoffRequest,
-  ExperimentalPersistentPtyHandoffResponse,
-  ExperimentalPersistentPtyHandoffError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ExperimentalPersistentPtyHandoffRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<ExperimentalPersistentPtyHandoffResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalPersistentPtyHandoff",
-}));
-
-export type ExperimentalPersistentPtyShutdownError = BadRequest | OpencodeOpError;
-export const experimentalPersistentPtyShutdown: API.OperationMethod<
-  ExperimentalPersistentPtyShutdownRequest,
-  ExperimentalPersistentPtyShutdownResponse,
-  ExperimentalPersistentPtyShutdownError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalPersistentPtyShutdownResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalPersistentPtyShutdown",
-}));
-
-export type ExperimentalPersistentPtySnapshotError = BadRequest | NotFound | OpencodeOpError;
-export const experimentalPersistentPtySnapshot: API.OperationMethod<
-  ExperimentalPersistentPtySnapshotRequest,
-  ExperimentalPersistentPtySnapshotResponse,
-  ExperimentalPersistentPtySnapshotError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<ExperimentalPersistentPtySnapshotRequest>,
-  output: __S(2594, __c162, 2) as any as S.Schema<ExperimentalPersistentPtySnapshotResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalPersistentPtySnapshot",
-}));
-
-export type ExperimentalSessionLogError = BadRequest | NotFound | OpencodeOpError;
-/** Read the session log Experimental durable session event log. Reads events after an exclusive aggregate sequence and continues with live events when follow=true. */
-export const experimentalSessionLog: API.OperationMethod<
-  ExperimentalSessionLogRequest,
-  ExperimentalSessionLogResponse,
-  ExperimentalSessionLogError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<ExperimentalSessionLogRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalSessionLogResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalSessionLog",
-}));
-
-export type ExperimentalSessionSkillError = BadRequest | NotFound | OpencodeOpError;
-/** Activate skill Activate a skill for a session by appending a skill message and resuming execution. */
-export const experimentalSessionSkill: API.OperationMethod<
-  ExperimentalSessionSkillRequest,
-  ExperimentalSessionSkillResponse,
-  ExperimentalSessionSkillError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<ExperimentalSessionSkillRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ExperimentalSessionSkillResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalSessionSkill",
-}));
-
-export type ExperimentalSessionStatsError = BadRequest | OpencodeOpError;
-/** Get session statistics Aggregate local session activity, usage, and tool reliability for a time range. */
-export const experimentalSessionStats: API.OperationMethod<
-  ExperimentalSessionStatsRequest,
-  ExperimentalSessionStatsResponse,
-  ExperimentalSessionStatsError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<ExperimentalSessionStatsRequest>,
-  output: __S(2663, __c166, 7) as any as S.Schema<ExperimentalSessionStatsResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalSessionStats",
-}));
-
-export type ExperimentalUsageLimitsError = BadRequest | NotFound | OpencodeOpError;
-/** Get usage limits Return the OpenCode Go allowance and Console budgets of the OpenCode Console workspace the location is signed in to, or null when it isn't signed in. */
-export const experimentalUsageLimits: API.OperationMethod<
-  ExperimentalUsageLimitsRequest,
-  ExperimentalUsageLimitsResponse,
-  ExperimentalUsageLimitsError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<ExperimentalUsageLimitsRequest>,
-  output: __S(2681, __c167, 9) as any as S.Schema<ExperimentalUsageLimitsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalUsageLimits",
-}));
-
-export type ExperimentalVoiceModelsError = BadRequest | NotFound | OpencodeOpError;
-/** List voice models List supported voice models, their transports, and whether the server has a usable API key for each provider. */
-export const experimentalVoiceModels: API.OperationMethod<
-  ExperimentalVoiceModelsRequest,
-  VoiceModelsResponse,
-  ExperimentalVoiceModelsError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<ExperimentalVoiceModelsRequest>,
-  output: __S(2692, __c168, 4) as any as S.Schema<VoiceModelsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalVoiceModels",
-}));
-
-export type ExperimentalVoiceSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Create voice session Create a server-brokered voice session using the server's configured provider credentials and return the WebRTC SDP answer or WebSocket ephemeral token. */
-export const experimentalVoiceSession: API.OperationMethod<
-  ExperimentalVoiceSessionRequest,
-  VoiceSessionResponse,
-  ExperimentalVoiceSessionError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<ExperimentalVoiceSessionRequest>,
-  output: __S(2706, __c169, 2) as any as S.Schema<VoiceSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExperimentalVoiceSession",
-}));
-
-export type ExportExperimentalSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Export session Export a complete projected session transcript. */
-export const exportExperimentalSession: API.OperationMethod<
-  ExportExperimentalSessionRequest,
-  ExportExperimentalSessionResponse,
-  ExportExperimentalSessionError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<ExportExperimentalSessionRequest>,
-  output: __S(2722, __c170, 2) as any as S.Schema<ExportExperimentalSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExportExperimentalSession",
-}));
-
 export type ForkSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Fork session Create a child session by copying projected history before a message. Omit before to copy the full history. */
+/** Fork session Create a child session with this session's history before a message. Omit before to copy the full history. */
 export const forkSession: API.OperationMethod<
   ForkSessionRequest,
   ForkSessionResponse,
   ForkSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<ForkSessionRequest>,
-  output: __S(1984, __c124, 0) as any as S.Schema<ForkSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(992, __c62, 0) as any as S.Schema<ForkSessionRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<ForkSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5437,9 +3978,10 @@ export const fsFind: API.OperationMethod<
   FsFindError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<FsFindRequest>,
-  output: __S(2818, __c176, 2) as any as S.Schema<FsFindResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1008, __c63, 0) as any as S.Schema<FsFindRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<FsFindResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5447,16 +3989,17 @@ export const fsFind: API.OperationMethod<
 }));
 
 export type GenerateSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Generate text from session context Generate transient text from the current session context without mutating session history. */
+/** Generate text from session context Generate transient text from the current session context without mutating session history. Its tokens and cost count toward the session's totals. */
 export const generateSession: API.OperationMethod<
   GenerateSessionRequest,
   SessionGenerateResponse,
   GenerateSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<GenerateSessionRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<SessionGenerateResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1072, __c67, 0) as any as S.Schema<GenerateSessionRequest>,
+  output: __S(1074, __c67, 2) as any as S.Schema<SessionGenerateResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5471,9 +4014,10 @@ export const getAgent: API.OperationMethod<
   GetAgentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<GetAgentRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<GetAgentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1088, __c68, 0) as any as S.Schema<GetAgentRequest>,
+  output: __S(1089, __c68, 1) as any as S.Schema<GetAgentResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5488,80 +4032,14 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(2914, __c182, 2) as any as S.Schema<GetConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1152, __c72, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<GetConfigResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfig",
-}));
-
-export type GetExperimentalArtifactError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Read artifact Read an artifact's metadata and file contents. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const getExperimentalArtifact: API.OperationMethod<
-  GetExperimentalArtifactRequest,
-  GetExperimentalArtifactResponse,
-  GetExperimentalArtifactError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<GetExperimentalArtifactRequest>,
-  output: __S(2930, __c183, 2) as any as S.Schema<GetExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperimentalArtifact",
-}));
-
-export type GetExperimentalMediaError = BadRequest | NotFound | OpencodeOpError;
-/** Read media blob Read a content-addressed media blob by SHA-256 hash with immutable Cache-Control, ETag, and 304 Not Modified support. Only blobs a stored message or inbox item still references are served. Experimental: may change without compatibility guarantees. */
-export const getExperimentalMedia: API.OperationMethod<
-  GetExperimentalMediaRequest,
-  GetExperimentalMediaResponse,
-  GetExperimentalMediaError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<GetExperimentalMediaRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<GetExperimentalMediaResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperimentalMedia",
-}));
-
-export type GetExperimentalPersistentPtyError = BadRequest | NotFound | OpencodeOpError;
-export const getExperimentalPersistentPty: API.OperationMethod<
-  GetExperimentalPersistentPtyRequest,
-  GetExperimentalPersistentPtyResponse,
-  GetExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<GetExperimentalPersistentPtyRequest>,
-  output: __S(1744, __c109, 0) as any as S.Schema<GetExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperimentalPersistentPty",
-}));
-
-export type GetExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Get schedule Read one schedule. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const getExperimentalSchedule: API.OperationMethod<
-  GetExperimentalScheduleRequest,
-  GetExperimentalScheduleResponse,
-  GetExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<GetExperimentalScheduleRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<GetExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperimentalSchedule",
 }));
 
 export type GetIntegrationError = BadRequest | NotFound | OpencodeOpError;
@@ -5572,9 +4050,10 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<GetIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1168, __c73, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<GetIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5589,9 +4068,10 @@ export const getLocation: API.OperationMethod<
   GetLocationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<GetLocationRequest>,
-  output: __S(3042, __c190, 2) as any as S.Schema<LocationPublicInfo>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1200, __c75, 0) as any as S.Schema<GetLocationRequest>,
+  output: __S(1202, __c75, 2) as any as S.Schema<LocationPublicInfo>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5606,9 +4086,10 @@ export const getProvider: API.OperationMethod<
   GetProviderError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<GetProviderRequest>,
-  output: __S(3057, __c191, 1) as any as S.Schema<GetProviderResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1216, __c76, 0) as any as S.Schema<GetProviderRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<GetProviderResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5623,9 +4104,10 @@ export const getPty: API.OperationMethod<
   GetPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<GetPtyRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<GetPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1248, __c78, 0) as any as S.Schema<GetPtyRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<GetPtyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5640,9 +4122,10 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(1984, __c124, 0) as any as S.Schema<GetSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1264, __c79, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<GetSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5657,9 +4140,10 @@ export const getSessionForm: API.OperationMethod<
   GetSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<GetSessionFormRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<GetSessionFormResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1280, __c80, 0) as any as S.Schema<GetSessionFormRequest>,
+  output: __S(1282, __c80, 2) as any as S.Schema<GetSessionFormResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5667,16 +4151,17 @@ export const getSessionForm: API.OperationMethod<
 }));
 
 export type GetSessionMessageError = BadRequest | NotFound | OpencodeOpError;
-/** Get session message Retrieve one projected message owned by the Session. */
+/** Get session message Retrieve one message of the session by ID. */
 export const getSessionMessage: API.OperationMethod<
   GetSessionMessageRequest,
   GetSessionMessageResponse,
   GetSessionMessageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<GetSessionMessageRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<GetSessionMessageResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1296, __c81, 0) as any as S.Schema<GetSessionMessageRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<GetSessionMessageResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5691,9 +4176,10 @@ export const getSessionPermission: API.OperationMethod<
   GetSessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<GetSessionPermissionRequest>,
-  output: __S(3153, __c197, 1) as any as S.Schema<GetSessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1344, __c84, 0) as any as S.Schema<GetSessionPermissionRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<GetSessionPermissionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5708,9 +4194,10 @@ export const getShell: API.OperationMethod<
   GetShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<GetShellRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<GetShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1376, __c86, 0) as any as S.Schema<GetShellRequest>,
+  output: __S(912, __c57, 0) as any as S.Schema<GetShellResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5725,30 +4212,14 @@ export const getVcs: API.OperationMethod<
   GetVcsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<GetVcsRequest>,
-  output: __S(3203, __c200, 3) as any as S.Schema<GetVcsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1392, __c87, 0) as any as S.Schema<GetVcsRequest>,
+  output: __S(1395, __c87, 3) as any as S.Schema<GetVcsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVcs",
-}));
-
-export type ImportExperimentalSessionError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Import session Import a projected session transcript at the requested location. Accepts transcripts exported by earlier releases. If parentID is supplied, the parent session must already exist; import parents before children. */
-export const importExperimentalSession: API.OperationMethod<
-  ImportExperimentalSessionRequest,
-  ImportExperimentalSessionResponse,
-  ImportExperimentalSessionError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3217, __c201, 1) as any as S.Schema<ImportExperimentalSessionRequest>,
-  output: __S(1984, __c124, 0) as any as S.Schema<ImportExperimentalSessionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ImportExperimentalSession",
 }));
 
 export type IntegrationCommandStatusError = BadRequest | NotFound | OpencodeOpError;
@@ -5759,9 +4230,10 @@ export const integrationCommandStatus: API.OperationMethod<
   IntegrationCommandStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<IntegrationCommandStatusRequest>,
-  output: __S(3249, __c203, 1) as any as S.Schema<IntegrationCommandStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1408, __c88, 0) as any as S.Schema<IntegrationCommandStatusRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<IntegrationCommandStatusResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5776,9 +4248,10 @@ export const integrationConnectExternal: API.OperationMethod<
   IntegrationConnectExternalError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<IntegrationConnectExternalRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<IntegrationConnectExternalResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1424, __c89, 0) as any as S.Schema<IntegrationConnectExternalRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<IntegrationConnectExternalResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5793,9 +4266,10 @@ export const integrationConnectKey: API.OperationMethod<
   IntegrationConnectKeyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<IntegrationConnectKeyRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<IntegrationConnectKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1440, __c90, 0) as any as S.Schema<IntegrationConnectKeyRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<IntegrationConnectKeyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5810,9 +4284,10 @@ export const integrationOauthStatus: API.OperationMethod<
   IntegrationOauthStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<IntegrationOauthStatusRequest>,
-  output: __S(3297, __c206, 1) as any as S.Schema<IntegrationOauthStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1456, __c91, 0) as any as S.Schema<IntegrationOauthStatusRequest>,
+  output: __S(1457, __c91, 1) as any as S.Schema<IntegrationOauthStatusResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5827,9 +4302,10 @@ export const listAgent: API.OperationMethod<
   ListAgentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<ListAgentRequest>,
-  output: __S(3314, __c207, 2) as any as S.Schema<ListAgentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1472, __c92, 0) as any as S.Schema<ListAgentRequest>,
+  output: __S(1474, __c92, 2) as any as S.Schema<ListAgentResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5844,9 +4320,10 @@ export const listCommand: API.OperationMethod<
   ListCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<ListCommandRequest>,
-  output: __S(3331, __c208, 3) as any as S.Schema<ListCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1488, __c93, 0) as any as S.Schema<ListCommandRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<ListCommandResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5861,9 +4338,10 @@ export const listCredential: API.OperationMethod<
   ListCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<ListCredentialRequest>,
-  output: __S(3346, __c209, 2) as any as S.Schema<ListCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(1504, __c94, 0) as any as S.Schema<ListCredentialRequest>,
+  output: __S(1506, __c94, 2) as any as S.Schema<ListCredentialResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5878,97 +4356,14 @@ export const listDebugLocation: API.OperationMethod<
   ListDebugLocationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<ListDebugLocationRequest>,
-  output: __S(3362, __c210, 2) as any as S.Schema<ListDebugLocationResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(1552, __c97, 0) as any as S.Schema<ListDebugLocationRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<ListDebugLocationResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDebugLocation",
-}));
-
-export type ListExperimentalArtifactsError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** List artifacts List published artifacts, newest update first. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const listExperimentalArtifacts: API.OperationMethod<
-  ListExperimentalArtifactsRequest,
-  ListExperimentalArtifactsResponse,
-  ListExperimentalArtifactsError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<ListExperimentalArtifactsRequest>,
-  output: __S(3378, __c211, 2) as any as S.Schema<ListExperimentalArtifactsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListExperimentalArtifacts",
-}));
-
-export type ListExperimentalJobError = BadRequest | NotFound | OpencodeOpError;
-/** List background jobs List active and unconsumed background jobs, optionally filtered by owning session, descendants, or kind. Experimental: may change without compatibility guarantees. */
-export const listExperimentalJob: API.OperationMethod<
-  ListExperimentalJobRequest,
-  ListExperimentalJobResponse,
-  ListExperimentalJobError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<ListExperimentalJobRequest>,
-  output: __S(3394, __c212, 2) as any as S.Schema<ListExperimentalJobResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListExperimentalJob",
-}));
-
-export type ListExperimentalPersistentPtyError = BadRequest | OpencodeOpError;
-export const listExperimentalPersistentPty: API.OperationMethod<
-  ListExperimentalPersistentPtyRequest,
-  ListExperimentalPersistentPtyResponse,
-  ListExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<ListExperimentalPersistentPtyRequest>,
-  output: __S(3426, __c214, 2) as any as S.Schema<ListExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListExperimentalPersistentPty",
-}));
-
-export type ListExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** List schedules List a Session's schedules, oldest first. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const listExperimentalSchedule: API.OperationMethod<
-  ListExperimentalScheduleRequest,
-  ListExperimentalScheduleResponse,
-  ListExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<ListExperimentalScheduleRequest>,
-  output: __S(3442, __c215, 2) as any as S.Schema<ListExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListExperimentalSchedule",
-}));
-
-export type ListExperimentalSessionInstructionsEntryError = BadRequest | NotFound | OpencodeOpError;
-/** List instruction entries List API-managed instruction entries attached to the session. */
-export const listExperimentalSessionInstructionsEntry: API.OperationMethod<
-  ListExperimentalSessionInstructionsEntryRequest,
-  ListExperimentalSessionInstructionsEntryResponse,
-  ListExperimentalSessionInstructionsEntryError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<ListExperimentalSessionInstructionsEntryRequest>,
-  output: __S(3459, __c216, 3) as any as S.Schema<ListExperimentalSessionInstructionsEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListExperimentalSessionInstructionsEntry",
 }));
 
 export type ListFormError = BadRequest | NotFound | OpencodeOpError;
@@ -5979,9 +4374,10 @@ export const listForm: API.OperationMethod<
   ListFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<ListFormRequest>,
-  output: __S(3473, __c217, 1) as any as S.Schema<ListFormResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1568, __c98, 0) as any as S.Schema<ListFormRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<ListFormResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5996,9 +4392,10 @@ export const listFs: API.OperationMethod<
   ListFsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<ListFsRequest>,
-  output: __S(2818, __c176, 2) as any as S.Schema<ListFsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1600, __c100, 0) as any as S.Schema<ListFsRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ListFsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6013,9 +4410,10 @@ export const listIntegration: API.OperationMethod<
   ListIntegrationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<ListIntegrationRequest>,
-  output: __S(3522, __c220, 2) as any as S.Schema<ListIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1616, __c101, 0) as any as S.Schema<ListIntegrationRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<ListIntegrationResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6030,9 +4428,10 @@ export const listMcp: API.OperationMethod<
   ListMcpError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<ListMcpRequest>,
-  output: __S(3539, __c221, 3) as any as S.Schema<ListMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1632, __c102, 0) as any as S.Schema<ListMcpRequest>,
+  output: __S(1635, __c102, 3) as any as S.Schema<ListMcpResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6047,9 +4446,10 @@ export const listModel: API.OperationMethod<
   ListModelError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<ListModelRequest>,
-  output: __S(3554, __c222, 2) as any as S.Schema<ListModelResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1648, __c103, 0) as any as S.Schema<ListModelRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<ListModelResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6064,9 +4464,10 @@ export const listPermissionRequest: API.OperationMethod<
   ListPermissionRequestError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<ListPermissionRequestRequest>,
-  output: __S(3585, __c224, 1) as any as S.Schema<ListPermissionRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1680, __c105, 0) as any as S.Schema<ListPermissionRequestRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<ListPermissionRequestResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6081,9 +4482,10 @@ export const listPermissionSaved: API.OperationMethod<
   ListPermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<ListPermissionSavedRequest>,
-  output: __S(3618, __c226, 2) as any as S.Schema<ListPermissionSavedResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1712, __c107, 0) as any as S.Schema<ListPermissionSavedRequest>,
+  output: __S(1714, __c107, 2) as any as S.Schema<ListPermissionSavedResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6098,9 +4500,10 @@ export const listPlugin: API.OperationMethod<
   ListPluginError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListPluginRequest>,
-  output: __S(451, __c28, 3) as any as S.Schema<ListPluginResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1744, __c109, 0) as any as S.Schema<ListPluginRequest>,
+  output: __S(2371, __c148, 3) as any as S.Schema<ListPluginResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6115,9 +4518,10 @@ export const listProject: API.OperationMethod<
   ListProjectError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListProjectRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<ListProjectResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(1760, __c110, 0) as any as S.Schema<ListProjectRequest>,
+  output: __S(1762, __c110, 2) as any as S.Schema<ListProjectResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6132,9 +4536,10 @@ export const listProvider: API.OperationMethod<
   ListProviderError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListProviderRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListProviderResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1808, __c113, 0) as any as S.Schema<ListProviderRequest>,
+  output: __S(1810, __c113, 2) as any as S.Schema<ListProviderResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6149,9 +4554,10 @@ export const listPty: API.OperationMethod<
   ListPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListPtyRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1824, __c114, 0) as any as S.Schema<ListPtyRequest>,
+  output: __S(1826, __c114, 2) as any as S.Schema<ListPtyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6166,9 +4572,10 @@ export const listReference: API.OperationMethod<
   ListReferenceError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListReferenceRequest>,
-  output: __S(147, __c9, 3) as any as S.Schema<ListReferenceResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1840, __c115, 0) as any as S.Schema<ListReferenceRequest>,
+  output: __S(1843, __c115, 3) as any as S.Schema<ListReferenceResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6183,9 +4590,10 @@ export const listSession: API.OperationMethod<
   ListSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListSessionRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<SessionsResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(1856, __c116, 0) as any as S.Schema<ListSessionRequest>,
+  output: __S(1858, __c116, 2) as any as S.Schema<SessionsResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6200,9 +4608,10 @@ export const listSessionForm: API.OperationMethod<
   ListSessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListSessionFormRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<ListSessionFormResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1888, __c118, 0) as any as S.Schema<ListSessionFormRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<ListSessionFormResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6210,16 +4619,17 @@ export const listSessionForm: API.OperationMethod<
 }));
 
 export type ListSessionInboxError = BadRequest | NotFound | OpencodeOpError;
-/** List session inbox List durable enqueued session work not yet delivered, ordered by enqueue sequence. Includes user, synthetic, compaction, and move items. */
+/** List session inbox List user, synthetic, compaction and move items not yet delivered to the agent, oldest first. Delivered user and synthetic items move to session.message.list. */
 export const listSessionInbox: API.OperationMethod<
   ListSessionInboxRequest,
   ListSessionInboxResponse,
   ListSessionInboxError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListSessionInboxRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<ListSessionInboxResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1904, __c119, 0) as any as S.Schema<ListSessionInboxRequest>,
+  output: __S(1906, __c119, 2) as any as S.Schema<ListSessionInboxResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6227,16 +4637,17 @@ export const listSessionInbox: API.OperationMethod<
 }));
 
 export type ListSessionMessageError = BadRequest | NotFound | OpencodeOpError;
-/** Get session messages Retrieve projected messages for a session, optionally filtered by type. Items keep the requested order across pages; use cursor.next or cursor.previous to move through the ordered timeline, passing the same type filter on each page. */
+/** Get session messages List a session's messages, optionally filtered by type. Follow cursor.next or cursor.previous with the same type filter. Items still in the inbox aren't included. */
 export const listSessionMessage: API.OperationMethod<
   ListSessionMessageRequest,
   SessionMessagesResponse,
   ListSessionMessageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListSessionMessageRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<SessionMessagesResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1920, __c120, 0) as any as S.Schema<ListSessionMessageRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<SessionMessagesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6251,9 +4662,10 @@ export const listSessionPermission: API.OperationMethod<
   ListSessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListSessionPermissionRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<ListSessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1952, __c122, 0) as any as S.Schema<ListSessionPermissionRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ListSessionPermissionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6268,9 +4680,10 @@ export const listShell: API.OperationMethod<
   ListShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListShellRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<ListShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1968, __c123, 0) as any as S.Schema<ListShellRequest>,
+  output: __S(1970, __c123, 2) as any as S.Schema<ListShellResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6285,9 +4698,10 @@ export const listSkill: API.OperationMethod<
   ListSkillError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListSkillRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<ListSkillResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(1984, __c124, 0) as any as S.Schema<ListSkillRequest>,
+  output: __S(1987, __c124, 3) as any as S.Schema<ListSkillResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6302,9 +4716,10 @@ export const listVcsBranch: API.OperationMethod<
   ListVcsBranchError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListVcsBranchRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ListVcsBranchResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2016, __c126, 0) as any as S.Schema<ListVcsBranchRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<ListVcsBranchResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6319,9 +4734,10 @@ export const listWorktree: API.OperationMethod<
   ListWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListWorktreeRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<ListWorktreeResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2032, __c127, 0) as any as S.Schema<ListWorktreeRequest>,
+  output: __S(2035, __c127, 3) as any as S.Schema<ListWorktreeResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6336,9 +4752,10 @@ export const locationReload: API.OperationMethod<
   LocationReloadError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<LocationReloadRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<LocationReloadResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(2048, __c128, 0) as any as S.Schema<LocationReloadRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<LocationReloadResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6353,9 +4770,10 @@ export const mcpResourceCatalog2: API.OperationMethod<
   McpResourceCatalog2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<McpResourceCatalogRequest>,
-  output: __S(358, __c22, 6) as any as S.Schema<McpResourceCatalogResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2064, __c129, 0) as any as S.Schema<McpResourceCatalogRequest>,
+  output: __S(2070, __c129, 6) as any as S.Schema<McpResourceCatalogResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6370,9 +4788,10 @@ export const modelDefault: API.OperationMethod<
   ModelDefaultError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ModelDefaultRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<ModelDefaultResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2080, __c130, 0) as any as S.Schema<ModelDefaultRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<ModelDefaultResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6387,30 +4806,14 @@ export const moveSession: API.OperationMethod<
   MoveSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<MoveSessionRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<MoveSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2096, __c131, 0) as any as S.Schema<MoveSessionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<MoveSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveSession",
-}));
-
-export type PauseExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Pause schedule Stop a schedule from firing until it is resumed. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const pauseExperimentalSchedule: API.OperationMethod<
-  PauseExperimentalScheduleRequest,
-  PauseExperimentalScheduleResponse,
-  PauseExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<PauseExperimentalScheduleRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<PauseExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PauseExperimentalSchedule",
 }));
 
 export type PluginGuiError = BadRequest | NotFound | OpencodeOpError;
@@ -6421,9 +4824,10 @@ export const pluginGui: API.OperationMethod<
   PluginGuiError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<PluginGuiRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<PluginGuiResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2112, __c132, 0) as any as S.Schema<PluginGuiRequest>,
+  output: __S(2114, __c132, 2) as any as S.Schema<PluginGuiResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6438,47 +4842,14 @@ export const ptyConnectToken: API.OperationMethod<
   PtyConnectTokenError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<PtyConnectTokenRequest>,
-  output: __S(2464, __c154, 0) as any as S.Schema<PtyConnectTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
+  input: __S(2128, __c133, 0) as any as S.Schema<PtyConnectTokenRequest>,
+  output: __S(2130, __c133, 2) as any as S.Schema<PtyConnectTokenResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PtyConnectToken",
-}));
-
-export type PutExperimentalSessionInstructionsEntryError = BadRequest | NotFound | OpencodeOpError;
-/** Put instruction entry Attach or replace one durable instruction entry. Changes announce as updates at the next step boundary. */
-export const putExperimentalSessionInstructionsEntry: API.OperationMethod<
-  PutExperimentalSessionInstructionsEntryRequest,
-  PutExperimentalSessionInstructionsEntryResponse,
-  PutExperimentalSessionInstructionsEntryError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<PutExperimentalSessionInstructionsEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PutExperimentalSessionInstructionsEntry",
-}));
-
-export type ReadExperimentalPersistentPtyError = BadRequest | OpencodeOpError;
-/** Read the session's most recently controlled terminal Read the last physical rows without changing selection or taking control. Omitted lines uses the live terminal height; larger counts include retained history. Blank rows are preserved. Screen dimensions and cursor remain relative to the live screen. Returns null when no current terminal exists. Selection is server-local and resets on restart. Experimental: may change without compatibility guarantees. */
-export const readExperimentalPersistentPty: API.OperationMethod<
-  ReadExperimentalPersistentPtyRequest,
-  ReadExperimentalPersistentPtyResponse,
-  ReadExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ReadExperimentalPersistentPtyRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<ReadExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReadExperimentalPersistentPty",
 }));
 
 export type ReadFsError = BadRequest | NotFound | OpencodeOpError;
@@ -6489,9 +4860,10 @@ export const readFs: API.OperationMethod<
   ReadFsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ReadFsRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ReadFsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2144, __c134, 0) as any as S.Schema<ReadFsRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ReadFsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6506,9 +4878,10 @@ export const refreshWorktree: API.OperationMethod<
   RefreshWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<RefreshWorktreeRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RefreshWorktreeResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2160, __c135, 0) as any as S.Schema<RefreshWorktreeRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RefreshWorktreeResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6523,70 +4896,14 @@ export const removeCredential: API.OperationMethod<
   RemoveCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<RemoveCredentialRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemoveCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(2192, __c137, 0) as any as S.Schema<RemoveCredentialRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveCredentialResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveCredential",
-}));
-
-export type RemoveExperimentalMcpError = BadRequest | NotFound | OpencodeOpError;
-/** Remove MCP server Stop an MCP server and remove it from the runtime set until restart. */
-export const removeExperimentalMcp: API.OperationMethod<
-  RemoveExperimentalMcpRequest,
-  RemoveExperimentalMcpResponse,
-  RemoveExperimentalMcpError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<RemoveExperimentalMcpRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemoveExperimentalMcpResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RemoveExperimentalMcp",
-}));
-
-export type RemoveExperimentalPersistentPtyError = BadRequest | NotFound | OpencodeOpError;
-export const removeExperimentalPersistentPty: API.OperationMethod<
-  RemoveExperimentalPersistentPtyRequest,
-  RemoveExperimentalPersistentPtyResponse,
-  RemoveExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<RemoveExperimentalPersistentPtyRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemoveExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RemoveExperimentalPersistentPty",
-}));
-
-export type RemoveExperimentalSessionInstructionsEntryError =
-  | BadRequest
-  | NotFound
-  | OpencodeOpError;
-/** Remove instruction entry Remove one instruction entry; the removal is announced to the model at the next step boundary. */
-export const removeExperimentalSessionInstructionsEntry: API.OperationMethod<
-  RemoveExperimentalSessionInstructionsEntryRequest,
-  RemoveExperimentalSessionInstructionsEntryResponse,
-  RemoveExperimentalSessionInstructionsEntryError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryRequest>,
-  output: __S(
-    2544,
-    __c159,
-    0,
-  ) as any as S.Schema<RemoveExperimentalSessionInstructionsEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RemoveExperimentalSessionInstructionsEntry",
 }));
 
 export type RemovePermissionSavedError = BadRequest | OpencodeOpError;
@@ -6597,9 +4914,10 @@ export const removePermissionSaved: API.OperationMethod<
   RemovePermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<RemovePermissionSavedRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemovePermissionSavedResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(2208, __c138, 0) as any as S.Schema<RemovePermissionSavedRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemovePermissionSavedResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6614,9 +4932,10 @@ export const removePty: API.OperationMethod<
   RemovePtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<RemovePtyRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemovePtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2224, __c139, 0) as any as S.Schema<RemovePtyRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemovePtyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6631,9 +4950,10 @@ export const removeSession: API.OperationMethod<
   RemoveSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<RemoveSessionRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemoveSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2240, __c140, 0) as any as S.Schema<RemoveSessionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6648,9 +4968,10 @@ export const removeShell: API.OperationMethod<
   RemoveShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<RemoveShellRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemoveShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2256, __c141, 0) as any as S.Schema<RemoveShellRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveShellResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6665,9 +4986,10 @@ export const removeWorktree: API.OperationMethod<
   RemoveWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<RemoveWorktreeRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<RemoveWorktreeResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2272, __c142, 0) as any as S.Schema<RemoveWorktreeRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<RemoveWorktreeResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6682,9 +5004,10 @@ export const replySessionForm: API.OperationMethod<
   ReplySessionFormError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ReplySessionFormRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ReplySessionFormResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(2288, __c143, 0) as any as S.Schema<ReplySessionFormRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ReplySessionFormResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6699,30 +5022,14 @@ export const replySessionPermission: API.OperationMethod<
   ReplySessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ReplySessionPermissionRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<ReplySessionPermissionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2304, __c144, 0) as any as S.Schema<ReplySessionPermissionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<ReplySessionPermissionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplySessionPermission",
-}));
-
-export type ResumeExperimentalScheduleError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Resume schedule Resume a paused schedule. A one-shot that fell due while paused fires once; a repeating schedule resumes at its next slot. Experimental: needs experimental.schedules in the Session's config and may change without notice. */
-export const resumeExperimentalSchedule: API.OperationMethod<
-  ResumeExperimentalScheduleRequest,
-  ResumeExperimentalScheduleResponse,
-  ResumeExperimentalScheduleError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ResumeExperimentalScheduleRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<ResumeExperimentalScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ResumeExperimentalSchedule",
 }));
 
 export type RpcCallError = BadRequest | NotFound | OpencodeOpError;
@@ -6733,9 +5040,10 @@ export const rpcCall: API.OperationMethod<
   RpcCallError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<RpcCallRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<RpcOutput>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2320, __c145, 0) as any as S.Schema<RpcCallRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<RpcOutput>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6750,9 +5058,10 @@ export const serverInfo2: API.OperationMethod<
   ServerInfo2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ServerInfo2Request>,
-  output: __S(771, __c48, 3) as any as S.Schema<ServerInfo>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(2336, __c146, 0) as any as S.Schema<ServerInfo2Request>,
+  output: __S(2339, __c146, 3) as any as S.Schema<ServerInfo>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6767,9 +5076,10 @@ export const serverPair: API.OperationMethod<
   ServerPairError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<ServerPairRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<PairingCode>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(2384, __c149, 0) as any as S.Schema<ServerPairRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<PairingCode>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6777,16 +5087,17 @@ export const serverPair: API.OperationMethod<
 }));
 
 export type SessionActiveError = BadRequest | OpencodeOpError;
-/** List active sessions Retrieve foreground Session drains currently owned by this OpenCode process. Sessions absent from the result are inactive. */
+/** List active sessions List the sessions whose agent is running right now in this server process. Sessions missing from the result are idle. */
 export const sessionActive: API.OperationMethod<
   SessionActiveRequest,
   SessionActiveResponse,
   SessionActiveError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<SessionActiveRequest>,
-  output: __S(817, __c51, 1) as any as S.Schema<SessionActiveResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(2400, __c150, 0) as any as S.Schema<SessionActiveRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<SessionActiveResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6801,9 +5112,10 @@ export const sessionBackground: API.OperationMethod<
   SessionBackgroundError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<SessionBackgroundRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionBackgroundResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2416, __c151, 0) as any as S.Schema<SessionBackgroundRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionBackgroundResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6811,16 +5123,17 @@ export const sessionBackground: API.OperationMethod<
 }));
 
 export type SessionCommandError = BadRequest | NotFound | OpencodeOpError;
-/** Run command Execute a slash command callback immediately. */
+/** Run command Run a named command in the session. Most commands send a prompt, so like session.prompt this returns before the agent finishes. An archived session is unarchived. */
 export const sessionCommand: API.OperationMethod<
   SessionCommandRequest,
   SessionCommandResponse,
   SessionCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<SessionCommandRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionCommandResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2432, __c152, 0) as any as S.Schema<SessionCommandRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionCommandResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6835,9 +5148,10 @@ export const sessionContext: API.OperationMethod<
   SessionContextError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<SessionContextRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<SessionContextResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2464, __c154, 0) as any as S.Schema<SessionContextRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<SessionContextResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6852,9 +5166,10 @@ export const sessionDiff: API.OperationMethod<
   SessionDiffError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<SessionDiffRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<SessionDiffResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2480, __c155, 0) as any as S.Schema<SessionDiffRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<SessionDiffResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6869,9 +5184,10 @@ export const sessionEnvironment: API.OperationMethod<
   SessionEnvironmentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<SessionEnvironmentRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2496, __c156, 0) as any as S.Schema<SessionEnvironmentRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionEnvironmentResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6879,16 +5195,17 @@ export const sessionEnvironment: API.OperationMethod<
 }));
 
 export type SessionInterruptError = BadRequest | NotFound | OpencodeOpError;
-/** Interrupt session execution Interrupt active execution owned by this OpenCode process. Returns interrupted=true when an active execution was interrupted and false for the idle no-op. When resume=true, execution resumes pending steering input and next-in-line control items (manual compaction, moves) while queued prompts remain parked. */
+/** Interrupt session execution Stop the session's agent if it is running in this server process; interrupted=false means nothing was running. With resume=true it continues with pending steer items, compaction and moves, while queued messages keep waiting. */
 export const sessionInterrupt: API.OperationMethod<
   SessionInterruptRequest,
   SessionInterruptResponse,
   SessionInterruptError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<SessionInterruptRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<SessionInterruptResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(2512, __c157, 0) as any as S.Schema<SessionInterruptRequest>,
+  output: __S(2513, __c157, 1) as any as S.Schema<SessionInterruptResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6896,16 +5213,17 @@ export const sessionInterrupt: API.OperationMethod<
 }));
 
 export type SessionPromptError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Send message Durably admit one session input and schedule agent-loop execution unless resume is false. */
+/** Send message Send a user message and start the agent unless resume is false. Returns once the message is queued, not when the agent finishes: wait with POST /api/experimental/session/:sessionID/wait or the session.execution.* events, then read the reply with GET /api/session/:sessionID/message. An archived session is unarchived. */
 export const sessionPrompt: API.OperationMethod<
   SessionPromptRequest,
   SessionPromptResponse,
   SessionPromptError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(950, __c59, 6) as any as S.Schema<SessionPromptRequest>,
-  output: __S(951, __c59, 7) as any as S.Schema<SessionPromptResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(2534, __c158, 6) as any as S.Schema<SessionPromptRequest>,
+  output: __S(2535, __c158, 7) as any as S.Schema<SessionPromptResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6920,9 +5238,10 @@ export const sessionRevertStage: API.OperationMethod<
   SessionRevertStageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<SessionRevertStageRequest>,
-  output: __S(961, __c60, 1) as any as S.Schema<SessionRevertStageResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(2544, __c159, 0) as any as S.Schema<SessionRevertStageRequest>,
+  output: __S(2545, __c159, 1) as any as S.Schema<SessionRevertStageResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6930,16 +5249,17 @@ export const sessionRevertStage: API.OperationMethod<
 }));
 
 export type SessionShellError = BadRequest | NotFound | OpencodeOpError;
-/** Run shell command Execute one shell command in the session's working directory. Emits a shell.started event before execution and a shell.ended event with the merged output after. */
+/** Run shell command Execute one shell command in the session's working directory. Emits a shell.started event before execution and a shell.ended event with the merged output after. An archived session is unarchived. */
 export const sessionShell: API.OperationMethod<
   SessionShellRequest,
   SessionShellResponse,
   SessionShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<SessionShellRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionShellResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(64, __c4, 0) as any as S.Schema<SessionShellRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionShellResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6947,16 +5267,17 @@ export const sessionShell: API.OperationMethod<
 }));
 
 export type SessionSwitchAgentError = BadRequest | NotFound | OpencodeOpError;
-/** Switch session agent Switch the agent used by subsequent provider turns. */
+/** Switch session agent Change the agent the session uses from its next model call on. */
 export const sessionSwitchAgent: API.OperationMethod<
   SessionSwitchAgentRequest,
   SessionSwitchAgentResponse,
   SessionSwitchAgentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SessionSwitchAgentRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionSwitchAgentResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(80, __c5, 0) as any as S.Schema<SessionSwitchAgentRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionSwitchAgentResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6964,16 +5285,17 @@ export const sessionSwitchAgent: API.OperationMethod<
 }));
 
 export type SessionSwitchModelError = BadRequest | NotFound | OpencodeOpError;
-/** Switch session model Switch the model used by subsequent provider turns. */
+/** Switch session model Change the model the session uses from its next model call on. */
 export const sessionSwitchModel: API.OperationMethod<
   SessionSwitchModelRequest,
   SessionSwitchModelResponse,
   SessionSwitchModelError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<SessionSwitchModelRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionSwitchModelResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(96, __c6, 0) as any as S.Schema<SessionSwitchModelRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionSwitchModelResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6981,16 +5303,17 @@ export const sessionSwitchModel: API.OperationMethod<
 }));
 
 export type SessionSyntheticError = BadRequest | NotFound | Conflict | OpencodeOpError;
-/** Add synthetic message Durably admit synthetic session input and schedule execution unless resume is false. */
+/** Add synthetic message Add a message the model reads as user input but the user didn't type, such as a notification. Starts the agent unless resume is false or the session has a staged revert. */
 export const sessionSynthetic: API.OperationMethod<
   SessionSyntheticRequest,
   SessionSyntheticResponse,
   SessionSyntheticError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1058, __c66, 2) as any as S.Schema<SessionSyntheticRequest>,
-  output: __S(1059, __c66, 3) as any as S.Schema<SessionSyntheticResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(114, __c7, 2) as any as S.Schema<SessionSyntheticRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<SessionSyntheticResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7005,9 +5328,10 @@ export const sessionView: API.OperationMethod<
   SessionViewError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<SessionViewRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SessionViewResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(128, __c8, 0) as any as S.Schema<SessionViewRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SessionViewResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7022,9 +5346,10 @@ export const shellOutput: API.OperationMethod<
   ShellOutputError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1089, __c68, 1) as any as S.Schema<ShellOutputRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<ShellOutputResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(145, __c9, 1) as any as S.Schema<ShellOutputRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<ShellOutputResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7039,9 +5364,10 @@ export const subscribeEvent: API.OperationMethod<
   SubscribeEventError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<SubscribeEventRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<SubscribeEventResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(160, __c10, 0) as any as S.Schema<SubscribeEventRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SubscribeEventResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7056,64 +5382,14 @@ export const updateCredential: API.OperationMethod<
   UpdateCredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdateCredentialRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<UpdateCredentialResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
+  input: __S(176, __c11, 0) as any as S.Schema<UpdateCredentialRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateCredentialResponse>,
+  errors: [BadRequest],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCredential",
-}));
-
-export type UpdateExperimentalArtifactError = BadRequest | Forbidden | NotFound | OpencodeOpError;
-/** Update artifact Replace an artifact's files at the same ID and URL. Experimental: needs experimental.artifacts in the Location's config and may change without notice. */
-export const updateExperimentalArtifact: API.OperationMethod<
-  UpdateExperimentalArtifactRequest,
-  UpdateExperimentalArtifactResponse,
-  UpdateExperimentalArtifactError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateExperimentalArtifactRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<UpdateExperimentalArtifactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateExperimentalArtifact",
-}));
-
-export type UpdateExperimentalConfigError = BadRequest | NotFound | OpencodeOpError;
-/** Update global configuration Patch supported fields in the highest-precedence global configuration document. */
-export const updateExperimentalConfig: API.OperationMethod<
-  UpdateExperimentalConfigRequest,
-  UpdateExperimentalConfigResponse,
-  UpdateExperimentalConfigError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<UpdateExperimentalConfigRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<UpdateExperimentalConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateExperimentalConfig",
-}));
-
-export type UpdateExperimentalPersistentPtyError = BadRequest | NotFound | OpencodeOpError;
-/** Resize when size is present and rename when title is present; a null title clears the user title so the shell's title shows again. Renaming fails with 501 while the terminal service predates renaming. */
-export const updateExperimentalPersistentPty: API.OperationMethod<
-  UpdateExperimentalPersistentPtyRequest,
-  UpdateExperimentalPersistentPtyResponse,
-  UpdateExperimentalPersistentPtyError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<UpdateExperimentalPersistentPtyRequest>,
-  output: __S(1744, __c109, 0) as any as S.Schema<UpdateExperimentalPersistentPtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateExperimentalPersistentPty",
 }));
 
 export type UpdatePermissionSavedError = BadRequest | NotFound | Conflict | OpencodeOpError;
@@ -7124,9 +5400,10 @@ export const updatePermissionSaved: API.OperationMethod<
   UpdatePermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UpdatePermissionSavedRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<UpdatePermissionSavedResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(192, __c12, 0) as any as S.Schema<UpdatePermissionSavedRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<UpdatePermissionSavedResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7141,9 +5418,10 @@ export const updatePlugin: API.OperationMethod<
   UpdatePluginError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UpdatePluginRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<UpdatePluginResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(208, __c13, 0) as any as S.Schema<UpdatePluginRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdatePluginResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7158,9 +5436,10 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(240, __c15, 0) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(1779, __c111, 3) as any as S.Schema<Project>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7175,9 +5454,10 @@ export const updatePty: API.OperationMethod<
   UpdatePtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1249, __c78, 1) as any as S.Schema<UpdatePtyRequest>,
-  output: __S(1840, __c115, 0) as any as S.Schema<UpdatePtyResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(257, __c16, 1) as any as S.Schema<UpdatePtyRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UpdatePtyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7192,9 +5472,10 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<UpdateSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateSessionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7209,9 +5490,10 @@ export const updateSessionInbox: API.OperationMethod<
   UpdateSessionInboxError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UpdateSessionInboxRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<UpdateSessionInboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateSessionInboxRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateSessionInboxResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7226,9 +5508,10 @@ export const vcsBase2: API.OperationMethod<
   VcsBase2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<VcsBaseRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<VcsBaseResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(304, __c19, 0) as any as S.Schema<VcsBaseRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<VcsBaseResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7243,9 +5526,10 @@ export const vcsDiff: API.OperationMethod<
   VcsDiffError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<VcsDiffRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<VcsDiffResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(320, __c20, 0) as any as S.Schema<VcsDiffRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<VcsDiffResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7260,9 +5544,10 @@ export const vcsInit: API.OperationMethod<
   VcsInitError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<VcsInitRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<VcsInitResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
+  input: __S(336, __c21, 0) as any as S.Schema<VcsInitRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<VcsInitResponse>,
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7277,47 +5562,14 @@ export const vcsStatus: API.OperationMethod<
   VcsStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<VcsStatusRequest>,
-  output: __S(1347, __c84, 3) as any as S.Schema<VcsStatusResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(352, __c22, 0) as any as S.Schema<VcsStatusRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<VcsStatusResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VcsStatus",
-}));
-
-export type WaitExperimentalSessionError = BadRequest | NotFound | OpencodeOpError;
-/** Wait for session Wait for a session agent loop to become idle. */
-export const waitExperimentalSession: API.OperationMethod<
-  WaitExperimentalSessionRequest,
-  WaitExperimentalSessionResponse,
-  WaitExperimentalSessionError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<WaitExperimentalSessionRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<WaitExperimentalSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WaitExperimentalSession",
-}));
-
-export type WatchExperimentalFsError = BadRequest | NotFound | OpencodeOpError;
-/** Watch file Watch one file relative to the requested location for 24 hours, publishing filesystem.changed on that location when it changes. Watching an already watched file resets its expiry. Paths follow read confinement. Experimental: may change without compatibility guarantees. */
-export const watchExperimentalFs: API.OperationMethod<
-  WatchExperimentalFsRequest,
-  WatchExperimentalFsResponse,
-  WatchExperimentalFsError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<WatchExperimentalFsRequest>,
-  output: __S(2544, __c159, 0) as any as S.Schema<WatchExperimentalFsResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchExperimentalFs",
 }));
 
 export type WebsearchProvidersError = BadRequest | NotFound | OpencodeOpError;
@@ -7328,9 +5580,10 @@ export const websearchProviders: API.OperationMethod<
   WebsearchProvidersError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<WebsearchProvidersRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<WebsearchProvidersResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(368, __c23, 0) as any as S.Schema<WebsearchProvidersRequest>,
+  output: __S(371, __c23, 3) as any as S.Schema<WebsearchProvidersResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7345,9 +5598,10 @@ export const websearchQuery: API.OperationMethod<
   WebsearchQueryError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<WebsearchQueryRequest>,
-  output: __S(1429, __c89, 5) as any as S.Schema<WebsearchQueryResponse>,
-  errors: [BadRequest, NotFound, UnknownOpencodeError],
+  input: __S(384, __c24, 0) as any as S.Schema<WebsearchQueryRequest>,
+  output: __S(389, __c24, 5) as any as S.Schema<WebsearchQueryResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpencodeServiceErrors,
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7374,18 +5628,6 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _tag: S.String,
-          message: S.String,
-          resource: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ConflictErrorEncoded" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
           id: S.String,
           message: S.String,
         }),
@@ -7400,18 +5642,26 @@ function __c2(j: number): any {
       ).annotate({ identifier: "SessionBusyErrorEncoded" });
   }
 }
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          message: S.String,
+          resource: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ConflictErrorEncoded" });
+  }
+}
 function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sessionID: S.String.pipe(T.Label()),
-          formID: S.String.pipe(T.Label()),
-          message: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/session/{sessionID}/form/{formID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "CancelSessionFormRequest" });
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/session/{sessionID}/revert", code: 200 })),
+      ).annotate({ identifier: "ClearSessionRevertRequest" });
   }
 }
 function __c4(j: number): any {
@@ -7419,12 +5669,2019 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          sessionID: S.String.pipe(T.Label()),
+          id: S.optional(S.NullOr(S.String)),
+          command: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/shell", code: 200 })),
+      ).annotate({ identifier: "SessionShellRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          agent: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/agent", code: 200 })),
+      ).annotate({ identifier: "SessionSwitchAgentRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          model: __S(720, __c45, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/model", code: 200 })),
+      ).annotate({ identifier: "SessionSwitchModelRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.String,
+          description: S.optional(S.String),
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "SessionInboxSyntheticPayload" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sessionID: S.String,
+          time: __S(416, __c26, 0),
+          type: S.String,
+          payload: __S(112, __c7, 0),
+          delivery: S.String,
+        }),
+      ).annotate({ identifier: "SessionInboxSynthetic" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          id: S.optional(S.NullOr(S.String)),
+          text: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(S.Unknown),
+          delivery: S.optional(S.NullOr(S.String)),
+          resume: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/synthetic", code: 200 })),
+      ).annotate({ identifier: "SessionSyntheticRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(113, __c7, 1),
+        }),
+      ).annotate({ identifier: "SessionSyntheticResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          idle: S.Number,
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/view", code: 200 })),
+      ).annotate({ identifier: "SessionViewRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          output: S.String,
+          cursor: S.Number,
+          size: S.Number,
+          truncated: S.Boolean,
+        }),
+      ).annotate({ identifier: "SessionMessageShellOutput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}/output", code: 200 })),
+      ).annotate({ identifier: "ShellOutputRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(144, __c9, 0),
+        }),
+      ).annotate({ identifier: "ShellOutputResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          types: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/event", code: 200 })),
+      ).annotate({ identifier: "SubscribeEventRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          credentialID: S.String.pipe(T.Label()),
+          label: S.String,
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/credential/{credentialID}", code: 200 })),
+      ).annotate({ identifier: "UpdateCredentialRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          action: S.optional(S.NullOr(S.String)),
+          resource: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/permission/saved/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdatePermissionSavedRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1729, __c108, 1),
+        }),
+      ).annotate({ identifier: "UpdatePermissionSavedResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          targets: __S(608, __c38, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/api/plugin/update", code: 200 })),
+      ).annotate({ identifier: "UpdatePluginRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/session/{sessionID}/revert/commit", code: 200 }),
+        ),
+      ).annotate({ identifier: "CommitSessionRevertRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectID: S.String.pipe(T.Label()),
+          canonical: S.optional(S.String),
+          name: S.optional(S.String),
+          icon: S.optional(__S(1776, __c111, 0)),
+          commands: S.optional(__S(1777, __c111, 1)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/project/{projectID}", code: 200 })),
+      ).annotate({ identifier: "UpdateProjectRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rows: S.Number,
+          cols: S.Number,
+        }),
+      ).annotate({ identifier: "UpdatePtyRequestSize" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ptyID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          title: S.optional(S.String),
+          size: S.optional(__S(256, __c16, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/pty/{ptyID}", code: 200 })),
+      ).annotate({ identifier: "UpdatePtyRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          title: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(S.NullOr(S.Unknown)),
+          permissions: S.optional(S.NullOr(__S(737, __c46, 1))),
+          archived: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/session/{sessionID}", code: 200 })),
+      ).annotate({ identifier: "UpdateSessionRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          inboxID: S.String.pipe(T.Label()),
+          delivery: S.String,
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/session/{sessionID}/inbox/{inboxID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateSessionInboxRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/vcs/base", code: 200 })),
+      ).annotate({ identifier: "VcsBaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          ref: S.String,
+          source: S.String,
+        }),
+      ).annotate({ identifier: "VcsBase" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: S.NullOr(__S(305, __c19, 1)),
+        }),
+      ).annotate({ identifier: "VcsBaseResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          mode: S.String.pipe(T.Query()),
+          base: S.optional(S.String.pipe(T.Query())),
+          context: S.optional(S.String.pipe(T.Query())),
+          untracked: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/vcs/diff", code: 200 })),
+      ).annotate({ identifier: "VcsDiffRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(785, __c49, 1),
+        }),
+      ).annotate({ identifier: "VcsDiffResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          provider: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/api/vcs/init", code: 200 })),
+      ).annotate({ identifier: "VcsInitRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/vcs/status", code: 200 })),
+      ).annotate({ identifier: "VcsStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          additions: S.Number,
+          deletions: S.Number,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "VcsFileStatus" });
+    case 2:
+      return S.Array(__S(353, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(354, __c22, 2),
+        }),
+      ).annotate({ identifier: "VcsStatusResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/websearch/provider", code: 200 })),
+      ).annotate({ identifier: "WebsearchProvidersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "WebSearchProvider" });
+    case 2:
+      return S.Array(__S(369, __c23, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(370, __c23, 2),
+        }),
+      ).annotate({ identifier: "WebsearchProvidersResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          query: S.String,
+          providerID: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/websearch", code: 200 })),
+      ).annotate({ identifier: "WebsearchQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          published: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WebSearchResultTime" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          title: S.optional(S.String),
+          content: S.optional(S.String),
+          time: __S(385, __c24, 1),
+        }),
+      ).annotate({ identifier: "WebSearchResult" });
+    case 3:
+      return S.Array(__S(386, __c24, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          providerID: S.String,
+          results: __S(387, __c24, 3),
+        }),
+      ).annotate({ identifier: "WebSearchResponseEncoded" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(388, __c24, 4),
+        }),
+      ).annotate({ identifier: "WebsearchQueryResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          id: S.optional(S.NullOr(S.String)),
+          delivery: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/compact", code: 200 })),
+      ).annotate({ identifier: "CompactSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sessionID: S.String,
+          time: __S(416, __c26, 0),
+          type: S.String,
+          payload: S.Unknown,
+          delivery: S.String,
+        }),
+      ).annotate({ identifier: "SessionInboxCompaction" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(401, __c25, 1),
+        }),
+      ).annotate({ identifier: "CompactSessionResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Number,
+        }),
+      ).annotate({ identifier: "SessionInboxCompactionTime" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          attemptID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          code: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/integration/{integrationID}/connect/oauth/{attemptID}/complete",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CompleteIntegrationOauthRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/config/shell", code: 200 })),
+      ).annotate({ identifier: "ConfigShellsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          name: S.String,
+          acceptable: S.Boolean,
+        }),
+      ).annotate({ identifier: "ConfigShellOption" });
+    case 2:
+      return S.Array(__S(449, __c28, 1));
+    case 3:
+      return S.suspend(() => __S(450, __c28, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ConfigShellsResponse",
+      });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          methodID: S.String,
+          label: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/integration/{integrationID}/connect/command",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectIntegrationCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Unknown,
+          expires: S.Unknown,
+        }),
+      ).annotate({ identifier: "IntegrationCommandAttemptTime" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          attemptID: S.String,
+          time: __S(465, __c29, 1),
+        }),
+      ).annotate({ identifier: "IntegrationCommandAttempt" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(466, __c29, 2),
+        }),
+      ).annotate({ identifier: "ConnectIntegrationCommandResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          methodID: S.String,
+          answer: S.optional(S.NullOr(__S(496, __c31, 0))),
+          label: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/integration/{integrationID}/connect/oauth",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectIntegrationOauthRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Unknown,
+          expires: S.Unknown,
+        }),
+      ).annotate({ identifier: "IntegrationAttemptEncodedTime" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          attemptID: S.String,
+          url: S.String,
+          instructions: S.String,
+          mode: S.String,
+          paste: S.optional(S.Boolean),
+          time: __S(481, __c30, 1),
+        }),
+      ).annotate({ identifier: "IntegrationAttemptEncoded" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(482, __c30, 2),
+        }),
+      ).annotate({ identifier: "ConnectIntegrationOauthResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ptyID: S.String.pipe(T.Label()),
+          location_directory_: S.optional(S.String.pipe(T.Query("location[directory]"))),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          ticket: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}/connect", code: 200 })),
+      ).annotate({ identifier: "ConnectPtyRequest" });
+    case 1:
+      return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
+        identifier: "ConnectPtyResponse",
+      });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/auth/connect/{code}", code: 200 })),
+      ).annotate({ identifier: "ConnectServerRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "PairingSession" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          integrationID: S.String,
+          label: S.optional(S.String),
+          value: S.Unknown,
+          activate: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/api/credential", code: 200 })),
+      ).annotate({ identifier: "CreateCredentialRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(560, __c35, 0),
+        }),
+      ).annotate({ identifier: "CreateCredentialResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          integrationID: S.String,
+          label: S.String,
+          active: S.Boolean,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "CredentialEntry" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "InvalidCursorErrorEncoded" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          command: S.optional(S.String),
+          args: S.optional(__S(608, __c38, 0)),
+          cwd: S.optional(S.String),
+          title: S.optional(S.String),
+          env: S.optional(__S(624, __c39, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/pty", code: 200 })),
+      ).annotate({ identifier: "CreatePtyRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(656, __c41, 0),
+        }),
+      ).annotate({ identifier: "CreatePtyResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          title: S.String,
+          command: S.String,
+          args: __S(608, __c38, 0),
+          cwd: S.String,
+          status: S.String,
+          pid: S.Number,
+          exitCode: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Pty" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          parentID: S.optional(S.NullOr(S.String)),
+          title: S.optional(S.NullOr(S.String)),
+          agent: S.optional(S.NullOr(S.String)),
+          model: S.optional(S.NullOr(__S(720, __c45, 0))),
+          location: S.optional(S.NullOr(__S(1040, __c65, 0))),
+          metadata: S.optional(S.NullOr(S.Unknown)),
+          permissions: S.optional(S.NullOr(__S(737, __c46, 1))),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session", code: 200 })),
+      ).annotate({ identifier: "CreateSessionRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          read: S.Number,
+          write: S.Number,
+        }),
+      ).annotate({ identifier: "TokenUsageInfoCache" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          input: S.Number,
+          output: S.Number,
+          reasoning: S.Number,
+          cache: __S(688, __c43, 0),
+        }),
+      ).annotate({ identifier: "TokenUsageInfo" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          providerID: S.String,
+          variant: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModelRef" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          resource: S.String,
+          effect: S.String,
+        }),
+      ).annotate({ identifier: "PermissionRule" });
+    case 1:
+      return S.Array(__S(736, __c46, 0));
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(770, __c48, 2),
+        }),
+      ).annotate({ identifier: "CreateSessionResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String,
+          boundary: S.Unknown,
+        }),
+      ).annotate({ identifier: "SessionInfoFork" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Number,
+          updated: S.Number,
+          busy: S.optional(S.Number),
+          idle: S.optional(S.Number),
+          viewed: S.optional(S.Number),
+          archived: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SessionInfoTime" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          parentID: S.optional(S.String),
+          fork: S.optional(__S(768, __c48, 0)),
+          projectID: S.String,
+          agent: S.optional(S.String),
+          model: S.optional(__S(720, __c45, 0)),
+          cost: S.Number,
+          tokens: __S(704, __c44, 0),
+          outcome: S.optional(S.String),
+          time: __S(769, __c48, 1),
+          title: S.optional(S.String),
+          subpath: S.optional(S.String),
+          metadata: S.optional(S.Unknown),
+          permissions: S.optional(__S(737, __c46, 1)),
+          revert: S.optional(__S(800, __c50, 0)),
+          location: __S(1040, __c65, 0),
+        }),
+      ).annotate({ identifier: "SessionInfo" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          patch: S.String,
+          additions: S.Number,
+          deletions: S.Number,
+          status: S.String,
+          more: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FileDiffInfo" });
+    case 1:
+      return S.Array(__S(784, __c49, 0));
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          messageID: S.String,
+          partID: S.optional(S.String),
+          snapshot: S.optional(S.String),
+          files: S.optional(__S(785, __c49, 1)),
+        }),
+      ).annotate({ identifier: "SessionRevert" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          id: S.optional(S.NullOr(S.String)),
+          title: S.String,
+          metadata: S.optional(S.Unknown),
+          fields: __S(832, __c52, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/form", code: 200 })),
+      ).annotate({ identifier: "CreateSessionFormRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(848, __c53, 0),
+        }),
+      ).annotate({ identifier: "CreateSessionFormResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sessionID: S.String,
+          title: S.String,
+          metadata: S.optional(S.Unknown),
+          fields: __S(832, __c52, 0),
+        }),
+      ).annotate({ identifier: "FormInfo" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          id: S.optional(S.NullOr(S.String)),
+          action: S.String,
+          resources: __S(608, __c38, 0),
+          save: S.optional(__S(608, __c38, 0)),
+          metadata: S.optional(S.Unknown),
+          source: S.optional(__S(880, __c55, 0)),
+          agent: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/permission", code: 200 })),
+      ).annotate({ identifier: "CreateSessionPermissionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          effect: S.String,
+        }),
+      ).annotate({ identifier: "CreateSessionPermissionResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(865, __c54, 1),
+        }),
+      ).annotate({ identifier: "CreateSessionPermissionResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          messageID: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "PermissionSource" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          command: S.String,
+          cwd: S.optional(S.String),
+          timeout: S.optional(S.Number),
+          metadata: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/api/shell", code: 200 })),
+      ).annotate({ identifier: "CreateShellRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(929, __c58, 1),
+        }),
+      ).annotate({ identifier: "CreateShellResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          started: S.Number,
+          completed: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ShellInfoTime" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          command: S.String,
+          cwd: S.String,
+          shell: S.String,
+          file: S.String,
+          pid: S.optional(S.Number),
+          exit: S.optional(S.Number),
+          signal: S.optional(S.String),
+          metadata: S.Unknown,
+          time: __S(928, __c58, 0),
+        }),
+      ).annotate({ identifier: "ShellInfo" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectID: S.String,
+          from: S.optional(S.String),
+          branch: S.optional(S.String),
+          directory: S.optional(S.String),
+          name: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/worktree", code: 200 })),
+      ).annotate({ identifier: "CreateWorktreeRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/api/debug/heap-dump", code: 200 })),
+      ).annotate({ identifier: "DebugHeapDumpRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          rss: S.Unknown,
+          heapTotal: S.Unknown,
+          heapUsed: S.Unknown,
+          external: S.Unknown,
+          arrayBuffers: S.Unknown,
+        }),
+      ).annotate({ identifier: "DebugHeapDumpResponseMemory" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          pid: S.Number,
+          memory: __S(961, __c60, 1),
+        }),
+      ).annotate({ identifier: "DebugHeapDumpResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/debug/location", code: 200 })),
+      ).annotate({ identifier: "DebugLocationEvictRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          before: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/fork", code: 200 })),
+      ).annotate({ identifier: "ForkSessionRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          query: S.String.pipe(T.Query()),
+          type: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/fs/find", code: 200 })),
+      ).annotate({ identifier: "FsFindRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "FileSystemEntry" });
+    case 1:
+      return S.Array(__S(1024, __c64, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1025, __c64, 1),
+        }),
+      ).annotate({ identifier: "FsFindResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.String,
+        }),
+      ).annotate({ identifier: "LocationPublicRef" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          location: __S(1040, __c65, 0),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "LocationNotFoundErrorEncoded" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _tag: S.String,
+          projectID: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ProjectNotFoundErrorEncoded" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          prompt: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/generate", code: 200 })),
+      ).annotate({ identifier: "GenerateSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.String,
+          tokens: __S(704, __c44, 0),
+          cost: S.Number,
+        }),
+      ).annotate({ identifier: "SessionGenerateResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1073, __c67, 1),
+        }),
+      ).annotate({ identifier: "SessionGenerateResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/agent/{agentID}", code: 200 })),
+      ).annotate({ identifier: "GetAgentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1137, __c71, 1),
+        }),
+      ).annotate({ identifier: "GetAgentResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ttl: S.optional(S.String),
+          warming: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ProviderCache" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cert: S.String,
+          key: S.String,
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "ProviderTls" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            timeout: S.optional(S.Unknown),
+            headerTimeout: S.optional(S.Unknown),
+            chunkTimeout: S.optional(S.Unknown),
+            compaction: S.optional(S.Unknown),
+            cache: S.optional(__S(1104, __c69, 0)),
+            transport: S.optional(S.String),
+            encoding: S.optional(S.String),
+            tls: S.optional(__S(1120, __c70, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ProviderSettings" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          settings: __S(1121, __c70, 1),
+          headers: __S(624, __c39, 0),
+          body: S.Unknown,
+        }),
+      ).annotate({ identifier: "ProviderRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          model: S.optional(__S(720, __c45, 0)),
+          request: __S(1136, __c71, 0),
+          system: S.optional(S.String),
+          instructions: S.optional(S.Unknown),
+          description: S.optional(S.String),
+          mode: S.String,
+          hidden: S.Boolean,
+          color: S.optional(S.String),
+          steps: S.optional(S.Number),
+          permissions: __S(737, __c46, 1),
+        }),
+      ).annotate({ identifier: "AgentInfo" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/config", code: 200 })),
+      ).annotate({ identifier: "GetConfigRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() => __S(1153, __c72, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetConfigResponse",
+      });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/integration/{integrationID}", code: 200 })),
+      ).annotate({ identifier: "GetIntegrationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1186, __c74, 2),
+        }),
+      ).annotate({ identifier: "GetIntegrationResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          metadata: S.optional(S.Unknown),
+          methods: __S(1184, __c74, 0),
+          connections: __S(1185, __c74, 1),
+        }),
+      ).annotate({ identifier: "IntegrationInfo" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/location", code: 200 })),
+      ).annotate({ identifier: "GetLocationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          directory: S.String,
+          canonical: S.String,
+        }),
+      ).annotate({ identifier: "LocationPublicInfoProject" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.String,
+          project: __S(1201, __c75, 1),
+        }),
+      ).annotate({ identifier: "LocationPublicInfo" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          providerID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/provider/{providerID}", code: 200 })),
+      ).annotate({ identifier: "GetProviderRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1233, __c77, 1),
+        }),
+      ).annotate({ identifier: "GetProviderResponse" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reasoningField: S.optional(S.Unknown),
+          requireReasoning: S.optional(S.Boolean),
+          maxTokensField: S.optional(S.String),
+          requireFinishReason: S.optional(S.Boolean),
+          requireAssistantAfterTool: S.optional(S.Boolean),
+          supportsPromptCacheKey: S.optional(S.Boolean),
+          streamUsage: S.optional(S.Boolean),
+          cacheFormat: S.optional(S.String),
+          mediaInput: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProviderCompatibility" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          canonical: S.optional(S.String),
+          integrationID: S.optional(S.String),
+          name: S.String,
+          activation: S.String,
+          package: S.String,
+          compatibility: S.optional(__S(1232, __c77, 0)),
+          settings: S.optional(__S(1121, __c70, 1)),
+          headers: S.optional(__S(624, __c39, 0)),
+          body: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ProviderInfo" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ptyID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}", code: 200 })),
+      ).annotate({ identifier: "GetPtyRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}", code: 200 })),
+      ).annotate({ identifier: "GetSessionRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          formID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/session/{sessionID}/form/{formID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetSessionFormRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sessionID: S.String,
+          title: S.String,
+          metadata: S.optional(S.Unknown),
+          fields: __S(832, __c52, 0),
+          state: S.Unknown,
+        }),
+      ).annotate({ identifier: "FormDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1281, __c80, 1),
+        }),
+      ).annotate({ identifier: "GetSessionFormResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          messageID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/session/{sessionID}/message/{messageID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetSessionMessageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.Unknown,
+        }),
+      ).annotate({ identifier: "GetSessionMessageResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          credentialID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/credential/{credentialID}/activate", code: 200 }),
+        ),
+      ).annotate({ identifier: "ActivateCredentialRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivateCredentialResponse" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          requestID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/session/{sessionID}/permission/{requestID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSessionPermissionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1360, __c85, 0),
+        }),
+      ).annotate({ identifier: "GetSessionPermissionResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sessionID: S.String,
+          action: S.String,
+          resources: __S(608, __c38, 0),
+          save: S.optional(__S(608, __c38, 0)),
+          metadata: S.optional(S.Unknown),
+          source: S.optional(__S(880, __c55, 0)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PermissionRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}", code: 200 })),
+      ).annotate({ identifier: "GetShellRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/vcs", code: 200 })),
+      ).annotate({ identifier: "GetVcsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.optional(S.String),
+          default: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VcsBranch" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.optional(S.String),
+          branch: __S(1393, __c87, 1),
+        }),
+      ).annotate({ identifier: "VcsInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1394, __c87, 2),
+        }),
+      ).annotate({ identifier: "GetVcsResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          attemptID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/integration/{integrationID}/connect/command/{attemptID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IntegrationCommandStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: S.Unknown,
+        }),
+      ).annotate({ identifier: "IntegrationCommandStatusResponse" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          methodID: S.String,
+          answer: S.optional(S.NullOr(__S(496, __c31, 0))),
+          label: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/integration/{integrationID}/connect/external",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IntegrationConnectExternalRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          key: S.String,
+          answer: S.optional(S.NullOr(__S(496, __c31, 0))),
+          label: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/integration/{integrationID}/connect/key",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IntegrationConnectKeyRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          attemptID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/integration/{integrationID}/connect/oauth/{attemptID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "IntegrationOauthStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: S.Unknown,
+        }),
+      ).annotate({ identifier: "IntegrationOauthStatusResponse" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
+      ).annotate({ identifier: "ListAgentRequest" });
+    case 1:
+      return S.Array(__S(1137, __c71, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1473, __c92, 1),
+        }),
+      ).annotate({ identifier: "ListAgentResponse" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/command", code: 200 })),
+      ).annotate({ identifier: "ListCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommandInfo" });
+    case 2:
+      return S.Array(__S(1489, __c93, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1490, __c93, 2),
+        }),
+      ).annotate({ identifier: "ListCommandResponse" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/credential", code: 200 })),
+      ).annotate({ identifier: "ListCredentialRequest" });
+    case 1:
+      return S.Array(__S(560, __c35, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1505, __c94, 1),
+        }),
+      ).annotate({ identifier: "ListCredentialResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integrationID: S.String.pipe(T.Label()),
+          attemptID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/integration/{integrationID}/connect/command/{attemptID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelIntegrationCommandRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CancelIntegrationCommandRequestLocation" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/debug/location", code: 200 })),
+      ).annotate({ identifier: "ListDebugLocationRequest" });
+    case 1:
+      return S.Array(__S(1040, __c65, 0));
+    case 2:
+      return S.suspend(() => __S(1553, __c97, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDebugLocationResponse",
+      });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/form", code: 200 })),
+      ).annotate({ identifier: "ListFormRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1584, __c99, 0),
+        }),
+      ).annotate({ identifier: "ListFormResponse" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(848, __c53, 0));
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/fs/list", code: 200 })),
+      ).annotate({ identifier: "ListFsRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/integration", code: 200 })),
+      ).annotate({ identifier: "ListIntegrationRequest" });
+    case 1:
+      return S.Array(__S(1186, __c74, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1617, __c101, 1),
+        }),
+      ).annotate({ identifier: "ListIntegrationResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/mcp", code: 200 })),
+      ).annotate({ identifier: "ListMcpRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          status: S.Unknown,
+          title: S.optional(S.String),
+          integrationID: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "McpServer" });
+    case 2:
+      return S.Array(__S(1633, __c102, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1634, __c102, 2),
+        }),
+      ).annotate({ identifier: "ListMcpResponse" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          types: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/model", code: 200 })),
+      ).annotate({ identifier: "ListModelRequest" });
+    case 1:
+      return S.Array(__S(1678, __c104, 14));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1649, __c103, 1),
+        }),
+      ).annotate({ identifier: "ListModelResponse" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reasoningField: S.optional(S.Unknown),
+          requireReasoning: S.optional(S.Boolean),
+          maxTokensField: S.optional(S.String),
+          requireFinishReason: S.optional(S.Boolean),
+          requireAssistantAfterTool: S.optional(S.Boolean),
+          supportsPromptCacheKey: S.optional(S.Boolean),
+          streamUsage: S.optional(S.Boolean),
+          cacheFormat: S.optional(S.String),
+          supportsThinkingBlockBinding: S.optional(S.Boolean),
+          supportsEffortUpdates: S.optional(S.Boolean),
+          mediaInput: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModelCompatibility" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            compaction: S.optional(S.Unknown),
+            cache: S.optional(__S(1104, __c69, 0)),
+            encoding: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ConfigModelSettings" });
+    case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            compaction: S.optional(S.Unknown),
+            encoding: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ConfigModelVariantSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          settings: S.optional(__S(1667, __c104, 3)),
+          headers: S.optional(__S(624, __c39, 0)),
+          body: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ConfigModelEncodedVariantsItem" });
+    case 5:
+      return S.Array(__S(1668, __c104, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          size: S.Number,
+        }),
+      ).annotate({ identifier: "ConfigModelCostEncodedTier" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          tools: S.Boolean,
+          freeform: S.optional(__S(1666, __c104, 2)),
+          input: __S(608, __c38, 0),
+          output: __S(608, __c38, 0),
+          temperature: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ModelCapabilities" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          base: S.String,
+          id: S.String,
+          faster: S.Boolean,
+        }),
+      ).annotate({ identifier: "ModelSpeed" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          speed: S.optional(__S(1672, __c104, 8)),
+        }),
+      ).annotate({ identifier: "ModelInfoExperimental" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          released: S.Number,
+        }),
+      ).annotate({ identifier: "ModelInfoTime" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          tier: S.optional(__S(1670, __c104, 6)),
+          input: S.Number,
+          output: S.Number,
+          cache: __S(688, __c43, 0),
+        }),
+      ).annotate({ identifier: "ModelCost" });
+    case 12:
+      return S.Array(__S(1675, __c104, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          context: S.Number,
+          input: S.optional(S.Number),
+          output: S.Number,
+        }),
+      ).annotate({ identifier: "ModelInfoLimit" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          modelID: S.String,
+          providerID: S.String,
+          canonical: S.optional(S.String),
+          type: S.optional(S.Unknown),
+          family: S.optional(S.String),
+          name: S.String,
+          compatibility: S.optional(__S(1664, __c104, 0)),
+          package: S.optional(S.String),
+          settings: S.optional(__S(1665, __c104, 1)),
+          headers: S.optional(__S(624, __c39, 0)),
+          body: S.optional(S.Unknown),
+          capabilities: __S(1671, __c104, 7),
+          variants: __S(1669, __c104, 5),
+          experimental: S.optional(__S(1673, __c104, 9)),
+          time: __S(1674, __c104, 10),
+          cost: __S(1676, __c104, 12),
+          status: S.String,
+          enabled: S.Boolean,
+          limit: __S(1677, __c104, 13),
+        }),
+      ).annotate({ identifier: "ModelInfo" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/permission/request", code: 200 })),
+      ).annotate({ identifier: "ListPermissionRequestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(1696, __c106, 0),
+        }),
+      ).annotate({ identifier: "ListPermissionRequestResponse" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1360, __c85, 0));
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectID: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/permission/saved", code: 200 })),
+      ).annotate({ identifier: "ListPermissionSavedRequest" });
+    case 1:
+      return S.Array(__S(1729, __c108, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1713, __c107, 1),
+        }),
+      ).annotate({ identifier: "ListPermissionSavedResponse" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Number,
+          updated: S.Number,
+        }),
+      ).annotate({ identifier: "PermissionSavedInfoTime" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          projectID: S.String,
+          action: S.String,
+          resource: S.String,
+          time: __S(1728, __c108, 0),
+        }),
+      ).annotate({ identifier: "PermissionSavedInfo" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/plugin", code: 200 })),
       ).annotate({ identifier: "ListPluginRequest" });
   }
 }
-function __c5(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7433,14 +7690,14 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/project", code: 200 })),
       ).annotate({ identifier: "ListProjectRequest" });
     case 1:
-      return S.Array(__S(99, __c6, 3));
+      return S.Array(__S(1779, __c111, 3));
     case 2:
-      return S.suspend(() => __S(81, __c5, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1761, __c110, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7472,58 +7729,76 @@ function __c6(j: number): any {
           canonical: S.String,
           vcs: S.optional(S.String),
           name: S.optional(S.String),
-          icon: S.optional(__S(96, __c6, 0)),
-          commands: S.optional(__S(97, __c6, 1)),
-          time: __S(98, __c6, 2),
-          sandboxes: __S(1712, __c107, 0),
+          icon: S.optional(__S(1776, __c111, 0)),
+          commands: S.optional(__S(1777, __c111, 1)),
+          time: __S(1778, __c111, 2),
+          sandboxes: __S(608, __c38, 0),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c7(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          integrationID: S.String.pipe(T.Label()),
+          attemptID: S.String.pipe(T.Label()),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/integration/{integrationID}/connect/oauth/{attemptID}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelIntegrationOauthRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/provider", code: 200 })),
       ).annotate({ identifier: "ListProviderRequest" });
     case 1:
-      return S.Array(__S(3073, __c192, 1));
+      return S.Array(__S(1233, __c77, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(113, __c7, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1809, __c113, 1),
         }),
       ).annotate({ identifier: "ListProviderResponse" });
   }
 }
-function __c8(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/pty", code: 200 })),
       ).annotate({ identifier: "ListPtyRequest" });
     case 1:
-      return S.Array(__S(1824, __c114, 0));
+      return S.Array(__S(656, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(129, __c8, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1825, __c114, 1),
         }),
       ).annotate({ identifier: "ListPtyResponse" });
   }
 }
-function __c9(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/reference", code: 200 })),
       ).annotate({ identifier: "ListReferenceRequest" });
     case 1:
@@ -7537,17 +7812,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ReferenceInfo" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(1841, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(146, __c9, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1842, __c115, 2),
         }),
       ).annotate({ identifier: "ListReferenceResponse" });
   }
 }
-function __c10(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7564,17 +7839,17 @@ function __c10(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/session", code: 200 })),
       ).annotate({ identifier: "ListSessionRequest" });
     case 1:
-      return S.Array(__S(1938, __c121, 2));
+      return S.Array(__S(770, __c48, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(161, __c10, 1),
-          cursor: __S(176, __c11, 0),
+          data: __S(1857, __c116, 1),
+          cursor: __S(1872, __c117, 0),
         }),
       ).annotate({ identifier: "SessionsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7585,7 +7860,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SessionsResponseCursor" });
   }
 }
-function __c12(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7596,12 +7871,12 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3488, __c218, 0),
+          data: __S(1584, __c99, 0),
         }),
       ).annotate({ identifier: "ListSessionFormResponse" });
   }
 }
-function __c13(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7614,12 +7889,12 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(209, __c13, 1),
+          data: __S(1905, __c119, 1),
         }),
       ).annotate({ identifier: "ListSessionInboxResponse" });
   }
 }
-function __c14(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7634,13 +7909,19 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2736, __c171, 0),
-          cursor: __S(176, __c11, 0),
+          data: __S(1936, __c121, 0),
+          cursor: __S(1872, __c117, 0),
         }),
       ).annotate({ identifier: "SessionMessagesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7651,49 +7932,36 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3600, __c225, 0),
+          data: __S(1696, __c106, 0),
         }),
       ).annotate({ identifier: "ListSessionPermissionResponse" });
   }
 }
-function __c16(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          inboxID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/session/{sessionID}/inbox/{inboxID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "CancelSessionInboxRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/shell", code: 200 })),
       ).annotate({ identifier: "ListShellRequest" });
     case 1:
-      return S.Array(__S(2145, __c134, 1));
+      return S.Array(__S(929, __c58, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(273, __c17, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(1969, __c123, 1),
         }),
       ).annotate({ identifier: "ListShellResponse" });
   }
 }
-function __c18(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/skill", code: 200 })),
       ).annotate({ identifier: "ListSkillRequest" });
     case 1:
@@ -7708,22 +7976,36 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "SkillInfo" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(1985, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(290, __c18, 2),
+          location: __S(1040, __c65, 0),
+          data: __S(1986, __c124, 2),
         }),
       ).annotate({ identifier: "ListSkillResponse" });
   }
 }
-function __c19(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          sessionID: S.String.pipe(T.Label()),
+          formID: S.String.pipe(T.Label()),
+          message: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/session/{sessionID}/form/{formID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "CancelSessionFormRequest" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/vcs/branch", code: 200 })),
@@ -7731,13 +8013,13 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1712, __c107, 0),
+          location: __S(1040, __c65, 0),
+          data: __S(608, __c38, 0),
         }),
       ).annotate({ identifier: "ListVcsBranchResponse" });
   }
 }
-function __c20(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7753,14 +8035,14 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "WorktreeDirectory" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(2033, __c127, 1));
     case 3:
-      return S.suspend(() => __S(322, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2034, __c127, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWorktreeResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7768,12 +8050,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "LocationReloadRequest" });
   }
 }
-function __c22(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/mcp/resource", code: 200 })),
       ).annotate({ identifier: "McpResourceCatalogRequest" });
     case 1:
@@ -7787,7 +8069,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "McpResource" });
     case 2:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(2065, __c129, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7799,41 +8081,41 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "McpResourceTemplate" });
     case 4:
-      return S.Array(__S(355, __c22, 3));
+      return S.Array(__S(2067, __c129, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          resources: __S(354, __c22, 2),
-          templates: __S(356, __c22, 4),
+          resources: __S(2066, __c129, 2),
+          templates: __S(2068, __c129, 4),
         }),
       ).annotate({ identifier: "McpResourceCatalog" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(357, __c22, 5),
+          location: __S(1040, __c65, 0),
+          data: __S(2069, __c129, 5),
         }),
       ).annotate({ identifier: "McpResourceCatalogResponse" });
   }
 }
-function __c23(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/model/default", code: 200 })),
       ).annotate({ identifier: "ModelDefaultRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: S.NullOr(__S(3579, __c223, 11)),
+          location: __S(1040, __c65, 0),
+          data: S.NullOr(__S(1678, __c104, 14)),
         }),
       ).annotate({ identifier: "ModelDefaultResponse" });
   }
 }
-function __c24(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7845,28 +8127,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "MoveSessionRequest" });
   }
 }
-function __c25(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/experimental/schedule/{scheduleID}/pause",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PauseExperimentalScheduleRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           id: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/api/plugin/gui", code: 200 })),
       ).annotate({ identifier: "PluginGuiRequest" });
@@ -7881,136 +8147,48 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(417, __c26, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(2113, __c132, 1),
         }),
       ).annotate({ identifier: "PluginGuiResponse" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          target: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/plugin/check", code: 200 })),
-      ).annotate({ identifier: "CheckPluginRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server: S.optional(S.Boolean),
-          tui: S.optional(S.Boolean),
-          rpc: S.optional(S.Boolean),
-          gui: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PluginFeatures" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          source: S.Unknown,
-          features: __S(448, __c28, 0),
-          state: S.Unknown,
-        }),
-      ).annotate({ identifier: "PluginInfo" });
-    case 2:
-      return S.Array(__S(449, __c28, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(450, __c28, 2),
-        }),
-      ).annotate({ identifier: "CheckPluginResponse" });
-  }
-}
-function __c29(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/api/pty/{ptyID}/connect-token", code: 200 })),
       ).annotate({ identifier: "PtyConnectTokenRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          key: S.String.pipe(T.Label()),
-          value: S.Unknown,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/experimental/session/{sessionID}/instructions/entries/{key}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutExperimentalSessionInstructionsEntryRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          lines: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/session/{sessionID}/terminal/read",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReadExperimentalPersistentPtyRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          text: S.String,
-          cols: S.Number,
-          rows: S.Number,
-          cursor: __S(2608, __c163, 0),
+          ticket: S.String,
+          expires_in: S.Number,
         }),
-      ).annotate({ identifier: "PersistentPtyReadResultScreen" });
+      ).annotate({ identifier: "PtyTicketConnectToken" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ptyID: S.String,
-          title: S.String,
-          cwd: S.String,
-          foregroundProcess: S.NullOr(S.String),
-          screen: __S(497, __c31, 1),
+          location: __S(1040, __c65, 0),
+          data: __S(2129, __c133, 1),
         }),
-      ).annotate({ identifier: "PersistentPtyReadResult" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.NullOr(__S(498, __c31, 2)),
-        }),
-      ).annotate({ identifier: "ReadExperimentalPersistentPtyResponse" });
+      ).annotate({ identifier: "PtyConnectTokenResponse" });
   }
 }
-function __c32(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/fs/read/*", code: 200 })),
       ).annotate({ identifier: "ReadFsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8020,7 +8198,20 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RefreshWorktreeRequest" });
   }
 }
-function __c34(j: number): any {
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          inboxID: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/session/{sessionID}/inbox/{inboxID}", code: 200 }),
+        ),
+      ).annotate({ identifier: "CancelSessionInboxRequest" });
+  }
+}
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8030,47 +8221,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RemoveCredentialRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/experimental/mcp/{server}", code: 200 })),
-      ).annotate({ identifier: "RemoveExperimentalMcpRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/experimental/persistent-pty/{ptyID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "RemoveExperimentalPersistentPtyRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          key: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/experimental/session/{sessionID}/instructions/entries/{key}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveExperimentalSessionInstructionsEntryRequest" });
-  }
-}
-function __c38(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8080,28 +8231,18 @@ function __c38(j: number): any {
       ).annotate({ identifier: "RemovePermissionSavedRequest" });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/session/{sessionID}/revert", code: 200 })),
-      ).annotate({ identifier: "ClearSessionRevertRequest" });
-  }
-}
-function __c40(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/pty/{ptyID}", code: 200 })),
       ).annotate({ identifier: "RemovePtyRequest" });
   }
 }
-function __c41(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8111,18 +8252,18 @@ function __c41(j: number): any {
       ).annotate({ identifier: "RemoveSessionRequest" });
   }
 }
-function __c42(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/shell/{id}", code: 200 })),
       ).annotate({ identifier: "RemoveShellRequest" });
   }
 }
-function __c43(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8134,14 +8275,14 @@ function __c43(j: number): any {
       ).annotate({ identifier: "RemoveWorktreeRequest" });
   }
 }
-function __c44(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sessionID: S.String.pipe(T.Label()),
           formID: S.String.pipe(T.Label()),
-          answer: __S(1536, __c96, 0),
+          answer: __S(496, __c31, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8152,7 +8293,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ReplySessionFormRequest" });
   }
 }
-function __c45(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8171,30 +8312,14 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ReplySessionPermissionRequest" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/experimental/schedule/{scheduleID}/resume",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ResumeExperimentalScheduleRequest" });
-  }
-}
-function __c47(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           rpcID: S.String.pipe(T.Label()),
           method: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
           input: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/api/rpc/{rpcID}/{method}", code: 200 })),
       ).annotate({ identifier: "RpcCallRequest" });
@@ -8206,7 +8331,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RpcOutput" });
   }
 }
-function __c48(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8230,14 +8355,56 @@ function __c48(j: number): any {
           version: S.String,
           pid: S.Number,
           hostname: S.optional(S.NullOr(S.String)),
-          urls: __S(1712, __c107, 0),
-          paths: __S(769, __c48, 1),
-          capabilities: S.optional(S.NullOr(__S(770, __c48, 2))),
+          urls: __S(608, __c38, 0),
+          paths: __S(2337, __c146, 1),
+          capabilities: S.optional(S.NullOr(__S(2338, __c146, 2))),
         }),
       ).annotate({ identifier: "ServerInfo" });
   }
 }
-function __c49(j: number): any {
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1536, __c96, 0).pipe(T.Query())),
+          target: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/plugin/check", code: 200 })),
+      ).annotate({ identifier: "CheckPluginRequest" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server: S.optional(S.Boolean),
+          tui: S.optional(S.Boolean),
+          rpc: S.optional(S.Boolean),
+          gui: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PluginFeatures" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          source: S.Unknown,
+          features: __S(2368, __c148, 0),
+          state: S.Unknown,
+        }),
+      ).annotate({ identifier: "PluginInfo" });
+    case 2:
+      return S.Array(__S(2369, __c148, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(1040, __c65, 0),
+          data: __S(2370, __c148, 2),
+        }),
+      ).annotate({ identifier: "CheckPluginResponse" });
+  }
+}
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8252,19 +8419,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PairingCode" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/session/{sessionID}/revert/commit", code: 200 }),
-        ),
-      ).annotate({ identifier: "CommitSessionRevertRequest" });
-  }
-}
-function __c51(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8278,7 +8433,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SessionActiveResponse" });
   }
 }
-function __c52(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8288,7 +8443,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "SessionBackgroundRequest" });
   }
 }
-function __c53(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8296,15 +8451,15 @@ function __c53(j: number): any {
           sessionID: S.String.pipe(T.Label()),
           name: S.String,
           text: S.String,
-          files: S.optional(__S(868, __c54, 4)),
-          agents: S.optional(__S(866, __c54, 2)),
-          skills: S.optional(__S(870, __c54, 6)),
+          files: S.optional(__S(2452, __c153, 4)),
+          agents: S.optional(__S(2450, __c153, 2)),
+          skills: S.optional(__S(2454, __c153, 6)),
           delivery: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/command", code: 200 })),
       ).annotate({ identifier: "SessionCommandRequest" });
   }
 }
-function __c54(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8318,11 +8473,11 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          mention: S.optional(__S(864, __c54, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptAgentAttachment" });
     case 2:
-      return S.Array(__S(865, __c54, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8330,23 +8485,23 @@ function __c54(j: number): any {
           source: S.optional(S.Unknown),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          mention: S.optional(__S(864, __c54, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptInputFileAttachment" });
     case 4:
-      return S.Array(__S(867, __c54, 3));
+      return S.Array(__S(2451, __c153, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          mention: S.optional(__S(864, __c54, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptInputSkillAttachment" });
     case 6:
-      return S.Array(__S(869, __c54, 5));
+      return S.Array(__S(2453, __c153, 5));
   }
 }
-function __c55(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8357,12 +8512,12 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2736, __c171, 0),
+          data: __S(1936, __c121, 0),
         }),
       ).annotate({ identifier: "SessionContextResponse" });
   }
 }
-function __c56(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8376,23 +8531,23 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1953, __c122, 1),
+          data: __S(785, __c49, 1),
         }),
       ).annotate({ identifier: "SessionDiffResponse" });
   }
 }
-function __c57(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sessionID: S.String.pipe(T.Label()),
-          variables: __S(1648, __c103, 0),
+          variables: __S(624, __c39, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/api/session/{sessionID}/environment", code: 200 })),
       ).annotate({ identifier: "SessionEnvironmentRequest" });
   }
 }
-function __c58(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8409,7 +8564,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "SessionInterruptResponse" });
   }
 }
-function __c59(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8419,29 +8574,29 @@ function __c59(j: number): any {
           source: S.Unknown,
           name: S.optional(S.String),
           description: S.optional(S.String),
-          mention: S.optional(__S(864, __c54, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptFileAttachment" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(2528, __c158, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           text: S.optional(S.String),
-          mention: S.optional(__S(864, __c54, 0)),
+          mention: S.optional(__S(2448, __c153, 0)),
         }),
       ).annotate({ identifier: "PromptSkillAttachment" });
     case 3:
-      return S.Array(__S(946, __c59, 2));
+      return S.Array(__S(2530, __c158, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           text: S.String,
-          files: S.optional(__S(945, __c59, 1)),
-          agents: S.optional(__S(866, __c54, 2)),
-          skills: S.optional(__S(947, __c59, 3)),
+          files: S.optional(__S(2529, __c158, 1)),
+          agents: S.optional(__S(2450, __c153, 2)),
+          skills: S.optional(__S(2531, __c158, 3)),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SessionInboxUserPayload" });
@@ -8450,9 +8605,9 @@ function __c59(j: number): any {
         S.Struct({
           id: S.String,
           sessionID: S.String,
-          time: __S(1008, __c63, 0),
+          time: __S(416, __c26, 0),
           type: S.String,
-          payload: __S(948, __c59, 4),
+          payload: __S(2532, __c158, 4),
           delivery: S.String,
         }),
       ).annotate({ identifier: "SessionInboxUser" });
@@ -8462,9 +8617,9 @@ function __c59(j: number): any {
           sessionID: S.String.pipe(T.Label()),
           id: S.optional(S.NullOr(S.String)),
           text: S.String,
-          files: S.optional(__S(868, __c54, 4)),
-          agents: S.optional(__S(866, __c54, 2)),
-          skills: S.optional(__S(870, __c54, 6)),
+          files: S.optional(__S(2452, __c153, 4)),
+          agents: S.optional(__S(2450, __c153, 2)),
+          skills: S.optional(__S(2454, __c153, 6)),
           metadata: S.optional(S.Unknown),
           delivery: S.optional(S.NullOr(S.String)),
           resume: S.optional(S.NullOr(S.Boolean)),
@@ -8473,12 +8628,12 @@ function __c59(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(949, __c59, 5),
+          data: __S(2533, __c158, 5),
         }),
       ).annotate({ identifier: "SessionPromptResponse" });
   }
 }
-function __c60(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8493,3183 +8648,9 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1968, __c123, 0),
+          data: __S(800, __c50, 0),
         }),
       ).annotate({ identifier: "SessionRevertStageResponse" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          id: S.optional(S.NullOr(S.String)),
-          command: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/shell", code: 200 })),
-      ).annotate({ identifier: "SessionShellRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          id: S.optional(S.NullOr(S.String)),
-          delivery: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/compact", code: 200 })),
-      ).annotate({ identifier: "CompactSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.String,
-          time: __S(1008, __c63, 0),
-          type: S.String,
-          payload: S.Unknown,
-          delivery: S.String,
-        }),
-      ).annotate({ identifier: "SessionInboxCompaction" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(993, __c62, 1),
-        }),
-      ).annotate({ identifier: "CompactSessionResponse" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Number,
-        }),
-      ).annotate({ identifier: "SessionInboxCompactionTime" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          agent: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/agent", code: 200 })),
-      ).annotate({ identifier: "SessionSwitchAgentRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          model: __S(1872, __c117, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/model", code: 200 })),
-      ).annotate({ identifier: "SessionSwitchModelRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.String,
-          description: S.optional(S.String),
-          metadata: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "SessionInboxSyntheticPayload" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.String,
-          time: __S(1008, __c63, 0),
-          type: S.String,
-          payload: __S(1056, __c66, 0),
-          delivery: S.String,
-        }),
-      ).annotate({ identifier: "SessionInboxSynthetic" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          id: S.optional(S.NullOr(S.String)),
-          text: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.Unknown),
-          delivery: S.optional(S.NullOr(S.String)),
-          resume: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/synthetic", code: 200 })),
-      ).annotate({ identifier: "SessionSyntheticRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1057, __c66, 1),
-        }),
-      ).annotate({ identifier: "SessionSyntheticResponse" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          idle: S.Number,
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/view", code: 200 })),
-      ).annotate({ identifier: "SessionViewRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          output: S.String,
-          cursor: S.Number,
-          size: S.Number,
-          truncated: S.Boolean,
-        }),
-      ).annotate({ identifier: "SessionMessageShellOutput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}/output", code: 200 })),
-      ).annotate({ identifier: "ShellOutputRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1088, __c68, 0),
-        }),
-      ).annotate({ identifier: "ShellOutputResponse" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          types: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/event", code: 200 })),
-      ).annotate({ identifier: "SubscribeEventRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          credentialID: S.String.pipe(T.Label()),
-          label: S.String,
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/credential/{credentialID}", code: 200 })),
-      ).annotate({ identifier: "UpdateCredentialRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          title: S.optional(S.String),
-          files: __S(1648, __c103, 0),
-          entry: S.optional(S.String),
-          sessionID: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/experimental/artifacts/{artifactID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateExperimentalArtifactRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          shell: S.NullOr(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/experimental/config", code: 200 })),
-      ).annotate({ identifier: "UpdateExperimentalConfigRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-          attachmentID: S.optional(S.String),
-          size: S.optional(__S(1728, __c108, 0)),
-          title: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/experimental/persistent-pty/{ptyID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateExperimentalPersistentPtyRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          code: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/integration/{integrationID}/connect/oauth/{attemptID}/complete",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CompleteIntegrationOauthRequest" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          action: S.optional(S.NullOr(S.String)),
-          resource: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/permission/saved/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdatePermissionSavedRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3632, __c227, 0),
-        }),
-      ).annotate({ identifier: "UpdatePermissionSavedResponse" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          targets: __S(1712, __c107, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/api/plugin/update", code: 200 })),
-      ).annotate({ identifier: "UpdatePluginRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectID: S.String.pipe(T.Label()),
-          canonical: S.optional(S.String),
-          name: S.optional(S.String),
-          icon: S.optional(__S(96, __c6, 0)),
-          commands: S.optional(__S(97, __c6, 1)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/project/{projectID}", code: 200 })),
-      ).annotate({ identifier: "UpdateProjectRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rows: S.Number,
-          cols: S.Number,
-        }),
-      ).annotate({ identifier: "UpdatePtyRequestSize" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          title: S.optional(S.String),
-          size: S.optional(__S(1248, __c78, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/pty/{ptyID}", code: 200 })),
-      ).annotate({ identifier: "UpdatePtyRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          title: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(S.Unknown)),
-          permissions: S.optional(S.NullOr(__S(1921, __c120, 1))),
-          archived: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/session/{sessionID}", code: 200 })),
-      ).annotate({ identifier: "UpdateSessionRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          inboxID: S.String.pipe(T.Label()),
-          delivery: S.String,
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/session/{sessionID}/inbox/{inboxID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateSessionInboxRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/vcs/base", code: 200 })),
-      ).annotate({ identifier: "VcsBaseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          ref: S.String,
-          source: S.String,
-        }),
-      ).annotate({ identifier: "VcsBase" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: S.NullOr(__S(1297, __c81, 1)),
-        }),
-      ).annotate({ identifier: "VcsBaseResponse" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          mode: S.String.pipe(T.Query()),
-          base: S.optional(S.String.pipe(T.Query())),
-          context: S.optional(S.String.pipe(T.Query())),
-          untracked: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/vcs/diff", code: 200 })),
-      ).annotate({ identifier: "VcsDiffRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1953, __c122, 1),
-        }),
-      ).annotate({ identifier: "VcsDiffResponse" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          provider: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/api/vcs/init", code: 200 })),
-      ).annotate({ identifier: "VcsInitRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/vcs/status", code: 200 })),
-      ).annotate({ identifier: "VcsStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          file: S.String,
-          additions: S.Number,
-          deletions: S.Number,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "VcsFileStatus" });
-    case 2:
-      return S.Array(__S(1345, __c84, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1346, __c84, 2),
-        }),
-      ).annotate({ identifier: "VcsStatusResponse" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/config/shell", code: 200 })),
-      ).annotate({ identifier: "ConfigShellsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          name: S.String,
-          acceptable: S.Boolean,
-        }),
-      ).annotate({ identifier: "ConfigShellOption" });
-    case 2:
-      return S.Array(__S(1361, __c85, 1));
-    case 3:
-      return S.suspend(() => __S(1362, __c85, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ConfigShellsResponse",
-      });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/session/{sessionID}/wait", code: 200 }),
-        ),
-      ).annotate({ identifier: "WaitExperimentalSessionRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          path: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/fs/watch", code: 200 })),
-      ).annotate({ identifier: "WatchExperimentalFsRequest" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/websearch/provider", code: 200 })),
-      ).annotate({ identifier: "WebsearchProvidersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "WebSearchProvider" });
-    case 2:
-      return S.Array(__S(1409, __c88, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1410, __c88, 2),
-        }),
-      ).annotate({ identifier: "WebsearchProvidersResponse" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          query: S.String,
-          providerID: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/websearch", code: 200 })),
-      ).annotate({ identifier: "WebsearchQueryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          published: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "WebSearchResultTime" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String,
-          title: S.optional(S.String),
-          content: S.optional(S.String),
-          time: __S(1425, __c89, 1),
-        }),
-      ).annotate({ identifier: "WebSearchResult" });
-    case 3:
-      return S.Array(__S(1426, __c89, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          providerID: S.String,
-          results: __S(1427, __c89, 3),
-        }),
-      ).annotate({ identifier: "WebSearchResponseEncoded" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1428, __c89, 4),
-        }),
-      ).annotate({ identifier: "WebsearchQueryResponse" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/mcp/{server}/connect", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConnectExperimentalMcpRequest" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          role: S.optional(S.String.pipe(T.Query())),
-          attachment_id: S.optional(S.String.pipe(T.Query())),
-          takeover: S.optional(S.String.pipe(T.Query())),
-          input_protocol: S.optional(S.String.pipe(T.Query())),
-          ticket: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/persistent-pty/{ptyID}/connect",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectExperimentalPersistentPtyRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
-        identifier: "ConnectExperimentalPersistentPtyResponse",
-      });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "InvalidCursorErrorEncoded" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          methodID: S.String,
-          label: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/integration/{integrationID}/connect/command",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectIntegrationCommandRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Unknown,
-          expires: S.Unknown,
-        }),
-      ).annotate({ identifier: "IntegrationCommandAttemptTime" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          attemptID: S.String,
-          time: __S(1505, __c94, 1),
-        }),
-      ).annotate({ identifier: "IntegrationCommandAttempt" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1506, __c94, 2),
-        }),
-      ).annotate({ identifier: "ConnectIntegrationCommandResponse" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          methodID: S.String,
-          answer: S.optional(S.NullOr(__S(1536, __c96, 0))),
-          label: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/integration/{integrationID}/connect/oauth",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectIntegrationOauthRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Unknown,
-          expires: S.Unknown,
-        }),
-      ).annotate({ identifier: "IntegrationAttemptEncodedTime" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          attemptID: S.String,
-          url: S.String,
-          instructions: S.String,
-          mode: S.String,
-          paste: S.optional(S.Boolean),
-          time: __S(1521, __c95, 1),
-        }),
-      ).annotate({ identifier: "IntegrationAttemptEncoded" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1522, __c95, 2),
-        }),
-      ).annotate({ identifier: "ConnectIntegrationOauthResponse" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-          location_directory_: S.optional(S.String.pipe(T.Query("location[directory]"))),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          ticket: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}/connect", code: 200 })),
-      ).annotate({ identifier: "ConnectPtyRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/auth/connect/{code}", code: 200 })),
-      ).annotate({ identifier: "ConnectServerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String,
-        }),
-      ).annotate({ identifier: "PairingSession" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          integrationID: S.String,
-          label: S.optional(S.String),
-          value: S.Unknown,
-          activate: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/api/credential", code: 200 })),
-      ).annotate({ identifier: "CreateCredentialRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1600, __c100, 0),
-        }),
-      ).annotate({ identifier: "CreateCredentialResponse" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          integrationID: S.String,
-          label: S.String,
-          active: S.Boolean,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "CredentialEntry" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          title: S.String,
-          files: __S(1648, __c103, 0),
-          entry: S.optional(S.String),
-          provider: S.optional(S.String),
-          sessionID: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/artifacts", code: 200 })),
-      ).annotate({ identifier: "CreateExperimentalArtifactRequest" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1680, __c105, 0),
-        }),
-      ).annotate({ identifier: "CreateExperimentalArtifactResponse" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Number,
-          updated: S.Number,
-        }),
-      ).annotate({ identifier: "ArtifactTime" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          provider: S.String,
-          sessionID: S.optional(S.String),
-          title: S.String,
-          entry: S.String,
-          url: S.String,
-          time: __S(1664, __c104, 0),
-        }),
-      ).annotate({ identifier: "ArtifactInfo" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          command: S.optional(S.String),
-          args: __S(1712, __c107, 0),
-          cwd: S.optional(S.String),
-          title: S.String,
-          env: __S(1648, __c103, 0),
-          size: S.optional(__S(1728, __c108, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/experimental/session/{sessionID}/terminal",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateExperimentalPersistentPtyRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cols: S.Number,
-          rows: S.Number,
-        }),
-      ).annotate({ identifier: "CreateExperimentalPersistentPtyRequestSize" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          head: S.Number,
-          tail: S.Number,
-        }),
-      ).annotate({ identifier: "PersistentPtyInfoOutput" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          title: S.String,
-          command: S.String,
-          args: __S(1712, __c107, 0),
-          cwd: S.String,
-          status: S.String,
-          pid: S.Number,
-          exitCode: S.optional(S.Number),
-          sessionID: S.String,
-          userTitle: S.NullOr(S.String),
-          foregroundProcess: S.NullOr(S.String),
-          size: __S(1728, __c108, 0),
-          output: __S(1729, __c108, 1),
-        }),
-      ).annotate({ identifier: "PersistentPtyInfo" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1730, __c108, 2),
-        }),
-      ).annotate({ identifier: "CreateExperimentalPersistentPtyResponse" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(S.String),
-          at: S.optional(S.String),
-          times: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ScheduleEnds" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String,
-          name: S.optional(S.String),
-          when: S.optional(S.Unknown),
-          if: S.optional(S.Unknown),
-          until: S.optional(S.Unknown),
-          ends: S.optional(__S(1760, __c110, 0)),
-          prompt: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/schedule", code: 200 })),
-      ).annotate({ identifier: "CreateExperimentalScheduleRequest" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1793, __c112, 1),
-        }),
-      ).annotate({ identifier: "CreateExperimentalScheduleResponse" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          prompt: S.String,
-        }),
-      ).annotate({ identifier: "ScheduleActionPrompt" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.optional(S.String),
-          name: S.optional(S.String),
-          when: S.Unknown,
-          tz: S.String,
-          if: S.optional(S.Unknown),
-          until: S.optional(S.Unknown),
-          action: __S(1792, __c112, 0),
-          status: S.String,
-          nextDueAt: S.optional(S.Number),
-          endsAt: S.optional(S.Number),
-          remainingRuns: S.optional(S.Number),
-          runCount: S.Number,
-          lastFiredAt: S.optional(S.Number),
-          lastOutcome: S.optional(S.String),
-          lastOutput: S.optional(S.String),
-          time: __S(1664, __c104, 0),
-        }),
-      ).annotate({ identifier: "ScheduleInfo" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          command: S.optional(S.String),
-          args: S.optional(__S(1712, __c107, 0)),
-          cwd: S.optional(S.String),
-          title: S.optional(S.String),
-          env: S.optional(__S(1648, __c103, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/pty", code: 200 })),
-      ).annotate({ identifier: "CreatePtyRequest" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          title: S.String,
-          command: S.String,
-          args: __S(1712, __c107, 0),
-          cwd: S.String,
-          status: S.String,
-          pid: S.Number,
-          exitCode: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Pty" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(1824, __c114, 0),
-        }),
-      ).annotate({ identifier: "CreatePtyResponse" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          parentID: S.optional(S.NullOr(S.String)),
-          title: S.optional(S.NullOr(S.String)),
-          agent: S.optional(S.NullOr(S.String)),
-          model: S.optional(S.NullOr(__S(1872, __c117, 0))),
-          location: S.optional(S.NullOr(__S(2000, __c125, 0))),
-          metadata: S.optional(S.NullOr(S.Unknown)),
-          permissions: S.optional(S.NullOr(__S(1921, __c120, 1))),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session", code: 200 })),
-      ).annotate({ identifier: "CreateSessionRequest" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          providerID: S.String,
-          variant: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ModelRef" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          input: S.Number,
-          output: S.Number,
-          reasoning: S.Number,
-          cache: __S(1904, __c119, 0),
-        }),
-      ).annotate({ identifier: "TokenUsageInfo" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          read: S.Number,
-          write: S.Number,
-        }),
-      ).annotate({ identifier: "TokenUsageInfoCache" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          resource: S.String,
-          effect: S.String,
-        }),
-      ).annotate({ identifier: "PermissionRule" });
-    case 1:
-      return S.Array(__S(1920, __c120, 0));
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String,
-          boundary: S.Unknown,
-        }),
-      ).annotate({ identifier: "SessionInfoFork" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Number,
-          updated: S.Number,
-          busy: S.optional(S.Number),
-          idle: S.optional(S.Number),
-          viewed: S.optional(S.Number),
-          archived: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SessionInfoTime" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          parentID: S.optional(S.String),
-          fork: S.optional(__S(1936, __c121, 0)),
-          projectID: S.String,
-          agent: S.optional(S.String),
-          model: S.optional(__S(1872, __c117, 0)),
-          cost: S.Number,
-          tokens: __S(1888, __c118, 0),
-          outcome: S.optional(S.String),
-          time: __S(1937, __c121, 1),
-          title: S.optional(S.String),
-          subpath: S.optional(S.String),
-          metadata: S.optional(S.Unknown),
-          permissions: S.optional(__S(1921, __c120, 1)),
-          revert: S.optional(__S(1968, __c123, 0)),
-          location: __S(2000, __c125, 0),
-        }),
-      ).annotate({ identifier: "SessionInfo" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          file: S.String,
-          patch: S.String,
-          additions: S.Number,
-          deletions: S.Number,
-          status: S.String,
-          more: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FileDiffInfo" });
-    case 1:
-      return S.Array(__S(1952, __c122, 0));
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          messageID: S.String,
-          partID: S.optional(S.String),
-          snapshot: S.optional(S.String),
-          files: S.optional(__S(1953, __c122, 1)),
-        }),
-      ).annotate({ identifier: "SessionRevert" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1938, __c121, 2),
-        }),
-      ).annotate({ identifier: "CreateSessionResponse" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.String,
-        }),
-      ).annotate({ identifier: "LocationPublicRef" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          location: __S(2000, __c125, 0),
-          message: S.String,
-        }),
-      ).annotate({ identifier: "LocationNotFoundErrorEncoded" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          ptyID: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "PtyNotFoundErrorEncoded" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          projectID: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ProjectNotFoundErrorEncoded" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          scheduleID: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ScheduleNotFoundErrorEncoded" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          path: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "FileNotFoundErrorEncoded" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          id: S.optional(S.NullOr(S.String)),
-          title: S.String,
-          metadata: S.optional(S.Unknown),
-          fields: __S(2048, __c128, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/form", code: 200 })),
-      ).annotate({ identifier: "CreateSessionFormRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2064, __c129, 0),
-        }),
-      ).annotate({ identifier: "CreateSessionFormResponse" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.String,
-          title: S.String,
-          metadata: S.optional(S.Unknown),
-          fields: __S(2048, __c128, 0),
-        }),
-      ).annotate({ identifier: "FormInfo" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          id: S.optional(S.NullOr(S.String)),
-          action: S.String,
-          resources: __S(1712, __c107, 0),
-          save: S.optional(__S(1712, __c107, 0)),
-          metadata: S.optional(S.Unknown),
-          source: S.optional(__S(2096, __c131, 0)),
-          agent: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/permission", code: 200 })),
-      ).annotate({ identifier: "CreateSessionPermissionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          effect: S.String,
-        }),
-      ).annotate({ identifier: "CreateSessionPermissionResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2081, __c130, 1),
-        }),
-      ).annotate({ identifier: "CreateSessionPermissionResponse" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          messageID: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "PermissionSource" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          command: S.String,
-          cwd: S.optional(S.String),
-          timeout: S.optional(S.Number),
-          metadata: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "POST", uri: "/api/shell", code: 200 })),
-      ).annotate({ identifier: "CreateShellRequest" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2145, __c134, 1),
-        }),
-      ).annotate({ identifier: "CreateShellResponse" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          started: S.Number,
-          completed: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ShellInfoTime" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          status: S.String,
-          command: S.String,
-          cwd: S.String,
-          shell: S.String,
-          file: S.String,
-          pid: S.optional(S.Number),
-          exit: S.optional(S.Number),
-          signal: S.optional(S.String),
-          metadata: S.Unknown,
-          time: __S(2144, __c134, 0),
-        }),
-      ).annotate({ identifier: "ShellInfo" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectID: S.String,
-          from: S.optional(S.String),
-          branch: S.optional(S.String),
-          directory: S.optional(S.String),
-          name: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/worktree", code: 200 })),
-      ).annotate({ identifier: "CreateWorktreeRequest" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/api/debug/heap-dump", code: 200 })),
-      ).annotate({ identifier: "DebugHeapDumpRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          rss: S.Unknown,
-          heapTotal: S.Unknown,
-          heapUsed: S.Unknown,
-          external: S.Unknown,
-          arrayBuffers: S.Unknown,
-        }),
-      ).annotate({ identifier: "DebugHeapDumpResponseMemory" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          pid: S.Number,
-          memory: __S(2177, __c136, 1),
-        }),
-      ).annotate({ identifier: "DebugHeapDumpResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/debug/location", code: 200 })),
-      ).annotate({ identifier: "DebugLocationEvictRequest" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/experimental/artifacts/{artifactID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteExperimentalArtifactRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/experimental/schedule/{scheduleID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteExperimentalScheduleRequest" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/mcp/{server}/disconnect", code: 200 }),
-        ),
-      ).annotate({ identifier: "DisconnectExperimentalMcpRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/artifacts/providers", code: 200 })),
-      ).annotate({ identifier: "ExperimentalArtifactsProvidersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          capabilities: __S(2272, __c142, 0),
-          default: S.Boolean,
-        }),
-      ).annotate({ identifier: "ArtifactProvider" });
-    case 2:
-      return S.Array(__S(2257, __c141, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2258, __c141, 2),
-        }),
-      ).annotate({ identifier: "ExperimentalArtifactsProvidersResponse" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          _tag: S.String,
-          providerID: S.String,
-          modelID: S.String,
-          capability: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "UnsupportedModelErrorEncoded" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/artifacts/{artifactID}/view/*",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ExperimentalArtifactsViewRequest" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          path: S.String,
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/experimental/fs/watch", code: 200 })),
-      ).annotate({ identifier: "ExperimentalFsUnwatchRequest" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          path: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/fs/write", code: 200 })),
-      ).annotate({ identifier: "ExperimentalFsWriteRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-        }),
-      ).annotate({ identifier: "FileSystemWrite" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2337, __c146, 1),
-        }),
-      ).annotate({ identifier: "ExperimentalFsWriteResponse" });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          model: __S(1872, __c117, 0),
-          input: __S(2352, __c147, 0),
-          questions: __S(2353, __c147, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/decisions", code: 200 })),
-      ).annotate({ identifier: "ExperimentalGenerateDecisionsRequest" });
-    case 3:
-      return S.Array(S.Unknown);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          answers: __S(2355, __c147, 3),
-          cost: S.optional(S.Number),
-          tokens: S.optional(__S(2368, __c148, 0)),
-          native: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "GenerateDecisionResult" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2356, __c147, 4),
-        }),
-      ).annotate({ identifier: "GenerateDecisionsResponse" });
-  }
-}
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          input: S.optional(S.Number),
-          output: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GenerateUsage" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          data: S.String,
-          mime: S.String,
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenerateDecisionFilePart" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.String,
-          mime: S.String,
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenerateFile" });
-    case 2:
-      return S.Array(__S(2385, __c149, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          model: __S(1872, __c117, 0),
-          prompt: S.String,
-          images: S.optional(__S(2386, __c149, 2)),
-          n: S.optional(S.Number),
-          aspect: S.optional(S.String),
-          resolution: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/image", code: 200 })),
-      ).annotate({ identifier: "ExperimentalGenerateImageRequest" });
-    case 4:
-      return S.Array(__S(2384, __c149, 0));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          images: __S(2388, __c149, 4),
-          cost: S.optional(S.Number),
-          tokens: S.optional(__S(2368, __c148, 0)),
-          native: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "GenerateImageResult" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2389, __c149, 5),
-        }),
-      ).annotate({ identifier: "GenerateImageResponse" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          prompt: S.String,
-          model: S.optional(S.NullOr(__S(1872, __c117, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/generate/text", code: 200 })),
-      ).annotate({ identifier: "ExperimentalGenerateTextRequest" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.String,
-        }),
-      ).annotate({ identifier: "GenerateTextResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2416, __c151, 0),
-        }),
-      ).annotate({ identifier: "GenerateTextResponse" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Query()),
-          ticket: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/client-mcp", code: 200 })),
-      ).annotate({ identifier: "ExperimentalMcpClientRequest" });
-  }
-}
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/client-mcp/token", code: 200 })),
-      ).annotate({ identifier: "ExperimentalMcpClientTokenRequest" });
-  }
-}
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2480, __c155, 0),
-        }),
-      ).annotate({ identifier: "ExperimentalMcpClientTokenResponse" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ticket: S.String,
-          expires_in: S.Number,
-        }),
-      ).annotate({ identifier: "PtyTicketConnectToken" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/migration/v1", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExperimentalMigrationV1StatusRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "ExperimentalMigrationV1StatusResponse",
-      });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/experimental/persistent-pty/{ptyID}/connect-token",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ExperimentalPersistentPtyConnectTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2480, __c155, 0),
-        }),
-      ).annotate({ identifier: "ExperimentalPersistentPtyConnectTokenResponse" });
-  }
-}
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          credentialID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/credential/{credentialID}/activate", code: 200 }),
-        ),
-      ).annotate({ identifier: "ActivateCredentialRequest" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivateCredentialResponse" });
-  }
-}
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/persistent-pty/handoff", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExperimentalPersistentPtyHandoffRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.String,
-          instanceID: S.String,
-          ticket: S.String,
-          expiresAt: S.Unknown,
-        }),
-      ).annotate({ identifier: "PersistentPtyHandoff" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          handoff: S.NullOr(__S(2561, __c160, 1)),
-        }),
-      ).annotate({ identifier: "ExperimentalPersistentPtyHandoffResponse" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/persistent-pty/shutdown", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExperimentalPersistentPtyShutdownRequest" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/persistent-pty/{ptyID}/snapshot",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ExperimentalPersistentPtySnapshotRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          info: __S(1730, __c108, 2),
-          text: S.String,
-          checkpoint: S.String,
-          cursor: __S(2608, __c163, 0),
-        }),
-      ).annotate({ identifier: "PersistentPtySnapshot" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2593, __c162, 1),
-        }),
-      ).annotate({ identifier: "ExperimentalPersistentPtySnapshotResponse" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          x: S.Number,
-          y: S.Number,
-        }),
-      ).annotate({ identifier: "PersistentPtySnapshotCursor" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          after: S.optional(S.String.pipe(T.Query())),
-          follow: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/session/{sessionID}/log", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExperimentalSessionLogRequest" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          id: S.String,
-          resume: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/session/{sessionID}/skill", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExperimentalSessionSkillRequest" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          to: S.optional(S.String.pipe(T.Query())),
-          project: S.optional(S.String.pipe(T.Query())),
-          timezone: S.optional(S.String.pipe(T.Query())),
-          tools: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/session/stats", code: 200 })),
-      ).annotate({ identifier: "ExperimentalSessionStatsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.Number,
-          to: S.Number,
-        }),
-      ).annotate({ identifier: "SessionStatsInfoRange" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          date: S.String,
-          steps: S.Number,
-        }),
-      ).annotate({ identifier: "SessionStatsActivity" });
-    case 3:
-      return S.Array(__S(2658, __c166, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          model: __S(1872, __c117, 0),
-          steps: S.Number,
-          tokens: __S(1888, __c118, 0),
-          cost: S.Number,
-        }),
-      ).annotate({ identifier: "SessionStatsModelUsage" });
-    case 5:
-      return S.Array(__S(2660, __c166, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          range: __S(2657, __c166, 1),
-          sessions: S.Number,
-          subagents: S.Number,
-          prompts: S.Number,
-          steps: S.Number,
-          tokens: __S(1888, __c118, 0),
-          cost: S.Number,
-          tools: S.Unknown,
-          activeDays: S.Number,
-          streak: S.Number,
-          activity: __S(2659, __c166, 3),
-          models: __S(2661, __c166, 5),
-        }),
-      ).annotate({ identifier: "SessionStatsInfo" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2662, __c166, 6),
-        }),
-      ).annotate({ identifier: "ExperimentalSessionStatsResponse" });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/usage/limits", code: 200 })),
-      ).annotate({ identifier: "ExperimentalUsageLimitsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.optional(S.String),
-          usageURL: S.String,
-        }),
-      ).annotate({ identifier: "UsageLimitsInfoWorkspace" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          percent: S.Number,
-          limited: S.Boolean,
-          resetsAt: S.Number,
-        }),
-      ).annotate({ identifier: "UsageLimitsMeter" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rolling: __S(2674, __c167, 2),
-          weekly: __S(2674, __c167, 2),
-          monthly: __S(2674, __c167, 2),
-        }),
-      ).annotate({ identifier: "UsageLimitsGo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          providerID: S.String,
-          modelID: S.String,
-          name: S.String,
-          spent: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "UsageLimitsBudgetModel" });
-    case 5:
-      return S.Array(__S(2676, __c167, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          limit: S.Number,
-          spent: S.Number,
-          scope: S.String,
-          per: S.String,
-          coverage: S.String,
-          models: __S(2677, __c167, 5),
-          vendors: __S(1712, __c107, 0),
-          inputPriceAtLeast: S.optional(S.Number),
-          picked: S.Boolean,
-          shared: S.Boolean,
-          resetsAt: S.Number,
-        }),
-      ).annotate({ identifier: "UsageLimitsBudget" });
-    case 7:
-      return S.Array(__S(2678, __c167, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          workspace: __S(2673, __c167, 1),
-          go: S.optional(__S(2675, __c167, 3)),
-          budgets: __S(2679, __c167, 7),
-        }),
-      ).annotate({ identifier: "UsageLimitsInfo" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: S.NullOr(__S(2680, __c167, 8)),
-        }),
-      ).annotate({ identifier: "ExperimentalUsageLimitsResponse" });
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/voice/models", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExperimentalVoiceModelsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          model: S.String,
-          provider: S.String,
-          transports: __S(2272, __c142, 0),
-          available: S.Boolean,
-        }),
-      ).annotate({ identifier: "VoiceModel" });
-    case 2:
-      return S.Array(__S(2689, __c168, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          models: __S(2690, __c168, 2),
-          default: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "VoiceModelsResponseData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2691, __c168, 3),
-        }),
-      ).annotate({ identifier: "VoiceModelsResponse" });
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          model: S.String,
-          session: S.optional(S.NullOr(S.Unknown)),
-          transport: S.Unknown,
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/voice/session", code: 200 })),
-      ).annotate({ identifier: "ExperimentalVoiceSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          transport: S.Unknown,
-        }),
-      ).annotate({ identifier: "VoiceSessionResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2705, __c169, 1),
-        }),
-      ).annotate({ identifier: "VoiceSessionResponse" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          sanitize: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/session/{sessionID}/export", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExportExperimentalSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          info: __S(1938, __c121, 2),
-          messages: __S(2736, __c171, 0),
-        }),
-      ).annotate({ identifier: "SessionTransferData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2721, __c170, 1),
-        }),
-      ).annotate({ identifier: "ExportExperimentalSessionResponse" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          url: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/experimental/integration/wellknown", code: 200 }),
-        ),
-      ).annotate({ identifier: "AddExperimentalIntegrationWellknownRequest" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "AddExperimentalIntegrationWellknownRequestLocation" });
-  }
-}
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          before: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/fork", code: 200 })),
-      ).annotate({ identifier: "ForkSessionRequest" });
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          query: S.String.pipe(T.Query()),
-          type: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/fs/find", code: 200 })),
-      ).annotate({ identifier: "FsFindRequest" });
-  }
-}
-function __c176(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "FileSystemEntry" });
-    case 1:
-      return S.Array(__S(2816, __c176, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2817, __c176, 1),
-        }),
-      ).annotate({ identifier: "FsFindResponse" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          prompt: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/generate", code: 200 })),
-      ).annotate({ identifier: "GenerateSessionRequest" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/agent/{agentID}", code: 200 })),
-      ).annotate({ identifier: "GetAgentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2897, __c181, 1),
-        }),
-      ).annotate({ identifier: "GetAgentResponse" });
-  }
-}
-function __c179(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            timeout: S.optional(S.Unknown),
-            headerTimeout: S.optional(S.Unknown),
-            chunkTimeout: S.optional(S.Unknown),
-            compaction: S.optional(S.Unknown),
-            cache: S.optional(__S(2880, __c180, 0)),
-            transport: S.optional(S.String),
-            encoding: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ProviderSettings" });
-  }
-}
-function __c180(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ttl: S.optional(S.String),
-          warming: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ProviderCache" });
-  }
-}
-function __c181(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          settings: __S(2864, __c179, 0),
-          headers: __S(1648, __c103, 0),
-          body: S.Unknown,
-        }),
-      ).annotate({ identifier: "ProviderRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          model: S.optional(__S(1872, __c117, 0)),
-          request: __S(2896, __c181, 0),
-          system: S.optional(S.String),
-          description: S.optional(S.String),
-          mode: S.String,
-          hidden: S.Boolean,
-          color: S.optional(S.String),
-          steps: S.optional(S.Number),
-          permissions: __S(1921, __c120, 1),
-        }),
-      ).annotate({ identifier: "AgentInfo" });
-  }
-}
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/config", code: 200 })),
-      ).annotate({ identifier: "GetConfigRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() => __S(2913, __c182, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetConfigResponse",
-      });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          artifactID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/artifacts/{artifactID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetExperimentalArtifactRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          info: __S(1680, __c105, 0),
-          files: __S(1648, __c103, 0),
-        }),
-      ).annotate({ identifier: "ArtifactContent" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(2929, __c183, 1),
-        }),
-      ).annotate({ identifier: "GetExperimentalArtifactResponse" });
-  }
-}
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          hash: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/media/{hash}", code: 200 })),
-      ).annotate({ identifier: "GetExperimentalMediaRequest" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/persistent-pty/{ptyID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetExperimentalPersistentPtyRequest" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          scheduleID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/experimental/schedule/{scheduleID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetExperimentalScheduleRequest" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/integration/{integrationID}", code: 200 })),
-      ).annotate({ identifier: "GetIntegrationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3010, __c188, 2),
-        }),
-      ).annotate({ identifier: "GetIntegrationResponse" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          metadata: S.optional(S.Unknown),
-          methods: __S(3008, __c188, 0),
-          connections: __S(3009, __c188, 1),
-        }),
-      ).annotate({ identifier: "IntegrationInfo" });
-  }
-}
-function __c189(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          config: S.Unknown,
-        }).pipe(T.Http({ method: "PUT", uri: "/api/experimental/mcp/{server}", code: 200 })),
-      ).annotate({ identifier: "AddExperimentalMcpRequest" });
-  }
-}
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/location", code: 200 })),
-      ).annotate({ identifier: "GetLocationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          directory: S.String,
-          canonical: S.String,
-        }),
-      ).annotate({ identifier: "LocationPublicInfoProject" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.String,
-          project: __S(3041, __c190, 1),
-        }),
-      ).annotate({ identifier: "LocationPublicInfo" });
-  }
-}
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          providerID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/provider/{providerID}", code: 200 })),
-      ).annotate({ identifier: "GetProviderRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3073, __c192, 1),
-        }),
-      ).annotate({ identifier: "GetProviderResponse" });
-  }
-}
-function __c192(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reasoningField: S.optional(S.Unknown),
-          requireReasoning: S.optional(S.Boolean),
-          maxTokensField: S.optional(S.String),
-          requireFinishReason: S.optional(S.Boolean),
-          requireAssistantAfterTool: S.optional(S.Boolean),
-          supportsPromptCacheKey: S.optional(S.Boolean),
-          streamUsage: S.optional(S.Boolean),
-          cacheFormat: S.optional(S.String),
-          mediaInput: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProviderCompatibility" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          canonical: S.optional(S.String),
-          integrationID: S.optional(S.String),
-          name: S.String,
-          activation: S.String,
-          package: S.String,
-          compatibility: S.optional(__S(3072, __c192, 0)),
-          settings: S.optional(__S(2864, __c179, 0)),
-          headers: S.optional(__S(1648, __c103, 0)),
-          body: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ProviderInfo" });
-  }
-}
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}", code: 200 })),
-      ).annotate({ identifier: "GetPtyRequest" });
-  }
-}
-function __c194(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}", code: 200 })),
-      ).annotate({ identifier: "GetSessionRequest" });
-  }
-}
-function __c195(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          formID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/session/{sessionID}/form/{formID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetSessionFormRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.String,
-          title: S.String,
-          metadata: S.optional(S.Unknown),
-          fields: __S(2048, __c128, 0),
-          state: S.Unknown,
-        }),
-      ).annotate({ identifier: "FormDetail" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3121, __c195, 1),
-        }),
-      ).annotate({ identifier: "GetSessionFormResponse" });
-  }
-}
-function __c196(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          messageID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/session/{sessionID}/message/{messageID}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetSessionMessageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.Unknown,
-        }),
-      ).annotate({ identifier: "GetSessionMessageResponse" });
-  }
-}
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          requestID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/session/{sessionID}/permission/{requestID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetSessionPermissionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3168, __c198, 0),
-        }),
-      ).annotate({ identifier: "GetSessionPermissionResponse" });
-  }
-}
-function __c198(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sessionID: S.String,
-          action: S.String,
-          resources: __S(1712, __c107, 0),
-          save: S.optional(__S(1712, __c107, 0)),
-          metadata: S.optional(S.Unknown),
-          source: S.optional(__S(2096, __c131, 0)),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PermissionRequest" });
-  }
-}
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/shell/{id}", code: 200 })),
-      ).annotate({ identifier: "GetShellRequest" });
-  }
-}
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/vcs", code: 200 })),
-      ).annotate({ identifier: "GetVcsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          current: S.optional(S.String),
-          default: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VcsBranch" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.optional(S.String),
-          branch: __S(3201, __c200, 1),
-        }),
-      ).annotate({ identifier: "VcsInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3202, __c200, 2),
-        }),
-      ).annotate({ identifier: "GetVcsResponse" });
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          info: __S(1938, __c121, 2),
-          messages: __S(3216, __c201, 0),
-          location: S.optional(S.NullOr(__S(2000, __c125, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/api/experimental/session/import", code: 200 })),
-      ).annotate({ identifier: "ImportExperimentalSessionRequest" });
-  }
-}
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/integration/{integrationID}/connect/command/{attemptID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelIntegrationCommandRequest" });
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/integration/{integrationID}/connect/command/{attemptID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IntegrationCommandStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: S.Unknown,
-        }),
-      ).annotate({ identifier: "IntegrationCommandStatusResponse" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          methodID: S.String,
-          answer: S.optional(S.NullOr(__S(1536, __c96, 0))),
-          label: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/integration/{integrationID}/connect/external",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IntegrationConnectExternalRequest" });
-  }
-}
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          key: S.String,
-          answer: S.optional(S.NullOr(__S(1536, __c96, 0))),
-          label: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/integration/{integrationID}/connect/key",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IntegrationConnectKeyRequest" });
-  }
-}
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/integration/{integrationID}/connect/oauth/{attemptID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "IntegrationOauthStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: S.Unknown,
-        }),
-      ).annotate({ identifier: "IntegrationOauthStatusResponse" });
-  }
-}
-function __c207(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
-      ).annotate({ identifier: "ListAgentRequest" });
-    case 1:
-      return S.Array(__S(2897, __c181, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3313, __c207, 1),
-        }),
-      ).annotate({ identifier: "ListAgentResponse" });
-  }
-}
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/command", code: 200 })),
-      ).annotate({ identifier: "ListCommandRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommandInfo" });
-    case 2:
-      return S.Array(__S(3329, __c208, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3330, __c208, 2),
-        }),
-      ).annotate({ identifier: "ListCommandResponse" });
-  }
-}
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/credential", code: 200 })),
-      ).annotate({ identifier: "ListCredentialRequest" });
-    case 1:
-      return S.Array(__S(1600, __c100, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3345, __c209, 1),
-        }),
-      ).annotate({ identifier: "ListCredentialResponse" });
-  }
-}
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/debug/location", code: 200 })),
-      ).annotate({ identifier: "ListDebugLocationRequest" });
-    case 1:
-      return S.Array(__S(2000, __c125, 0));
-    case 2:
-      return S.suspend(() => __S(3361, __c210, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDebugLocationResponse",
-      });
-  }
-}
-function __c211(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          sessionID: S.optional(S.String.pipe(T.Query())),
-          provider: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/artifacts", code: 200 })),
-      ).annotate({ identifier: "ListExperimentalArtifactsRequest" });
-    case 1:
-      return S.Array(__S(1680, __c105, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3377, __c211, 1),
-        }),
-      ).annotate({ identifier: "ListExperimentalArtifactsResponse" });
-  }
-}
-function __c212(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.optional(S.String.pipe(T.Query())),
-          kind: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          descendants: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/job", code: 200 })),
-      ).annotate({ identifier: "ListExperimentalJobRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3393, __c212, 1),
-        }),
-      ).annotate({ identifier: "ListExperimentalJobResponse" });
-  }
-}
-function __c213(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          integrationID: S.String.pipe(T.Label()),
-          attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/integration/{integrationID}/connect/oauth/{attemptID}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelIntegrationOauthRequest" });
-  }
-}
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/session/{sessionID}/terminal",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListExperimentalPersistentPtyRequest" });
-    case 1:
-      return S.Array(__S(1730, __c108, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3425, __c214, 1),
-        }),
-      ).annotate({ identifier: "ListExperimentalPersistentPtyResponse" });
-  }
-}
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/experimental/schedule", code: 200 })),
-      ).annotate({ identifier: "ListExperimentalScheduleRequest" });
-    case 1:
-      return S.Array(__S(1793, __c112, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3441, __c215, 1),
-        }),
-      ).annotate({ identifier: "ListExperimentalScheduleResponse" });
-  }
-}
-function __c216(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/experimental/session/{sessionID}/instructions/entries",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListExperimentalSessionInstructionsEntryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "InstructionEntryInfo" });
-    case 2:
-      return S.Array(__S(3457, __c216, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3458, __c216, 2),
-        }),
-      ).annotate({ identifier: "ListExperimentalSessionInstructionsEntryResponse" });
-  }
-}
-function __c217(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/form", code: 200 })),
-      ).annotate({ identifier: "ListFormRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3488, __c218, 0),
-        }),
-      ).annotate({ identifier: "ListFormResponse" });
-  }
-}
-function __c218(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2064, __c129, 0));
-  }
-}
-function __c219(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/fs/list", code: 200 })),
-      ).annotate({ identifier: "ListFsRequest" });
-  }
-}
-function __c220(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/integration", code: 200 })),
-      ).annotate({ identifier: "ListIntegrationRequest" });
-    case 1:
-      return S.Array(__S(3010, __c188, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3521, __c220, 1),
-        }),
-      ).annotate({ identifier: "ListIntegrationResponse" });
-  }
-}
-function __c221(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/mcp", code: 200 })),
-      ).annotate({ identifier: "ListMcpRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          status: S.Unknown,
-          title: S.optional(S.String),
-          integrationID: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "McpServer" });
-    case 2:
-      return S.Array(__S(3537, __c221, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3538, __c221, 2),
-        }),
-      ).annotate({ identifier: "ListMcpResponse" });
-  }
-}
-function __c222(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-          types: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/model", code: 200 })),
-      ).annotate({ identifier: "ListModelRequest" });
-    case 1:
-      return S.Array(__S(3579, __c223, 11));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3553, __c222, 1),
-        }),
-      ).annotate({ identifier: "ListModelResponse" });
-  }
-}
-function __c223(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          reasoningField: S.optional(S.Unknown),
-          requireReasoning: S.optional(S.Boolean),
-          maxTokensField: S.optional(S.String),
-          requireFinishReason: S.optional(S.Boolean),
-          requireAssistantAfterTool: S.optional(S.Boolean),
-          supportsPromptCacheKey: S.optional(S.Boolean),
-          streamUsage: S.optional(S.Boolean),
-          cacheFormat: S.optional(S.String),
-          supportsThinkingBlockBinding: S.optional(S.Boolean),
-          supportsEffortUpdates: S.optional(S.Boolean),
-          mediaInput: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ModelCompatibility" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            compaction: S.optional(S.Unknown),
-            cache: S.optional(__S(2880, __c180, 0)),
-            encoding: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ConfigModelSettings" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            compaction: S.optional(S.Unknown),
-            encoding: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ConfigModelVariantSettings" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          settings: S.optional(__S(3570, __c223, 2)),
-          headers: S.optional(__S(1648, __c103, 0)),
-          body: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ConfigModelEncodedVariantsItem" });
-    case 4:
-      return S.Array(__S(3571, __c223, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          size: S.Number,
-        }),
-      ).annotate({ identifier: "ConfigModelCostEncodedTier" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          tools: S.Boolean,
-          input: __S(1712, __c107, 0),
-          output: __S(1712, __c107, 0),
-          temperature: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ModelCapabilities" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          released: S.Number,
-        }),
-      ).annotate({ identifier: "ModelInfoTime" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          tier: S.optional(__S(3573, __c223, 5)),
-          input: S.Number,
-          output: S.Number,
-          cache: __S(1904, __c119, 0),
-        }),
-      ).annotate({ identifier: "ModelCost" });
-    case 9:
-      return S.Array(__S(3576, __c223, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          context: S.Number,
-          input: S.optional(S.Number),
-          output: S.Number,
-        }),
-      ).annotate({ identifier: "ModelInfoLimit" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          modelID: S.String,
-          providerID: S.String,
-          canonical: S.optional(S.String),
-          type: S.optional(S.Unknown),
-          family: S.optional(S.String),
-          name: S.String,
-          compatibility: S.optional(__S(3568, __c223, 0)),
-          package: S.optional(S.String),
-          settings: S.optional(__S(3569, __c223, 1)),
-          headers: S.optional(__S(1648, __c103, 0)),
-          body: S.optional(S.Unknown),
-          capabilities: __S(3574, __c223, 6),
-          variants: __S(3572, __c223, 4),
-          time: __S(3575, __c223, 7),
-          cost: __S(3577, __c223, 9),
-          status: S.String,
-          enabled: S.Boolean,
-          limit: __S(3578, __c223, 10),
-        }),
-      ).annotate({ identifier: "ModelInfo" });
-  }
-}
-function __c224(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(2768, __c173, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/permission/request", code: 200 })),
-      ).annotate({ identifier: "ListPermissionRequestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(2000, __c125, 0),
-          data: __S(3600, __c225, 0),
-        }),
-      ).annotate({ identifier: "ListPermissionRequestResponse" });
-  }
-}
-function __c225(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(3168, __c198, 0));
-  }
-}
-function __c226(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectID: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/permission/saved", code: 200 })),
-      ).annotate({ identifier: "ListPermissionSavedRequest" });
-    case 1:
-      return S.Array(__S(3632, __c227, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(3617, __c226, 1),
-        }),
-      ).annotate({ identifier: "ListPermissionSavedResponse" });
-  }
-}
-function __c227(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          projectID: S.String,
-          action: S.String,
-          resource: S.String,
-          time: __S(1664, __c104, 0),
-        }),
-      ).annotate({ identifier: "PermissionSavedInfo" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

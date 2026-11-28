@@ -15,6 +15,9 @@
  *   2. Stamp `smithy.api#paginated` on list operations that take `page` /
  *      `pageSize` and answer with `totalPages` plus a collection array —
  *      see {@link paginationFor}.
+ *   3. Mark an alpha or beta product version (`info.version` `1alpha`,
+ *      `1beta.0.0`) `smithy.api#unstable`, so generate writes it to
+ *      `src/unstable-services/`. A patch can add or remove the mark.
  *
  * `scripts/generate.ts` then compiles the models. Patches, when added, live
  * in `patches/<name>/*.json` and apply here via `runOpenApiConvert`.
@@ -30,6 +33,7 @@ import {
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 const root = path.resolve(import.meta.dirname, "..");
 const manifestPath = resolveSpecPath(root, "specs/spec-mirror-stackit/specs/_manifest.json");
@@ -205,6 +209,10 @@ for (const entry of manifest) {
     );
   }
   stampedPages += paginated;
+  // STACKIT labels a version that is not GA in its number (`1alpha`,
+  // `1beta.0.0`, from the `v1alpha` / `v1beta` API directory); GA versions
+  // are plain numbers (`2.0.0`).
+  if (/alpha|beta/i.test(String(spec.info?.version))) markUnstable(model);
   writeModel(modelPath, model);
 }
 

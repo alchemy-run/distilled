@@ -3,7 +3,9 @@
  * convert — turn Namespace's proto3 API (`buf.build/namespace/cloud`) into
  * Smithy 2.0 JSON models, one per proto service. Each unary RPC becomes
  * `POST /<package>.<Service>/<Method>` with a proto3 JSON body; streaming
- * RPCs are skipped.
+ * RPCs are skipped. A service in a beta, alpha or experimental package is
+ * marked `smithy.api#unstable`, so generate writes it to
+ * src/unstable-services/. A patch can remove the mark.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -16,6 +18,7 @@ import {
   type ProtoFile,
 } from "@distilled.cloud/dev/codegen/proto";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
@@ -81,6 +84,17 @@ const slugFor = (protoPackage: string, serviceName: string): string => {
     .join("_");
   return SLUG_ALIAS[raw] ?? raw;
 };
+
+/**
+ * A proto package names its stability: an alpha or beta version segment
+ * (`v1beta`, `v1alpha1`; Buf calls these unstable,
+ * https://buf.build/docs/lint/rules/#stable_package_no_import_unstable) or
+ * the `namespace.experimental` tier.
+ */
+const isUnstablePackage = (protoPackage: string): boolean =>
+  protoPackage
+    .split(".")
+    .some((segment) => /^v\d+(p\d+)?(alpha|beta)\d*$/.test(segment) || segment === "experimental");
 
 const walk = (dir: string): string[] =>
   fs
@@ -176,11 +190,14 @@ for (const file of files) {
     }
     const paginated = stampPagination(result.model.shapes);
     totalPaginated += paginated;
+    const unstable = isUnstablePackage(file.package);
+    if (unstable) markUnstable(result.model);
     writeModel(path.join(OUT_DIR, `${slug}.json`), result.model);
     written++;
     totalOps += result.converted;
     console.log(
-      `   ${slug}: ${result.converted} ops (${paginated} paginated), ${result.skippedStreaming} streaming skipped, ${result.shapeCount} shapes`,
+      `   ${slug}: ${result.converted} ops (${paginated} paginated), ${result.skippedStreaming} streaming skipped, ${result.shapeCount} shapes` +
+        (unstable ? ` (unstable: ${file.package})` : ""),
     );
   }
 }

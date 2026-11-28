@@ -2,7 +2,7 @@
  * Hugging Face credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it.
+ * protocol formats the `Authorization: Bearer <token>` header from it.
  * The token is a Hub access token (`hf_...` -- fine-grained, read, or write) or
  * an OAuth access token; the API accepts all of them as bearer tokens.
  *
@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "HuggingFaceCredentials",
   ) {}
 
@@ -38,19 +38,26 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "HF_TOKEN environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "HF_TOKEN environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ token, apiBaseUrl }) => ({
+        token: Redacted.make(token),
+        apiBaseUrl,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ token, apiBaseUrl }) => ({
-      token: Redacted.make(token),
-      apiBaseUrl,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

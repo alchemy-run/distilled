@@ -32,9 +32,7 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
   execute: (request: CompiledOperation) =>
     Effect.gen(function* () {
       const resolve = yield* Credentials;
-      const credentials = yield* resolve.pipe(
-        Effect.mapError((cause) => new GraphQLTransportError({ message: cause.message, cause })),
-      );
+      const credentials = yield* resolve;
       const http = yield* HttpClient.HttpClient;
       const context = yield* Effect.withFiber((fiber) =>
         Effect.succeed(fiber.context as Context.Context<any>),

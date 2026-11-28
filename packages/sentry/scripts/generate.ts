@@ -67,7 +67,7 @@ const sentrySpec: SdkSpec = {
   operationDecl: {
     contextType: "SentryOpContext",
     commonErrorType: "SentryOpError",
-    commonErrorClasses: ["UnknownSentryError"],
+    serviceErrors: "SentryServiceErrors",
     protocol: "SentryProtocol",
     retry: "Retry.Retry",
   },
@@ -91,5 +91,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => sentrySpec,
 });

@@ -5,7 +5,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Porkbun authenticates with a public API key and a secret API key, sent as
  * `X-API-Key` / `X-Secret-API-Key` (header auth; the JSON-body form is
  * equivalent). The `Credentials` service holds an *effect* that resolves the
- * current credentials on every request (the protocol layer resolves it per
+ * current credentials on every request (the protocol resolves it per
  * request on the calling fiber).
  */
 import * as Context from "effect/Context";
@@ -22,7 +22,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "PorkbunCredentials",
   ) {}
 
@@ -50,23 +50,29 @@ export const fromApiKey = (config: {
 /**
  * Reads PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY (required) and
  * PORKBUN_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.PORKBUN_API_KEY;
-    const secretApiKey = process.env.PORKBUN_SECRET_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.PORKBUN_API_KEY;
+      const secretApiKey = process.env.PORKBUN_SECRET_API_KEY;
 
-    if (!apiKey || !secretApiKey) {
-      return yield* new ConfigError({
-        message: "PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY environment variables are required",
-      });
-    }
+      if (!apiKey || !secretApiKey) {
+        return yield* new ConfigError({
+          message: "PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY environment variables are required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      secretApiKey: Redacted.make(secretApiKey),
-      apiBaseUrl: process.env.PORKBUN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        secretApiKey: Redacted.make(secretApiKey),
+        apiBaseUrl: process.env.PORKBUN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

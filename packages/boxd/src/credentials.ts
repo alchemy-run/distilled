@@ -27,9 +27,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "BoxdCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("BoxdCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   token: /*@__PURE__*/ EffectConfig.Redacted("BOXD_API_KEY").pipe(
@@ -45,16 +43,22 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 /**
  * Reads `BOXD_API_KEY` (or `BOXD_TOKEN`), and optionally `BOXD_BASE_URL`
  * (or `BOXD_API_URL`).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "BOXD_API_KEY (or BOXD_TOKEN) environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "BOXD_API_KEY (or BOXD_TOKEN) environment variable is required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

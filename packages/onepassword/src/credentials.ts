@@ -1,5 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * 1Password credentials -- hand-written. One credentials service per API,
  * because each authenticates differently:
@@ -11,10 +12,11 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *   Partnership  `PartnershipCredentials` partner bearer token
  *
  * Each service holds an *effect* that resolves the current credentials; the
- * protocol layer resolves it per request on the calling fiber.
+ * protocol resolves it per request on the calling fiber.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Equal from "effect/Equal";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -22,6 +24,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import { TokenRequestFailed } from "./errors.ts";
 
 // ---------------------------------------------------------------------------
 // Connect -- access token for a self-hosted Connect server
@@ -37,10 +40,9 @@ export interface ConnectConfig {
 }
 
 export class ConnectCredentials
-  extends /*@__PURE__*/ Context.Service<
-    ConnectCredentials,
-    Effect.Effect<ConnectConfig, ConfigError>
-  >()("OnepasswordConnectCredentials") {}
+  extends /*@__PURE__*/ Context.Service<ConnectCredentials, Effect.Effect<ConnectConfig>>()(
+    "OnepasswordConnectCredentials",
+  ) {}
 
 /** `OP_CONNECT_HOST` is the server root without `/v1`; append it when missing. */
 const connectHostToBaseUrl = (host: string): string => {
@@ -65,23 +67,29 @@ export const connectCredentials = (config: {
  * Reads OP_CONNECT_TOKEN (required) and OP_CONNECT_API_BASE_URL or
  * OP_CONNECT_HOST (optional). `OP_CONNECT_HOST` is the official Connect
  * variable (no `/v1` suffix); `/v1` is appended when missing.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const ConnectCredentialsFromEnv: Layer.Layer<ConnectCredentials> =
-  /*@__PURE__*/ Layer.succeed(
+export const ConnectCredentialsFromEnv: Layer.Layer<ConnectCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
     ConnectCredentials,
-    /*@__PURE__*/ EffectConfig.all({
-      token: /*@__PURE__*/ EffectConfig.Redacted("OP_CONNECT_TOKEN"),
-      // OP_CONNECT_API_BASE_URL is used as-is; OP_CONNECT_HOST gains `/v1`.
-      apiBaseUrl: /*@__PURE__*/ EffectConfig.String("OP_CONNECT_API_BASE_URL").pipe(
-        /*@__PURE__*/ EffectConfig.orElse(() =>
-          EffectConfig.String("OP_CONNECT_HOST").pipe(EffectConfig.map(connectHostToBaseUrl)),
+    /*@__PURE__*/ Effect.map(
+      /*@__PURE__*/ EffectConfig.all({
+        token: /*@__PURE__*/ EffectConfig.Redacted("OP_CONNECT_TOKEN"),
+        // OP_CONNECT_API_BASE_URL is used as-is; OP_CONNECT_HOST gains `/v1`.
+        apiBaseUrl: /*@__PURE__*/ EffectConfig.String("OP_CONNECT_API_BASE_URL").pipe(
+          /*@__PURE__*/ EffectConfig.orElse(() =>
+            EffectConfig.String("OP_CONNECT_HOST").pipe(EffectConfig.map(connectHostToBaseUrl)),
+          ),
+          /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_CONNECT_API_BASE_URL),
         ),
-        /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_CONNECT_API_BASE_URL),
+      }).pipe(
+        /*@__PURE__*/ Effect.mapError(
+          () => new ConfigError({ message: "OP_CONNECT_TOKEN environment variable is required" }),
+        ),
       ),
-    }).pipe(
-      /*@__PURE__*/ Effect.mapError(
-        () => new ConfigError({ message: "OP_CONNECT_TOKEN environment variable is required" }),
-      ),
+      (config) => Effect.succeed(config),
     ),
   );
 
@@ -103,10 +111,9 @@ export interface EventsConfig {
 }
 
 export class EventsCredentials
-  extends /*@__PURE__*/ Context.Service<
-    EventsCredentials,
-    Effect.Effect<EventsConfig, ConfigError>
-  >()("OnepasswordEventsCredentials") {}
+  extends /*@__PURE__*/ Context.Service<EventsCredentials, Effect.Effect<EventsConfig>>()(
+    "OnepasswordEventsCredentials",
+  ) {}
 
 /** Layer from an Events Reporting bearer token + optional regional host. */
 export const eventsCredentials = (config: {
@@ -121,20 +128,30 @@ export const eventsCredentials = (config: {
     }),
   );
 
-/** Reads OP_EVENTS_API_TOKEN (required) and OP_EVENTS_API_BASE_URL (optional). */
-export const EventsCredentialsFromEnv: Layer.Layer<EventsCredentials> = /*@__PURE__*/ Layer.succeed(
-  EventsCredentials,
-  /*@__PURE__*/ EffectConfig.all({
-    token: /*@__PURE__*/ EffectConfig.Redacted("OP_EVENTS_API_TOKEN"),
-    apiBaseUrl: /*@__PURE__*/ EffectConfig.String("OP_EVENTS_API_BASE_URL").pipe(
-      /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_EVENTS_API_BASE_URL),
+/**
+ * Reads OP_EVENTS_API_TOKEN (required) and OP_EVENTS_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const EventsCredentialsFromEnv: Layer.Layer<EventsCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
+    EventsCredentials,
+    /*@__PURE__*/ Effect.map(
+      /*@__PURE__*/ EffectConfig.all({
+        token: /*@__PURE__*/ EffectConfig.Redacted("OP_EVENTS_API_TOKEN"),
+        apiBaseUrl: /*@__PURE__*/ EffectConfig.String("OP_EVENTS_API_BASE_URL").pipe(
+          /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_EVENTS_API_BASE_URL),
+        ),
+      }).pipe(
+        /*@__PURE__*/ Effect.mapError(
+          () =>
+            new ConfigError({ message: "OP_EVENTS_API_TOKEN environment variable is required" }),
+        ),
+      ),
+      (config) => Effect.succeed(config),
     ),
-  }).pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () => new ConfigError({ message: "OP_EVENTS_API_TOKEN environment variable is required" }),
-    ),
-  ),
-);
+  );
 
 // ---------------------------------------------------------------------------
 // OAuth API -- the Users API's OAuth application client credentials
@@ -160,10 +177,9 @@ export interface OAuthConfig {
  * `revokeAccessToken`).
  */
 export class OAuthCredentials
-  extends /*@__PURE__*/ Context.Service<
-    OAuthCredentials,
-    Effect.Effect<OAuthConfig, ConfigError>
-  >()("OnepasswordOAuthCredentials") {}
+  extends /*@__PURE__*/ Context.Service<OAuthCredentials, Effect.Effect<OAuthConfig>>()(
+    "OnepasswordOAuthCredentials",
+  ) {}
 
 /** Layer from OAuth application client credentials + optional regional host. */
 export const oauthCredentials = (config: {
@@ -199,11 +215,15 @@ const usersEnvConfig = /*@__PURE__*/ EffectConfig.all({
 /**
  * Reads OP_USERS_API_CLIENT_ID + OP_USERS_API_CLIENT_SECRET (required) and
  * OP_USERS_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const OAuthCredentialsFromEnv: Layer.Layer<OAuthCredentials> = /*@__PURE__*/ Layer.succeed(
-  OAuthCredentials,
-  /*@__PURE__*/ usersEnvConfig,
-);
+export const OAuthCredentialsFromEnv: Layer.Layer<OAuthCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
+    OAuthCredentials,
+    /*@__PURE__*/ Effect.map(/*@__PURE__*/ usersEnvConfig, (config) => Effect.succeed(config)),
+  );
 
 // ---------------------------------------------------------------------------
 // Users API -- OAuth 2.0 access token (client credentials grant)
@@ -219,10 +239,15 @@ export interface UsersConfig {
   readonly apiBaseUrl: string;
 }
 
+/**
+ * Resolves the Users API access token. A layer reads its configuration when
+ * it is built, so the effect fails only when the token request it makes at
+ * run time fails, with {@link TokenRequestFailed}.
+ */
 export class UsersCredentials
   extends /*@__PURE__*/ Context.Service<
     UsersCredentials,
-    Effect.Effect<UsersConfig, ConfigError>
+    Effect.Effect<UsersConfig, TokenRequestFailed>
   >()("OnepasswordUsersCredentials") {}
 
 const TokenResponse = /*@__PURE__*/ Schema.Struct({
@@ -240,20 +265,21 @@ const decodeOAuthError = /*@__PURE__*/ Schema.decodeUnknownOption(
   ),
 );
 
-const tokenRequestFailed = (reason: string) =>
-  new ConfigError({ message: `1Password OAuth token request failed${reason}` });
+const tokenRequestFailed = (reason: string, status?: number) =>
+  new TokenRequestFailed({ message: `1Password OAuth token request failed${reason}`, status });
 
 /**
  * Exchange OAuth application client credentials for an access token at
  * `POST {apiBaseUrl}/v1/oauth/token` (client credentials grant, HTTP Basic
- * auth), through the caller's `HttpClient`. Errors carry the status and
- * OAuth error code, never the secret.
+ * auth), through the caller's `HttpClient`. It fails with
+ * {@link TokenRequestFailed}, which carries the status and OAuth error code,
+ * never the secret.
  */
 export const exchangeAccessToken = (
   config: OAuthConfig,
 ): Effect.Effect<
   { readonly accessToken: Redacted.Redacted<string>; readonly expiresInSeconds: number },
-  ConfigError,
+  TokenRequestFailed,
   HttpClient.HttpClient
 > =>
   Effect.gen(function* () {
@@ -273,6 +299,7 @@ export const exchangeAccessToken = (
         Effect.mapError((error) =>
           tokenRequestFailed(
             ` with ${response.status}, and its body could not be read: ${error.message}`,
+            response.status,
           ),
         ),
       );
@@ -280,12 +307,15 @@ export const exchangeAccessToken = (
       const code = oauth?.error !== undefined ? ` ${oauth.error}` : "";
       const description =
         oauth?.error_description !== undefined ? `: ${oauth.error_description}` : "";
-      return yield* tokenRequestFailed(` with ${response.status}${code}${description}`);
+      return yield* tokenRequestFailed(
+        ` with ${response.status}${code}${description}`,
+        response.status,
+      );
     }
 
     const token = yield* HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
       Effect.mapError((error) =>
-        tokenRequestFailed(`: unexpected token response: ${error.message}`),
+        tokenRequestFailed(`: unexpected token response: ${error.message}`, response.status),
       ),
     );
     return {
@@ -304,41 +334,67 @@ export const exchangeAccessToken = (
  * supplies the `HttpClient` to exchange with.
  */
 const cachedAccessToken = (
-  load: Effect.Effect<OAuthConfig, ConfigError>,
+  config: OAuthConfig,
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
-): ((client: HttpClient.HttpClient) => Effect.Effect<UsersConfig, ConfigError>) => {
-  let cached: UsersConfig | undefined;
-  let refreshAt = 0;
-
-  return (client) =>
-    Effect.suspend(() => {
-      if (cached !== undefined && Date.now() < refreshAt) {
-        return Effect.succeed(cached);
-      }
-      return Effect.gen(function* () {
-        const config = yield* load;
-        const token = yield* exchange(config).pipe(
-          Effect.provideService(HttpClient.HttpClient, client),
-        );
-        cached = { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl };
-        refreshAt =
+): ((client: HttpClient.HttpClient) => Effect.Effect<UsersConfig, TokenRequestFailed>) => {
+  // Concurrent calls on a cold or stale cache share one exchange.
+  const cached = refreshing(
+    Effect.gen(function* () {
+      const token = yield* exchange(config);
+      return {
+        config: {
+          accessToken: token.accessToken,
+          apiBaseUrl: config.apiBaseUrl,
+        } satisfies UsersConfig,
+        refreshAt:
           Date.now() +
           Math.max(
             token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
             TOKEN_REFRESH_WINDOW_MS,
-          );
-        return cached;
-      });
-    });
+          ),
+      };
+    }),
+    (token) => token.refreshAt,
+    {
+      onTimeout: (timeoutMs) =>
+        new TokenRequestFailed({
+          message: `1Password token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
+  ).pipe(Effect.map((token) => token.config));
+
+  return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);
 };
 
-/** A layer whose token cache exchanges through the `HttpClient` it is built with. */
-const cachedAccessTokenLayer = (
-  load: Effect.Effect<OAuthConfig, ConfigError>,
+/**
+ * A layer that loads the client credentials when it is built, and whose
+ * token cache exchanges them through the `HttpClient` it is built with. The
+ * cache belongs to the layer value: every build that loads the same
+ * credentials shares it.
+ */
+const cachedAccessTokenLayer = <E>(
+  load: Effect.Effect<OAuthConfig, E>,
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
-): Layer.Layer<UsersCredentials, never, HttpClient.HttpClient> => {
-  const resolveWith = cachedAccessToken(load, exchange);
-  return Layer.effect(UsersCredentials, Effect.map(HttpClient.HttpClient, resolveWith));
+): Layer.Layer<UsersCredentials, E, HttpClient.HttpClient> => {
+  let kept:
+    | { readonly config: OAuthConfig; readonly resolveWith: ReturnType<typeof cachedAccessToken> }
+    | undefined;
+  return Layer.effect(
+    UsersCredentials,
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      const config = yield* load;
+      if (
+        kept === undefined ||
+        kept.config.clientId !== config.clientId ||
+        kept.config.apiBaseUrl !== config.apiBaseUrl ||
+        !Equal.equals(kept.config.clientSecret, config.clientSecret)
+      ) {
+        kept = { config, resolveWith: cachedAccessToken(config, exchange) };
+      }
+      return kept.resolveWith(client);
+    }),
+  );
 };
 
 /**
@@ -380,10 +436,14 @@ export const usersCredentialsFromAccessToken = (config: {
 /**
  * Reads OP_USERS_API_CLIENT_ID + OP_USERS_API_CLIENT_SECRET (required) and
  * OP_USERS_API_BASE_URL (optional), and exchanges them for a cached access
- * token on first use.
+ * token on first use. The environment is read once, when the layer is
+ * built: a missing variable fails the layer with `ConfigError`.
  */
-export const UsersCredentialsFromEnv: Layer.Layer<UsersCredentials, never, HttpClient.HttpClient> =
-  /*@__PURE__*/ cachedAccessTokenLayer(usersEnvConfig, exchangeAccessToken);
+export const UsersCredentialsFromEnv: Layer.Layer<
+  UsersCredentials,
+  ConfigError,
+  HttpClient.HttpClient
+> = /*@__PURE__*/ cachedAccessTokenLayer(usersEnvConfig, exchangeAccessToken);
 
 // ---------------------------------------------------------------------------
 // Partnership API -- bearer token issued by the 1Password partnerships team
@@ -398,10 +458,9 @@ export interface PartnershipConfig {
 }
 
 export class PartnershipCredentials
-  extends /*@__PURE__*/ Context.Service<
-    PartnershipCredentials,
-    Effect.Effect<PartnershipConfig, ConfigError>
-  >()("OnepasswordPartnershipCredentials") {}
+  extends /*@__PURE__*/ Context.Service<PartnershipCredentials, Effect.Effect<PartnershipConfig>>()(
+    "OnepasswordPartnershipCredentials",
+  ) {}
 
 /** Layer from a partner bearer token + optional host. */
 export const partnershipCredentials = (config: {
@@ -416,19 +475,29 @@ export const partnershipCredentials = (config: {
     }),
   );
 
-/** Reads OP_PARTNERSHIP_API_TOKEN (required) and OP_PARTNERSHIP_API_BASE_URL (optional). */
-export const PartnershipCredentialsFromEnv: Layer.Layer<PartnershipCredentials> =
-  /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads OP_PARTNERSHIP_API_TOKEN (required) and OP_PARTNERSHIP_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const PartnershipCredentialsFromEnv: Layer.Layer<PartnershipCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
     PartnershipCredentials,
-    /*@__PURE__*/ EffectConfig.all({
-      token: /*@__PURE__*/ EffectConfig.Redacted("OP_PARTNERSHIP_API_TOKEN"),
-      apiBaseUrl: /*@__PURE__*/ EffectConfig.String("OP_PARTNERSHIP_API_BASE_URL").pipe(
-        /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_PARTNERSHIP_API_BASE_URL),
+    /*@__PURE__*/ Effect.map(
+      /*@__PURE__*/ EffectConfig.all({
+        token: /*@__PURE__*/ EffectConfig.Redacted("OP_PARTNERSHIP_API_TOKEN"),
+        apiBaseUrl: /*@__PURE__*/ EffectConfig.String("OP_PARTNERSHIP_API_BASE_URL").pipe(
+          /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_PARTNERSHIP_API_BASE_URL),
+        ),
+      }).pipe(
+        /*@__PURE__*/ Effect.mapError(
+          () =>
+            new ConfigError({
+              message: "OP_PARTNERSHIP_API_TOKEN environment variable is required",
+            }),
+        ),
       ),
-    }).pipe(
-      /*@__PURE__*/ Effect.mapError(
-        () =>
-          new ConfigError({ message: "OP_PARTNERSHIP_API_TOKEN environment variable is required" }),
-      ),
+      (config) => Effect.succeed(config),
     ),
   );

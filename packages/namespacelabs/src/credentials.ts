@@ -1,11 +1,13 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import { TokenFileUnreadable } from "./errors.ts";
 
 export const DEFAULT_REGION = "us";
 export const DEFAULT_GLOBAL_BASE_URL = "https://global.namespaceapis.com";
@@ -55,8 +57,27 @@ export const resolveConfig = (options: Options): Config => {
   };
 };
 
+/**
+ * `hosts`, failing with `ConfigError` when the region is not one DNS label:
+ * it becomes a label of the compute and storage host names. The layers run
+ * this once, when they are built.
+ */
+const checkHosts = <H extends Hosts>(hosts: H): Effect.Effect<H, ConfigError> => {
+  const invalid =
+    hosts.region === undefined
+      ? undefined
+      : invalidHostLabelConfig("Namespace region", hosts.region);
+  return invalid === undefined ? Effect.succeed(hosts) : Effect.fail(invalid);
+};
+
+/**
+ * Resolves the current credentials on every request. A layer here reads and
+ * checks the region and host settings when it is built, so the effect fails
+ * only for what it does at run time: the token-file layers read the file
+ * again on every resolution, and fail with {@link TokenFileUnreadable}.
+ */
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, TokenFileUnreadable>>()(
     "NamespaceLabsCredentials",
   ) {}
 
@@ -85,80 +106,103 @@ const hostsConfig = /*@__PURE__*/ EffectConfig.all({
 
 const configError = (message: string) => () => new ConfigError({ message });
 
-/** Credentials from the environment: `NSC_TOKEN` (required) plus the host variables. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Credentials from the environment: `NSC_TOKEN` (required) plus the host
+ * variables. The environment is read, and the region checked, once: when
+ * the layer is built.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
   /*@__PURE__*/ EffectConfig.all({
     token: /*@__PURE__*/ EffectConfig.Redacted("NSC_TOKEN"),
     hosts: hostsConfig,
   }).pipe(
-    /*@__PURE__*/ Effect.map(({ token, hosts }) => resolveConfig({ token, ...hosts })),
     /*@__PURE__*/ Effect.mapError(configError("NSC_TOKEN environment variable is required")),
+    /*@__PURE__*/ Effect.flatMap(({ token, hosts }) => checkHosts({ token, ...hosts })),
+    /*@__PURE__*/ Effect.map((options) => Effect.succeed(resolveConfig(options))),
   ),
 );
 
 const readTokenFile = (
   fs: FileSystem.FileSystem,
   path: string,
-): Effect.Effect<Redacted.Redacted<string>, ConfigError> =>
-  fs.readFileString(path).pipe(
-    Effect.mapError(configError(`Namespace token file ${path} could not be read`)),
+): Effect.Effect<Redacted.Redacted<string>, TokenFileUnreadable> => {
+  const unreadable = (message: string) => () => new TokenFileUnreadable({ message, path });
+  return fs.readFileString(path).pipe(
+    Effect.mapError(unreadable(`Namespace token file ${path} could not be read`)),
     Effect.flatMap((text) => {
       const parsed = Effect.try({
         try: () => JSON.parse(text) as { readonly bearer_token?: unknown },
-        catch: configError(`Namespace token file ${path} is not JSON`),
+        catch: unreadable(`Namespace token file ${path} is not JSON`),
       });
       return Effect.flatMap(parsed, ({ bearer_token }) =>
         typeof bearer_token === "string" && bearer_token.length > 0
           ? Effect.succeed(Redacted.make(bearer_token))
           : Effect.fail(
-              new ConfigError({
-                message: `Namespace token file ${path} has no bearer_token; exchange a session token with privateUserSessions.issueTenantTokenFromSession`,
-              }),
+              unreadable(
+                `Namespace token file ${path} has no bearer_token; exchange a session token with privateUserSessions.issueTenantTokenFromSession`,
+              )(),
             ),
       );
+    }),
+  );
+};
+
+/** A layer for checked `hosts` that reads `bearer_token` from `path` on every resolution. */
+const tokenFileLayer = (
+  settings: Effect.Effect<{ readonly path: string; readonly hosts: Hosts }, ConfigError>,
+): Layer.Layer<Credentials, ConfigError, FileSystem.FileSystem> =>
+  Layer.effect(
+    Credentials,
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      const { path, hosts: unchecked } = yield* settings;
+      const hosts = yield* checkHosts(unchecked);
+      return Effect.map(readTokenFile(fs, path), (token) => resolveConfig({ token, ...hosts }));
     }),
   );
 
 /**
  * Credentials from the token file a Namespace workload is given: `NSC_TOKEN_FILE`,
  * else `/var/run/nsc/token.json`. The file is re-read on every resolution because
- * Namespace refreshes it; host variables as in {@link CredentialsFromEnv}.
+ * Namespace refreshes it; host variables as in {@link CredentialsFromEnv}. The
+ * variables are read, and the region checked, once: when the layer is built.
  */
-export const CredentialsFromTokenFile: Layer.Layer<Credentials, never, FileSystem.FileSystem> =
-  /*@__PURE__*/ Layer.effect(
-    Credentials,
-    /*@__PURE__*/ Effect.map(FileSystem.FileSystem, (fs) =>
-      EffectConfig.all({
-        path: EffectConfig.String("NSC_TOKEN_FILE").pipe(
-          EffectConfig.withDefault(DEFAULT_TOKEN_FILE),
-        ),
-        hosts: hostsConfig,
-      }).pipe(
-        Effect.mapError(configError("Namespace host configuration could not be read")),
-        Effect.flatMap(({ path, hosts }) =>
-          Effect.map(readTokenFile(fs, path), (token) => resolveConfig({ token, ...hosts })),
-        ),
-      ),
+export const CredentialsFromTokenFile: Layer.Layer<
+  Credentials,
+  ConfigError,
+  FileSystem.FileSystem
+> = /*@__PURE__*/ tokenFileLayer(
+  /*@__PURE__*/ EffectConfig.all({
+    path: /*@__PURE__*/ EffectConfig.String("NSC_TOKEN_FILE").pipe(
+      /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_TOKEN_FILE),
     ),
-  );
+    hosts: hostsConfig,
+  }).pipe(
+    /*@__PURE__*/ Effect.mapError(configError("Namespace host configuration could not be read")),
+  ),
+);
 
-/** Convenience layer from a tenant token, an optional region and host overrides. */
-export const credentials = (options: Options): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, Effect.succeed(resolveConfig(options)));
+/**
+ * Convenience layer from a tenant token, an optional region and host
+ * overrides. The region is checked when the layer is built.
+ */
+export const credentials = (options: Options): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(checkHosts(options), (checked) => Effect.succeed(resolveConfig(checked))),
+  );
 
 /** Convenience layer from a tenant token alone. */
 export const fromToken = (token: Redacted.Redacted<string>): Layer.Layer<Credentials> =>
-  credentials({ token });
+  Layer.succeed(Credentials, Effect.succeed(resolveConfig({ token })));
 
-/** Convenience layer reading `bearer_token` from a token file on every resolution. */
+/**
+ * Convenience layer reading `bearer_token` from a token file on every
+ * resolution. The region is checked when the layer is built.
+ */
 export const fromTokenFile = (
   path: string,
   hosts: Hosts = {},
-): Layer.Layer<Credentials, never, FileSystem.FileSystem> =>
-  Layer.effect(
-    Credentials,
-    Effect.map(FileSystem.FileSystem, (fs) =>
-      Effect.map(readTokenFile(fs, path), (token) => resolveConfig({ token, ...hosts })),
-    ),
-  );
+): Layer.Layer<Credentials, ConfigError, FileSystem.FileSystem> =>
+  tokenFileLayer(Effect.succeed({ path, hosts }));

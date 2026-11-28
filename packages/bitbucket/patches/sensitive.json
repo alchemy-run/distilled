@@ -1,0 +1,85 @@
+{
+  "description": "Mark the `value` of Pipelines variables (workspace and repository) and deployment environment variables sensitive, so it decodes as Redacted. The spec describes these values as secrets in all but name: `secured` makes Bitbucket hide one (\"The value will never be exposed in the logs or the REST API\"), and callers send secrets such as deploy credentials through them on create and update. A variable that is not secured still comes back in plain text.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#DeploymentVariable/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateDeploymentVariableRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateDeploymentVariableResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateDeploymentVariableRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateDeploymentVariableResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PipelineVariable/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryPipelineVariableRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreateRepositoryPipelineVariableResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineVariableResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineVariableRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdateRepositoryPipelineVariableResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreatePipelineVariableForWorkspaceRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#CreatePipelineVariableForWorkspaceResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineVariableForWorkspaceResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdatePipelineVariableForWorkspaceRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#UpdatePipelineVariableForWorkspaceResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

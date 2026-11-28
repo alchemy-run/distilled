@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { HuggingFaceServiceErrors } from "../errors.ts";
 import {
   HuggingFaceProtocol,
   type HuggingFaceOpError,
@@ -56,6 +57,14 @@ export interface ChangeMemberRoleRequest {
   resourceGroups?: ChangeMemberRoleRequestResourceGroupsList | undefined;
 }
 export interface ChangeMemberRoleResponse {}
+export interface CreditsPurchaseLinkRequest {
+  name: string;
+  amountUsd: number;
+}
+export interface CreditsPurchaseLinkResponse {
+  /** Billing page link that opens the prefilled purchase, to share with the user */
+  url: string;
+}
 export interface ExportAuditLogRequest {
   name: string;
   q?: string | undefined;
@@ -70,6 +79,7 @@ export type ExportAuditLogResponseBodyItemType =
   | "billing.gcp_remove"
   | "billing.marketplace_approve"
   | "billing.cancel_subscription"
+  | "billing.end_subscription"
   | "billing.renew_subscription"
   | "billing.start_subscription"
   | "billing.un_cancel_subscription"
@@ -128,8 +138,11 @@ export type ExportAuditLogResponseBodyItemType =
   | "org.token_approval.authorization_request.authorized"
   | "org.token_approval.authorization_request.revoked"
   | "org.token_approval.authorization_request.denied"
+  | "org.token_repo_scope.enabled"
+  | "org.token_repo_scope.disabled"
   | "org.audit_log.export"
   | "org.repo_analytics.export"
+  | "org.blog_analytics.export"
   | "repo.add_secrets"
   | "repo.remove_secrets"
   | "repo.add_secret"
@@ -181,11 +194,15 @@ export type ExportAuditLogResponseBodyItemType =
   | "org.service_account.delete"
   | "org.service_account.token.create"
   | "org.service_account.token.delete"
+  | "org.service_account.token.invalidate"
   | "org.service_account.token.rotate"
   | "org.service_account.token.update"
   | "org.service_account.token.s3_credential.create"
   | "org.service_account.token.s3_credential.delete"
+  | "org.service_account.trusted_publisher.create"
+  | "org.service_account.trusted_publisher.delete"
   | "oauth.token"
+  | "oauth.token.revoke"
   | "oauth.app.create"
   | "oauth.app.update"
   | "oauth.app.secret.rotate"
@@ -343,6 +360,26 @@ export interface GetOrganizationMembersResponseBodyItem {
 }
 export type GetOrganizationMembersResponseBodyList = Array<GetOrganizationMembersResponseBodyItem>;
 export type GetOrganizationMembersResponse = GetOrganizationMembersResponseBodyList;
+export interface GetOrgCreditsRequest {
+  name: string;
+}
+/** `prepaid` accounts can only use their credits, `postpaid` ones are billed for usage beyond them */
+export type GetOrgCreditsResponseBillingMode = "postpaid" | "prepaid";
+export type GetOrgCreditsResponseBalancesItemType = "included" | "purchased" | "granted";
+export interface GetOrgCreditsResponseBalancesItem {
+  name?: string | undefined;
+  type: GetOrgCreditsResponseBalancesItemType;
+  balanceUsd: number;
+  expiresAt?: string | undefined;
+}
+export type GetOrgCreditsResponseBalancesList = Array<GetOrgCreditsResponseBalancesItem>;
+export interface GetOrgCreditsResponse {
+  /** Total credits balance, in USD */
+  balanceUsd: number;
+  /** `prepaid` accounts can only use their credits, `postpaid` ones are billed for usage beyond them */
+  billingMode: GetOrgCreditsResponseBillingMode;
+  balances: GetOrgCreditsResponseBalancesList;
+}
 export interface GetOrgUsageV2Request {
   name: string;
   startDate: number;
@@ -804,6 +841,7 @@ export const changeAccountType: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<ChangeAccountTypeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ChangeAccountTypeResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -821,10 +859,29 @@ export const changeMemberRole: API.OperationMethod<
   input: __S(34, __c2, 2) as any as S.Schema<ChangeMemberRoleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ChangeMemberRoleResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ChangeMemberRole",
+}));
+
+export type CreditsPurchaseLinkError = HuggingFaceOpError;
+/** Credits purchase link Get a link to the org billing page with a credits purchase prefilled, also sent to the requesting user by email. Nothing is charged until they confirm the purchase on that page. */
+export const creditsPurchaseLink: API.OperationMethod<
+  CreditsPurchaseLinkRequest,
+  CreditsPurchaseLinkResponse,
+  CreditsPurchaseLinkError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c12, 0) as any as S.Schema<CreditsPurchaseLinkRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<CreditsPurchaseLinkResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditsPurchaseLink",
 }));
 
 export type ExportAuditLogError = HuggingFaceOpError;
@@ -835,9 +892,10 @@ export const exportAuditLog: API.OperationMethod<
   ExportAuditLogError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ExportAuditLogRequest>,
-  output: __S(167, __c10, 7) as any as S.Schema<ExportAuditLogResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ExportAuditLogRequest>,
+  output: __S(215, __c13, 7) as any as S.Schema<ExportAuditLogResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -852,9 +910,10 @@ export const getAvatar: API.OperationMethod<
   GetAvatarError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetAvatarRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<GetAvatarResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetAvatarRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<GetAvatarResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -869,9 +928,10 @@ export const getNetworkSecuritySettings: API.OperationMethod<
   GetNetworkSecuritySettingsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetNetworkSecuritySettingsRequest>,
-  output: __S(197, __c12, 5) as any as S.Schema<GetNetworkSecuritySettingsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetNetworkSecuritySettingsRequest>,
+  output: __S(245, __c15, 5) as any as S.Schema<GetNetworkSecuritySettingsResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -886,13 +946,32 @@ export const getOrganizationMembers: API.OperationMethod<
   GetOrganizationMembersError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetOrganizationMembersRequest>,
-  output: __S(229, __c14, 5) as any as S.Schema<GetOrganizationMembersResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetOrganizationMembersRequest>,
+  output: __S(277, __c17, 5) as any as S.Schema<GetOrganizationMembersResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationMembers",
+}));
+
+export type GetOrgCreditsError = HuggingFaceOpError;
+/** Get org credits Get the org's credits balance, with each purchased, granted and monthly included balance and its expiry date */
+export const getOrgCredits: API.OperationMethod<
+  GetOrgCreditsRequest,
+  GetOrgCreditsResponse,
+  GetOrgCreditsError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c18, 0) as any as S.Schema<GetOrgCreditsRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<GetOrgCreditsResponse>,
+  errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgCredits",
 }));
 
 export type GetOrgUsageV2Error = HuggingFaceOpError;
@@ -903,9 +982,10 @@ export const getOrgUsageV2: API.OperationMethod<
   GetOrgUsageV2Error,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetOrgUsageV2Request>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetOrgUsageV2Request>,
   output: __S(16, __c1, 0) as any as S.Schema<GetOrgUsageV2Response>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -920,9 +1000,10 @@ export const getResourceGroupUsage: API.OperationMethod<
   GetResourceGroupUsageError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetResourceGroupUsageRequest>,
-  output: __S(265, __c16, 9) as any as S.Schema<GetResourceGroupUsageResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetResourceGroupUsageRequest>,
+  output: __S(329, __c20, 9) as any as S.Schema<GetResourceGroupUsageResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -937,9 +1018,10 @@ export const getSessionInferenceUsage: API.OperationMethod<
   GetSessionInferenceUsageError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetSessionInferenceUsageRequest>,
-  output: __S(277, __c17, 5) as any as S.Schema<GetSessionInferenceUsageResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetSessionInferenceUsageRequest>,
+  output: __S(53, __c3, 5) as any as S.Schema<GetSessionInferenceUsageResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -954,9 +1036,10 @@ export const getSocialHandles: API.OperationMethod<
   GetSocialHandlesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetSocialHandlesRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<GetSocialHandlesResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetSocialHandlesRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<GetSocialHandlesResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -971,9 +1054,10 @@ export const inferenceUsage: API.OperationMethod<
   InferenceUsageError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<InferenceUsageRequest>,
-  output: __S(53, __c3, 5) as any as S.Schema<InferenceUsageResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<InferenceUsageRequest>,
+  output: __S(85, __c5, 5) as any as S.Schema<InferenceUsageResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -988,9 +1072,10 @@ export const listMemberAccessTokens: API.OperationMethod<
   ListMemberAccessTokensError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListMemberAccessTokensRequest>,
-  output: __S(75, __c4, 11) as any as S.Schema<ListMemberAccessTokensResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListMemberAccessTokensRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<ListMemberAccessTokensResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1005,9 +1090,10 @@ export const listOrganizationRepositories: API.OperationMethod<
   ListOrganizationRepositoriesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListOrganizationRepositoriesRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<ListOrganizationRepositoriesResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListOrganizationRepositoriesRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ListOrganizationRepositoriesResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1022,9 +1108,10 @@ export const revokeMemberToken: API.OperationMethod<
   RevokeMemberTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<RevokeMemberTokenRequest>,
+  input: __S(128, __c8, 0) as any as S.Schema<RevokeMemberTokenRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RevokeMemberTokenResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1039,9 +1126,10 @@ export const rotateSsoCredentials: API.OperationMethod<
   RotateSsoCredentialsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<RotateSsoCredentialsRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<RotateSsoCredentialsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<RotateSsoCredentialsRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<RotateSsoCredentialsResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1056,9 +1144,10 @@ export const streamUsage: API.OperationMethod<
   StreamUsageError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<StreamUsageRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<StreamUsageRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StreamUsageResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1073,9 +1162,10 @@ export const updateNetworkSecurity: API.OperationMethod<
   UpdateNetworkSecurityError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c9, 4) as any as S.Schema<UpdateNetworkSecurityRequest>,
-  output: __S(153, __c9, 9) as any as S.Schema<UpdateNetworkSecurityResponse>,
+  input: __S(180, __c11, 4) as any as S.Schema<UpdateNetworkSecurityRequest>,
+  output: __S(185, __c11, 9) as any as S.Schema<UpdateNetworkSecurityResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1143,6 +1233,76 @@ function __c3(j: number): any {
           name: S.String.pipe(T.Label()),
           startDate: S.optional(S.String.pipe(T.Query())),
           endDate: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{name}/billing/usage-by-inference-session",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetSessionInferenceUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          requestCount: S.Number,
+          costCents: S.Number,
+        }),
+      ).annotate({ identifier: "GetSessionInferenceUsageResponsePeriodsItemSessionsItem" });
+    case 2:
+      return S.Array(__S(49, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          period: S.String,
+          sessions: __S(50, __c3, 2),
+        }),
+      ).annotate({ identifier: "GetSessionInferenceUsageResponsePeriodsItem" });
+    case 4:
+      return S.Array(__S(51, __c3, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.String,
+          periods: __S(52, __c3, 4),
+        }),
+      ).annotate({ identifier: "GetSessionInferenceUsageResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/socials", code: 200 })),
+      ).annotate({ identifier: "GetSocialHandlesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          twitter: S.optional(S.String),
+          github: S.optional(S.String),
+          linkedin: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetSocialHandlesResponseSocialHandles" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          org: S.String,
+          socialHandles: __S(65, __c4, 1),
+        }),
+      ).annotate({ identifier: "GetSocialHandlesResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          endDate: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1166,23 +1326,23 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "InferenceUsageResponseBodyItemUsageItem" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           period: S.String,
-          usage: __S(50, __c3, 2),
+          usage: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "InferenceUsageResponseBodyItem" });
     case 4:
-      return S.Array(__S(51, __c3, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
-      return S.suspend(() => __S(52, __c3, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(84, __c5, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "InferenceUsageResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1218,7 +1378,7 @@ function __c4(j: number): any {
           status: S.String,
           requestedAt: S.String,
           authorizedAt: S.optional(S.String),
-          authorizer: S.optional(__S(66, __c4, 2)),
+          authorizer: S.optional(__S(98, __c6, 2)),
         }),
       ).annotate({ identifier: "ListMemberAccessTokensResponseBodyItemAuthorization" });
     case 4:
@@ -1235,16 +1395,16 @@ function __c4(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          entity: __S(68, __c4, 4),
-          permissions: __S(69, __c4, 5),
+          entity: __S(100, __c6, 4),
+          permissions: __S(101, __c6, 5),
         }),
       ).annotate({ identifier: "ListMemberAccessTokensResponseBodyItemFineGrainedScopedItem" });
     case 7:
-      return S.Array(__S(70, __c4, 6));
+      return S.Array(__S(102, __c6, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          scoped: __S(71, __c4, 7),
+          scoped: __S(103, __c6, 7),
         }),
       ).annotate({ identifier: "ListMemberAccessTokensResponseBodyItemFineGrained" });
     case 9:
@@ -1256,20 +1416,20 @@ function __c4(j: number): any {
           last4: S.optional(S.String),
           createdAt: S.String,
           lastUsedAt: S.optional(S.String),
-          owner: __S(65, __c4, 1),
-          authorization: S.optional(__S(67, __c4, 3)),
-          fineGrained: S.optional(__S(72, __c4, 8)),
+          owner: __S(97, __c6, 1),
+          authorization: S.optional(__S(99, __c6, 3)),
+          fineGrained: S.optional(__S(104, __c6, 8)),
         }),
       ).annotate({ identifier: "ListMemberAccessTokensResponseBodyItem" });
     case 10:
-      return S.Array(__S(73, __c4, 9));
+      return S.Array(__S(105, __c6, 9));
     case 11:
-      return S.suspend(() => __S(74, __c4, 10).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(106, __c6, 10).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMemberAccessTokensResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1300,14 +1460,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ListOrganizationRepositoriesResponseBodyItem" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(113, __c7, 1));
     case 3:
-      return S.suspend(() => __S(82, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(114, __c7, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationRepositoriesResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1324,7 +1484,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RevokeMemberTokenRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1345,7 +1505,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1357,7 +1517,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "StreamUsageRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,7 +1527,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "UpdateNetworkSecurityRequestBlockedContentsItem" });
     case 1:
-      return S.Array(__S(144, __c9, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1376,7 +1536,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "UpdateNetworkSecurityRequestAllowedContentsItem" });
     case 3:
-      return S.Array(__S(146, __c9, 2));
+      return S.Array(__S(178, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1384,9 +1544,9 @@ function __c9(j: number): any {
           enforceAuth: S.optional(S.Boolean),
           enforceIpRestriction: S.optional(S.Boolean),
           highRateLimits: S.optional(S.Boolean),
-          ipRanges: S.optional(__S(208, __c13, 0)),
-          blockedContents: S.optional(__S(145, __c9, 1)),
-          allowedContents: S.optional(__S(147, __c9, 3)),
+          ipRanges: S.optional(__S(256, __c16, 0)),
+          blockedContents: S.optional(__S(177, __c11, 1)),
+          allowedContents: S.optional(__S(179, __c11, 3)),
           keepReposMetadataVisible: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1404,7 +1564,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "UpdateNetworkSecurityResponseBlockedContentsItem" });
     case 6:
-      return S.Array(__S(149, __c9, 5));
+      return S.Array(__S(181, __c11, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1413,24 +1573,47 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "UpdateNetworkSecurityResponseAllowedContentsItem" });
     case 8:
-      return S.Array(__S(151, __c9, 7));
+      return S.Array(__S(183, __c11, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           enforceAuth: S.Unknown,
           enforceIpRestriction: S.Boolean,
           highRateLimits: S.Boolean,
-          ipRanges: __S(208, __c13, 0),
-          blockedContents: __S(150, __c9, 6),
-          allowedContents: __S(152, __c9, 8),
+          ipRanges: __S(256, __c16, 0),
+          blockedContents: __S(182, __c11, 6),
+          allowedContents: __S(184, __c11, 8),
           keepReposMetadataVisible: S.Boolean,
           areCidrRangesApproved: S.Boolean,
-          validatedIpRanges: __S(208, __c13, 0),
+          validatedIpRanges: __S(256, __c16, 0),
         }),
       ).annotate({ identifier: "UpdateNetworkSecurityResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          amountUsd: S.Number,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{name}/billing/prepaid-credits/purchase-link",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreditsPurchaseLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+        }),
+      ).annotate({ identifier: "CreditsPurchaseLinkResponse" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1485,22 +1668,22 @@ function __c10(j: number): any {
           data: S.optional(S.Unknown),
           message: S.String,
           ip: S.optional(S.String),
-          location: S.optional(__S(161, __c10, 1)),
+          location: S.optional(__S(209, __c13, 1)),
           userAgent: S.optional(S.String),
-          author: __S(162, __c10, 2),
-          token: S.optional(__S(163, __c10, 3)),
-          oauth: S.optional(__S(164, __c10, 4)),
+          author: __S(210, __c13, 2),
+          token: S.optional(__S(211, __c13, 3)),
+          oauth: S.optional(__S(212, __c13, 4)),
         }),
       ).annotate({ identifier: "ExportAuditLogResponseBodyItem" });
     case 6:
-      return S.Array(__S(165, __c10, 5));
+      return S.Array(__S(213, __c13, 5));
     case 7:
-      return S.suspend(() => __S(166, __c10, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(214, __c13, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "ExportAuditLogResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1517,7 +1700,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetAvatarResponse" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1539,7 +1722,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "GetNetworkSecuritySettingsResponseBlockedContentsItem" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1548,7 +1731,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "GetNetworkSecuritySettingsResponseAllowedContentsItem" });
     case 4:
-      return S.Array(__S(195, __c12, 3));
+      return S.Array(__S(243, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1556,21 +1739,21 @@ function __c12(j: number): any {
           areCidrRangesApproved: S.Boolean,
           enforceIpRestriction: S.Boolean,
           highRateLimits: S.Boolean,
-          ipRanges: __S(208, __c13, 0),
-          blockedContents: __S(194, __c12, 2),
-          allowedContents: __S(196, __c12, 4),
+          ipRanges: __S(256, __c16, 0),
+          blockedContents: __S(242, __c15, 2),
+          allowedContents: __S(244, __c15, 4),
           keepReposMetadataVisible: S.Boolean,
         }),
       ).annotate({ identifier: "GetNetworkSecuritySettingsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1594,7 +1777,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "GetOrganizationMembersResponseBodyItemResourceGroupsItem" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1606,21 +1789,52 @@ function __c14(j: number): any {
           isFollowing: S.optional(S.Boolean),
           _id: S.String,
           role: S.optional(S.String),
-          resourceGroups: S.optional(__S(226, __c14, 2)),
+          resourceGroups: S.optional(__S(274, __c17, 2)),
           twoFaEnabled: S.optional(S.Boolean),
           verifiedEmail: S.optional(S.NullOr(S.String)),
           isExternalCollaborator: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetOrganizationMembersResponseBodyItem" });
     case 4:
-      return S.Array(__S(227, __c14, 3));
+      return S.Array(__S(275, __c17, 3));
     case 5:
-      return S.suspend(() => __S(228, __c14, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(276, __c17, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrganizationMembersResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/organizations/{name}/billing/credits", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetOrgCreditsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.String,
+          balanceUsd: S.Number,
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetOrgCreditsResponseBalancesItem" });
+    case 2:
+      return S.Array(__S(289, __c18, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          balanceUsd: S.Number,
+          billingMode: S.String,
+          balances: __S(290, __c18, 2),
+        }),
+      ).annotate({ identifier: "GetOrgCreditsResponse" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1634,7 +1848,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetOrgUsageV2Request" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1680,9 +1894,9 @@ function __c16(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          spaces: __S(259, __c16, 3),
-          endpoints: __S(259, __c16, 3),
-          jobs: __S(259, __c16, 3),
+          spaces: __S(323, __c20, 3),
+          endpoints: __S(323, __c20, 3),
+          jobs: __S(323, __c20, 3),
         }),
       ).annotate({
         identifier: "GetResourceGroupUsageResponsePeriodsItemResourceGroupsItemCompute",
@@ -1692,99 +1906,29 @@ function __c16(j: number): any {
         S.Struct({
           id: S.NullOr(S.String),
           name: S.NullOr(S.String),
-          storage: __S(257, __c16, 1),
-          inference: __S(258, __c16, 2),
-          compute: __S(260, __c16, 4),
+          storage: __S(321, __c20, 1),
+          inference: __S(322, __c20, 2),
+          compute: __S(324, __c20, 4),
         }),
       ).annotate({ identifier: "GetResourceGroupUsageResponsePeriodsItemResourceGroupsItem" });
     case 6:
-      return S.Array(__S(261, __c16, 5));
+      return S.Array(__S(325, __c20, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           period: S.String,
-          resourceGroups: __S(262, __c16, 6),
+          resourceGroups: __S(326, __c20, 6),
         }),
       ).annotate({ identifier: "GetResourceGroupUsageResponsePeriodsItem" });
     case 8:
-      return S.Array(__S(263, __c16, 7));
+      return S.Array(__S(327, __c20, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           currency: S.String,
-          periods: __S(264, __c16, 8),
+          periods: __S(328, __c20, 8),
         }),
       ).annotate({ identifier: "GetResourceGroupUsageResponse" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          startDate: S.optional(S.String.pipe(T.Query())),
-          endDate: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/organizations/{name}/billing/usage-by-inference-session",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetSessionInferenceUsageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          requestCount: S.Number,
-          costCents: S.Number,
-        }),
-      ).annotate({ identifier: "GetSessionInferenceUsageResponsePeriodsItemSessionsItem" });
-    case 2:
-      return S.Array(__S(273, __c17, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          period: S.String,
-          sessions: __S(274, __c17, 2),
-        }),
-      ).annotate({ identifier: "GetSessionInferenceUsageResponsePeriodsItem" });
-    case 4:
-      return S.Array(__S(275, __c17, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          currency: S.String,
-          periods: __S(276, __c17, 4),
-        }),
-      ).annotate({ identifier: "GetSessionInferenceUsageResponse" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/socials", code: 200 })),
-      ).annotate({ identifier: "GetSocialHandlesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          twitter: S.optional(S.String),
-          github: S.optional(S.String),
-          linkedin: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetSocialHandlesResponseSocialHandles" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _id: S.String,
-          org: S.String,
-          socialHandles: __S(289, __c18, 1),
-        }),
-      ).annotate({ identifier: "GetSocialHandlesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

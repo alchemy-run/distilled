@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * OpencodeProtocol -- hand-written.
  *
  * OpenCode speaks plain JSON REST (no response envelope), so the whole
- * protocol is one `makeRestProtocol` call from `core/protocol-rest`:
+ * protocol is one `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> optional `Authorization: Basic <user:pass>` +
  *             base URL (default http://127.0.0.1:4096), resolved from the
@@ -20,34 +18,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownOpencodeError, OpencodeParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownOpencodeError, OpencodeParseError, type OpencodeServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated OpenCode operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * OpencodeOpError, OpencodeOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated OpenCode operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, OpencodeOpError, OpencodeOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
  */
-export type OpencodeOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownOpencodeError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | OpencodeParseError
-  | InvalidInput
-  | SdkError;
+export type OpencodeOpError = OpencodeServiceError | ErrorOf<typeof OpencodeProtocol>;
 
 /** Context (requirements) shared by every generated OpenCode operation. */
 export type OpencodeOpContext = Credentials | HttpClient.HttpClient;
 
-export const OpencodeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const OpencodeProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds): Record<string, string> => {
     const headers: Record<string, string> = {};

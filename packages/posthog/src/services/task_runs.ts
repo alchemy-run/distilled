@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -184,7 +185,7 @@ export interface CreateTasksRunRequest {
   /** Enable fast mode for models that support it. */
   fast_mode?: boolean | null | undefined;
   /** Ephemeral GitHub user token from PostHog Desktop for user-authored cloud pull requests. */
-  github_user_token?: string | undefined;
+  github_user_token?: string | Redacted.Redacted<string> | undefined;
   /** Initial permission mode for the agent session. Claude runtimes accept PostHog permission presets like 'plan'. Codex runtimes accept native Codex modes like 'plan', 'auto', and 'read-only'. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
@@ -562,6 +563,13 @@ export interface TaskRunCommandResponse {
   /** JSON-RPC error details, including failures returned with HTTP 200 */
   error?: TaskRunCommandResponseErrorMap | undefined;
 }
+export interface CreateTasksRunsHeartbeatRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  task_id: string;
+  id: string;
+}
+export interface CreateTasksRunsHeartbeatResponse {}
 /** Ordered assistant text blocks. When present, the last non-empty entry is posted instead of text. */
 export type CreateTasksRunsRelayMessageRequestTextPartsList = Array<string>;
 export interface CreateTasksRunsRelayMessageRequest {
@@ -647,7 +655,7 @@ export interface GetTasksRunsConnectionTokenRequest {
 /** Response containing a JWT token for direct sandbox connection */
 export interface ConnectionTokenResponse {
   /** JWT token for authenticating with the sandbox */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export type GetTasksRunsLogRequestView = "full" | "thread";
 export interface GetTasksRunsLogRequest {
@@ -709,7 +717,7 @@ export interface GetTasksRunsStreamTokenRequest {
 /** Response containing a JWT token (and resolved base URL) for reading a task run's live event stream */
 export interface StreamReadTokenResponse {
   /** Run-scoped JWT the browser presents to the agent-proxy to read this run's live event stream */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Base URL of the agent-proxy to read the stream from when routing via the proxy is enabled for this user. Null means read from the Django endpoint directly (same-origin). The client appends the run's stream path and sends the token as a Bearer header when this is set. */
   stream_base_url: string | null;
 }
@@ -911,6 +919,23 @@ export interface SlackThreadReferenceDTO {
 export type TaskDetailDTOSlackThreadReferencesList = Array<SlackThreadReferenceDTO>;
 /** * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
 export type TaskClientProvenanceEnum = "posthog_desktop" | "posthog_mobile" | "posthog_web";
+/** * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+export type TaskClientEnum = "posthog_desktop" | "posthog_mobile" | "posthog_web" | "slack";
+/** * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+export type TaskStatusEnum = "queued" | "running" | "idle" | "done";
+/** * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+export type TaskStatusReasonEnum =
+  | "turn_closed"
+  | "user_stopped"
+  | "provision_failed"
+  | "unexpected_failure"
+  | "timed_out"
+  | "budget_spent"
+  | "credit_spent"
+  | "access_changed"
+  | "finished"
+  | "closed"
+  | "cancelled";
 /** Detail response for a task. Reads from a frozen ``TaskDetailDTO`` produced by the facade. ``github_integration`` / ``github_user_integration`` are integration ids, ``signal_report`` is the report id, and ``latest_run`` nests the run-detail shape. ``created_by`` mirrors core ``UserBasicSerializer``. */
 export interface TaskDetailDTO {
   id: string;
@@ -944,6 +969,18 @@ export interface TaskDetailDTO {
   origin_key?: string | null | undefined;
   /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
   client_provenance?: TaskClientProvenanceEnum | null | undefined;
+  /** Client the latest person turn on this task came from. Null when no turn came from a known client. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web * `slack` - Slack */
+  last_client?: TaskClientEnum | null | undefined;
+  /** When the latest person turn from `last_client` arrived. */
+  last_client_at?: string | null | undefined;
+  /** GitLab integration for a task in a GitLab project. Null for GitHub tasks and tasks without a repository. */
+  repository_integration?: number | null | undefined;
+  /** Where the task is now. `queued` waits for a sandbox, `running` has a live run, `idle` can be woken by a follow-up and `done` is finished. Null on older tasks that have not been filled in yet. * `queued` - Queued * `running` - Running * `idle` - Idle * `done` - Done */
+  status?: TaskStatusEnum | null | undefined;
+  /** Why the task stopped. Set only when `status` is `idle` or `done`. * `turn_closed` - Turn closed * `user_stopped` - User stopped * `provision_failed` - Provision failed * `unexpected_failure` - Unexpected failure * `timed_out` - Timed out * `budget_spent` - Budget spent * `credit_spent` - Credit spent * `access_changed` - Access changed * `finished` - Finished * `closed` - Closed * `cancelled` - Cancelled */
+  status_reason?: TaskStatusReasonEnum | null | undefined;
+  /** Message shown next to `status_reason`, such as the error from a failed run. */
+  status_detail?: string | null | undefined;
 }
 /** * `not_started` - not_started * `queued` - queued * `in_progress` - in_progress * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
 export type RunStatusEnum =
@@ -959,7 +996,7 @@ export type UpdateTasksRunsPartialRequestStateMap = { [key: string]: unknown | u
 export type UpdateTasksRunsPartialRequestStateRemoveKeysList = Array<string>;
 /** State keys whose value to append to the list stored at that key, atomically under the row lock. Use instead of sending the whole list back through `state`, which loses concurrent appends to a read-modify-write race. */
 export type UpdateTasksRunsPartialRequestStateAppendMap = { [key: string]: unknown | undefined };
-/** * `agent_reported` - agent_reported * `agent_server_crash` - agent_server_crash * `agent_declined` - agent_declined * `output_parse_failed` - output_parse_failed * `poll_timeout` - poll_timeout * `pi_runtime_error` - pi_runtime_error * `upstream_stream_terminated` - upstream_stream_terminated * `upstream_connection_error` - upstream_connection_error * `upstream_timeout` - upstream_timeout * `upstream_provider_failure` - upstream_provider_failure * `upstream_request_rejected` - upstream_request_rejected * `content_block_rejection` - content_block_rejection * `turn_ended_without_response` - turn_ended_without_response * `subscription_usage_limit` - subscription_usage_limit * `task_spend_limit` - task_spend_limit * `agent_error` - agent_error * `ActiveSessionCapError` - ActiveSessionCapError */
+/** * `agent_reported` - agent_reported * `agent_server_crash` - agent_server_crash * `agent_declined` - agent_declined * `output_parse_failed` - output_parse_failed * `poll_timeout` - poll_timeout * `pi_runtime_error` - pi_runtime_error * `upstream_stream_terminated` - upstream_stream_terminated * `upstream_connection_error` - upstream_connection_error * `upstream_timeout` - upstream_timeout * `upstream_provider_failure` - upstream_provider_failure * `upstream_rate_limited` - upstream_rate_limited * `upstream_request_rejected` - upstream_request_rejected * `content_block_rejection` - content_block_rejection * `turn_ended_without_response` - turn_ended_without_response * `subscription_usage_limit` - subscription_usage_limit * `task_spend_limit` - task_spend_limit * `agent_error` - agent_error * `ActiveSessionCapError` - ActiveSessionCapError */
 export type ErrorTypeEnum =
   | "agent_reported"
   | "agent_server_crash"
@@ -971,6 +1008,7 @@ export type ErrorTypeEnum =
   | "upstream_connection_error"
   | "upstream_timeout"
   | "upstream_provider_failure"
+  | "upstream_rate_limited"
   | "upstream_request_rejected"
   | "content_block_rejection"
   | "turn_ended_without_response"
@@ -999,7 +1037,7 @@ export interface UpdateTasksRunsPartialRequest {
   state_append?: UpdateTasksRunsPartialRequestStateAppendMap | undefined;
   /** Error message if execution failed */
   error_message?: string | null | undefined;
-  /** Why the run failed, set by the caller that marked it failed. * `agent_reported` - agent_reported * `agent_server_crash` - agent_server_crash * `agent_declined` - agent_declined * `output_parse_failed` - output_parse_failed * `poll_timeout` - poll_timeout * `pi_runtime_error` - pi_runtime_error * `upstream_stream_terminated` - upstream_stream_terminated * `upstream_connection_error` - upstream_connection_error * `upstream_timeout` - upstream_timeout * `upstream_provider_failure` - upstream_provider_failure * `upstream_request_rejected` - upstream_request_rejected * `content_block_rejection` - content_block_rejection * `turn_ended_without_response` - turn_ended_without_response * `subscription_usage_limit` - subscription_usage_limit * `task_spend_limit` - task_spend_limit * `agent_error` - agent_error * `ActiveSessionCapError` - ActiveSessionCapError */
+  /** Why the run failed, set by the caller that marked it failed. * `agent_reported` - agent_reported * `agent_server_crash` - agent_server_crash * `agent_declined` - agent_declined * `output_parse_failed` - output_parse_failed * `poll_timeout` - poll_timeout * `pi_runtime_error` - pi_runtime_error * `upstream_stream_terminated` - upstream_stream_terminated * `upstream_connection_error` - upstream_connection_error * `upstream_timeout` - upstream_timeout * `upstream_provider_failure` - upstream_provider_failure * `upstream_rate_limited` - upstream_rate_limited * `upstream_request_rejected` - upstream_request_rejected * `content_block_rejection` - content_block_rejection * `turn_ended_without_response` - turn_ended_without_response * `subscription_usage_limit` - subscription_usage_limit * `task_spend_limit` - task_spend_limit * `agent_error` - agent_error * `ActiveSessionCapError` - ActiveSessionCapError */
   error_type?: ErrorTypeEnum | (string & {}) | null | undefined;
 }
 export interface UpdateTasksRunsSetOutputPartialRequest {
@@ -1029,6 +1067,8 @@ export type TaskRunErrorResponseMissingArtifactIdsList = Array<string>;
 /** * `burst` - burst * `sustained` - sustained */
 export type LimitTypeEnum = "burst" | "sustained";
 export interface TaskRunErrorResponse {
+  /** Message ID to reuse as the JSON-RPC id when retrying delivery */
+  id?: unknown | undefined;
   /** Human-readable validation error */
   detail?: string | undefined;
   /** Human-readable error message */
@@ -1038,7 +1078,7 @@ export interface TaskRunErrorResponse {
   /** Machine-readable error code */
   code?: string | undefined;
   /** After confirmed warm startup nondelivery, echo this token in X-PostHog-Warm-Retry to retry the same run and message within 60 seconds. */
-  retry_token?: string | undefined;
+  retry_token?: string | Redacted.Redacted<string> | undefined;
   /** Why PostHog Desktop access was denied, when applicable. * `startup_plan` - startup_plan * `prepaid_credits` - prepaid_credits */
   reason?: DesktopAccessReasonEnum | undefined;
   /** Request field associated with the error */
@@ -1052,7 +1092,7 @@ export interface TaskRunErrorResponse {
   /** Whether the team is on a Pro plan (drives the upgrade-prompt copy) */
   is_pro?: boolean | undefined;
 }
-export type CreateTasksRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
+export type CreateTasksRunError = BadRequest | Forbidden | Conflict | NotFound | PosthogOpError;
 /** Create task run Create a new run for a specific task without starting execution. */
 export const createTasksRun: API.OperationMethod<
   CreateTasksRunRequest,
@@ -1060,9 +1100,10 @@ export const createTasksRun: API.OperationMethod<
   CreateTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(246, __c30, 6) as any as S.Schema<CreateTasksRunRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(254, __c31, 6) as any as S.Schema<CreateTasksRunRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
+  errors: [BadRequest, Forbidden, Conflict, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1081,9 +1122,10 @@ export const createTasksRunsAnalysisActivity: API.OperationMethod<
   CreateTasksRunsAnalysisActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1098,9 +1140,10 @@ export const createTasksRunsAnalyze: API.OperationMethod<
   CreateTasksRunsAnalyzeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1115,9 +1158,10 @@ export const createTasksRunsAppendLog: API.OperationMethod<
   CreateTasksRunsAppendLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c36, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(297, __c37, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1132,9 +1176,10 @@ export const createTasksRunsArtifact: API.OperationMethod<
   CreateTasksRunsArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(298, __c37, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
+  input: __S(306, __c38, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1149,9 +1194,10 @@ export const createTasksRunsArtifactsDismiss: API.OperationMethod<
   CreateTasksRunsArtifactsDismissError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1173,6 +1219,7 @@ export const createTasksRunsArtifactsPresign: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<CreateTasksRunsArtifactsPresignRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<TaskRunArtifactPresignResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1188,8 +1235,9 @@ export const createTasksRunsArtifactsReference: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26, __c3, 2) as any as S.Schema<CreateTasksRunsArtifactsReferenceRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
+  output: __S(336, __c42, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1205,8 +1253,9 @@ export const createTasksRunsClearConversation: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateTasksRunsClearConversationRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1229,10 +1278,29 @@ export const createTasksRunsCommand: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<CreateTasksRunsCommandRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<TaskRunCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTasksRunsCommand",
+}));
+
+export type CreateTasksRunsHeartbeatError = NotFound | Conflict | PosthogOpError;
+/** Record a local run heartbeat Tell the server that a local run is still alive. The client that drives a local run calls this about every 5 minutes while it holds the run open. A heartbeat reopens a local run that the server had completed. Cloud runs report their own heartbeats, so this endpoint refuses them, along with failed and cancelled runs and runs of a finished task. */
+export const createTasksRunsHeartbeat: API.OperationMethod<
+  CreateTasksRunsHeartbeatRequest,
+  CreateTasksRunsHeartbeatResponse,
+  CreateTasksRunsHeartbeatError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsHeartbeatRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<CreateTasksRunsHeartbeatResponse>,
+  errors: [NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsHeartbeat",
 }));
 
 export type CreateTasksRunsRelayMessageError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1243,9 +1311,10 @@ export const createTasksRunsRelayMessage: API.OperationMethod<
   CreateTasksRunsRelayMessageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1265,9 +1334,10 @@ export const createTasksRunsSubscriptionToken: API.OperationMethod<
   CreateTasksRunsSubscriptionTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1287,9 +1357,10 @@ export const createTasksRunsTaskSessionSync: API.OperationMethod<
   CreateTasksRunsTaskSessionSyncError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<TaskSessionSyncResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<TaskSessionSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1304,9 +1375,10 @@ export const getTasksRun: API.OperationMethod<
   GetTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetTasksRunRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetTasksRunRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1321,9 +1393,10 @@ export const getTasksRunsArtifactsPreview: API.OperationMethod<
   GetTasksRunsArtifactsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetTasksRunsArtifactsPreviewRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<TaskRunArtifactPreviewResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsArtifactsPreviewRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<TaskRunArtifactPreviewResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1338,9 +1411,10 @@ export const getTasksRunsConnectionToken: API.OperationMethod<
   GetTasksRunsConnectionTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsConnectionTokenRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<ConnectionTokenResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsConnectionTokenRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<ConnectionTokenResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1355,9 +1429,10 @@ export const getTasksRunsLog: API.OperationMethod<
   GetTasksRunsLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsLogRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsLogResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsLogRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetTasksRunsLogResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1372,9 +1447,10 @@ export const getTasksRunsPreview: API.OperationMethod<
   GetTasksRunsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsPreviewResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetTasksRunsPreviewResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1389,9 +1465,10 @@ export const getTasksRunsSessionLog: API.OperationMethod<
   GetTasksRunsSessionLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsSessionLogResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetTasksRunsSessionLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1406,9 +1483,10 @@ export const getTasksRunsStream: API.OperationMethod<
   GetTasksRunsStreamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsStreamResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetTasksRunsStreamResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1423,9 +1501,10 @@ export const getTasksRunsStreamToken: API.OperationMethod<
   GetTasksRunsStreamTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<StreamReadTokenResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<StreamReadTokenResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1440,9 +1519,10 @@ export const getTasksRunsTaskSession: API.OperationMethod<
   GetTasksRunsTaskSessionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<TaskSessionResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<TaskSessionResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1457,9 +1537,10 @@ export const listTasksRuns: API.OperationMethod<
   ListTasksRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListTasksRunsRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListTasksRunsRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,9 +1559,10 @@ export const tasksRunsArtifactsDownloadCreate: API.OperationMethod<
   TasksRunsArtifactsDownloadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1495,9 +1577,10 @@ export const tasksRunsArtifactsDownloadRetrieve: API.OperationMethod<
   TasksRunsArtifactsDownloadRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1516,9 +1599,10 @@ export const tasksRunsArtifactsFinalizeUploadCreate: API.OperationMethod<
   TasksRunsArtifactsFinalizeUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(178, __c22, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
+  input: __S(186, __c23, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1537,9 +1621,10 @@ export const tasksRunsArtifactsPrepareUploadCreate: API.OperationMethod<
   TasksRunsArtifactsPrepareUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(186, __c23, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
-  output: __S(191, __c23, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
+  input: __S(194, __c24, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
+  output: __S(199, __c24, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1554,16 +1639,22 @@ export const tasksRunsCancelCreate: API.OperationMethod<
   TasksRunsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(200, __c25, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TasksRunsCancelCreate",
 }));
 
-export type TasksRunsResumeInCloudCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
+export type TasksRunsResumeInCloudCreateError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | NotFound
+  | PosthogOpError;
 /** Resume task run in cloud Resume an existing task run in a cloud sandbox. Terminates any existing workflow and starts a new one. */
 export const tasksRunsResumeInCloudCreate: API.OperationMethod<
   TasksRunsResumeInCloudCreateRequest,
@@ -1571,16 +1662,22 @@ export const tasksRunsResumeInCloudCreate: API.OperationMethod<
   TasksRunsResumeInCloudCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(208, __c26, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
+  errors: [BadRequest, Forbidden, Conflict, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TasksRunsResumeInCloudCreate",
 }));
 
-export type TasksRunsStartCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
+export type TasksRunsStartCreateError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PosthogOpError;
 /** Start task run Start an existing cloud run after any initial run-scoped attachments have been uploaded. */
 export const tasksRunsStartCreate: API.OperationMethod<
   TasksRunsStartCreateRequest,
@@ -1588,9 +1685,10 @@ export const tasksRunsStartCreate: API.OperationMethod<
   TasksRunsStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
-  output: __S(212, __c26, 4) as any as S.Schema<TaskDetailDTO>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(216, __c27, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
+  output: __S(220, __c27, 4) as any as S.Schema<TaskDetailDTO>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1605,9 +1703,10 @@ export const updateTasksRunsPartial: API.OperationMethod<
   UpdateTasksRunsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(224, __c28, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1626,9 +1725,10 @@ export const updateTasksRunsSetOutputPartial: API.OperationMethod<
   UpdateTasksRunsSetOutputPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(232, __c29, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1643,9 +1743,10 @@ export const updateTasksRunsSetSummaryPartial: API.OperationMethod<
   UpdateTasksRunsSetSummaryPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(240, __c30, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1658,11 +1759,12 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.Unknown),
           detail: S.optional(S.String),
           error: S.optional(S.String),
           type: S.optional(S.String),
           code: S.optional(S.String),
-          retry_token: S.optional(S.String),
+          retry_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           reason: S.optional(S.String),
           attr: S.optional(S.String),
           missing_artifact_ids: S.optional(__S(8, __c1, 0)),
@@ -1763,7 +1865,7 @@ function __c5(j: number): any {
           id: S.String.pipe(T.Label()),
           jsonrpc: S.optional(S.String),
           method: S.optional(S.String),
-          params: S.optional(__S(248, __c31, 0)),
+          params: S.optional(__S(256, __c32, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1778,12 +1880,38 @@ function __c5(j: number): any {
           jsonrpc: S.optional(S.String),
           id: S.optional(S.Unknown),
           result: S.optional(S.Unknown),
-          error: S.optional(__S(248, __c31, 0)),
+          error: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "TaskRunCommandResponse" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          task_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/tasks/{task_id}/runs/{id}/heartbeat/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTasksRunsHeartbeatRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateTasksRunsHeartbeatResponse",
+      });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1812,7 +1940,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "TaskRunRelayMessageResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1840,7 +1968,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TaskRunSubscriptionTokenResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1865,7 +1993,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "TaskSessionSyncResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1883,7 +2011,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetTasksRunRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1911,7 +2039,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TaskRunArtifactPreviewResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1930,12 +2058,12 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ConnectionTokenResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1957,13 +2085,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetTasksRunsLogRequest" });
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "GetTasksRunsLogResponse" });
-  }
-}
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1981,7 +2103,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetTasksRunsPreviewRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2004,7 +2126,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetTasksRunsSessionLogRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2023,7 +2145,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetTasksRunsStreamRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2043,13 +2165,13 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           stream_base_url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "StreamReadTokenResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2075,7 +2197,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "TaskSessionResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2093,19 +2215,19 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRunsRequest" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(264, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(153, __c19, 1),
+          results: __S(161, __c20, 1),
         }),
       ).annotate({ identifier: "PaginatedTaskRunDetailDTOList" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2124,7 +2246,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsDownloadCreateRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2143,7 +2265,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsDownloadRetrieveRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2154,19 +2276,19 @@ function __c22(j: number): any {
           source: S.optional(S.String),
           storage_path: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(320, __c40, 0)),
           base_artifact_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskRunArtifactFinalizeUpload" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(184, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(177, __c22, 1)),
+          artifacts: S.optional(__S(185, __c23, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2177,7 +2299,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsFinalizeUploadCreateRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2187,18 +2309,18 @@ function __c23(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "TaskRunArtifactPrepareUpload" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(192, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(185, __c23, 1)),
+          artifacts: S.optional(__S(193, __c24, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2213,7 +2335,7 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          fields: S.optional(__S(187, __c23, 3)),
+          fields: S.optional(__S(195, __c24, 3)),
         }),
       ).annotate({ identifier: "S3PresignedPost" });
     case 5:
@@ -2225,23 +2347,23 @@ function __c23(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(320, __c40, 0)),
           storage_path: S.optional(S.String),
           expires_in: S.optional(S.Number),
-          presigned_post: S.optional(__S(188, __c23, 4)),
+          presigned_post: S.optional(__S(196, __c24, 4)),
         }),
       ).annotate({ identifier: "TaskRunArtifactPrepareUploadResponse" });
     case 6:
-      return S.Array(__S(189, __c23, 5));
+      return S.Array(__S(197, __c24, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(190, __c23, 6)),
+          artifacts: S.optional(__S(198, __c24, 6)),
         }),
       ).annotate({ identifier: "TaskRunArtifactsPrepareUploadResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2261,7 +2383,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TasksRunsCancelCreateRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2279,7 +2401,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TasksRunsResumeInCloudCreateRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2307,7 +2429,7 @@ function __c26(j: number): any {
           last_name: S.String,
           email: S.String,
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(248, __c31, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(256, __c32, 0))),
           role_at_organization: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskUserBasicInfo" });
@@ -2320,7 +2442,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "SlackThreadReferenceDTO" });
     case 3:
-      return S.Array(__S(210, __c26, 2));
+      return S.Array(__S(218, __c27, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2337,25 +2459,31 @@ function __c26(j: number): any {
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(248, __c31, 0)),
+          json_schema: S.NullOr(__S(256, __c32, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(256, __c32, 0))),
+          latest_run: S.optional(S.NullOr(__S(264, __c33, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(209, __c26, 1))),
+          created_by: S.optional(S.NullOr(__S(217, __c27, 1))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(211, __c26, 3),
+          slack_thread_references: __S(219, __c27, 3),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
+          last_client: S.optional(S.NullOr(S.String)),
+          last_client_at: S.optional(S.NullOr(S.String)),
+          repository_integration: S.optional(S.NullOr(S.Number)),
+          status: S.optional(S.NullOr(S.String)),
+          status_reason: S.optional(S.NullOr(S.String)),
+          status_detail: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskDetailDTO" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2367,9 +2495,9 @@ function __c27(j: number): any {
           branch: S.optional(S.NullOr(S.String)),
           stage: S.optional(S.NullOr(S.String)),
           output: S.optional(S.Unknown),
-          state: S.optional(__S(248, __c31, 0)),
+          state: S.optional(__S(256, __c32, 0)),
           state_remove_keys: S.optional(__S(8, __c1, 0)),
-          state_append: S.optional(__S(248, __c31, 0)),
+          state_append: S.optional(__S(256, __c32, 0)),
           error_message: S.optional(S.NullOr(S.String)),
           error_type: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -2382,7 +2510,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsPartialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2401,7 +2529,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsSetOutputPartialRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2421,7 +2549,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsSetSummaryPartialRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2431,18 +2559,18 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "ImportedMcpServerHeader" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.String,
           url: S.String,
-          headers: S.optional(__S(241, __c30, 1)),
+          headers: S.optional(__S(249, __c31, 1)),
         }),
       ).annotate({ identifier: "ImportedMcpServer" });
     case 3:
-      return S.Array(__S(242, __c30, 2));
+      return S.Array(__S(250, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2450,14 +2578,14 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "RelayedMcpServer" });
     case 5:
-      return S.Array(__S(244, __c30, 4));
+      return S.Array(__S(252, __c31, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
-          imported_mcp_servers: S.optional(S.NullOr(__S(243, __c30, 3))),
-          relayed_mcp_servers: S.optional(S.NullOr(__S(245, __c30, 5))),
+          imported_mcp_servers: S.optional(S.NullOr(__S(251, __c31, 3))),
+          relayed_mcp_servers: S.optional(S.NullOr(__S(253, __c31, 5))),
           rtk_enabled: S.optional(S.NullOr(S.Boolean)),
           benjamin_enabled: S.optional(S.NullOr(S.Boolean)),
           claude_model_access: S.optional(S.NullOr(S.String)),
@@ -2476,7 +2604,7 @@ function __c30(j: number): any {
           reasoning_effort: S.optional(S.String),
           context_window: S.optional(S.String),
           fast_mode: S.optional(S.NullOr(S.Boolean)),
-          github_user_token: S.optional(S.String),
+          github_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           initial_permission_mode: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2488,13 +2616,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateTasksRunRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2511,11 +2639,11 @@ function __c32(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           log_url: S.optional(S.NullOr(S.String)),
           error_message: S.NullOr(S.String),
-          output: S.NullOr(__S(248, __c31, 0)),
+          output: S.NullOr(__S(256, __c32, 0)),
           task_summary: S.NullOr(S.String),
           task_tags: __S(8, __c1, 0),
-          state: __S(248, __c31, 0),
-          artifacts: __S(265, __c33, 1),
+          state: __S(256, __c32, 0),
+          artifacts: __S(273, __c34, 1),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -2525,7 +2653,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TaskRunDetailDTO" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2546,10 +2674,10 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunArtifactResponse" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(272, __c34, 0));
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2588,7 +2716,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TaskRunAnalysisActivityResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2613,17 +2741,17 @@ function __c35(j: number): any {
       ).annotate({ identifier: "TaskRunAnalyzeResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(256, __c32, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          entries: S.optional(__S(288, __c36, 0)),
+          entries: S.optional(__S(296, __c37, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2634,7 +2762,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsAppendLogRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2645,18 +2773,18 @@ function __c37(j: number): any {
           content: S.optional(S.String),
           content_encoding: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "TaskRunArtifactUpload" });
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(304, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(297, __c37, 1)),
+          artifacts: S.optional(__S(305, __c38, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2667,17 +2795,17 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(265, __c33, 1)),
+          artifacts: S.optional(__S(273, __c34, 1)),
         }),
       ).annotate({ identifier: "TaskRunArtifactsUploadResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2691,7 +2819,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "TaskRunSkillBundleMetadata" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2711,12 +2839,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactsDismissRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: __S(265, __c33, 1),
+          artifacts: __S(273, __c34, 1),
         }),
       ).annotate({ identifier: "TaskRunArtifactsDismissResponse" });
   }

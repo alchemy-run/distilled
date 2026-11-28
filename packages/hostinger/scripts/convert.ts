@@ -9,6 +9,11 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Hostinger's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * An operation with `x-scalar-stability: experimental` is marked
+ * `smithy.api#unstable`, so generate writes it to
+ * src/unstable-services/hostinger.ts
+ * (`@distilled.cloud/hostinger/unstable/hostinger`).
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
@@ -28,5 +33,6 @@ await runOpenApiConvert({
     namespace: "com.hostinger.api",
     serviceName: "Hostinger",
     skipDeprecated: true,
+    unstableOperation: (op) => op["x-scalar-stability"] === "experimental",
   },
 });

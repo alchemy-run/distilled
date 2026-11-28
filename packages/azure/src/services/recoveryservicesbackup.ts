@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -192,7 +192,7 @@ export type OperationStatusProvisionILRExtendedInfoObjectType =
 /** Client script details for file / folder restore. */
 export interface ClientScriptForConnect {
   /** File content of the client script for file / folder restore. */
-  scriptContent?: string | undefined;
+  scriptContent?: string | Redacted.Redacted<string> | undefined;
   /** File extension of the client script for file / folder restore - .ps1 , .sh , etc. */
   scriptExtension?: string | undefined;
   /** OS type - Windows, Linux etc. for which this file / folder restore client script works. */
@@ -4337,7 +4337,7 @@ export interface BEKDetails {
   /** ID of the Key Vault where this Secret is stored. */
   secretVaultId?: string | undefined;
   /** BEK data. */
-  secretData?: string | undefined;
+  secretData?: string | Redacted.Redacted<string> | undefined;
 }
 /** BEK is bitlocker key. KEK is encryption key for BEK If the VM was encrypted then we will store following details : 1. Secret(BEK) - Url + Backup Data + vaultId. 2. Key(KEK) - Url + Backup Data + vaultId. 3. EncryptionMechanism BEK and KEK can potentially have different vault ids. */
 export interface KeyAndSecretDetails {
@@ -4589,6 +4589,8 @@ export interface GetResourceGuardProxyRequest {
   resourceGroupName: string;
   /** The name of the VaultResource */
   vaultName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ResourceGuardOperationDetail {
   vaultCriticalOperation?: string | undefined;
@@ -4630,7 +4632,7 @@ export interface GetResourceGuardProxyResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardProxyResponseValueList | undefined;
+  value: GetResourceGuardProxyResponseValueList;
 }
 export interface GetResourceGuardProxyRequest2 {
   /** The ID of the target subscription. */
@@ -4678,7 +4680,7 @@ export interface GetSecurityPINRequest {
 /** The token information details. */
 export interface TokenInformation {
   /** Token value. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Expiry time of token. */
   expiryTimeInUtcTicks?: number | undefined;
   /** Security PIN */
@@ -4728,6 +4730,8 @@ export interface ListBackupEnginesRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BackupEngineBaseResourceTagsMap = { [key: string]: string | undefined };
@@ -4756,7 +4760,7 @@ export interface ListBackupEnginesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupEnginesResponseValueList | undefined;
+  value: ListBackupEnginesResponseValueList;
 }
 export interface ListBackupJobsRequest {
   /** The ID of the target subscription. */
@@ -4769,6 +4773,8 @@ export interface ListBackupJobsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
@@ -4797,7 +4803,7 @@ export interface ListBackupJobsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupJobsResponseValueList | undefined;
+  value: ListBackupJobsResponseValueList;
 }
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. */
@@ -4808,6 +4814,8 @@ export interface ListBackupPoliciesRequest {
   vaultName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionPolicyResourceTagsMap = { [key: string]: string | undefined };
@@ -4836,7 +4844,7 @@ export interface ListBackupPoliciesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupPoliciesResponseValueList | undefined;
+  value: ListBackupPoliciesResponseValueList;
 }
 export interface ListBackupProtectableItemsRequest {
   /** The ID of the target subscription. */
@@ -4849,6 +4857,8 @@ export interface ListBackupProtectableItemsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadProtectableItemResourceTagsMap = { [key: string]: string | undefined };
@@ -5272,7 +5282,7 @@ export interface ListBackupProtectableItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectableItemsResponseValueList | undefined;
+  value: ListBackupProtectableItemsResponseValueList;
 }
 export interface ListBackupProtectedItemsRequest {
   /** The ID of the target subscription. */
@@ -5285,6 +5295,8 @@ export interface ListBackupProtectedItemsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectedItemResourceTagsMap = { [key: string]: string | undefined };
@@ -5313,7 +5325,7 @@ export interface ListBackupProtectedItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectedItemsResponseValueList | undefined;
+  value: ListBackupProtectedItemsResponseValueList;
 }
 export interface ListBackupProtectionContainersRequest {
   /** The ID of the target subscription. */
@@ -5324,6 +5336,8 @@ export interface ListBackupProtectionContainersRequest {
   vaultName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionContainerResourceTagsMap = { [key: string]: string | undefined };
@@ -5352,7 +5366,7 @@ export interface ListBackupProtectionContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectionContainersResponseValueList | undefined;
+  value: ListBackupProtectionContainersResponseValueList;
 }
 export interface ListBackupProtectionIntentRequest {
   /** The ID of the target subscription. */
@@ -5365,6 +5379,8 @@ export interface ListBackupProtectionIntentRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectionIntentResourceTagsMap = { [key: string]: string | undefined };
@@ -5393,7 +5409,7 @@ export interface ListBackupProtectionIntentResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupProtectionIntentResponseValueList | undefined;
+  value: ListBackupProtectionIntentResponseValueList;
 }
 export interface ListBackupUsageSummariesRequest {
   /** The ID of the target subscription. */
@@ -5406,6 +5422,8 @@ export interface ListBackupUsageSummariesRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Unit of the usage. */
 export type UsagesUnit =
@@ -5443,7 +5461,7 @@ export interface ListBackupUsageSummariesResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** The list of backup management usages for the given vault. */
-  value?: ListBackupUsageSummariesResponseValueList | undefined;
+  value: ListBackupUsageSummariesResponseValueList;
 }
 export interface ListBackupWorkloadItemsRequest {
   /** The ID of the target subscription. */
@@ -5460,6 +5478,8 @@ export interface ListBackupWorkloadItemsRequest {
   _filter?: string | undefined;
   /** skipToken Filter. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type WorkloadItemResourceTagsMap = { [key: string]: string | undefined };
@@ -5650,7 +5670,7 @@ export interface ListBackupWorkloadItemsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupWorkloadItemsResponseValueList | undefined;
+  value: ListBackupWorkloadItemsResponseValueList;
 }
 export interface ListDeletedProtectionContainersRequest {
   /** The ID of the target subscription. */
@@ -5661,6 +5681,8 @@ export interface ListDeletedProtectionContainersRequest {
   vaultName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListDeletedProtectionContainersResponseValueList = Array<ProtectionContainerResource>;
@@ -5668,7 +5690,7 @@ export interface ListDeletedProtectionContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDeletedProtectionContainersResponseValueList | undefined;
+  value: ListDeletedProtectionContainersResponseValueList;
 }
 export interface ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultRequest {
   /** The ID of the target subscription. */
@@ -5688,7 +5710,10 @@ export interface ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResu
   /** Operation ID returned by the prior provisionInstantItemRecovery action whose iSCSI mount scripts are to be retrieved. */
   provisionInstantItemRecoveryOperationId: string;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
   /** Name of the provider for display purposes */
@@ -5738,7 +5763,7 @@ export type ClientDiscoveryResponseValueList = Array<ClientDiscoveryValueForSing
 /** Operations List response which contains list of available APIs. */
 export interface ClientDiscoveryResponse {
   /** List of available operations. */
-  value?: ClientDiscoveryResponseValueList | undefined;
+  value: ClientDiscoveryResponseValueList;
   /** Link to the next chunk of Response. */
   nextLink?: string | undefined;
 }
@@ -5752,6 +5777,8 @@ export interface ListProtectableContainersRequest {
   fabricName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ProtectableContainerResourceTagsMap = { [key: string]: string | undefined };
@@ -5814,7 +5841,7 @@ export interface ListProtectableContainersResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListProtectableContainersResponseValueList | undefined;
+  value: ListProtectableContainersResponseValueList;
 }
 export interface ListRecoveryPointsRequest {
   /** The ID of the target subscription. */
@@ -5831,6 +5858,8 @@ export interface ListRecoveryPointsRequest {
   protectedItemName: string;
   /** OData filter options. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type RecoveryPointResourceTagsMap = { [key: string]: string | undefined };
@@ -5859,7 +5888,7 @@ export interface ListRecoveryPointsResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsResponseValueList | undefined;
+  value: ListRecoveryPointsResponseValueList;
 }
 /** List of Recovery Points excluded from Move */
 export type ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList = Array<string>;
@@ -5880,6 +5909,8 @@ export interface ListRecoveryPointsRecommendedForMoveRequest {
   objectType?: string | undefined;
   /** List of Recovery Points excluded from Move */
   excludedRPList?: ListRecoveryPointsRecommendedForMoveRequestExcludedRPListList | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of resources. */
 export type ListRecoveryPointsRecommendedForMoveResponseValueList = Array<RecoveryPointResource>;
@@ -5887,7 +5918,7 @@ export interface ListRecoveryPointsRecommendedForMoveResponse {
   /** The URI to fetch the next page of resources, with each API call returning up to 200 resources per page. Use ListNext() to fetch the next page if the total number of resources exceeds 200. */
   nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsRecommendedForMoveResponseValueList | undefined;
+  value: ListRecoveryPointsRecommendedForMoveResponseValueList;
 }
 /** Source Container ArmIds This needs to be populated only if DataMoveLevel is set to container */
 export type MoveBMSPrepareDataRequestSourceContainerArmIdsList = Array<string>;
@@ -8469,7 +8500,8 @@ export const BMSTriggerDataMove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BMSTriggerDataMoveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<BMSTriggerDataMoveResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8486,7 +8518,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8503,7 +8536,8 @@ export const DeleteProtectedItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteProtectedItemRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<DeleteProtectedItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8520,7 +8554,8 @@ export const DeleteProtectionIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteProtectionIntentRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<DeleteProtectionIntentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8537,7 +8572,8 @@ export const DeleteProtectionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteProtectionPolicyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteProtectionPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8554,7 +8590,8 @@ export const DeleteResourceGuardProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<DeleteResourceGuardProxyRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<DeleteResourceGuardProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8571,7 +8608,8 @@ export const ExecuteConfigureSourceScan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ExecuteConfigureSourceScanRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<ExecuteConfigureSourceScanResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8588,7 +8626,8 @@ export const ExportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<ExportJobRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<ExportJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8605,7 +8644,8 @@ export const GetBackupEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<GetBackupEngineRequest>,
   output: __S(3875, __c121, 3) as any as S.Schema<GetBackupEngineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8622,7 +8662,8 @@ export const GetBackupOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<GetBackupOperationResultRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<GetBackupOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8639,7 +8680,8 @@ export const GetBackupOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetBackupOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8656,7 +8698,8 @@ export const GetBackupResourceEncryptionConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetBackupResourceEncryptionConfigRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<GetBackupResourceEncryptionConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8673,7 +8716,8 @@ export const GetBackupResourceStorageConfigsNonCRR: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetBackupResourceStorageConfigsNonCRRRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<GetBackupResourceStorageConfigsNonCRRResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8690,7 +8734,8 @@ export const GetBackupResourceVaultConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetBackupResourceVaultConfigRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<GetBackupResourceVaultConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8707,7 +8752,8 @@ export const GetBackupStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetBackupStatusRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<BackupStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8724,7 +8770,8 @@ export const GetBMSPrepareDataMoveOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetBMSPrepareDataMoveOperationResultRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<GetBMSPrepareDataMoveOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8741,7 +8788,8 @@ export const GetExportJobsOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetExportJobsOperationResultRequest>,
   output: __S(453, __c14, 5) as any as S.Schema<GetExportJobsOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8758,7 +8806,8 @@ export const GetGetTieringCostOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetGetTieringCostOperationResultRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<GetGetTieringCostOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8775,7 +8824,8 @@ export const GetJobDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetJobDetailRequest>,
   output: __S(634, __c19, 26) as any as S.Schema<GetJobDetailResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8792,7 +8842,8 @@ export const GetJobOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetJobOperationResultRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<GetJobOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8809,7 +8860,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8826,7 +8878,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8843,7 +8896,8 @@ export const GetPrivateEndpointOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetPrivateEndpointOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8860,7 +8914,8 @@ export const GetProtectedItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetProtectedItemRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<GetProtectedItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8877,7 +8932,8 @@ export const GetProtectedItemOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetProtectedItemOperationResultRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<GetProtectedItemOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8894,7 +8950,8 @@ export const GetProtectedItemOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetProtectedItemOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8911,7 +8968,8 @@ export const GetProtectionContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetProtectionContainerRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<GetProtectionContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8928,7 +8986,8 @@ export const GetProtectionContainerOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetProtectionContainerOperationResultRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<GetProtectionContainerOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8953,7 +9012,8 @@ export const GetProtectionContainerRefreshOperationResult: API.OperationMethod<
     __c22,
     0,
   ) as any as S.Schema<GetProtectionContainerRefreshOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8974,7 +9034,8 @@ export const GetProtectionContainerRefreshOperationStatus: API.OperationMethod<
     0,
   ) as any as S.Schema<GetProtectionContainerRefreshOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8991,7 +9052,8 @@ export const GetProtectionIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetProtectionIntentRequest>,
   output: __S(1412, __c44, 4) as any as S.Schema<GetProtectionIntentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9008,7 +9070,8 @@ export const GetProtectionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetProtectionPolicyRequest>,
   output: __S(1507, __c47, 3) as any as S.Schema<GetProtectionPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9025,7 +9088,8 @@ export const GetProtectionPolicyOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetProtectionPolicyOperationResultRequest>,
   output: __S(1507, __c47, 3) as any as S.Schema<GetProtectionPolicyOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9042,7 +9106,8 @@ export const GetProtectionPolicyOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetProtectionPolicyOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9059,7 +9124,8 @@ export const GetRecoveryPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetRecoveryPointRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<GetRecoveryPointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9076,7 +9142,8 @@ export const GetRecoveryPointRPExtendedInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1825, __c57, 1) as any as S.Schema<GetRecoveryPointRPExtendedInfoRequest>,
   output: __S(1859, __c58, 3) as any as S.Schema<GetRecoveryPointRPExtendedInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9101,7 +9168,8 @@ export const GetRecoveryPointRPExtendedInfoOperationResult: API.OperationMethod<
     __c58,
     3,
   ) as any as S.Schema<GetRecoveryPointRPExtendedInfoOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9110,20 +9178,28 @@ export const GetRecoveryPointRPExtendedInfoOperationResult: API.OperationMethod<
 
 export type GetResourceGuardProxyError = AzureOpError;
 /** List the ResourceGuardProxies under vault */
-export const GetResourceGuardProxy: API.OperationMethod<
+export const GetResourceGuardProxy: API.PaginatedOperationMethod<
   GetResourceGuardProxyRequest,
   GetResourceGuardProxyResponse,
   GetResourceGuardProxyError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceGuardProxyBaseResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetResourceGuardProxyRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<GetResourceGuardProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceGuardProxy",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetResourceGuardProxy2Error = AzureOpError;
 /** Returns ResourceGuardProxy under vault and with the name referenced in request */
@@ -9135,7 +9211,8 @@ export const GetResourceGuardProxy2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetResourceGuardProxyRequest2>,
   output: __S(1955, __c61, 3) as any as S.Schema<GetResourceGuardProxyResponse2>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9152,7 +9229,8 @@ export const GetSecurityPIN: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetSecurityPINRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<TokenInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9169,7 +9247,8 @@ export const GetTieringCostOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetTieringCostOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9186,7 +9265,8 @@ export const GetValidateOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetValidateOperationResultRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<ValidateOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9203,7 +9283,8 @@ export const GetValidateOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetValidateOperationStatusRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<OperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9212,173 +9293,253 @@ export const GetValidateOperationStatus: API.OperationMethod<
 
 export type ListBackupEnginesError = AzureOpError;
 /** Backup management servers registered to Recovery Services Vault. Returns a pageable list of servers. */
-export const ListBackupEngines: API.OperationMethod<
+export const ListBackupEngines: API.PaginatedOperationMethod<
   ListBackupEnginesRequest,
   ListBackupEnginesResponse,
   ListBackupEnginesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupEngineBaseResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListBackupEnginesRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<ListBackupEnginesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupEngines",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupJobsError = AzureOpError;
 /** Provides a pageable list of jobs. */
-export const ListBackupJobs: API.OperationMethod<
+export const ListBackupJobs: API.PaginatedOperationMethod<
   ListBackupJobsRequest,
   ListBackupJobsResponse,
   ListBackupJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListBackupJobsRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListBackupJobsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupPoliciesError = AzureOpError;
 /** Lists of backup policies associated with Recovery Services Vault. API provides pagination parameters to fetch scoped results. */
-export const ListBackupPolicies: API.OperationMethod<
+export const ListBackupPolicies: API.PaginatedOperationMethod<
   ListBackupPoliciesRequest,
   ListBackupPoliciesResponse,
   ListBackupPoliciesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionPolicyResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListBackupPoliciesRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<ListBackupPoliciesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupPolicies",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectableItemsError = AzureOpError;
 /** Provides a pageable list of protectable objects within your subscription according to the query filter and the pagination parameters. */
-export const ListBackupProtectableItems: API.OperationMethod<
+export const ListBackupProtectableItems: API.PaginatedOperationMethod<
   ListBackupProtectableItemsRequest,
   ListBackupProtectableItemsResponse,
   ListBackupProtectableItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadProtectableItemResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListBackupProtectableItemsRequest>,
   output: __S(2313, __c72, 9) as any as S.Schema<ListBackupProtectableItemsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectableItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectedItemsError = AzureOpError;
 /** Provides a pageable list of all items that are backed up within a vault. */
-export const ListBackupProtectedItems: API.OperationMethod<
+export const ListBackupProtectedItems: API.PaginatedOperationMethod<
   ListBackupProtectedItemsRequest,
   ListBackupProtectedItemsResponse,
   ListBackupProtectedItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectedItemResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListBackupProtectedItemsRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<ListBackupProtectedItemsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectedItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectionContainersError = AzureOpError;
 /** Lists the containers registered to Recovery Services Vault. */
-export const ListBackupProtectionContainers: API.OperationMethod<
+export const ListBackupProtectionContainers: API.PaginatedOperationMethod<
   ListBackupProtectionContainersRequest,
   ListBackupProtectionContainersResponse,
   ListBackupProtectionContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListBackupProtectionContainersRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<ListBackupProtectionContainersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectionContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupProtectionIntentError = AzureOpError;
 /** Provides a pageable list of all intents that are present within a vault. */
-export const ListBackupProtectionIntent: API.OperationMethod<
+export const ListBackupProtectionIntent: API.PaginatedOperationMethod<
   ListBackupProtectionIntentRequest,
   ListBackupProtectionIntentResponse,
   ListBackupProtectionIntentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionIntentResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListBackupProtectionIntentRequest>,
   output: __S(2434, __c76, 2) as any as S.Schema<ListBackupProtectionIntentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupProtectionIntent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupUsageSummariesError = AzureOpError;
 /** Fetches the backup management usage summaries of the vault. */
-export const ListBackupUsageSummaries: API.OperationMethod<
+export const ListBackupUsageSummaries: API.PaginatedOperationMethod<
   ListBackupUsageSummariesRequest,
   ListBackupUsageSummariesResponse,
   ListBackupUsageSummariesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BackupManagementUsage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListBackupUsageSummariesRequest>,
   output: __S(2500, __c78, 4) as any as S.Schema<ListBackupUsageSummariesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupUsageSummaries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupWorkloadItemsError = AzureOpError;
 /** Provides a pageable list of workload item of a specific container according to the query filter and the pagination parameters. */
-export const ListBackupWorkloadItems: API.OperationMethod<
+export const ListBackupWorkloadItems: API.PaginatedOperationMethod<
   ListBackupWorkloadItemsRequest,
   ListBackupWorkloadItemsResponse,
   ListBackupWorkloadItemsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkloadItemResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListBackupWorkloadItemsRequest>,
   output: __S(2534, __c79, 6) as any as S.Schema<ListBackupWorkloadItemsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupWorkloadItems",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeletedProtectionContainersError = AzureOpError;
 /** Lists the soft deleted containers registered to Recovery Services Vault. */
-export const ListDeletedProtectionContainers: API.OperationMethod<
+export const ListDeletedProtectionContainers: API.PaginatedOperationMethod<
   ListDeletedProtectionContainersRequest,
   ListDeletedProtectionContainersResponse,
   ListDeletedProtectionContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectionContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListDeletedProtectionContainersRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<ListDeletedProtectionContainersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeletedProtectionContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultError = AzureOpError;
 /** Fetches the mount scripts (iSCSI connection details) for an active Instant Item Recovery (ILR) session on the recovery point. Required from API version 2026-08-01 onwards; replaces the scripts previously returned inline in the operationsStatus (ILR provision) response. */
@@ -9394,7 +9555,8 @@ export const ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResult: 
     0,
   ) as any as S.Schema<ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResultRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<InstantItemRecoveryTarget>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9403,71 +9565,103 @@ export const ListItemLevelRecoveryConnectionInstantItemRecoveryOperationResult: 
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ClientDiscoveryResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClientDiscoveryValueForSingleApi
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2632, __c82, 8) as any as S.Schema<ClientDiscoveryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProtectableContainersError = AzureOpError;
 /** Lists the containers that can be registered to Recovery Services Vault. */
-export const ListProtectableContainers: API.OperationMethod<
+export const ListProtectableContainers: API.PaginatedOperationMethod<
   ListProtectableContainersRequest,
   ListProtectableContainersResponse,
   ListProtectableContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProtectableContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListProtectableContainersRequest>,
   output: __S(2661, __c83, 5) as any as S.Schema<ListProtectableContainersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProtectableContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPointsError = AzureOpError;
 /** Lists the backup copies for the backed up item. */
-export const ListRecoveryPoints: API.OperationMethod<
+export const ListRecoveryPoints: API.PaginatedOperationMethod<
   ListRecoveryPointsRequest,
   ListRecoveryPointsResponse,
   ListRecoveryPointsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryPointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListRecoveryPointsRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<ListRecoveryPointsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPoints",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRecoveryPointsRecommendedForMoveError = AzureOpError;
 /** Lists the recovery points recommended for move to another tier */
-export const ListRecoveryPointsRecommendedForMove: API.OperationMethod<
+export const ListRecoveryPointsRecommendedForMove: API.PaginatedOperationMethod<
   ListRecoveryPointsRecommendedForMoveRequest,
   ListRecoveryPointsRecommendedForMoveResponse,
   ListRecoveryPointsRecommendedForMoveError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RecoveryPointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListRecoveryPointsRecommendedForMoveRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<ListRecoveryPointsRecommendedForMoveResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRecoveryPointsRecommendedForMove",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MoveBMSPrepareDataError = AzureOpError;
 /** Prepares source vault for Data Move operation */
@@ -9479,7 +9673,8 @@ export const MoveBMSPrepareData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<MoveBMSPrepareDataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MoveBMSPrepareDataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9496,7 +9691,8 @@ export const MoveRecoveryPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<MoveRecoveryPointRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MoveRecoveryPointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9513,7 +9709,8 @@ export const PatchBackupResourceStorageConfigsNonCRR: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<PatchBackupResourceStorageConfigsNonCRRRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<PatchBackupResourceStorageConfigsNonCRRResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9530,7 +9727,8 @@ export const PostFetchTieringCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3077, __c96, 5) as any as S.Schema<PostFetchTieringCostRequest>,
   output: __S(515, __c16, 3) as any as S.Schema<PostFetchTieringCostResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9547,7 +9745,8 @@ export const ProtectedItemsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3117, __c97, 13) as any as S.Schema<ProtectedItemsCreateOrUpdateRequest>,
   output: __S(3118, __c97, 14) as any as S.Schema<ProtectedItemsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9564,7 +9763,8 @@ export const ProtectionContainersInquire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ProtectionContainersInquireRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<ProtectionContainersInquireResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9581,7 +9781,8 @@ export const ProtectionIntentCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ProtectionIntentCreateOrUpdateRequest>,
   output: __S(1412, __c44, 4) as any as S.Schema<ProtectionIntentCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9598,7 +9799,8 @@ export const ProtectionPoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ProtectionPoliciesCreateOrUpdateRequest>,
   output: __S(1507, __c47, 3) as any as S.Schema<ProtectionPoliciesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9615,7 +9817,8 @@ export const ProvisionItemLevelRecoveryConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3267, __c102, 3) as any as S.Schema<ProvisionItemLevelRecoveryConnectionRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<ProvisionItemLevelRecoveryConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9632,7 +9835,8 @@ export const PutBackupResourceVaultConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<PutBackupResourceVaultConfigRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<PutBackupResourceVaultConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9649,7 +9853,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<PutPrivateEndpointConnectionRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<PutPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9666,7 +9871,8 @@ export const PutResourceGuardProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<PutResourceGuardProxyRequest>,
   output: __S(1955, __c61, 3) as any as S.Schema<PutResourceGuardProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9683,7 +9889,8 @@ export const RefreshProtectionContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<RefreshProtectionContainerRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<RefreshProtectionContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9700,7 +9907,8 @@ export const RegisterProtectionContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3469, __c108, 13) as any as S.Schema<RegisterProtectionContainerRequest>,
   output: __S(3470, __c108, 14) as any as S.Schema<RegisterProtectionContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9717,7 +9925,8 @@ export const ResourceGuardProxyUnlockDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<ResourceGuardProxyUnlockDeleteRequest>,
   output: __S(3489, __c109, 1) as any as S.Schema<UnlockDeleteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9734,7 +9943,8 @@ export const RevokeItemLevelRecoveryConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<RevokeItemLevelRecoveryConnectionRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<RevokeItemLevelRecoveryConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9751,7 +9961,8 @@ export const TriggerBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3555, __c111, 3) as any as S.Schema<TriggerBackupRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<TriggerBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9768,7 +9979,8 @@ export const TriggerJobCancellation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<TriggerJobCancellationRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<TriggerJobCancellationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9785,7 +9997,8 @@ export const TriggerRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<TriggerRestoreRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TriggerRestoreResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9802,7 +10015,8 @@ export const TriggerValidateOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<TriggerValidateOperationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TriggerValidateOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9819,7 +10033,8 @@ export const UnregisterProtectionContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<UnregisterProtectionContainerRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<UnregisterProtectionContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9836,7 +10051,8 @@ export const UpdateBackupResourceEncryptionConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3777, __c118, 1) as any as S.Schema<UpdateBackupResourceEncryptionConfigRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<UpdateBackupResourceEncryptionConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9853,7 +10069,8 @@ export const UpdateBackupResourceStorageConfigsNonCRR: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<UpdateBackupResourceStorageConfigsNonCRRRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<UpdateBackupResourceStorageConfigsNonCRRResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9870,7 +10087,8 @@ export const UpdateBackupResourceVaultConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<UpdateBackupResourceVaultConfigRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<UpdateBackupResourceVaultConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9887,7 +10105,8 @@ export const ValidateFeatureSupport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3971, __c124, 3) as any as S.Schema<ValidateFeatureSupportRequest>,
   output: __S(3972, __c124, 4) as any as S.Schema<AzureVMResourceFeatureSupportResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9904,7 +10123,8 @@ export const ValidateOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ValidateOperationRequest2>,
   output: __S(2144, __c67, 0) as any as S.Schema<ValidateOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9921,7 +10141,8 @@ export const ValidateProtectionIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ValidateProtectionIntentRequest>,
   output: __S(4033, __c126, 1) as any as S.Schema<PreValidateEnableBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12397,7 +12618,7 @@ function __c54(j: number): any {
         S.Struct({
           secretUrl: S.optional(S.String),
           secretVaultId: S.optional(S.String),
-          secretData: S.optional(S.String),
+          secretData: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "BEKDetails" });
     case 26:
@@ -12597,12 +12818,14 @@ function __c60(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetResourceGuardProxyRequest" });
@@ -12612,7 +12835,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1921, __c60, 1)),
+          value: __S(1921, __c60, 1),
         }),
       ).annotate({ identifier: "GetResourceGuardProxyResponse" });
   }
@@ -12693,7 +12916,7 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiryTimeInUtcTicks: S.optional(S.Number),
           securityPIN: S.optional(S.String),
         }),
@@ -12800,12 +13023,14 @@ function __c69(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupEnginesRequest" });
@@ -12815,7 +13040,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2209, __c69, 1)),
+          value: __S(2209, __c69, 1),
         }),
       ).annotate({ identifier: "ListBackupEnginesResponse" });
   }
@@ -12830,12 +13055,14 @@ function __c70(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupJobsRequest" });
@@ -12845,7 +13072,7 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2241, __c70, 1)),
+          value: __S(2241, __c70, 1),
         }),
       ).annotate({ identifier: "ListBackupJobsResponse" });
   }
@@ -12859,12 +13086,14 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupPoliciesRequest" });
@@ -12874,7 +13103,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2273, __c71, 1)),
+          value: __S(2273, __c71, 1),
         }),
       ).annotate({ identifier: "ListBackupPoliciesResponse" });
   }
@@ -12889,12 +13118,14 @@ function __c72(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectableItems",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectableItemsRequest" });
@@ -13005,7 +13236,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2312, __c72, 8)),
+          value: __S(2312, __c72, 8),
         }),
       ).annotate({ identifier: "ListBackupProtectableItemsResponse" });
   }
@@ -13020,12 +13251,14 @@ function __c73(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectedItems",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectedItemsRequest" });
@@ -13035,7 +13268,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2337, __c73, 1)),
+          value: __S(2337, __c73, 1),
         }),
       ).annotate({ identifier: "ListBackupProtectedItemsResponse" });
   }
@@ -13049,12 +13282,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionContainers",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectionContainersRequest" });
@@ -13068,7 +13303,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2400, __c75, 0)),
+          value: __S(2400, __c75, 0),
         }),
       ).annotate({ identifier: "ListBackupProtectionContainersResponse" });
   }
@@ -13083,12 +13318,14 @@ function __c76(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectionIntents",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupProtectionIntentRequest" });
@@ -13098,7 +13335,7 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2433, __c76, 1)),
+          value: __S(2433, __c76, 1),
         }),
       ).annotate({ identifier: "ListBackupProtectionIntentResponse" });
   }
@@ -13133,12 +13370,14 @@ function __c78(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupUsageSummariesRequest" });
@@ -13166,7 +13405,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2499, __c78, 3)),
+          value: __S(2499, __c78, 3),
         }),
       ).annotate({ identifier: "ListBackupUsageSummariesResponse" });
   }
@@ -13183,12 +13422,14 @@ function __c79(j: number): any {
           containerName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupWorkloadItemsRequest" });
@@ -13251,7 +13492,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2533, __c79, 5)),
+          value: __S(2533, __c79, 5),
         }),
       ).annotate({ identifier: "ListBackupWorkloadItemsResponse" });
   }
@@ -13265,12 +13506,14 @@ function __c80(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           vaultName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupDeletedProtectionContainers",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeletedProtectionContainersRequest" });
@@ -13306,12 +13549,15 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.RecoveryServices/operations",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -13360,7 +13606,7 @@ function __c82(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2631, __c82, 7)),
+          value: __S(2631, __c82, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientDiscoveryResponse" });
@@ -13376,12 +13622,14 @@ function __c83(j: number): any {
           vaultName: S.String.pipe(T.Label()),
           fabricName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectableContainers",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProtectableContainersRequest" });
@@ -13416,7 +13664,7 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2660, __c83, 4)),
+          value: __S(2660, __c83, 4),
         }),
       ).annotate({ identifier: "ListProtectableContainersResponse" });
   }
@@ -13433,12 +13681,14 @@ function __c84(j: number): any {
           containerName: S.String.pipe(T.Label()),
           protectedItemName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRequest" });
@@ -13452,7 +13702,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2720, __c85, 0)),
+          value: __S(2720, __c85, 0),
         }),
       ).annotate({ identifier: "ListRecoveryPointsResponse" });
   }
@@ -13470,12 +13720,14 @@ function __c86(j: number): any {
           protectedItemName: S.String.pipe(T.Label()),
           objectType: S.optional(S.String),
           excludedRPList: S.optional(__S(64, __c2, 0)),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
             code: 200,
             apiVersion: "2026-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointsRecommendedForMoveRequest" });
@@ -13645,7 +13897,7 @@ function __c93(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scriptContent: S.optional(S.String),
+          scriptContent: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scriptExtension: S.optional(S.String),
           osType: S.optional(S.String),
           url: S.optional(S.String),

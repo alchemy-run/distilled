@@ -47,20 +47,6 @@ const spec: SdkSpec = {
     },
   ],
 
-  // The data endpoints answer in the format the caller picks (CSV, NDJSON,
-  // Parquet, JSON, ...): the response is the body's bytes, read as such by
-  // the REST protocol.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = /*@__PURE__*/ S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Schema<${name}>;`,
-        ]
-      : undefined,
-
   // Sensitive strings (token values, variable values): Redacted on the way
   // out, `string | Redacted` accepted on the way in (the REST protocol
   // unwraps).
@@ -86,7 +72,7 @@ const spec: SdkSpec = {
     commonErrorType: "TinybirdOpError",
     // No per-operation error classes: failures dispatch by status through
     // core's shared map (src/errors.ts).
-    commonErrorClasses: ["UnknownTinybirdError"],
+    serviceErrors: "TinybirdServiceErrors",
     protocol: "TinybirdProtocol",
     retry: "Retry.Retry",
   },

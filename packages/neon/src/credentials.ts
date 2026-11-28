@@ -4,8 +4,12 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *
  * API-compatible port of the distilled v0 Neon credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing `NEON_API_KEY` is a `ConfigError` at setup, and no call fails for
+ * it (`AGENTS.md` rule 18).
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -20,9 +24,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "NeonCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("NeonCredentials") {}
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -37,8 +39,11 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads NEON_API_KEY (required) and NEON_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads NEON_API_KEY (required) and NEON_API_BASE_URL (optional), once: when
+ * the layer is built. A missing key fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
   /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.NEON_API_KEY;
@@ -49,9 +54,10 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       });
     }
 
-    return {
+    // The service holds an effect; this one can no longer fail.
+    return Effect.succeed({
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: process.env.NEON_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-    };
+    });
   }),
 );

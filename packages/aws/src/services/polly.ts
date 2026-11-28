@@ -8,10 +8,11 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
-import { SensitiveString } from "../sensitive.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -89,6 +90,27 @@ const TELEMETRY = {
   propagate: TxXray.propagate,
 } as const;
 
+export class AccessDeniedException
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
+    "AccessDeniedException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }),
+      /*@__PURE__*/ T.HttpError(403),
+    ),
+  ).pipe(C.withAuthError) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: S.String,
+      resourceType: /*@__PURE__*/ S.suspend(() => S.String).annotate({
+        identifier: "ResourceType",
+      }),
+    },
+    /*@__PURE__*/ T.HttpError(409),
+  ).pipe(C.withConflictError) {}
 export class EngineNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<EngineNotSupportedException>()(
     "EngineNotSupportedException",
@@ -281,64 +303,54 @@ export class ValidationException
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
-export type LexiconName = string;
-export interface DeleteLexiconInput {
-  Name: string;
-}
-export interface DeleteLexiconOutput {}
-export type Engine = "standard" | "neural" | "long-form" | "generative" | (string & {});
-export type LanguageCode =
-  | "arb"
-  | "cmn-CN"
-  | "cy-GB"
-  | "da-DK"
+export type CustomVoiceName = string;
+export type CustomVoiceLanguageCode =
   | "de-DE"
-  | "en-AU"
-  | "en-GB"
-  | "en-GB-WLS"
-  | "en-IN"
   | "en-US"
-  | "es-ES"
-  | "es-MX"
   | "es-US"
-  | "fr-CA"
   | "fr-FR"
-  | "is-IS"
-  | "it-IT"
-  | "ja-JP"
   | "hi-IN"
-  | "ko-KR"
-  | "nb-NO"
-  | "nl-NL"
-  | "pl-PL"
+  | "it-IT"
   | "pt-BR"
-  | "pt-PT"
-  | "ro-RO"
-  | "ru-RU"
-  | "sv-SE"
-  | "tr-TR"
-  | "en-NZ"
-  | "en-ZA"
-  | "ca-ES"
-  | "de-AT"
-  | "yue-CN"
-  | "ar-AE"
-  | "fi-FI"
-  | "en-IE"
-  | "nl-BE"
-  | "fr-BE"
-  | "cs-CZ"
-  | "de-CH"
-  | "en-SG"
   | (string & {});
-export type IncludeAdditionalLanguageCodes = boolean;
-export type NextToken = string;
-export interface DescribeVoicesInput {
-  Engine?: Engine | undefined;
-  LanguageCode?: LanguageCode | undefined;
-  IncludeAdditionalLanguageCodes?: boolean | undefined;
-  NextToken?: string | undefined;
+export type TermsAccepted = boolean;
+export type AudioFormat = "wav" | "flac" | "ogg_vorbis" | "mp3" | (string & {});
+export type S3Url = string;
+export type RecordingBytes = Uint8Array | redacted.Redacted<Uint8Array>;
+export interface RecordingData {
+  S3Url?: string | undefined;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
+export interface Recording {
+  Format: AudioFormat;
+  Data: RecordingData;
+}
+export type RecordingList = Recording[];
+export interface VoiceCreationData {
+  Recordings: Recording[];
+}
+export type KmsKeyArn = string;
+export type EncryptionContextKey = string;
+export type EncryptionContextValue = string;
+export type EncryptionContext = { [key: string]: string | undefined };
+export interface CustomerManagedEncryption {
+  KmsKeyArn: string;
+  EncryptionContext?: { [key: string]: string | undefined } | undefined;
+}
+export type TagKey = string;
+export type TagValue = string;
+export type TagMap = { [key: string]: string | undefined };
+export type ClientToken = string;
+export interface CreateVoiceInput {
+  Name: string;
+  LanguageCode: CustomVoiceLanguageCode;
+  TermsAccepted: boolean;
+  VoiceCreationData: VoiceCreationData;
+  CustomerManagedEncryption?: CustomerManagedEncryption | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+}
+export type VoiceArn = string;
 export type Gender = "Female" | "Male" | (string & {});
 export type VoiceId =
   | "Aditi"
@@ -458,18 +470,94 @@ export type VoiceId =
   | "Nate"
   | "Tina"
   | (string & {});
+export type LanguageCode =
+  | "arb"
+  | "cmn-CN"
+  | "cy-GB"
+  | "da-DK"
+  | "de-DE"
+  | "en-AU"
+  | "en-GB"
+  | "en-GB-WLS"
+  | "en-IN"
+  | "en-US"
+  | "es-ES"
+  | "es-MX"
+  | "es-US"
+  | "fr-CA"
+  | "fr-FR"
+  | "is-IS"
+  | "it-IT"
+  | "ja-JP"
+  | "hi-IN"
+  | "ko-KR"
+  | "nb-NO"
+  | "nl-NL"
+  | "pl-PL"
+  | "pt-BR"
+  | "pt-PT"
+  | "ro-RO"
+  | "ru-RU"
+  | "sv-SE"
+  | "tr-TR"
+  | "en-NZ"
+  | "en-ZA"
+  | "ca-ES"
+  | "de-AT"
+  | "yue-CN"
+  | "ar-AE"
+  | "fi-FI"
+  | "en-IE"
+  | "nl-BE"
+  | "fr-BE"
+  | "cs-CZ"
+  | "de-CH"
+  | "en-SG"
+  | (string & {});
 export type LanguageName = string;
 export type VoiceName = string;
+export type VoiceOrigin = "aws" | "customer" | (string & {});
+export type VoiceStatus = "pending" | "active" | "failed" | (string & {});
+export type StatusReason = string;
 export type LanguageCodeList = LanguageCode[];
+export type Engine = "standard" | "neural" | "long-form" | "generative" | (string & {});
 export type EngineList = Engine[];
 export interface Voice {
+  Arn?: string | undefined;
   Gender?: Gender | undefined;
   Id?: VoiceId | undefined;
   LanguageCode?: LanguageCode | undefined;
   LanguageName?: string | undefined;
   Name?: string | undefined;
+  Origin?: VoiceOrigin | undefined;
+  Status?: VoiceStatus | undefined;
+  StatusReason?: string | undefined;
   AdditionalLanguageCodes?: LanguageCode[] | undefined;
   SupportedEngines?: Engine[] | undefined;
+  VoiceCreationData?: VoiceCreationData | undefined;
+  CustomerManagedEncryption?: CustomerManagedEncryption | undefined;
+  CreationTime?: Date | undefined;
+}
+export interface CreateVoiceOutput {
+  Voice?: Voice | undefined;
+}
+export type LexiconName = string;
+export interface DeleteLexiconInput {
+  Name: string;
+}
+export interface DeleteLexiconOutput {}
+export type CustomVoiceId = string;
+export interface DeleteVoiceInput {
+  VoiceId: string;
+}
+export interface DeleteVoiceOutput {}
+export type IncludeAdditionalLanguageCodes = boolean;
+export type NextToken = string;
+export interface DescribeVoicesInput {
+  Engine?: Engine | undefined;
+  LanguageCode?: LanguageCode | undefined;
+  IncludeAdditionalLanguageCodes?: boolean | undefined;
+  NextToken?: string | undefined;
 }
 export type VoiceList = Voice[];
 export interface DescribeVoicesOutput {
@@ -544,6 +632,12 @@ export interface SynthesisTask {
 export interface GetSpeechSynthesisTaskOutput {
   SynthesisTask?: SynthesisTask | undefined;
 }
+export interface GetVoiceInput {
+  VoiceId: string;
+}
+export interface GetVoiceOutput {
+  Voice?: Voice | undefined;
+}
 export interface ListLexiconsInput {
   NextToken?: string | undefined;
 }
@@ -571,9 +665,6 @@ export type AmazonResourceName = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
-export type TagKey = string;
-export type TagValue = string;
-export type TagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -619,6 +710,8 @@ export type ValidationExceptionReason =
   | "fieldValidationFailed"
   | "other"
   | "invalidInboundEvent"
+  | "kmsKeyNotFound"
+  | "kmsKeyUnusable"
   | (string & {});
 export type ValidationExceptionFieldName = string;
 export type ValidationExceptionFieldMessage = string;
@@ -630,6 +723,7 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type QuotaCode =
   | "input-stream-inbound-event-timeout"
   | "input-stream-timeout"
+  | "custom-voice-max-count"
   | (string & {});
 export type ServiceCode = "polly" | (string & {});
 export type AvailabilityErrorMessage = string;
@@ -739,9 +833,65 @@ export interface UntagResourceInput {
   TagKeys: string[];
 }
 export interface UntagResourceOutput {}
+export type ServiceErrorMessage = string;
 export type ExceptionMessage = string;
 export type ResourceId = string;
-export type ResourceType = "lexicon" | (string & {});
+export type ResourceType = "lexicon" | "voice" | (string & {});
+export type CreateVoiceError =
+  | AccessDeniedException
+  | InvalidTagParameterException
+  | ServiceFailureException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a custom voice from recordings of a speaker and returns it
+ * in `pending` status. Use `GetVoice` to check the
+ * status. When the status is `active`, you can use the voice ID
+ * in `SynthesizeSpeech`, `StartSpeechSynthesisTask`,
+ * and `StartSpeechSynthesisStream`.
+ *
+ * The `custom-voice-max-count` service quota limits the
+ * number of custom voices in your account in each Region. If you reach the
+ * quota, the request fails with
+ * `ServiceQuotaExceededException`.
+ *
+ * This operation requires permissions to perform the
+ * `polly:CreateVoice` action. You also need
+ * `s3:GetObject` permission on each recording that you specify by
+ * `S3Url`. If you specify a customer managed key, you also need
+ * `kms:DescribeKey`, `kms:GenerateDataKey`, and
+ * `kms:Decrypt` permissions on the key. If you specify
+ * `Tags`, you also need the `polly:TagResource`
+ * permission.
+ */
+export const createVoice: API.OperationMethod<
+  CreateVoiceInput & RegionInput,
+  CreateVoiceOutput,
+  CreateVoiceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c2, 0) as any as S.Schema<CreateVoiceInput>,
+  output: __S(96, __c6, 0) as any as S.Schema<CreateVoiceOutput>,
+  errors: [
+    AccessDeniedException,
+    InvalidTagParameterException,
+    ServiceFailureException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateVoice",
+  telemetry: TELEMETRY,
+  span: "CreateVoice",
+}));
+
 export type DeleteLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
 /**
  * Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for
@@ -756,9 +906,10 @@ export const deleteLexicon: API.OperationMethod<
   DeleteLexiconError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<DeleteLexiconInput>,
-  output: __S(48, __c3, 0) as any as S.Schema<DeleteLexiconOutput>,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteLexiconInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<DeleteLexiconOutput>,
   errors: [LexiconNotFoundException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLexicon",
@@ -766,28 +917,90 @@ export const deleteLexicon: API.OperationMethod<
   span: "DeleteLexicon",
 }));
 
+export type DeleteVoiceError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a custom voice. `DescribeVoices` and
+ * `GetVoice` stop returning the voice immediately. You can't
+ * restore a deleted voice.
+ *
+ * You can delete a voice in `active` or `failed`
+ * status. If the voice is in `pending` status, the request fails
+ * with `ConflictException`. If no custom voice with the specified
+ * ID exists in your account and Region, the request fails with
+ * `ResourceNotFoundException`. You can delete the voice even if
+ * you disabled its Amazon Web Services KMS key or scheduled it for deletion.
+ *
+ * This operation requires permissions to perform the
+ * `polly:DeleteVoice` action.
+ */
+export const deleteVoice: API.OperationMethod<
+  DeleteVoiceInput & RegionInput,
+  DeleteVoiceOutput,
+  DeleteVoiceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteVoiceInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<DeleteVoiceOutput>,
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    ServiceFailureException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteVoice",
+  telemetry: TELEMETRY,
+  span: "DeleteVoice",
+}));
+
 export type DescribeVoicesError =
   | InvalidNextTokenException
   | ServiceFailureException
   | CommonErrors;
 /**
- * Returns the list of voices that are available for use when
- * requesting speech synthesis. Each voice speaks a specified language, is
- * either male or female, and is identified by an ID, which is the ASCII
- * version of the voice name.
+ * Returns the list of voices: the voices that Amazon Polly provides and
+ * the custom voices in your account. Each voice speaks a specified language
+ * and is identified by an ID. A voice that Amazon Polly provides is either male or
+ * female, and its ID is the ASCII version of the voice name.
  *
- * When synthesizing speech ( `SynthesizeSpeech` ), you
+ * When synthesizing speech (`SynthesizeSpeech`), you
  * provide the voice ID for the voice you want from the list of voices
  * returned by `DescribeVoices`.
  *
- * For example, you want your news reader application to read news in
- * a specific language, but giving a user the option to choose the voice.
- * Using the `DescribeVoices` operation you can provide the user
- * with a list of available voices to select from.
+ * For example, your news reader application reads news in a specific
+ * language, and you want to give users the option to choose the voice. With
+ * the `DescribeVoices` operation, you can provide a list of
+ * available voices for users to choose from.
  *
  * You can optionally specify a language code to filter the available
  * voices. For example, if you specify `en-US`, the operation
  * returns a list of all available US English voices.
+ *
+ * The list includes custom voices in every status. For each voice, `Origin` indicates whether Amazon Polly
+ * provides the voice or you created it. You can use a custom voice for
+ * synthesis only when its status is `active`. A voice in
+ * `failed` status stays in the list until you delete it.
+ *
+ * For a custom voice, `DescribeVoices` returns
+ * `Origin`, `Id`, `Name`,
+ * `Status`, `LanguageCode`, `LanguageName`,
+ * `SupportedEngines`, and `CreationTime`. To get
+ * `Arn`, `StatusReason`,
+ * `VoiceCreationData`, and
+ * `CustomerManagedEncryption`, use `GetVoice`.
+ *
+ * The `LanguageCode` and `Engine` filters apply
+ * to custom voices in the same way as to voices that Amazon Polly
+ * provides.
  *
  * This operation requires permissions to perform the
  * `polly:DescribeVoices` action.
@@ -798,9 +1011,10 @@ export const describeVoices: API.OperationMethod<
   DescribeVoicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<DescribeVoicesInput>,
-  output: __S(67, __c4, 3) as any as S.Schema<DescribeVoicesOutput>,
+  input: __S(160, __c10, 0) as any as S.Schema<DescribeVoicesInput>,
+  output: __S(162, __c10, 2) as any as S.Schema<DescribeVoicesOutput>,
   errors: [InvalidNextTokenException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVoices",
@@ -819,9 +1033,10 @@ export const getLexicon: API.OperationMethod<
   GetLexiconError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetLexiconInput>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetLexiconOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetLexiconInput>,
+  output: __S(178, __c11, 2) as any as S.Schema<GetLexiconOutput>,
   errors: [LexiconNotFoundException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLexicon",
@@ -846,14 +1061,57 @@ export const getSpeechSynthesisTask: API.OperationMethod<
   GetSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetSpeechSynthesisTaskInput>,
-  output: __S(176, __c11, 0) as any as S.Schema<GetSpeechSynthesisTaskOutput>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetSpeechSynthesisTaskInput>,
+  output: __S(256, __c16, 0) as any as S.Schema<GetSpeechSynthesisTaskOutput>,
   errors: [InvalidTaskIdException, ServiceFailureException, SynthesisTaskNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeechSynthesisTask",
   telemetry: TELEMETRY,
   span: "GetSpeechSynthesisTask",
+}));
+
+export type GetVoiceError =
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the status and properties of a custom voice. Use this
+ * operation after `CreateVoice` to check whether the status of
+ * the voice is `active` or `failed`. Unlike
+ * `DescribeVoices`, `GetVoice` also returns
+ * `Arn`, `VoiceCreationData`,
+ * `CustomerManagedEncryption`, and
+ * `StatusReason`. If no custom voice with the specified ID exists
+ * in your account and Region, the request fails with
+ * `ResourceNotFoundException`.
+ *
+ * This operation requires permissions to perform the
+ * `polly:GetVoice` action.
+ */
+export const getVoice: API.OperationMethod<
+  GetVoiceInput & RegionInput,
+  GetVoiceOutput,
+  GetVoiceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c17, 0) as any as S.Schema<GetVoiceInput>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetVoiceOutput>,
+  errors: [
+    ResourceNotFoundException,
+    ServiceFailureException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetVoice",
+  telemetry: TELEMETRY,
+  span: "GetVoice",
 }));
 
 export type ListLexiconsError = InvalidNextTokenException | ServiceFailureException | CommonErrors;
@@ -866,9 +1124,10 @@ export const listLexicons: API.OperationMethod<
   ListLexiconsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListLexiconsInput>,
-  output: __S(195, __c12, 3) as any as S.Schema<ListLexiconsOutput>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListLexiconsInput>,
+  output: __S(291, __c18, 3) as any as S.Schema<ListLexiconsOutput>,
   errors: [InvalidNextTokenException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLexicons",
@@ -892,9 +1151,10 @@ export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListSpeechSynthesisTasksInput>,
-  output: __S(210, __c13, 2) as any as S.Schema<ListSpeechSynthesisTasksOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListSpeechSynthesisTasksInput>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListSpeechSynthesisTasksOutput>,
   errors: [InvalidNextTokenException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpeechSynthesisTasks",
@@ -923,8 +1183,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(225, __c14, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(321, __c20, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [
     InvalidTagParameterException,
     ResourceNotFoundException,
@@ -932,6 +1192,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -972,8 +1233,8 @@ export const putLexicon: API.OperationMethod<
   PutLexiconError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<PutLexiconInput>,
-  output: __S(48, __c3, 0) as any as S.Schema<PutLexiconOutput>,
+  input: __S(336, __c21, 0) as any as S.Schema<PutLexiconInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<PutLexiconOutput>,
   errors: [
     InvalidLexiconException,
     InvalidTagParameterException,
@@ -986,6 +1247,7 @@ export const putLexicon: API.OperationMethod<
     UnsupportedPlsLanguageException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLexicon",
@@ -994,6 +1256,8 @@ export const putLexicon: API.OperationMethod<
 }));
 
 export type StartSpeechSynthesisStreamError =
+  | ConflictException
+  | ResourceNotFoundException
   | ServiceFailureException
   | ServiceQuotaExceededException
   | ThrottlingException
@@ -1007,6 +1271,20 @@ export type StartSpeechSynthesisStreamError =
  * This operation serves as a bidirectional counterpart to `SynthesizeSpeech`:
  *
  * - SynthesizeSpeech
+ *
+ * To use a custom voice, specify its ID in `VoiceId`. The
+ * voice must be in `active` status. If the voice is in
+ * `pending` or `failed` status, the request fails with
+ * `ConflictException`. If no custom voice with the specified ID
+ * exists in your account and Region, the request fails with
+ * `ResourceNotFoundException`. If the custom voice uses a
+ * customer managed key, you need `kms:Decrypt` permission on the
+ * key. If you disabled the key or scheduled it for deletion, the request
+ * fails with `ValidationException`. If you don't have permission
+ * to use the key, the request fails with
+ * `AccessDeniedException`. If Amazon Web Services KMS throttles Amazon Polly's
+ * request to use the key, the request fails with
+ * `ThrottlingException`.
  */
 export const startSpeechSynthesisStream: API.OperationMethod<
   StartSpeechSynthesisStreamInput & RegionInput,
@@ -1014,14 +1292,17 @@ export const startSpeechSynthesisStream: API.OperationMethod<
   StartSpeechSynthesisStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(276, __c17, 4) as any as S.Schema<StartSpeechSynthesisStreamInput>,
-  output: __S(280, __c17, 8) as any as S.Schema<StartSpeechSynthesisStreamOutput>,
+  input: __S(356, __c22, 4) as any as S.Schema<StartSpeechSynthesisStreamInput>,
+  output: __S(360, __c22, 8) as any as S.Schema<StartSpeechSynthesisStreamOutput>,
   errors: [
+    ConflictException,
+    ResourceNotFoundException,
     ServiceFailureException,
     ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisStream",
@@ -1030,6 +1311,7 @@ export const startSpeechSynthesisStream: API.OperationMethod<
 }));
 
 export type StartSpeechSynthesisTaskError =
+  | ConflictException
   | EngineNotSupportedException
   | InvalidS3BucketException
   | InvalidS3KeyException
@@ -1039,21 +1321,33 @@ export type StartSpeechSynthesisTaskError =
   | LanguageNotSupportedException
   | LexiconNotFoundException
   | MarksNotSupportedForFormatException
+  | ResourceNotFoundException
   | ServiceFailureException
   | SsmlMarksNotSupportedForTextTypeException
   | TextLengthExceededException
   | CommonErrors;
 /**
- * Allows the creation of an asynchronous synthesis task, by starting a
- * new `SpeechSynthesisTask`. This operation requires all the
- * standard information needed for speech synthesis, plus the name of an
- * Amazon S3 bucket for the service to store the output of the synthesis task
- * and two optional parameters (`OutputS3KeyPrefix` and
- * `SnsTopicArn`). Once the synthesis task is created, this
- * operation will return a `SpeechSynthesisTask` object, which
- * will include an identifier of this task as well as the current status. The
+ * Starts an asynchronous synthesis task by creating a new
+ * `SpeechSynthesisTask`. This operation requires all the standard
+ * information needed for speech synthesis, plus the name of an Amazon S3
+ * bucket for the service to store the output of the synthesis task and two
+ * optional parameters (`OutputS3KeyPrefix` and
+ * `SnsTopicArn`). After Amazon Polly creates the synthesis task, the
+ * operation returns a `SpeechSynthesisTask` object that includes
+ * an identifier for the task and its current status. The
  * `SpeechSynthesisTask` object is available for 72 hours after
- * starting the asynchronous synthesis task.
+ * you start the asynchronous synthesis task.
+ *
+ * To use a custom voice, specify its ID in `VoiceId`. The
+ * voice must be in `active` status. If the voice is in
+ * `pending` or `failed` status, the request fails with
+ * `ConflictException`. If no custom voice with the specified ID
+ * exists in your account and Region, the request fails with
+ * `ResourceNotFoundException`. If the custom voice uses a
+ * customer managed key, you need `kms:Decrypt` permission on the
+ * key. If you disable the key or schedule it for deletion before the task
+ * runs, the task fails and `TaskStatusReason` describes the
+ * cause.
  */
 export const startSpeechSynthesisTask: API.OperationMethod<
   StartSpeechSynthesisTaskInput & RegionInput,
@@ -1061,9 +1355,10 @@ export const startSpeechSynthesisTask: API.OperationMethod<
   StartSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<StartSpeechSynthesisTaskInput>,
-  output: __S(176, __c11, 0) as any as S.Schema<StartSpeechSynthesisTaskOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<StartSpeechSynthesisTaskInput>,
+  output: __S(256, __c16, 0) as any as S.Schema<StartSpeechSynthesisTaskOutput>,
   errors: [
+    ConflictException,
     EngineNotSupportedException,
     InvalidS3BucketException,
     InvalidS3KeyException,
@@ -1073,10 +1368,12 @@ export const startSpeechSynthesisTask: API.OperationMethod<
     LanguageNotSupportedException,
     LexiconNotFoundException,
     MarksNotSupportedForFormatException,
+    ResourceNotFoundException,
     ServiceFailureException,
     SsmlMarksNotSupportedForTextTypeException,
     TextLengthExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisTask",
@@ -1085,12 +1382,14 @@ export const startSpeechSynthesisTask: API.OperationMethod<
 }));
 
 export type SynthesizeSpeechError =
+  | ConflictException
   | EngineNotSupportedException
   | InvalidSampleRateException
   | InvalidSsmlException
   | LanguageNotSupportedException
   | LexiconNotFoundException
   | MarksNotSupportedForFormatException
+  | ResourceNotFoundException
   | ServiceFailureException
   | SsmlMarksNotSupportedForTextTypeException
   | TextLengthExceededException
@@ -1101,6 +1400,21 @@ export type SynthesizeSpeechError =
  * available with all the voices (for example, Cyrillic might not be read at
  * all by English voices) unless phoneme mapping is used. For more
  * information, see How it Works.
+ *
+ * To use a custom voice, specify its ID in `VoiceId`. The
+ * voice must be in `active` status. If the voice is in
+ * `pending` or `failed` status, the request fails with
+ * `ConflictException`. If no custom voice with the specified ID
+ * exists in your account and Region, the request fails with
+ * `ResourceNotFoundException`.
+ *
+ * If the custom voice uses a customer managed key, you need
+ * `kms:Decrypt` permission on the key. If you disabled the key or
+ * scheduled it for deletion, the request fails with
+ * `ValidationException`. If you don't have permission to use the
+ * key, the request fails with `AccessDeniedException`. If Amazon Web Services
+ * KMS throttles Amazon Polly's request to use the key, the request fails with
+ * `ThrottlingException`.
  */
 export const synthesizeSpeech: API.OperationMethod<
   SynthesizeSpeechInput & RegionInput,
@@ -1108,19 +1422,22 @@ export const synthesizeSpeech: API.OperationMethod<
   SynthesizeSpeechError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<SynthesizeSpeechInput>,
-  output: __S(305, __c19, 1) as any as S.Schema<SynthesizeSpeechOutput>,
+  input: __S(384, __c24, 0) as any as S.Schema<SynthesizeSpeechInput>,
+  output: __S(385, __c24, 1) as any as S.Schema<SynthesizeSpeechOutput>,
   errors: [
+    ConflictException,
     EngineNotSupportedException,
     InvalidSampleRateException,
     InvalidSsmlException,
     LanguageNotSupportedException,
     LexiconNotFoundException,
     MarksNotSupportedForFormatException,
+    ResourceNotFoundException,
     ServiceFailureException,
     SsmlMarksNotSupportedForTextTypeException,
     TextLengthExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynthesizeSpeech",
@@ -1148,8 +1465,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(48, __c3, 0) as any as S.Schema<TagResourceOutput>,
+  input: __S(400, __c25, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<TagResourceOutput>,
   errors: [
     InvalidTagParameterException,
     ResourceNotFoundException,
@@ -1158,6 +1475,7 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1181,8 +1499,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(48, __c3, 0) as any as S.Schema<UntagResourceOutput>,
+  input: __S(416, __c26, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [
     InvalidTagParameterException,
     ResourceNotFoundException,
@@ -1190,6 +1508,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1222,6 +1541,85 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          LanguageCode: S.String,
+          TermsAccepted: S.Boolean,
+          VoiceCreationData: __S(67, __c4, 3),
+          CustomerManagedEncryption: S.optional(__S(68, __c4, 4)),
+          Tags: S.optional(__S(80, __c5, 0)),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/v1/voices" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateVoiceInput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ S3Url: S.optional(S.String), Bytes: S.optional(SensitiveBlob) }),
+      ).annotate({ identifier: "RecordingData" });
+    case 1:
+      return S.suspend(() => S.Struct({ Format: S.String, Data: __S(64, __c4, 0) })).annotate({
+        identifier: "Recording",
+      });
+    case 2:
+      return S.Array(__S(65, __c4, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ Recordings: __S(66, __c4, 2) })).annotate({
+        identifier: "VoiceCreationData",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ KmsKeyArn: S.String, EncryptionContext: S.optional(__S(80, __c5, 0)) }),
+      ).annotate({ identifier: "CustomerManagedEncryption" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          Gender: S.optional(S.String),
+          Id: S.optional(S.String),
+          LanguageCode: S.optional(S.String),
+          LanguageName: S.optional(S.String),
+          Name: S.optional(S.String),
+          Origin: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          AdditionalLanguageCodes: S.optional(__S(48, __c3, 0)),
+          SupportedEngines: S.optional(__S(48, __c3, 0)),
+          VoiceCreationData: S.optional(__S(67, __c4, 3)),
+          CustomerManagedEncryption: S.optional(__S(68, __c4, 4)),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Voice" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Voice: S.optional(__S(69, __c4, 5)) }).pipe(ns)).annotate({
+        identifier: "CreateVoiceOutput",
+      });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
           T.all(
             ns,
@@ -1236,13 +1634,31 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteLexiconInput" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "DeleteLexiconOutput" });
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VoiceId: S.String.pipe(T.HttpLabel("VoiceId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/v1/voices/{VoiceId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteVoiceInput" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1258,34 +1674,16 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "DescribeVoicesInput" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          Gender: S.optional(S.String),
-          Id: S.optional(S.String),
-          LanguageCode: S.optional(S.String),
-          LanguageName: S.optional(S.String),
-          Name: S.optional(S.String),
-          AdditionalLanguageCodes: S.optional(__S(80, __c5, 0)),
-          SupportedEngines: S.optional(__S(80, __c5, 0)),
-        }),
-      ).annotate({ identifier: "Voice" });
+      return S.Array(__S(69, __c4, 5));
     case 2:
-      return S.Array(__S(65, __c4, 1));
-    case 3:
       return S.suspend(() =>
-        S.Struct({ Voices: S.optional(__S(66, __c4, 2)), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ Voices: S.optional(__S(161, __c10, 1)), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "DescribeVoicesOutput" });
   }
 }
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1308,13 +1706,13 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Lexicon: S.optional(__S(97, __c6, 1)),
-          LexiconAttributes: S.optional(__S(112, __c7, 0)),
+          Lexicon: S.optional(__S(177, __c11, 1)),
+          LexiconAttributes: S.optional(__S(192, __c12, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetLexiconOutput" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1329,7 +1727,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "LexiconAttributes" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1347,13 +1745,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetSpeechSynthesisTaskInput" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1366,10 +1764,10 @@ function __c10(j: number): any {
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RequestCharacters: S.optional(S.Number),
           SnsTopicArn: S.optional(S.String),
-          LexiconNames: S.optional(__S(144, __c9, 0)),
+          LexiconNames: S.optional(__S(224, __c14, 0)),
           OutputFormat: S.optional(S.String),
           SampleRate: S.optional(S.String),
-          SpeechMarkTypes: S.optional(__S(80, __c5, 0)),
+          SpeechMarkTypes: S.optional(__S(48, __c3, 0)),
           TextType: S.optional(S.String),
           VoiceId: S.optional(S.String),
           LanguageCode: S.optional(S.String),
@@ -1377,15 +1775,33 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SynthesisTask" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SynthesisTask: S.optional(__S(160, __c10, 0)) }).pipe(ns),
+        S.Struct({ SynthesisTask: S.optional(__S(240, __c15, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetSpeechSynthesisTaskOutput" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VoiceId: S.String.pipe(T.HttpLabel("VoiceId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/v1/voices/{VoiceId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetVoiceInput" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1395,20 +1811,20 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ListLexiconsInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Attributes: S.optional(__S(112, __c7, 0)) }),
+        S.Struct({ Name: S.optional(S.String), Attributes: S.optional(__S(192, __c12, 0)) }),
       ).annotate({ identifier: "LexiconDescription" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(289, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Lexicons: S.optional(__S(194, __c12, 2)),
+          Lexicons: S.optional(__S(290, __c18, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListLexiconsOutput" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1429,17 +1845,17 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListSpeechSynthesisTasksInput" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          SynthesisTasks: S.optional(__S(209, __c13, 1)),
+          SynthesisTasks: S.optional(__S(305, __c19, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "ListSpeechSynthesisTasksOutput" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1456,25 +1872,19 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(240, __c15, 0)) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(80, __c5, 0)) }).pipe(ns)).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-  }
-}
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String.pipe(T.HttpLabel("Name")),
           Content: SensitiveString,
-          Tags: S.optional(__S(240, __c15, 0)),
+          Tags: S.optional(__S(80, __c5, 0)),
         }).pipe(
           T.all(
             ns,
@@ -1489,7 +1899,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PutLexiconInput" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Force: S.optional(S.Boolean) })).annotate({
@@ -1500,7 +1910,7 @@ function __c17(j: number): any {
         S.Struct({
           Text: S.String,
           TextType: S.optional(S.String),
-          FlushStreamConfiguration: S.optional(__S(272, __c17, 0)),
+          FlushStreamConfiguration: S.optional(__S(352, __c22, 0)),
         }),
       ).annotate({ identifier: "TextEvent" });
     case 2:
@@ -1508,8 +1918,8 @@ function __c17(j: number): any {
     case 3:
       return T.InputEventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ TextEvent: __S(273, __c17, 1) }),
-          /*@__PURE__*/ S.Struct({ CloseStreamEvent: __S(274, __c17, 2) }),
+          /*@__PURE__*/ S.Struct({ TextEvent: __S(353, __c22, 1) }),
+          /*@__PURE__*/ S.Struct({ CloseStreamEvent: __S(354, __c22, 2) }),
         ]),
       );
     case 4:
@@ -1517,11 +1927,11 @@ function __c17(j: number): any {
         S.Struct({
           Engine: S.String.pipe(T.HttpHeader("x-amzn-Engine")),
           LanguageCode: S.optional(S.String).pipe(T.HttpHeader("x-amzn-LanguageCode")),
-          LexiconNames: S.optional(__S(144, __c9, 0)).pipe(T.HttpHeader("x-amzn-LexiconNames")),
+          LexiconNames: S.optional(__S(224, __c14, 0)).pipe(T.HttpHeader("x-amzn-LexiconNames")),
           OutputFormat: S.String.pipe(T.HttpHeader("x-amzn-OutputFormat")),
           SampleRate: S.optional(S.String).pipe(T.HttpHeader("x-amzn-SampleRate")),
           VoiceId: S.String.pipe(T.HttpHeader("x-amzn-VoiceId")),
-          ActionStream: S.optional(__S(275, __c17, 3)).pipe(T.HttpPayload()),
+          ActionStream: S.optional(__S(355, __c22, 3)).pipe(T.HttpPayload()),
         }).pipe(
           T.all(
             ns,
@@ -1545,8 +1955,8 @@ function __c17(j: number): any {
     case 7:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ AudioEvent: __S(277, __c17, 5) }),
-          /*@__PURE__*/ S.Struct({ StreamClosedEvent: __S(278, __c17, 6) }),
+          /*@__PURE__*/ S.Struct({ AudioEvent: __S(357, __c22, 5) }),
+          /*@__PURE__*/ S.Struct({ StreamClosedEvent: __S(358, __c22, 6) }),
           /*@__PURE__*/ S.Struct({
             ValidationException: /*@__PURE__*/ S.suspend(() => ValidationException).annotate({
               identifier: "ValidationException",
@@ -1571,24 +1981,24 @@ function __c17(j: number): any {
       );
     case 8:
       return S.suspend(() =>
-        S.Struct({ EventStream: S.optional(__S(279, __c17, 7)).pipe(T.HttpPayload()) }).pipe(ns),
+        S.Struct({ EventStream: S.optional(__S(359, __c22, 7)).pipe(T.HttpPayload()) }).pipe(ns),
       ).annotate({ identifier: "StartSpeechSynthesisStreamOutput" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Engine: S.optional(S.String),
           LanguageCode: S.optional(S.String),
-          LexiconNames: S.optional(__S(144, __c9, 0)),
+          LexiconNames: S.optional(__S(224, __c14, 0)),
           OutputFormat: S.String,
           OutputS3BucketName: S.String,
           OutputS3KeyPrefix: S.optional(S.String),
           SampleRate: S.optional(S.String),
           SnsTopicArn: S.optional(S.String),
-          SpeechMarkTypes: S.optional(__S(80, __c5, 0)),
+          SpeechMarkTypes: S.optional(__S(48, __c3, 0)),
           Text: S.String,
           TextType: S.optional(S.String),
           VoiceId: S.String,
@@ -1606,17 +2016,17 @@ function __c18(j: number): any {
       ).annotate({ identifier: "StartSpeechSynthesisTaskInput" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Engine: S.optional(S.String),
           LanguageCode: S.optional(S.String),
-          LexiconNames: S.optional(__S(144, __c9, 0)),
+          LexiconNames: S.optional(__S(224, __c14, 0)),
           OutputFormat: S.String,
           SampleRate: S.optional(S.String),
-          SpeechMarkTypes: S.optional(__S(80, __c5, 0)),
+          SpeechMarkTypes: S.optional(__S(48, __c3, 0)),
           Text: S.String,
           TextType: S.optional(S.String),
           VoiceId: S.String,
@@ -1634,11 +2044,11 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SynthesizeSpeechOutput" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, Tags: __S(240, __c15, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, Tags: __S(80, __c5, 0) }).pipe(
           T.all(
             ns,
             T.Http({ method: "POST", uri: "/v1/tagResource" }),
@@ -1652,11 +2062,11 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, TagKeys: __S(144, __c9, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(224, __c14, 0) }).pipe(
           T.all(
             ns,
             T.Http({ method: "POST", uri: "/v1/untagResource" }),

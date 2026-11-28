@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -704,7 +705,7 @@ export class OpsItemInvalidParameterException
     "OpsItemInvalidParameterException",
     {
       ParameterNames: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(3584, __c224, 0)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(3600, __c225, 0)).annotate({
           identifier: "OpsItemParameterNamesList",
         }),
       ),
@@ -720,7 +721,7 @@ export class OpsItemLimitExceededException
     "OpsItemLimitExceededException",
     {
       ResourceTypes: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(3584, __c224, 0)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(3600, __c225, 0)).annotate({
           identifier: "OpsItemParameterNamesList",
         }),
       ),
@@ -947,7 +948,7 @@ export class ResourcePolicyInvalidParameterException
     "ResourcePolicyInvalidParameterException",
     {
       ParameterNames: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(3584, __c224, 0)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(3600, __c225, 0)).annotate({
           identifier: "ResourcePolicyParameterNamesList",
         }),
       ),
@@ -1502,6 +1503,8 @@ export type DocumentType =
   | (string & {});
 export type DocumentFormat = "YAML" | "JSON" | "TEXT" | (string & {});
 export type TargetType = string;
+export type CloudProvider = "AWS" | "Azure" | "GCP" | (string & {});
+export type CloudProviderList = CloudProvider[];
 export interface CreateDocumentRequest {
   Content: string;
   Requires?: DocumentRequires[] | undefined;
@@ -1513,6 +1516,7 @@ export interface CreateDocumentRequest {
   DocumentFormat?: DocumentFormat | undefined;
   TargetType?: string | undefined;
   Tags?: Tag[] | undefined;
+  CloudProviders?: CloudProvider[] | undefined;
 }
 export type DocumentSha1 = string;
 export type DocumentHash = string;
@@ -1589,6 +1593,7 @@ export interface DocumentDescription {
   ReviewStatus?: ReviewStatus | undefined;
   Category?: string[] | undefined;
   CategoryEnum?: string[] | undefined;
+  CloudProviders?: CloudProvider[] | undefined;
 }
 export interface CreateDocumentResult {
   DocumentDescription?: DocumentDescription | undefined;
@@ -4444,6 +4449,7 @@ export interface DocumentIdentifier {
   Requires?: DocumentRequires[] | undefined;
   ReviewStatus?: ReviewStatus | undefined;
   Author?: string | undefined;
+  CloudProviders?: CloudProvider[] | undefined;
 }
 export type DocumentIdentifierList = DocumentIdentifier[];
 export interface ListDocumentsResult {
@@ -4466,6 +4472,7 @@ export interface DocumentVersionInfo {
   Status?: DocumentStatus | undefined;
   StatusInformation?: string | undefined;
   ReviewStatus?: ReviewStatus | undefined;
+  CloudProviders?: CloudProvider[] | undefined;
 }
 export type DocumentVersionList = DocumentVersionInfo[];
 export interface ListDocumentVersionsResult {
@@ -5114,6 +5121,7 @@ export interface UpdateDocumentRequest {
   DocumentVersion?: string | undefined;
   DocumentFormat?: DocumentFormat | undefined;
   TargetType?: string | undefined;
+  CloudProviders?: CloudProvider[] | undefined;
 }
 export interface UpdateDocumentResult {
   DocumentDescription?: DocumentDescription | undefined;
@@ -5407,6 +5415,7 @@ export const addTagsToResource: API.OperationMethod<
     TooManyTagsError,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
@@ -5443,6 +5452,7 @@ export const associateOpsItemRelatedItem: API.OperationMethod<
     OpsItemNotFoundException,
     OpsItemRelatedItemAlreadyExistsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpsItemRelatedItem",
@@ -5469,6 +5479,7 @@ export const cancelCommand: API.OperationMethod<
   input: __S(64, __c4, 0) as any as S.Schema<CancelCommandRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelCommandResult>,
   errors: [DuplicateInstanceId, InternalServerError, InvalidCommandId, InvalidInstanceId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCommand",
@@ -5494,6 +5505,7 @@ export const cancelMaintenanceWindowExecution: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<CancelMaintenanceWindowExecutionRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<CancelMaintenanceWindowExecutionResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMaintenanceWindowExecution",
@@ -5522,6 +5534,7 @@ export const createActivation: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<CreateActivationRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<CreateActivationResult>,
   errors: [InternalServerError, InvalidParameters],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActivation",
@@ -5579,6 +5592,7 @@ export const createAssociation: API.OperationMethod<
     InvalidTargetMaps,
     UnsupportedPlatformType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociation",
@@ -5633,6 +5647,7 @@ export const createAssociationBatch: API.OperationMethod<
     InvalidTargetMaps,
     UnsupportedPlatformType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociationBatch",
@@ -5658,6 +5673,7 @@ export const createCloudConnector: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<CreateCloudConnectorRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<CreateCloudConnectorResult>,
   errors: [ConflictException, InternalServerError, ServiceQuotaExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudConnector",
@@ -5688,7 +5704,7 @@ export const createDocument: API.OperationMethod<
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CreateDocumentRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<CreateDocumentResult>,
+  output: __S(466, __c29, 2) as any as S.Schema<CreateDocumentResult>,
   errors: [
     DocumentAlreadyExists,
     DocumentLimitExceeded,
@@ -5699,6 +5715,7 @@ export const createDocument: API.OperationMethod<
     NoLongerSupportedException,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocument",
@@ -5727,9 +5744,10 @@ export const createMaintenanceWindow: API.OperationMethod<
   CreateMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateMaintenanceWindowRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<CreateMaintenanceWindowResult>,
+  input: __S(480, __c30, 0) as any as S.Schema<CreateMaintenanceWindowRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateMaintenanceWindowResult>,
   errors: [IdempotentParameterMismatch, InternalServerError, ResourceLimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMaintenanceWindow",
@@ -5759,8 +5777,8 @@ export const createOpsItem: API.OperationMethod<
   CreateOpsItemError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<CreateOpsItemRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<CreateOpsItemResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<CreateOpsItemRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<CreateOpsItemResponse>,
   errors: [
     InternalServerError,
     OpsItemAccessDeniedException,
@@ -5768,6 +5786,7 @@ export const createOpsItem: API.OperationMethod<
     OpsItemInvalidParameterException,
     OpsItemLimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsItem",
@@ -5792,8 +5811,8 @@ export const createOpsMetadata: API.OperationMethod<
   CreateOpsMetadataError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CreateOpsMetadataRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<CreateOpsMetadataResult>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateOpsMetadataRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<CreateOpsMetadataResult>,
   errors: [
     InternalServerError,
     OpsMetadataAlreadyExistsException,
@@ -5801,6 +5820,7 @@ export const createOpsMetadata: API.OperationMethod<
     OpsMetadataLimitExceededException,
     OpsMetadataTooManyUpdatesException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsMetadata",
@@ -5825,9 +5845,10 @@ export const createPatchBaseline: API.OperationMethod<
   CreatePatchBaselineError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CreatePatchBaselineRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreatePatchBaselineResult>,
+  input: __S(624, __c39, 0) as any as S.Schema<CreatePatchBaselineRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<CreatePatchBaselineResult>,
   errors: [IdempotentParameterMismatch, InternalServerError, ResourceLimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePatchBaseline",
@@ -5872,7 +5893,7 @@ export const createResourceDataSync: API.OperationMethod<
   CreateResourceDataSyncError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CreateResourceDataSyncRequest>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateResourceDataSyncRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateResourceDataSyncResult>,
   errors: [
     InternalServerError,
@@ -5880,6 +5901,7 @@ export const createResourceDataSync: API.OperationMethod<
     ResourceDataSyncCountExceededException,
     ResourceDataSyncInvalidConfigurationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDataSync",
@@ -5904,9 +5926,10 @@ export const deleteActivation: API.OperationMethod<
   DeleteActivationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DeleteActivationRequest>,
+  input: __S(752, __c47, 0) as any as S.Schema<DeleteActivationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteActivationResult>,
   errors: [InternalServerError, InvalidActivation, InvalidActivationId, TooManyUpdates],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivation",
@@ -5937,7 +5960,7 @@ export const deleteAssociation: API.OperationMethod<
   DeleteAssociationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<DeleteAssociationRequest>,
+  input: __S(768, __c48, 0) as any as S.Schema<DeleteAssociationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAssociationResult>,
   errors: [
     AssociationDoesNotExist,
@@ -5946,6 +5969,7 @@ export const deleteAssociation: API.OperationMethod<
     InvalidInstanceId,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
@@ -5967,9 +5991,10 @@ export const deleteCloudConnector: API.OperationMethod<
   DeleteCloudConnectorError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DeleteCloudConnectorRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<DeleteCloudConnectorRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteCloudConnectorResult>,
   errors: [ConflictException, InternalServerError, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudConnector",
@@ -5996,7 +6021,7 @@ export const deleteDocument: API.OperationMethod<
   DeleteDocumentError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<DeleteDocumentRequest>,
+  input: __S(800, __c50, 0) as any as S.Schema<DeleteDocumentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDocumentResult>,
   errors: [
     AssociatedInstances,
@@ -6005,6 +6030,7 @@ export const deleteDocument: API.OperationMethod<
     InvalidDocumentOperation,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
@@ -6029,8 +6055,8 @@ export const deleteInventory: API.OperationMethod<
   DeleteInventoryError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<DeleteInventoryRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<DeleteInventoryResult>,
+  input: __S(816, __c51, 0) as any as S.Schema<DeleteInventoryRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<DeleteInventoryResult>,
   errors: [
     InternalServerError,
     InvalidDeleteInventoryParametersException,
@@ -6038,6 +6064,7 @@ export const deleteInventory: API.OperationMethod<
     InvalidOptionException,
     InvalidTypeNameException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInventory",
@@ -6055,9 +6082,10 @@ export const deleteMaintenanceWindow: API.OperationMethod<
   DeleteMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<DeleteMaintenanceWindowRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<DeleteMaintenanceWindowResult>,
+  input: __S(848, __c53, 0) as any as S.Schema<DeleteMaintenanceWindowRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<DeleteMaintenanceWindowResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMaintenanceWindow",
@@ -6098,9 +6126,10 @@ export const deleteOpsItem: API.OperationMethod<
   DeleteOpsItemError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<DeleteOpsItemRequest>,
+  input: __S(864, __c54, 0) as any as S.Schema<DeleteOpsItemRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteOpsItemResponse>,
   errors: [InternalServerError, OpsItemInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsItem",
@@ -6122,9 +6151,10 @@ export const deleteOpsMetadata: API.OperationMethod<
   DeleteOpsMetadataError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<DeleteOpsMetadataRequest>,
+  input: __S(880, __c55, 0) as any as S.Schema<DeleteOpsMetadataRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteOpsMetadataResult>,
   errors: [InternalServerError, OpsMetadataInvalidArgumentException, OpsMetadataNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsMetadata",
@@ -6148,9 +6178,10 @@ export const deleteParameter: API.OperationMethod<
   DeleteParameterError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<DeleteParameterRequest>,
+  input: __S(896, __c56, 0) as any as S.Schema<DeleteParameterRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteParameterResult>,
   errors: [InternalServerError, ParameterNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameter",
@@ -6175,9 +6206,10 @@ export const deleteParameters: API.OperationMethod<
   DeleteParametersError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<DeleteParametersRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<DeleteParametersResult>,
+  input: __S(912, __c57, 0) as any as S.Schema<DeleteParametersRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<DeleteParametersResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameters",
@@ -6195,9 +6227,10 @@ export const deletePatchBaseline: API.OperationMethod<
   DeletePatchBaselineError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<DeletePatchBaselineRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<DeletePatchBaselineResult>,
+  input: __S(928, __c58, 0) as any as S.Schema<DeletePatchBaselineRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeletePatchBaselineResult>,
   errors: [InternalServerError, ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePatchBaseline",
@@ -6221,13 +6254,14 @@ export const deleteResourceDataSync: API.OperationMethod<
   DeleteResourceDataSyncError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<DeleteResourceDataSyncRequest>,
+  input: __S(944, __c59, 0) as any as S.Schema<DeleteResourceDataSyncRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteResourceDataSyncResult>,
   errors: [
     InternalServerError,
     ResourceDataSyncInvalidConfigurationException,
     ResourceDataSyncNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDataSync",
@@ -6264,7 +6298,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  input: __S(960, __c60, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     InternalServerError,
@@ -6274,6 +6308,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ResourcePolicyInvalidParameterException,
     ResourcePolicyNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -6302,9 +6337,10 @@ export const deregisterDefaultHostManagementConfiguration: API.OperationMethod<
   DeregisterDefaultHostManagementConfigurationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DeregisterDefaultHostManagementConfigurationRequest>,
+  input: __S(976, __c61, 0) as any as S.Schema<DeregisterDefaultHostManagementConfigurationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeregisterDefaultHostManagementConfigurationResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDefaultHostManagementConfiguration",
@@ -6329,9 +6365,10 @@ export const deregisterManagedInstance: API.OperationMethod<
   DeregisterManagedInstanceError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DeregisterManagedInstanceRequest>,
+  input: __S(992, __c62, 0) as any as S.Schema<DeregisterManagedInstanceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeregisterManagedInstanceResult>,
   errors: [InternalServerError, InvalidInstanceId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterManagedInstance",
@@ -6352,9 +6389,10 @@ export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
   DeregisterPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<DeregisterPatchBaselineForPatchGroupRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeregisterPatchBaselineForPatchGroupResult>,
+  input: __S(1008, __c63, 0) as any as S.Schema<DeregisterPatchBaselineForPatchGroupRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<DeregisterPatchBaselineForPatchGroupResult>,
   errors: [InternalServerError, InvalidResourceId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterPatchBaselineForPatchGroup",
@@ -6376,9 +6414,10 @@ export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
   DeregisterTargetFromMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<DeregisterTargetFromMaintenanceWindowRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<DeregisterTargetFromMaintenanceWindowResult>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DeregisterTargetFromMaintenanceWindowRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<DeregisterTargetFromMaintenanceWindowResult>,
   errors: [DoesNotExistException, InternalServerError, TargetInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargetFromMaintenanceWindow",
@@ -6399,9 +6438,10 @@ export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
   DeregisterTaskFromMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<DeregisterTaskFromMaintenanceWindowRequest>,
-  output: __S(1041, __c65, 1) as any as S.Schema<DeregisterTaskFromMaintenanceWindowResult>,
+  input: __S(1056, __c66, 0) as any as S.Schema<DeregisterTaskFromMaintenanceWindowRequest>,
+  output: __S(1057, __c66, 1) as any as S.Schema<DeregisterTaskFromMaintenanceWindowResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTaskFromMaintenanceWindow",
@@ -6427,9 +6467,10 @@ export const describeActivations: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   Activation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<DescribeActivationsRequest>,
-  output: __S(1059, __c66, 3) as any as S.Schema<DescribeActivationsResult>,
+  input: __S(1072, __c67, 0) as any as S.Schema<DescribeActivationsRequest>,
+  output: __S(1075, __c67, 3) as any as S.Schema<DescribeActivationsResult>,
   errors: [InternalServerError, InvalidFilter, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActivations",
@@ -6461,7 +6502,7 @@ export const describeAssociation: API.OperationMethod<
   DescribeAssociationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<DescribeAssociationRequest>,
+  input: __S(1104, __c69, 0) as any as S.Schema<DescribeAssociationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<DescribeAssociationResult>,
   errors: [
     AssociationDoesNotExist,
@@ -6470,6 +6511,7 @@ export const describeAssociation: API.OperationMethod<
     InvalidDocument,
     InvalidInstanceId,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssociation",
@@ -6492,9 +6534,10 @@ export const describeAssociationExecutions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   AssociationExecution
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1106, __c69, 2) as any as S.Schema<DescribeAssociationExecutionsRequest>,
-  output: __S(1109, __c69, 5) as any as S.Schema<DescribeAssociationExecutionsResult>,
+  input: __S(1122, __c70, 2) as any as S.Schema<DescribeAssociationExecutionsRequest>,
+  output: __S(1125, __c70, 5) as any as S.Schema<DescribeAssociationExecutionsResult>,
   errors: [AssociationDoesNotExist, InternalServerError, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssociationExecutions",
@@ -6524,14 +6567,15 @@ export const describeAssociationExecutionTargets: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   AssociationExecutionTarget
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1122, __c70, 2) as any as S.Schema<DescribeAssociationExecutionTargetsRequest>,
-  output: __S(1126, __c70, 6) as any as S.Schema<DescribeAssociationExecutionTargetsResult>,
+  input: __S(1138, __c71, 2) as any as S.Schema<DescribeAssociationExecutionTargetsRequest>,
+  output: __S(1142, __c71, 6) as any as S.Schema<DescribeAssociationExecutionTargetsResult>,
   errors: [
     AssociationDoesNotExist,
     AssociationExecutionDoesNotExist,
     InternalServerError,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssociationExecutionTargets",
@@ -6561,9 +6605,10 @@ export const describeAutomationExecutions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   AutomationExecutionMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DescribeAutomationExecutionsRequest>,
-  output: __S(1139, __c71, 3) as any as S.Schema<DescribeAutomationExecutionsResult>,
+  input: __S(1152, __c72, 0) as any as S.Schema<DescribeAutomationExecutionsRequest>,
+  output: __S(1155, __c72, 3) as any as S.Schema<DescribeAutomationExecutionsResult>,
   errors: [InternalServerError, InvalidFilterKey, InvalidFilterValue, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutomationExecutions",
@@ -6595,8 +6640,8 @@ export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   StepExecution
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DescribeAutomationStepExecutionsRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<DescribeAutomationStepExecutionsResult>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DescribeAutomationStepExecutionsRequest>,
+  output: __S(1201, __c75, 1) as any as S.Schema<DescribeAutomationStepExecutionsResult>,
   errors: [
     AutomationExecutionNotFoundException,
     InternalServerError,
@@ -6604,6 +6649,7 @@ export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
     InvalidFilterValue,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutomationStepExecutions",
@@ -6631,9 +6677,10 @@ export const describeAvailablePatches: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   Patch
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<DescribeAvailablePatchesRequest>,
-  output: __S(1234, __c77, 2) as any as S.Schema<DescribeAvailablePatchesResult>,
+  input: __S(1248, __c78, 0) as any as S.Schema<DescribeAvailablePatchesRequest>,
+  output: __S(1250, __c78, 2) as any as S.Schema<DescribeAvailablePatchesResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailablePatches",
@@ -6661,9 +6708,10 @@ export const describeDocument: API.OperationMethod<
   DescribeDocumentError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<DescribeDocumentRequest>,
-  output: __S(1265, __c79, 1) as any as S.Schema<DescribeDocumentResult>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DescribeDocumentRequest>,
+  output: __S(1281, __c80, 1) as any as S.Schema<DescribeDocumentResult>,
   errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocument",
@@ -6689,8 +6737,8 @@ export const describeDocumentPermission: API.OperationMethod<
   DescribeDocumentPermissionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<DescribeDocumentPermissionRequest>,
-  output: __S(1283, __c80, 3) as any as S.Schema<DescribeDocumentPermissionResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<DescribeDocumentPermissionRequest>,
+  output: __S(1299, __c81, 3) as any as S.Schema<DescribeDocumentPermissionResponse>,
   errors: [
     InternalServerError,
     InvalidDocument,
@@ -6698,6 +6746,7 @@ export const describeDocumentPermission: API.OperationMethod<
     InvalidNextToken,
     InvalidPermissionType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentPermission",
@@ -6720,9 +6769,10 @@ export const describeEffectiveInstanceAssociations: API.PaginatedOperationMethod
   Creds | HttpClient.HttpClient,
   InstanceAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<DescribeEffectiveInstanceAssociationsRequest>,
-  output: __S(1315, __c82, 3) as any as S.Schema<DescribeEffectiveInstanceAssociationsResult>,
+  input: __S(1328, __c83, 0) as any as S.Schema<DescribeEffectiveInstanceAssociationsRequest>,
+  output: __S(1331, __c83, 3) as any as S.Schema<DescribeEffectiveInstanceAssociationsResult>,
   errors: [InternalServerError, InvalidInstanceId, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEffectiveInstanceAssociations",
@@ -6753,14 +6803,15 @@ export const describeEffectivePatchesForPatchBaseline: API.PaginatedOperationMet
   Creds | HttpClient.HttpClient,
   EffectivePatch
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<DescribeEffectivePatchesForPatchBaselineRequest>,
-  output: __S(1332, __c83, 4) as any as S.Schema<DescribeEffectivePatchesForPatchBaselineResult>,
+  input: __S(1344, __c84, 0) as any as S.Schema<DescribeEffectivePatchesForPatchBaselineRequest>,
+  output: __S(1348, __c84, 4) as any as S.Schema<DescribeEffectivePatchesForPatchBaselineResult>,
   errors: [
     DoesNotExistException,
     InternalServerError,
     InvalidResourceId,
     UnsupportedOperatingSystem,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEffectivePatchesForPatchBaseline",
@@ -6789,9 +6840,10 @@ export const describeInstanceAssociationsStatus: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InstanceAssociationStatusInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<DescribeInstanceAssociationsStatusRequest>,
-  output: __S(1349, __c84, 5) as any as S.Schema<DescribeInstanceAssociationsStatusResult>,
+  input: __S(1360, __c85, 0) as any as S.Schema<DescribeInstanceAssociationsStatusRequest>,
+  output: __S(1365, __c85, 5) as any as S.Schema<DescribeInstanceAssociationsStatusResult>,
   errors: [InternalServerError, InvalidInstanceId, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceAssociationsStatus",
@@ -6832,8 +6884,8 @@ export const describeInstanceInformation: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InstanceInformation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1365, __c85, 5) as any as S.Schema<DescribeInstanceInformationRequest>,
-  output: __S(1368, __c85, 8) as any as S.Schema<DescribeInstanceInformationResult>,
+  input: __S(1381, __c86, 5) as any as S.Schema<DescribeInstanceInformationRequest>,
+  output: __S(1384, __c86, 8) as any as S.Schema<DescribeInstanceInformationResult>,
   errors: [
     InternalServerError,
     InvalidFilterKey,
@@ -6841,6 +6893,7 @@ export const describeInstanceInformation: API.PaginatedOperationMethod<
     InvalidInstanceInformationFilterValue,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceInformation",
@@ -6871,9 +6924,10 @@ export const describeInstancePatches: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   PatchComplianceData
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DescribeInstancePatchesRequest>,
-  output: __S(1395, __c87, 3) as any as S.Schema<DescribeInstancePatchesResult>,
+  input: __S(1408, __c88, 0) as any as S.Schema<DescribeInstancePatchesRequest>,
+  output: __S(1411, __c88, 3) as any as S.Schema<DescribeInstancePatchesResult>,
   errors: [InternalServerError, InvalidFilter, InvalidInstanceId, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancePatches",
@@ -6901,9 +6955,10 @@ export const describeInstancePatchStates: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InstancePatchState
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DescribeInstancePatchStatesRequest>,
-  output: __S(1426, __c89, 2) as any as S.Schema<DescribeInstancePatchStatesResult>,
+  input: __S(1424, __c89, 0) as any as S.Schema<DescribeInstancePatchStatesRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<DescribeInstancePatchStatesResult>,
   errors: [InternalServerError, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancePatchStates",
@@ -6933,9 +6988,10 @@ export const describeInstancePatchStatesForPatchGroup: API.PaginatedOperationMet
   Creds | HttpClient.HttpClient,
   InstancePatchState
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1442, __c90, 2) as any as S.Schema<DescribeInstancePatchStatesForPatchGroupRequest>,
-  output: __S(1426, __c89, 2) as any as S.Schema<DescribeInstancePatchStatesForPatchGroupResult>,
+  input: __S(1458, __c91, 2) as any as S.Schema<DescribeInstancePatchStatesForPatchGroupRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<DescribeInstancePatchStatesForPatchGroupResult>,
   errors: [InternalServerError, InvalidFilter, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancePatchStatesForPatchGroup",
@@ -6969,8 +7025,8 @@ export const describeInstanceProperties: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InstanceProperty
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1461, __c91, 5) as any as S.Schema<DescribeInstancePropertiesRequest>,
-  output: __S(1464, __c91, 8) as any as S.Schema<DescribeInstancePropertiesResult>,
+  input: __S(1477, __c92, 5) as any as S.Schema<DescribeInstancePropertiesRequest>,
+  output: __S(1480, __c92, 8) as any as S.Schema<DescribeInstancePropertiesResult>,
   errors: [
     InternalServerError,
     InvalidActivationId,
@@ -6980,6 +7036,7 @@ export const describeInstanceProperties: API.PaginatedOperationMethod<
     InvalidInstancePropertyFilterValue,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceProperties",
@@ -7008,9 +7065,10 @@ export const describeInventoryDeletions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InventoryDeletionStatusItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DescribeInventoryDeletionsRequest>,
-  output: __S(1475, __c92, 3) as any as S.Schema<DescribeInventoryDeletionsResult>,
+  input: __S(1488, __c93, 0) as any as S.Schema<DescribeInventoryDeletionsRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<DescribeInventoryDeletionsResult>,
   errors: [InternalServerError, InvalidDeletionIdException, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInventoryDeletions",
@@ -7037,9 +7095,10 @@ export const describeMaintenanceWindowExecutions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   MaintenanceWindowExecution
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DescribeMaintenanceWindowExecutionsRequest>,
-  output: __S(1491, __c93, 3) as any as S.Schema<DescribeMaintenanceWindowExecutionsResult>,
+  input: __S(1504, __c94, 0) as any as S.Schema<DescribeMaintenanceWindowExecutionsRequest>,
+  output: __S(1507, __c94, 3) as any as S.Schema<DescribeMaintenanceWindowExecutionsResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowExecutions",
@@ -7069,16 +7128,17 @@ export const describeMaintenanceWindowExecutionTaskInvocations: API.PaginatedOpe
   MaintenanceWindowExecutionTaskInvocationIdentity
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1504,
-    __c94,
+    1520,
+    __c95,
     0,
   ) as any as S.Schema<DescribeMaintenanceWindowExecutionTaskInvocationsRequest>,
   output: __S(
-    1507,
-    __c94,
+    1523,
+    __c95,
     3,
   ) as any as S.Schema<DescribeMaintenanceWindowExecutionTaskInvocationsResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowExecutionTaskInvocations",
@@ -7106,9 +7166,10 @@ export const describeMaintenanceWindowExecutionTasks: API.PaginatedOperationMeth
   Creds | HttpClient.HttpClient,
   MaintenanceWindowExecutionTaskIdentity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<DescribeMaintenanceWindowExecutionTasksRequest>,
-  output: __S(1523, __c95, 3) as any as S.Schema<DescribeMaintenanceWindowExecutionTasksResult>,
+  input: __S(1536, __c96, 0) as any as S.Schema<DescribeMaintenanceWindowExecutionTasksRequest>,
+  output: __S(1539, __c96, 3) as any as S.Schema<DescribeMaintenanceWindowExecutionTasksResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowExecutionTasks",
@@ -7133,9 +7194,10 @@ export const describeMaintenanceWindows: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   MaintenanceWindowIdentity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DescribeMaintenanceWindowsRequest>,
-  output: __S(1539, __c96, 3) as any as S.Schema<DescribeMaintenanceWindowsResult>,
+  input: __S(1552, __c97, 0) as any as S.Schema<DescribeMaintenanceWindowsRequest>,
+  output: __S(1555, __c97, 3) as any as S.Schema<DescribeMaintenanceWindowsResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindows",
@@ -7163,9 +7225,10 @@ export const describeMaintenanceWindowSchedule: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   ScheduledWindowExecution
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DescribeMaintenanceWindowScheduleRequest>,
-  output: __S(1555, __c97, 3) as any as S.Schema<DescribeMaintenanceWindowScheduleResult>,
+  input: __S(1568, __c98, 0) as any as S.Schema<DescribeMaintenanceWindowScheduleRequest>,
+  output: __S(1571, __c98, 3) as any as S.Schema<DescribeMaintenanceWindowScheduleResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowSchedule",
@@ -7191,9 +7254,10 @@ export const describeMaintenanceWindowsForTarget: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   MaintenanceWindowIdentityForTarget
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DescribeMaintenanceWindowsForTargetRequest>,
-  output: __S(1571, __c98, 3) as any as S.Schema<DescribeMaintenanceWindowsForTargetResult>,
+  input: __S(1584, __c99, 0) as any as S.Schema<DescribeMaintenanceWindowsForTargetRequest>,
+  output: __S(1587, __c99, 3) as any as S.Schema<DescribeMaintenanceWindowsForTargetResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowsForTarget",
@@ -7221,9 +7285,10 @@ export const describeMaintenanceWindowTargets: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   MaintenanceWindowTarget
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<DescribeMaintenanceWindowTargetsRequest>,
-  output: __S(1587, __c99, 3) as any as S.Schema<DescribeMaintenanceWindowTargetsResult>,
+  input: __S(1600, __c100, 0) as any as S.Schema<DescribeMaintenanceWindowTargetsRequest>,
+  output: __S(1603, __c100, 3) as any as S.Schema<DescribeMaintenanceWindowTargetsResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowTargets",
@@ -7256,9 +7321,10 @@ export const describeMaintenanceWindowTasks: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   MaintenanceWindowTask
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DescribeMaintenanceWindowTasksRequest>,
-  output: __S(1603, __c100, 3) as any as S.Schema<DescribeMaintenanceWindowTasksResult>,
+  input: __S(1616, __c101, 0) as any as S.Schema<DescribeMaintenanceWindowTasksRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<DescribeMaintenanceWindowTasksResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMaintenanceWindowTasks",
@@ -7289,9 +7355,10 @@ export const describeOpsItems: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   OpsItemSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DescribeOpsItemsRequest>,
-  output: __S(1651, __c103, 3) as any as S.Schema<DescribeOpsItemsResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<DescribeOpsItemsRequest>,
+  output: __S(1667, __c104, 3) as any as S.Schema<DescribeOpsItemsResponse>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOpsItems",
@@ -7339,8 +7406,8 @@ export const describeParameters: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DescribeParametersRequest>,
-  output: __S(1683, __c105, 3) as any as S.Schema<DescribeParametersResult>,
+  input: __S(1696, __c106, 0) as any as S.Schema<DescribeParametersRequest>,
+  output: __S(1699, __c106, 3) as any as S.Schema<DescribeParametersResult>,
   errors: [
     InternalServerError,
     InvalidFilterKey,
@@ -7348,6 +7415,7 @@ export const describeParameters: API.PaginatedOperationMethod<
     InvalidFilterValue,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameters",
@@ -7371,9 +7439,10 @@ export const describePatchBaselines: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   PatchBaselineIdentity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<DescribePatchBaselinesRequest>,
-  output: __S(1730, __c108, 2) as any as S.Schema<DescribePatchBaselinesResult>,
+  input: __S(1744, __c109, 0) as any as S.Schema<DescribePatchBaselinesRequest>,
+  output: __S(1746, __c109, 2) as any as S.Schema<DescribePatchBaselinesResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchBaselines",
@@ -7398,9 +7467,10 @@ export const describePatchGroups: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   PatchGroupPatchBaselineMapping
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<DescribePatchGroupsRequest>,
-  output: __S(1763, __c110, 3) as any as S.Schema<DescribePatchGroupsResult>,
+  input: __S(1776, __c111, 0) as any as S.Schema<DescribePatchGroupsRequest>,
+  output: __S(1779, __c111, 3) as any as S.Schema<DescribePatchGroupsResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchGroups",
@@ -7424,9 +7494,10 @@ export const describePatchGroupState: API.OperationMethod<
   DescribePatchGroupStateError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<DescribePatchGroupStateRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<DescribePatchGroupStateResult>,
+  input: __S(1792, __c112, 0) as any as S.Schema<DescribePatchGroupStateRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<DescribePatchGroupStateResult>,
   errors: [InternalServerError, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchGroupState",
@@ -7502,9 +7573,10 @@ export const describePatchProperties: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   { [key: string]: string | undefined }
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<DescribePatchPropertiesRequest>,
-  output: __S(1793, __c112, 1) as any as S.Schema<DescribePatchPropertiesResult>,
+  input: __S(1808, __c113, 0) as any as S.Schema<DescribePatchPropertiesRequest>,
+  output: __S(1809, __c113, 1) as any as S.Schema<DescribePatchPropertiesResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchProperties",
@@ -7534,9 +7606,10 @@ export const describeSessions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   Session
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<DescribeSessionsRequest>,
-  output: __S(1828, __c114, 4) as any as S.Schema<DescribeSessionsResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<DescribeSessionsRequest>,
+  output: __S(1844, __c115, 4) as any as S.Schema<DescribeSessionsResponse>,
   errors: [InternalServerError, InvalidFilterKey, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSessions",
@@ -7568,7 +7641,7 @@ export const disassociateOpsItemRelatedItem: API.OperationMethod<
   DisassociateOpsItemRelatedItemError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<DisassociateOpsItemRelatedItemRequest>,
+  input: __S(1888, __c118, 0) as any as S.Schema<DisassociateOpsItemRelatedItemRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DisassociateOpsItemRelatedItemResponse>,
   errors: [
     InternalServerError,
@@ -7577,6 +7650,7 @@ export const disassociateOpsItemRelatedItem: API.OperationMethod<
     OpsItemNotFoundException,
     OpsItemRelatedItemAssociationNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpsItemRelatedItem",
@@ -7600,8 +7674,8 @@ export const getAccessToken: API.OperationMethod<
   GetAccessTokenError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetAccessTokenRequest>,
-  output: __S(1890, __c118, 2) as any as S.Schema<GetAccessTokenResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<GetAccessTokenRequest>,
+  output: __S(1906, __c119, 2) as any as S.Schema<GetAccessTokenResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -7609,6 +7683,7 @@ export const getAccessToken: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
@@ -7629,9 +7704,10 @@ export const getAutomationExecution: API.OperationMethod<
   GetAutomationExecutionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<GetAutomationExecutionRequest>,
-  output: __S(1908, __c119, 4) as any as S.Schema<GetAutomationExecutionResult>,
+  input: __S(1920, __c120, 0) as any as S.Schema<GetAutomationExecutionRequest>,
+  output: __S(1924, __c120, 4) as any as S.Schema<GetAutomationExecutionResult>,
   errors: [AutomationExecutionNotFoundException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationExecution",
@@ -7664,9 +7740,10 @@ export const getCalendarState: API.OperationMethod<
   GetCalendarStateError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetCalendarStateRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<GetCalendarStateResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetCalendarStateRequest>,
+  output: __S(1937, __c121, 1) as any as S.Schema<GetCalendarStateResponse>,
   errors: [InternalServerError, InvalidDocument, InvalidDocumentType, UnsupportedCalendarException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalendarState",
@@ -7684,9 +7761,10 @@ export const getCloudConnector: API.OperationMethod<
   GetCloudConnectorError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetCloudConnectorRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetCloudConnectorResult>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetCloudConnectorRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetCloudConnectorResult>,
   errors: [InternalServerError, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudConnector",
@@ -7719,8 +7797,8 @@ export const getCommandInvocation: API.OperationMethod<
   GetCommandInvocationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetCommandInvocationRequest>,
-  output: __S(1953, __c122, 1) as any as S.Schema<GetCommandInvocationResult>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetCommandInvocationRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<GetCommandInvocationResult>,
   errors: [
     InternalServerError,
     InvalidCommandId,
@@ -7728,6 +7806,7 @@ export const getCommandInvocation: API.OperationMethod<
     InvalidPluginName,
     InvocationDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommandInvocation",
@@ -7746,9 +7825,10 @@ export const getConnectionStatus: API.OperationMethod<
   GetConnectionStatusError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetConnectionStatusRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<GetConnectionStatusResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetConnectionStatusRequest>,
+  output: __S(2001, __c125, 1) as any as S.Schema<GetConnectionStatusResponse>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionStatus",
@@ -7770,9 +7850,10 @@ export const getDefaultPatchBaseline: API.OperationMethod<
   GetDefaultPatchBaselineError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetDefaultPatchBaselineRequest>,
-  output: __S(2001, __c125, 1) as any as S.Schema<GetDefaultPatchBaselineResult>,
+  input: __S(2016, __c126, 0) as any as S.Schema<GetDefaultPatchBaselineRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<GetDefaultPatchBaselineResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultPatchBaseline",
@@ -7801,9 +7882,10 @@ export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
   GetDeployablePatchSnapshotForInstanceError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2017, __c126, 1) as any as S.Schema<GetDeployablePatchSnapshotForInstanceRequest>,
-  output: __S(2018, __c126, 2) as any as S.Schema<GetDeployablePatchSnapshotForInstanceResult>,
+  input: __S(2033, __c127, 1) as any as S.Schema<GetDeployablePatchSnapshotForInstanceRequest>,
+  output: __S(2034, __c127, 2) as any as S.Schema<GetDeployablePatchSnapshotForInstanceResult>,
   errors: [InternalServerError, UnsupportedFeatureRequiredException, UnsupportedOperatingSystem],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployablePatchSnapshotForInstance",
@@ -7825,9 +7907,10 @@ export const getDocument: API.OperationMethod<
   GetDocumentError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetDocumentRequest>,
-  output: __S(2035, __c127, 3) as any as S.Schema<GetDocumentResult>,
+  input: __S(2048, __c128, 0) as any as S.Schema<GetDocumentRequest>,
+  output: __S(2051, __c128, 3) as any as S.Schema<GetDocumentResult>,
   errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
@@ -7849,9 +7932,10 @@ export const getExecutionPreview: API.OperationMethod<
   GetExecutionPreviewError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetExecutionPreviewRequest>,
-  output: __S(2054, __c128, 6) as any as S.Schema<GetExecutionPreviewResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetExecutionPreviewRequest>,
+  output: __S(2070, __c129, 6) as any as S.Schema<GetExecutionPreviewResponse>,
   errors: [InternalServerError, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionPreview",
@@ -7879,8 +7963,8 @@ export const getInventory: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InventoryResultEntity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2069, __c129, 5) as any as S.Schema<GetInventoryRequest>,
-  output: __S(2074, __c129, 10) as any as S.Schema<GetInventoryResult>,
+  input: __S(2085, __c130, 5) as any as S.Schema<GetInventoryRequest>,
+  output: __S(2090, __c130, 10) as any as S.Schema<GetInventoryResult>,
   errors: [
     InternalServerError,
     InvalidAggregatorException,
@@ -7890,6 +7974,7 @@ export const getInventory: API.PaginatedOperationMethod<
     InvalidResultAttributeException,
     InvalidTypeNameException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInventory",
@@ -7919,9 +8004,10 @@ export const getInventorySchema: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   InventoryItemSchema
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<GetInventorySchemaRequest>,
-  output: __S(2149, __c134, 5) as any as S.Schema<GetInventorySchemaResult>,
+  input: __S(2160, __c135, 0) as any as S.Schema<GetInventorySchemaRequest>,
+  output: __S(2165, __c135, 5) as any as S.Schema<GetInventorySchemaResult>,
   errors: [InternalServerError, InvalidNextToken, InvalidTypeNameException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInventorySchema",
@@ -7945,9 +8031,10 @@ export const getMaintenanceWindow: API.OperationMethod<
   GetMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<GetMaintenanceWindowRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<GetMaintenanceWindowResult>,
+  input: __S(2176, __c136, 0) as any as S.Schema<GetMaintenanceWindowRequest>,
+  output: __S(2177, __c136, 1) as any as S.Schema<GetMaintenanceWindowResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindow",
@@ -7968,9 +8055,10 @@ export const getMaintenanceWindowExecution: API.OperationMethod<
   GetMaintenanceWindowExecutionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetMaintenanceWindowExecutionRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<GetMaintenanceWindowExecutionResult>,
+  input: __S(2192, __c137, 0) as any as S.Schema<GetMaintenanceWindowExecutionRequest>,
+  output: __S(2193, __c137, 1) as any as S.Schema<GetMaintenanceWindowExecutionResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecution",
@@ -7992,9 +8080,10 @@ export const getMaintenanceWindowExecutionTask: API.OperationMethod<
   GetMaintenanceWindowExecutionTaskError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetMaintenanceWindowExecutionTaskRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<GetMaintenanceWindowExecutionTaskResult>,
+  input: __S(2208, __c138, 0) as any as S.Schema<GetMaintenanceWindowExecutionTaskRequest>,
+  output: __S(2210, __c138, 2) as any as S.Schema<GetMaintenanceWindowExecutionTaskResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTask",
@@ -8016,16 +8105,17 @@ export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2208,
-    __c138,
+    2224,
+    __c139,
     0,
   ) as any as S.Schema<GetMaintenanceWindowExecutionTaskInvocationRequest>,
   output: __S(
-    2209,
-    __c138,
+    2225,
+    __c139,
     1,
   ) as any as S.Schema<GetMaintenanceWindowExecutionTaskInvocationResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTaskInvocation",
@@ -8053,9 +8143,10 @@ export const getMaintenanceWindowTask: API.OperationMethod<
   GetMaintenanceWindowTaskError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<GetMaintenanceWindowTaskRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<GetMaintenanceWindowTaskResult>,
+  input: __S(2240, __c140, 0) as any as S.Schema<GetMaintenanceWindowTaskRequest>,
+  output: __S(2241, __c140, 1) as any as S.Schema<GetMaintenanceWindowTaskResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowTask",
@@ -8084,9 +8175,10 @@ export const getOpsItem: API.OperationMethod<
   GetOpsItemError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetOpsItemRequest>,
-  output: __S(2274, __c142, 2) as any as S.Schema<GetOpsItemResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<GetOpsItemRequest>,
+  output: __S(2290, __c143, 2) as any as S.Schema<GetOpsItemResponse>,
   errors: [InternalServerError, OpsItemAccessDeniedException, OpsItemNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsItem",
@@ -8108,9 +8200,10 @@ export const getOpsMetadata: API.OperationMethod<
   GetOpsMetadataError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetOpsMetadataRequest>,
-  output: __S(2289, __c143, 1) as any as S.Schema<GetOpsMetadataResult>,
+  input: __S(2304, __c144, 0) as any as S.Schema<GetOpsMetadataRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<GetOpsMetadataResult>,
   errors: [InternalServerError, OpsMetadataInvalidArgumentException, OpsMetadataNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsMetadata",
@@ -8139,8 +8232,8 @@ export const getOpsSummary: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   OpsEntity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2308, __c144, 4) as any as S.Schema<GetOpsSummaryRequest>,
-  output: __S(2313, __c144, 9) as any as S.Schema<GetOpsSummaryResult>,
+  input: __S(2324, __c145, 4) as any as S.Schema<GetOpsSummaryRequest>,
+  output: __S(2329, __c145, 9) as any as S.Schema<GetOpsSummaryResult>,
   errors: [
     InternalServerError,
     InvalidAggregatorException,
@@ -8149,6 +8242,7 @@ export const getOpsSummary: API.PaginatedOperationMethod<
     InvalidTypeNameException,
     ResourceDataSyncNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsSummary",
@@ -8202,9 +8296,10 @@ export const getParameter: API.OperationMethod<
   GetParameterError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetParameterRequest>,
-  output: __S(2321, __c145, 1) as any as S.Schema<GetParameterResult>,
+  input: __S(2336, __c146, 0) as any as S.Schema<GetParameterRequest>,
+  output: __S(2337, __c146, 1) as any as S.Schema<GetParameterResult>,
   errors: [InternalServerError, InvalidKeyId, ParameterNotFound, ParameterVersionNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameter",
@@ -8247,9 +8342,10 @@ export const getParameterHistory: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<GetParameterHistoryRequest>,
-  output: __S(2355, __c147, 3) as any as S.Schema<GetParameterHistoryResult>,
+  input: __S(2368, __c148, 0) as any as S.Schema<GetParameterHistoryRequest>,
+  output: __S(2371, __c148, 3) as any as S.Schema<GetParameterHistoryResult>,
   errors: [InternalServerError, InvalidKeyId, InvalidNextToken, ParameterNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameterHistory",
@@ -8299,9 +8395,10 @@ export const getParameters: API.OperationMethod<
   GetParametersError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<GetParametersRequest>,
-  output: __S(2369, __c148, 1) as any as S.Schema<GetParametersResult>,
+  input: __S(2384, __c149, 0) as any as S.Schema<GetParametersRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<GetParametersResult>,
   errors: [InternalServerError, InvalidKeyId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameters",
@@ -8350,8 +8447,8 @@ export const getParametersByPath: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetParametersByPathRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<GetParametersByPathResult>,
+  input: __S(2416, __c151, 0) as any as S.Schema<GetParametersByPathRequest>,
+  output: __S(2417, __c151, 1) as any as S.Schema<GetParametersByPathResult>,
   errors: [
     InternalServerError,
     InvalidFilterKey,
@@ -8360,6 +8457,7 @@ export const getParametersByPath: API.PaginatedOperationMethod<
     InvalidKeyId,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersByPath",
@@ -8386,9 +8484,10 @@ export const getPatchBaseline: API.OperationMethod<
   GetPatchBaselineError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetPatchBaselineRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<GetPatchBaselineResult>,
+  input: __S(2432, __c152, 0) as any as S.Schema<GetPatchBaselineRequest>,
+  output: __S(2433, __c152, 1) as any as S.Schema<GetPatchBaselineResult>,
   errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaseline",
@@ -8406,9 +8505,10 @@ export const getPatchBaselineForPatchGroup: API.OperationMethod<
   GetPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetPatchBaselineForPatchGroupRequest>,
-  output: __S(2433, __c152, 1) as any as S.Schema<GetPatchBaselineForPatchGroupResult>,
+  input: __S(2448, __c153, 0) as any as S.Schema<GetPatchBaselineForPatchGroupRequest>,
+  output: __S(2449, __c153, 1) as any as S.Schema<GetPatchBaselineForPatchGroupResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaselineForPatchGroup",
@@ -8431,9 +8531,10 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   GetResourcePoliciesResponseEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetResourcePoliciesRequest>,
-  output: __S(2451, __c153, 3) as any as S.Schema<GetResourcePoliciesResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<GetResourcePoliciesRequest>,
+  output: __S(2467, __c154, 3) as any as S.Schema<GetResourcePoliciesResponse>,
   errors: [InternalServerError, ResourceNotFoundException, ResourcePolicyInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicies",
@@ -8471,9 +8572,10 @@ export const getServiceSetting: API.OperationMethod<
   GetServiceSettingError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetServiceSettingRequest>,
-  output: __S(2481, __c155, 1) as any as S.Schema<GetServiceSettingResult>,
+  input: __S(2480, __c155, 0) as any as S.Schema<GetServiceSettingRequest>,
+  output: __S(2497, __c156, 1) as any as S.Schema<GetServiceSettingResult>,
   errors: [InternalServerError, ServiceSettingNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSetting",
@@ -8528,8 +8630,8 @@ export const labelParameterVersion: API.OperationMethod<
   LabelParameterVersionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<LabelParameterVersionRequest>,
-  output: __S(2497, __c156, 1) as any as S.Schema<LabelParameterVersionResult>,
+  input: __S(2512, __c157, 0) as any as S.Schema<LabelParameterVersionRequest>,
+  output: __S(2513, __c157, 1) as any as S.Schema<LabelParameterVersionResult>,
   errors: [
     InternalServerError,
     ParameterNotFound,
@@ -8537,6 +8639,7 @@ export const labelParameterVersion: API.OperationMethod<
     ParameterVersionNotFound,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LabelParameterVersion",
@@ -8557,9 +8660,10 @@ export const listAssociations: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   Association
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2513, __c157, 1) as any as S.Schema<ListAssociationsRequest>,
-  output: __S(2516, __c157, 4) as any as S.Schema<ListAssociationsResult>,
+  input: __S(2529, __c158, 1) as any as S.Schema<ListAssociationsRequest>,
+  output: __S(2532, __c158, 4) as any as S.Schema<ListAssociationsResult>,
   errors: [InternalServerError, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociations",
@@ -8588,9 +8692,10 @@ export const listAssociationVersions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   AssociationVersionInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<ListAssociationVersionsRequest>,
-  output: __S(2531, __c158, 3) as any as S.Schema<ListAssociationVersionsResult>,
+  input: __S(2544, __c159, 0) as any as S.Schema<ListAssociationVersionsRequest>,
+  output: __S(2547, __c159, 3) as any as S.Schema<ListAssociationVersionsResult>,
   errors: [AssociationDoesNotExist, InternalServerError, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociationVersions",
@@ -8615,9 +8720,10 @@ export const listCloudConnectors: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   CloudConnectorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ListCloudConnectorsRequest>,
-  output: __S(2547, __c159, 3) as any as S.Schema<ListCloudConnectorsResult>,
+  input: __S(2560, __c160, 0) as any as S.Schema<ListCloudConnectorsRequest>,
+  output: __S(2563, __c160, 3) as any as S.Schema<ListCloudConnectorsResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCloudConnectors",
@@ -8652,8 +8758,8 @@ export const listCommandInvocations: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   CommandInvocation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ListCommandInvocationsRequest>,
-  output: __S(2565, __c160, 5) as any as S.Schema<ListCommandInvocationsResult>,
+  input: __S(2576, __c161, 0) as any as S.Schema<ListCommandInvocationsRequest>,
+  output: __S(2581, __c161, 5) as any as S.Schema<ListCommandInvocationsResult>,
   errors: [
     InternalServerError,
     InvalidCommandId,
@@ -8661,6 +8767,7 @@ export const listCommandInvocations: API.PaginatedOperationMethod<
     InvalidInstanceId,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCommandInvocations",
@@ -8691,8 +8798,8 @@ export const listCommands: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   Command
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<ListCommandsRequest>,
-  output: __S(2578, __c161, 2) as any as S.Schema<ListCommandsResult>,
+  input: __S(2592, __c162, 0) as any as S.Schema<ListCommandsRequest>,
+  output: __S(2594, __c162, 2) as any as S.Schema<ListCommandsResult>,
   errors: [
     InternalServerError,
     InvalidCommandId,
@@ -8700,6 +8807,7 @@ export const listCommands: API.PaginatedOperationMethod<
     InvalidInstanceId,
     InvalidNextToken,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCommands",
@@ -8732,8 +8840,8 @@ export const listComplianceItems: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   ComplianceItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<ListComplianceItemsRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<ListComplianceItemsResult>,
+  input: __S(2624, __c164, 0) as any as S.Schema<ListComplianceItemsRequest>,
+  output: __S(2627, __c164, 3) as any as S.Schema<ListComplianceItemsResult>,
   errors: [
     InternalServerError,
     InvalidFilter,
@@ -8741,6 +8849,7 @@ export const listComplianceItems: API.PaginatedOperationMethod<
     InvalidResourceId,
     InvalidResourceType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListComplianceItems",
@@ -8771,9 +8880,10 @@ export const listComplianceSummaries: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   ComplianceSummaryItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<ListComplianceSummariesRequest>,
-  output: __S(2659, __c166, 3) as any as S.Schema<ListComplianceSummariesResult>,
+  input: __S(2672, __c167, 0) as any as S.Schema<ListComplianceSummariesRequest>,
+  output: __S(2675, __c167, 3) as any as S.Schema<ListComplianceSummariesResult>,
   errors: [InternalServerError, InvalidFilter, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListComplianceSummaries",
@@ -8806,9 +8916,10 @@ export const listDocumentMetadataHistory: API.OperationMethod<
   ListDocumentMetadataHistoryError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<ListDocumentMetadataHistoryRequest>,
-  output: __S(2692, __c168, 4) as any as S.Schema<ListDocumentMetadataHistoryResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<ListDocumentMetadataHistoryRequest>,
+  output: __S(2708, __c169, 4) as any as S.Schema<ListDocumentMetadataHistoryResponse>,
   errors: [InternalServerError, InvalidDocument, InvalidDocumentVersion, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocumentMetadataHistory",
@@ -8832,9 +8943,10 @@ export const listDocuments: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   DocumentIdentifier
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2721, __c170, 1) as any as S.Schema<ListDocumentsRequest>,
-  output: __S(2724, __c170, 4) as any as S.Schema<ListDocumentsResult>,
+  input: __S(2737, __c171, 1) as any as S.Schema<ListDocumentsRequest>,
+  output: __S(2740, __c171, 4) as any as S.Schema<ListDocumentsResult>,
   errors: [InternalServerError, InvalidFilterKey, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocuments",
@@ -8863,9 +8975,10 @@ export const listDocumentVersions: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   DocumentVersionInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<ListDocumentVersionsRequest>,
-  output: __S(2739, __c171, 3) as any as S.Schema<ListDocumentVersionsResult>,
+  input: __S(2752, __c172, 0) as any as S.Schema<ListDocumentVersionsRequest>,
+  output: __S(2755, __c172, 3) as any as S.Schema<ListDocumentVersionsResult>,
   errors: [InternalServerError, InvalidDocument, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocumentVersions",
@@ -8895,8 +9008,8 @@ export const listInventoryEntries: API.OperationMethod<
   ListInventoryEntriesError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<ListInventoryEntriesRequest>,
-  output: __S(2753, __c172, 1) as any as S.Schema<ListInventoryEntriesResult>,
+  input: __S(2768, __c173, 0) as any as S.Schema<ListInventoryEntriesRequest>,
+  output: __S(2769, __c173, 1) as any as S.Schema<ListInventoryEntriesResult>,
   errors: [
     InternalServerError,
     InvalidFilter,
@@ -8904,6 +9017,7 @@ export const listInventoryEntries: API.OperationMethod<
     InvalidNextToken,
     InvalidTypeNameException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInventoryEntries",
@@ -8928,8 +9042,8 @@ export const listNodes: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   Node
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<ListNodesRequest>,
-  output: __S(2774, __c173, 6) as any as S.Schema<ListNodesResult>,
+  input: __S(2784, __c174, 0) as any as S.Schema<ListNodesRequest>,
+  output: __S(2790, __c174, 6) as any as S.Schema<ListNodesResult>,
   errors: [
     InternalServerError,
     InvalidFilter,
@@ -8937,6 +9051,7 @@ export const listNodes: API.PaginatedOperationMethod<
     ResourceDataSyncNotFoundException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNodes",
@@ -8969,8 +9084,8 @@ export const listNodesSummary: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   { [key: string]: string | undefined }
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2802, __c175, 2) as any as S.Schema<ListNodesSummaryRequest>,
-  output: __S(2803, __c175, 3) as any as S.Schema<ListNodesSummaryResult>,
+  input: __S(2818, __c176, 2) as any as S.Schema<ListNodesSummaryRequest>,
+  output: __S(2819, __c176, 3) as any as S.Schema<ListNodesSummaryResult>,
   errors: [
     InternalServerError,
     InvalidAggregatorException,
@@ -8979,6 +9094,7 @@ export const listNodesSummary: API.PaginatedOperationMethod<
     ResourceDataSyncNotFoundException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNodesSummary",
@@ -9009,14 +9125,15 @@ export const listOpsItemEvents: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   OpsItemEventSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<ListOpsItemEventsRequest>,
-  output: __S(2819, __c176, 3) as any as S.Schema<ListOpsItemEventsResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<ListOpsItemEventsRequest>,
+  output: __S(2835, __c177, 3) as any as S.Schema<ListOpsItemEventsResponse>,
   errors: [
     InternalServerError,
     OpsItemInvalidParameterException,
     OpsItemLimitExceededException,
     OpsItemNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpsItemEvents",
@@ -9045,9 +9162,10 @@ export const listOpsItemRelatedItems: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   OpsItemRelatedItemSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<ListOpsItemRelatedItemsRequest>,
-  output: __S(2835, __c177, 3) as any as S.Schema<ListOpsItemRelatedItemsResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<ListOpsItemRelatedItemsRequest>,
+  output: __S(2851, __c178, 3) as any as S.Schema<ListOpsItemRelatedItemsResponse>,
   errors: [InternalServerError, OpsItemInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpsItemRelatedItems",
@@ -9076,9 +9194,10 @@ export const listOpsMetadata: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   OpsMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2850, __c178, 2) as any as S.Schema<ListOpsMetadataRequest>,
-  output: __S(2853, __c178, 5) as any as S.Schema<ListOpsMetadataResult>,
+  input: __S(2866, __c179, 2) as any as S.Schema<ListOpsMetadataRequest>,
+  output: __S(2869, __c179, 5) as any as S.Schema<ListOpsMetadataResult>,
   errors: [InternalServerError, OpsMetadataInvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpsMetadata",
@@ -9109,9 +9228,10 @@ export const listResourceComplianceSummaries: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   ResourceComplianceSummaryItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<ListResourceComplianceSummariesRequest>,
-  output: __S(2867, __c179, 3) as any as S.Schema<ListResourceComplianceSummariesResult>,
+  input: __S(2880, __c180, 0) as any as S.Schema<ListResourceComplianceSummariesRequest>,
+  output: __S(2883, __c180, 3) as any as S.Schema<ListResourceComplianceSummariesResult>,
   errors: [InternalServerError, InvalidFilter, InvalidNextToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceComplianceSummaries",
@@ -9149,9 +9269,10 @@ export const listResourceDataSync: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   ResourceDataSyncItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<ListResourceDataSyncRequest>,
-  output: __S(2884, __c180, 4) as any as S.Schema<ListResourceDataSyncResult>,
+  input: __S(2896, __c181, 0) as any as S.Schema<ListResourceDataSyncRequest>,
+  output: __S(2900, __c181, 4) as any as S.Schema<ListResourceDataSyncResult>,
   errors: [InternalServerError, InvalidNextToken, ResourceDataSyncInvalidConfigurationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDataSync",
@@ -9181,9 +9302,10 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2897, __c181, 1) as any as S.Schema<ListTagsForResourceResult>,
+  input: __S(2912, __c182, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2913, __c182, 1) as any as S.Schema<ListTagsForResourceResult>,
   errors: [InternalServerError, InvalidResourceId, InvalidResourceType],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -9210,7 +9332,7 @@ export const modifyDocumentPermission: API.OperationMethod<
   ModifyDocumentPermissionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<ModifyDocumentPermissionRequest>,
+  input: __S(2928, __c183, 0) as any as S.Schema<ModifyDocumentPermissionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ModifyDocumentPermissionResponse>,
   errors: [
     DocumentLimitExceeded,
@@ -9219,6 +9341,7 @@ export const modifyDocumentPermission: API.OperationMethod<
     InvalidDocument,
     InvalidPermissionType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDocumentPermission",
@@ -9290,7 +9413,7 @@ export const putComplianceItems: API.OperationMethod<
   PutComplianceItemsError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2930, __c183, 2) as any as S.Schema<PutComplianceItemsRequest>,
+  input: __S(2946, __c184, 2) as any as S.Schema<PutComplianceItemsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PutComplianceItemsResult>,
   errors: [
     ComplianceTypeCountLimitExceededException,
@@ -9301,6 +9424,7 @@ export const putComplianceItems: API.OperationMethod<
     ItemSizeLimitExceededException,
     TotalSizeLimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceItems",
@@ -9333,8 +9457,8 @@ export const putInventory: API.OperationMethod<
   PutInventoryError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2946, __c184, 2) as any as S.Schema<PutInventoryRequest>,
-  output: __S(2947, __c184, 3) as any as S.Schema<PutInventoryResult>,
+  input: __S(2962, __c185, 2) as any as S.Schema<PutInventoryRequest>,
+  output: __S(2963, __c185, 3) as any as S.Schema<PutInventoryResult>,
   errors: [
     CustomSchemaCountLimitExceededException,
     InternalServerError,
@@ -9349,6 +9473,7 @@ export const putInventory: API.OperationMethod<
     UnsupportedInventoryItemContextException,
     UnsupportedInventorySchemaVersionException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInventory",
@@ -9396,8 +9521,8 @@ export const putParameter: API.OperationMethod<
   PutParameterError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<PutParameterRequest>,
-  output: __S(2961, __c185, 1) as any as S.Schema<PutParameterResult>,
+  input: __S(2976, __c186, 0) as any as S.Schema<PutParameterRequest>,
+  output: __S(2977, __c186, 1) as any as S.Schema<PutParameterResult>,
   errors: [
     HierarchyLevelLimitExceededException,
     HierarchyTypeMismatchException,
@@ -9415,6 +9540,7 @@ export const putParameter: API.OperationMethod<
     TooManyUpdates,
     UnsupportedParameterType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutParameter",
@@ -9475,8 +9601,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<PutResourcePolicyRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<PutResourcePolicyResponse>,
+  input: __S(2992, __c187, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(2993, __c187, 1) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     InternalServerError,
     MalformedResourcePolicyDocumentException,
@@ -9486,6 +9612,7 @@ export const putResourcePolicy: API.OperationMethod<
     ResourcePolicyLimitExceededException,
     ResourcePolicyNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -9518,9 +9645,10 @@ export const registerDefaultHostManagementConfiguration: API.OperationMethod<
   RegisterDefaultHostManagementConfigurationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<RegisterDefaultHostManagementConfigurationRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<RegisterDefaultHostManagementConfigurationResult>,
+  input: __S(3008, __c188, 0) as any as S.Schema<RegisterDefaultHostManagementConfigurationRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<RegisterDefaultHostManagementConfigurationResult>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDefaultHostManagementConfiguration",
@@ -9547,9 +9675,10 @@ export const registerDefaultPatchBaseline: API.OperationMethod<
   RegisterDefaultPatchBaselineError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<RegisterDefaultPatchBaselineRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<RegisterDefaultPatchBaselineResult>,
+  input: __S(3024, __c189, 0) as any as S.Schema<RegisterDefaultPatchBaselineRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<RegisterDefaultPatchBaselineResult>,
   errors: [DoesNotExistException, InternalServerError, InvalidResourceId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDefaultPatchBaseline",
@@ -9573,8 +9702,8 @@ export const registerPatchBaselineForPatchGroup: API.OperationMethod<
   RegisterPatchBaselineForPatchGroupError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<RegisterPatchBaselineForPatchGroupRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<RegisterPatchBaselineForPatchGroupResult>,
+  input: __S(3040, __c190, 0) as any as S.Schema<RegisterPatchBaselineForPatchGroupRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<RegisterPatchBaselineForPatchGroupResult>,
   errors: [
     AlreadyExistsException,
     DoesNotExistException,
@@ -9582,6 +9711,7 @@ export const registerPatchBaselineForPatchGroup: API.OperationMethod<
     InvalidResourceId,
     ResourceLimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPatchBaselineForPatchGroup",
@@ -9604,14 +9734,15 @@ export const registerTargetWithMaintenanceWindow: API.OperationMethod<
   RegisterTargetWithMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<RegisterTargetWithMaintenanceWindowRequest>,
-  output: __S(3041, __c190, 1) as any as S.Schema<RegisterTargetWithMaintenanceWindowResult>,
+  input: __S(3056, __c191, 0) as any as S.Schema<RegisterTargetWithMaintenanceWindowRequest>,
+  output: __S(3057, __c191, 1) as any as S.Schema<RegisterTargetWithMaintenanceWindowResult>,
   errors: [
     DoesNotExistException,
     IdempotentParameterMismatch,
     InternalServerError,
     ResourceLimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargetWithMaintenanceWindow",
@@ -9635,8 +9766,8 @@ export const registerTaskWithMaintenanceWindow: API.OperationMethod<
   RegisterTaskWithMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<RegisterTaskWithMaintenanceWindowRequest>,
-  output: __S(3057, __c191, 1) as any as S.Schema<RegisterTaskWithMaintenanceWindowResult>,
+  input: __S(3072, __c192, 0) as any as S.Schema<RegisterTaskWithMaintenanceWindowRequest>,
+  output: __S(3073, __c192, 1) as any as S.Schema<RegisterTaskWithMaintenanceWindowResult>,
   errors: [
     DoesNotExistException,
     FeatureNotAvailableException,
@@ -9644,6 +9775,7 @@ export const registerTaskWithMaintenanceWindow: API.OperationMethod<
     InternalServerError,
     ResourceLimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTaskWithMaintenanceWindow",
@@ -9666,9 +9798,10 @@ export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<RemoveTagsFromResourceRequest>,
+  input: __S(3088, __c193, 0) as any as S.Schema<RemoveTagsFromResourceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveTagsFromResourceResult>,
   errors: [InternalServerError, InvalidResourceId, InvalidResourceType, TooManyUpdates],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
@@ -9705,9 +9838,10 @@ export const resetServiceSetting: API.OperationMethod<
   ResetServiceSettingError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<ResetServiceSettingRequest>,
-  output: __S(2481, __c155, 1) as any as S.Schema<ResetServiceSettingResult>,
+  input: __S(3104, __c194, 0) as any as S.Schema<ResetServiceSettingRequest>,
+  output: __S(2497, __c156, 1) as any as S.Schema<ResetServiceSettingResult>,
   errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSetting",
@@ -9729,9 +9863,10 @@ export const resumeSession: API.OperationMethod<
   ResumeSessionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<ResumeSessionRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<ResumeSessionResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<ResumeSessionRequest>,
+  output: __S(3136, __c196, 0) as any as S.Schema<ResumeSessionResponse>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeSession",
@@ -9755,7 +9890,7 @@ export const sendAutomationSignal: API.OperationMethod<
   SendAutomationSignalError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<SendAutomationSignalRequest>,
+  input: __S(3152, __c197, 0) as any as S.Schema<SendAutomationSignalRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SendAutomationSignalResult>,
   errors: [
     AutomationExecutionNotFoundException,
@@ -9763,6 +9898,7 @@ export const sendAutomationSignal: API.OperationMethod<
     InternalServerError,
     InvalidAutomationSignalException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAutomationSignal",
@@ -9792,8 +9928,8 @@ export const sendCommand: API.OperationMethod<
   SendCommandError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<SendCommandRequest>,
-  output: __S(3153, __c197, 1) as any as S.Schema<SendCommandResult>,
+  input: __S(3168, __c198, 0) as any as S.Schema<SendCommandRequest>,
+  output: __S(3169, __c198, 1) as any as S.Schema<SendCommandResult>,
   errors: [
     DuplicateInstanceId,
     InternalServerError,
@@ -9807,6 +9943,7 @@ export const sendCommand: API.OperationMethod<
     MaxDocumentSizeExceeded,
     UnsupportedPlatformType,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCommand",
@@ -9831,8 +9968,8 @@ export const startAccessRequest: API.OperationMethod<
   StartAccessRequestError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<StartAccessRequestRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<StartAccessRequestResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<StartAccessRequestRequest>,
+  output: __S(3185, __c199, 1) as any as S.Schema<StartAccessRequestResponse>,
   errors: [
     AccessDeniedException,
     InternalServerError,
@@ -9841,6 +9978,7 @@ export const startAccessRequest: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessRequest",
@@ -9862,9 +10000,10 @@ export const startAssociationsOnce: API.OperationMethod<
   StartAssociationsOnceError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<StartAssociationsOnceRequest>,
+  input: __S(3200, __c200, 0) as any as S.Schema<StartAssociationsOnceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartAssociationsOnceResult>,
   errors: [AssociationDoesNotExist, InvalidAssociation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssociationsOnce",
@@ -9890,8 +10029,8 @@ export const startAutomationExecution: API.OperationMethod<
   StartAutomationExecutionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<StartAutomationExecutionRequest>,
-  output: __S(3216, __c201, 0) as any as S.Schema<StartAutomationExecutionResult>,
+  input: __S(3216, __c201, 0) as any as S.Schema<StartAutomationExecutionRequest>,
+  output: __S(3232, __c202, 0) as any as S.Schema<StartAutomationExecutionResult>,
   errors: [
     AutomationDefinitionNotFoundException,
     AutomationDefinitionVersionNotFoundException,
@@ -9901,6 +10040,7 @@ export const startAutomationExecution: API.OperationMethod<
     InvalidAutomationExecutionParametersException,
     InvalidTarget,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationExecution",
@@ -9933,8 +10073,8 @@ export const startChangeRequestExecution: API.OperationMethod<
   StartChangeRequestExecutionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<StartChangeRequestExecutionRequest>,
-  output: __S(3216, __c201, 0) as any as S.Schema<StartChangeRequestExecutionResult>,
+  input: __S(3248, __c203, 0) as any as S.Schema<StartChangeRequestExecutionRequest>,
+  output: __S(3232, __c202, 0) as any as S.Schema<StartChangeRequestExecutionResult>,
   errors: [
     AutomationDefinitionNotApprovedException,
     AutomationDefinitionNotFoundException,
@@ -9945,6 +10085,7 @@ export const startChangeRequestExecution: API.OperationMethod<
     InvalidAutomationExecutionParametersException,
     NoLongerSupportedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeRequestExecution",
@@ -9963,9 +10104,10 @@ export const startExecutionPreview: API.OperationMethod<
   StartExecutionPreviewError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3250, __c203, 2) as any as S.Schema<StartExecutionPreviewRequest>,
-  output: __S(3251, __c203, 3) as any as S.Schema<StartExecutionPreviewResponse>,
+  input: __S(3266, __c204, 2) as any as S.Schema<StartExecutionPreviewRequest>,
+  output: __S(3267, __c204, 3) as any as S.Schema<StartExecutionPreviewResponse>,
   errors: [InternalServerError, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExecutionPreview",
@@ -9996,9 +10138,10 @@ export const startSession: API.OperationMethod<
   StartSessionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<StartSessionRequest>,
-  output: __S(3120, __c195, 0) as any as S.Schema<StartSessionResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<StartSessionRequest>,
+  output: __S(3136, __c196, 0) as any as S.Schema<StartSessionResponse>,
   errors: [InternalServerError, InvalidDocument, TargetNotConnected],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
@@ -10020,13 +10163,14 @@ export const stopAutomationExecution: API.OperationMethod<
   StopAutomationExecutionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<StopAutomationExecutionRequest>,
+  input: __S(3296, __c206, 0) as any as S.Schema<StopAutomationExecutionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopAutomationExecutionResult>,
   errors: [
     AutomationExecutionNotFoundException,
     InternalServerError,
     InvalidAutomationStatusUpdateException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutomationExecution",
@@ -10045,9 +10189,10 @@ export const terminateSession: API.OperationMethod<
   TerminateSessionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<TerminateSessionRequest>,
-  output: __S(3297, __c206, 1) as any as S.Schema<TerminateSessionResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<TerminateSessionRequest>,
+  output: __S(3313, __c207, 1) as any as S.Schema<TerminateSessionResponse>,
   errors: [InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
@@ -10074,9 +10219,10 @@ export const unlabelParameterVersion: API.OperationMethod<
   UnlabelParameterVersionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<UnlabelParameterVersionRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<UnlabelParameterVersionResult>,
+  input: __S(3328, __c208, 0) as any as S.Schema<UnlabelParameterVersionRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<UnlabelParameterVersionResult>,
   errors: [InternalServerError, ParameterNotFound, ParameterVersionNotFound, TooManyUpdates],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlabelParameterVersion",
@@ -10125,7 +10271,7 @@ export const updateAssociation: API.OperationMethod<
   UpdateAssociationError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<UpdateAssociationRequest>,
+  input: __S(3344, __c209, 0) as any as S.Schema<UpdateAssociationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<UpdateAssociationResult>,
   errors: [
     AssociationDoesNotExist,
@@ -10142,6 +10288,7 @@ export const updateAssociation: API.OperationMethod<
     InvalidUpdate,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociation",
@@ -10171,7 +10318,7 @@ export const updateAssociationStatus: API.OperationMethod<
   UpdateAssociationStatusError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<UpdateAssociationStatusRequest>,
+  input: __S(3360, __c210, 0) as any as S.Schema<UpdateAssociationStatusRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<UpdateAssociationStatusResult>,
   errors: [
     AssociationDoesNotExist,
@@ -10181,6 +10328,7 @@ export const updateAssociationStatus: API.OperationMethod<
     StatusUnchanged,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociationStatus",
@@ -10203,7 +10351,7 @@ export const updateCloudConnector: API.OperationMethod<
   UpdateCloudConnectorError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<UpdateCloudConnectorRequest>,
+  input: __S(3376, __c211, 0) as any as S.Schema<UpdateCloudConnectorRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<UpdateCloudConnectorResult>,
   errors: [
     ConflictException,
@@ -10211,6 +10359,7 @@ export const updateCloudConnector: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
@@ -10239,8 +10388,8 @@ export const updateDocument: API.OperationMethod<
   UpdateDocumentError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<UpdateDocumentRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<UpdateDocumentResult>,
+  input: __S(3392, __c212, 0) as any as S.Schema<UpdateDocumentRequest>,
+  output: __S(466, __c29, 2) as any as S.Schema<UpdateDocumentResult>,
   errors: [
     DocumentVersionLimitExceeded,
     DuplicateDocumentContent,
@@ -10253,6 +10402,7 @@ export const updateDocument: API.OperationMethod<
     InvalidDocumentVersion,
     MaxDocumentSizeExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
@@ -10279,14 +10429,15 @@ export const updateDocumentDefaultVersion: API.OperationMethod<
   UpdateDocumentDefaultVersionError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<UpdateDocumentDefaultVersionRequest>,
-  output: __S(3394, __c212, 2) as any as S.Schema<UpdateDocumentDefaultVersionResult>,
+  input: __S(3408, __c213, 0) as any as S.Schema<UpdateDocumentDefaultVersionRequest>,
+  output: __S(3410, __c213, 2) as any as S.Schema<UpdateDocumentDefaultVersionResult>,
   errors: [
     InternalServerError,
     InvalidDocument,
     InvalidDocumentSchemaVersion,
     InvalidDocumentVersion,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentDefaultVersion",
@@ -10315,7 +10466,7 @@ export const updateDocumentMetadata: API.OperationMethod<
   UpdateDocumentMetadataError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3409, __c213, 1) as any as S.Schema<UpdateDocumentMetadataRequest>,
+  input: __S(3425, __c214, 1) as any as S.Schema<UpdateDocumentMetadataRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateDocumentMetadataResponse>,
   errors: [
     InternalServerError,
@@ -10324,6 +10475,7 @@ export const updateDocumentMetadata: API.OperationMethod<
     InvalidDocumentVersion,
     TooManyUpdates,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentMetadata",
@@ -10351,9 +10503,10 @@ export const updateMaintenanceWindow: API.OperationMethod<
   UpdateMaintenanceWindowError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<UpdateMaintenanceWindowRequest>,
-  output: __S(3425, __c214, 1) as any as S.Schema<UpdateMaintenanceWindowResult>,
+  input: __S(3440, __c215, 0) as any as S.Schema<UpdateMaintenanceWindowRequest>,
+  output: __S(3441, __c215, 1) as any as S.Schema<UpdateMaintenanceWindowResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindow",
@@ -10390,9 +10543,10 @@ export const updateMaintenanceWindowTarget: API.OperationMethod<
   UpdateMaintenanceWindowTargetError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<UpdateMaintenanceWindowTargetRequest>,
-  output: __S(3441, __c215, 1) as any as S.Schema<UpdateMaintenanceWindowTargetResult>,
+  input: __S(3456, __c216, 0) as any as S.Schema<UpdateMaintenanceWindowTargetRequest>,
+  output: __S(3457, __c216, 1) as any as S.Schema<UpdateMaintenanceWindowTargetResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTarget",
@@ -10448,9 +10602,10 @@ export const updateMaintenanceWindowTask: API.OperationMethod<
   UpdateMaintenanceWindowTaskError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<UpdateMaintenanceWindowTaskRequest>,
-  output: __S(3457, __c216, 1) as any as S.Schema<UpdateMaintenanceWindowTaskResult>,
+  input: __S(3472, __c217, 0) as any as S.Schema<UpdateMaintenanceWindowTaskRequest>,
+  output: __S(3473, __c217, 1) as any as S.Schema<UpdateMaintenanceWindowTaskResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTask",
@@ -10470,9 +10625,10 @@ export const updateManagedInstanceRole: API.OperationMethod<
   UpdateManagedInstanceRoleError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<UpdateManagedInstanceRoleRequest>,
+  input: __S(3488, __c218, 0) as any as S.Schema<UpdateManagedInstanceRoleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateManagedInstanceRoleResult>,
   errors: [InternalServerError, InvalidInstanceId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedInstanceRole",
@@ -10504,7 +10660,7 @@ export const updateOpsItem: API.OperationMethod<
   UpdateOpsItemError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<UpdateOpsItemRequest>,
+  input: __S(3504, __c219, 0) as any as S.Schema<UpdateOpsItemRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateOpsItemResponse>,
   errors: [
     InternalServerError,
@@ -10515,6 +10671,7 @@ export const updateOpsItem: API.OperationMethod<
     OpsItemLimitExceededException,
     OpsItemNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsItem",
@@ -10538,8 +10695,8 @@ export const updateOpsMetadata: API.OperationMethod<
   UpdateOpsMetadataError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<UpdateOpsMetadataRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<UpdateOpsMetadataResult>,
+  input: __S(3520, __c220, 0) as any as S.Schema<UpdateOpsMetadataRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<UpdateOpsMetadataResult>,
   errors: [
     InternalServerError,
     OpsMetadataInvalidArgumentException,
@@ -10547,6 +10704,7 @@ export const updateOpsMetadata: API.OperationMethod<
     OpsMetadataNotFoundException,
     OpsMetadataTooManyUpdatesException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsMetadata",
@@ -10568,9 +10726,10 @@ export const updatePatchBaseline: API.OperationMethod<
   UpdatePatchBaselineError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<UpdatePatchBaselineRequest>,
-  output: __S(3521, __c220, 1) as any as S.Schema<UpdatePatchBaselineResult>,
+  input: __S(3536, __c221, 0) as any as S.Schema<UpdatePatchBaselineRequest>,
+  output: __S(3537, __c221, 1) as any as S.Schema<UpdatePatchBaselineResult>,
   errors: [DoesNotExistException, InternalServerError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePatchBaseline",
@@ -10601,7 +10760,7 @@ export const updateResourceDataSync: API.OperationMethod<
   UpdateResourceDataSyncError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<UpdateResourceDataSyncRequest>,
+  input: __S(3552, __c222, 0) as any as S.Schema<UpdateResourceDataSyncRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateResourceDataSyncResult>,
   errors: [
     InternalServerError,
@@ -10609,6 +10768,7 @@ export const updateResourceDataSync: API.OperationMethod<
     ResourceDataSyncInvalidConfigurationException,
     ResourceDataSyncNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDataSync",
@@ -10644,9 +10804,10 @@ export const updateServiceSetting: API.OperationMethod<
   UpdateServiceSettingError,
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<UpdateServiceSettingRequest>,
+  input: __S(3568, __c223, 0) as any as S.Schema<UpdateServiceSettingRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdateServiceSettingResult>,
   errors: [InternalServerError, ServiceSettingNotFound, TooManyUpdates],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSetting",
@@ -10668,9 +10829,10 @@ export const validateCloudConnector: API.PaginatedOperationMethod<
   Creds | HttpClient.HttpClient,
   ValidationFinding
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<ValidateCloudConnectorRequest>,
-  output: __S(3572, __c223, 4) as any as S.Schema<ValidateCloudConnectorResult>,
+  input: __S(3584, __c224, 0) as any as S.Schema<ValidateCloudConnectorRequest>,
+  output: __S(3588, __c224, 4) as any as S.Schema<ValidateCloudConnectorResult>,
   errors: [InternalServerError, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateCloudConnector",
@@ -10734,7 +10896,7 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CommandId: S.String, InstanceIds: S.optional(__S(3584, __c224, 0)) }).pipe(
+        S.Struct({ CommandId: S.String, InstanceIds: S.optional(__S(3600, __c225, 0)) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CancelCommandRequest" });
@@ -10795,7 +10957,7 @@ function __c7(j: number): any {
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
           ApplyOnlyAtCronInterval: S.optional(S.Boolean),
-          CalendarNames: S.optional(__S(3584, __c224, 0)),
+          CalendarNames: S.optional(__S(3600, __c225, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
           Duration: S.optional(S.Number),
@@ -10833,7 +10995,7 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Key: S.optional(S.String), Values: S.optional(__S(3584, __c224, 0)) }),
+        S.Struct({ Key: S.optional(S.String), Values: S.optional(__S(3600, __c225, 0)) }),
       ).annotate({ identifier: "Target" });
     case 1:
       return S.Array(__S(160, __c10, 0));
@@ -10842,7 +11004,7 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ __S(3584, __c224, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(3600, __c225, 0).pipe(S.optional));
   }
 }
 function __c12(j: number): any {
@@ -10850,14 +11012,14 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Accounts: S.optional(__S(3584, __c224, 0)),
-          Regions: S.optional(__S(3584, __c224, 0)),
+          Accounts: S.optional(__S(3600, __c225, 0)),
+          Regions: S.optional(__S(3600, __c225, 0)),
           TargetLocationMaxConcurrency: S.optional(S.String),
           TargetLocationMaxErrors: S.optional(S.String),
           ExecutionRoleName: S.optional(S.String),
           TargetLocationAlarmConfiguration: S.optional(__S(130, __c8, 2)),
           IncludeChildOrganizationUnits: S.optional(S.Boolean),
-          ExcludeAccounts: S.optional(__S(3584, __c224, 0)),
+          ExcludeAccounts: S.optional(__S(3600, __c225, 0)),
           Targets: S.optional(__S(161, __c10, 1)),
           TargetsMaxConcurrency: S.optional(S.String),
           TargetsMaxErrors: S.optional(S.String),
@@ -10947,7 +11109,7 @@ function __c18(j: number): any {
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
           ApplyOnlyAtCronInterval: S.optional(S.Boolean),
-          CalendarNames: S.optional(__S(3584, __c224, 0)),
+          CalendarNames: S.optional(__S(3600, __c225, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
           Duration: S.optional(S.Number),
@@ -10986,7 +11148,7 @@ function __c20(j: number): any {
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
           ApplyOnlyAtCronInterval: S.optional(S.Boolean),
-          CalendarNames: S.optional(__S(3584, __c224, 0)),
+          CalendarNames: S.optional(__S(3600, __c225, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
           Duration: S.optional(S.Number),
@@ -11110,7 +11272,7 @@ function __c24(j: number): any {
         S.Struct({
           Content: S.String,
           Requires: S.optional(__S(401, __c25, 1)),
-          Attachments: S.optional(__S(449, __c28, 1)),
+          Attachments: S.optional(__S(465, __c29, 1)),
           Name: S.String,
           DisplayName: S.optional(S.String),
           VersionName: S.optional(S.String),
@@ -11118,6 +11280,7 @@ function __c24(j: number): any {
           DocumentFormat: S.optional(S.String),
           TargetType: S.optional(S.String),
           Tags: S.optional(__S(33, __c2, 1)),
+          CloudProviders: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDocumentRequest" });
   }
@@ -11140,10 +11303,16 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("PlatformType")));
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("CloudProvider")));
   }
 }
 function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("PlatformType")));
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11156,7 +11325,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DocumentParameter" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(432, __c27, 0)
+        /*@__PURE__*/ __S(448, __c28, 0)
           .pipe(/*@__PURE__*/ T.XmlName("DocumentParameter"))
           .annotate({ identifier: "DocumentParameter" }),
       );
@@ -11166,7 +11335,7 @@ function __c27(j: number): any {
       });
     case 3:
       return S.Array(
-        /*@__PURE__*/ __S(434, __c27, 2)
+        /*@__PURE__*/ __S(450, __c28, 2)
           .pipe(/*@__PURE__*/ T.XmlName("AttachmentInformation"))
           .annotate({ identifier: "AttachmentInformation" }),
       );
@@ -11180,7 +11349,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ReviewInformation" });
     case 5:
       return S.Array(
-        /*@__PURE__*/ __S(436, __c27, 4)
+        /*@__PURE__*/ __S(452, __c28, 4)
           .pipe(/*@__PURE__*/ T.XmlName("ReviewInformation"))
           .annotate({ identifier: "ReviewInformation" }),
       );
@@ -11199,8 +11368,8 @@ function __c27(j: number): any {
           StatusInformation: S.optional(S.String),
           DocumentVersion: S.optional(S.String),
           Description: S.optional(S.String),
-          Parameters: S.optional(__S(433, __c27, 1)),
-          PlatformTypes: S.optional(__S(416, __c26, 0)),
+          Parameters: S.optional(__S(449, __c28, 1)),
+          PlatformTypes: S.optional(__S(432, __c27, 0)),
           DocumentType: S.optional(S.String),
           SchemaVersion: S.optional(S.String),
           LatestVersion: S.optional(S.String),
@@ -11208,38 +11377,39 @@ function __c27(j: number): any {
           DocumentFormat: S.optional(S.String),
           TargetType: S.optional(S.String),
           Tags: S.optional(__S(33, __c2, 1)),
-          AttachmentsInformation: S.optional(__S(435, __c27, 3)),
+          AttachmentsInformation: S.optional(__S(451, __c28, 3)),
           Requires: S.optional(__S(401, __c25, 1)),
           Author: S.optional(S.String),
-          ReviewInformation: S.optional(__S(437, __c27, 5)),
+          ReviewInformation: S.optional(__S(453, __c28, 5)),
           ApprovedVersion: S.optional(S.String),
           PendingReviewVersion: S.optional(S.String),
           ReviewStatus: S.optional(S.String),
-          Category: S.optional(__S(3584, __c224, 0)),
-          CategoryEnum: S.optional(__S(3584, __c224, 0)),
+          Category: S.optional(__S(3600, __c225, 0)),
+          CategoryEnum: S.optional(__S(3600, __c225, 0)),
+          CloudProviders: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "DocumentDescription" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Key: S.optional(S.String),
-          Values: S.optional(__S(3584, __c224, 0)),
+          Values: S.optional(__S(3600, __c225, 0)),
           Name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachmentsSource" });
     case 1:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ DocumentDescription: S.optional(__S(438, __c27, 6)) }).pipe(ns),
+        S.Struct({ DocumentDescription: S.optional(__S(454, __c28, 6)) }).pipe(ns),
       ).annotate({ identifier: "CreateDocumentResult" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11260,7 +11430,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateMaintenanceWindowRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ WindowId: S.optional(S.String) }).pipe(ns)).annotate({
@@ -11268,17 +11438,17 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.String,
           OpsItemType: S.optional(S.String),
-          OperationalData: S.optional(__S(513, __c32, 1)),
-          Notifications: S.optional(__S(544, __c34, 0)),
+          OperationalData: S.optional(__S(529, __c33, 1)),
+          Notifications: S.optional(__S(560, __c35, 0)),
           Priority: S.optional(S.Number),
-          RelatedOpsItems: S.optional(__S(546, __c34, 2)),
+          RelatedOpsItems: S.optional(__S(562, __c35, 2)),
           Source: S.String,
           Title: S.String,
           Tags: S.optional(__S(33, __c2, 1)),
@@ -11297,17 +11467,17 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateOpsItemResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Value: S.optional(S.String), Type: S.optional(S.String) }),
       ).annotate({ identifier: "OpsItemDataValue" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(512, __c32, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(528, __c33, 0).pipe(S.optional));
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Arn: S.optional(S.String) })).annotate({
@@ -11315,41 +11485,41 @@ function __c33(j: number): any {
       });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(544, __c34, 0));
     case 1:
       return S.suspend(() => S.Struct({ OpsItemId: S.String })).annotate({
         identifier: "RelatedOpsItem",
       });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(561, __c35, 1));
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceId: S.String,
-          Metadata: S.optional(__S(577, __c36, 1)),
+          Metadata: S.optional(__S(593, __c37, 1)),
           Tags: S.optional(__S(33, __c2, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateOpsMetadataRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Value: S.optional(S.String) })).annotate({
         identifier: "MetadataValue",
       });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(576, __c36, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(592, __c37, 0).pipe(S.optional));
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ OpsMetadataArn: S.optional(S.String) }).pipe(ns)).annotate({
@@ -11357,22 +11527,22 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OperatingSystem: S.optional(S.String),
           Name: S.String,
-          GlobalFilters: S.optional(__S(656, __c41, 0)),
-          ApprovalRules: S.optional(__S(659, __c41, 3)),
-          ApprovedPatches: S.optional(__S(3584, __c224, 0)),
+          GlobalFilters: S.optional(__S(672, __c42, 0)),
+          ApprovalRules: S.optional(__S(675, __c42, 3)),
+          ApprovedPatches: S.optional(__S(3600, __c225, 0)),
           ApprovedPatchesComplianceLevel: S.optional(S.String),
           ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean),
-          RejectedPatches: S.optional(__S(3584, __c224, 0)),
+          RejectedPatches: S.optional(__S(3600, __c225, 0)),
           RejectedPatchesAction: S.optional(S.String),
           Description: S.optional(S.String),
-          Sources: S.optional(__S(661, __c41, 5)),
+          Sources: S.optional(__S(677, __c42, 5)),
           AvailableSecurityUpdatesComplianceStatus: S.optional(S.String),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(33, __c2, 1)),
@@ -11380,7 +11550,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreatePatchBaselineRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ BaselineId: S.optional(S.String) }).pipe(ns)).annotate({
@@ -11388,26 +11558,26 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(3584, __c224, 0) })).annotate({
-        identifier: "PatchFilter",
-      });
-    case 1:
-      return S.Array(__S(640, __c40, 0));
-  }
-}
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ PatchFilters: __S(641, __c40, 1) })).annotate({
+      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(3600, __c225, 0) })).annotate({
+        identifier: "PatchFilter",
+      });
+    case 1:
+      return S.Array(__S(656, __c41, 0));
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ PatchFilters: __S(657, __c41, 1) })).annotate({
         identifier: "PatchFilterGroup",
       });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PatchFilterGroup: __S(656, __c41, 0),
+          PatchFilterGroup: __S(672, __c42, 0),
           ComplianceLevel: S.optional(S.String),
           ApproveAfterDays: S.optional(S.Number),
           ApproveUntilDate: S.optional(S.String),
@@ -11415,37 +11585,37 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "PatchRule" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(673, __c42, 1));
     case 3:
-      return S.suspend(() => S.Struct({ PatchRules: __S(658, __c41, 2) })).annotate({
+      return S.suspend(() => S.Struct({ PatchRules: __S(674, __c42, 2) })).annotate({
         identifier: "PatchRuleGroup",
       });
     case 4:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Products: __S(3584, __c224, 0),
+          Products: __S(3600, __c225, 0),
           Configuration: SensitiveString,
         }),
       ).annotate({ identifier: "PatchSource" });
     case 5:
-      return S.Array(__S(660, __c41, 4));
+      return S.Array(__S(676, __c42, 4));
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SyncName: S.String,
-          S3Destination: S.optional(__S(689, __c43, 1)),
+          S3Destination: S.optional(__S(705, __c44, 1)),
           SyncType: S.optional(S.String),
-          SyncSource: S.optional(__S(720, __c45, 0)),
+          SyncSource: S.optional(__S(736, __c46, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateResourceDataSyncRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11459,43 +11629,43 @@ function __c43(j: number): any {
           SyncFormat: S.String,
           Region: S.String,
           AWSKMSKeyARN: S.optional(S.String),
-          DestinationDataSharing: S.optional(__S(688, __c43, 0)),
+          DestinationDataSharing: S.optional(__S(704, __c44, 0)),
         }),
       ).annotate({ identifier: "ResourceDataSyncS3Destination" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ OrganizationalUnitId: S.optional(S.String) })).annotate({
         identifier: "ResourceDataSyncOrganizationalUnit",
       });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(720, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           OrganizationSourceType: S.String,
-          OrganizationalUnits: S.optional(__S(705, __c44, 1)),
+          OrganizationalUnits: S.optional(__S(721, __c45, 1)),
         }),
       ).annotate({ identifier: "ResourceDataSyncAwsOrganizationsSource" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SourceType: S.String,
-          AwsOrganizationsSource: S.optional(__S(706, __c44, 2)),
-          SourceRegions: __S(3584, __c224, 0),
+          AwsOrganizationsSource: S.optional(__S(722, __c45, 2)),
+          SourceRegions: __S(3600, __c225, 0),
           IncludeFutureRegions: S.optional(S.Boolean),
           EnableAllOpsDataSources: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ResourceDataSyncSource" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11505,7 +11675,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteActivationRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11517,7 +11687,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteAssociationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11527,7 +11697,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteCloudConnectorRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11540,7 +11710,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteDocumentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11556,12 +11726,12 @@ function __c50(j: number): any {
         S.Struct({
           DeletionId: S.optional(S.String),
           TypeName: S.optional(S.String),
-          DeletionSummary: S.optional(__S(818, __c51, 2)),
+          DeletionSummary: S.optional(__S(834, __c52, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DeleteInventoryResult" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11572,18 +11742,18 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "InventoryDeletionSummaryItem" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(832, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           TotalCount: S.optional(S.Number),
           RemainingCount: S.optional(S.Number),
-          SummaryItems: S.optional(__S(817, __c51, 1)),
+          SummaryItems: S.optional(__S(833, __c52, 1)),
         }),
       ).annotate({ identifier: "InventoryDeletionSummary" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11593,7 +11763,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteMaintenanceWindowRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11603,7 +11773,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteOpsItemRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11613,7 +11783,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteOpsMetadataRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11623,24 +11793,24 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteParameterRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Names: __S(3584, __c224, 0) }).pipe(
+        S.Struct({ Names: __S(3600, __c225, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteParametersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DeletedParameters: S.optional(__S(3584, __c224, 0)),
-          InvalidParameters: S.optional(__S(3584, __c224, 0)),
+          DeletedParameters: S.optional(__S(3600, __c225, 0)),
+          InvalidParameters: S.optional(__S(3600, __c225, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "DeleteParametersResult" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11650,7 +11820,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeletePatchBaselineRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11660,7 +11830,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteResourceDataSyncRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11673,7 +11843,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11683,7 +11853,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeregisterDefaultHostManagementConfigurationRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11693,7 +11863,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeregisterManagedInstanceRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11703,7 +11873,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeregisterPatchBaselineForPatchGroupRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11711,7 +11881,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeregisterPatchBaselineForPatchGroupResult" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11727,7 +11897,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeregisterTargetFromMaintenanceWindowResult" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11741,12 +11911,12 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeregisterTaskFromMaintenanceWindowResult" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1073, __c67, 1)),
+          Filters: S.optional(__S(1089, __c68, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -11767,30 +11937,30 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "Activation" });
     case 2:
-      return S.Array(__S(1057, __c66, 1));
+      return S.Array(__S(1073, __c67, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ActivationList: S.optional(__S(1058, __c66, 2)),
+          ActivationList: S.optional(__S(1074, __c67, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeActivationsResult" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           FilterKey: S.optional(S.String),
-          FilterValues: S.optional(__S(3584, __c224, 0)),
+          FilterValues: S.optional(__S(3600, __c225, 0)),
         }),
       ).annotate({ identifier: "DescribeActivationsFilter" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1088, __c68, 0));
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11803,7 +11973,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DescribeAssociationRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.String, Type: S.String })).annotate(
@@ -11811,7 +11981,7 @@ function __c69(j: number): any {
       );
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1104, __c69, 0)
+        /*@__PURE__*/ __S(1120, __c70, 0)
           .pipe(/*@__PURE__*/ T.XmlName("AssociationExecutionFilter"))
           .annotate({ identifier: "AssociationExecutionFilter" }),
       );
@@ -11819,7 +11989,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AssociationId: S.String,
-          Filters: S.optional(__S(1105, __c69, 1)),
+          Filters: S.optional(__S(1121, __c70, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -11841,20 +12011,20 @@ function __c69(j: number): any {
       ).annotate({ identifier: "AssociationExecution" });
     case 4:
       return S.Array(
-        /*@__PURE__*/ __S(1107, __c69, 3)
+        /*@__PURE__*/ __S(1123, __c70, 3)
           .pipe(/*@__PURE__*/ T.XmlName("AssociationExecution"))
           .annotate({ identifier: "AssociationExecution" }),
       );
     case 5:
       return S.suspend(() =>
         S.Struct({
-          AssociationExecutions: S.optional(__S(1108, __c69, 4)),
+          AssociationExecutions: S.optional(__S(1124, __c70, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAssociationExecutionsResult" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
@@ -11862,7 +12032,7 @@ function __c70(j: number): any {
       });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1120, __c70, 0)
+        /*@__PURE__*/ __S(1136, __c71, 0)
           .pipe(/*@__PURE__*/ T.XmlName("AssociationExecutionTargetsFilter"))
           .annotate({ identifier: "AssociationExecutionTargetsFilter" }),
       );
@@ -11871,7 +12041,7 @@ function __c70(j: number): any {
         S.Struct({
           AssociationId: S.String,
           ExecutionId: S.String,
-          Filters: S.optional(__S(1121, __c70, 1)),
+          Filters: S.optional(__S(1137, __c71, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -11891,30 +12061,30 @@ function __c70(j: number): any {
           Status: S.optional(S.String),
           DetailedStatus: S.optional(S.String),
           LastExecutionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          OutputSource: S.optional(__S(1123, __c70, 3)),
+          OutputSource: S.optional(__S(1139, __c71, 3)),
         }),
       ).annotate({ identifier: "AssociationExecutionTarget" });
     case 5:
       return S.Array(
-        /*@__PURE__*/ __S(1124, __c70, 4)
+        /*@__PURE__*/ __S(1140, __c71, 4)
           .pipe(/*@__PURE__*/ T.XmlName("AssociationExecutionTarget"))
           .annotate({ identifier: "AssociationExecutionTarget" }),
       );
     case 6:
       return S.suspend(() =>
         S.Struct({
-          AssociationExecutionTargets: S.optional(__S(1125, __c70, 5)),
+          AssociationExecutionTargets: S.optional(__S(1141, __c71, 5)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAssociationExecutionTargetsResult" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(641, __c40, 1)),
+          Filters: S.optional(__S(657, __c41, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -11940,7 +12110,7 @@ function __c71(j: number): any {
           TargetParameterName: S.optional(S.String),
           Targets: S.optional(__S(161, __c10, 1)),
           TargetMaps: S.optional(__S(208, __c13, 0)),
-          ResolvedTargets: S.optional(__S(1152, __c72, 0)),
+          ResolvedTargets: S.optional(__S(1168, __c73, 0)),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
           Target: S.optional(S.String),
@@ -11950,35 +12120,35 @@ function __c71(j: number): any {
           TargetLocationsURL: S.optional(S.String),
           AutomationSubtype: S.optional(S.String),
           ScheduledTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Runbooks: S.optional(__S(1169, __c73, 1)),
+          Runbooks: S.optional(__S(1185, __c74, 1)),
           OpsItemId: S.optional(S.String),
           AssociationId: S.optional(S.String),
           ChangeRequestName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationExecutionMetadata" });
     case 2:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1153, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AutomationExecutionMetadataList: S.optional(__S(1138, __c71, 2)),
+          AutomationExecutionMetadataList: S.optional(__S(1154, __c72, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAutomationExecutionsResult" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ParameterValues: S.optional(__S(3584, __c224, 0)),
+          ParameterValues: S.optional(__S(3600, __c225, 0)),
           Truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ResolvedTargets" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11995,16 +12165,16 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "Runbook" });
     case 1:
-      return S.Array(__S(1168, __c73, 0));
+      return S.Array(__S(1184, __c74, 0));
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AutomationExecutionId: S.String,
-          Filters: S.optional(__S(641, __c40, 1)),
+          Filters: S.optional(__S(657, __c41, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           ReverseOrder: S.optional(S.Boolean),
@@ -12013,19 +12183,19 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StepExecutions: S.optional(__S(1219, __c76, 3)),
+          StepExecutions: S.optional(__S(1235, __c77, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAutomationStepExecutionsResult" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12057,29 +12227,29 @@ function __c76(j: number): any {
           ExecutionEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StepStatus: S.optional(S.String),
           ResponseCode: S.optional(S.String),
-          Inputs: S.optional(__S(1200, __c75, 0)),
+          Inputs: S.optional(__S(1216, __c76, 0)),
           Outputs: S.optional(__S(176, __c11, 0)),
           Response: S.optional(S.String),
           FailureMessage: S.optional(S.String),
           WarningMessage: S.optional(S.String),
-          FailureDetails: S.optional(__S(1216, __c76, 0)),
+          FailureDetails: S.optional(__S(1232, __c77, 0)),
           StepExecutionId: S.optional(S.String),
           OverriddenParameters: S.optional(__S(176, __c11, 0)),
           IsEnd: S.optional(S.Boolean),
           NextStep: S.optional(S.String),
           IsCritical: S.optional(S.Boolean),
-          ValidNextSteps: S.optional(__S(3584, __c224, 0)),
+          ValidNextSteps: S.optional(__S(3600, __c225, 0)),
           Targets: S.optional(__S(161, __c10, 1)),
           TargetLocation: S.optional(__S(192, __c12, 0)),
           TriggeredAlarms: S.optional(__S(145, __c9, 1)),
-          ParentStepDetails: S.optional(__S(1217, __c76, 1)),
+          ParentStepDetails: S.optional(__S(1233, __c77, 1)),
         }),
       ).annotate({ identifier: "StepExecution" });
     case 3:
-      return S.Array(__S(1218, __c76, 2));
+      return S.Array(__S(1234, __c77, 2));
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12090,17 +12260,17 @@ function __c77(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeAvailablePatchesRequest" });
     case 1:
-      return S.Array(__S(1248, __c78, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Patches: S.optional(__S(1233, __c77, 1)),
+          Patches: S.optional(__S(1249, __c78, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAvailablePatchesResult" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12118,9 +12288,9 @@ function __c78(j: number): any {
           KbNumber: S.optional(S.String),
           MsrcNumber: S.optional(S.String),
           Language: S.optional(S.String),
-          AdvisoryIds: S.optional(__S(3584, __c224, 0)),
-          BugzillaIds: S.optional(__S(3584, __c224, 0)),
-          CVEIds: S.optional(__S(3584, __c224, 0)),
+          AdvisoryIds: S.optional(__S(3600, __c225, 0)),
+          BugzillaIds: S.optional(__S(3600, __c225, 0)),
+          CVEIds: S.optional(__S(3600, __c225, 0)),
           Name: S.optional(S.String),
           Epoch: S.optional(S.Number),
           Version: S.optional(S.String),
@@ -12132,7 +12302,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "Patch" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12144,11 +12314,11 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DescribeDocumentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Document: S.optional(__S(438, __c27, 6)) }).pipe(ns),
+        S.Struct({ Document: S.optional(__S(454, __c28, 6)) }).pipe(ns),
       ).annotate({ identifier: "DescribeDocumentResult" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12165,27 +12335,27 @@ function __c80(j: number): any {
       ).annotate({ identifier: "AccountSharingInfo" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(1281, __c80, 1)
+        /*@__PURE__*/ __S(1297, __c81, 1)
           .pipe(/*@__PURE__*/ T.XmlName("AccountSharingInfo"))
           .annotate({ identifier: "AccountSharingInfo" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AccountIds: S.optional(__S(1296, __c81, 0)),
-          AccountSharingInfoList: S.optional(__S(1282, __c80, 2)),
+          AccountIds: S.optional(__S(1312, __c82, 0)),
+          AccountSharingInfoList: S.optional(__S(1298, __c81, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDocumentPermissionResponse" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("AccountId")));
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12205,17 +12375,17 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "InstanceAssociation" });
     case 2:
-      return S.Array(__S(1313, __c82, 1));
+      return S.Array(__S(1329, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Associations: S.optional(__S(1314, __c82, 2)),
+          Associations: S.optional(__S(1330, __c83, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeEffectiveInstanceAssociationsResult" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12236,22 +12406,22 @@ function __c83(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Patch: S.optional(__S(1248, __c78, 0)),
-          PatchStatus: S.optional(__S(1329, __c83, 1)),
+          Patch: S.optional(__S(1264, __c79, 0)),
+          PatchStatus: S.optional(__S(1345, __c84, 1)),
         }),
       ).annotate({ identifier: "EffectivePatch" });
     case 3:
-      return S.Array(__S(1330, __c83, 2));
+      return S.Array(__S(1346, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          EffectivePatches: S.optional(__S(1331, __c83, 3)),
+          EffectivePatches: S.optional(__S(1347, __c84, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeEffectivePatchesForPatchBaselineResult" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12266,7 +12436,7 @@ function __c84(j: number): any {
         identifier: "S3OutputUrl",
       });
     case 2:
-      return S.suspend(() => S.Struct({ S3OutputUrl: S.optional(__S(1345, __c84, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ S3OutputUrl: S.optional(__S(1361, __c85, 1)) })).annotate({
         identifier: "InstanceAssociationOutputUrl",
       });
     case 3:
@@ -12282,52 +12452,52 @@ function __c84(j: number): any {
           DetailedStatus: S.optional(S.String),
           ExecutionSummary: S.optional(S.String),
           ErrorCode: S.optional(S.String),
-          OutputUrl: S.optional(__S(1346, __c84, 2)),
+          OutputUrl: S.optional(__S(1362, __c85, 2)),
           AssociationName: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceAssociationStatusInfo" });
     case 4:
-      return S.Array(__S(1347, __c84, 3));
+      return S.Array(__S(1363, __c85, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          InstanceAssociationStatusInfos: S.optional(__S(1348, __c84, 4)),
+          InstanceAssociationStatusInfos: S.optional(__S(1364, __c85, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInstanceAssociationsStatusResult" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
         /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("InstanceInformationFilterValue")),
       );
     case 1:
-      return S.suspend(() => S.Struct({ key: S.String, valueSet: __S(1360, __c85, 0) })).annotate({
+      return S.suspend(() => S.Struct({ key: S.String, valueSet: __S(1376, __c86, 0) })).annotate({
         identifier: "InstanceInformationFilter",
       });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(1361, __c85, 1)
+        /*@__PURE__*/ __S(1377, __c86, 1)
           .pipe(/*@__PURE__*/ T.XmlName("InstanceInformationFilter"))
           .annotate({ identifier: "InstanceInformationFilter" }),
       );
     case 3:
-      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(1360, __c85, 0) })).annotate({
+      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(1376, __c86, 0) })).annotate({
         identifier: "InstanceInformationStringFilter",
       });
     case 4:
       return S.Array(
-        /*@__PURE__*/ __S(1363, __c85, 3)
+        /*@__PURE__*/ __S(1379, __c86, 3)
           .pipe(/*@__PURE__*/ T.XmlName("InstanceInformationStringFilter"))
           .annotate({ identifier: "InstanceInformationStringFilter" }),
       );
     case 5:
       return S.suspend(() =>
         S.Struct({
-          InstanceInformationFilterList: S.optional(__S(1362, __c85, 2)),
-          Filters: S.optional(__S(1364, __c85, 4)),
+          InstanceInformationFilterList: S.optional(__S(1378, __c86, 2)),
+          Filters: S.optional(__S(1380, __c86, 4)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -12355,7 +12525,7 @@ function __c85(j: number): any {
           LastSuccessfulAssociationExecutionDate: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ),
-          AssociationOverview: S.optional(__S(1376, __c86, 0)),
+          AssociationOverview: S.optional(__S(1392, __c87, 0)),
           SourceId: S.optional(S.String),
           SourceType: S.optional(S.String),
           SourceLocation: S.optional(S.String),
@@ -12363,20 +12533,20 @@ function __c85(j: number): any {
       ).annotate({ identifier: "InstanceInformation" });
     case 7:
       return S.Array(
-        /*@__PURE__*/ __S(1366, __c85, 6)
+        /*@__PURE__*/ __S(1382, __c86, 6)
           .pipe(/*@__PURE__*/ T.XmlName("InstanceInformation"))
           .annotate({ identifier: "InstanceInformation" }),
       );
     case 8:
       return S.suspend(() =>
         S.Struct({
-          InstanceInformationList: S.optional(__S(1367, __c85, 7)),
+          InstanceInformationList: S.optional(__S(1383, __c86, 7)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInstanceInformationResult" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12387,7 +12557,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "InstanceAggregatedAssociationOverview" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12411,29 +12581,29 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "PatchComplianceData" });
     case 2:
-      return S.Array(__S(1393, __c87, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Patches: S.optional(__S(1394, __c87, 2)),
+          Patches: S.optional(__S(1410, __c88, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInstancePatchesResult" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: __S(3584, __c224, 0),
+          InstanceIds: __S(3600, __c225, 0),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeInstancePatchStatesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12466,66 +12636,66 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "InstancePatchState" });
     case 1:
-      return S.Array(__S(1424, __c89, 0));
+      return S.Array(__S(1440, __c90, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          InstancePatchStates: S.optional(__S(1425, __c89, 1)),
+          InstancePatchStates: S.optional(__S(1441, __c90, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInstancePatchStatesResult" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Key: S.String, Values: __S(3584, __c224, 0), Type: S.String }),
+        S.Struct({ Key: S.String, Values: __S(3600, __c225, 0), Type: S.String }),
       ).annotate({ identifier: "InstancePatchStateFilter" });
     case 1:
-      return S.Array(__S(1440, __c90, 0));
+      return S.Array(__S(1456, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           PatchGroup: S.String,
-          Filters: S.optional(__S(1441, __c90, 1)),
+          Filters: S.optional(__S(1457, __c91, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeInstancePatchStatesForPatchGroupRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
         /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("InstancePropertyFilterValue")),
       );
     case 1:
-      return S.suspend(() => S.Struct({ key: S.String, valueSet: __S(1456, __c91, 0) })).annotate({
+      return S.suspend(() => S.Struct({ key: S.String, valueSet: __S(1472, __c92, 0) })).annotate({
         identifier: "InstancePropertyFilter",
       });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(1457, __c91, 1)
+        /*@__PURE__*/ __S(1473, __c92, 1)
           .pipe(/*@__PURE__*/ T.XmlName("InstancePropertyFilter"))
           .annotate({ identifier: "InstancePropertyFilter" }),
       );
     case 3:
       return S.suspend(() =>
-        S.Struct({ Key: S.String, Values: __S(1456, __c91, 0), Operator: S.optional(S.String) }),
+        S.Struct({ Key: S.String, Values: __S(1472, __c92, 0), Operator: S.optional(S.String) }),
       ).annotate({ identifier: "InstancePropertyStringFilter" });
     case 4:
       return S.Array(
-        /*@__PURE__*/ __S(1459, __c91, 3)
+        /*@__PURE__*/ __S(1475, __c92, 3)
           .pipe(/*@__PURE__*/ T.XmlName("InstancePropertyStringFilter"))
           .annotate({ identifier: "InstancePropertyStringFilter" }),
       );
     case 5:
       return S.suspend(() =>
         S.Struct({
-          InstancePropertyFilterList: S.optional(__S(1458, __c91, 2)),
-          FiltersWithOperator: S.optional(__S(1460, __c91, 4)),
+          InstancePropertyFilterList: S.optional(__S(1474, __c92, 2)),
+          FiltersWithOperator: S.optional(__S(1476, __c92, 4)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -12558,7 +12728,7 @@ function __c91(j: number): any {
           LastSuccessfulAssociationExecutionDate: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ),
-          AssociationOverview: S.optional(__S(1376, __c86, 0)),
+          AssociationOverview: S.optional(__S(1392, __c87, 0)),
           SourceId: S.optional(S.String),
           SourceType: S.optional(S.String),
           SourceLocation: S.optional(S.String),
@@ -12567,20 +12737,20 @@ function __c91(j: number): any {
       ).annotate({ identifier: "InstanceProperty" });
     case 7:
       return S.Array(
-        /*@__PURE__*/ __S(1462, __c91, 6)
+        /*@__PURE__*/ __S(1478, __c92, 6)
           .pipe(/*@__PURE__*/ T.XmlName("InstanceProperty"))
           .annotate({ identifier: "InstanceProperty" }),
       );
     case 8:
       return S.suspend(() =>
         S.Struct({
-          InstanceProperties: S.optional(__S(1463, __c91, 7)),
+          InstanceProperties: S.optional(__S(1479, __c92, 7)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInstancePropertiesResult" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12598,22 +12768,22 @@ function __c92(j: number): any {
           DeletionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastStatus: S.optional(S.String),
           LastStatusMessage: S.optional(S.String),
-          DeletionSummary: S.optional(__S(818, __c51, 2)),
+          DeletionSummary: S.optional(__S(834, __c52, 2)),
           LastStatusUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "InventoryDeletionStatusItem" });
     case 2:
-      return S.Array(__S(1473, __c92, 1));
+      return S.Array(__S(1489, __c93, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InventoryDeletions: S.optional(__S(1474, __c92, 2)),
+          InventoryDeletions: S.optional(__S(1490, __c93, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInventoryDeletionsResult" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12636,17 +12806,17 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowExecution" });
     case 2:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(1505, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WindowExecutions: S.optional(__S(1490, __c93, 2)),
+          WindowExecutions: S.optional(__S(1506, __c94, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowExecutionsResult" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12676,17 +12846,17 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowExecutionTaskInvocationIdentity" });
     case 2:
-      return S.Array(__S(1505, __c94, 1));
+      return S.Array(__S(1521, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WindowExecutionTaskInvocationIdentities: S.optional(__S(1506, __c94, 2)),
+          WindowExecutionTaskInvocationIdentities: S.optional(__S(1522, __c95, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowExecutionTaskInvocationsResult" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12713,17 +12883,17 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowExecutionTaskIdentity" });
     case 2:
-      return S.Array(__S(1521, __c95, 1));
+      return S.Array(__S(1537, __c96, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WindowExecutionTaskIdentities: S.optional(__S(1522, __c95, 2)),
+          WindowExecutionTaskIdentities: S.optional(__S(1538, __c96, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowExecutionTasksResult" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12751,17 +12921,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowIdentity" });
     case 2:
-      return S.Array(__S(1537, __c96, 1));
+      return S.Array(__S(1553, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WindowIdentities: S.optional(__S(1538, __c96, 2)),
+          WindowIdentities: S.optional(__S(1554, __c97, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowsResult" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12783,17 +12953,17 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledWindowExecution" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ScheduledWindowExecutions: S.optional(__S(1554, __c97, 2)),
+          ScheduledWindowExecutions: S.optional(__S(1570, __c98, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowScheduleResult" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12809,17 +12979,17 @@ function __c98(j: number): any {
         S.Struct({ WindowId: S.optional(S.String), Name: S.optional(S.String) }),
       ).annotate({ identifier: "MaintenanceWindowIdentityForTarget" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1585, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WindowIdentities: S.optional(__S(1570, __c98, 2)),
+          WindowIdentities: S.optional(__S(1586, __c99, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowsForTargetResult" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12843,17 +13013,17 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowTarget" });
     case 2:
-      return S.Array(__S(1585, __c99, 1));
+      return S.Array(__S(1601, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Targets: S.optional(__S(1586, __c99, 2)),
+          Targets: S.optional(__S(1602, __c100, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMaintenanceWindowTargetsResult" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12872,9 +13042,9 @@ function __c100(j: number): any {
           TaskArn: S.optional(S.String),
           Type: S.optional(S.String),
           Targets: S.optional(__S(161, __c10, 1)),
-          TaskParameters: S.optional(__S(1618, __c101, 2)),
+          TaskParameters: S.optional(__S(1634, __c102, 2)),
           Priority: S.optional(S.Number),
-          LoggingInfo: S.optional(__S(1632, __c102, 0)),
+          LoggingInfo: S.optional(__S(1648, __c103, 0)),
           ServiceRoleArn: S.optional(S.String),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
@@ -12885,28 +13055,28 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowTask" });
     case 2:
-      return S.Array(__S(1601, __c100, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Tasks: S.optional(__S(1602, __c100, 2)), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ Tasks: S.optional(__S(1618, __c101, 2)), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "DescribeMaintenanceWindowTasksResult" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Array(SensitiveString);
     case 1:
-      return S.suspend(() => S.Struct({ Values: S.optional(__S(1616, __c101, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Values: S.optional(__S(1632, __c102, 0)) })).annotate({
         identifier: "MaintenanceWindowTaskParameterValueExpression",
       });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(1617, __c101, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1633, __c102, 1).pipe(S.optional));
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12914,12 +13084,12 @@ function __c102(j: number): any {
       ).annotate({ identifier: "LoggingInfo" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          OpsItemFilters: S.optional(__S(1665, __c104, 1)),
+          OpsItemFilters: S.optional(__S(1681, __c105, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -12936,7 +13106,7 @@ function __c103(j: number): any {
           Status: S.optional(S.String),
           OpsItemId: S.optional(S.String),
           Title: S.optional(S.String),
-          OperationalData: S.optional(__S(513, __c32, 1)),
+          OperationalData: S.optional(__S(529, __c33, 1)),
           Category: S.optional(S.String),
           Severity: S.optional(S.String),
           OpsItemType: S.optional(S.String),
@@ -12947,33 +13117,33 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "OpsItemSummary" });
     case 2:
-      return S.Array(__S(1649, __c103, 1));
+      return S.Array(__S(1665, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          OpsItemSummaries: S.optional(__S(1650, __c103, 2)),
+          OpsItemSummaries: S.optional(__S(1666, __c104, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOpsItemsResponse" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Key: S.String, Values: __S(3584, __c224, 0), Operator: S.String }),
-      ).annotate({ identifier: "OpsItemFilter" });
-    case 1:
-      return S.Array(__S(1664, __c104, 0));
   }
 }
 function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Key: S.String, Values: __S(3600, __c225, 0), Operator: S.String }),
+      ).annotate({ identifier: "OpsItemFilter" });
+    case 1:
+      return S.Array(__S(1680, __c105, 0));
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(641, __c40, 1)),
-          ParameterFilters: S.optional(__S(1713, __c107, 1)),
+          Filters: S.optional(__S(657, __c41, 1)),
+          ParameterFilters: S.optional(__S(1729, __c108, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
           Shared: S.optional(S.Boolean),
@@ -12992,22 +13162,22 @@ function __c105(j: number): any {
           AllowedPattern: S.optional(S.String),
           Version: S.optional(S.Number),
           Tier: S.optional(S.String),
-          Policies: S.optional(__S(1697, __c106, 1)),
+          Policies: S.optional(__S(1713, __c107, 1)),
           DataType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ParameterMetadata" });
     case 2:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Parameters: S.optional(__S(1682, __c105, 2)),
+          Parameters: S.optional(__S(1698, __c106, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeParametersResult" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13018,24 +13188,24 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "ParameterInlinePolicy" });
     case 1:
-      return S.Array(__S(1696, __c106, 0));
+      return S.Array(__S(1712, __c107, 0));
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Key: S.String,
           Option: S.optional(S.String),
-          Values: S.optional(__S(3584, __c224, 0)),
+          Values: S.optional(__S(3600, __c225, 0)),
         }),
       ).annotate({ identifier: "ParameterStringFilter" });
     case 1:
-      return S.Array(__S(1712, __c107, 0));
+      return S.Array(__S(1728, __c108, 0));
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13046,17 +13216,17 @@ function __c108(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribePatchBaselinesRequest" });
     case 1:
-      return S.Array(__S(1744, __c109, 0));
+      return S.Array(__S(1760, __c110, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          BaselineIdentities: S.optional(__S(1729, __c108, 1)),
+          BaselineIdentities: S.optional(__S(1745, __c109, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePatchBaselinesResult" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13070,7 +13240,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "PatchBaselineIdentity" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13084,21 +13254,21 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PatchGroup: S.optional(S.String),
-          BaselineIdentity: S.optional(__S(1744, __c109, 0)),
+          BaselineIdentity: S.optional(__S(1760, __c110, 0)),
         }),
       ).annotate({ identifier: "PatchGroupPatchBaselineMapping" });
     case 2:
-      return S.Array(__S(1761, __c110, 1));
+      return S.Array(__S(1777, __c111, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Mappings: S.optional(__S(1762, __c110, 2)),
+          Mappings: S.optional(__S(1778, __c111, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePatchGroupsResult" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13126,7 +13296,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DescribePatchGroupStateResult" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13141,19 +13311,19 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Properties: S.optional(__S(1808, __c113, 0)),
+          Properties: S.optional(__S(1824, __c114, 0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePatchPropertiesResult" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1200, __c75, 0));
+      return S.Array(__S(1216, __c76, 0));
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13161,7 +13331,7 @@ function __c114(j: number): any {
           State: S.String,
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(1856, __c116, 0)),
+          Filters: S.optional(__S(1872, __c117, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeSessionsRequest" });
     case 1:
@@ -13180,23 +13350,23 @@ function __c114(j: number): any {
           Owner: S.optional(S.String),
           Reason: S.optional(S.String),
           Details: S.optional(S.String),
-          OutputUrl: S.optional(__S(1825, __c114, 1)),
+          OutputUrl: S.optional(__S(1841, __c115, 1)),
           MaxSessionDuration: S.optional(S.String),
           AccessType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Session" });
     case 3:
-      return S.Array(__S(1826, __c114, 2));
+      return S.Array(__S(1842, __c115, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Sessions: S.optional(__S(1827, __c114, 3)),
+          Sessions: S.optional(__S(1843, __c115, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeSessionsResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
@@ -13204,13 +13374,13 @@ function __c115(j: number): any {
       });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1840, __c115, 0));
+      return S.Array(__S(1856, __c116, 0));
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13220,7 +13390,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DisassociateOpsItemRelatedItemRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13240,13 +13410,13 @@ function __c118(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Credentials: S.optional(__S(1889, __c118, 1)),
+          Credentials: S.optional(__S(1905, __c119, 1)),
           AccessRequestStatus: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetAccessTokenResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13283,7 +13453,7 @@ function __c119(j: number): any {
           ExecutionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExecutionEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AutomationExecutionStatus: S.optional(S.String),
-          StepExecutions: S.optional(__S(1219, __c76, 3)),
+          StepExecutions: S.optional(__S(1235, __c77, 3)),
           StepExecutionsTruncated: S.optional(S.Boolean),
           Parameters: S.optional(__S(176, __c11, 0)),
           Outputs: S.optional(__S(176, __c11, 0)),
@@ -13297,36 +13467,36 @@ function __c119(j: number): any {
           TargetParameterName: S.optional(S.String),
           Targets: S.optional(__S(161, __c10, 1)),
           TargetMaps: S.optional(__S(208, __c13, 0)),
-          ResolvedTargets: S.optional(__S(1152, __c72, 0)),
+          ResolvedTargets: S.optional(__S(1168, __c73, 0)),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
           Target: S.optional(S.String),
           TargetLocations: S.optional(__S(224, __c14, 0)),
-          ProgressCounters: S.optional(__S(1905, __c119, 1)),
+          ProgressCounters: S.optional(__S(1921, __c120, 1)),
           AlarmConfiguration: S.optional(__S(130, __c8, 2)),
           TriggeredAlarms: S.optional(__S(145, __c9, 1)),
           TargetLocationsURL: S.optional(S.String),
           AutomationSubtype: S.optional(S.String),
           ScheduledTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Runbooks: S.optional(__S(1169, __c73, 1)),
+          Runbooks: S.optional(__S(1185, __c74, 1)),
           OpsItemId: S.optional(S.String),
           AssociationId: S.optional(S.String),
           ChangeRequestName: S.optional(S.String),
           Variables: S.optional(__S(176, __c11, 0)),
-          TargetsSummary: S.optional(__S(1906, __c119, 2)),
+          TargetsSummary: S.optional(__S(1922, __c120, 2)),
         }),
       ).annotate({ identifier: "AutomationExecution" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ AutomationExecution: S.optional(__S(1907, __c119, 3)) }).pipe(ns),
+        S.Struct({ AutomationExecution: S.optional(__S(1923, __c120, 3)) }).pipe(ns),
       ).annotate({ identifier: "GetAutomationExecutionResult" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CalendarNames: __S(3584, __c224, 0), AtTime: S.optional(S.String) }).pipe(
+        S.Struct({ CalendarNames: __S(3600, __c225, 0), AtTime: S.optional(S.String) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetCalendarStateRequest" });
@@ -13340,7 +13510,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetCalendarStateResponse" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13363,7 +13533,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetCloudConnectorResult" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13392,12 +13562,12 @@ function __c122(j: number): any {
           StandardOutputUrl: S.optional(S.String),
           StandardErrorContent: S.optional(S.String),
           StandardErrorUrl: S.optional(S.String),
-          CloudWatchOutputConfig: S.optional(__S(1968, __c123, 0)),
+          CloudWatchOutputConfig: S.optional(__S(1984, __c124, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetCommandInvocationResult" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13408,7 +13578,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CloudWatchOutputConfig" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13422,7 +13592,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetConnectionStatusResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13438,20 +13608,20 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetDefaultPatchBaselineResult" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OperatingSystem: S.optional(S.String),
-          GlobalFilters: S.optional(__S(656, __c41, 0)),
-          ApprovalRules: S.optional(__S(659, __c41, 3)),
-          ApprovedPatches: S.optional(__S(3584, __c224, 0)),
+          GlobalFilters: S.optional(__S(672, __c42, 0)),
+          ApprovalRules: S.optional(__S(675, __c42, 3)),
+          ApprovedPatches: S.optional(__S(3600, __c225, 0)),
           ApprovedPatchesComplianceLevel: S.optional(S.String),
-          RejectedPatches: S.optional(__S(3584, __c224, 0)),
+          RejectedPatches: S.optional(__S(3600, __c225, 0)),
           RejectedPatchesAction: S.optional(S.String),
           ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean),
-          Sources: S.optional(__S(661, __c41, 5)),
+          Sources: S.optional(__S(677, __c42, 5)),
           AvailableSecurityUpdatesComplianceStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "BaselineOverride" });
@@ -13460,7 +13630,7 @@ function __c126(j: number): any {
         S.Struct({
           InstanceId: S.String,
           SnapshotId: S.String,
-          BaselineOverride: S.optional(__S(2016, __c126, 0)),
+          BaselineOverride: S.optional(__S(2032, __c127, 0)),
           UseS3DualStackEndpoint: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetDeployablePatchSnapshotForInstanceRequest" });
@@ -13475,7 +13645,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetDeployablePatchSnapshotForInstanceResult" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13498,7 +13668,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "AttachmentContent" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(2033, __c127, 1)
+        /*@__PURE__*/ __S(2049, __c128, 1)
           .pipe(/*@__PURE__*/ T.XmlName("AttachmentContent"))
           .annotate({ identifier: "AttachmentContent" }),
       );
@@ -13516,13 +13686,13 @@ function __c127(j: number): any {
           DocumentType: S.optional(S.String),
           DocumentFormat: S.optional(S.String),
           Requires: S.optional(__S(401, __c25, 1)),
-          AttachmentsContent: S.optional(__S(2034, __c127, 2)),
+          AttachmentsContent: S.optional(__S(2050, __c128, 2)),
           ReviewStatus: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetDocumentResult" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13537,18 +13707,18 @@ function __c128(j: number): any {
         S.Struct({ Count: S.optional(S.Number), TargetType: S.optional(S.String) }),
       ).annotate({ identifier: "TargetPreview" });
     case 3:
-      return S.Array(__S(2050, __c128, 2));
+      return S.Array(__S(2066, __c129, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          StepPreviews: S.optional(__S(2049, __c128, 1)),
-          Regions: S.optional(__S(3584, __c224, 0)),
-          TargetPreviews: S.optional(__S(2051, __c128, 3)),
+          StepPreviews: S.optional(__S(2065, __c129, 1)),
+          Regions: S.optional(__S(3600, __c225, 0)),
+          TargetPreviews: S.optional(__S(2067, __c129, 3)),
           TotalAccounts: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutomationExecutionPreview" });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ Automation: __S(2052, __c128, 4) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ Automation: __S(2068, __c129, 4) })]);
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -13556,20 +13726,20 @@ function __c128(j: number): any {
           EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
           StatusMessage: S.optional(S.String),
-          ExecutionPreview: S.optional(__S(2053, __c128, 5)),
+          ExecutionPreview: S.optional(__S(2069, __c129, 5)),
         }).pipe(ns),
       ).annotate({ identifier: "GetExecutionPreviewResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Name: S.String, Filters: __S(2128, __c133, 0) })).annotate({
+      return S.suspend(() => S.Struct({ Name: S.String, Filters: __S(2144, __c134, 0) })).annotate({
         identifier: "InventoryGroup",
       });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(2064, __c129, 0)
+        /*@__PURE__*/ __S(2080, __c130, 0)
           .pipe(/*@__PURE__*/ T.XmlName("InventoryGroup"))
           .annotate({ identifier: "InventoryGroup" }),
       );
@@ -13578,32 +13748,32 @@ function __c129(j: number): any {
         S.Struct({
           Expression: S.optional(S.String),
           Aggregators: S.optional(
-            S.suspend(() => __S(2067, __c129, 3)).annotate({
+            S.suspend(() => __S(2083, __c130, 3)).annotate({
               identifier: "InventoryAggregatorList",
             }),
           ),
-          Groups: S.optional(__S(2065, __c129, 1)),
+          Groups: S.optional(__S(2081, __c130, 1)),
         }),
       ).annotate({ identifier: "InventoryAggregator" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<InventoryAggregator> => __S(2066, __c129, 2))
+        /*@__PURE__*/ S.suspend((): S.Schema<InventoryAggregator> => __S(2082, __c130, 2))
           .annotate({ identifier: "InventoryAggregator" })
           .pipe(/*@__PURE__*/ T.XmlName("Aggregator"))
           .annotate({ identifier: "InventoryAggregator" }),
       );
     case 4:
       return S.Array(
-        /*@__PURE__*/ __S(2080, __c130, 0)
+        /*@__PURE__*/ __S(2096, __c131, 0)
           .pipe(/*@__PURE__*/ T.XmlName("ResultAttribute"))
           .annotate({ identifier: "ResultAttribute" }),
       );
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(2128, __c133, 0)),
-          Aggregators: S.optional(__S(2067, __c129, 3)),
-          ResultAttributes: S.optional(__S(2068, __c129, 4)),
+          Filters: S.optional(__S(2144, __c134, 0)),
+          Aggregators: S.optional(__S(2083, __c130, 3)),
+          ResultAttributes: S.optional(__S(2084, __c130, 4)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -13615,31 +13785,31 @@ function __c129(j: number): any {
           SchemaVersion: S.String,
           CaptureTime: S.optional(S.String),
           ContentHash: S.optional(S.String),
-          Content: __S(1808, __c113, 0),
+          Content: __S(1824, __c114, 0),
         }),
       ).annotate({ identifier: "InventoryResultItem" });
     case 7:
-      return S.Record(S.String, /*@__PURE__*/ __S(2070, __c129, 6).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2086, __c130, 6).pipe(S.optional));
     case 8:
       return S.suspend(() =>
-        S.Struct({ Id: S.optional(S.String), Data: S.optional(__S(2071, __c129, 7)) }),
+        S.Struct({ Id: S.optional(S.String), Data: S.optional(__S(2087, __c130, 7)) }),
       ).annotate({ identifier: "InventoryResultEntity" });
     case 9:
       return S.Array(
-        /*@__PURE__*/ __S(2072, __c129, 8)
+        /*@__PURE__*/ __S(2088, __c130, 8)
           .pipe(/*@__PURE__*/ T.XmlName("Entity"))
           .annotate({ identifier: "InventoryResultEntity" }),
       );
     case 10:
       return S.suspend(() =>
         S.Struct({
-          Entities: S.optional(__S(2073, __c129, 9)),
+          Entities: S.optional(__S(2089, __c130, 9)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetInventoryResult" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ TypeName: S.String })).annotate({
@@ -13647,31 +13817,31 @@ function __c130(j: number): any {
       });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("FilterValue")));
   }
 }
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Key: S.String, Values: __S(2096, __c131, 0), Type: S.optional(S.String) }),
-      ).annotate({ identifier: "InventoryFilter" });
-  }
-}
 function __c133(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.String, Values: __S(2112, __c132, 0), Type: S.optional(S.String) }),
+      ).annotate({ identifier: "InventoryFilter" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(
-        /*@__PURE__*/ __S(2112, __c132, 0)
+        /*@__PURE__*/ __S(2128, __c133, 0)
           .pipe(/*@__PURE__*/ T.XmlName("InventoryFilter"))
           .annotate({ identifier: "InventoryFilter" }),
       );
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13689,7 +13859,7 @@ function __c134(j: number): any {
       });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(2145, __c134, 1)
+        /*@__PURE__*/ __S(2161, __c135, 1)
           .pipe(/*@__PURE__*/ T.XmlName("Attribute"))
           .annotate({ identifier: "InventoryItemAttribute" }),
       );
@@ -13698,22 +13868,22 @@ function __c134(j: number): any {
         S.Struct({
           TypeName: S.String,
           Version: S.optional(S.String),
-          Attributes: __S(2146, __c134, 2),
+          Attributes: __S(2162, __c135, 2),
           DisplayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryItemSchema" });
     case 4:
-      return S.Array(__S(2147, __c134, 3));
+      return S.Array(__S(2163, __c135, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Schemas: S.optional(__S(2148, __c134, 4)),
+          Schemas: S.optional(__S(2164, __c135, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetInventorySchemaResult" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13743,7 +13913,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetMaintenanceWindowResult" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13755,7 +13925,7 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           WindowExecutionId: S.optional(S.String),
-          TaskIds: S.optional(__S(3584, __c224, 0)),
+          TaskIds: S.optional(__S(3600, __c225, 0)),
           Status: S.optional(S.String),
           StatusDetails: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -13764,7 +13934,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetMaintenanceWindowExecutionResult" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13773,7 +13943,7 @@ function __c137(j: number): any {
         ),
       ).annotate({ identifier: "GetMaintenanceWindowExecutionTaskRequest" });
     case 1:
-      return S.Array(__S(1618, __c101, 2));
+      return S.Array(__S(1634, __c102, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13782,7 +13952,7 @@ function __c137(j: number): any {
           TaskArn: S.optional(S.String),
           ServiceRole: S.optional(S.String),
           Type: S.optional(S.String),
-          TaskParameters: S.optional(__S(2193, __c137, 1)),
+          TaskParameters: S.optional(__S(2209, __c138, 1)),
           Priority: S.optional(S.Number),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
@@ -13796,7 +13966,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetMaintenanceWindowExecutionTaskResult" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13823,7 +13993,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetMaintenanceWindowExecutionTaskInvocationResult" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13840,12 +14010,12 @@ function __c139(j: number): any {
           TaskArn: S.optional(S.String),
           ServiceRoleArn: S.optional(S.String),
           TaskType: S.optional(S.String),
-          TaskParameters: S.optional(__S(1618, __c101, 2)),
-          TaskInvocationParameters: S.optional(__S(2260, __c141, 4)),
+          TaskParameters: S.optional(__S(1634, __c102, 2)),
+          TaskInvocationParameters: S.optional(__S(2276, __c142, 4)),
           Priority: S.optional(S.Number),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
-          LoggingInfo: S.optional(__S(1632, __c102, 0)),
+          LoggingInfo: S.optional(__S(1648, __c103, 0)),
           Name: S.optional(S.String),
           Description: S.optional(SensitiveString),
           CutoffBehavior: S.optional(S.String),
@@ -13854,7 +14024,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetMaintenanceWindowTaskResult" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -13862,23 +14032,23 @@ function __c140(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NotificationArn: S.optional(S.String),
-          NotificationEvents: S.optional(__S(2240, __c140, 0)),
+          NotificationEvents: S.optional(__S(2256, __c141, 0)),
           NotificationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotificationConfig" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Comment: S.optional(S.String),
-          CloudWatchOutputConfig: S.optional(__S(1968, __c123, 0)),
+          CloudWatchOutputConfig: S.optional(__S(1984, __c124, 0)),
           DocumentHash: S.optional(S.String),
           DocumentHashType: S.optional(S.String),
           DocumentVersion: S.optional(S.String),
-          NotificationConfig: S.optional(__S(2241, __c140, 1)),
+          NotificationConfig: S.optional(__S(2257, __c141, 1)),
           OutputS3BucketName: S.optional(S.String),
           OutputS3KeyPrefix: S.optional(S.String),
           Parameters: S.optional(__S(176, __c11, 0)),
@@ -13908,15 +14078,15 @@ function __c141(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          RunCommand: S.optional(__S(2256, __c141, 0)),
-          Automation: S.optional(__S(2257, __c141, 1)),
-          StepFunctions: S.optional(__S(2258, __c141, 2)),
-          Lambda: S.optional(__S(2259, __c141, 3)),
+          RunCommand: S.optional(__S(2272, __c142, 0)),
+          Automation: S.optional(__S(2273, __c142, 1)),
+          StepFunctions: S.optional(__S(2274, __c142, 2)),
+          Lambda: S.optional(__S(2275, __c142, 3)),
         }),
       ).annotate({ identifier: "MaintenanceWindowTaskInvocationParameters" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13933,15 +14103,15 @@ function __c142(j: number): any {
           Description: S.optional(S.String),
           LastModifiedBy: S.optional(S.String),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Notifications: S.optional(__S(544, __c34, 0)),
+          Notifications: S.optional(__S(560, __c35, 0)),
           Priority: S.optional(S.Number),
-          RelatedOpsItems: S.optional(__S(546, __c34, 2)),
+          RelatedOpsItems: S.optional(__S(562, __c35, 2)),
           Status: S.optional(S.String),
           OpsItemId: S.optional(S.String),
           Version: S.optional(S.String),
           Title: S.optional(S.String),
           Source: S.optional(S.String),
-          OperationalData: S.optional(__S(513, __c32, 1)),
+          OperationalData: S.optional(__S(529, __c33, 1)),
           Category: S.optional(S.String),
           Severity: S.optional(S.String),
           ActualStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -13953,11 +14123,11 @@ function __c142(j: number): any {
       ).annotate({ identifier: "OpsItem" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ OpsItem: S.optional(__S(2273, __c142, 1)) }).pipe(ns),
+        S.Struct({ OpsItem: S.optional(__S(2289, __c143, 1)) }).pipe(ns),
       ).annotate({ identifier: "GetOpsItemResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13971,17 +14141,17 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResourceId: S.optional(S.String),
-          Metadata: S.optional(__S(577, __c36, 1)),
+          Metadata: S.optional(__S(593, __c37, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetOpsMetadataResult" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ __S(2112, __c132, 0)
+        /*@__PURE__*/ __S(2128, __c133, 0)
           .pipe(/*@__PURE__*/ T.XmlName("OpsFilter"))
           .annotate({ identifier: "OpsFilter" }),
       );
@@ -13991,23 +14161,23 @@ function __c144(j: number): any {
           AggregatorType: S.optional(S.String),
           TypeName: S.optional(S.String),
           AttributeName: S.optional(S.String),
-          Values: S.optional(__S(1200, __c75, 0)),
-          Filters: S.optional(__S(2304, __c144, 0)),
+          Values: S.optional(__S(1216, __c76, 0)),
+          Filters: S.optional(__S(2320, __c145, 0)),
           Aggregators: S.optional(
-            S.suspend(() => __S(2306, __c144, 2)).annotate({ identifier: "OpsAggregatorList" }),
+            S.suspend(() => __S(2322, __c145, 2)).annotate({ identifier: "OpsAggregatorList" }),
           ),
         }),
       ).annotate({ identifier: "OpsAggregator" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<OpsAggregator> => __S(2305, __c144, 1))
+        /*@__PURE__*/ S.suspend((): S.Schema<OpsAggregator> => __S(2321, __c145, 1))
           .annotate({ identifier: "OpsAggregator" })
           .pipe(/*@__PURE__*/ T.XmlName("Aggregator"))
           .annotate({ identifier: "OpsAggregator" }),
       );
     case 3:
       return S.Array(
-        /*@__PURE__*/ __S(2080, __c130, 0)
+        /*@__PURE__*/ __S(2096, __c131, 0)
           .pipe(/*@__PURE__*/ T.XmlName("OpsResultAttribute"))
           .annotate({ identifier: "OpsResultAttribute" }),
       );
@@ -14015,39 +14185,39 @@ function __c144(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SyncName: S.optional(S.String),
-          Filters: S.optional(__S(2304, __c144, 0)),
-          Aggregators: S.optional(__S(2306, __c144, 2)),
-          ResultAttributes: S.optional(__S(2307, __c144, 3)),
+          Filters: S.optional(__S(2320, __c145, 0)),
+          Aggregators: S.optional(__S(2322, __c145, 2)),
+          ResultAttributes: S.optional(__S(2323, __c145, 3)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetOpsSummaryRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ CaptureTime: S.optional(S.String), Content: S.optional(__S(1808, __c113, 0)) }),
+        S.Struct({ CaptureTime: S.optional(S.String), Content: S.optional(__S(1824, __c114, 0)) }),
       ).annotate({ identifier: "OpsEntityItem" });
     case 6:
-      return S.Record(S.String, /*@__PURE__*/ __S(2309, __c144, 5).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2325, __c145, 5).pipe(S.optional));
     case 7:
       return S.suspend(() =>
-        S.Struct({ Id: S.optional(S.String), Data: S.optional(__S(2310, __c144, 6)) }),
+        S.Struct({ Id: S.optional(S.String), Data: S.optional(__S(2326, __c145, 6)) }),
       ).annotate({ identifier: "OpsEntity" });
     case 8:
       return S.Array(
-        /*@__PURE__*/ __S(2311, __c144, 7)
+        /*@__PURE__*/ __S(2327, __c145, 7)
           .pipe(/*@__PURE__*/ T.XmlName("Entity"))
           .annotate({ identifier: "OpsEntity" }),
       );
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Entities: S.optional(__S(2312, __c144, 8)),
+          Entities: S.optional(__S(2328, __c145, 8)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetOpsSummaryResult" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14057,11 +14227,11 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetParameterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Parameter: S.optional(__S(2336, __c146, 0)) }).pipe(ns),
+        S.Struct({ Parameter: S.optional(__S(2352, __c147, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetParameterResult" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14079,7 +14249,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "Parameter" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14102,54 +14272,54 @@ function __c147(j: number): any {
           Value: S.optional(SensitiveString),
           AllowedPattern: S.optional(S.String),
           Version: S.optional(S.Number),
-          Labels: S.optional(__S(3584, __c224, 0)),
+          Labels: S.optional(__S(3600, __c225, 0)),
           Tier: S.optional(S.String),
-          Policies: S.optional(__S(1697, __c106, 1)),
+          Policies: S.optional(__S(1713, __c107, 1)),
           DataType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ParameterHistory" });
     case 2:
-      return S.Array(__S(2353, __c147, 1));
+      return S.Array(__S(2369, __c148, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Parameters: S.optional(__S(2354, __c147, 2)),
+          Parameters: S.optional(__S(2370, __c148, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetParameterHistoryResult" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Names: __S(3584, __c224, 0), WithDecryption: S.optional(S.Boolean) }).pipe(
+        S.Struct({ Names: __S(3600, __c225, 0), WithDecryption: S.optional(S.Boolean) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetParametersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Parameters: S.optional(__S(2384, __c149, 0)),
-          InvalidParameters: S.optional(__S(3584, __c224, 0)),
+          Parameters: S.optional(__S(2400, __c150, 0)),
+          InvalidParameters: S.optional(__S(3600, __c225, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetParametersResult" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2336, __c146, 0));
+      return S.Array(__S(2352, __c147, 0));
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Path: S.String,
           Recursive: S.optional(S.Boolean),
-          ParameterFilters: S.optional(__S(1713, __c107, 1)),
+          ParameterFilters: S.optional(__S(1729, __c108, 1)),
           WithDecryption: S.optional(S.Boolean),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
@@ -14158,13 +14328,13 @@ function __c150(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Parameters: S.optional(__S(2384, __c149, 0)),
+          Parameters: S.optional(__S(2400, __c150, 0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetParametersByPathResult" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14178,24 +14348,24 @@ function __c151(j: number): any {
           BaselineId: S.optional(S.String),
           Name: S.optional(S.String),
           OperatingSystem: S.optional(S.String),
-          GlobalFilters: S.optional(__S(656, __c41, 0)),
-          ApprovalRules: S.optional(__S(659, __c41, 3)),
-          ApprovedPatches: S.optional(__S(3584, __c224, 0)),
+          GlobalFilters: S.optional(__S(672, __c42, 0)),
+          ApprovalRules: S.optional(__S(675, __c42, 3)),
+          ApprovedPatches: S.optional(__S(3600, __c225, 0)),
           ApprovedPatchesComplianceLevel: S.optional(S.String),
           ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean),
-          RejectedPatches: S.optional(__S(3584, __c224, 0)),
+          RejectedPatches: S.optional(__S(3600, __c225, 0)),
           RejectedPatchesAction: S.optional(S.String),
-          PatchGroups: S.optional(__S(3584, __c224, 0)),
+          PatchGroups: S.optional(__S(3600, __c225, 0)),
           CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Description: S.optional(S.String),
-          Sources: S.optional(__S(661, __c41, 5)),
+          Sources: S.optional(__S(677, __c42, 5)),
           AvailableSecurityUpdatesComplianceStatus: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetPatchBaselineResult" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14213,7 +14383,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetPatchBaselineForPatchGroupResult" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14232,17 +14402,17 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "GetResourcePoliciesResponseEntry" });
     case 2:
-      return S.Array(__S(2449, __c153, 1));
+      return S.Array(__S(2465, __c154, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          Policies: S.optional(__S(2450, __c153, 2)),
+          Policies: S.optional(__S(2466, __c154, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "GetResourcePoliciesResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14252,7 +14422,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetServiceSettingRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14267,41 +14437,41 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ServiceSetting" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServiceSetting: S.optional(__S(2480, __c155, 0)) }).pipe(ns),
+        S.Struct({ ServiceSetting: S.optional(__S(2496, __c156, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetServiceSettingResult" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           ParameterVersion: S.optional(S.Number),
-          Labels: __S(3584, __c224, 0),
+          Labels: __S(3600, __c225, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "LabelParameterVersionRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          InvalidLabels: S.optional(__S(3584, __c224, 0)),
+          InvalidLabels: S.optional(__S(3600, __c225, 0)),
           ParameterVersion: S.optional(S.Number),
         }).pipe(ns),
       ).annotate({ identifier: "LabelParameterVersionResult" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ __S(1840, __c115, 0)
+        /*@__PURE__*/ __S(1856, __c116, 0)
           .pipe(/*@__PURE__*/ T.XmlName("AssociationFilter"))
           .annotate({ identifier: "AssociationFilter" }),
       );
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AssociationFilterList: S.optional(__S(2512, __c157, 0)),
+          AssociationFilterList: S.optional(__S(2528, __c158, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14326,20 +14496,20 @@ function __c157(j: number): any {
       ).annotate({ identifier: "Association" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ __S(2514, __c157, 2)
+        /*@__PURE__*/ __S(2530, __c158, 2)
           .pipe(/*@__PURE__*/ T.XmlName("Association"))
           .annotate({ identifier: "Association" }),
       );
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Associations: S.optional(__S(2515, __c157, 3)),
+          Associations: S.optional(__S(2531, __c158, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAssociationsResult" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14367,7 +14537,7 @@ function __c158(j: number): any {
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
           ApplyOnlyAtCronInterval: S.optional(S.Boolean),
-          CalendarNames: S.optional(__S(3584, __c224, 0)),
+          CalendarNames: S.optional(__S(3600, __c225, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
           Duration: S.optional(S.Number),
@@ -14376,24 +14546,24 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "AssociationVersionInfo" });
     case 2:
-      return S.Array(__S(2529, __c158, 1));
+      return S.Array(__S(2545, __c159, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AssociationVersions: S.optional(__S(2530, __c158, 2)),
+          AssociationVersions: S.optional(__S(2546, __c159, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAssociationVersionsResult" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(1073, __c67, 1)),
+          Filters: S.optional(__S(1089, __c68, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCloudConnectorsRequest" });
     case 1:
@@ -14410,17 +14580,17 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "CloudConnectorSummary" });
     case 2:
-      return S.Array(__S(2545, __c159, 1));
+      return S.Array(__S(2561, __c160, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CloudConnectors: S.optional(__S(2546, __c159, 2)),
+          CloudConnectors: S.optional(__S(2562, __c160, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListCloudConnectorsResult" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14429,7 +14599,7 @@ function __c160(j: number): any {
           InstanceId: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(1856, __c116, 0)),
+          Filters: S.optional(__S(1872, __c117, 0)),
           Details: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCommandInvocationsRequest" });
@@ -14451,7 +14621,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "CommandPlugin" });
     case 2:
-      return S.Array(__S(2561, __c160, 1));
+      return S.Array(__S(2577, __c161, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14467,24 +14637,24 @@ function __c160(j: number): any {
           TraceOutput: S.optional(S.String),
           StandardOutputUrl: S.optional(S.String),
           StandardErrorUrl: S.optional(S.String),
-          CommandPlugins: S.optional(__S(2562, __c160, 2)),
+          CommandPlugins: S.optional(__S(2578, __c161, 2)),
           ServiceRole: S.optional(S.String),
-          NotificationConfig: S.optional(__S(2241, __c140, 1)),
-          CloudWatchOutputConfig: S.optional(__S(1968, __c123, 0)),
+          NotificationConfig: S.optional(__S(2257, __c141, 1)),
+          CloudWatchOutputConfig: S.optional(__S(1984, __c124, 0)),
         }),
       ).annotate({ identifier: "CommandInvocation" });
     case 4:
-      return S.Array(__S(2563, __c160, 3));
+      return S.Array(__S(2579, __c161, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          CommandInvocations: S.optional(__S(2564, __c160, 4)),
+          CommandInvocations: S.optional(__S(2580, __c161, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListCommandInvocationsResult" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14493,21 +14663,21 @@ function __c161(j: number): any {
           InstanceId: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(1856, __c116, 0)),
+          Filters: S.optional(__S(1872, __c117, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCommandsRequest" });
     case 1:
-      return S.Array(__S(2592, __c162, 0));
+      return S.Array(__S(2608, __c163, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Commands: S.optional(__S(2577, __c161, 1)),
+          Commands: S.optional(__S(2593, __c162, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListCommandsResult" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14518,7 +14688,7 @@ function __c162(j: number): any {
           Comment: S.optional(S.String),
           ExpiresAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Parameters: S.optional(__S(176, __c11, 0)),
-          InstanceIds: S.optional(__S(3584, __c224, 0)),
+          InstanceIds: S.optional(__S(3600, __c225, 0)),
           Targets: S.optional(__S(161, __c10, 1)),
           RequestedDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
@@ -14533,8 +14703,8 @@ function __c162(j: number): any {
           ErrorCount: S.optional(S.Number),
           DeliveryTimedOutCount: S.optional(S.Number),
           ServiceRole: S.optional(S.String),
-          NotificationConfig: S.optional(__S(2241, __c140, 1)),
-          CloudWatchOutputConfig: S.optional(__S(1968, __c123, 0)),
+          NotificationConfig: S.optional(__S(2257, __c141, 1)),
+          CloudWatchOutputConfig: S.optional(__S(1984, __c124, 0)),
           TimeoutSeconds: S.optional(S.Number),
           AlarmConfiguration: S.optional(__S(130, __c8, 2)),
           TriggeredAlarms: S.optional(__S(145, __c9, 1)),
@@ -14542,14 +14712,14 @@ function __c162(j: number): any {
       ).annotate({ identifier: "Command" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(2625, __c164, 1)),
-          ResourceIds: S.optional(__S(3584, __c224, 0)),
-          ResourceTypes: S.optional(__S(3584, __c224, 0)),
+          Filters: S.optional(__S(2641, __c165, 1)),
+          ResourceIds: S.optional(__S(3600, __c225, 0)),
+          ResourceTypes: S.optional(__S(3600, __c225, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14564,44 +14734,44 @@ function __c163(j: number): any {
           Title: S.optional(S.String),
           Status: S.optional(S.String),
           Severity: S.optional(S.String),
-          ExecutionSummary: S.optional(__S(2640, __c165, 0)),
-          Details: S.optional(__S(1200, __c75, 0)),
+          ExecutionSummary: S.optional(__S(2656, __c166, 0)),
+          Details: S.optional(__S(1216, __c76, 0)),
         }),
       ).annotate({ identifier: "ComplianceItem" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(2609, __c163, 1)
+        /*@__PURE__*/ __S(2625, __c164, 1)
           .pipe(/*@__PURE__*/ T.XmlName("Item"))
           .annotate({ identifier: "ComplianceItem" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ComplianceItems: S.optional(__S(2610, __c163, 2)),
+          ComplianceItems: S.optional(__S(2626, __c164, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListComplianceItemsResult" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Key: S.optional(S.String),
-          Values: S.optional(__S(2096, __c131, 0)),
+          Values: S.optional(__S(2112, __c132, 0)),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComplianceStringFilter" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(2624, __c164, 0)
+        /*@__PURE__*/ __S(2640, __c165, 0)
           .pipe(/*@__PURE__*/ T.XmlName("ComplianceFilter"))
           .annotate({ identifier: "ComplianceStringFilter" }),
       );
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14613,12 +14783,12 @@ function __c165(j: number): any {
       ).annotate({ identifier: "ComplianceExecutionSummary" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(2625, __c164, 1)),
+          Filters: S.optional(__S(2641, __c165, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14627,26 +14797,26 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ComplianceType: S.optional(S.String),
-          CompliantSummary: S.optional(__S(2673, __c167, 1)),
-          NonCompliantSummary: S.optional(__S(2674, __c167, 2)),
+          CompliantSummary: S.optional(__S(2689, __c168, 1)),
+          NonCompliantSummary: S.optional(__S(2690, __c168, 2)),
         }),
       ).annotate({ identifier: "ComplianceSummaryItem" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(2657, __c166, 1)
+        /*@__PURE__*/ __S(2673, __c167, 1)
           .pipe(/*@__PURE__*/ T.XmlName("Item"))
           .annotate({ identifier: "ComplianceSummaryItem" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ComplianceSummaryItems: S.optional(__S(2658, __c166, 2)),
+          ComplianceSummaryItems: S.optional(__S(2674, __c167, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListComplianceSummariesResult" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14663,19 +14833,19 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CompliantCount: S.optional(S.Number),
-          SeveritySummary: S.optional(__S(2672, __c167, 0)),
+          SeveritySummary: S.optional(__S(2688, __c168, 0)),
         }),
       ).annotate({ identifier: "CompliantSummary" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           NonCompliantCount: S.optional(S.Number),
-          SeveritySummary: S.optional(__S(2672, __c167, 0)),
+          SeveritySummary: S.optional(__S(2688, __c168, 0)),
         }),
       ).annotate({ identifier: "NonCompliantSummary" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14693,15 +14863,15 @@ function __c168(j: number): any {
           CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ReviewStatus: S.optional(S.String),
-          Comment: S.optional(__S(2705, __c169, 1)),
+          Comment: S.optional(__S(2721, __c170, 1)),
           Reviewer: S.optional(S.String),
         }),
       ).annotate({ identifier: "DocumentReviewerResponseSource" });
     case 2:
-      return S.Array(__S(2689, __c168, 1));
+      return S.Array(__S(2705, __c169, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ ReviewerResponse: S.optional(__S(2690, __c168, 2)) }),
+        S.Struct({ ReviewerResponse: S.optional(__S(2706, __c169, 2)) }),
       ).annotate({ identifier: "DocumentMetadataResponseInfo" });
     case 4:
       return S.suspend(() =>
@@ -14709,34 +14879,34 @@ function __c168(j: number): any {
           Name: S.optional(S.String),
           DocumentVersion: S.optional(S.String),
           Author: S.optional(S.String),
-          Metadata: S.optional(__S(2691, __c168, 3)),
+          Metadata: S.optional(__S(2707, __c169, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDocumentMetadataHistoryResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Type: S.optional(S.String), Content: S.optional(S.String) }),
       ).annotate({ identifier: "DocumentReviewCommentSource" });
     case 1:
-      return S.Array(__S(2704, __c169, 0));
+      return S.Array(__S(2720, __c170, 0));
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ __S(1840, __c115, 0)
+        /*@__PURE__*/ __S(1856, __c116, 0)
           .pipe(/*@__PURE__*/ T.XmlName("DocumentFilter"))
           .annotate({ identifier: "DocumentFilter" }),
       );
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DocumentFilterList: S.optional(__S(2720, __c170, 0)),
+          DocumentFilterList: S.optional(__S(2736, __c171, 0)),
           Filters: S.optional(__S(161, __c10, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
@@ -14750,7 +14920,7 @@ function __c170(j: number): any {
           DisplayName: S.optional(S.String),
           Owner: S.optional(S.String),
           VersionName: S.optional(S.String),
-          PlatformTypes: S.optional(__S(416, __c26, 0)),
+          PlatformTypes: S.optional(__S(432, __c27, 0)),
           DocumentVersion: S.optional(S.String),
           DocumentType: S.optional(S.String),
           SchemaVersion: S.optional(S.String),
@@ -14760,24 +14930,25 @@ function __c170(j: number): any {
           Requires: S.optional(__S(401, __c25, 1)),
           ReviewStatus: S.optional(S.String),
           Author: S.optional(S.String),
+          CloudProviders: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "DocumentIdentifier" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ __S(2722, __c170, 2)
+        /*@__PURE__*/ __S(2738, __c171, 2)
           .pipe(/*@__PURE__*/ T.XmlName("DocumentIdentifier"))
           .annotate({ identifier: "DocumentIdentifier" }),
       );
     case 4:
       return S.suspend(() =>
         S.Struct({
-          DocumentIdentifiers: S.optional(__S(2723, __c170, 3)),
+          DocumentIdentifiers: S.optional(__S(2739, __c171, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDocumentsResult" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14800,27 +14971,28 @@ function __c171(j: number): any {
           Status: S.optional(S.String),
           StatusInformation: S.optional(S.String),
           ReviewStatus: S.optional(S.String),
+          CloudProviders: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "DocumentVersionInfo" });
     case 2:
-      return S.Array(__S(2737, __c171, 1));
+      return S.Array(__S(2753, __c172, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DocumentVersions: S.optional(__S(2738, __c171, 2)),
+          DocumentVersions: S.optional(__S(2754, __c172, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDocumentVersionsResult" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.String,
           TypeName: S.String,
-          Filters: S.optional(__S(2128, __c133, 0)),
+          Filters: S.optional(__S(2144, __c134, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14832,19 +15004,19 @@ function __c172(j: number): any {
           InstanceId: S.optional(S.String),
           SchemaVersion: S.optional(S.String),
           CaptureTime: S.optional(S.String),
-          Entries: S.optional(__S(1808, __c113, 0)),
+          Entries: S.optional(__S(1824, __c114, 0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListInventoryEntriesResult" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SyncName: S.optional(S.String),
-          Filters: S.optional(__S(2785, __c174, 1)),
+          Filters: S.optional(__S(2801, __c175, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14879,42 +15051,42 @@ function __c173(j: number): any {
         }),
       ).annotate({ identifier: "InstanceInfo" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ Instance: __S(2770, __c173, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ Instance: __S(2786, __c174, 2) })]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           CaptureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Id: S.optional(S.String),
-          Owner: S.optional(__S(2769, __c173, 1)),
+          Owner: S.optional(__S(2785, __c174, 1)),
           Region: S.optional(S.String),
-          NodeType: S.optional(__S(2771, __c173, 3)),
+          NodeType: S.optional(__S(2787, __c174, 3)),
         }),
       ).annotate({ identifier: "Node" });
     case 5:
-      return S.Array(__S(2772, __c173, 4));
+      return S.Array(__S(2788, __c174, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ Nodes: S.optional(__S(2773, __c173, 5)), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ Nodes: S.optional(__S(2789, __c174, 5)), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "ListNodesResult" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Key: S.String, Values: __S(2096, __c131, 0), Type: S.optional(S.String) }),
+        S.Struct({ Key: S.String, Values: __S(2112, __c132, 0), Type: S.optional(S.String) }),
       ).annotate({ identifier: "NodeFilter" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(2784, __c174, 0)
+        /*@__PURE__*/ __S(2800, __c175, 0)
           .pipe(/*@__PURE__*/ T.XmlName("NodeFilter"))
           .annotate({ identifier: "NodeFilter" }),
       );
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14923,13 +15095,13 @@ function __c175(j: number): any {
           TypeName: S.String,
           AttributeName: S.String,
           Aggregators: S.optional(
-            S.suspend(() => __S(2801, __c175, 1)).annotate({ identifier: "NodeAggregatorList" }),
+            S.suspend(() => __S(2817, __c176, 1)).annotate({ identifier: "NodeAggregatorList" }),
           ),
         }),
       ).annotate({ identifier: "NodeAggregator" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<NodeAggregator> => __S(2800, __c175, 0))
+        /*@__PURE__*/ S.suspend((): S.Schema<NodeAggregator> => __S(2816, __c176, 0))
           .annotate({ identifier: "NodeAggregator" })
           .pipe(/*@__PURE__*/ T.XmlName("NodeAggregator"))
           .annotate({ identifier: "NodeAggregator" }),
@@ -14938,8 +15110,8 @@ function __c175(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SyncName: S.optional(S.String),
-          Filters: S.optional(__S(2785, __c174, 1)),
-          Aggregators: __S(2801, __c175, 1),
+          Filters: S.optional(__S(2801, __c175, 1)),
+          Aggregators: __S(2817, __c176, 1),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14947,18 +15119,18 @@ function __c175(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Summary: S.optional(__S(1808, __c113, 0)),
+          Summary: S.optional(__S(1824, __c114, 0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListNodesSummaryResult" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1665, __c104, 1)),
+          Filters: S.optional(__S(1681, __c105, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -14971,28 +15143,28 @@ function __c176(j: number): any {
           Source: S.optional(S.String),
           DetailType: S.optional(S.String),
           Detail: S.optional(S.String),
-          CreatedBy: S.optional(__S(528, __c33, 0)),
+          CreatedBy: S.optional(__S(544, __c34, 0)),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "OpsItemEventSummary" });
     case 2:
-      return S.Array(__S(2817, __c176, 1));
+      return S.Array(__S(2833, __c177, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          Summaries: S.optional(__S(2818, __c176, 2)),
+          Summaries: S.optional(__S(2834, __c177, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ListOpsItemEventsResponse" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OpsItemId: S.optional(S.String),
-          Filters: S.optional(__S(1665, __c104, 1)),
+          Filters: S.optional(__S(1681, __c105, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -15005,35 +15177,35 @@ function __c177(j: number): any {
           ResourceType: S.optional(S.String),
           AssociationType: S.optional(S.String),
           ResourceUri: S.optional(S.String),
-          CreatedBy: S.optional(__S(528, __c33, 0)),
+          CreatedBy: S.optional(__S(544, __c34, 0)),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          LastModifiedBy: S.optional(__S(528, __c33, 0)),
+          LastModifiedBy: S.optional(__S(544, __c34, 0)),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "OpsItemRelatedItemSummary" });
     case 2:
-      return S.Array(__S(2833, __c177, 1));
+      return S.Array(__S(2849, __c178, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          Summaries: S.optional(__S(2834, __c177, 2)),
+          Summaries: S.optional(__S(2850, __c178, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ListOpsItemRelatedItemsResponse" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(3584, __c224, 0) })).annotate({
+      return S.suspend(() => S.Struct({ Key: S.String, Values: __S(3600, __c225, 0) })).annotate({
         identifier: "OpsMetadataFilter",
       });
     case 1:
-      return S.Array(__S(2848, __c178, 0));
+      return S.Array(__S(2864, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(2849, __c178, 1)),
+          Filters: S.optional(__S(2865, __c179, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -15049,22 +15221,22 @@ function __c178(j: number): any {
         }),
       ).annotate({ identifier: "OpsMetadata" });
     case 4:
-      return S.Array(__S(2851, __c178, 3));
+      return S.Array(__S(2867, __c179, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          OpsMetadataList: S.optional(__S(2852, __c178, 4)),
+          OpsMetadataList: S.optional(__S(2868, __c179, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListOpsMetadataResult" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(2625, __c164, 1)),
+          Filters: S.optional(__S(2641, __c165, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -15077,27 +15249,27 @@ function __c179(j: number): any {
           ResourceId: S.optional(S.String),
           Status: S.optional(S.String),
           OverallSeverity: S.optional(S.String),
-          ExecutionSummary: S.optional(__S(2640, __c165, 0)),
-          CompliantSummary: S.optional(__S(2673, __c167, 1)),
-          NonCompliantSummary: S.optional(__S(2674, __c167, 2)),
+          ExecutionSummary: S.optional(__S(2656, __c166, 0)),
+          CompliantSummary: S.optional(__S(2689, __c168, 1)),
+          NonCompliantSummary: S.optional(__S(2690, __c168, 2)),
         }),
       ).annotate({ identifier: "ResourceComplianceSummaryItem" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(2865, __c179, 1)
+        /*@__PURE__*/ __S(2881, __c180, 1)
           .pipe(/*@__PURE__*/ T.XmlName("Item"))
           .annotate({ identifier: "ResourceComplianceSummaryItem" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ResourceComplianceSummaryItems: S.optional(__S(2866, __c179, 2)),
+          ResourceComplianceSummaryItems: S.optional(__S(2882, __c180, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListResourceComplianceSummariesResult" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15111,8 +15283,8 @@ function __c180(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SourceType: S.optional(S.String),
-          AwsOrganizationsSource: S.optional(__S(706, __c44, 2)),
-          SourceRegions: S.optional(__S(3584, __c224, 0)),
+          AwsOrganizationsSource: S.optional(__S(722, __c45, 2)),
+          SourceRegions: S.optional(__S(3600, __c225, 0)),
           IncludeFutureRegions: S.optional(S.Boolean),
           State: S.optional(S.String),
           EnableAllOpsDataSources: S.optional(S.Boolean),
@@ -15123,8 +15295,8 @@ function __c180(j: number): any {
         S.Struct({
           SyncName: S.optional(S.String),
           SyncType: S.optional(S.String),
-          SyncSource: S.optional(__S(2881, __c180, 1)),
-          S3Destination: S.optional(__S(689, __c43, 1)),
+          SyncSource: S.optional(__S(2897, __c181, 1)),
+          S3Destination: S.optional(__S(705, __c44, 1)),
           LastSyncTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastSuccessfulSyncTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           SyncLastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -15134,17 +15306,17 @@ function __c180(j: number): any {
         }),
       ).annotate({ identifier: "ResourceDataSyncItem" });
     case 3:
-      return S.Array(__S(2882, __c180, 2));
+      return S.Array(__S(2898, __c181, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ResourceDataSyncItems: S.optional(__S(2883, __c180, 3)),
+          ResourceDataSyncItems: S.optional(__S(2899, __c181, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListResourceDataSyncResult" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15158,21 +15330,21 @@ function __c181(j: number): any {
       );
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           PermissionType: S.String,
-          AccountIdsToAdd: S.optional(__S(1296, __c81, 0)),
-          AccountIdsToRemove: S.optional(__S(1296, __c81, 0)),
+          AccountIdsToAdd: S.optional(__S(1312, __c82, 0)),
+          AccountIdsToRemove: S.optional(__S(1312, __c82, 0)),
           SharedDocumentVersion: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ModifyDocumentPermissionRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15181,26 +15353,26 @@ function __c183(j: number): any {
           Title: S.optional(S.String),
           Severity: S.String,
           Status: S.String,
-          Details: S.optional(__S(1200, __c75, 0)),
+          Details: S.optional(__S(1216, __c76, 0)),
         }),
       ).annotate({ identifier: "ComplianceItemEntry" });
     case 1:
-      return S.Array(__S(2928, __c183, 0));
+      return S.Array(__S(2944, __c184, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ResourceId: S.String,
           ResourceType: S.String,
           ComplianceType: S.String,
-          ExecutionSummary: __S(2640, __c165, 0),
-          Items: __S(2929, __c183, 1),
+          ExecutionSummary: __S(2656, __c166, 0),
+          Items: __S(2945, __c184, 1),
           ItemContentHash: S.optional(S.String),
           UploadType: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutComplianceItemsRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15209,19 +15381,19 @@ function __c184(j: number): any {
           SchemaVersion: S.String,
           CaptureTime: S.String,
           ContentHash: S.optional(S.String),
-          Content: S.optional(__S(1808, __c113, 0)),
-          Context: S.optional(__S(1200, __c75, 0)),
+          Content: S.optional(__S(1824, __c114, 0)),
+          Context: S.optional(__S(1216, __c76, 0)),
         }),
       ).annotate({ identifier: "InventoryItem" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(2944, __c184, 0)
+        /*@__PURE__*/ __S(2960, __c185, 0)
           .pipe(/*@__PURE__*/ T.XmlName("Item"))
           .annotate({ identifier: "InventoryItem" }),
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ InstanceId: S.String, Items: __S(2945, __c184, 1) }).pipe(
+        S.Struct({ InstanceId: S.String, Items: __S(2961, __c185, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutInventoryRequest" });
@@ -15231,7 +15403,7 @@ function __c184(j: number): any {
       });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15255,7 +15427,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "PutParameterResult" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15272,7 +15444,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "PutResourcePolicyResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15288,7 +15460,7 @@ function __c187(j: number): any {
       });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15298,7 +15470,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "RegisterDefaultPatchBaselineRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15308,7 +15480,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "RegisterPatchBaselineForPatchGroupRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15328,7 +15500,7 @@ function __c190(j: number): any {
       });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15338,12 +15510,12 @@ function __c191(j: number): any {
           TaskArn: S.String,
           ServiceRoleArn: S.optional(S.String),
           TaskType: S.String,
-          TaskParameters: S.optional(__S(1618, __c101, 2)),
-          TaskInvocationParameters: S.optional(__S(2260, __c141, 4)),
+          TaskParameters: S.optional(__S(1634, __c102, 2)),
+          TaskInvocationParameters: S.optional(__S(2276, __c142, 4)),
           Priority: S.optional(S.Number),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
-          LoggingInfo: S.optional(__S(1632, __c102, 0)),
+          LoggingInfo: S.optional(__S(1648, __c103, 0)),
           Name: S.optional(S.String),
           Description: S.optional(SensitiveString),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -15357,19 +15529,19 @@ function __c191(j: number): any {
       });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceType: S.String,
           ResourceId: S.String,
-          TagKeys: __S(3584, __c224, 0),
+          TagKeys: __S(3600, __c225, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RemoveTagsFromResourceRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15379,7 +15551,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "ResetServiceSettingRequest" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15389,7 +15561,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "ResumeSessionRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15401,7 +15573,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "ResumeSessionResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15413,12 +15585,12 @@ function __c196(j: number): any {
       ).annotate({ identifier: "SendAutomationSignalRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          InstanceIds: S.optional(__S(3584, __c224, 0)),
+          InstanceIds: S.optional(__S(3600, __c225, 0)),
           Targets: S.optional(__S(161, __c10, 1)),
           DocumentName: S.String,
           DocumentVersion: S.optional(S.String),
@@ -15433,18 +15605,18 @@ function __c197(j: number): any {
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
           ServiceRoleArn: S.optional(S.String),
-          NotificationConfig: S.optional(__S(2241, __c140, 1)),
-          CloudWatchOutputConfig: S.optional(__S(1968, __c123, 0)),
+          NotificationConfig: S.optional(__S(2257, __c141, 1)),
+          CloudWatchOutputConfig: S.optional(__S(1984, __c124, 0)),
           AlarmConfiguration: S.optional(__S(130, __c8, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "SendCommandRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Command: S.optional(__S(2592, __c162, 0)) }).pipe(ns),
+        S.Struct({ Command: S.optional(__S(2608, __c163, 0)) }).pipe(ns),
       ).annotate({ identifier: "SendCommandResult" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15460,17 +15632,17 @@ function __c198(j: number): any {
       );
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ AssociationIds: __S(3584, __c224, 0) }).pipe(
+        S.Struct({ AssociationIds: __S(3600, __c225, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StartAssociationsOnceRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15493,7 +15665,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "StartAutomationExecutionRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15501,7 +15673,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "StartAutomationExecutionResult" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15513,7 +15685,7 @@ function __c202(j: number): any {
           ChangeRequestName: S.optional(S.String),
           ClientToken: S.optional(S.String),
           AutoApprove: S.optional(S.Boolean),
-          Runbooks: __S(1169, __c73, 1),
+          Runbooks: __S(1185, __c74, 1),
           Tags: S.optional(__S(33, __c2, 1)),
           ScheduledEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ChangeDetails: S.optional(S.String),
@@ -15521,7 +15693,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "StartChangeRequestExecutionRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15535,13 +15707,13 @@ function __c203(j: number): any {
         }),
       ).annotate({ identifier: "AutomationExecutionInputs" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ Automation: __S(3248, __c203, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ Automation: __S(3264, __c204, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           DocumentName: S.String,
           DocumentVersion: S.optional(S.String),
-          ExecutionInputs: S.optional(__S(3249, __c203, 1)),
+          ExecutionInputs: S.optional(__S(3265, __c204, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartExecutionPreviewRequest" });
     case 3:
@@ -15550,7 +15722,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "StartExecutionPreviewResponse" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15563,7 +15735,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "StartSessionRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15573,7 +15745,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "StopAutomationExecutionRequest" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15587,24 +15759,24 @@ function __c206(j: number): any {
       });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, ParameterVersion: S.Number, Labels: __S(3584, __c224, 0) }).pipe(
+        S.Struct({ Name: S.String, ParameterVersion: S.Number, Labels: __S(3600, __c225, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UnlabelParameterVersionRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          RemovedLabels: S.optional(__S(3584, __c224, 0)),
-          InvalidLabels: S.optional(__S(3584, __c224, 0)),
+          RemovedLabels: S.optional(__S(3600, __c225, 0)),
+          InvalidLabels: S.optional(__S(3600, __c225, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "UnlabelParameterVersionResult" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15624,7 +15796,7 @@ function __c208(j: number): any {
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
           ApplyOnlyAtCronInterval: S.optional(S.Boolean),
-          CalendarNames: S.optional(__S(3584, __c224, 0)),
+          CalendarNames: S.optional(__S(3600, __c225, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
           Duration: S.optional(S.Number),
@@ -15635,7 +15807,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "UpdateAssociationRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15647,7 +15819,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "UpdateAssociationStatusRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15660,24 +15832,25 @@ function __c210(j: number): any {
       ).annotate({ identifier: "UpdateCloudConnectorRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Content: S.String,
-          Attachments: S.optional(__S(449, __c28, 1)),
+          Attachments: S.optional(__S(465, __c29, 1)),
           Name: S.String,
           DisplayName: S.optional(S.String),
           VersionName: S.optional(S.String),
           DocumentVersion: S.optional(S.String),
           DocumentFormat: S.optional(S.String),
           TargetType: S.optional(S.String),
+          CloudProviders: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDocumentRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15695,27 +15868,27 @@ function __c212(j: number): any {
       ).annotate({ identifier: "DocumentDefaultVersionDescription" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Description: S.optional(__S(3393, __c212, 1)) }).pipe(ns),
+        S.Struct({ Description: S.optional(__S(3409, __c213, 1)) }).pipe(ns),
       ).annotate({ identifier: "UpdateDocumentDefaultVersionResult" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Action: S.String, Comment: S.optional(__S(2705, __c169, 1)) }),
+        S.Struct({ Action: S.String, Comment: S.optional(__S(2721, __c170, 1)) }),
       ).annotate({ identifier: "DocumentReviews" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           DocumentVersion: S.optional(S.String),
-          DocumentReviews: __S(3408, __c213, 0),
+          DocumentReviews: __S(3424, __c214, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDocumentMetadataRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15754,7 +15927,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "UpdateMaintenanceWindowResult" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15781,7 +15954,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "UpdateMaintenanceWindowTargetResult" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15791,12 +15964,12 @@ function __c216(j: number): any {
           Targets: S.optional(__S(161, __c10, 1)),
           TaskArn: S.optional(S.String),
           ServiceRoleArn: S.optional(S.String),
-          TaskParameters: S.optional(__S(1618, __c101, 2)),
-          TaskInvocationParameters: S.optional(__S(2260, __c141, 4)),
+          TaskParameters: S.optional(__S(1634, __c102, 2)),
+          TaskInvocationParameters: S.optional(__S(2276, __c142, 4)),
           Priority: S.optional(S.Number),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
-          LoggingInfo: S.optional(__S(1632, __c102, 0)),
+          LoggingInfo: S.optional(__S(1648, __c103, 0)),
           Name: S.optional(S.String),
           Description: S.optional(SensitiveString),
           Replace: S.optional(S.Boolean),
@@ -15812,12 +15985,12 @@ function __c216(j: number): any {
           Targets: S.optional(__S(161, __c10, 1)),
           TaskArn: S.optional(S.String),
           ServiceRoleArn: S.optional(S.String),
-          TaskParameters: S.optional(__S(1618, __c101, 2)),
-          TaskInvocationParameters: S.optional(__S(2260, __c141, 4)),
+          TaskParameters: S.optional(__S(1634, __c102, 2)),
+          TaskInvocationParameters: S.optional(__S(2276, __c142, 4)),
           Priority: S.optional(S.Number),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
-          LoggingInfo: S.optional(__S(1632, __c102, 0)),
+          LoggingInfo: S.optional(__S(1648, __c103, 0)),
           Name: S.optional(S.String),
           Description: S.optional(SensitiveString),
           CutoffBehavior: S.optional(S.String),
@@ -15826,7 +15999,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "UpdateMaintenanceWindowTaskResult" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15836,17 +16009,17 @@ function __c217(j: number): any {
       ).annotate({ identifier: "UpdateManagedInstanceRoleRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          OperationalData: S.optional(__S(513, __c32, 1)),
-          OperationalDataToDelete: S.optional(__S(3584, __c224, 0)),
-          Notifications: S.optional(__S(544, __c34, 0)),
+          OperationalData: S.optional(__S(529, __c33, 1)),
+          OperationalDataToDelete: S.optional(__S(3600, __c225, 0)),
+          Notifications: S.optional(__S(560, __c35, 0)),
           Priority: S.optional(S.Number),
-          RelatedOpsItems: S.optional(__S(546, __c34, 2)),
+          RelatedOpsItems: S.optional(__S(562, __c35, 2)),
           Status: S.optional(S.String),
           OpsItemId: S.String,
           Title: S.optional(S.String),
@@ -15861,34 +16034,34 @@ function __c218(j: number): any {
       ).annotate({ identifier: "UpdateOpsItemRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OpsMetadataArn: S.String,
-          MetadataToUpdate: S.optional(__S(577, __c36, 1)),
-          KeysToDelete: S.optional(__S(3584, __c224, 0)),
+          MetadataToUpdate: S.optional(__S(593, __c37, 1)),
+          KeysToDelete: S.optional(__S(3600, __c225, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateOpsMetadataRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           BaselineId: S.String,
           Name: S.optional(S.String),
-          GlobalFilters: S.optional(__S(656, __c41, 0)),
-          ApprovalRules: S.optional(__S(659, __c41, 3)),
-          ApprovedPatches: S.optional(__S(3584, __c224, 0)),
+          GlobalFilters: S.optional(__S(672, __c42, 0)),
+          ApprovalRules: S.optional(__S(675, __c42, 3)),
+          ApprovedPatches: S.optional(__S(3600, __c225, 0)),
           ApprovedPatchesComplianceLevel: S.optional(S.String),
           ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean),
-          RejectedPatches: S.optional(__S(3584, __c224, 0)),
+          RejectedPatches: S.optional(__S(3600, __c225, 0)),
           RejectedPatchesAction: S.optional(S.String),
           Description: S.optional(S.String),
-          Sources: S.optional(__S(661, __c41, 5)),
+          Sources: S.optional(__S(677, __c42, 5)),
           AvailableSecurityUpdatesComplianceStatus: S.optional(S.String),
           Replace: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -15899,33 +16072,33 @@ function __c220(j: number): any {
           BaselineId: S.optional(S.String),
           Name: S.optional(S.String),
           OperatingSystem: S.optional(S.String),
-          GlobalFilters: S.optional(__S(656, __c41, 0)),
-          ApprovalRules: S.optional(__S(659, __c41, 3)),
-          ApprovedPatches: S.optional(__S(3584, __c224, 0)),
+          GlobalFilters: S.optional(__S(672, __c42, 0)),
+          ApprovalRules: S.optional(__S(675, __c42, 3)),
+          ApprovedPatches: S.optional(__S(3600, __c225, 0)),
           ApprovedPatchesComplianceLevel: S.optional(S.String),
           ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean),
-          RejectedPatches: S.optional(__S(3584, __c224, 0)),
+          RejectedPatches: S.optional(__S(3600, __c225, 0)),
           RejectedPatchesAction: S.optional(S.String),
           CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Description: S.optional(S.String),
-          Sources: S.optional(__S(661, __c41, 5)),
+          Sources: S.optional(__S(677, __c42, 5)),
           AvailableSecurityUpdatesComplianceStatus: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "UpdatePatchBaselineResult" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SyncName: S.String, SyncType: S.String, SyncSource: __S(720, __c45, 0) }).pipe(
+        S.Struct({ SyncName: S.String, SyncType: S.String, SyncSource: __S(736, __c46, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateResourceDataSyncRequest" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15935,7 +16108,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "UpdateServiceSettingRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15956,21 +16129,21 @@ function __c223(j: number): any {
           Code: S.optional(S.String),
           Message: S.optional(S.String),
           ProviderMessage: S.optional(S.String),
-          Scope: S.optional(__S(3569, __c223, 1)),
+          Scope: S.optional(__S(3585, __c224, 1)),
         }),
       ).annotate({ identifier: "ValidationFinding" });
     case 3:
-      return S.Array(__S(3570, __c223, 2));
+      return S.Array(__S(3586, __c224, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ValidationFindings: S.optional(__S(3571, __c223, 3)),
+          ValidationFindings: S.optional(__S(3587, __c224, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ValidateCloudConnectorResult" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);

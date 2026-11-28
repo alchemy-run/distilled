@@ -1,0 +1,60 @@
+{
+  "description": "envd runs a filesystem call as the user in `Authorization: Basic base64(<user>:)`; with no header it uses the template's default user. envd's spec does not model the header. E2B's SDK sends it on stat, listDir, makeDir, move and remove (packages/js-sdk/src/sandbox/filesystem/index.ts, `authenticationHeader(this.envdApi.version, opts?.user)`; the header is built in envd/rpc.ts). The member is the user name; EnvdProtocol's mapMemberHeader encodes it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#StatRequest/members/username",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Authorization",
+          "smithy.api#documentation": "The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#ListDirRequest/members/username",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Authorization",
+          "smithy.api#documentation": "The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#MakeDirRequest/members/username",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Authorization",
+          "smithy.api#documentation": "The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#MoveRequest/members/username",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Authorization",
+          "smithy.api#documentation": "The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#RemoveRequest/members/username",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Authorization",
+          "smithy.api#documentation": "The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user."
+        }
+      }
+    }
+  ]
+}

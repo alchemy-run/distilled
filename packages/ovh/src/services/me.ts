@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -53,13 +53,13 @@ export interface MeAgreementsContractAgreement {
 export interface AcceptMeTaskContactChangeRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface AcceptMeTaskContactChangeResponse {}
 export interface AcceptMeTaskEmailChangeRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface AcceptMeTaskEmailChangeResponse {}
 export interface ApplyMeSlaRequest {
@@ -116,7 +116,7 @@ export interface CreateMeAccessRestrictionTotpRequest {}
 /** Describe TOTP secret keys */
 export interface NichandleAccessRestrictionTOTPSecret {
   id?: number | undefined;
-  qrcodeHelper?: string | undefined;
+  qrcodeHelper?: string | Redacted.Redacted<string> | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateMeAccessRestrictionU2fRequest {}
@@ -1410,7 +1410,7 @@ export interface AuthPersonalAccessTokenResponse {
   /** Name of this token */
   name?: string | undefined;
   /** Personal access token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Ip registries */
 export type NichandleIpRegistryEnum = "ARIN" | "RIPE";
@@ -1728,7 +1728,7 @@ export interface MeTagTag {
 export interface CreateMeTaskContactChangeRefuseRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateMeTaskContactChangeRefuseResponse {}
 export interface CreateMeTaskDnsAccelerateRequest {
@@ -1754,7 +1754,7 @@ export interface CreateMeTaskDomainRelaunchResponse {}
 export interface CreateMeTaskEmailChangeRefuseRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateMeTaskEmailChangeRefuseResponse {}
 /** Phone protocol */
@@ -2019,21 +2019,21 @@ export interface DeleteMeTelephonyDefaultIpRestrictionRequest {
 export interface DeleteMeTelephonyDefaultIpRestrictionResponse {}
 export interface DisableMeAccessRestrictionBackupCodeRequest {
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface DisableMeAccessRestrictionBackupCodeResponse {}
 export interface DisableMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** SMS code send by a cellphone */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface DisableMeAccessRestrictionSmsResponse {}
 export interface DisableMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface DisableMeAccessRestrictionTotpResponse {}
 export interface DisableMeAccessRestrictionU2fRequest {
@@ -2102,21 +2102,21 @@ export interface EditAccountDetailsRequest {
 export interface EditAccountDetailsResponse {}
 export interface EnableMeAccessRestrictionBackupCodeRequest {
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface EnableMeAccessRestrictionBackupCodeResponse {}
 export interface EnableMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** SMS code send by a cellphone */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface EnableMeAccessRestrictionSmsResponse {}
 export interface EnableMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface EnableMeAccessRestrictionTotpResponse {}
 export interface EnableMeAccessRestrictionU2fRequest {
@@ -3215,7 +3215,7 @@ export interface GetMeInsightRequest {}
 /** Insight access token */
 export interface MeInsightAccess {
   /** Access token */
-  access?: string | undefined;
+  access?: string | Redacted.Redacted<string> | undefined;
   /** Token creation date */
   createdAt?: string | undefined;
   /** Token expiration date */
@@ -6238,7 +6238,7 @@ export interface SubscribeMeMailingListRequest {
 export interface SubscribeMeMailingListResponse {}
 export interface ValidateMeAccessRestrictionBackupCodeRequest {
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 /** Describe SOTP validation status */
 export interface NichandleAccessRestrictionSOTPValidate {
@@ -6248,14 +6248,14 @@ export interface ValidateMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** SMS code send to a cellphone */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface ValidateMeAccessRestrictionSmsResponse {}
 export interface ValidateMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface ValidateMeAccessRestrictionTotpResponse {}
 export interface ValidateMeAccessRestrictionU2fRequest {
@@ -6276,7 +6276,8 @@ export const acceptMeAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AcceptMeAgreementRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<AcceptMeAgreementResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6293,7 +6294,8 @@ export const acceptMeMigrationContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<AcceptMeMigrationContractRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<MeAgreementsContractAgreement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6310,7 +6312,8 @@ export const acceptMeTaskContactChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<AcceptMeTaskContactChangeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<AcceptMeTaskContactChangeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6327,7 +6330,8 @@ export const acceptMeTaskEmailChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<AcceptMeTaskEmailChangeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<AcceptMeTaskEmailChangeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6344,7 +6348,8 @@ export const applyMeSla: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<ApplyMeSlaRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ApplyMeSlaResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6361,7 +6366,8 @@ export const cancelMeTaskDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<CancelMeTaskDnsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CancelMeTaskDnsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6378,7 +6384,8 @@ export const cancelMeTaskDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<CancelMeTaskDomainRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CancelMeTaskDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6395,7 +6402,8 @@ export const checkMeVoucherValidity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<CheckMeVoucherValidityRequest>,
   output: __S(12929, __c404, 1) as any as S.Schema<NichandleVoucherStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6412,7 +6420,8 @@ export const createMeAccessRestrictionBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<CreateMeAccessRestrictionBackupCodeRequest>,
   output: __S(13345, __c417, 1) as any as S.Schema<NichandleAccessRestrictionSOTPSecret>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6429,7 +6438,8 @@ export const createMeAccessRestrictionIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<CreateMeAccessRestrictionIpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeAccessRestrictionIpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6446,7 +6456,8 @@ export const createMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateMeAccessRestrictionSmsRequest>,
   output: __S(129, __c4, 1) as any as S.Schema<NichandleAccessRestrictionSmsSecret>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6463,7 +6474,8 @@ export const createMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreateMeAccessRestrictionTotpRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<NichandleAccessRestrictionTOTPSecret>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6480,7 +6492,8 @@ export const createMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<CreateMeAccessRestrictionU2fRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<NichandleAccessRestrictionU2FRegisterChallenge>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6497,7 +6510,8 @@ export const createMeAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateMeAccountRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<NichandleNichandle>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6514,7 +6528,8 @@ export const createMeAutorenew: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreateMeAutorenewRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeAutorenewResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6531,7 +6546,8 @@ export const createMeBillDebtPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreateMeBillDebtPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6548,7 +6564,8 @@ export const createMeBillingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<CreateMeBillingGroupRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<MeBillingGroupBillingGroup>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6565,7 +6582,8 @@ export const createMeBillingGroupService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<CreateMeBillingGroupServiceRequest>,
   output: __S(3200, __c100, 0) as any as S.Schema<MeBillingGroupService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6582,7 +6600,8 @@ export const createMeBillingInvoicesByPostalMail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<CreateMeBillingInvoicesByPostalMailRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeBillingInvoicesByPostalMailResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6599,7 +6618,8 @@ export const createMeBillingPurchaseOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<CreateMeBillingPurchaseOrderRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<MeBillingPurchaseOrderPurchaseOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6616,7 +6636,8 @@ export const createMeBillingReportConsumption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<CreateMeBillingReportConsumptionRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<MeBillingReportConsumptionCreationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6633,7 +6654,8 @@ export const createMeCarbonCalculatorTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<CreateMeCarbonCalculatorTaskRequest>,
   output: __S(4865, __c152, 1) as any as S.Schema<CarbonCalculatorCalculationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6650,7 +6672,8 @@ export const createMeChangeEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<CreateMeChangeEmailRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<NichandleEmailChangeTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6667,7 +6690,8 @@ export const createMeChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<CreateMeChangePasswordRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeChangePasswordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6684,7 +6708,8 @@ export const createMeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<CreateMeContactRequest>,
   output: __S(6049, __c189, 1) as any as S.Schema<MeContactContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6701,7 +6726,8 @@ export const createMeCorrectiveInvoiceDebtPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<CreateMeCorrectiveInvoiceDebtPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6718,7 +6744,8 @@ export const createMeCreditCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<CreateMeCreditCodeRequest>,
   output: __S(6880, __c215, 0) as any as S.Schema<MeCreditBalanceMovement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6735,7 +6762,8 @@ export const createMeDebtAccountDebtPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<CreateMeDebtAccountDebtPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6752,7 +6780,8 @@ export const createMeDebtAccountPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<CreateMeDebtAccountPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6769,7 +6798,8 @@ export const createMeDepositPaidBillDebtPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<CreateMeDepositPaidBillDebtPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6786,7 +6816,8 @@ export const createMeDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8386, __c262, 2) as any as S.Schema<CreateMeDocumentRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<NichandleDocumentDocument>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6803,7 +6834,8 @@ export const createMeDocumentCors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<CreateMeDocumentCorsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeDocumentCorsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6820,7 +6852,8 @@ export const createMeDownPaymentInvoiceDebtPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<CreateMeDownPaymentInvoiceDebtPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6837,7 +6870,8 @@ export const createMeFaxCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<CreateMeFaxCustomDomainRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<TelephonyMailDomain2Service>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6854,7 +6888,8 @@ export const createMeFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<CreateMeFeedbackRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeFeedbackResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6871,7 +6906,8 @@ export const createMeFidelityAccountCreditOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<CreateMeFidelityAccountCreditOrderRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6888,7 +6924,8 @@ export const createMeGeolocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<CreateMeGeolocationRequest>,
   output: __S(10657, __c333, 1) as any as S.Schema<MeGeolocationContinentCountryLocation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6905,7 +6942,8 @@ export const createMeIdentityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<CreateMeIdentityGroupRequest>,
   output: __S(11040, __c345, 0) as any as S.Schema<AuthGroup>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6922,7 +6960,8 @@ export const createMeIdentityGroupUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<CreateMeIdentityGroupUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeIdentityGroupUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6939,7 +6978,8 @@ export const createMeIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<CreateMeIdentityProviderRequest>,
   output: __S(11650, __c364, 2) as any as S.Schema<AuthProvider>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6956,7 +6996,8 @@ export const createMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<CreateMeIdentityUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeIdentityUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6973,7 +7014,8 @@ export const createMeIdentityUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<CreateMeIdentityUserTokenRequest>,
   output: __S(11777, __c368, 1) as any as S.Schema<AuthPersonalAccessTokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6990,7 +7032,8 @@ export const createMeIpOrganisation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<CreateMeIpOrganisationRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeIpOrganisationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7007,7 +7050,8 @@ export const createMeLogAuditLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<CreateMeLogAuditLogSubscriptionRequest>,
   output: __S(11872, __c371, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7024,7 +7068,8 @@ export const createMeLogAuditLogUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<CreateMeLogAuditLogUrlRequest>,
   output: __S(11936, __c373, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7041,7 +7086,8 @@ export const createMeLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<CreateMeLogSubscriptionRequest>,
   output: __S(11872, __c371, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7058,7 +7104,8 @@ export const createMeLogUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<CreateMeLogUrlRequest>,
   output: __S(11936, __c373, 0) as any as S.Schema<DbaasLogsTemporaryLogsLink>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7075,7 +7122,8 @@ export const createMeManualDomainPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<CreateMeManualDomainPaymentRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeManualDomainPaymentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7092,7 +7140,8 @@ export const createMeOauth2Client: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<CreateMeOauth2ClientRequest>,
   output: __S(12065, __c377, 1) as any as S.Schema<Oauth2ClientSecret>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7109,7 +7158,8 @@ export const createMeOrderBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<CreateMeOrderBalanceRequest>,
   output: __S(12128, __c379, 0) as any as S.Schema<BillingCreditBalance>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7126,7 +7176,8 @@ export const createMeOrderDebtPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<CreateMeOrderDebtPayRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7143,7 +7194,8 @@ export const createMeOrderPay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12225, __c382, 1) as any as S.Schema<CreateMeOrderPayRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeOrderPayResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7164,7 +7216,8 @@ export const createMeOrderPayWithRegisteredPaymentMean: API.OperationMethod<
     __c140,
     0,
   ) as any as S.Schema<CreateMeOrderPayWithRegisteredPaymentMeanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7181,7 +7234,8 @@ export const createMeOrderRetraction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<CreateMeOrderRetractionRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeOrderRetractionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7198,7 +7252,8 @@ export const createMeOrderWaiveRetraction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<CreateMeOrderWaiveRetractionRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeOrderWaiveRetractionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7215,7 +7270,8 @@ export const createMeOvhAccountCreditOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<CreateMeOvhAccountCreditOrderRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7232,7 +7288,8 @@ export const createMeOvhAccountMovementRequestRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12384, __c387, 0) as any as S.Schema<CreateMeOvhAccountMovementRequestRefundRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeOvhAccountMovementRequestRefundResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7249,7 +7306,8 @@ export const createMePasswordRecover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<CreateMePasswordRecoverRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMePasswordRecoverResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7274,7 +7332,8 @@ export const createMePaymentMeanDeferredPaymentAccountChooseAsDefaultPaymentMean
     __c140,
     0,
   ) as any as S.Schema<CreateMePaymentMeanDeferredPaymentAccountChooseAsDefaultPaymentMeanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7291,7 +7350,8 @@ export const createMePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12481, __c390, 1) as any as S.Schema<CreateMePaymentMethodRequest>,
   output: __S(12512, __c391, 0) as any as S.Schema<MePaymentMethodValidation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7308,7 +7368,8 @@ export const createMePaymentMethodChallenge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<CreateMePaymentMethodChallengeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMePaymentMethodChallengeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7325,7 +7386,8 @@ export const createMePaymentMethodDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<CreateMePaymentMethodDetailRequest>,
   output: __S(12512, __c391, 0) as any as S.Schema<MePaymentMethodValidation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7342,7 +7404,8 @@ export const createMePreferenceManager: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<CreateMePreferenceManagerRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMePreferenceManagerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7359,7 +7422,8 @@ export const createMeSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<CreateMeSshKeyRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeSshKeyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7376,7 +7440,8 @@ export const createMeSubAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<CreateMeSubAccountRequest>,
   output: __S(12705, __c397, 1) as any as S.Schema<CreateMeSubAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7393,7 +7458,8 @@ export const createMeSubAccountConsumerKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<CreateMeSubAccountConsumerKeyRequest>,
   output: __S(12737, __c398, 1) as any as S.Schema<NichandleSubAccountConsumerKey>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7410,7 +7476,8 @@ export const createMeTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<CreateMeTagRequest>,
   output: __S(12801, __c400, 1) as any as S.Schema<MeTagTag>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7427,7 +7494,8 @@ export const createMeTaskContactChangeRefuse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<CreateMeTaskContactChangeRefuseRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTaskContactChangeRefuseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7444,7 +7512,8 @@ export const createMeTaskDnsAccelerate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<CreateMeTaskDnsAccelerateRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTaskDnsAccelerateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7461,7 +7530,8 @@ export const createMeTaskDnsRelaunch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<CreateMeTaskDnsRelaunchRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTaskDnsRelaunchResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7478,7 +7548,8 @@ export const createMeTaskDomainAccelerate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<CreateMeTaskDomainAccelerateRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTaskDomainAccelerateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7495,7 +7566,8 @@ export const createMeTaskDomainRelaunch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<CreateMeTaskDomainRelaunchRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTaskDomainRelaunchResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7512,7 +7584,8 @@ export const createMeTaskEmailChangeRefuse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<CreateMeTaskEmailChangeRefuseRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTaskEmailChangeRefuseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7529,7 +7602,8 @@ export const createMeTelephonyDefaultIpRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<CreateMeTelephonyDefaultIpRestrictionRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TelephonyDefaultIpRestriction>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7546,7 +7620,8 @@ export const createMeTelephonySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<CreateMeTelephonySettingsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeTelephonySettingsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7563,7 +7638,8 @@ export const createMeXdslSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<CreateMeXdslSettingRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<CreateMeXdslSettingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7580,7 +7656,8 @@ export const deleteMeAccessRestrictionBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<DeleteMeAccessRestrictionBackupCodeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeAccessRestrictionBackupCodeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7597,7 +7674,8 @@ export const deleteMeAccessRestrictionIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<DeleteMeAccessRestrictionIpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeAccessRestrictionIpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7614,7 +7692,8 @@ export const deleteMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<DeleteMeAccessRestrictionSmsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeAccessRestrictionSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7631,7 +7710,8 @@ export const deleteMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<DeleteMeAccessRestrictionTotpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeAccessRestrictionTotpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7648,7 +7728,8 @@ export const deleteMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<DeleteMeAccessRestrictionU2fRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeAccessRestrictionU2fResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7665,7 +7746,8 @@ export const deleteMeApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<DeleteMeApplicationRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeApplicationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7682,7 +7764,8 @@ export const deleteMeBillingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<DeleteMeBillingGroupRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeBillingGroupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7699,7 +7782,8 @@ export const deleteMeBillingGroupService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<DeleteMeBillingGroupServiceRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeBillingGroupServiceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7716,7 +7800,8 @@ export const deleteMeBillingPurchaseOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<DeleteMeBillingPurchaseOrderRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeBillingPurchaseOrderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7733,7 +7818,8 @@ export const deleteMeCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<DeleteMeCredentialRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeCredentialResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7750,7 +7836,8 @@ export const deleteMeDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<DeleteMeDocumentRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeDocumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7767,7 +7854,8 @@ export const deleteMeFaxCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<DeleteMeFaxCustomDomainRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeFaxCustomDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7784,7 +7872,8 @@ export const deleteMeIdentityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<DeleteMeIdentityGroupRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeIdentityGroupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7801,7 +7890,8 @@ export const deleteMeIdentityGroupUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13696, __c428, 0) as any as S.Schema<DeleteMeIdentityGroupUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeIdentityGroupUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7818,7 +7908,8 @@ export const deleteMeIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<DeleteMeIdentityProviderRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeIdentityProviderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7835,7 +7926,8 @@ export const deleteMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<DeleteMeIdentityUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeIdentityUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7852,7 +7944,8 @@ export const deleteMeIdentityUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<DeleteMeIdentityUserTokenRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeIdentityUserTokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7869,7 +7962,8 @@ export const deleteMeIpOrganisation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<DeleteMeIpOrganisationRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeIpOrganisationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7886,7 +7980,8 @@ export const deleteMeLogAuditLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<DeleteMeLogAuditLogSubscriptionRequest>,
   output: __S(11872, __c371, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7903,7 +7998,8 @@ export const deleteMeLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13920, __c435, 0) as any as S.Schema<DeleteMeLogSubscriptionRequest>,
   output: __S(11872, __c371, 0) as any as S.Schema<DbaasLogsLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7920,7 +8016,8 @@ export const deleteMeOauth2Client: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<DeleteMeOauth2ClientRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeOauth2ClientResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7937,7 +8034,8 @@ export const deleteMeOauth2Token: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<DeleteMeOauth2TokenRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeOauth2TokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7954,7 +8052,8 @@ export const deleteMeOrderBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14016, __c438, 0) as any as S.Schema<DeleteMeOrderBalanceRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeOrderBalanceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7971,7 +8070,8 @@ export const deleteMePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<DeleteMePaymentMethodRequest>,
   output: __S(14112, __c441, 0) as any as S.Schema<MePaymentPaymentMethod>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7988,7 +8088,8 @@ export const deleteMePreferenceManager: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteMePreferenceManagerRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMePreferenceManagerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8005,7 +8106,8 @@ export const deleteMeSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteMeSshKeyRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeSshKeyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8022,7 +8124,8 @@ export const deleteMeTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteMeTagRequest>,
   output: __S(12801, __c400, 1) as any as S.Schema<MeTagTag>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8039,7 +8142,8 @@ export const deleteMeTelephonyDefaultIpRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteMeTelephonyDefaultIpRestrictionRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DeleteMeTelephonyDefaultIpRestrictionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8056,7 +8160,8 @@ export const disableMeAccessRestrictionBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DisableMeAccessRestrictionBackupCodeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DisableMeAccessRestrictionBackupCodeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8073,7 +8178,8 @@ export const disableMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DisableMeAccessRestrictionSmsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DisableMeAccessRestrictionSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8090,7 +8196,8 @@ export const disableMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DisableMeAccessRestrictionTotpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DisableMeAccessRestrictionTotpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8107,7 +8214,8 @@ export const disableMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DisableMeAccessRestrictionU2fRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DisableMeAccessRestrictionU2fResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8124,7 +8232,8 @@ export const disableMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DisableMeIdentityUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<DisableMeIdentityUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8141,7 +8250,8 @@ export const editAccountDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<EditAccountDetailsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<EditAccountDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8158,7 +8268,8 @@ export const enableMeAccessRestrictionBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<EnableMeAccessRestrictionBackupCodeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<EnableMeAccessRestrictionBackupCodeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8175,7 +8286,8 @@ export const enableMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<EnableMeAccessRestrictionSmsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<EnableMeAccessRestrictionSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8192,7 +8304,8 @@ export const enableMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<EnableMeAccessRestrictionTotpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<EnableMeAccessRestrictionTotpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8209,7 +8322,8 @@ export const enableMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<EnableMeAccessRestrictionU2fRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<EnableMeAccessRestrictionU2fResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8226,7 +8340,8 @@ export const enableMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<EnableMeIdentityUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<EnableMeIdentityUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8243,7 +8358,8 @@ export const exportMeBill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ExportMeBillRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ExportMeBillResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8260,7 +8376,8 @@ export const exportMeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ExportMeRefundRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ExportMeRefundResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8277,7 +8394,8 @@ export const finalizeMePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<FinalizeMePaymentMethodRequest>,
   output: __S(14112, __c441, 0) as any as S.Schema<MePaymentPaymentMethod>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8294,7 +8412,8 @@ export const getAccountDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetAccountDetailsRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<NichandleNichandle>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8311,7 +8430,8 @@ export const getCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetCertificatesRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<GetCertificatesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8328,7 +8448,8 @@ export const getMeAbuse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetMeAbuseRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<MeAbuseAbuse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8345,7 +8466,8 @@ export const getMeAccessRestrictionBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetMeAccessRestrictionBackupCodeRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<NichandleAccessRestrictionSOTPAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8362,7 +8484,8 @@ export const getMeAccessRestrictionDeveloperMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetMeAccessRestrictionDeveloperModeRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<NichandleDeveloperModeRestriction>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8379,7 +8502,8 @@ export const getMeAccessRestrictionIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetMeAccessRestrictionIpRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<NichandleIpRestriction>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8396,7 +8520,8 @@ export const getMeAccessRestrictionIpDefaultRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetMeAccessRestrictionIpDefaultRuleRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<NichandleIpRestrictionDefaultRule>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8413,7 +8538,8 @@ export const getMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetMeAccessRestrictionSmsRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<NichandleAccessRestrictionSmsAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8430,7 +8556,8 @@ export const getMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetMeAccessRestrictionTotpRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<NichandleAccessRestrictionTOTPAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8447,7 +8574,8 @@ export const getMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetMeAccessRestrictionU2fRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<NichandleAccessRestrictionU2FAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8464,7 +8592,8 @@ export const getMeAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetMeAgreementRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<AgreementsContractAgreement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8481,7 +8610,8 @@ export const getMeAgreementContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetMeAgreementContractRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<AgreementsContract>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8498,7 +8628,8 @@ export const getMeApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetMeApplicationRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AuthApiApplication>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8515,7 +8646,8 @@ export const getMeAutorenew: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetMeAutorenewRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<NichandleNicAutorenewInfos>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8532,7 +8664,8 @@ export const getMeAvailableAutomaticPaymentMeans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetMeAvailableAutomaticPaymentMeansRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<BillingAutomaticPaymentMean>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8549,7 +8682,8 @@ export const getMeBill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetMeBillRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<BillingBill>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8566,7 +8700,8 @@ export const getMeBillDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetMeBillDebtRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<DebtDebt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8583,7 +8718,8 @@ export const getMeBillDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetMeBillDebtOperationRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DebtOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8600,7 +8736,8 @@ export const getMeBillDebtOperationAssociatedObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetMeBillDebtOperationAssociatedObjectRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DebtEntryAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8617,7 +8754,8 @@ export const getMeBillDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetMeBillDetailRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<BillingBillDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8634,7 +8772,8 @@ export const getMeBillingCapacities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetMeBillingCapacitiesRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<NichandleBillingCapacities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8651,7 +8790,8 @@ export const getMeBillingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetMeBillingGroupRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<MeBillingGroupBillingGroup>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8668,7 +8808,8 @@ export const getMeBillingGroupService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetMeBillingGroupServiceRequest>,
   output: __S(3200, __c100, 0) as any as S.Schema<MeBillingGroupService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8685,7 +8826,8 @@ export const getMeBillingInvoicesByPostalMail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetMeBillingInvoicesByPostalMailRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<GetMeBillingInvoicesByPostalMailResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8702,7 +8844,8 @@ export const getMeBillingPurchaseOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetMeBillingPurchaseOrderRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<MeBillingPurchaseOrderPurchaseOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8719,7 +8862,8 @@ export const getMeBillingReportConsumption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetMeBillingReportConsumptionRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<MeBillingReportConsumption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8736,7 +8880,8 @@ export const getMeBillingTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetMeBillingTaskRequest>,
   output: __S(2081, __c65, 1) as any as S.Schema<MeBillingTasksTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8753,7 +8898,8 @@ export const getMeBillPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetMeBillPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8770,7 +8916,8 @@ export const getMeBringYourOwnIpToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetMeBringYourOwnIpTokenRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeBringYourOwnIpTokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8787,7 +8934,8 @@ export const getMeCarbonCalculatorHasInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetMeCarbonCalculatorHasInvoiceRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<CarbonCalculatorHasInvoiceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8804,7 +8952,8 @@ export const getMeCarbonCalculatorTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetMeCarbonCalculatorTaskRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<CarbonCalculatorTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8821,7 +8970,8 @@ export const getMeConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetMeConsentRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<MeConsentCampaign>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8838,7 +8988,8 @@ export const getMeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetMeContactRequest>,
   output: __S(6049, __c189, 1) as any as S.Schema<MeContactContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8855,7 +9006,8 @@ export const getMeCorrectiveInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetMeCorrectiveInvoiceRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<BillingCorrectiveInvoice>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8872,7 +9024,8 @@ export const getMeCorrectiveInvoiceDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetMeCorrectiveInvoiceDebtRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<DebtDebt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8889,7 +9042,8 @@ export const getMeCorrectiveInvoiceDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetMeCorrectiveInvoiceDebtOperationRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DebtOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8910,7 +9064,8 @@ export const getMeCorrectiveInvoiceDebtOperationAssociatedObject: API.OperationM
     0,
   ) as any as S.Schema<GetMeCorrectiveInvoiceDebtOperationAssociatedObjectRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DebtEntryAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8927,7 +9082,8 @@ export const getMeCorrectiveInvoiceDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetMeCorrectiveInvoiceDetailRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<BillingCorrectiveInvoiceDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8944,7 +9100,8 @@ export const getMeCorrectiveInvoicePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetMeCorrectiveInvoicePaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8961,7 +9118,8 @@ export const getMeCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetMeCredentialRequest>,
   output: __S(2691, __c84, 3) as any as S.Schema<AuthApiCredential>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8978,7 +9136,8 @@ export const getMeCredentialApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetMeCredentialApplicationRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AuthApiApplication>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8995,7 +9154,8 @@ export const getMeCreditBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetMeCreditBalanceRequest>,
   output: __S(2759, __c86, 7) as any as S.Schema<MeCreditBalance>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9012,7 +9172,8 @@ export const getMeCreditBalanceMovement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetMeCreditBalanceMovementRequest>,
   output: __S(6880, __c215, 0) as any as S.Schema<MeCreditBalanceMovement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9029,7 +9190,8 @@ export const getMeDebtAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<GetMeDebtAccountRequest>,
   output: __S(2881, __c90, 1) as any as S.Schema<DebtBalance>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9046,7 +9208,8 @@ export const getMeDebtAccountDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<GetMeDebtAccountDebtRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<DebtDebt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9063,7 +9226,8 @@ export const getMeDebtAccountDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetMeDebtAccountDebtOperationRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DebtOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9084,7 +9248,8 @@ export const getMeDebtAccountDebtOperationAssociatedObject: API.OperationMethod<
     0,
   ) as any as S.Schema<GetMeDebtAccountDebtOperationAssociatedObjectRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DebtEntryAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9101,7 +9266,8 @@ export const getMeDeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetMeDepositRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<BillingDeposit>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9118,7 +9284,8 @@ export const getMeDepositDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<GetMeDepositDetailRequest>,
   output: __S(3041, __c95, 1) as any as S.Schema<BillingDepositDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9135,7 +9302,8 @@ export const getMeDepositPaidBill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetMeDepositPaidBillRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<BillingBill>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9152,7 +9320,8 @@ export const getMeDepositPaidBillDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<GetMeDepositPaidBillDebtRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<DebtDebt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9169,7 +9338,8 @@ export const getMeDepositPaidBillDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<GetMeDepositPaidBillDebtOperationRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DebtOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9190,7 +9360,8 @@ export const getMeDepositPaidBillDebtOperationAssociatedObject: API.OperationMet
     0,
   ) as any as S.Schema<GetMeDepositPaidBillDebtOperationAssociatedObjectRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DebtEntryAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9207,7 +9378,8 @@ export const getMeDepositPaidBillDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<GetMeDepositPaidBillDetailRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<BillingBillDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9224,7 +9396,8 @@ export const getMeDepositPaidBillPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<GetMeDepositPaidBillPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9241,7 +9414,8 @@ export const getMeDepositPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<GetMeDepositPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9258,7 +9432,8 @@ export const getMeDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<GetMeDocumentRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<NichandleDocumentDocument>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9275,7 +9450,8 @@ export const getMeDownPaymentInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<GetMeDownPaymentInvoiceRequest>,
   output: __S(3393, __c106, 1) as any as S.Schema<BillingDownPaymentInvoice>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9292,7 +9468,8 @@ export const getMeDownPaymentInvoiceDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<GetMeDownPaymentInvoiceDebtRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<DebtDebt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9309,7 +9486,8 @@ export const getMeDownPaymentInvoiceDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<GetMeDownPaymentInvoiceDebtOperationRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DebtOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9330,7 +9508,8 @@ export const getMeDownPaymentInvoiceDebtOperationAssociatedObject: API.Operation
     0,
   ) as any as S.Schema<GetMeDownPaymentInvoiceDebtOperationAssociatedObjectRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DebtEntryAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9347,7 +9526,8 @@ export const getMeDownPaymentInvoiceDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<GetMeDownPaymentInvoiceDetailRequest>,
   output: __S(3521, __c110, 1) as any as S.Schema<BillingDownPaymentInvoiceDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9364,7 +9544,8 @@ export const getMeDownPaymentInvoicePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<GetMeDownPaymentInvoicePaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9381,7 +9562,8 @@ export const getMeFaxCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<GetMeFaxCustomDomainRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<TelephonyMailDomain2Service>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9398,7 +9580,8 @@ export const getMeFidelityAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<GetMeFidelityAccountRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<BillingFidelityAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9415,7 +9598,8 @@ export const getMeFidelityAccountMovement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<GetMeFidelityAccountMovementRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<BillingFidelityMovement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9432,7 +9616,8 @@ export const getMeIdentityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<GetMeIdentityGroupRequest>,
   output: __S(11040, __c345, 0) as any as S.Schema<AuthGroup>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9449,7 +9634,8 @@ export const getMeIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<GetMeIdentityProviderRequest>,
   output: __S(11650, __c364, 2) as any as S.Schema<AuthProvider>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9470,7 +9656,8 @@ export const getMeIdentityProviderSamlServiceProviderInfo: API.OperationMethod<
     0,
   ) as any as S.Schema<GetMeIdentityProviderSamlServiceProviderInfoRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<AuthServiceProviderInfo>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9487,7 +9674,8 @@ export const getMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<GetMeIdentityUserRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<AuthUser>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9504,7 +9692,8 @@ export const getMeIdentityUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<GetMeIdentityUserTokenRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AuthPersonalAccessToken>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9521,7 +9710,8 @@ export const getMeInsight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetMeInsightRequest>,
   output: __S(3905, __c122, 1) as any as S.Schema<MeInsightAccess>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9538,7 +9728,8 @@ export const getMeIpOrganisation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<GetMeIpOrganisationRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<NichandleIpv4Org>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9555,7 +9746,8 @@ export const getMeLogAuditLogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<GetMeLogAuditLogKindRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<DbaasLogsLogKind>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9572,7 +9764,8 @@ export const getMeLogAuditLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<GetMeLogAuditLogSubscriptionRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<DbaasLogsLogSubscription>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9589,7 +9782,8 @@ export const getMeLogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<GetMeLogKindRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<DbaasLogsLogKind>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9606,7 +9800,8 @@ export const getMeLogSelf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<GetMeLogSelfRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<ApiLog>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9623,7 +9818,8 @@ export const getMeLogService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<GetMeLogServiceRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<ApiLog>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9640,7 +9836,8 @@ export const getMeLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<GetMeLogSubscriptionRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<DbaasLogsLogSubscription>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9657,7 +9854,8 @@ export const getMeManualDomainPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetMeManualDomainPaymentRequest>,
   output: __S(4321, __c135, 1) as any as S.Schema<BillingManualDomainPaymentStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9674,7 +9872,8 @@ export const getMeMarketing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<GetMeMarketingRequest>,
   output: __S(4385, __c137, 1) as any as S.Schema<MeMarketingConsent>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9691,7 +9890,8 @@ export const getMeMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<GetMeMigrationRequest>,
   output: __S(4423, __c138, 7) as any as S.Schema<MeMigration>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9708,7 +9908,8 @@ export const getMeMigrationContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<GetMeMigrationContractRequest>,
   output: __S(4545, __c142, 1) as any as S.Schema<MeMigrationContract>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9725,7 +9926,8 @@ export const getMeMigrationContractAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<GetMeMigrationContractAgreementRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<MeAgreementsContractAgreement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9742,7 +9944,8 @@ export const getMeNotificationEmailHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<GetMeNotificationEmailHistoryRequest>,
   output: __S(4609, __c144, 1) as any as S.Schema<NichandleEmailNotification>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9758,7 +9961,8 @@ export const getMeOauth2Client: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<GetMeOauth2ClientRequest>,
   output: __S(4641, __c145, 1) as any as S.Schema<Oauth2Client>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9774,7 +9978,8 @@ export const getMeOauth2Token: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<GetMeOauth2TokenRequest>,
   output: __S(4675, __c146, 3) as any as S.Schema<Oauth2Token>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9791,7 +9996,8 @@ export const getMeOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<GetMeOrderRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9808,7 +10014,8 @@ export const getMeOrderAssociatedObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<GetMeOrderAssociatedObjectRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<BillingOrderAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9825,7 +10032,8 @@ export const getMeOrderBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<GetMeOrderBalanceRequest>,
   output: __S(12128, __c379, 0) as any as S.Schema<BillingCreditBalance>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9842,7 +10050,8 @@ export const getMeOrderConsumptionDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<GetMeOrderConsumptionDetailsRequest>,
   output: __S(4801, __c150, 1) as any as S.Schema<BillingOrderConsumptionDetails>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9859,7 +10068,8 @@ export const getMeOrderDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<GetMeOrderDebtRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<DebtDebt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9876,7 +10086,8 @@ export const getMeOrderDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<GetMeOrderDebtOperationRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DebtOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9893,7 +10104,8 @@ export const getMeOrderDebtOperationAssociatedObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<GetMeOrderDebtOperationAssociatedObjectRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DebtEntryAssociatedObject>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9910,7 +10122,8 @@ export const getMeOrderDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<GetMeOrderDetailRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<BillingOrderDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9927,7 +10140,8 @@ export const getMeOrderDetailExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<GetMeOrderDetailExtensionRequest>,
   output: __S(4998, __c156, 6) as any as S.Schema<BillingItemDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9944,7 +10158,8 @@ export const getMeOrderPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<GetMeOrderPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9961,7 +10176,8 @@ export const getMeOrderStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<GetMeOrderStatusRequest>,
   output: __S(5057, __c158, 1) as any as S.Schema<GetMeOrderStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9978,7 +10194,8 @@ export const getMeOvhAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<GetMeOvhAccountRequest>,
   output: __S(5089, __c159, 1) as any as S.Schema<BillingOvhAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9995,7 +10212,8 @@ export const getMeOvhAccountMoney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<GetMeOvhAccountMoneyRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<BillingOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10012,7 +10230,8 @@ export const getMeOvhAccountMovement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetMeOvhAccountMovementRequest>,
   output: __S(5153, __c161, 1) as any as S.Schema<BillingMovement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10029,7 +10248,8 @@ export const getMePartnerLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<GetMePartnerLevelRequest>,
   output: __S(5185, __c162, 1) as any as S.Schema<MePartnerLevelLevel>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10046,7 +10266,8 @@ export const getMePaymentMeanDeferredPaymentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<GetMePaymentMeanDeferredPaymentAccountRequest>,
   output: __S(5281, __c165, 1) as any as S.Schema<MePaymentMeanDeferred>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10063,7 +10284,8 @@ export const getMePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<GetMePaymentMethodRequest>,
   output: __S(14112, __c441, 0) as any as S.Schema<MePaymentPaymentMethod>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10080,7 +10302,8 @@ export const getMePaymentTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<GetMePaymentTransactionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<MePaymentTransaction>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10097,7 +10320,8 @@ export const getMePreferenceManager: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<GetMePreferenceManagerRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<NichandleManagerPreference>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10114,7 +10338,8 @@ export const getMeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<GetMeRefundRequest>,
   output: __S(5441, __c170, 1) as any as S.Schema<BillingRefund>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10131,7 +10356,8 @@ export const getMeRefundDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<GetMeRefundDetailRequest>,
   output: __S(5473, __c171, 1) as any as S.Schema<BillingRefundDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10148,7 +10374,8 @@ export const getMeRefundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<GetMeRefundPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10165,7 +10392,8 @@ export const getMeReverseBill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<GetMeReverseBillRequest>,
   output: __S(5537, __c173, 1) as any as S.Schema<BillingReverseBill>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10182,7 +10410,8 @@ export const getMeReverseBillDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<GetMeReverseBillDetailRequest>,
   output: __S(5569, __c174, 1) as any as S.Schema<BillingReversableBillDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10199,7 +10428,8 @@ export const getMeReverseBillPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<GetMeReverseBillPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10216,7 +10446,8 @@ export const getMeSla: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<GetMeSlaRequest>,
   output: __S(5665, __c177, 1) as any as S.Schema<BillingSlaOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10233,7 +10464,8 @@ export const getMeSlaCanBeApplied: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<GetMeSlaCanBeAppliedRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<GetMeSlaCanBeAppliedResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10250,7 +10482,8 @@ export const getMeSlaStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<GetMeSlaStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeSlaStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10267,7 +10500,8 @@ export const getMeSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<GetMeSshKeyRequest>,
   output: __S(5761, __c180, 1) as any as S.Schema<NichandleSshKey>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10284,7 +10518,8 @@ export const getMeSubAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<GetMeSubAccountRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<NichandleSubAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10301,7 +10536,8 @@ export const getMeSupportLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<GetMeSupportLevelRequest>,
   output: __S(5825, __c182, 1) as any as S.Schema<MeSupportLevelLevel>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10314,7 +10550,8 @@ export const getMeTag: API.OperationMethod<GetMeTagRequest, MeTagTag, GetMeTagEr
   /*@__PURE__*/ API.make(() => ({
     input: __S(5856, __c183, 0) as any as S.Schema<GetMeTagRequest>,
     output: __S(12801, __c400, 1) as any as S.Schema<MeTagTag>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10331,7 +10568,8 @@ export const getMeTaskContactChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<GetMeTaskContactChangeRequest>,
   output: __S(5889, __c184, 1) as any as S.Schema<NichandleContactChangeTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10348,7 +10586,8 @@ export const getMeTaskDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<GetMeTaskDnsRequest>,
   output: __S(5953, __c186, 1) as any as S.Schema<MeDnsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10365,7 +10604,8 @@ export const getMeTaskDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<GetMeTaskDomainRequest>,
   output: __S(5985, __c187, 1) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10382,7 +10622,8 @@ export const getMeTaskDomainArgument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<GetMeTaskDomainArgumentRequest>,
   output: __S(6081, __c190, 1) as any as S.Schema<NichandleDomainTaskArgument>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10399,7 +10640,8 @@ export const getMeTaskDomainProgressbar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<GetMeTaskDomainProgressbarRequest>,
   output: __S(6115, __c191, 3) as any as S.Schema<NichandleDomainTaskProgressBar>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10416,7 +10658,8 @@ export const getMeTaskEmailChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<GetMeTaskEmailChangeRequest>,
   output: __S(5248, __c164, 0) as any as S.Schema<NichandleEmailChangeTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10433,7 +10676,8 @@ export const getMeTelephonyDefaultIpRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetMeTelephonyDefaultIpRestrictionRequest>,
   output: __S(13088, __c409, 0) as any as S.Schema<TelephonyDefaultIpRestriction>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10450,7 +10694,8 @@ export const getMeTelephonySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<GetMeTelephonySettingsRequest>,
   output: __S(13154, __c411, 2) as any as S.Schema<TelephonySettings>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10467,7 +10712,8 @@ export const getMeVipStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetMeVipStatusRequest>,
   output: __S(6241, __c195, 1) as any as S.Schema<NichandleVipStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10484,7 +10730,8 @@ export const getMeVoucherAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<GetMeVoucherAccountRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<BillingVoucherAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10501,7 +10748,8 @@ export const getMeVoucherAccountMovement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetMeVoucherAccountMovementRequest>,
   output: __S(6305, __c197, 1) as any as S.Schema<BillingVoucherMovement>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10518,7 +10766,8 @@ export const getMeWithdrawal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<GetMeWithdrawalRequest>,
   output: __S(6337, __c198, 1) as any as S.Schema<BillingWithdrawal>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10535,7 +10784,8 @@ export const getMeWithdrawalDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetMeWithdrawalDetailRequest>,
   output: __S(6369, __c199, 1) as any as S.Schema<BillingWithdrawalDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10552,7 +10802,8 @@ export const getMeWithdrawalPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<GetMeWithdrawalPaymentRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<BillingPayment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10569,7 +10820,8 @@ export const getMeXdslSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<GetMeXdslSettingRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<XdslSetting>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10586,7 +10838,8 @@ export const listMeAbuse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<ListMeAbuseRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeAbuseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10603,7 +10856,8 @@ export const listMeAccessRestrictionIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<ListMeAccessRestrictionIpRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeAccessRestrictionIpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10620,7 +10874,8 @@ export const listMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<ListMeAccessRestrictionSmsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeAccessRestrictionSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10637,7 +10892,8 @@ export const listMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<ListMeAccessRestrictionTotpRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeAccessRestrictionTotpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10654,7 +10910,8 @@ export const listMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<ListMeAccessRestrictionU2fRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeAccessRestrictionU2fResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10671,7 +10928,8 @@ export const listMeAgreements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<ListMeAgreementsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeAgreementsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10688,7 +10946,8 @@ export const listMeApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<ListMeApplicationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeApplicationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10705,7 +10964,8 @@ export const listMeBill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<ListMeBillRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeBillResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10722,7 +10982,8 @@ export const listMeBillDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<ListMeBillDebtOperationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeBillDebtOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10739,7 +11000,8 @@ export const listMeBillDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<ListMeBillDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeBillDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10756,7 +11018,8 @@ export const listMeBillingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<ListMeBillingGroupRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeBillingGroupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10773,7 +11036,8 @@ export const listMeBillingGroupService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<ListMeBillingGroupServiceRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeBillingGroupServiceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10790,7 +11054,8 @@ export const listMeBillingPurchaseOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<ListMeBillingPurchaseOrderRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeBillingPurchaseOrderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10807,7 +11072,8 @@ export const listMeBillingReportConsumption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<ListMeBillingReportConsumptionRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeBillingReportConsumptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10824,7 +11090,8 @@ export const listMeBillingTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<ListMeBillingTaskRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeBillingTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10841,7 +11108,8 @@ export const listMeCarbonCalculatorTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<ListMeCarbonCalculatorTaskRequest>,
   output: __S(7138, __c223, 2) as any as S.Schema<ListMeCarbonCalculatorTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10858,7 +11126,8 @@ export const listMeConsent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<ListMeConsentRequest>,
   output: __S(7170, __c224, 2) as any as S.Schema<ListMeConsentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10875,7 +11144,8 @@ export const listMeConsentDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<ListMeConsentDecisionRequest>,
   output: __S(7203, __c225, 3) as any as S.Schema<MeConsentConsent>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10892,7 +11162,8 @@ export const listMeConsumptionUsageCurrent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<ListMeConsumptionUsageCurrentRequest>,
   output: __S(7303, __c228, 7) as any as S.Schema<ListMeConsumptionUsageCurrentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10909,7 +11180,8 @@ export const listMeConsumptionUsageForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<ListMeConsumptionUsageForecastRequest>,
   output: __S(7303, __c228, 7) as any as S.Schema<ListMeConsumptionUsageForecastResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10926,7 +11198,8 @@ export const listMeConsumptionUsageHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<ListMeConsumptionUsageHistoryRequest>,
   output: __S(7303, __c228, 7) as any as S.Schema<ListMeConsumptionUsageHistoryResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10943,7 +11216,8 @@ export const listMeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<ListMeContactRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10960,7 +11234,8 @@ export const listMeContactFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<ListMeContactFieldsRequest>,
   output: __S(7427, __c232, 3) as any as S.Schema<ListMeContactFieldsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10977,7 +11252,8 @@ export const listMeCorrectiveInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<ListMeCorrectiveInvoiceRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeCorrectiveInvoiceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10994,7 +11270,8 @@ export const listMeCorrectiveInvoiceDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<ListMeCorrectiveInvoiceDebtOperationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeCorrectiveInvoiceDebtOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11011,7 +11288,8 @@ export const listMeCorrectiveInvoiceDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<ListMeCorrectiveInvoiceDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeCorrectiveInvoiceDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11028,7 +11306,8 @@ export const listMeCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<ListMeCredentialRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeCredentialResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11045,7 +11324,8 @@ export const listMeCreditBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<ListMeCreditBalanceRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeCreditBalanceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11062,7 +11342,8 @@ export const listMeCreditBalanceMovement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<ListMeCreditBalanceMovementRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeCreditBalanceMovementResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11079,7 +11360,8 @@ export const listMeDebtAccountDebt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<ListMeDebtAccountDebtRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeDebtAccountDebtResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11096,7 +11378,8 @@ export const listMeDebtAccountDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<ListMeDebtAccountDebtOperationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeDebtAccountDebtOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11113,7 +11396,8 @@ export const listMeDeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<ListMeDepositRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDepositResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11130,7 +11414,8 @@ export const listMeDepositDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<ListMeDepositDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDepositDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11147,7 +11432,8 @@ export const listMeDepositPaidBillDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<ListMeDepositPaidBillDebtOperationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeDepositPaidBillDebtOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11164,7 +11450,8 @@ export const listMeDepositPaidBillDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<ListMeDepositPaidBillDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDepositPaidBillDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11181,7 +11468,8 @@ export const listMeDepositPaidBills: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<ListMeDepositPaidBillsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDepositPaidBillsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11198,7 +11486,8 @@ export const listMeDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<ListMeDocumentRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDocumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11215,7 +11504,8 @@ export const listMeDownPaymentInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<ListMeDownPaymentInvoiceRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDownPaymentInvoiceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11232,7 +11522,8 @@ export const listMeDownPaymentInvoiceDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<ListMeDownPaymentInvoiceDebtOperationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeDownPaymentInvoiceDebtOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11249,7 +11540,8 @@ export const listMeDownPaymentInvoiceDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<ListMeDownPaymentInvoiceDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeDownPaymentInvoiceDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11266,7 +11558,8 @@ export const listMeFaxCustomDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<ListMeFaxCustomDomainsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeFaxCustomDomainsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11283,7 +11576,8 @@ export const listMeFidelityAccountMovements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<ListMeFidelityAccountMovementsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeFidelityAccountMovementsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11300,7 +11594,8 @@ export const listMeIdentityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<ListMeIdentityGroupRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeIdentityGroupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11317,7 +11612,8 @@ export const listMeIdentityGroupUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<ListMeIdentityGroupUserRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeIdentityGroupUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11334,7 +11630,8 @@ export const listMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<ListMeIdentityUserRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeIdentityUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11351,7 +11648,8 @@ export const listMeIdentityUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<ListMeIdentityUserTokenRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeIdentityUserTokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11368,7 +11666,8 @@ export const listMeIncidentSbgMigrateServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<ListMeIncidentSbgMigrateServicesRequest>,
   output: __S(8266, __c258, 10) as any as S.Schema<ListMeIncidentSbgMigrateServicesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11385,7 +11684,8 @@ export const listMeIpOrganisation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<ListMeIpOrganisationRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeIpOrganisationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11402,7 +11702,8 @@ export const listMeLogAudit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<ListMeLogAuditRequest>,
   output: __S(8545, __c267, 1) as any as S.Schema<ListMeLogAuditResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11419,7 +11720,8 @@ export const listMeLogAuditLogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<ListMeLogAuditLogKindRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeLogAuditLogKindResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11436,7 +11738,8 @@ export const listMeLogAuditLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<ListMeLogAuditLogSubscriptionRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeLogAuditLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11453,7 +11756,8 @@ export const listMeLogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<ListMeLogKindRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeLogKindResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11470,7 +11774,8 @@ export const listMeLogSelf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<ListMeLogSelfRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeLogSelfResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11487,7 +11792,8 @@ export const listMeLogServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<ListMeLogServicesRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeLogServicesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11504,7 +11810,8 @@ export const listMeLogSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<ListMeLogSubscriptionRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeLogSubscriptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11521,7 +11828,8 @@ export const listMeMailingListAvailableLists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<ListMeMailingListAvailableListsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeMailingListAvailableListsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11538,7 +11846,8 @@ export const listMeMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<ListMeMigrationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeMigrationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11555,7 +11864,8 @@ export const listMeMigrationContract: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<ListMeMigrationContractRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeMigrationContractResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11572,7 +11882,8 @@ export const listMeNotificationEmailHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<ListMeNotificationEmailHistoryRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeNotificationEmailHistoryResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11589,7 +11900,8 @@ export const listMeOauth2Client: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<ListMeOauth2ClientRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeOauth2ClientResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11606,7 +11918,8 @@ export const listMeOauth2Token: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<ListMeOauth2TokenRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeOauth2TokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11623,7 +11936,8 @@ export const listMeOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<ListMeOrderRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeOrderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11640,7 +11954,8 @@ export const listMeOrderAvailablePaymentMean: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<ListMeOrderAvailablePaymentMeanRequest>,
   output: __S(9029, __c282, 5) as any as S.Schema<ListMeOrderAvailablePaymentMeanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11661,7 +11976,8 @@ export const listMeOrderAvailableRegisteredPaymentMean: API.OperationMethod<
     __c283,
     3,
   ) as any as S.Schema<ListMeOrderAvailableRegisteredPaymentMeanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11678,7 +11994,8 @@ export const listMeOrderBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<ListMeOrderBalanceRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeOrderBalanceResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11695,7 +12012,8 @@ export const listMeOrderDebtOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<ListMeOrderDebtOperationRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeOrderDebtOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11712,7 +12030,8 @@ export const listMeOrderDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<ListMeOrderDetailsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeOrderDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11729,7 +12048,8 @@ export const listMeOrderFollowUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<ListMeOrderFollowUpRequest>,
   output: __S(9189, __c287, 5) as any as S.Schema<ListMeOrderFollowUpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11746,7 +12066,8 @@ export const listMeOrderPaymentMeans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<ListMeOrderPaymentMeansRequest>,
   output: __S(9253, __c289, 5) as any as S.Schema<BillingOrderPaymentMeans>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11763,7 +12084,8 @@ export const listMeOrderPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<ListMeOrderPaymentMethodsRequest>,
   output: __S(9285, __c290, 5) as any as S.Schema<BillingOrderPaymentMethods>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11780,7 +12102,8 @@ export const listMeOvhAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<ListMeOvhAccountRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeOvhAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11797,7 +12120,8 @@ export const listMeOvhAccountMovements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<ListMeOvhAccountMovementsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeOvhAccountMovementsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11814,7 +12138,8 @@ export const listMePaymentAvailableMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<ListMePaymentAvailableMethodsRequest>,
   output: __S(9379, __c293, 3) as any as S.Schema<ListMePaymentAvailableMethodsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11831,7 +12156,8 @@ export const listMePaymentMeanDeferredPaymentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<ListMePaymentMeanDeferredPaymentAccountRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMePaymentMeanDeferredPaymentAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11848,7 +12174,8 @@ export const listMePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<ListMePaymentMethodRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMePaymentMethodResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11865,7 +12192,8 @@ export const listMePaymentTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<ListMePaymentTransactionRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMePaymentTransactionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11882,7 +12210,8 @@ export const listMePreferenceManager: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<ListMePreferenceManagerRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMePreferenceManagerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11899,7 +12228,8 @@ export const listMeRecommendations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<ListMeRecommendationsRequest>,
   output: __S(9542, __c298, 6) as any as S.Schema<RecommendationsRecommendations>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11916,7 +12246,8 @@ export const listMeRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<ListMeRefundRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeRefundResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11933,7 +12264,8 @@ export const listMeRefundDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<ListMeRefundDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeRefundDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11950,7 +12282,8 @@ export const listMeRepricingFall22: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<ListMeRepricingFall22Request>,
   output: __S(9701, __c303, 5) as any as S.Schema<ListMeRepricingFall22Response>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11967,7 +12300,8 @@ export const listMeReverseBill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<ListMeReverseBillRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeReverseBillResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11984,7 +12318,8 @@ export const listMeReverseBillDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<ListMeReverseBillDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeReverseBillDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12001,7 +12336,8 @@ export const listMeSla: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<ListMeSlaRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeSlaResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12018,7 +12354,8 @@ export const listMeSlaServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<ListMeSlaServicesRequest>,
   output: __S(9827, __c307, 3) as any as S.Schema<ListMeSlaServicesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12035,7 +12372,8 @@ export const listMeSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<ListMeSshKeyRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeSshKeyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12052,7 +12390,8 @@ export const listMeSubAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<ListMeSubAccountRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeSubAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12069,7 +12408,8 @@ export const listMeTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<ListMeTagRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeTagResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12086,7 +12426,8 @@ export const listMeTagAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<ListMeTagAvailableRequest>,
   output: __S(9989, __c312, 5) as any as S.Schema<ListMeTagAvailableResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12103,7 +12444,8 @@ export const listMeTaskContactChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<ListMeTaskContactChangeRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeTaskContactChangeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12120,7 +12462,8 @@ export const listMeTaskDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<ListMeTaskDnsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeTaskDnsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12137,7 +12480,8 @@ export const listMeTaskDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<ListMeTaskDomainRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeTaskDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12154,7 +12498,8 @@ export const listMeTaskDomainArgument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<ListMeTaskDomainArgumentRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeTaskDomainArgumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12171,7 +12516,8 @@ export const listMeTaskEmailChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<ListMeTaskEmailChangeRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeTaskEmailChangeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12188,7 +12534,8 @@ export const listMeTelephonyDefaultIpRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<ListMeTelephonyDefaultIpRestrictionRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeTelephonyDefaultIpRestrictionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12205,7 +12552,8 @@ export const listMeVoucherAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<ListMeVoucherAccountRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeVoucherAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12222,7 +12570,8 @@ export const listMeVoucherAccountMovements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<ListMeVoucherAccountMovementsRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<ListMeVoucherAccountMovementsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12239,7 +12588,8 @@ export const listMeWithdrawal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<ListMeWithdrawalRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeWithdrawalResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12256,7 +12606,8 @@ export const listMeWithdrawalDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<ListMeWithdrawalDetailsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ListMeWithdrawalDetailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12273,7 +12624,8 @@ export const migrateMeIncidentSbgServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<MigrateMeIncidentSbgServicesRequest>,
   output: __S(10377, __c324, 9) as any as S.Schema<MeIncidentOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12290,7 +12642,8 @@ export const putMeAccessRestrictionDeveloperMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<PutMeAccessRestrictionDeveloperModeRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAccessRestrictionDeveloperModeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12307,7 +12660,8 @@ export const putMeAccessRestrictionIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<PutMeAccessRestrictionIpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAccessRestrictionIpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12324,7 +12678,8 @@ export const putMeAccessRestrictionIpDefaultRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<PutMeAccessRestrictionIpDefaultRuleRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAccessRestrictionIpDefaultRuleResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12341,7 +12696,8 @@ export const putMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<PutMeAccessRestrictionSmsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAccessRestrictionSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12358,7 +12714,8 @@ export const putMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<PutMeAccessRestrictionTotpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAccessRestrictionTotpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12375,7 +12732,8 @@ export const putMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<PutMeAccessRestrictionU2fRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAccessRestrictionU2fResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12392,7 +12750,8 @@ export const putMeAutorenew: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<PutMeAutorenewRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeAutorenewResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12409,7 +12768,8 @@ export const putMeBillingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<PutMeBillingGroupRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeBillingGroupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12426,7 +12786,8 @@ export const putMeBillingPurchaseOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<PutMeBillingPurchaseOrderRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeBillingPurchaseOrderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12443,7 +12804,8 @@ export const putMeConsentDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<PutMeConsentDecisionRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeConsentDecisionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12460,7 +12822,8 @@ export const putMeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<PutMeContactRequest>,
   output: __S(6049, __c189, 1) as any as S.Schema<MeContactContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12477,7 +12840,8 @@ export const putMeCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<PutMeCredentialRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeCredentialResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12494,7 +12858,8 @@ export const putMeDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<PutMeDocumentRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeDocumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12511,7 +12876,8 @@ export const putMeFidelityAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<PutMeFidelityAccountRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeFidelityAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12528,7 +12894,8 @@ export const putMeIdentityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<PutMeIdentityGroupRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeIdentityGroupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12545,7 +12912,8 @@ export const putMeIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<PutMeIdentityProviderRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeIdentityProviderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12562,7 +12930,8 @@ export const putMeIdentityUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<PutMeIdentityUserRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeIdentityUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12579,7 +12948,8 @@ export const putMeIdentityUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<PutMeIdentityUserTokenRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AuthPersonalAccessToken>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12596,7 +12966,8 @@ export const putMeIpOrganisation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<PutMeIpOrganisationRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeIpOrganisationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12613,7 +12984,8 @@ export const putMeMarketing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<PutMeMarketingRequest>,
   output: __S(4385, __c137, 1) as any as S.Schema<MeMarketingConsent>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12629,7 +13001,8 @@ export const putMeOauth2Client: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<PutMeOauth2ClientRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeOauth2ClientResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12646,7 +13019,8 @@ export const putMeOvhAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11168, __c349, 0) as any as S.Schema<PutMeOvhAccountRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeOvhAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12663,7 +13037,8 @@ export const putMePaymentMeanDeferredPaymentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<PutMePaymentMeanDeferredPaymentAccountRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMePaymentMeanDeferredPaymentAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12680,7 +13055,8 @@ export const putMePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<PutMePaymentMethodRequest>,
   output: __S(14112, __c441, 0) as any as S.Schema<MePaymentPaymentMethod>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12697,7 +13073,8 @@ export const putMePreferenceManager: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<PutMePreferenceManagerRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMePreferenceManagerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12714,7 +13091,8 @@ export const putMeSubAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<PutMeSubAccountRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeSubAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12731,7 +13109,8 @@ export const putMeTaskDomainArgument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<PutMeTaskDomainArgumentRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<PutMeTaskDomainArgumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12748,7 +13127,8 @@ export const resendMeTaskContactChangeEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<ResendMeTaskContactChangeEmailRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ResendMeTaskContactChangeEmailResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12765,7 +13145,8 @@ export const sendMeAccessRestrictionSmsCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<SendMeAccessRestrictionSmsCodeRequest>,
   output: __S(11425, __c357, 1) as any as S.Schema<NichandleAccessRestrictionSmsCode>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12782,7 +13163,8 @@ export const subscribeMeMailingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<SubscribeMeMailingListRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<SubscribeMeMailingListResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12799,7 +13181,8 @@ export const validateMeAccessRestrictionBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<ValidateMeAccessRestrictionBackupCodeRequest>,
   output: __S(11489, __c359, 1) as any as S.Schema<NichandleAccessRestrictionSOTPValidate>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12816,7 +13199,8 @@ export const validateMeAccessRestrictionSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<ValidateMeAccessRestrictionSmsRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ValidateMeAccessRestrictionSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12833,7 +13217,8 @@ export const validateMeAccessRestrictionTotp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<ValidateMeAccessRestrictionTotpRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ValidateMeAccessRestrictionTotpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12850,7 +13235,8 @@ export const validateMeAccessRestrictionU2f: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<ValidateMeAccessRestrictionU2fRequest>,
   output: __S(4480, __c140, 0) as any as S.Schema<ValidateMeAccessRestrictionU2fResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12970,7 +13356,7 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/disable", code: 200 }),
         ),
@@ -12983,7 +13369,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/disable", code: 200 }),
         ),
@@ -12996,7 +13382,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/disable", code: 200 }),
         ),
@@ -13070,7 +13456,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          qrcodeHelper: S.optional(S.String),
+          qrcodeHelper: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "NichandleAccessRestrictionTOTPSecret" });
@@ -13081,7 +13467,7 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/enable", code: 200 }),
         ),
@@ -13094,7 +13480,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/enable", code: 200 }),
         ),
@@ -13107,7 +13493,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/enable", code: 200 }),
         ),
@@ -14817,7 +15203,7 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          access: S.optional(S.String),
+          access: S.optional(S.String.pipe(T.SensitiveValue({}))),
           createdAt: S.optional(S.String),
           expireAt: S.optional(S.String),
         }),
@@ -15116,7 +15502,7 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/accept", code: 200 })),
       ).annotate({ identifier: "AcceptMeTaskContactChangeRequest" });
   }
@@ -17125,7 +17511,7 @@ function __c261(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/emailChange/{id}/accept", code: 200 })),
       ).annotate({ identifier: "AcceptMeTaskEmailChangeRequest" });
   }
@@ -18855,7 +19241,7 @@ function __c359(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/validate", code: 200 }),
         ),
@@ -18874,7 +19260,7 @@ function __c360(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/validate", code: 200 }),
         ),
@@ -18887,7 +19273,7 @@ function __c361(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/validate", code: 200 }),
         ),
@@ -19017,7 +19403,7 @@ function __c368(j: number): any {
           expiresAt: S.optional(S.NullOr(S.String)),
           lastUsed: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AuthPersonalAccessTokenResponse" });
   }
@@ -19474,7 +19860,7 @@ function __c401(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/refuse", code: 200 })),
       ).annotate({ identifier: "CreateMeTaskContactChangeRefuseRequest" });
   }
@@ -19541,7 +19927,7 @@ function __c407(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/emailChange/{id}/refuse", code: 200 })),
       ).annotate({ identifier: "CreateMeTaskEmailChangeRefuseRequest" });
   }

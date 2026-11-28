@@ -68,7 +68,10 @@ const dropMethodAliases = (spec: any): void => {
 
 /** Step 2: `<group>` plus `By<Label>` for the labels that tell variants apart. */
 const nameVariants = (spec: any): void => {
-  const groups = new Map<string, { operationId: string; labels: string[] }[]>();
+  const groups = new Map<
+    string,
+    { operationId: string; labels: string[]; item: any; method: string; op: any }[]
+  >();
   for (const [route, item] of Object.entries<any>(spec.paths)) {
     for (const method of METHODS) {
       const op = item[method];
@@ -76,9 +79,26 @@ const nameVariants = (spec: any): void => {
       const group = op["x-operation-group"] ?? op.operationId;
       groups.set(group, [
         ...(groups.get(group) ?? []),
-        { operationId: op.operationId, labels: labelsOf(route) },
+        { operationId: op.operationId, labels: labelsOf(route), item, method, op },
       ]);
     }
+  }
+  // Path aliases: a variant with the same method, labels and parameters as
+  // an earlier one of its group (`GET /_aliases` beside `GET /_alias`) is
+  // the same call under another path. Keep the first.
+  for (const [group, variants] of groups) {
+    const kept: typeof variants = [];
+    for (const variant of variants) {
+      const same = kept.find(
+        (k) =>
+          k.method === variant.method &&
+          k.labels.join() === variant.labels.join() &&
+          JSON.stringify(k.op.parameters ?? []) === JSON.stringify(variant.op.parameters ?? []),
+      );
+      if (same === undefined) kept.push(variant);
+      else delete variant.item[variant.method];
+    }
+    groups.set(group, kept);
   }
   for (const [group, variants] of groups) {
     const shared = variants[0]!.labels.filter((label) =>

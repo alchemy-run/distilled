@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -466,8 +467,9 @@ export interface CreateAppBlockBuilderStreamingURLRequest {
   AppBlockBuilderName?: string | undefined;
   Validity?: number | undefined;
 }
+export type StreamingUrl = string | redacted.Redacted<string>;
 export interface CreateAppBlockBuilderStreamingURLResult {
-  StreamingURL?: string | undefined;
+  StreamingURL?: string | redacted.Redacted<string> | undefined;
   Expires?: Date | undefined;
 }
 export type PlatformType =
@@ -840,7 +842,7 @@ export interface CreateImageBuilderStreamingURLRequest {
   Validity?: number | undefined;
 }
 export interface CreateImageBuilderStreamingURLResult {
-  StreamingURL?: string | undefined;
+  StreamingURL?: string | redacted.Redacted<string> | undefined;
   Expires?: Date | undefined;
 }
 export type WorkspaceImageId = string;
@@ -968,6 +970,7 @@ export type Action =
   | "DOMAIN_PASSWORD_SIGNIN"
   | "DOMAIN_SMART_CARD_SIGNIN"
   | "AUTO_TIME_ZONE_REDIRECTION"
+  | "SMART_CARD_REDIRECTION"
   | (string & {});
 export interface UserSetting {
   Action?: Action | undefined;
@@ -995,6 +998,12 @@ export interface UrlRedirectionConfig {
 }
 export interface ContentRedirection {
   HostToClient?: UrlRedirectionConfig | undefined;
+}
+export type ProcessImageName = string;
+export type ProcessCompatibilityList = string[];
+export interface WebAuthnRedirection {
+  Enabled?: boolean | undefined;
+  ProcessCompatibilityList?: string[] | undefined;
 }
 export type KmsKeyArn = string;
 export interface AgentAccessConfig {
@@ -1025,6 +1034,7 @@ export interface CreateStackRequest {
   EmbedHostDomains?: string[] | undefined;
   StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
   ContentRedirection?: ContentRedirection | undefined;
+  WebAuthnRedirection?: WebAuthnRedirection | undefined;
   AgentAccessConfig?: AgentAccessConfig | undefined;
   StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
@@ -1055,6 +1065,7 @@ export interface Stack {
   EmbedHostDomains?: string[] | undefined;
   StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
   ContentRedirection?: ContentRedirection | undefined;
+  WebAuthnRedirection?: WebAuthnRedirection | undefined;
   AgentAccessConfig?: AgentAccessConfig | undefined;
   StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
@@ -1068,6 +1079,7 @@ export interface CreateStackResult {
         ContentRedirection: ContentRedirection & {
           HostToClient: UrlRedirectionConfig & { Enabled: boolean };
         };
+        WebAuthnRedirection: WebAuthnRedirection & { Enabled: boolean };
         AgentAccessConfig: AgentAccessConfig & {
           Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
           ScreenResolution: ScreenResolution;
@@ -1086,7 +1098,7 @@ export interface CreateStreamingURLRequest {
   SessionContext?: string | undefined;
 }
 export interface CreateStreamingURLResult {
-  StreamingURL?: string | undefined;
+  StreamingURL?: string | redacted.Redacted<string> | undefined;
   Expires?: Date | undefined;
 }
 export type ThemeFooterLinkDisplayName = string;
@@ -1535,6 +1547,7 @@ export interface DescribeStacksResult {
         ContentRedirection: ContentRedirection & {
           HostToClient: UrlRedirectionConfig & { Enabled: boolean };
         };
+        WebAuthnRedirection: WebAuthnRedirection & { Enabled: boolean };
         AgentAccessConfig: AgentAccessConfig & {
           Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
           ScreenResolution: ScreenResolution;
@@ -1990,6 +2003,7 @@ export type StackAttribute =
   | "ACCESS_ENDPOINTS"
   | "STREAMING_EXPERIENCE_SETTINGS"
   | "CONTENT_REDIRECTION"
+  | "WEB_AUTHN_REDIRECTION"
   | "AGENT_ACCESS_CONFIG"
   | "STORAGE_CONNECTOR_AUTHENTICATION"
   | "AGENT_ACCESS_CONFIG_KMS_KEY_ARN"
@@ -2020,6 +2034,7 @@ export interface UpdateStackRequest {
   EmbedHostDomains?: string[] | undefined;
   StreamingExperienceSettings?: StreamingExperienceSettings | undefined;
   ContentRedirection?: ContentRedirection | undefined;
+  WebAuthnRedirection?: WebAuthnRedirection | undefined;
   AgentAccessConfig?: AgentAccessConfigForUpdate | undefined;
   StorageConnectorAuthentication?: StorageConnectorAuthentication | undefined;
 }
@@ -2033,6 +2048,7 @@ export interface UpdateStackResult {
         ContentRedirection: ContentRedirection & {
           HostToClient: UrlRedirectionConfig & { Enabled: boolean };
         };
+        WebAuthnRedirection: WebAuthnRedirection & { Enabled: boolean };
         AgentAccessConfig: AgentAccessConfig & {
           Settings: (AgentAccessSetting & { AgentAction: AgentAction; Permission: Permission })[];
           ScreenResolution: ScreenResolution;
@@ -2082,6 +2098,7 @@ export const associateAppBlockBuilderAppBlock: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAppBlockBuilderAppBlock",
@@ -2114,6 +2131,7 @@ export const associateApplicationFleet: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationFleet",
@@ -2144,6 +2162,7 @@ export const associateApplicationToEntitlement: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationToEntitlement",
@@ -2178,6 +2197,7 @@ export const associateFleet: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFleet",
@@ -2210,6 +2230,7 @@ export const associateSoftwareToImageBuilder: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSoftwareToImageBuilder",
@@ -2233,6 +2254,7 @@ export const batchAssociateUserStack: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<BatchAssociateUserStackRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<BatchAssociateUserStackResult>,
   errors: [InvalidParameterCombinationException, OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateUserStack",
@@ -2256,6 +2278,7 @@ export const batchDisassociateUserStack: API.OperationMethod<
   input: __S(272, __c17, 0) as any as S.Schema<BatchDisassociateUserStackRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<BatchDisassociateUserStackResult>,
   errors: [InvalidParameterCombinationException, OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateUserStack",
@@ -2290,6 +2313,7 @@ export const copyImage: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyImage",
@@ -2328,6 +2352,7 @@ export const createAppBlock: API.OperationMethod<
     OperationNotPermittedException,
     ResourceAlreadyExistsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlock",
@@ -2370,6 +2395,7 @@ export const createAppBlockBuilder: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlockBuilder",
@@ -2393,6 +2419,7 @@ export const createAppBlockBuilderStreamingURL: API.OperationMethod<
   input: __S(480, __c30, 0) as any as S.Schema<CreateAppBlockBuilderStreamingURLRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<CreateAppBlockBuilderStreamingURLResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlockBuilderStreamingURL",
@@ -2433,6 +2460,7 @@ export const createApplication: API.OperationMethod<
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
@@ -2467,6 +2495,7 @@ export const createDirectoryConfig: API.OperationMethod<
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectoryConfig",
@@ -2502,6 +2531,7 @@ export const createEntitlement: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
@@ -2538,6 +2568,7 @@ export const createExportImageTask: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportImageTask",
@@ -2582,6 +2613,7 @@ export const createFleet: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
@@ -2628,6 +2660,7 @@ export const createImageBuilder: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageBuilder",
@@ -2651,6 +2684,7 @@ export const createImageBuilderStreamingURL: API.OperationMethod<
   input: __S(880, __c55, 0) as any as S.Schema<CreateImageBuilderStreamingURLRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<CreateImageBuilderStreamingURLResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageBuilderStreamingURL",
@@ -2691,6 +2725,7 @@ export const createImportedImage: API.OperationMethod<
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportedImage",
@@ -2729,6 +2764,7 @@ export const createStack: API.OperationMethod<
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStack",
@@ -2759,6 +2795,7 @@ export const createStreamingURL: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingURL",
@@ -2793,6 +2830,7 @@ export const createThemeForStack: API.OperationMethod<
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThemeForStack",
@@ -2832,6 +2870,7 @@ export const createUpdatedImage: API.OperationMethod<
     ResourceAlreadyExistsException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpdatedImage",
@@ -2856,6 +2895,7 @@ export const createUsageReportSubscription: API.OperationMethod<
   input: __S(1088, __c68, 0) as any as S.Schema<CreateUsageReportSubscriptionRequest>,
   output: __S(1089, __c68, 1) as any as S.Schema<CreateUsageReportSubscriptionResult>,
   errors: [InvalidAccountStatusException, InvalidRoleException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageReportSubscription",
@@ -2888,6 +2928,7 @@ export const createUser: API.OperationMethod<
     OperationNotPermittedException,
     ResourceAlreadyExistsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
@@ -2912,6 +2953,7 @@ export const deleteAppBlock: API.OperationMethod<
   input: __S(1120, __c70, 0) as any as S.Schema<DeleteAppBlockRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteAppBlockResult>,
   errors: [ConcurrentModificationException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBlock",
@@ -2945,6 +2987,7 @@ export const deleteAppBlockBuilder: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBlockBuilder",
@@ -2975,6 +3018,7 @@ export const deleteApplication: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -2998,6 +3042,7 @@ export const deleteDirectoryConfig: API.OperationMethod<
   input: __S(1168, __c73, 0) as any as S.Schema<DeleteDirectoryConfigRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteDirectoryConfigResult>,
   errors: [ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectoryConfig",
@@ -3028,6 +3073,7 @@ export const deleteEntitlement: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
@@ -3052,6 +3098,7 @@ export const deleteFleet: API.OperationMethod<
   input: __S(1200, __c75, 0) as any as S.Schema<DeleteFleetRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteFleetResult>,
   errors: [ConcurrentModificationException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
@@ -3083,6 +3130,7 @@ export const deleteImage: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
@@ -3111,6 +3159,7 @@ export const deleteImageBuilder: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageBuilder",
@@ -3134,6 +3183,7 @@ export const deleteImagePermissions: API.OperationMethod<
   input: __S(1248, __c78, 0) as any as S.Schema<DeleteImagePermissionsRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteImagePermissionsResult>,
   errors: [ResourceNotAvailableException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImagePermissions",
@@ -3164,6 +3214,7 @@ export const deleteStack: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStack",
@@ -3192,6 +3243,7 @@ export const deleteThemeForStack: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThemeForStack",
@@ -3215,6 +3267,7 @@ export const deleteUsageReportSubscription: API.OperationMethod<
   input: __S(1296, __c81, 0) as any as S.Schema<DeleteUsageReportSubscriptionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteUsageReportSubscriptionResult>,
   errors: [InvalidAccountStatusException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageReportSubscription",
@@ -3235,6 +3288,7 @@ export const deleteUser: API.OperationMethod<
   input: __S(1312, __c82, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteUserResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
@@ -3259,6 +3313,7 @@ export const describeAppBlockBuilderAppBlockAssociations: API.PaginatedOperation
   input: __S(1328, __c83, 0) as any as S.Schema<DescribeAppBlockBuilderAppBlockAssociationsRequest>,
   output: __S(1330, __c83, 2) as any as S.Schema<DescribeAppBlockBuilderAppBlockAssociationsResult>,
   errors: [InvalidParameterCombinationException, OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppBlockBuilderAppBlockAssociations",
@@ -3288,6 +3343,7 @@ export const describeAppBlockBuilders: API.PaginatedOperationMethod<
   input: __S(1344, __c84, 0) as any as S.Schema<DescribeAppBlockBuildersRequest>,
   output: __S(1346, __c84, 2) as any as S.Schema<DescribeAppBlockBuildersResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppBlockBuilders",
@@ -3316,6 +3372,7 @@ export const describeAppBlocks: API.OperationMethod<
   input: __S(1360, __c85, 0) as any as S.Schema<DescribeAppBlocksRequest>,
   output: __S(1362, __c85, 2) as any as S.Schema<DescribeAppBlocksResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppBlocks",
@@ -3339,6 +3396,7 @@ export const describeApplicationFleetAssociations: API.OperationMethod<
   input: __S(1376, __c86, 0) as any as S.Schema<DescribeApplicationFleetAssociationsRequest>,
   output: __S(1378, __c86, 2) as any as S.Schema<DescribeApplicationFleetAssociationsResult>,
   errors: [InvalidParameterCombinationException, OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationFleetAssociations",
@@ -3362,6 +3420,7 @@ export const describeApplications: API.OperationMethod<
   input: __S(1392, __c87, 0) as any as S.Schema<DescribeApplicationsRequest>,
   output: __S(1393, __c87, 1) as any as S.Schema<DescribeApplicationsResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
@@ -3390,6 +3449,7 @@ export const describeAppLicenseUsage: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppLicenseUsage",
@@ -3412,6 +3472,7 @@ export const describeDirectoryConfigs: API.OperationMethod<
   input: __S(1424, __c89, 0) as any as S.Schema<DescribeDirectoryConfigsRequest>,
   output: __S(1426, __c89, 2) as any as S.Schema<DescribeDirectoryConfigsResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectoryConfigs",
@@ -3436,6 +3497,7 @@ export const describeEntitlements: API.OperationMethod<
   input: __S(1440, __c90, 0) as any as S.Schema<DescribeEntitlementsRequest>,
   output: __S(1442, __c90, 2) as any as S.Schema<DescribeEntitlementsResult>,
   errors: [EntitlementNotFoundException, OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitlements",
@@ -3456,6 +3518,7 @@ export const describeFleets: API.OperationMethod<
   input: __S(1456, __c91, 0) as any as S.Schema<DescribeFleetsRequest>,
   output: __S(1458, __c91, 2) as any as S.Schema<DescribeFleetsResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleets",
@@ -3478,6 +3541,7 @@ export const describeImageBuilders: API.OperationMethod<
   input: __S(1472, __c92, 0) as any as S.Schema<DescribeImageBuildersRequest>,
   output: __S(1474, __c92, 2) as any as S.Schema<DescribeImageBuildersResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageBuilders",
@@ -3499,6 +3563,7 @@ export const describeImagePermissions: API.PaginatedOperationMethod<
   input: __S(1488, __c93, 0) as any as S.Schema<DescribeImagePermissionsRequest>,
   output: __S(1491, __c93, 3) as any as S.Schema<DescribeImagePermissionsResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImagePermissions",
@@ -3528,6 +3593,7 @@ export const describeImages: API.PaginatedOperationMethod<
   input: __S(1504, __c94, 0) as any as S.Schema<DescribeImagesRequest>,
   output: __S(1506, __c94, 2) as any as S.Schema<DescribeImagesResult>,
   errors: [InvalidParameterCombinationException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImages",
@@ -3555,6 +3621,7 @@ export const describeSessions: API.OperationMethod<
   input: __S(1520, __c95, 0) as any as S.Schema<DescribeSessionsRequest>,
   output: __S(1523, __c95, 3) as any as S.Schema<DescribeSessionsResult>,
   errors: [InvalidParameterCombinationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSessions",
@@ -3578,6 +3645,7 @@ export const describeSoftwareAssociations: API.OperationMethod<
   input: __S(1536, __c96, 0) as any as S.Schema<DescribeSoftwareAssociationsRequest>,
   output: __S(1539, __c96, 3) as any as S.Schema<DescribeSoftwareAssociationsResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSoftwareAssociations",
@@ -3598,6 +3666,7 @@ export const describeStacks: API.OperationMethod<
   input: __S(1552, __c97, 0) as any as S.Schema<DescribeStacksRequest>,
   output: __S(1554, __c97, 2) as any as S.Schema<DescribeStacksResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStacks",
@@ -3621,6 +3690,7 @@ export const describeThemeForStack: API.OperationMethod<
   input: __S(1568, __c98, 0) as any as S.Schema<DescribeThemeForStackRequest>,
   output: __S(1059, __c66, 3) as any as S.Schema<DescribeThemeForStackResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemeForStack",
@@ -3644,6 +3714,7 @@ export const describeUsageReportSubscriptions: API.OperationMethod<
   input: __S(1584, __c99, 0) as any as S.Schema<DescribeUsageReportSubscriptionsRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<DescribeUsageReportSubscriptionsResult>,
   errors: [InvalidAccountStatusException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsageReportSubscriptions",
@@ -3672,6 +3743,7 @@ export const describeUsers: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsers",
@@ -3699,6 +3771,7 @@ export const describeUserStackAssociations: API.OperationMethod<
   input: __S(1616, __c101, 0) as any as S.Schema<DescribeUserStackAssociationsRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<DescribeUserStackAssociationsResult>,
   errors: [InvalidParameterCombinationException, OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserStackAssociations",
@@ -3719,6 +3792,7 @@ export const disableUser: API.OperationMethod<
   input: __S(1632, __c102, 0) as any as S.Schema<DisableUserRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DisableUserResult>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
@@ -3749,6 +3823,7 @@ export const disassociateAppBlockBuilderAppBlock: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAppBlockBuilderAppBlock",
@@ -3777,6 +3852,7 @@ export const disassociateApplicationFleet: API.OperationMethod<
     InvalidParameterCombinationException,
     OperationNotPermittedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationFleet",
@@ -3801,6 +3877,7 @@ export const disassociateApplicationFromEntitlement: API.OperationMethod<
   input: __S(1680, __c105, 0) as any as S.Schema<DisassociateApplicationFromEntitlementRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DisassociateApplicationFromEntitlementResult>,
   errors: [EntitlementNotFoundException, OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationFromEntitlement",
@@ -3831,6 +3908,7 @@ export const disassociateFleet: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFleet",
@@ -3861,6 +3939,7 @@ export const disassociateSoftwareFromImageBuilder: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSoftwareFromImageBuilder",
@@ -3889,6 +3968,7 @@ export const drainSessionInstance: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DrainSessionInstance",
@@ -3912,6 +3992,7 @@ export const enableUser: API.OperationMethod<
   input: __S(1744, __c109, 0) as any as S.Schema<EnableUserRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<EnableUserResult>,
   errors: [InvalidAccountStatusException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableUser",
@@ -3932,6 +4013,7 @@ export const expireSession: API.OperationMethod<
   input: __S(1760, __c110, 0) as any as S.Schema<ExpireSessionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<ExpireSessionResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExpireSession",
@@ -3955,6 +4037,7 @@ export const getExportImageTask: API.OperationMethod<
   input: __S(1776, __c111, 0) as any as S.Schema<GetExportImageTaskRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<GetExportImageTaskResult>,
   errors: [OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportImageTask",
@@ -3975,6 +4058,7 @@ export const listAssociatedFleets: API.OperationMethod<
   input: __S(1792, __c112, 0) as any as S.Schema<ListAssociatedFleetsRequest>,
   output: __S(1808, __c113, 0) as any as S.Schema<ListAssociatedFleetsResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedFleets",
@@ -3995,6 +4079,7 @@ export const listAssociatedStacks: API.OperationMethod<
   input: __S(1824, __c114, 0) as any as S.Schema<ListAssociatedStacksRequest>,
   output: __S(1808, __c113, 0) as any as S.Schema<ListAssociatedStacksResult>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedStacks",
@@ -4019,6 +4104,7 @@ export const listEntitledApplications: API.OperationMethod<
   input: __S(1840, __c115, 0) as any as S.Schema<ListEntitledApplicationsRequest>,
   output: __S(1843, __c115, 3) as any as S.Schema<ListEntitledApplicationsResult>,
   errors: [EntitlementNotFoundException, OperationNotPermittedException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitledApplications",
@@ -4039,6 +4125,7 @@ export const listExportImageTasks: API.OperationMethod<
   input: __S(1858, __c116, 2) as any as S.Schema<ListExportImageTasksRequest>,
   output: __S(1860, __c116, 4) as any as S.Schema<ListExportImageTasksResult>,
   errors: [OperationNotPermittedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExportImageTasks",
@@ -4061,6 +4148,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(1872, __c117, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -4103,6 +4191,7 @@ export const startAppBlockBuilder: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAppBlockBuilder",
@@ -4141,6 +4230,7 @@ export const startFleet: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFleet",
@@ -4173,6 +4263,7 @@ export const startImageBuilder: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImageBuilder",
@@ -4201,6 +4292,7 @@ export const startSoftwareDeploymentToImageBuilder: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSoftwareDeploymentToImageBuilder",
@@ -4232,6 +4324,7 @@ export const stopAppBlockBuilder: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAppBlockBuilder",
@@ -4255,6 +4348,7 @@ export const stopFleet: API.OperationMethod<
   input: __S(1968, __c123, 0) as any as S.Schema<StopFleetRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<StopFleetResult>,
   errors: [ConcurrentModificationException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFleet",
@@ -4283,6 +4377,7 @@ export const stopImageBuilder: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopImageBuilder",
@@ -4315,6 +4410,7 @@ export const tagResource: API.OperationMethod<
   input: __S(2000, __c125, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InvalidAccountStatusException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4339,6 +4435,7 @@ export const untagResource: API.OperationMethod<
   input: __S(2016, __c126, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4386,6 +4483,7 @@ export const updateAppBlockBuilder: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppBlockBuilder",
@@ -4414,6 +4512,7 @@ export const updateApplication: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
@@ -4448,6 +4547,7 @@ export const updateDirectoryConfig: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectoryConfig",
@@ -4478,6 +4578,7 @@ export const updateEntitlement: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEntitlement",
@@ -4544,6 +4645,7 @@ export const updateFleet: API.OperationMethod<
     ResourceNotAvailableException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
@@ -4580,6 +4682,7 @@ export const updateImageBuilder: API.OperationMethod<
     RequestLimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageBuilder",
@@ -4604,6 +4707,7 @@ export const updateImagePermissions: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<UpdateImagePermissionsRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<UpdateImagePermissionsResult>,
   errors: [LimitExceededException, ResourceNotAvailableException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImagePermissions",
@@ -4644,6 +4748,7 @@ export const updateStack: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStack",
@@ -4678,6 +4783,7 @@ export const updateThemeForStack: API.OperationMethod<
     OperationNotPermittedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemeForStack",
@@ -4764,7 +4870,8 @@ function __c3(j: number): any {
           EmbedHostDomains: S.optional(__S(208, __c13, 0)),
           StreamingExperienceSettings: S.optional(__S(1012, __c63, 4)),
           ContentRedirection: S.optional(__S(1014, __c63, 6)),
-          AgentAccessConfig: S.optional(__S(1015, __c63, 7)),
+          WebAuthnRedirection: S.optional(__S(1015, __c63, 7)),
+          AgentAccessConfig: S.optional(__S(1016, __c63, 8)),
           StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateStackRequest" });
@@ -5130,7 +5237,7 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamingURL: S.optional(S.String),
+          StreamingURL: S.optional(SensitiveString),
           Expires: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "CreateAppBlockBuilderStreamingURLResult" });
@@ -5670,7 +5777,8 @@ function __c61(j: number): any {
           EmbedHostDomains: S.optional(__S(208, __c13, 0)),
           StreamingExperienceSettings: S.optional(__S(1012, __c63, 4)),
           ContentRedirection: S.optional(__S(1014, __c63, 6)),
-          AgentAccessConfig: S.optional(__S(1015, __c63, 7)),
+          WebAuthnRedirection: S.optional(__S(1015, __c63, 7)),
+          AgentAccessConfig: S.optional(__S(1016, __c63, 8)),
           StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStackRequest" });
@@ -5683,7 +5791,7 @@ function __c62(j: number): any {
         S.Struct({ Enabled: S.optional(S.Boolean), SettingsGroup: S.optional(S.String) }),
       ).annotate({ identifier: "ApplicationSettings" });
     case 1:
-      return S.suspend(() => S.Struct({ Stack: S.optional(__S(1017, __c63, 9)) })).annotate({
+      return S.suspend(() => S.Struct({ Stack: S.optional(__S(1018, __c63, 10)) })).annotate({
         identifier: "CreateStackResult",
       });
   }
@@ -5730,6 +5838,13 @@ function __c63(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          Enabled: S.optional(S.Boolean),
+          ProcessCompatibilityList: S.optional(__S(208, __c13, 0)),
+        }),
+      ).annotate({ identifier: "WebAuthnRedirection" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           Settings: S.optional(__S(817, __c51, 1)),
           S3BucketArn: S.optional(S.String),
           ScreenshotsUploadEnabled: S.optional(S.Boolean),
@@ -5740,7 +5855,7 @@ function __c63(j: number): any {
           UserControlMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentAccessConfig" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           Enabled: S.optional(S.Boolean),
@@ -5748,7 +5863,7 @@ function __c63(j: number): any {
           S3BucketName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationSettingsResponse" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           Arn: S.optional(S.String),
@@ -5761,12 +5876,13 @@ function __c63(j: number): any {
           FeedbackURL: S.optional(S.String),
           StackErrors: S.optional(__S(769, __c48, 1)),
           UserSettings: S.optional(__S(1011, __c63, 3)),
-          ApplicationSettings: S.optional(__S(1016, __c63, 8)),
+          ApplicationSettings: S.optional(__S(1017, __c63, 9)),
           AccessEndpoints: S.optional(__S(433, __c27, 1)),
           EmbedHostDomains: S.optional(__S(208, __c13, 0)),
           StreamingExperienceSettings: S.optional(__S(1012, __c63, 4)),
           ContentRedirection: S.optional(__S(1014, __c63, 6)),
-          AgentAccessConfig: S.optional(__S(1015, __c63, 7)),
+          WebAuthnRedirection: S.optional(__S(1015, __c63, 7)),
+          AgentAccessConfig: S.optional(__S(1016, __c63, 8)),
           StorageConnectorAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stack" });
@@ -6347,7 +6463,7 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "DescribeStacksRequest" });
     case 1:
-      return S.Array(__S(1017, __c63, 9));
+      return S.Array(__S(1018, __c63, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({ Stacks: S.optional(__S(1553, __c97, 1)), NextToken: S.optional(S.String) }),

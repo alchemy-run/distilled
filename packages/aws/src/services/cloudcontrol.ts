@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -457,6 +458,7 @@ export const cancelResourceRequest: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CancelResourceRequestInput>,
   output: __S(16, __c2, 0) as any as S.Schema<CancelResourceRequestOutput>,
   errors: [ConcurrentModificationException, RequestTokenNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelResourceRequest",
@@ -522,6 +524,7 @@ export const createResource: API.OperationMethod<
     TypeNotFoundException,
     UnsupportedActionException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
@@ -587,6 +590,7 @@ export const deleteResource: API.OperationMethod<
     TypeNotFoundException,
     UnsupportedActionException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
@@ -647,6 +651,7 @@ export const getResource: API.OperationMethod<
     TypeNotFoundException,
     UnsupportedActionException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
@@ -669,6 +674,7 @@ export const getResourceRequestStatus: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<GetResourceRequestStatusInput>,
   output: __S(59, __c7, 3) as any as S.Schema<GetResourceRequestStatusOutput>,
   errors: [RequestTokenNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceRequestStatus",
@@ -694,6 +700,7 @@ export const listResourceRequests: API.PaginatedOperationMethod<
   input: __S(66, __c8, 2) as any as S.Schema<ListResourceRequestsInput>,
   output: __S(68, __c8, 4) as any as S.Schema<ListResourceRequestsOutput>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceRequests",
@@ -760,6 +767,7 @@ export const listResources: API.PaginatedOperationMethod<
     TypeNotFoundException,
     UnsupportedActionException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResources",
@@ -841,6 +849,7 @@ export const updateResource: API.OperationMethod<
     TypeNotFoundException,
     UnsupportedActionException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",

@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -263,6 +264,7 @@ export const createSlackChannelConfiguration: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
@@ -288,6 +290,7 @@ export const deleteAccountAlias: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<DeleteAccountAliasRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<DeleteAccountAliasResult>,
   errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",
@@ -321,6 +324,7 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
@@ -354,6 +358,7 @@ export const deleteSlackWorkspaceConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceConfiguration",
@@ -375,6 +380,7 @@ export const getAccountAlias: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetAccountAliasRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GetAccountAliasResult>,
   errors: [InternalServerException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountAlias",
@@ -399,6 +405,7 @@ export const listSlackChannelConfigurations: API.PaginatedOperationMethod<
   input: __S(4, __c1, 0) as any as S.Schema<ListSlackChannelConfigurationsRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ListSlackChannelConfigurationsResult>,
   errors: [AccessDeniedException, InternalServerException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSlackChannelConfigurations",
@@ -424,6 +431,7 @@ export const listSlackWorkspaceConfigurations: API.PaginatedOperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<ListSlackWorkspaceConfigurationsRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<ListSlackWorkspaceConfigurationsResult>,
   errors: [AccessDeniedException, InternalServerException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSlackWorkspaceConfigurations",
@@ -451,6 +459,7 @@ export const putAccountAlias: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<PutAccountAliasRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<PutAccountAliasResult>,
   errors: [AccessDeniedException, InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountAlias",
@@ -507,6 +516,7 @@ export const registerSlackWorkspaceForOrganization: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSlackWorkspaceForOrganization",
@@ -539,6 +549,7 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",

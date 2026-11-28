@@ -23,10 +23,21 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Okta.CredentialsFromEnv,
-  Okta.OktaProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Early Access operations
+
+Okta marks a few operations Early Access (`x-okta-lifecycle.lifecycle: "EA"`):
+disaster recovery, device OS accounts and user classification. They import
+from `unstable/okta`; the package root exports the generally available ones:
+
+```ts
+import * as OktaUnstable from "@distilled.cloud/okta/unstable/okta";
+
+const status = yield* OktaUnstable.getDRStatus({});
 ```
 
 ## Auth

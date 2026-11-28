@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -151,6 +151,8 @@ export interface Artifactory {
   consumed_quota_bytes: number;
   /** The date and time the creation of the STACKIT Artifactory was triggered. */
   create_time: string;
+  /** Describes the reason for the error state. */
+  error_description?: string | undefined;
   /** A auto generated unique id which identifies the STACKIT Artifactory. */
   id: string;
   /** A user chosen name to distinguish multiple STACKIT Artifactories. */
@@ -268,7 +270,8 @@ export const createArtifactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9, __c2, 1) as any as S.Schema<CreateArtifactoryRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<Artifactory>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -285,7 +288,8 @@ export const deleteArtifactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeleteArtifactoryRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<DeleteArtifactoryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -302,7 +306,8 @@ export const getArtifactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetArtifactoryRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<Artifactory>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -319,7 +324,8 @@ export const listArtifactories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListArtifactoriesRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<ArtifactoryList>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +342,8 @@ export const listReplicationAdapters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListReplicationAdaptersRequest>,
   output: __S(35, __c8, 3) as any as S.Schema<ReplicationAdapterList>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +360,8 @@ export const patchArtifactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37, __c9, 1) as any as S.Schema<PatchArtifactoryRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<Artifactory>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -447,6 +455,7 @@ function __c3(j: number): any {
         S.Struct({
           consumed_quota_bytes: S.Number,
           create_time: S.String,
+          error_description: S.optional(S.String),
           id: S.String,
           name: S.String,
           proxy: S.optional(__S(13, __c3, 1)),

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownWhatsAppError } from "../errors.ts";
+import { WhatsAppServiceErrors } from "../errors.ts";
 import { paginateGraph } from "../pagination.ts";
 import { WhatsAppProtocol, type WhatsAppOpError, type WhatsAppOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1796,7 +1796,7 @@ export interface PayloadEncryptionSettingsResponse {
   /** Client encryption key fingerprint (when encryption is enabled) */
   client_encryption_key_fingerprint?: string | undefined;
   /** Cloud encryption key (when encryption is enabled) */
-  cloud_encryption_key?: string | undefined;
+  cloud_encryption_key?: string | Redacted.Redacted<string> | undefined;
 }
 /** Data storage configuration status */
 export type StorageConfigurationSettingsResponseStatus = "default" | "in_country_storage_enabled";
@@ -3434,7 +3434,7 @@ export interface SubscribeToWabaWebhooksRequest {
   /** Custom webhook callback URL to override app default */
   override_callback_uri?: string | undefined;
   /** Verification token for webhook security */
-  verify_token?: string | undefined;
+  verify_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Array containing subscription details */
 export type SubscriptionResponseDataList = Array<SubscribedApp>;
@@ -3643,7 +3643,7 @@ export interface WebhookConfiguration {
   /** Override callback URI for webhook notifications (can be empty string) */
   override_callback_uri: string;
   /** Token used to verify webhook requests */
-  verify_token?: string | undefined;
+  verify_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdatePhoneNumberRequest {
   /** Your WhatsApp Business Account phone number ID (CSID). This ID is provided when you register the phone number and can be found in your WhatsApp Business Manager. */
@@ -3714,7 +3714,7 @@ export interface PayloadEncryptionSettings {
   /** Enable or disable payload encryption */
   status: PayloadEncryptionSettingsStatus | (string & {});
   /** Base64-encoded public key for payload encryption (required when enabling encryption) */
-  client_encryption_key?: string | undefined;
+  client_encryption_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PayloadEncryptionSettingsRequest {
   payload_encryption: PayloadEncryptionSettings;
@@ -4184,7 +4184,8 @@ export const acceptWhatsAppBusinessSolution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<AcceptWhatsAppBusinessSolutionRequest>,
   output: __S(1713, __c107, 1) as any as S.Schema<WhatsAppBusinessSolutionAcceptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4210,7 +4211,8 @@ export const acceptWhatsAppBusinessSolutionDeactivationRequest: API.OperationMet
     0,
   ) as any as S.Schema<AcceptWhatsAppBusinessSolutionDeactivationRequestRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<WhatsAppBusinessSolution>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4232,7 +4234,8 @@ export const addAssignedUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<AddAssignedUserRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<SuccessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4249,7 +4252,8 @@ export const addGroupParticipants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<AddGroupParticipantsRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<AddGroupParticipantsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4271,7 +4275,8 @@ export const addPhoneNumbers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<AddPhoneNumbersRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<AddPhoneNumbersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4288,7 +4293,8 @@ export const approveJoinRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ApproveJoinRequestsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApproveJoinRequestsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4305,7 +4311,8 @@ export const blockUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<BlockUsersRequest>,
   output: __S(482, __c30, 2) as any as S.Schema<BlockUsersData>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4322,7 +4329,8 @@ export const checkCallPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<CheckCallPermissionsRequest>,
   output: __S(534, __c33, 6) as any as S.Schema<CallPermissionCheckResponsePayload>,
-  errors: [BadRequest, Forbidden, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4344,7 +4352,8 @@ export const configureConversationalAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ConfigureConversationalAutomationRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<ConversationalAutomationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4361,7 +4370,8 @@ export const createFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<CreateFlowRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<CreateFlowResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4378,7 +4388,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(609, __c38, 1) as any as S.Schema<CreateGroupResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4395,7 +4406,8 @@ export const createGroupInviteLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<CreateGroupInviteLinkRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<CreateGroupInviteLinkResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4412,7 +4424,8 @@ export const createMessageTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(644, __c40, 4) as any as S.Schema<CreateMessageTemplateRequest>,
   output: __S(645, __c40, 5) as any as S.Schema<CreateMessageTemplateResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4434,7 +4447,8 @@ export const createOBOMobilityIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<CreateOBOMobilityIntentRequest>,
   output: __S(657, __c41, 1) as any as S.Schema<OBOMobilityIntentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4451,7 +4465,8 @@ export const createOrUpdateQrCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<CreateOrUpdateQrCodeRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<QrCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4474,7 +4489,8 @@ export const createWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<CreateWhatsAppBusinessAccountPhoneNumberRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<PhoneNumberCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4497,7 +4513,8 @@ export const createWhatsAppBusinessAccountSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<CreateWhatsAppBusinessAccountScheduleRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ScheduleCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4519,7 +4536,8 @@ export const createWhatsAppBusinessSolution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<CreateWhatsAppBusinessSolutionRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<WhatsAppBusinessSolutionCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4536,7 +4554,8 @@ export const deleteFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<DeleteFlowRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<DeleteFlowResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4553,7 +4572,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4570,7 +4590,8 @@ export const deleteGroupInviteLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<DeleteGroupInviteLinkRequest>,
   output: __S(833, __c52, 1) as any as S.Schema<DeleteGroupInviteLinkResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4587,7 +4608,8 @@ export const deleteIndividualQrCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<DeleteIndividualQrCodeRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<DeleteQrCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4604,7 +4626,8 @@ export const deleteMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<DeleteMediaRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<DeleteMediaResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4621,7 +4644,8 @@ export const deleteMessageTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<DeleteMessageTemplateRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<DeleteMessageTemplateResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4643,7 +4667,8 @@ export const deletePreVerifiedPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<DeletePreVerifiedPhoneNumberRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<DeletePreVerifiedPhoneNumberResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4660,7 +4685,8 @@ export const deprecateFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeprecateFlowRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<DeprecateFlowResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4682,7 +4708,8 @@ export const deregisterPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeregisterPhoneNumberRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<DeregisterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4699,7 +4726,8 @@ export const getActiveGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetActiveGroupsRequest>,
   output: __S(948, __c59, 4) as any as S.Schema<GetActiveGroupsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4723,7 +4751,8 @@ export const getApplicationWhatsAppBusinessSolutions: API.PaginatedOperationMeth
   () => ({
     input: __S(976, __c61, 0) as any as S.Schema<GetApplicationWhatsAppBusinessSolutionsRequest>,
     output: __S(977, __c61, 1) as any as S.Schema<WhatsAppBusinessSolutionsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4756,7 +4785,8 @@ export const getAssignedUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(1008, __c63, 0) as any as S.Schema<GetAssignedUsersRequest>,
     output: __S(1012, __c63, 4) as any as S.Schema<AssignedUsersResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4789,7 +4819,8 @@ export const getAssignedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(1024, __c64, 0) as any as S.Schema<GetAssignedWhatsAppBusinessAccountsRequest>,
     output: __S(1028, __c64, 4) as any as S.Schema<AssignedAccountsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4815,7 +4846,8 @@ export const getBlockedUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetBlockedUsersRequest>,
   output: __S(1059, __c66, 3) as any as S.Schema<GetBlockedUsersData>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4837,7 +4869,8 @@ export const getBusinessComplianceInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<GetBusinessComplianceInfoRequest>,
   output: __S(1109, __c69, 5) as any as S.Schema<GetBusinessComplianceInfoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4859,7 +4892,8 @@ export const getBusinessEncryptionPublicKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<GetBusinessEncryptionPublicKeyRequest>,
   output: __S(1123, __c70, 3) as any as S.Schema<GetBusinessEncryptionPublicKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4876,7 +4910,8 @@ export const getBusinessPortfolioSpecificFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<GetBusinessPortfolioSpecificFieldsRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<GetBusinessPortfolioSpecificFieldsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4900,7 +4935,8 @@ export const getClientWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(1152, __c72, 0) as any as S.Schema<GetClientWhatsAppBusinessAccountsRequest>,
     output: __S(1201, __c75, 1) as any as S.Schema<ClientWhatsAppBusinessAccountsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4926,7 +4962,8 @@ export const getCommerceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetCommerceSettingsRequest>,
   output: __S(1219, __c76, 3) as any as S.Schema<GetCommerceSettingsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4950,7 +4987,8 @@ export const getConnectedClientBusinesses: API.PaginatedOperationMethod<
   () => ({
     input: __S(1232, __c77, 0) as any as S.Schema<GetConnectedClientBusinessesRequest>,
     output: __S(1235, __c77, 3) as any as S.Schema<ConnectedClientBusinessesResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4976,7 +5014,8 @@ export const getCreditLines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetCreditLinesRequest>,
   output: __S(1251, __c78, 3) as any as S.Schema<GetCreditLinesResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4993,7 +5032,8 @@ export const getFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetFlowRequest>,
   output: __S(1278, __c79, 14) as any as S.Schema<GetFlowResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5010,7 +5050,8 @@ export const getGroupInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetGroupInfoRequest>,
   output: __S(1299, __c81, 3) as any as S.Schema<GroupInfo>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5027,7 +5068,8 @@ export const getIndividualQrCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetIndividualQrCodeRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<QrCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5051,7 +5093,8 @@ export const getInProgressOnBehalfRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(1328, __c83, 0) as any as S.Schema<GetInProgressOnBehalfRequestsRequest>,
     output: __S(1331, __c83, 3) as any as S.Schema<InProgressOnBehalfRequestResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5077,7 +5120,8 @@ export const getJoinRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<GetJoinRequestsRequest>,
   output: __S(1347, __c84, 3) as any as S.Schema<GetJoinRequestsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5094,7 +5138,8 @@ export const getMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetMediaRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<GetMediaResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5118,7 +5163,8 @@ export const getMessageHistory: API.PaginatedOperationMethod<
   () => ({
     input: __S(1376, __c86, 0) as any as S.Schema<GetMessageHistoryRequest>,
     output: __S(1382, __c86, 6) as any as S.Schema<MessageHistoryResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5151,7 +5197,8 @@ export const getMessageHistoryEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(1392, __c87, 0) as any as S.Schema<GetMessageHistoryEventsRequest>,
     output: __S(1396, __c87, 4) as any as S.Schema<MessageHistoryEventsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5177,7 +5224,8 @@ export const getMessageTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<GetMessageTemplateRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<GetMessageTemplateResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5199,7 +5247,8 @@ export const getMigrationIntentDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetMigrationIntentDetailsRequest>,
   output: __S(1457, __c91, 1) as any as S.Schema<WhatsAppBusinessAccountMigrationIntent>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5216,7 +5265,8 @@ export const getOBOMobilityIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<GetOBOMobilityIntentRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<OBOMobilityIntentNode>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5238,7 +5288,8 @@ export const getOfficialBusinessAccountStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetOfficialBusinessAccountStatusRequest>,
   output: __S(1504, __c94, 0) as any as S.Schema<OfficialBusinessAccountStatus>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5262,7 +5313,8 @@ export const getOwnedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(1520, __c95, 0) as any as S.Schema<GetOwnedWhatsAppBusinessAccountsRequest>,
     output: __S(1201, __c75, 1) as any as S.Schema<WhatsAppBusinessAccountsConnection>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5292,7 +5344,8 @@ export const getPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<GetPhoneNumberRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<PhoneNumberInfo>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5309,7 +5362,8 @@ export const getPhoneNumberSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<GetPhoneNumberSettingsRequest>,
   output: __S(1567, __c97, 15) as any as S.Schema<PhoneNumberSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5331,7 +5385,8 @@ export const getPreVerifiedPhoneNumberDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetPreVerifiedPhoneNumberDetailsRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<PreVerifiedPhoneNumberValidation>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5359,7 +5414,8 @@ export const getPreVerifiedPhoneNumberPartners: API.PaginatedOperationMethod<
       __c99,
       3,
     ) as any as S.Schema<WhatsAppBusinessPreVerifiedPhoneNumberPartnersResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5392,7 +5448,8 @@ export const getPreVerifiedPhoneNumbers: API.PaginatedOperationMethod<
   () => ({
     input: __S(1600, __c100, 0) as any as S.Schema<GetPreVerifiedPhoneNumbersRequest>,
     output: __S(1603, __c100, 3) as any as S.Schema<PreVerifiedPhoneNumbersResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5423,7 +5480,8 @@ export const getSolutionAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetSolutionAccessTokenRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<WhatsAppBusinessSolutionAccessToken>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5445,7 +5503,8 @@ export const getSolutionDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<GetSolutionDetailsRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<WhatsAppBusinessSolution>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5467,7 +5526,8 @@ export const getWhatsAppAccountNumberDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetWhatsAppAccountNumberDetailsRequest>,
   output: __S(1649, __c103, 1) as any as S.Schema<WhatsAppAccountNumber>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5491,7 +5551,8 @@ export const getWhatsAppBusinessAccountActivities: API.PaginatedOperationMethod<
   () => ({
     input: __S(1664, __c104, 0) as any as S.Schema<GetWhatsAppBusinessAccountActivitiesRequest>,
     output: __S(1667, __c104, 3) as any as S.Schema<ActivityList>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5522,7 +5583,8 @@ export const getWhatsAppBusinessAccountDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetWhatsAppBusinessAccountDetailsRequest>,
   output: __S(1175, __c73, 7) as any as S.Schema<WhatsAppBusinessAccount>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5546,7 +5608,8 @@ export const getWhatsAppBusinessAccountPhoneNumbers: API.PaginatedOperationMetho
   () => ({
     input: __S(1696, __c106, 0) as any as S.Schema<GetWhatsAppBusinessAccountPhoneNumbersRequest>,
     output: __S(1699, __c106, 3) as any as S.Schema<WhatsAppBusinessAccountPhoneNumbersConnection>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5579,7 +5642,8 @@ export const getWhatsAppBusinessAccountSchedules: API.PaginatedOperationMethod<
   () => ({
     input: __S(1728, __c108, 0) as any as S.Schema<GetWhatsAppBusinessAccountSchedulesRequest>,
     output: __S(1731, __c108, 3) as any as S.Schema<WhatsAppBusinessAccountSchedulesConnection>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5610,7 +5674,8 @@ export const getWhatsAppBusinessBotDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetWhatsAppBusinessBotDetailsRequest>,
   output: __S(1745, __c109, 1) as any as S.Schema<WhatsAppBusinessBot>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5632,7 +5697,8 @@ export const getWhatsAppBusinessProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetWhatsAppBusinessProfileRequest>,
   output: __S(1763, __c110, 3) as any as S.Schema<WhatsAppBusinessProfileResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5654,7 +5720,8 @@ export const getWhatsAppBusinessProfileDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetWhatsAppBusinessProfileDetailsRequest>,
   output: __S(1777, __c111, 1) as any as S.Schema<WhatsAppBusinessProfileNode>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5673,7 +5740,8 @@ export const listAllQrCodes: API.PaginatedOperationMethod<
   () => ({
     input: __S(1792, __c112, 0) as any as S.Schema<ListAllQrCodesRequest>,
     output: __S(1795, __c112, 3) as any as S.Schema<QrCodeList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5699,7 +5767,8 @@ export const listFlowAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListFlowAssetsRequest>,
   output: __S(1811, __c113, 3) as any as S.Schema<ListFlowAssetsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5716,7 +5785,8 @@ export const listFlows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ListFlowsRequest>,
   output: __S(1827, __c114, 3) as any as S.Schema<ListFlowsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5735,7 +5805,8 @@ export const listMessageTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(1840, __c115, 0) as any as S.Schema<ListMessageTemplatesRequest>,
     output: __S(1843, __c115, 3) as any as S.Schema<ListMessageTemplatesResponse>,
-    errors: [BadRequest, UnknownWhatsAppError],
+    errors: [BadRequest],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5766,7 +5837,8 @@ export const listSubscribedApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListSubscribedAppsRequest>,
   output: __S(1857, __c116, 1) as any as S.Schema<SubscribedAppsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5790,7 +5862,8 @@ export const listWabaSolutions: API.PaginatedOperationMethod<
   () => ({
     input: __S(1872, __c117, 0) as any as S.Schema<ListWabaSolutionsRequest>,
     output: __S(1873, __c117, 1) as any as S.Schema<SolutionsList>,
-    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhatsAppServiceErrors,
     protocol: WhatsAppProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5816,7 +5889,8 @@ export const manageCalls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ManageCallsRequest>,
   output: __S(1953, __c122, 1) as any as S.Schema<ManageCallsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5833,7 +5907,8 @@ export const migrateFlows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<MigrateFlowsRequest>,
   output: __S(1973, __c123, 5) as any as S.Schema<MigrateFlowsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5855,7 +5930,8 @@ export const onboardPartnersToMMLite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<OnboardPartnersToMMLiteRequest>,
   output: __S(1985, __c124, 1) as any as S.Schema<MMLiteOnboardingRequest>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5872,7 +5948,8 @@ export const publishFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<PublishFlowRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<PublishFlowResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5894,7 +5971,8 @@ export const registerWhatsAppBusinessPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2017, __c126, 1) as any as S.Schema<RegisterWhatsAppBusinessPhoneNumberRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<WhatsAppBusinessPhoneNumberRegistrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5911,7 +5989,8 @@ export const rejectJoinRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<RejectJoinRequestsRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<RejectJoinRequestsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5933,7 +6012,8 @@ export const rejectSolutionDeactivationRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<RejectSolutionDeactivationRequestRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<WhatsAppBusinessSolution>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5955,7 +6035,8 @@ export const rejectSolutionRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<RejectSolutionRequestRequest>,
   output: __S(2065, __c129, 1) as any as S.Schema<SolutionRejectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5977,7 +6058,8 @@ export const removeAssignedUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<RemoveAssignedUserRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<SuccessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5994,7 +6076,8 @@ export const removeGroupParticipants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<RemoveGroupParticipantsRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<RemoveGroupParticipantsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6016,7 +6099,8 @@ export const requestPreVerifiedPhoneNumberCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<RequestPreVerifiedPhoneNumberCodeRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<RequestCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6038,7 +6122,8 @@ export const requestVerificationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<RequestVerificationCodeRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<RequestCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6055,7 +6140,8 @@ export const sendEncryptedMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<SendEncryptedMessageRequest>,
   output: __S(2177, __c136, 1) as any as S.Schema<EncryptedMessageResponse>,
-  errors: [BadRequest, Forbidden, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6072,7 +6158,8 @@ export const sendMarketingMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2195, __c137, 3) as any as S.Schema<SendMarketingMessageRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<MarketingMessageResponsePayload>,
-  errors: [BadRequest, Forbidden, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6094,7 +6181,8 @@ export const sendMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<SendMessageRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<MessageResponsePayload>,
-  errors: [RecipientNotAllowed, TemplateNotFound, BadRequest, NotFound, UnknownWhatsAppError],
+  errors: [RecipientNotAllowed, TemplateNotFound, BadRequest, NotFound],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6116,7 +6204,8 @@ export const sendSolutionDeactivationRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<SendSolutionDeactivationRequestRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<WhatsAppBusinessSolutionDeactivationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6138,7 +6227,8 @@ export const setBusinessEncryptionPublicKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<SetBusinessEncryptionPublicKeyRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<WhatsAppBusinessEncryptionUploadResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6160,7 +6250,8 @@ export const setOBOMobilityIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<SetOBOMobilityIntentRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<SetOBOMobilityIntentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6177,7 +6268,8 @@ export const setOrUpdateCommerceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<SetOrUpdateCommerceSettingsRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<SetOrUpdateCommerceSettingsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6199,7 +6291,8 @@ export const setSolutionMigrationIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<SetSolutionMigrationIntentRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<SetSolutionMigrationIntentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6221,7 +6314,8 @@ export const sharePreVerifiedPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<SharePreVerifiedPhoneNumberRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<PreVerifiedPhoneNumberShareResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6243,7 +6337,8 @@ export const subscribeToWabaWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<SubscribeToWabaWebhooksRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<SubscriptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6260,7 +6355,8 @@ export const unblockUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<UnblockUsersRequest>,
   output: __S(130, __c8, 2) as any as S.Schema<UnblockUsersData>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6282,7 +6378,8 @@ export const unsubscribeFromWabaWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<UnsubscribeFromWabaWebhooksRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<SubscriptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6304,7 +6401,8 @@ export const updateBusinessComplianceInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(162, __c10, 2) as any as S.Schema<UpdateBusinessComplianceInfoRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<UpdateBusinessComplianceInfoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6321,7 +6419,8 @@ export const updateFlowJson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<UpdateFlowJsonRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<UpdateFlowJsonResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6338,7 +6437,8 @@ export const updateFlowMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<UpdateFlowMetadataRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<UpdateFlowMetadataResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6355,7 +6455,8 @@ export const updateGroupSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<UpdateGroupSettingsRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UpdateGroupSettingsResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6372,7 +6473,8 @@ export const updateMessageTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<UpdateMessageTemplateRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<UpdateMessageTemplateResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6395,7 +6497,8 @@ export const updateOfficialBusinessAccountStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<UpdateOfficialBusinessAccountStatusRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<OfficialBusinessAccountUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6417,7 +6520,8 @@ export const updatePhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(290, __c18, 2) as any as S.Schema<UpdatePhoneNumberRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<UpdatePhoneNumberResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6434,7 +6538,8 @@ export const updatePhoneNumberSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<UpdatePhoneNumberSettingsRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<UpdatePhoneNumberSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6456,7 +6561,8 @@ export const updateWhatsAppBusinessAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<UpdateWhatsAppBusinessAccountRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<UpdateWhatsAppBusinessAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6478,7 +6584,8 @@ export const updateWhatsAppBusinessProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<UpdateWhatsAppBusinessProfileRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<WhatsAppBusinessProfileUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6500,7 +6607,8 @@ export const updateWhatsAppBusinessProfileInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<UpdateWhatsAppBusinessProfileInformationRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<WhatsAppBusinessProfileUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6517,7 +6625,8 @@ export const uploadMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<UploadMediaRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<UploadMediaResponse>,
-  errors: [BadRequest, UnknownWhatsAppError],
+  errors: [BadRequest],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6539,7 +6648,8 @@ export const verifyPhoneNumberCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<VerifyPhoneNumberCodeRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<VerifyCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6561,7 +6671,8 @@ export const verifyPreVerifiedPhoneNumberCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<VerifyPreVerifiedPhoneNumberCodeRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<VerifyCodeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWhatsAppError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WhatsAppServiceErrors,
   protocol: WhatsAppProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6661,7 +6772,7 @@ function __c6(j: number): any {
         S.Struct({
           WABA_ID: S.String.pipe(T.Label()),
           override_callback_uri: S.optional(S.String),
-          verify_token: S.optional(S.String),
+          verify_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/{WABA_ID}/subscribed_apps", code: 200 })),
       ).annotate({ identifier: "SubscribeToWabaWebhooksRequest" });
   }
@@ -6893,7 +7004,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           override_callback_uri: S.String,
-          verify_token: S.optional(S.String),
+          verify_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WebhookConfiguration" });
     case 2:
@@ -8732,7 +8843,7 @@ function __c97(j: number): any {
         S.Struct({
           status: S.String,
           client_encryption_key_fingerprint: S.optional(S.String),
-          cloud_encryption_key: S.optional(S.String),
+          cloud_encryption_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PayloadEncryptionSettingsResponse" });
     case 14:

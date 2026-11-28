@@ -1,19 +1,25 @@
-import * as API from "@distilled.cloud/core/api";
-import {
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type InvalidInput,
-} from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DeclaredError,
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
+import {
+  declaredStatusClass,
+  unwrapRedactedDeep,
+  validateSuccess,
+} from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SupabaseProtocol -- hand-written.
@@ -29,7 +35,7 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  *   2. status 406 is remapped to 404/NotFound before per-op matcher and
  *      status-map evaluation (snippets return 406 for not-found).
  *
- * Everything else mirrors `makeRestProtocol`:
+ * Everything else mirrors `restProtocol`:
  *
  *   request:  credentials resolved from the calling fiber per request ->
  *             `Authorization: Bearer <accessToken>` + API base URL (default
@@ -39,53 +45,52 @@ import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
  *   response: no envelope -- 2xx bodies decode directly against the output
  *             schema (wire->TS via `mapKeys`, sensitive members wrapped in
  *             `Redacted`); non-2xx -> typed error: per-op matcher classes,
- *             core HTTP_STATUS_MAP (retryAfter honored), InternalServerError
- *             for unmapped 5xx, UnknownSupabaseError fallback.
+ *             core's class for the status (retryAfter honored),
+ *             InternalServerError for any other 5xx, UnknownSupabaseError
+ *             fallback. FreeProjectLimitReached and core's status classes
+ *             are the service's errors (`SupabaseServiceErrors`): the
+ *             protocol builds one only from the classes the operation lists.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientRequestModule from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
-import type * as AST from "effect/SchemaAST";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
 import {
-  type DefaultErrors,
   FreeProjectLimitReached,
   SupabaseParseError,
+  type SupabaseServiceError,
   UnknownSupabaseError,
 } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Supabase operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * SupabaseOpError, SupabaseOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Supabase operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, SupabaseOpError, SupabaseOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type SupabaseOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type SupabaseOpError = SupabaseServiceError | ErrorOf<typeof SupabaseProtocol>;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
 
-// Bridge: Protocol.decode is typed as Effect<unknown> (no error channel), but
-// Supabase failures are real typed errors that an operation re-surfaces via
-// its `errors: [...]` list. Fail with the instance and erase the error type
-// here; `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
+/**
+ * An instance of `cls`, a class of the service's errors, built from the
+ * operation's own list: `undefined` when the operation does not list the
+ * class (every generated operation lists `SupabaseServiceErrors`).
+ */
+const declaredError = <Props>(
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  cls: new (props: Props) => unknown,
+  props: Props,
+): DeclaredError | undefined => {
+  const known: unknown = cls;
+  const Declared = errors.find((declared) => declared === known);
+  return Declared === undefined ? undefined : new Declared(props);
+};
 
-// The protocol layer is memoized per process by `API.make` (see
-// `OperationConfig.protocol`), so the build must not capture credentials --
-// `encode` resolves Credentials from the calling fiber's context on every
-// request instead. Like the error channel above, the requirement is erased
-// at this boundary (Protocol effects are typed with no requirements) and
-// reintroduced for callers by the generated `SupabaseOpContext` annotations.
 /**
  * Re-encode a JSON request body as `application/x-www-form-urlencoded`.
  * `buildRequest` understands `multipart` but leaves other non-JSON
@@ -116,10 +121,13 @@ const toUrlEncodedBody = (
   return HttpClientRequestModule.bodyUrlParams(request, entries);
 };
 
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+// The protocol is one module-level value shared by every operation, so it
+// must not capture credentials -- `encode` resolves Credentials from the
+// calling fiber's context on every request.
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
+    const creds = yield* resolveCredentials;
     const request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
@@ -132,18 +140,12 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
       : request;
   });
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`.
+    const text = (yield* response.text) ?? "";
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -173,7 +175,8 @@ const decode = ({
       //    message. Detect it before any status mapping so tests and
       //    callers can react to it as a typed error.
       if (message.includes("active free projects")) {
-        return yield* fail(new FreeProjectLimitReached({ message }));
+        const limit = declaredError(errorClasses, FreeProjectLimitReached, { message });
+        if (limit !== undefined) return yield* Effect.fail(limit);
       }
 
       // Supabase returns 406 for some "not found" conditions (e.g.
@@ -185,23 +188,23 @@ const decode = ({
         body: nonJson ? text : json,
         headers,
       });
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
-      // 3. HTTP-status classes from the shared core map (retryAfter only
-      //    stamps on retryable statuses).
-      const StatusErrorClass = HTTP_STATUS_MAP[effectiveStatus as keyof typeof HTTP_STATUS_MAP];
+      // 3. Core's class for the status, which the service declares
+      //    (retryAfter only stamps on retryable statuses).
+      const StatusErrorClass = declaredStatusClass(effectiveStatus, errorClasses);
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(effectiveStatus, headers),
-          } as any),
+          }),
         );
       }
 
-      // 4. Unmapped 5xx -> retryable server error.
+      // 4. Any other 5xx -> retryable server error.
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -210,7 +213,7 @@ const decode = ({
       }
 
       // 5. Unknown Supabase error.
-      return yield* fail(new UnknownSupabaseError({ status, message, body }));
+      return yield* Effect.fail(new UnknownSupabaseError({ status, message, body }));
     }
 
     // 2xx: the response body IS the payload (no envelope). Wire->TS key
@@ -224,14 +227,12 @@ const decode = ({
       outputAst,
       { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
       (info) => new SupabaseParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
-export const SupabaseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // Erase encode's Credentials requirement (see comment above).
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
-  }),
-);
+const supabaseProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
+
+export const SupabaseProtocol: ProtocolOf<typeof supabaseProtocolMethods> = supabaseProtocolMethods;

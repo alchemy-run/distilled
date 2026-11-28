@@ -29,7 +29,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 ## Auth
 
-`CredentialsFromEnv` reads these on every resolution, through the current `ConfigProvider`:
+`CredentialsFromEnv` reads these once, when the layer is built, through the current `ConfigProvider`:
 
 | Variable | Behavior |
 |---|---|
@@ -37,9 +37,9 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 | `TAILSCALE_OAUTH_CLIENT_ID` and `TAILSCALE_OAUTH_CLIENT_SECRET` | Client-credentials exchange at `{apiBaseUrl}/oauth/token`, cached until `expires_in` minus 60 seconds |
 | `TAILSCALE_BASE_URL` | API origin. Default `https://api.tailscale.com`. The client calls `{origin}/api/v2` unless the value already ends in `/api/v2` |
 
-Setting both an API key and an OAuth client, or only half an OAuth pair, fails with `ConfigError`.
+Setting both an API key and an OAuth client, or only half an OAuth pair, fails the layer with `ConfigError`.
 
-The explicit layers are `fromApiKey({ apiKey, apiBaseUrl? })` and `fromClientCredentials({ clientId, clientSecret, scope?, apiBaseUrl? })`. Their `apiBaseUrl` is the full API root (default `https://api.tailscale.com/api/v2`), used as given. The OAuth layers need an `HttpClient` for the token exchange and share one exchange across concurrent requests.
+The explicit layers are `fromApiKey({ apiKey, apiBaseUrl? })` and `fromClientCredentials({ clientId, clientSecret, scope?, apiBaseUrl? })`. Their `apiBaseUrl` is the full API root (default `https://api.tailscale.com/api/v2`), used as given. The OAuth layers need an `HttpClient` for the token exchange and share one exchange across concurrent requests. A failed exchange fails the call with `TokenRequestFailed`, which carries the token endpoint's `status`.
 
 Pass the tailnet to each operation. `"-"` is the default tailnet of the token in use.
 

@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -526,6 +527,8 @@ export interface UpdateSummary {
 }
 export type CertificateKeyPairOrigin = "AWS_MANAGED" | "ACME" | "CUSTOMER_PROVIDED" | (string & {});
 export type AcmeAccountId = string;
+export type CertificateUsage = "CLIENT_AND_SERVER_AUTH" | "CLIENT_AUTH_ONLY" | (string & {});
+export type RootHierarchyType = "N2_AMAZON_MANAGED" | "N2_SFG2_AMAZON_MANAGED" | (string & {});
 export interface CertificateDetail {
   CertificateArn?: string | undefined;
   DomainName?: string | undefined;
@@ -558,6 +561,8 @@ export interface CertificateDetail {
   CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
   AcmeEndpointArn?: string | undefined;
   AcmeAccountId?: string | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export interface DescribeCertificateResponse {
   Certificate?: CertificateDetail | undefined;
@@ -726,6 +731,7 @@ export interface ListCertificateDomainValidationsResponse {
 }
 export type CertificateStatuses = CertificateStatus[];
 export type CertificateKeyPairOrigins = CertificateKeyPairOrigin[];
+export type RootHierarchyTypes = RootHierarchyType[];
 export type ExtendedKeyUsageFilterList = ExtendedKeyUsageName[];
 export type KeyUsageFilterList = KeyUsageName[];
 export type KeyAlgorithmList = KeyAlgorithm[];
@@ -741,6 +747,7 @@ export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListCertificatesRequest {
   CertificateStatuses?: CertificateStatus[] | undefined;
   CertificateKeyPairOrigins?: CertificateKeyPairOrigin[] | undefined;
+  RootHierarchyTypes?: RootHierarchyType[] | undefined;
   Includes?: Filters | undefined;
   NextToken?: string | undefined;
   MaxItems?: number | undefined;
@@ -771,6 +778,8 @@ export interface CertificateSummary {
   RevokedAt?: Date | undefined;
   ManagedBy?: CertificateManagedBy | undefined;
   CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface ListCertificatesResponse {
@@ -821,6 +830,8 @@ export interface RequestCertificateRequest {
   Tags?: Tag[] | undefined;
   KeyAlgorithm?: KeyAlgorithm | undefined;
   ManagedBy?: CertificateManagedBy | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export interface RequestCertificateResponse {
   CertificateArn?: string | undefined;
@@ -959,6 +970,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -972,6 +984,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -985,6 +998,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -998,6 +1012,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1011,6 +1026,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1024,6 +1040,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1037,6 +1054,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1050,6 +1068,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1063,6 +1082,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin: CertificateKeyPairOrigin;
       AcmeEndpointArn?: undefined;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1076,6 +1096,7 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn: string;
       AcmeAccountId?: undefined;
+      RootHierarchyType?: undefined;
     }
   | {
       Status?: undefined;
@@ -1089,6 +1110,21 @@ export type AcmCertificateMetadataFilter =
       CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn?: undefined;
       AcmeAccountId: string;
+      RootHierarchyType?: undefined;
+    }
+  | {
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
+      RootHierarchyType: RootHierarchyType;
     };
 export type CertificateFilter =
   | {
@@ -1264,6 +1300,8 @@ export interface AcmCertificateMetadata {
   CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
   AcmeEndpointArn?: string | undefined;
   AcmeAccountId?: string | undefined;
+  CertificateUsage?: CertificateUsage | undefined;
+  RootHierarchyType?: RootHierarchyType | undefined;
 }
 export type CertificateMetadata = { AcmCertificateMetadata: AcmCertificateMetadata };
 export interface CertificateSearchResult {
@@ -1351,6 +1389,7 @@ export const addTagsToCertificate: API.OperationMethod<
     TooManyTagsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToCertificate",
@@ -1387,6 +1426,7 @@ export const createAcmeDomainValidation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeDomainValidation",
@@ -1421,6 +1461,7 @@ export const createAcmeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeEndpoint",
@@ -1457,6 +1498,7 @@ export const createAcmeExternalAccountBinding: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeExternalAccountBinding",
@@ -1489,6 +1531,7 @@ export const deleteAcmeDomainValidation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeDomainValidation",
@@ -1521,6 +1564,7 @@ export const deleteAcmeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeEndpoint",
@@ -1551,6 +1595,7 @@ export const deleteAcmeExternalAccountBinding: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeExternalAccountBinding",
@@ -1595,6 +1640,7 @@ export const deleteCertificate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
@@ -1627,6 +1673,7 @@ export const describeAcmeAccount: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeAccount",
@@ -1659,6 +1706,7 @@ export const describeAcmeDomainValidation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeDomainValidation",
@@ -1691,6 +1739,7 @@ export const describeAcmeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeEndpoint",
@@ -1723,6 +1772,7 @@ export const describeAcmeExternalAccountBinding: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeExternalAccountBinding",
@@ -1749,6 +1799,7 @@ export const describeCertificate: API.OperationMethod<
   input: __S(832, __c26, 0) as any as S.Schema<DescribeCertificateRequest>,
   output: __S(844, __c26, 12) as any as S.Schema<DescribeCertificateResponse>,
   errors: [InvalidArnException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
@@ -1785,6 +1836,7 @@ export const exportCertificate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportCertificate",
@@ -1808,6 +1860,7 @@ export const getAccountConfiguration: API.OperationMethod<
   input: __S(928, __c29, 0) as any as S.Schema<GetAccountConfigurationRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<GetAccountConfigurationResponse>,
   errors: [AccessDeniedException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountConfiguration",
@@ -1840,6 +1893,7 @@ export const getAcmeExternalAccountBindingCredentials: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAcmeExternalAccountBindingCredentials",
@@ -1870,6 +1924,7 @@ export const getCertificate: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificate",
@@ -1938,6 +1993,7 @@ export const importCertificate: API.OperationMethod<
     TooManyTagsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
@@ -1971,6 +2027,7 @@ export const listAcmeAccounts: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAcmeAccounts",
@@ -2010,6 +2067,7 @@ export const listAcmeDomainValidations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAcmeDomainValidations",
@@ -2047,6 +2105,7 @@ export const listAcmeEndpoints: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAcmeEndpoints",
@@ -2086,6 +2145,7 @@ export const listAcmeExternalAccountBindings: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAcmeExternalAccountBindings",
@@ -2123,6 +2183,7 @@ export const listCertificateDomainValidations: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCertificateDomainValidations",
@@ -2141,6 +2202,8 @@ export type ListCertificatesError = InvalidArgsException | ValidationException |
  * Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only `RSA_2048` certificates. For more information, see Filters.
  *
  * By default, this action does not return certificates with a `CertificateKeyPairOrigin` of `ACME`. To include ACME certificates, specify `ACME` in the `CertificateKeyPairOrigins` filter.
+ *
+ * By default, this action does not return certificates with a `RootHierarchyType` of `N2_AMAZON_MANAGED` or `N2_SFG2_AMAZON_MANAGED`. To list only Amazon N2 certificates, specify one or both of these values in the `RootHierarchyTypes` filter.
  */
 export const listCertificates: API.PaginatedOperationMethod<
   ListCertificatesRequest & RegionInput,
@@ -2152,6 +2215,7 @@ export const listCertificates: API.PaginatedOperationMethod<
   input: __S(1281, __c40, 1) as any as S.Schema<ListCertificatesRequest>,
   output: __S(1284, __c40, 4) as any as S.Schema<ListCertificatesResponse>,
   errors: [InvalidArgsException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCertificates",
@@ -2184,6 +2248,7 @@ export const listTagsForCertificate: API.OperationMethod<
   input: __S(1312, __c41, 0) as any as S.Schema<ListTagsForCertificateRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<ListTagsForCertificateResponse>,
   errors: [InvalidArnException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForCertificate",
@@ -2211,6 +2276,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(1376, __c43, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2238,6 +2304,7 @@ export const putAccountConfiguration: API.OperationMethod<
   input: __S(1408, __c44, 0) as any as S.Schema<PutAccountConfigurationRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<PutAccountConfigurationResponse>,
   errors: [AccessDeniedException, ConflictException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountConfiguration",
@@ -2278,6 +2345,7 @@ export const removeTagsFromCertificate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromCertificate",
@@ -2308,6 +2376,7 @@ export const renewCertificate: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewCertificate",
@@ -2350,6 +2419,7 @@ export const requestCertificate: API.OperationMethod<
     TagPolicyException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestCertificate",
@@ -2382,6 +2452,7 @@ export const resendValidationEmail: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendValidationEmail",
@@ -2416,6 +2487,7 @@ export const revokeAcmeAccount: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeAcmeAccount",
@@ -2450,6 +2522,7 @@ export const revokeAcmeExternalAccountBinding: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeAcmeExternalAccountBinding",
@@ -2488,6 +2561,7 @@ export const revokeCertificate: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCertificate",
@@ -2513,6 +2587,7 @@ export const searchCertificates: API.PaginatedOperationMethod<
   input: __S(1673, __c52, 9) as any as S.Schema<SearchCertificatesRequest>,
   output: __S(1684, __c52, 20) as any as S.Schema<SearchCertificatesResponse>,
   errors: [AccessDeniedException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchCertificates",
@@ -2547,6 +2622,7 @@ export const tagResource: API.OperationMethod<
   input: __S(1696, __c53, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2571,6 +2647,7 @@ export const untagResource: API.OperationMethod<
   input: __S(1728, __c54, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2605,6 +2682,7 @@ export const updateAcmeDomainValidation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcmeDomainValidation",
@@ -2639,6 +2717,7 @@ export const updateAcmeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcmeEndpoint",
@@ -2673,6 +2752,7 @@ export const updateCertificateOptions: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateOptions",
@@ -3215,6 +3295,8 @@ function __c26(j: number): any {
           CertificateKeyPairOrigin: S.optional(S.String),
           AcmeEndpointArn: S.optional(S.String),
           AcmeAccountId: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateDetail" });
     case 12:
@@ -3567,6 +3649,7 @@ function __c40(j: number): any {
         S.Struct({
           CertificateStatuses: S.optional(__S(256, __c8, 0)),
           CertificateKeyPairOrigins: S.optional(__S(256, __c8, 0)),
+          RootHierarchyTypes: S.optional(__S(256, __c8, 0)),
           Includes: S.optional(__S(1280, __c40, 0)),
           NextToken: S.optional(S.String),
           MaxItems: S.optional(S.Number),
@@ -3608,6 +3691,8 @@ function __c40(j: number): any {
           RevokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ManagedBy: S.optional(S.String),
           CertificateKeyPairOrigin: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateSummary" });
     case 3:
@@ -3740,6 +3825,8 @@ function __c47(j: number): any {
           Tags: S.optional(__S(65, __c2, 1)),
           KeyAlgorithm: S.optional(S.String),
           ManagedBy: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/" }),
@@ -3873,6 +3960,7 @@ function __c52(j: number): any {
         /*@__PURE__*/ S.Struct({ CertificateKeyPairOrigin: S.String }),
         /*@__PURE__*/ S.Struct({ AcmeEndpointArn: S.String }),
         /*@__PURE__*/ S.Struct({ AcmeAccountId: S.String }),
+        /*@__PURE__*/ S.Struct({ RootHierarchyType: S.String }),
       ]);
     case 7:
       return S.Union([
@@ -3991,6 +4079,8 @@ function __c52(j: number): any {
           CertificateKeyPairOrigin: S.optional(S.String),
           AcmeEndpointArn: S.optional(S.String),
           AcmeAccountId: S.optional(S.String),
+          CertificateUsage: S.optional(S.String),
+          RootHierarchyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AcmCertificateMetadata" });
     case 17:

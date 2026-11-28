@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { HuggingFaceServiceErrors } from "../errors.ts";
 import {
   HuggingFaceProtocol,
   type HuggingFaceOpError,
@@ -231,25 +232,7 @@ export interface ReorderInferenceProvidersRequest {
   body?: ReorderInferenceProvidersRequestBodyMap | undefined;
 }
 export interface ReorderInferenceProvidersResponse {}
-export type SetProviderKeyRequestProvider =
-  | "baseten"
-  | "cohere"
-  | "cerebras"
-  | "deepinfra"
-  | "fal-ai"
-  | "featherless-ai"
-  | "fireworks-ai"
-  | "groq"
-  | "novita"
-  | "nscale"
-  | "openrouter"
-  | "ovhcloud"
-  | "publicai"
-  | "replicate"
-  | "scaleway"
-  | "together"
-  | "wavespeed"
-  | "zai-org";
+export type SetProviderKeyRequestProvider = "fal-ai" | "replicate" | "wavespeed";
 export interface SetProviderKeyRequest {
   provider: SetProviderKeyRequestProvider | (string & {});
   apiKey: string | Redacted.Redacted<string>;
@@ -297,6 +280,7 @@ export const createProviderMapping: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateProviderMappingRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CreateProviderMappingResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -314,6 +298,7 @@ export const defaultBillingEntity: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<DefaultBillingEntityRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DefaultBillingEntityResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -331,6 +316,7 @@ export const listProviderMappings: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<ListProviderMappingsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<ListProviderMappingsResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -348,6 +334,7 @@ export const reorderInferenceProviders: API.OperationMethod<
   input: __S(18, __c4, 2) as any as S.Schema<ReorderInferenceProvidersRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<ReorderInferenceProvidersResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -365,6 +352,7 @@ export const setProviderKey: API.OperationMethod<
   input: __S(20, __c5, 0) as any as S.Schema<SetProviderKeyRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<SetProviderKeyResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -382,6 +370,7 @@ export const setSpendingLimit: API.OperationMethod<
   input: __S(24, __c6, 0) as any as S.Schema<SetSpendingLimitRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<SetSpendingLimitResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -399,6 +388,7 @@ export const updateMappingStatus: API.OperationMethod<
   input: __S(28, __c7, 0) as any as S.Schema<UpdateMappingStatusRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UpdateMappingStatusResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

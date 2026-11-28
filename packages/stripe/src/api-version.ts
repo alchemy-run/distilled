@@ -22,7 +22,7 @@ import * as Layer from "effect/Layer";
  * `pnpm generate stripe` sets it to the spec's `info.version`; do not edit
  * it by hand.
  */
-export const API_VERSION = "2026-10-28.endive";
+export const API_VERSION = "2026-11-18.endive";
 
 export class ApiVersion
   extends /*@__PURE__*/ Context.Service<ApiVersion, string>()("Stripe::ApiVersion") {}

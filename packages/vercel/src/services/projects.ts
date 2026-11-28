@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -247,7 +248,7 @@ export interface CreateProjectRequestEnvironmentVariablesItem {
   /** Type of the ENV variable */
   type?: CreateProjectRequestEnvironmentVariablesItemType | (string & {}) | undefined;
   /** Value for the ENV variable */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Collection of ENV Variables the Project will use */
 export type CreateProjectRequestEnvironmentVariablesList =
@@ -898,24 +899,12 @@ export interface CreateProjectResponseDefaultResourceConfigBuildMachineElasticTr
   direction: CreateProjectResponseDefaultResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type CreateProjectResponseDefaultResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type CreateProjectResponseDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type CreateProjectResponseDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface CreateProjectResponseDefaultResourceConfigBuildQueue {
   configuration?: CreateProjectResponseDefaultResourceConfigBuildQueueConfiguration | undefined;
 }
-export type CreateProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type CreateProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
 export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label = "standard";
 export type CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -957,6 +946,19 @@ export type CreateProjectResponseDefaultResourceConfigElasticBuildMachine =
   | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase1
   | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase2
   | CreateProjectResponseDefaultResourceConfigElasticBuildMachineCase3;
+export type CreateProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type CreateProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type CreateProjectResponseDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface CreateProjectResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -968,8 +970,8 @@ export interface CreateProjectResponseDefaultResourceConfig {
   buildMachineSelection?:
     | CreateProjectResponseDefaultResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: CreateProjectResponseDefaultResourceConfigBuildMachineType | undefined;
   buildQueue?: CreateProjectResponseDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: CreateProjectResponseDefaultResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -980,7 +982,7 @@ export interface CreateProjectResponseDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: CreateProjectResponseDefaultResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: CreateProjectResponseDefaultResourceConfigBuildMachineType | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export interface CreateProjectResponseDeploymentExpiration {
@@ -1273,7 +1275,7 @@ export interface CreateProjectResponseEnvItem {
   type: CreateProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -1480,6 +1482,7 @@ export type CreateProjectResponseLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type CreateProjectResponseLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface CreateProjectResponseLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -1874,6 +1877,8 @@ export type CreateProjectResponsePermissionsAiGatewayApiKeyZdrExemptionList = Ar
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsAiGatewayBudgetOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
@@ -2018,6 +2023,8 @@ export type CreateProjectResponsePermissionsDeploymentProtectionExceptionList = 
 export type CreateProjectResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2213,7 +2220,11 @@ export type CreateProjectResponsePermissionsOptionsAllowlistList = Array<ACLActi
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsOrganizationAdminList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsOrganizationMemberList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsOrganizationTeamList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2226,6 +2237,10 @@ export type CreateProjectResponsePermissionsPasswordProtectionList = Array<ACLAc
 export type CreateProjectResponsePermissionsPasswordProtectionInvoiceItemList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2282,6 +2297,10 @@ export type CreateProjectResponsePermissionsProjectEnvVarsUnownedByIntegrationLi
 export type CreateProjectResponsePermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsProjectFlagsOverrideList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type CreateProjectResponsePermissionsProjectFlagsOverrideProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type CreateProjectResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2488,6 +2507,10 @@ export interface CreateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: CreateProjectResponsePermissionsAiGatewayBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | CreateProjectResponsePermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?:
     | CreateProjectResponsePermissionsAiGatewayByokCredentialsList
     | undefined;
@@ -2651,6 +2674,8 @@ export interface CreateProjectResponsePermissions {
   deploymentRollback?: CreateProjectResponsePermissionsDeploymentRollbackList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: CreateProjectResponsePermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: CreateProjectResponsePermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: CreateProjectResponsePermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2896,7 +2921,11 @@ export interface CreateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: CreateProjectResponsePermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?: CreateProjectResponsePermissionsOrganizationAdminList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?: CreateProjectResponsePermissionsOrganizationDomainList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?: CreateProjectResponsePermissionsOrganizationMemberList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?: CreateProjectResponsePermissionsOrganizationTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2911,6 +2940,10 @@ export interface CreateProjectResponsePermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: CreateProjectResponsePermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: CreateProjectResponsePermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: CreateProjectResponsePermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: CreateProjectResponsePermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -2979,6 +3012,12 @@ export interface CreateProjectResponsePermissions {
   projectEvent?: CreateProjectResponsePermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: CreateProjectResponsePermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?: CreateProjectResponsePermissionsProjectFlagsOverrideList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | CreateProjectResponsePermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?: CreateProjectResponsePermissionsProjectFlagsProductionList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -3220,24 +3259,12 @@ export interface CreateProjectResponseResourceConfigBuildMachineElasticTransitio
   direction: CreateProjectResponseResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type CreateProjectResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type CreateProjectResponseResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type CreateProjectResponseResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface CreateProjectResponseResourceConfigBuildQueue {
   configuration?: CreateProjectResponseResourceConfigBuildQueueConfiguration | undefined;
 }
-export type CreateProjectResponseResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type CreateProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type CreateProjectResponseResourceConfigElasticBuildMachineCase0Cores = 4;
 export type CreateProjectResponseResourceConfigElasticBuildMachineCase0Label = "standard";
 export type CreateProjectResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -3279,6 +3306,19 @@ export type CreateProjectResponseResourceConfigElasticBuildMachine =
   | CreateProjectResponseResourceConfigElasticBuildMachineCase1
   | CreateProjectResponseResourceConfigElasticBuildMachineCase2
   | CreateProjectResponseResourceConfigElasticBuildMachineCase3;
+export type CreateProjectResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type CreateProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type CreateProjectResponseResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface CreateProjectResponseResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -3288,8 +3328,8 @@ export interface CreateProjectResponseResourceConfig {
     | CreateProjectResponseResourceConfigBuildMachineElasticTransition
     | undefined;
   buildMachineSelection?: CreateProjectResponseResourceConfigBuildMachineSelection | undefined;
-  buildMachineType?: CreateProjectResponseResourceConfigBuildMachineType | undefined;
   buildQueue?: CreateProjectResponseResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: CreateProjectResponseResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -3300,7 +3340,7 @@ export interface CreateProjectResponseResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: CreateProjectResponseResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: CreateProjectResponseResourceConfigBuildMachineType | undefined;
 }
 export type CreateProjectResponseRollbackDescriptionPrincipalCase0Type = "user";
 export type CreateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0App =
@@ -3377,47 +3417,6 @@ export interface CreateProjectResponseRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type CreateProjectResponseRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type CreateProjectResponseRollingReleaseGateChecksItemExcludePathsList = Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type CreateProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList = Array<number>;
-/** The metric this check evaluates. */
-export type CreateProjectResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface CreateProjectResponseRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?: CreateProjectResponseRollingReleaseGateChecksItemExcludePathsList | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | CreateProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: CreateProjectResponseRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type CreateProjectResponseRollingReleaseGateChecksList =
-  Array<CreateProjectResponseRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface CreateProjectResponseRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: CreateProjectResponseRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: CreateProjectResponseRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export interface CreateProjectResponseRollingReleaseStagesItem {
   /** Duration in minutes for automatic advancement to the next stage */
@@ -3436,8 +3435,6 @@ export type CreateProjectResponseRollingReleaseStagesList =
 export interface CreateProjectResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: CreateProjectResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: CreateProjectResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -3826,7 +3823,7 @@ export interface CreateProjectResponseTargetsValue {
 export type CreateProjectResponseTargetsMap = {
   [key: string]: CreateProjectResponseTargetsValue | null | undefined;
 };
-export type CreateProjectResponseTier = "priority";
+export type CreateProjectResponseTier = "critical" | "priority";
 export type CreateProjectResponseTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type CreateProjectResponseTracingSamplingRulesItemDestination = "external" | "internal";
@@ -4041,6 +4038,7 @@ export interface CreateProjectResponse {
   customEnvironments?: CreateProjectResponseCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: CreateProjectResponseDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -4068,7 +4066,9 @@ export interface CreateProjectResponse {
   internalRoutes?: CreateProjectResponseInternalRoutesList | undefined;
   ipBuckets?: CreateProjectResponseIpBucketsList | undefined;
   jobs?: CreateProjectResponseJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: CreateProjectResponseLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: CreateProjectResponseLatestDeploymentsList | undefined;
   link?: CreateProjectResponseLink | undefined;
@@ -4090,6 +4090,7 @@ export interface CreateProjectResponse {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: CreateProjectResponseProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: CreateProjectResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: CreateProjectResponseRollbackDescription | undefined;
@@ -4296,7 +4297,7 @@ export interface CreateProjectEnvResponseCreatedCase0 {
   type: CreateProjectEnvResponseCreatedCase0Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectEnvResponseCreatedCase0Visibility | undefined;
   vsmValue?: string | undefined;
@@ -4465,7 +4466,7 @@ export interface CreateProjectEnvResponseCreatedCase1Item {
   type: CreateProjectEnvResponseCreatedCase1ItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectEnvResponseCreatedCase1ItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -4531,7 +4532,7 @@ export interface CreateProjectTransferRequestRequest {
   /** The URL to send a webhook to when the transfer is accepted. */
   callbackUrl?: string | undefined;
   /** The secret to use to sign the webhook payload with HMAC-SHA256. */
-  callbackSecret?: string | undefined;
+  callbackSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateProjectTransferRequestResponse {
   code: string;
@@ -4547,7 +4548,7 @@ export interface CreateTraceSessionRequest {
   hostname: string;
 }
 export interface CreateTraceSessionResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface DeleteProjectRequest {
   /** The unique project identifier or the project name */
@@ -4902,12 +4903,6 @@ export interface DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineEla
 export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type DeleteProjectAvatarResponseDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
@@ -4916,13 +4911,6 @@ export interface DeleteProjectAvatarResponseDefaultResourceConfigBuildQueue {
     | DeleteProjectAvatarResponseDefaultResourceConfigBuildQueueConfiguration
     | undefined;
 }
-export type DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
 export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Label =
   "standard";
@@ -4967,6 +4955,20 @@ export type DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachine 
   | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1
   | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2
   | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3;
+export type DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type DeleteProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface DeleteProjectAvatarResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -4978,8 +4980,10 @@ export interface DeleteProjectAvatarResponseDefaultResourceConfig {
   buildMachineSelection?:
     | DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineType | undefined;
   buildQueue?: DeleteProjectAvatarResponseDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -4990,9 +4994,7 @@ export interface DeleteProjectAvatarResponseDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | DeleteProjectAvatarResponseDefaultResourceConfigElasticBuildMachine
-    | undefined;
+  buildMachineType?: DeleteProjectAvatarResponseDefaultResourceConfigBuildMachineType | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type DeleteProjectAvatarResponseDeploymentExpiration =
@@ -5282,7 +5284,7 @@ export interface DeleteProjectAvatarResponseEnvItem {
   type: DeleteProjectAvatarResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: DeleteProjectAvatarResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -5463,6 +5465,7 @@ export type DeleteProjectAvatarResponseLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type DeleteProjectAvatarResponseLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface DeleteProjectAvatarResponseLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -5853,6 +5856,8 @@ export type DeleteProjectAvatarResponsePermissionsAiGatewayApiKeyZdrExemptionLis
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsAiGatewayBudgetOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
@@ -6002,6 +6007,8 @@ export type DeleteProjectAvatarResponsePermissionsDeploymentProtectionExceptionL
 export type DeleteProjectAvatarResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6209,7 +6216,11 @@ export type DeleteProjectAvatarResponsePermissionsOptionsAllowlistList = Array<A
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOrganizationAdminList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsOrganizationMemberList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsOrganizationTeamList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6223,6 +6234,10 @@ export type DeleteProjectAvatarResponsePermissionsPasswordProtectionInvoiceItemL
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6281,6 +6296,11 @@ export type DeleteProjectAvatarResponsePermissionsProjectEnvVarsUnownedByIntegra
 export type DeleteProjectAvatarResponsePermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectFlagsOverrideList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type DeleteProjectAvatarResponsePermissionsProjectFlagsOverrideProductionList =
+  Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type DeleteProjectAvatarResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6490,6 +6510,10 @@ export interface DeleteProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: DeleteProjectAvatarResponsePermissionsAiGatewayBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | DeleteProjectAvatarResponsePermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?:
     | DeleteProjectAvatarResponsePermissionsAiGatewayByokCredentialsList
     | undefined;
@@ -6665,6 +6689,8 @@ export interface DeleteProjectAvatarResponsePermissions {
   deploymentRollback?: DeleteProjectAvatarResponsePermissionsDeploymentRollbackList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: DeleteProjectAvatarResponsePermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: DeleteProjectAvatarResponsePermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: DeleteProjectAvatarResponsePermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6934,7 +6960,11 @@ export interface DeleteProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: DeleteProjectAvatarResponsePermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?: DeleteProjectAvatarResponsePermissionsOrganizationAdminList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?: DeleteProjectAvatarResponsePermissionsOrganizationDomainList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?: DeleteProjectAvatarResponsePermissionsOrganizationMemberList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?: DeleteProjectAvatarResponsePermissionsOrganizationTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -6949,6 +6979,10 @@ export interface DeleteProjectAvatarResponsePermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: DeleteProjectAvatarResponsePermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: DeleteProjectAvatarResponsePermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: DeleteProjectAvatarResponsePermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: DeleteProjectAvatarResponsePermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -7027,6 +7061,12 @@ export interface DeleteProjectAvatarResponsePermissions {
   projectEvent?: DeleteProjectAvatarResponsePermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: DeleteProjectAvatarResponsePermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?: DeleteProjectAvatarResponsePermissionsProjectFlagsOverrideList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | DeleteProjectAvatarResponsePermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?:
     | DeleteProjectAvatarResponsePermissionsProjectFlagsProductionList
@@ -7286,24 +7326,12 @@ export interface DeleteProjectAvatarResponseResourceConfigBuildMachineElasticTra
   direction: DeleteProjectAvatarResponseResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type DeleteProjectAvatarResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type DeleteProjectAvatarResponseResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type DeleteProjectAvatarResponseResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface DeleteProjectAvatarResponseResourceConfigBuildQueue {
   configuration?: DeleteProjectAvatarResponseResourceConfigBuildQueueConfiguration | undefined;
 }
-export type DeleteProjectAvatarResponseResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type DeleteProjectAvatarResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Cores = 4;
 export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Label = "standard";
 export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -7345,6 +7373,19 @@ export type DeleteProjectAvatarResponseResourceConfigElasticBuildMachine =
   | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase1
   | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase2
   | DeleteProjectAvatarResponseResourceConfigElasticBuildMachineCase3;
+export type DeleteProjectAvatarResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type DeleteProjectAvatarResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type DeleteProjectAvatarResponseResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface DeleteProjectAvatarResponseResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -7356,8 +7397,8 @@ export interface DeleteProjectAvatarResponseResourceConfig {
   buildMachineSelection?:
     | DeleteProjectAvatarResponseResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: DeleteProjectAvatarResponseResourceConfigBuildMachineType | undefined;
   buildQueue?: DeleteProjectAvatarResponseResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: DeleteProjectAvatarResponseResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -7368,7 +7409,7 @@ export interface DeleteProjectAvatarResponseResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: DeleteProjectAvatarResponseResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: DeleteProjectAvatarResponseResourceConfigBuildMachineType | undefined;
 }
 export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0Type = "user";
 export type DeleteProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0App =
@@ -7446,50 +7487,6 @@ export interface DeleteProjectAvatarResponseRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type DeleteProjectAvatarResponseRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludePathsList = Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList =
-  Array<number>;
-/** The metric this check evaluates. */
-export type DeleteProjectAvatarResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface DeleteProjectAvatarResponseRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?:
-    | DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludePathsList
-    | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | DeleteProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: DeleteProjectAvatarResponseRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type DeleteProjectAvatarResponseRollingReleaseGateChecksList =
-  Array<DeleteProjectAvatarResponseRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface DeleteProjectAvatarResponseRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: DeleteProjectAvatarResponseRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: DeleteProjectAvatarResponseRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type DeleteProjectAvatarResponseRollingReleaseStagesItem =
   CreateProjectResponseRollingReleaseStagesItem;
@@ -7500,8 +7497,6 @@ export type DeleteProjectAvatarResponseRollingReleaseStagesList =
 export interface DeleteProjectAvatarResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: DeleteProjectAvatarResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: DeleteProjectAvatarResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -7895,7 +7890,7 @@ export interface DeleteProjectAvatarResponseTargetsValue {
 export type DeleteProjectAvatarResponseTargetsMap = {
   [key: string]: DeleteProjectAvatarResponseTargetsValue | null | undefined;
 };
-export type DeleteProjectAvatarResponseTier = "priority";
+export type DeleteProjectAvatarResponseTier = "critical" | "priority";
 export type DeleteProjectAvatarResponseTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type DeleteProjectAvatarResponseTracingSamplingRulesItemDestination =
@@ -8107,6 +8102,7 @@ export interface DeleteProjectAvatarResponse {
   customEnvironments?: DeleteProjectAvatarResponseCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: DeleteProjectAvatarResponseDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -8134,7 +8130,9 @@ export interface DeleteProjectAvatarResponse {
   internalRoutes?: DeleteProjectAvatarResponseInternalRoutesList | undefined;
   ipBuckets?: DeleteProjectAvatarResponseIpBucketsList | undefined;
   jobs?: DeleteProjectAvatarResponseJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: DeleteProjectAvatarResponseLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: DeleteProjectAvatarResponseLatestDeploymentsList | undefined;
   link?: DeleteProjectAvatarResponseLink | undefined;
@@ -8156,6 +8154,7 @@ export interface DeleteProjectAvatarResponse {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: DeleteProjectAvatarResponseProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: DeleteProjectAvatarResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: DeleteProjectAvatarResponseRollbackDescription | undefined;
@@ -8219,7 +8218,7 @@ export interface EditProjectEnvRequest {
   /** The type of environment variable */
   type?: EditProjectEnvRequestType | (string & {}) | undefined;
   /** The value of the environment variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** The custom environments that the environment variable should be synced to */
   customEnvironmentIds?: EditProjectEnvRequestCustomEnvironmentIdsList | undefined;
   /** A comment to add context on what this env var is for */
@@ -8381,7 +8380,7 @@ export interface EditProjectEnvResponse {
   type: EditProjectEnvResponseType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: EditProjectEnvResponseVisibility | undefined;
 }
@@ -8562,7 +8561,7 @@ export interface FilterProjectEnvsResponseBodyCase0 {
   type: FilterProjectEnvsResponseBodyCase0Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase0Visibility | undefined;
 }
@@ -8732,7 +8731,7 @@ export interface FilterProjectEnvsResponseBodyCase1EnvsItem {
   type: FilterProjectEnvsResponseBodyCase1EnvsItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase1EnvsItemVisibility | undefined;
 }
@@ -8917,7 +8916,7 @@ export interface FilterProjectEnvsResponseBodyCase2EnvsItem {
   type: FilterProjectEnvsResponseBodyCase2EnvsItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase2EnvsItemVisibility | undefined;
 }
@@ -8936,6 +8935,8 @@ export type FilterProjectEnvsResponse = FilterProjectEnvsResponseBody;
 export interface GetProjectRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
+  /** Include the status of the last promote or rollback request in `lastAliasRequest` (and its legacy mirror `lastRollbackTarget`). When omitted or `false`, both fields are always `null` regardless of project state. */
+  rollbackInfo?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
@@ -9257,24 +9258,12 @@ export interface GetProjectResponseDefaultResourceConfigBuildMachineElasticTrans
   direction: GetProjectResponseDefaultResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type GetProjectResponseDefaultResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type GetProjectResponseDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type GetProjectResponseDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface GetProjectResponseDefaultResourceConfigBuildQueue {
   configuration?: GetProjectResponseDefaultResourceConfigBuildQueueConfiguration | undefined;
 }
-export type GetProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type GetProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
 export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label = "standard";
 export type GetProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -9316,6 +9305,19 @@ export type GetProjectResponseDefaultResourceConfigElasticBuildMachine =
   | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase1
   | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase2
   | GetProjectResponseDefaultResourceConfigElasticBuildMachineCase3;
+export type GetProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type GetProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type GetProjectResponseDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface GetProjectResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -9325,8 +9327,8 @@ export interface GetProjectResponseDefaultResourceConfig {
     | GetProjectResponseDefaultResourceConfigBuildMachineElasticTransition
     | undefined;
   buildMachineSelection?: GetProjectResponseDefaultResourceConfigBuildMachineSelection | undefined;
-  buildMachineType?: GetProjectResponseDefaultResourceConfigBuildMachineType | undefined;
   buildQueue?: GetProjectResponseDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: GetProjectResponseDefaultResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -9337,7 +9339,7 @@ export interface GetProjectResponseDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: GetProjectResponseDefaultResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: GetProjectResponseDefaultResourceConfigBuildMachineType | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type GetProjectResponseDeploymentExpiration = CreateProjectResponseDeploymentExpiration;
@@ -9610,7 +9612,7 @@ export interface GetProjectResponseEnvItem {
   type: GetProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -9804,6 +9806,7 @@ export type GetProjectResponseLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type GetProjectResponseLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface GetProjectResponseLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -10185,6 +10188,8 @@ export type GetProjectResponsePermissionsAiGatewayApiKeyZdrExemptionList = Array
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsAiGatewayBudgetOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
@@ -10329,6 +10334,8 @@ export type GetProjectResponsePermissionsDeploymentProtectionExceptionList = Arr
 export type GetProjectResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -10524,7 +10531,11 @@ export type GetProjectResponsePermissionsOptionsAllowlistList = Array<ACLAction>
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsOrganizationAdminList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsOrganizationMemberList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsOrganizationTeamList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -10537,6 +10548,10 @@ export type GetProjectResponsePermissionsPasswordProtectionList = Array<ACLActio
 export type GetProjectResponsePermissionsPasswordProtectionInvoiceItemList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -10591,6 +10606,10 @@ export type GetProjectResponsePermissionsProjectEnvVarsUnownedByIntegrationList 
 export type GetProjectResponsePermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsProjectFlagsOverrideList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectResponsePermissionsProjectFlagsOverrideProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -10794,6 +10813,10 @@ export interface GetProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: GetProjectResponsePermissionsAiGatewayBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | GetProjectResponsePermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?: GetProjectResponsePermissionsAiGatewayByokCredentialsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayCredits?: GetProjectResponsePermissionsAiGatewayCreditsList | undefined;
@@ -10949,6 +10972,8 @@ export interface GetProjectResponsePermissions {
   deploymentRollback?: GetProjectResponsePermissionsDeploymentRollbackList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: GetProjectResponsePermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: GetProjectResponsePermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: GetProjectResponsePermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -11188,7 +11213,11 @@ export interface GetProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: GetProjectResponsePermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?: GetProjectResponsePermissionsOrganizationAdminList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?: GetProjectResponsePermissionsOrganizationDomainList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?: GetProjectResponsePermissionsOrganizationMemberList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?: GetProjectResponsePermissionsOrganizationTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -11203,6 +11232,10 @@ export interface GetProjectResponsePermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: GetProjectResponsePermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: GetProjectResponsePermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: GetProjectResponsePermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: GetProjectResponsePermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -11265,6 +11298,12 @@ export interface GetProjectResponsePermissions {
   projectEvent?: GetProjectResponsePermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: GetProjectResponsePermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?: GetProjectResponsePermissionsProjectFlagsOverrideList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | GetProjectResponsePermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?: GetProjectResponsePermissionsProjectFlagsProductionList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -11503,24 +11542,12 @@ export interface GetProjectResponseResourceConfigBuildMachineElasticTransition {
   direction: GetProjectResponseResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type GetProjectResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type GetProjectResponseResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type GetProjectResponseResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface GetProjectResponseResourceConfigBuildQueue {
   configuration?: GetProjectResponseResourceConfigBuildQueueConfiguration | undefined;
 }
-export type GetProjectResponseResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type GetProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type GetProjectResponseResourceConfigElasticBuildMachineCase0Cores = 4;
 export type GetProjectResponseResourceConfigElasticBuildMachineCase0Label = "standard";
 export type GetProjectResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -11562,6 +11589,19 @@ export type GetProjectResponseResourceConfigElasticBuildMachine =
   | GetProjectResponseResourceConfigElasticBuildMachineCase1
   | GetProjectResponseResourceConfigElasticBuildMachineCase2
   | GetProjectResponseResourceConfigElasticBuildMachineCase3;
+export type GetProjectResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type GetProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type GetProjectResponseResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface GetProjectResponseResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?: GetProjectResponseResourceConfigBuildMachineElasticReason | undefined;
@@ -11569,8 +11609,8 @@ export interface GetProjectResponseResourceConfig {
     | GetProjectResponseResourceConfigBuildMachineElasticTransition
     | undefined;
   buildMachineSelection?: GetProjectResponseResourceConfigBuildMachineSelection | undefined;
-  buildMachineType?: GetProjectResponseResourceConfigBuildMachineType | undefined;
   buildQueue?: GetProjectResponseResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: GetProjectResponseResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -11579,7 +11619,7 @@ export interface GetProjectResponseResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: GetProjectResponseResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: GetProjectResponseResourceConfigBuildMachineType | undefined;
 }
 export type GetProjectResponseRollbackDescriptionPrincipalCase0Type = "user";
 export type GetProjectResponseRollbackDescriptionPrincipalCase0ViaCase0App =
@@ -11656,47 +11696,6 @@ export interface GetProjectResponseRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type GetProjectResponseRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type GetProjectResponseRollingReleaseGateChecksItemExcludePathsList = Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type GetProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList = Array<number>;
-/** The metric this check evaluates. */
-export type GetProjectResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface GetProjectResponseRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?: GetProjectResponseRollingReleaseGateChecksItemExcludePathsList | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | GetProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: GetProjectResponseRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type GetProjectResponseRollingReleaseGateChecksList =
-  Array<GetProjectResponseRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface GetProjectResponseRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: GetProjectResponseRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: GetProjectResponseRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type GetProjectResponseRollingReleaseStagesItem =
   CreateProjectResponseRollingReleaseStagesItem;
@@ -11707,8 +11706,6 @@ export type GetProjectResponseRollingReleaseStagesList =
 export interface GetProjectResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: GetProjectResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: GetProjectResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -12080,7 +12077,7 @@ export interface GetProjectResponseTargetsValue {
 export type GetProjectResponseTargetsMap = {
   [key: string]: GetProjectResponseTargetsValue | null | undefined;
 };
-export type GetProjectResponseTier = "priority";
+export type GetProjectResponseTier = "critical" | "priority";
 export type GetProjectResponseTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type GetProjectResponseTracingSamplingRulesItemDestination = "external" | "internal";
@@ -12275,6 +12272,7 @@ export interface GetProjectResponse {
   customEnvironments?: GetProjectResponseCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: GetProjectResponseDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -12303,7 +12301,9 @@ export interface GetProjectResponse {
   internalRoutes?: GetProjectResponseInternalRoutesList | undefined;
   ipBuckets?: GetProjectResponseIpBucketsList | undefined;
   jobs?: GetProjectResponseJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: GetProjectResponseLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: GetProjectResponseLatestDeploymentsList | undefined;
   link?: GetProjectResponseLink | undefined;
@@ -12325,6 +12325,7 @@ export interface GetProjectResponse {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: GetProjectResponseProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: GetProjectResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: GetProjectResponseRollbackDescription | undefined;
@@ -12798,7 +12799,7 @@ export interface GetProjectEnvResponseBodyCase1 {
   type: GetProjectEnvResponseBodyCase1Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectEnvResponseBodyCase1Visibility | undefined;
 }
@@ -12952,7 +12953,7 @@ export interface GetProjectEnvResponseBodyCase2 {
   type: GetProjectEnvResponseBodyCase2Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectEnvResponseBodyCase2Visibility | undefined;
 }
@@ -13388,7 +13389,7 @@ export interface GetProjectsResponseBodyCase0ItemEnvItem {
   type: GetProjectsResponseBodyCase0ItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase0ItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -13873,25 +13874,12 @@ export interface GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineElast
 export type GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type GetProjectsResponseBodyCase0ItemResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface GetProjectsResponseBodyCase0ItemResourceConfigBuildQueue {
   configuration?: GetProjectsResponseBodyCase0ItemResourceConfigBuildQueueConfiguration | undefined;
 }
-export type GetProjectsResponseBodyCase0ItemResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type GetProjectsResponseBodyCase0ItemResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Cores = 4;
 export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase0Label =
   "standard";
@@ -13936,6 +13924,20 @@ export type GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachine =
   | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase1
   | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase2
   | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachineCase3;
+export type GetProjectsResponseBodyCase0ItemResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type GetProjectsResponseBodyCase0ItemResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface GetProjectsResponseBodyCase0ItemResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -13947,8 +13949,10 @@ export interface GetProjectsResponseBodyCase0ItemResourceConfig {
   buildMachineSelection?:
     | GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineType | undefined;
   buildQueue?: GetProjectsResponseBodyCase0ItemResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -13959,54 +13963,7 @@ export interface GetProjectsResponseBodyCase0ItemResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | GetProjectsResponseBodyCase0ItemResourceConfigElasticBuildMachine
-    | undefined;
-}
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type GetProjectsResponseBodyCase0ItemRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemExcludePathsList =
-  Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemExcludeStatusCodesList =
-  Array<number>;
-/** The metric this check evaluates. */
-export type GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?:
-    | GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemExcludePathsList
-    | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksList =
-  Array<GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface GetProjectsResponseBodyCase0ItemRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: GetProjectsResponseBodyCase0ItemRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: GetProjectsResponseBodyCase0ItemRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
+  buildMachineType?: GetProjectsResponseBodyCase0ItemResourceConfigBuildMachineType | undefined;
 }
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type GetProjectsResponseBodyCase0ItemRollingReleaseStagesItem =
@@ -14018,8 +13975,6 @@ export type GetProjectsResponseBodyCase0ItemRollingReleaseStagesList =
 export interface GetProjectsResponseBodyCase0ItemRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: GetProjectsResponseBodyCase0ItemRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: GetProjectsResponseBodyCase0ItemRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -14540,7 +14495,7 @@ export interface GetProjectsResponseBodyCase0ItemTargetsValue {
 export type GetProjectsResponseBodyCase0ItemTargetsMap = {
   [key: string]: GetProjectsResponseBodyCase0ItemTargetsValue | null | undefined;
 };
-export type GetProjectsResponseBodyCase0ItemTier = "priority";
+export type GetProjectsResponseBodyCase0ItemTier = "critical" | "priority";
 export type GetProjectsResponseBodyCase0ItemTrustedSourcesOidcProvidersValueItemToCase0Preset =
   "all-custom";
 /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
@@ -14708,6 +14663,7 @@ export interface GetProjectsResponseBodyCase0Item {
   passport?: GetProjectsResponseBodyCase0ItemPassport | null | undefined;
   passwordProtection?: unknown | null | undefined;
   paused?: boolean | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: GetProjectsResponseBodyCase0ItemResourceConfig;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: GetProjectsResponseBodyCase0ItemRollingRelease | null | undefined;
@@ -15139,7 +15095,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItemEnvItem {
   type: GetProjectsResponseBodyCase1ProjectsItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase1ProjectsItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -15637,12 +15593,6 @@ export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMach
 export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
@@ -15651,13 +15601,6 @@ export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildQueu
     | GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildQueueConfiguration
     | undefined;
 }
-export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Cores = 4;
 export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase0Label =
   "standard";
@@ -15709,6 +15652,20 @@ export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMa
   | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase1
   | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase2
   | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachineCase3;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -15720,10 +15677,10 @@ export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfig {
   buildMachineSelection?:
     | GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?:
-    | GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineType
-    | undefined;
   buildQueue?: GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -15734,55 +15691,9 @@ export interface GetProjectsResponseBodyCase1ProjectsItemResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | GetProjectsResponseBodyCase1ProjectsItemResourceConfigElasticBuildMachine
+  buildMachineType?:
+    | GetProjectsResponseBodyCase1ProjectsItemResourceConfigBuildMachineType
     | undefined;
-}
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemExcludePathsList =
-  Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList =
-  Array<number>;
-/** The metric this check evaluates. */
-export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemType =
-  "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?:
-    | GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemExcludePathsList
-    | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksList =
-  Array<GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
 }
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseStagesItem =
@@ -15794,8 +15705,6 @@ export type GetProjectsResponseBodyCase1ProjectsItemRollingReleaseStagesList =
 export interface GetProjectsResponseBodyCase1ProjectsItemRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: GetProjectsResponseBodyCase1ProjectsItemRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -16357,7 +16266,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItemTargetsValue {
 export type GetProjectsResponseBodyCase1ProjectsItemTargetsMap = {
   [key: string]: GetProjectsResponseBodyCase1ProjectsItemTargetsValue | null | undefined;
 };
-export type GetProjectsResponseBodyCase1ProjectsItemTier = "priority";
+export type GetProjectsResponseBodyCase1ProjectsItemTier = "critical" | "priority";
 export type GetProjectsResponseBodyCase1ProjectsItemTrustedSourcesOidcProvidersValueItemToCase0Preset =
   "all-custom";
 /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
@@ -16531,6 +16440,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItem {
   passport?: GetProjectsResponseBodyCase1ProjectsItemPassport | null | undefined;
   passwordProtection?: unknown | null | undefined;
   paused?: boolean | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: GetProjectsResponseBodyCase1ProjectsItemResourceConfig;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
   rollingRelease?: GetProjectsResponseBodyCase1ProjectsItemRollingRelease | null | undefined;
@@ -16939,12 +16849,6 @@ export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBu
 export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
@@ -16953,13 +16857,6 @@ export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBu
     | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildQueueConfiguration
     | undefined;
 }
-export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Cores =
   4;
 export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase0Label =
@@ -17013,6 +16910,20 @@ export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElastic
   | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase1
   | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase2
   | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachineCase3;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -17024,10 +16935,10 @@ export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfig {
   buildMachineSelection?:
     | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?:
-    | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineType
-    | undefined;
   buildQueue?: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -17038,8 +16949,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigElasticBuildMachine
+  buildMachineType?:
+    | GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfigBuildMachineType
     | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
@@ -17352,7 +17263,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemEnvItem {
   type: GetProjectsResponseBodyCase2ProjectsItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase2ProjectsItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -17546,6 +17457,7 @@ export type GetProjectsResponseBodyCase2ProjectsItemLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type GetProjectsResponseBodyCase2ProjectsItemLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface GetProjectsResponseBodyCase2ProjectsItemLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -17960,6 +17872,9 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayApiKeyZd
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayBudgetList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayBudgetOwnedBySelfList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayByokCredentialsList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -18148,6 +18063,8 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDeploymentRollbac
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -18413,7 +18330,13 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOptionsAllowlistL
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationAdminList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationDomainList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationMemberList =
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationTeamList =
@@ -18430,6 +18353,10 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPasswordProtectio
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -18504,6 +18431,12 @@ export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectEnvVarsUno
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsOverrideList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsOverrideProductionList =
+  Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsProductionList =
   Array<ACLAction>;
@@ -18761,6 +18694,10 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
     | GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayBudgetList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?:
     | GetProjectsResponseBodyCase2ProjectsItemPermissionsAiGatewayByokCredentialsList
     | undefined;
@@ -18994,6 +18931,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: GetProjectsResponseBodyCase2ProjectsItemPermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: GetProjectsResponseBodyCase2ProjectsItemPermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: GetProjectsResponseBodyCase2ProjectsItemPermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -19331,8 +19270,16 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?:
+    | GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationAdminList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?:
     | GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationDomainList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?:
+    | GetProjectsResponseBodyCase2ProjectsItemPermissionsOrganizationMemberList
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?:
@@ -19352,6 +19299,10 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: GetProjectsResponseBodyCase2ProjectsItemPermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -19446,6 +19397,14 @@ export interface GetProjectsResponseBodyCase2ProjectsItemPermissions {
   projectEvent?: GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?:
+    | GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsOverrideList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?:
     | GetProjectsResponseBodyCase2ProjectsItemPermissionsProjectFlagsProductionList
@@ -19773,12 +19732,6 @@ export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMach
 export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
@@ -19787,13 +19740,6 @@ export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildQueu
     | GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildQueueConfiguration
     | undefined;
 }
-export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Cores = 4;
 export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase0Label =
   "standard";
@@ -19845,6 +19791,20 @@ export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMa
   | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase1
   | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase2
   | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachineCase3;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -19856,10 +19816,10 @@ export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfig {
   buildMachineSelection?:
     | GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?:
-    | GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineType
-    | undefined;
   buildQueue?: GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -19870,8 +19830,8 @@ export interface GetProjectsResponseBodyCase2ProjectsItemResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | GetProjectsResponseBodyCase2ProjectsItemResourceConfigElasticBuildMachine
+  buildMachineType?:
+    | GetProjectsResponseBodyCase2ProjectsItemResourceConfigBuildMachineType
     | undefined;
 }
 export type GetProjectsResponseBodyCase2ProjectsItemRollbackDescriptionPrincipalCase0Type = "user";
@@ -19954,52 +19914,6 @@ export interface GetProjectsResponseBodyCase2ProjectsItemRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemExcludePathsList =
-  Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList =
-  Array<number>;
-/** The metric this check evaluates. */
-export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemType =
-  "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?:
-    | GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemExcludePathsList
-    | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksList =
-  Array<GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseStagesItem =
   CreateProjectResponseRollingReleaseStagesItem;
@@ -20010,8 +19924,6 @@ export type GetProjectsResponseBodyCase2ProjectsItemRollingReleaseStagesList =
 export interface GetProjectsResponseBodyCase2ProjectsItemRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: GetProjectsResponseBodyCase2ProjectsItemRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -20441,7 +20353,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemTargetsValue {
 export type GetProjectsResponseBodyCase2ProjectsItemTargetsMap = {
   [key: string]: GetProjectsResponseBodyCase2ProjectsItemTargetsValue | null | undefined;
 };
-export type GetProjectsResponseBodyCase2ProjectsItemTier = "priority";
+export type GetProjectsResponseBodyCase2ProjectsItemTier = "critical" | "priority";
 export type GetProjectsResponseBodyCase2ProjectsItemTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type GetProjectsResponseBodyCase2ProjectsItemTracingSamplingRulesItemDestination =
@@ -20672,6 +20584,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   customEnvironments?: GetProjectsResponseBodyCase2ProjectsItemCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: GetProjectsResponseBodyCase2ProjectsItemDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -20699,7 +20612,9 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   internalRoutes?: GetProjectsResponseBodyCase2ProjectsItemInternalRoutesList | undefined;
   ipBuckets?: GetProjectsResponseBodyCase2ProjectsItemIpBucketsList | undefined;
   jobs?: GetProjectsResponseBodyCase2ProjectsItemJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: GetProjectsResponseBodyCase2ProjectsItemLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: GetProjectsResponseBodyCase2ProjectsItemLatestDeploymentsList | undefined;
   link?: GetProjectsResponseBodyCase2ProjectsItemLink | undefined;
@@ -20724,6 +20639,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItem {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: GetProjectsResponseBodyCase2ProjectsItemProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: GetProjectsResponseBodyCase2ProjectsItemResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: GetProjectsResponseBodyCase2ProjectsItemRollbackDescription | undefined;
@@ -20782,7 +20698,7 @@ export interface GetProjectTokenRequest {
   source?: string | undefined;
 }
 export interface GetProjectTokenResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface GetProjectTraceRequest {
   /** The project ID */
@@ -20875,10 +20791,18 @@ export interface ListPromoteAliasesRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
+/** Whether the alias has been mapped to the deployment targeted by the last request. `pending` is also returned when the project has no request of the requested type, so it does not by itself indicate a running job. */
+export type ListPromoteAliasesResponseBodyCase1AliasesItemStatus =
+  | "completed"
+  | "failed"
+  | "pending";
 export interface ListPromoteAliasesResponseBodyCase1AliasesItem {
+  /** The alias hostname. */
   alias: string;
+  /** The alias ID. */
   id: string;
-  status: string;
+  /** Whether the alias has been mapped to the deployment targeted by the last request. `pending` is also returned when the project has no request of the requested type, so it does not by itself indicate a running job. */
+  status: ListPromoteAliasesResponseBodyCase1AliasesItemStatus;
 }
 export type ListPromoteAliasesResponseBodyCase1AliasesList =
   Array<ListPromoteAliasesResponseBodyCase1AliasesItem>;
@@ -21128,7 +21052,7 @@ export interface RemoveProjectEnvResponseBodyCase0Item {
   type: RemoveProjectEnvResponseBodyCase0ItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase0ItemVisibility | undefined;
 }
@@ -21293,7 +21217,7 @@ export interface RemoveProjectEnvResponseBodyCase1 {
   type: RemoveProjectEnvResponseBodyCase1Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase1Visibility | undefined;
 }
@@ -21455,7 +21379,7 @@ export interface RemoveProjectEnvResponseBodyCase2 {
   type: RemoveProjectEnvResponseBodyCase2Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase2Visibility | undefined;
 }
@@ -21852,12 +21776,6 @@ export interface UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineEl
 export type UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type UpdateMicrofrontendsResponseDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
@@ -21866,13 +21784,6 @@ export interface UpdateMicrofrontendsResponseDefaultResourceConfigBuildQueue {
     | UpdateMicrofrontendsResponseDefaultResourceConfigBuildQueueConfiguration
     | undefined;
 }
-export type UpdateMicrofrontendsResponseDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type UpdateMicrofrontendsResponseDefaultResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
 export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase0Label =
   "standard";
@@ -21918,6 +21829,20 @@ export type UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachine
   | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase1
   | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase2
   | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachineCase3;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type UpdateMicrofrontendsResponseDefaultResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface UpdateMicrofrontendsResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -21929,8 +21854,10 @@ export interface UpdateMicrofrontendsResponseDefaultResourceConfig {
   buildMachineSelection?:
     | UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineType | undefined;
   buildQueue?: UpdateMicrofrontendsResponseDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -21941,9 +21868,7 @@ export interface UpdateMicrofrontendsResponseDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | UpdateMicrofrontendsResponseDefaultResourceConfigElasticBuildMachine
-    | undefined;
+  buildMachineType?: UpdateMicrofrontendsResponseDefaultResourceConfigBuildMachineType | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type UpdateMicrofrontendsResponseDeploymentExpiration =
@@ -22233,7 +22158,7 @@ export interface UpdateMicrofrontendsResponseEnvItem {
   type: UpdateMicrofrontendsResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UpdateMicrofrontendsResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -22416,6 +22341,7 @@ export type UpdateMicrofrontendsResponseLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type UpdateMicrofrontendsResponseLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface UpdateMicrofrontendsResponseLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -22807,6 +22733,9 @@ export type UpdateMicrofrontendsResponsePermissionsAiGatewayApiKeyZdrExemptionLi
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsAiGatewayBudgetOwnedBySelfList =
+  Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
@@ -22956,6 +22885,8 @@ export type UpdateMicrofrontendsResponsePermissionsDeploymentProtectionException
 export type UpdateMicrofrontendsResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23168,7 +23099,11 @@ export type UpdateMicrofrontendsResponsePermissionsOptionsAllowlistList = Array<
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsOrganizationAdminList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsOrganizationMemberList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsOrganizationTeamList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23182,6 +23117,10 @@ export type UpdateMicrofrontendsResponsePermissionsPasswordProtectionInvoiceItem
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23240,6 +23179,11 @@ export type UpdateMicrofrontendsResponsePermissionsProjectEnvVarsUnownedByIntegr
 export type UpdateMicrofrontendsResponsePermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsProjectFlagsOverrideList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateMicrofrontendsResponsePermissionsProjectFlagsOverrideProductionList =
+  Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateMicrofrontendsResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23449,6 +23393,10 @@ export interface UpdateMicrofrontendsResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: UpdateMicrofrontendsResponsePermissionsAiGatewayBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | UpdateMicrofrontendsResponsePermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?:
     | UpdateMicrofrontendsResponsePermissionsAiGatewayByokCredentialsList
     | undefined;
@@ -23630,6 +23578,8 @@ export interface UpdateMicrofrontendsResponsePermissions {
   deploymentRollback?: UpdateMicrofrontendsResponsePermissionsDeploymentRollbackList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: UpdateMicrofrontendsResponsePermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: UpdateMicrofrontendsResponsePermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: UpdateMicrofrontendsResponsePermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23905,7 +23855,11 @@ export interface UpdateMicrofrontendsResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: UpdateMicrofrontendsResponsePermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?: UpdateMicrofrontendsResponsePermissionsOrganizationAdminList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?: UpdateMicrofrontendsResponsePermissionsOrganizationDomainList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?: UpdateMicrofrontendsResponsePermissionsOrganizationMemberList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?: UpdateMicrofrontendsResponsePermissionsOrganizationTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23920,6 +23874,10 @@ export interface UpdateMicrofrontendsResponsePermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: UpdateMicrofrontendsResponsePermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: UpdateMicrofrontendsResponsePermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: UpdateMicrofrontendsResponsePermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: UpdateMicrofrontendsResponsePermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -23998,6 +23956,14 @@ export interface UpdateMicrofrontendsResponsePermissions {
   projectEvent?: UpdateMicrofrontendsResponsePermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: UpdateMicrofrontendsResponsePermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?:
+    | UpdateMicrofrontendsResponsePermissionsProjectFlagsOverrideList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | UpdateMicrofrontendsResponsePermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?:
     | UpdateMicrofrontendsResponsePermissionsProjectFlagsProductionList
@@ -24263,24 +24229,12 @@ export interface UpdateMicrofrontendsResponseResourceConfigBuildMachineElasticTr
   direction: UpdateMicrofrontendsResponseResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type UpdateMicrofrontendsResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type UpdateMicrofrontendsResponseResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type UpdateMicrofrontendsResponseResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface UpdateMicrofrontendsResponseResourceConfigBuildQueue {
   configuration?: UpdateMicrofrontendsResponseResourceConfigBuildQueueConfiguration | undefined;
 }
-export type UpdateMicrofrontendsResponseResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type UpdateMicrofrontendsResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Cores = 4;
 export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Label = "standard";
 export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -24322,6 +24276,19 @@ export type UpdateMicrofrontendsResponseResourceConfigElasticBuildMachine =
   | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase1
   | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase2
   | UpdateMicrofrontendsResponseResourceConfigElasticBuildMachineCase3;
+export type UpdateMicrofrontendsResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type UpdateMicrofrontendsResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UpdateMicrofrontendsResponseResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface UpdateMicrofrontendsResponseResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -24333,8 +24300,8 @@ export interface UpdateMicrofrontendsResponseResourceConfig {
   buildMachineSelection?:
     | UpdateMicrofrontendsResponseResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: UpdateMicrofrontendsResponseResourceConfigBuildMachineType | undefined;
   buildQueue?: UpdateMicrofrontendsResponseResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -24345,7 +24312,7 @@ export interface UpdateMicrofrontendsResponseResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: UpdateMicrofrontendsResponseResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: UpdateMicrofrontendsResponseResourceConfigBuildMachineType | undefined;
 }
 export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0Type = "user";
 export type UpdateMicrofrontendsResponseRollbackDescriptionPrincipalCase0ViaCase0App =
@@ -24423,51 +24390,6 @@ export interface UpdateMicrofrontendsResponseRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type UpdateMicrofrontendsResponseRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type UpdateMicrofrontendsResponseRollingReleaseGateChecksItemExcludePathsList =
-  Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type UpdateMicrofrontendsResponseRollingReleaseGateChecksItemExcludeStatusCodesList =
-  Array<number>;
-/** The metric this check evaluates. */
-export type UpdateMicrofrontendsResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface UpdateMicrofrontendsResponseRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?:
-    | UpdateMicrofrontendsResponseRollingReleaseGateChecksItemExcludePathsList
-    | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | UpdateMicrofrontendsResponseRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: UpdateMicrofrontendsResponseRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type UpdateMicrofrontendsResponseRollingReleaseGateChecksList =
-  Array<UpdateMicrofrontendsResponseRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface UpdateMicrofrontendsResponseRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: UpdateMicrofrontendsResponseRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: UpdateMicrofrontendsResponseRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type UpdateMicrofrontendsResponseRollingReleaseStagesItem =
   CreateProjectResponseRollingReleaseStagesItem;
@@ -24478,8 +24400,6 @@ export type UpdateMicrofrontendsResponseRollingReleaseStagesList =
 export interface UpdateMicrofrontendsResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: UpdateMicrofrontendsResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: UpdateMicrofrontendsResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -24875,7 +24795,7 @@ export interface UpdateMicrofrontendsResponseTargetsValue {
 export type UpdateMicrofrontendsResponseTargetsMap = {
   [key: string]: UpdateMicrofrontendsResponseTargetsValue | null | undefined;
 };
-export type UpdateMicrofrontendsResponseTier = "priority";
+export type UpdateMicrofrontendsResponseTier = "critical" | "priority";
 export type UpdateMicrofrontendsResponseTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type UpdateMicrofrontendsResponseTracingSamplingRulesItemDestination =
@@ -25089,6 +25009,7 @@ export interface UpdateMicrofrontendsResponse {
   customEnvironments?: UpdateMicrofrontendsResponseCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: UpdateMicrofrontendsResponseDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -25116,7 +25037,9 @@ export interface UpdateMicrofrontendsResponse {
   internalRoutes?: UpdateMicrofrontendsResponseInternalRoutesList | undefined;
   ipBuckets?: UpdateMicrofrontendsResponseIpBucketsList | undefined;
   jobs?: UpdateMicrofrontendsResponseJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: UpdateMicrofrontendsResponseLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: UpdateMicrofrontendsResponseLatestDeploymentsList | undefined;
   link?: UpdateMicrofrontendsResponseLink | undefined;
@@ -25138,6 +25061,7 @@ export interface UpdateMicrofrontendsResponse {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: UpdateMicrofrontendsResponseProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: UpdateMicrofrontendsResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: UpdateMicrofrontendsResponseRollbackDescription | undefined;
@@ -26118,24 +26042,12 @@ export interface UpdateProjectResponseDefaultResourceConfigBuildMachineElasticTr
   direction: UpdateProjectResponseDefaultResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type UpdateProjectResponseDefaultResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type UpdateProjectResponseDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type UpdateProjectResponseDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface UpdateProjectResponseDefaultResourceConfigBuildQueue {
   configuration?: UpdateProjectResponseDefaultResourceConfigBuildQueueConfiguration | undefined;
 }
-export type UpdateProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type UpdateProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
 export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Label = "standard";
 export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -26177,6 +26089,19 @@ export type UpdateProjectResponseDefaultResourceConfigElasticBuildMachine =
   | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase1
   | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase2
   | UpdateProjectResponseDefaultResourceConfigElasticBuildMachineCase3;
+export type UpdateProjectResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type UpdateProjectResponseDefaultResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UpdateProjectResponseDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface UpdateProjectResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -26188,8 +26113,8 @@ export interface UpdateProjectResponseDefaultResourceConfig {
   buildMachineSelection?:
     | UpdateProjectResponseDefaultResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: UpdateProjectResponseDefaultResourceConfigBuildMachineType | undefined;
   buildQueue?: UpdateProjectResponseDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: UpdateProjectResponseDefaultResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -26200,7 +26125,7 @@ export interface UpdateProjectResponseDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: UpdateProjectResponseDefaultResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: UpdateProjectResponseDefaultResourceConfigBuildMachineType | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type UpdateProjectResponseDeploymentExpiration = CreateProjectResponseDeploymentExpiration;
@@ -26470,7 +26395,7 @@ export interface UpdateProjectResponseEnvItem {
   type: UpdateProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UpdateProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -26650,6 +26575,7 @@ export type UpdateProjectResponseLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type UpdateProjectResponseLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface UpdateProjectResponseLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -27036,6 +26962,8 @@ export type UpdateProjectResponsePermissionsAiGatewayApiKeyZdrExemptionList = Ar
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsAiGatewayBudgetOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
@@ -27180,6 +27108,8 @@ export type UpdateProjectResponsePermissionsDeploymentProtectionExceptionList = 
 export type UpdateProjectResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -27375,7 +27305,11 @@ export type UpdateProjectResponsePermissionsOptionsAllowlistList = Array<ACLActi
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsOrganizationAdminList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsOrganizationMemberList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsOrganizationTeamList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -27388,6 +27322,10 @@ export type UpdateProjectResponsePermissionsPasswordProtectionList = Array<ACLAc
 export type UpdateProjectResponsePermissionsPasswordProtectionInvoiceItemList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -27444,6 +27382,10 @@ export type UpdateProjectResponsePermissionsProjectEnvVarsUnownedByIntegrationLi
 export type UpdateProjectResponsePermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsProjectFlagsOverrideList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UpdateProjectResponsePermissionsProjectFlagsOverrideProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UpdateProjectResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -27650,6 +27592,10 @@ export interface UpdateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: UpdateProjectResponsePermissionsAiGatewayBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | UpdateProjectResponsePermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?:
     | UpdateProjectResponsePermissionsAiGatewayByokCredentialsList
     | undefined;
@@ -27813,6 +27759,8 @@ export interface UpdateProjectResponsePermissions {
   deploymentRollback?: UpdateProjectResponsePermissionsDeploymentRollbackList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: UpdateProjectResponsePermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: UpdateProjectResponsePermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: UpdateProjectResponsePermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -28058,7 +28006,11 @@ export interface UpdateProjectResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: UpdateProjectResponsePermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?: UpdateProjectResponsePermissionsOrganizationAdminList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?: UpdateProjectResponsePermissionsOrganizationDomainList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?: UpdateProjectResponsePermissionsOrganizationMemberList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?: UpdateProjectResponsePermissionsOrganizationTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -28073,6 +28025,10 @@ export interface UpdateProjectResponsePermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: UpdateProjectResponsePermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: UpdateProjectResponsePermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: UpdateProjectResponsePermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: UpdateProjectResponsePermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -28141,6 +28097,12 @@ export interface UpdateProjectResponsePermissions {
   projectEvent?: UpdateProjectResponsePermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: UpdateProjectResponsePermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?: UpdateProjectResponsePermissionsProjectFlagsOverrideList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | UpdateProjectResponsePermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?: UpdateProjectResponsePermissionsProjectFlagsProductionList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -28379,24 +28341,12 @@ export interface UpdateProjectResponseResourceConfigBuildMachineElasticTransitio
   direction: UpdateProjectResponseResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type UpdateProjectResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type UpdateProjectResponseResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type UpdateProjectResponseResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface UpdateProjectResponseResourceConfigBuildQueue {
   configuration?: UpdateProjectResponseResourceConfigBuildQueueConfiguration | undefined;
 }
-export type UpdateProjectResponseResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type UpdateProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type UpdateProjectResponseResourceConfigElasticBuildMachineCase0Cores = 4;
 export type UpdateProjectResponseResourceConfigElasticBuildMachineCase0Label = "standard";
 export type UpdateProjectResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -28438,6 +28388,19 @@ export type UpdateProjectResponseResourceConfigElasticBuildMachine =
   | UpdateProjectResponseResourceConfigElasticBuildMachineCase1
   | UpdateProjectResponseResourceConfigElasticBuildMachineCase2
   | UpdateProjectResponseResourceConfigElasticBuildMachineCase3;
+export type UpdateProjectResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type UpdateProjectResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UpdateProjectResponseResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface UpdateProjectResponseResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -28447,8 +28410,8 @@ export interface UpdateProjectResponseResourceConfig {
     | UpdateProjectResponseResourceConfigBuildMachineElasticTransition
     | undefined;
   buildMachineSelection?: UpdateProjectResponseResourceConfigBuildMachineSelection | undefined;
-  buildMachineType?: UpdateProjectResponseResourceConfigBuildMachineType | undefined;
   buildQueue?: UpdateProjectResponseResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: UpdateProjectResponseResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -28459,7 +28422,7 @@ export interface UpdateProjectResponseResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: UpdateProjectResponseResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: UpdateProjectResponseResourceConfigBuildMachineType | undefined;
 }
 export type UpdateProjectResponseRollbackDescriptionPrincipalCase0Type = "user";
 export type UpdateProjectResponseRollbackDescriptionPrincipalCase0ViaCase0App =
@@ -28536,47 +28499,6 @@ export interface UpdateProjectResponseRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type UpdateProjectResponseRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type UpdateProjectResponseRollingReleaseGateChecksItemExcludePathsList = Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type UpdateProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList = Array<number>;
-/** The metric this check evaluates. */
-export type UpdateProjectResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface UpdateProjectResponseRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?: UpdateProjectResponseRollingReleaseGateChecksItemExcludePathsList | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | UpdateProjectResponseRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: UpdateProjectResponseRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type UpdateProjectResponseRollingReleaseGateChecksList =
-  Array<UpdateProjectResponseRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface UpdateProjectResponseRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: UpdateProjectResponseRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: UpdateProjectResponseRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type UpdateProjectResponseRollingReleaseStagesItem =
   CreateProjectResponseRollingReleaseStagesItem;
@@ -28587,8 +28509,6 @@ export type UpdateProjectResponseRollingReleaseStagesList =
 export interface UpdateProjectResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: UpdateProjectResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: UpdateProjectResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -28966,7 +28886,7 @@ export interface UpdateProjectResponseTargetsValue {
 export type UpdateProjectResponseTargetsMap = {
   [key: string]: UpdateProjectResponseTargetsValue | null | undefined;
 };
-export type UpdateProjectResponseTier = "priority";
+export type UpdateProjectResponseTier = "critical" | "priority";
 export type UpdateProjectResponseTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type UpdateProjectResponseTracingSamplingRulesItemDestination = "external" | "internal";
@@ -29170,6 +29090,7 @@ export interface UpdateProjectResponse {
   customEnvironments?: UpdateProjectResponseCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: UpdateProjectResponseDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -29197,7 +29118,9 @@ export interface UpdateProjectResponse {
   internalRoutes?: UpdateProjectResponseInternalRoutesList | undefined;
   ipBuckets?: UpdateProjectResponseIpBucketsList | undefined;
   jobs?: UpdateProjectResponseJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: UpdateProjectResponseLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: UpdateProjectResponseLatestDeploymentsList | undefined;
   link?: UpdateProjectResponseLink | undefined;
@@ -29219,6 +29142,7 @@ export interface UpdateProjectResponse {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: UpdateProjectResponseProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: UpdateProjectResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: UpdateProjectResponseRollbackDescription | undefined;
@@ -29713,12 +29637,6 @@ export interface UploadProjectAvatarResponseDefaultResourceConfigBuildMachineEla
 export type UploadProjectAvatarResponseDefaultResourceConfigBuildMachineSelection =
   | "elastic"
   | "fixed";
-export type UploadProjectAvatarResponseDefaultResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type UploadProjectAvatarResponseDefaultResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
@@ -29727,13 +29645,6 @@ export interface UploadProjectAvatarResponseDefaultResourceConfigBuildQueue {
     | UploadProjectAvatarResponseDefaultResourceConfigBuildQueueConfiguration
     | undefined;
 }
-export type UploadProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type UploadProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList =
-  Array<string>;
 export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Cores = 4;
 export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase0Label =
   "standard";
@@ -29778,6 +29689,20 @@ export type UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachine 
   | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase1
   | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase2
   | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachineCase3;
+export type UploadProjectAvatarResponseDefaultResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type UploadProjectAvatarResponseDefaultResourceConfigFunctionDefaultRegionsList =
+  Array<string>;
+export type UploadProjectAvatarResponseDefaultResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface UploadProjectAvatarResponseDefaultResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -29789,8 +29714,10 @@ export interface UploadProjectAvatarResponseDefaultResourceConfig {
   buildMachineSelection?:
     | UploadProjectAvatarResponseDefaultResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: UploadProjectAvatarResponseDefaultResourceConfigBuildMachineType | undefined;
   buildQueue?: UploadProjectAvatarResponseDefaultResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?:
+    | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachine
+    | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -29801,9 +29728,7 @@ export interface UploadProjectAvatarResponseDefaultResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?:
-    | UploadProjectAvatarResponseDefaultResourceConfigElasticBuildMachine
-    | undefined;
+  buildMachineType?: UploadProjectAvatarResponseDefaultResourceConfigBuildMachineType | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export type UploadProjectAvatarResponseDeploymentExpiration =
@@ -30093,7 +30018,7 @@ export interface UploadProjectAvatarResponseEnvItem {
   type: UploadProjectAvatarResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UploadProjectAvatarResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -30274,6 +30199,7 @@ export type UploadProjectAvatarResponseLastAliasRequestJobStatus =
   | "skipped"
   | "succeeded";
 export type UploadProjectAvatarResponseLastAliasRequestType = "promote" | "rollback";
+/** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
 export interface UploadProjectAvatarResponseLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
@@ -30664,6 +30590,8 @@ export type UploadProjectAvatarResponsePermissionsAiGatewayApiKeyZdrExemptionLis
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsAiGatewayBudgetList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsAiGatewayBudgetOwnedBySelfList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsAiGatewayByokCredentialsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsAiGatewayCreditsList = Array<ACLAction>;
@@ -30813,6 +30741,8 @@ export type UploadProjectAvatarResponsePermissionsDeploymentProtectionExceptionL
 export type UploadProjectAvatarResponsePermissionsDeploymentRollbackList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsDeploymentV0List = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsDesktopDeviceList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsDomainList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31020,7 +30950,11 @@ export type UploadProjectAvatarResponsePermissionsOptionsAllowlistList = Array<A
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsOrganizationList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsOrganizationAdminList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsOrganizationDomainList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsOrganizationMemberList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsOrganizationTeamList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31034,6 +30968,10 @@ export type UploadProjectAvatarResponsePermissionsPasswordProtectionInvoiceItemL
   Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsPaymentMethodList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsPerimeterList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsPerimeterLinkList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsPermissionsList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31092,6 +31030,11 @@ export type UploadProjectAvatarResponsePermissionsProjectEnvVarsUnownedByIntegra
 export type UploadProjectAvatarResponsePermissionsProjectEventList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsProjectFlagsList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsProjectFlagsOverrideList = Array<ACLAction>;
+/** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+export type UploadProjectAvatarResponsePermissionsProjectFlagsOverrideProductionList =
+  Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export type UploadProjectAvatarResponsePermissionsProjectFlagsProductionList = Array<ACLAction>;
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31301,6 +31244,10 @@ export interface UploadProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayBudget?: UploadProjectAvatarResponsePermissionsAiGatewayBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  aiGatewayBudgetOwnedBySelf?:
+    | UploadProjectAvatarResponsePermissionsAiGatewayBudgetOwnedBySelfList
+    | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   aiGatewayByokCredentials?:
     | UploadProjectAvatarResponsePermissionsAiGatewayByokCredentialsList
     | undefined;
@@ -31476,6 +31423,8 @@ export interface UploadProjectAvatarResponsePermissions {
   deploymentRollback?: UploadProjectAvatarResponsePermissionsDeploymentRollbackList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   deploymentV0?: UploadProjectAvatarResponsePermissionsDeploymentV0List | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  desktopDevice?: UploadProjectAvatarResponsePermissionsDesktopDeviceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   domain?: UploadProjectAvatarResponsePermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31745,7 +31694,11 @@ export interface UploadProjectAvatarResponsePermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organization?: UploadProjectAvatarResponsePermissionsOrganizationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationAdmin?: UploadProjectAvatarResponsePermissionsOrganizationAdminList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationDomain?: UploadProjectAvatarResponsePermissionsOrganizationDomainList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  organizationMember?: UploadProjectAvatarResponsePermissionsOrganizationMemberList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   organizationTeam?: UploadProjectAvatarResponsePermissionsOrganizationTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31760,6 +31713,10 @@ export interface UploadProjectAvatarResponsePermissions {
     | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   paymentMethod?: UploadProjectAvatarResponsePermissionsPaymentMethodList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeter?: UploadProjectAvatarResponsePermissionsPerimeterList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  perimeterLink?: UploadProjectAvatarResponsePermissionsPerimeterLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   permissions?: UploadProjectAvatarResponsePermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
@@ -31838,6 +31795,12 @@ export interface UploadProjectAvatarResponsePermissions {
   projectEvent?: UploadProjectAvatarResponsePermissionsProjectEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlags?: UploadProjectAvatarResponsePermissionsProjectFlagsList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverride?: UploadProjectAvatarResponsePermissionsProjectFlagsOverrideList | undefined;
+  /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
+  projectFlagsOverrideProduction?:
+    | UploadProjectAvatarResponsePermissionsProjectFlagsOverrideProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
   projectFlagsProduction?:
     | UploadProjectAvatarResponsePermissionsProjectFlagsProductionList
@@ -32097,24 +32060,12 @@ export interface UploadProjectAvatarResponseResourceConfigBuildMachineElasticTra
   direction: UploadProjectAvatarResponseResourceConfigBuildMachineElasticTransitionDirection;
 }
 export type UploadProjectAvatarResponseResourceConfigBuildMachineSelection = "elastic" | "fixed";
-export type UploadProjectAvatarResponseResourceConfigBuildMachineType =
-  | "14cpu-28gb"
-  | "basic"
-  | "enhanced"
-  | "standard"
-  | "turbo";
 export type UploadProjectAvatarResponseResourceConfigBuildQueueConfiguration =
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface UploadProjectAvatarResponseResourceConfigBuildQueue {
   configuration?: UploadProjectAvatarResponseResourceConfigBuildQueueConfiguration | undefined;
 }
-export type UploadProjectAvatarResponseResourceConfigFunctionDefaultMemoryType =
-  | "performance"
-  | "performance_xl"
-  | "standard"
-  | "standard_legacy";
-export type UploadProjectAvatarResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
 export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Cores = 4;
 export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Label = "standard";
 export type UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase0Memory = 8192;
@@ -32156,6 +32107,19 @@ export type UploadProjectAvatarResponseResourceConfigElasticBuildMachine =
   | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase1
   | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase2
   | UploadProjectAvatarResponseResourceConfigElasticBuildMachineCase3;
+export type UploadProjectAvatarResponseResourceConfigFunctionDefaultMemoryType =
+  | "performance"
+  | "performance_xl"
+  | "standard"
+  | "standard_legacy";
+export type UploadProjectAvatarResponseResourceConfigFunctionDefaultRegionsList = Array<string>;
+export type UploadProjectAvatarResponseResourceConfigBuildMachineType =
+  | "basic"
+  | "elastic"
+  | "enhanced"
+  | "standard"
+  | "turbo";
+/** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
 export interface UploadProjectAvatarResponseResourceConfig {
   buildMachineElasticLastUpdated?: number | undefined;
   buildMachineElasticReason?:
@@ -32167,8 +32131,8 @@ export interface UploadProjectAvatarResponseResourceConfig {
   buildMachineSelection?:
     | UploadProjectAvatarResponseResourceConfigBuildMachineSelection
     | undefined;
-  buildMachineType?: UploadProjectAvatarResponseResourceConfigBuildMachineType | undefined;
   buildQueue?: UploadProjectAvatarResponseResourceConfigBuildQueue | undefined;
+  elasticBuildMachine?: UploadProjectAvatarResponseResourceConfigElasticBuildMachine | undefined;
   elasticConcurrencyEnabled?: boolean | undefined;
   enableFunctionsBeta?: boolean | undefined;
   fluid?: boolean | undefined;
@@ -32179,7 +32143,7 @@ export interface UploadProjectAvatarResponseResourceConfig {
   functionDefaultTimeout?: number | undefined;
   functionZeroConfigFailover?: boolean | undefined;
   isNSNBDisabled?: boolean | undefined;
-  elasticBuildMachine?: UploadProjectAvatarResponseResourceConfigElasticBuildMachine | undefined;
+  buildMachineType?: UploadProjectAvatarResponseResourceConfigBuildMachineType | undefined;
 }
 export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0Type = "user";
 export type UploadProjectAvatarResponseRollbackDescriptionPrincipalCase0ViaCase0App =
@@ -32257,50 +32221,6 @@ export interface UploadProjectAvatarResponseRollbackDescription {
   /** The username of the user who rolled back the project, when the principal was a user. */
   username?: string | undefined;
 }
-/** What to do when the gate trips: pause the rollout, or roll it back. */
-export type UploadProjectAvatarResponseRollingReleaseGateAction = "pause" | "rollback";
-/** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-export type UploadProjectAvatarResponseRollingReleaseGateChecksItemExcludePathsList = Array<string>;
-/** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-export type UploadProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList =
-  Array<number>;
-/** The metric this check evaluates. */
-export type UploadProjectAvatarResponseRollingReleaseGateChecksItemType = "error-rate-5xx";
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export interface UploadProjectAvatarResponseRollingReleaseGateChecksItem {
-  /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?:
-    | UploadProjectAvatarResponseRollingReleaseGateChecksItemExcludePathsList
-    | undefined;
-  /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?:
-    | UploadProjectAvatarResponseRollingReleaseGateChecksItemExcludeStatusCodesList
-    | undefined;
-  /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number | undefined;
-  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
-  significanceLevel?: number | undefined;
-  /** The metric this check evaluates. */
-  type: UploadProjectAvatarResponseRollingReleaseGateChecksItemType;
-}
-/** The checks to evaluate. An empty array means nothing is evaluated. */
-export type UploadProjectAvatarResponseRollingReleaseGateChecksList =
-  Array<UploadProjectAvatarResponseRollingReleaseGateChecksItem>;
-/** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-export interface UploadProjectAvatarResponseRollingReleaseGate {
-  /** What to do when the gate trips: pause the rollout, or roll it back. */
-  action: UploadProjectAvatarResponseRollingReleaseGateAction;
-  /** The checks to evaluate. An empty array means nothing is evaluated. */
-  checks: UploadProjectAvatarResponseRollingReleaseGateChecksList;
-  /** When true, a tripped gate is only reported -- {@link action} is not taken. */
-  dryRun: boolean;
-  /** Whether automated gating is enabled for this project's rollouts. */
-  enabled: boolean;
-  /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number | undefined;
-  /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number | undefined;
-}
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export type UploadProjectAvatarResponseRollingReleaseStagesItem =
   CreateProjectResponseRollingReleaseStagesItem;
@@ -32311,8 +32231,6 @@ export type UploadProjectAvatarResponseRollingReleaseStagesList =
 export interface UploadProjectAvatarResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
   canaryResponseHeader?: boolean | undefined;
-  /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: UploadProjectAvatarResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
   stages?: UploadProjectAvatarResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
@@ -32706,7 +32624,7 @@ export interface UploadProjectAvatarResponseTargetsValue {
 export type UploadProjectAvatarResponseTargetsMap = {
   [key: string]: UploadProjectAvatarResponseTargetsValue | null | undefined;
 };
-export type UploadProjectAvatarResponseTier = "priority";
+export type UploadProjectAvatarResponseTier = "critical" | "priority";
 export type UploadProjectAvatarResponseTracingIgnorePathsList = Array<string>;
 /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
 export type UploadProjectAvatarResponseTracingSamplingRulesItemDestination =
@@ -32918,6 +32836,7 @@ export interface UploadProjectAvatarResponse {
   customEnvironments?: UploadProjectAvatarResponseCustomEnvironmentsList | undefined;
   customerSupportCodeVisibility?: boolean | undefined;
   dataCache?: CreateProjectResponseDataCache | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   defaultResourceConfig: UploadProjectAvatarResponseDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: CreateProjectResponseDeploymentExpiration;
@@ -32945,7 +32864,9 @@ export interface UploadProjectAvatarResponse {
   internalRoutes?: UploadProjectAvatarResponseInternalRoutesList | undefined;
   ipBuckets?: UploadProjectAvatarResponseIpBucketsList | undefined;
   jobs?: UploadProjectAvatarResponseJobs | undefined;
+  /** The last promote or rollback request for the project and its job status. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response, even if a request exists. */
   lastAliasRequest?: UploadProjectAvatarResponseLastAliasRequest | null | undefined;
+  /** Legacy mirror of `lastAliasRequest` without `type`, kept for CLI compatibility. Only populated by `GET /v9/projects/{idOrName}` when called with `rollbackInfo=true`; `null` in every other response. */
   lastRollbackTarget?: unknown | null | undefined;
   latestDeployments?: UploadProjectAvatarResponseLatestDeploymentsList | undefined;
   link?: UploadProjectAvatarResponseLink | undefined;
@@ -32967,6 +32888,7 @@ export interface UploadProjectAvatarResponse {
   protectedSourcemaps?: boolean | undefined;
   protectionBypass?: UploadProjectAvatarResponseProtectionBypassMap | undefined;
   protectionConfig?: CreateProjectResponseProtectionConfig | undefined;
+  /** Project resource config returned by the API. `buildMachineType` is a fixed machine type or `elastic`; the active Elastic machine is reported through `elasticBuildMachine`. */
   resourceConfig: UploadProjectAvatarResponseResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
   rollbackDescription?: UploadProjectAvatarResponseRollbackDescription | undefined;
@@ -33029,8 +32951,10 @@ export interface VerifyProjectDomainResponse {
 }
 export type AcceptProjectTransferRequestError =
   | BadRequest
+  | PaymentRequired
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | VercelOpError;
 /** Accept project transfer request Accept a project transfer request initated by another team. <br/> The `code` is generated using the `POST /projects/:idOrName/transfer-request` endpoint. */
@@ -33042,7 +32966,8 @@ export const acceptProjectTransferRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1155, __c36, 3) as any as S.Schema<AcceptProjectTransferRequestRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<AcceptProjectTransferRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33066,6 +32991,7 @@ export const addProjectDomain: API.OperationMethod<
   input: __S(1248, __c39, 0) as any as S.Schema<AddProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<AddProjectDomainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33088,6 +33014,7 @@ export const batchRemoveProjectEnv: API.OperationMethod<
   input: __S(1312, __c41, 0) as any as S.Schema<BatchRemoveProjectEnvRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<BatchRemoveProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33111,6 +33038,7 @@ export const createProject: API.OperationMethod<
   input: __S(1349, __c42, 5) as any as S.Schema<CreateProjectRequest>,
   output: __S(1387, __c43, 11) as any as S.Schema<CreateProjectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33134,6 +33062,7 @@ export const createProjectEnv: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectEnvRequest>,
   output: __S(4, __c0, 4) as any as S.Schema<CreateProjectEnvResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33156,6 +33085,7 @@ export const createProjectTransferRequest: API.OperationMethod<
   input: __S(32, __c1, 0) as any as S.Schema<CreateProjectTransferRequestRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<CreateProjectTransferRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33178,6 +33108,7 @@ export const createTraceSession: API.OperationMethod<
   input: __S(64, __c2, 0) as any as S.Schema<CreateTraceSessionRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<CreateTraceSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33195,6 +33126,7 @@ export const deleteProject: API.OperationMethod<
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33212,6 +33144,7 @@ export const deleteProjectAvatar: API.OperationMethod<
   input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectAvatarRequest>,
   output: __S(230, __c7, 6) as any as S.Schema<DeleteProjectAvatarResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33229,6 +33162,7 @@ export const editProjectEnv: API.OperationMethod<
   input: __S(256, __c8, 0) as any as S.Schema<EditProjectEnvRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<EditProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33246,6 +33180,7 @@ export const filterProjectEnvs: API.OperationMethod<
   input: __S(288, __c9, 0) as any as S.Schema<FilterProjectEnvsRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<FilterProjectEnvsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33263,6 +33198,7 @@ export const getProject: API.OperationMethod<
   input: __S(320, __c10, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(362, __c11, 10) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33280,6 +33216,7 @@ export const getProjectDomain: API.OperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<GetProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<GetProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33297,6 +33234,7 @@ export const getProjectDomains: API.OperationMethod<
   input: __S(416, __c13, 0) as any as S.Schema<GetProjectDomainsRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<GetProjectDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33314,6 +33252,7 @@ export const getProjectEnv: API.OperationMethod<
   input: __S(448, __c14, 0) as any as S.Schema<GetProjectEnvRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<GetProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33331,6 +33270,7 @@ export const getProjects: API.OperationMethod<
   input: __S(480, __c15, 0) as any as S.Schema<GetProjectsRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<GetProjectsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33348,6 +33288,7 @@ export const getProjectToken: API.OperationMethod<
   input: __S(512, __c16, 0) as any as S.Schema<GetProjectTokenRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetProjectTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33363,8 +33304,9 @@ export const getProjectTrace: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetProjectTraceRequest>,
-  output: __S(556, __c17, 12) as any as S.Schema<GetProjectTraceResponse>,
+  output: __S(557, __c17, 13) as any as S.Schema<GetProjectTraceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33382,6 +33324,7 @@ export const listPromoteAliases: API.OperationMethod<
   input: __S(576, __c18, 0) as any as S.Schema<ListPromoteAliasesRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ListPromoteAliasesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33399,6 +33342,7 @@ export const moveProjectDomain: API.OperationMethod<
   input: __S(608, __c19, 0) as any as S.Schema<MoveProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<MoveProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33416,6 +33360,7 @@ export const pauseProject: API.OperationMethod<
   input: __S(640, __c20, 0) as any as S.Schema<PauseProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<PauseProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33433,6 +33378,7 @@ export const removeProjectDomain: API.OperationMethod<
   input: __S(672, __c21, 0) as any as S.Schema<RemoveProjectDomainRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<RemoveProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33450,6 +33396,7 @@ export const removeProjectEnv: API.OperationMethod<
   input: __S(704, __c22, 0) as any as S.Schema<RemoveProjectEnvRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<RemoveProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33473,6 +33420,7 @@ export const requestPromote: API.OperationMethod<
   input: __S(736, __c23, 0) as any as S.Schema<RequestPromoteRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RequestPromoteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33497,6 +33445,7 @@ export const requestRollback: API.OperationMethod<
   input: __S(768, __c24, 0) as any as S.Schema<RequestRollbackRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RequestRollbackResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33514,6 +33463,7 @@ export const unpauseProject: API.OperationMethod<
   input: __S(800, __c25, 0) as any as S.Schema<UnpauseProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UnpauseProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33536,6 +33486,7 @@ export const updateMicrofrontends: API.OperationMethod<
   input: __S(832, __c26, 0) as any as S.Schema<UpdateMicrofrontendsRequest>,
   output: __S(870, __c27, 6) as any as S.Schema<UpdateMicrofrontendsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33559,6 +33510,7 @@ export const updateProject: API.OperationMethod<
   input: __S(918, __c28, 22) as any as S.Schema<UpdateProjectRequest>,
   output: __S(956, __c29, 28) as any as S.Schema<UpdateProjectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33576,6 +33528,7 @@ export const updateProjectDomain: API.OperationMethod<
   input: __S(960, __c30, 0) as any as S.Schema<UpdateProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<UpdateProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33598,6 +33551,7 @@ export const updateProjectProtectionBypass: API.OperationMethod<
   input: __S(995, __c31, 3) as any as S.Schema<UpdateProjectProtectionBypassRequest>,
   output: __S(997, __c31, 5) as any as S.Schema<UpdateProjectProtectionBypassResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33629,6 +33583,7 @@ export const updateProjectsByProjectIdRollbackByDeploymentIdUpdateDescription: A
     0,
   ) as any as S.Schema<UpdateProjectsByProjectIdRollbackByDeploymentIdUpdateDescriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33646,6 +33601,7 @@ export const uploadProjectAvatar: API.OperationMethod<
   input: __S(1056, __c33, 0) as any as S.Schema<UploadProjectAvatarRequest>,
   output: __S(1094, __c34, 6) as any as S.Schema<UploadProjectAvatarResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33663,6 +33619,7 @@ export const verifyProjectDomain: API.OperationMethod<
   input: __S(1120, __c35, 0) as any as S.Schema<VerifyProjectDomainRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<VerifyProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33724,7 +33681,7 @@ function __c1(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           callbackUrl: S.optional(S.String),
-          callbackSecret: S.optional(S.String),
+          callbackSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/projects/{idOrName}/transfer-request", code: 200 }),
         ),
@@ -33755,7 +33712,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateTraceSessionResponse" });
   }
@@ -33868,8 +33825,8 @@ function __c6(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -33878,7 +33835,7 @@ function __c6(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteProjectAvatarResponseDefaultResourceConfig" });
     case 7:
@@ -33949,7 +33906,7 @@ function __c6(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -34010,8 +33967,8 @@ function __c6(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -34020,7 +33977,7 @@ function __c6(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteProjectAvatarResponseResourceConfig" });
     case 24:
@@ -34040,8 +33997,8 @@ function __c6(j: number): any {
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
-          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+          rateLimit: S.optional(S.NullOr(__S(1515, __c47, 11))),
+          redirect: S.optional(S.NullOr(__S(1516, __c47, 12))),
         }),
       ).annotate({ identifier: "DeleteProjectAvatarResponseSecurityRulesetsValue" });
     case 26:
@@ -34061,7 +34018,7 @@ function __c6(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          managedRules: S.optional(S.NullOr(__S(1514, __c47, 10))),
           pageIntegrityEnabled: S.optional(S.Boolean),
           rulesets: S.optional(__S(218, __c6, 26)),
         }),
@@ -34113,7 +34070,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteProjectAvatarResponseTrustedSourcesOidcProvidersValueItem" });
@@ -34225,23 +34182,23 @@ function __c7(j: number): any {
           protectionConfig: S.optional(__S(1508, __c47, 4)),
           resourceConfig: __S(215, __c6, 23),
           rollbackDescription: S.optional(__S(216, __c6, 24)),
-          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rollingRelease: S.optional(S.NullOr(__S(1511, __c47, 7))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1515, __c47, 11)),
+          sandbox: S.optional(__S(1512, __c47, 8)),
           security: S.optional(__S(219, __c6, 27)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1521, __c47, 17)),
+          services: S.optional(__S(1518, __c47, 14)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1522, __c47, 18)),
-          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
-          staticIps: S.optional(__S(1524, __c47, 20)),
+          speedInsights: S.optional(__S(1519, __c47, 15)),
+          ssoProtection: S.optional(S.NullOr(__S(1520, __c47, 16))),
+          staticIps: S.optional(__S(1521, __c47, 17)),
           targets: S.optional(__S(221, __c6, 29)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1527, __c47, 23)),
+          tracing: S.optional(__S(1524, __c47, 20)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
@@ -34249,11 +34206,11 @@ function __c7(j: number): any {
           trustedIps: S.optional(S.NullOr(S.Unknown)),
           trustedSources: S.optional(S.NullOr(__S(229, __c7, 5))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1529, __c47, 25)),
+          usageStatus: S.optional(__S(1526, __c47, 22)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          vercelFlags: S.optional(__S(1530, __c47, 26)),
-          webAnalytics: S.optional(__S(1531, __c47, 27)),
+          vercelFlags: S.optional(__S(1527, __c47, 23)),
+          webAnalytics: S.optional(__S(1528, __c47, 24)),
         }),
       ).annotate({ identifier: "DeleteProjectAvatarResponse" });
   }
@@ -34271,7 +34228,7 @@ function __c8(j: number): any {
           target: S.optional(__S(1408, __c44, 0)),
           gitBranch: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customEnvironmentIds: S.optional(__S(1216, __c38, 0)),
           comment: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/v9/projects/{idOrName}/env/{id}", code: 200 })),
@@ -34298,7 +34255,7 @@ function __c8(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
         }),
       ).annotate({ identifier: "EditProjectEnvResponse" });
@@ -34331,6 +34288,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           idOrName: S.String.pipe(T.Label()),
+          rollbackInfo: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v9/projects/{idOrName}", code: 200 })),
@@ -34415,8 +34373,8 @@ function __c10(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -34425,7 +34383,7 @@ function __c10(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponseDefaultResourceConfig" });
     case 7:
@@ -34494,7 +34452,7 @@ function __c10(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -34572,8 +34530,8 @@ function __c10(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -34582,7 +34540,7 @@ function __c10(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponseResourceConfig" });
     case 28:
@@ -34602,8 +34560,8 @@ function __c10(j: number): any {
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
-          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+          rateLimit: S.optional(S.NullOr(__S(1515, __c47, 11))),
+          redirect: S.optional(S.NullOr(__S(1516, __c47, 12))),
         }),
       ).annotate({ identifier: "GetProjectResponseSecurityRulesetsValue" });
     case 30:
@@ -34623,7 +34581,7 @@ function __c10(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          managedRules: S.optional(S.NullOr(__S(1514, __c47, 10))),
           pageIntegrityEnabled: S.optional(S.Boolean),
           rulesets: S.optional(__S(350, __c10, 30)),
         }),
@@ -34679,7 +34637,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectResponseTrustedSourcesOidcProvidersValueItem" });
@@ -34786,23 +34744,23 @@ function __c11(j: number): any {
           protectionConfig: S.optional(__S(1508, __c47, 4)),
           resourceConfig: __S(347, __c10, 27),
           rollbackDescription: S.optional(__S(348, __c10, 28)),
-          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rollingRelease: S.optional(S.NullOr(__S(1511, __c47, 7))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1515, __c47, 11)),
+          sandbox: S.optional(__S(1512, __c47, 8)),
           security: S.optional(__S(351, __c10, 31)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1521, __c47, 17)),
+          services: S.optional(__S(1518, __c47, 14)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1522, __c47, 18)),
-          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
-          staticIps: S.optional(__S(1524, __c47, 20)),
+          speedInsights: S.optional(__S(1519, __c47, 15)),
+          ssoProtection: S.optional(S.NullOr(__S(1520, __c47, 16))),
+          staticIps: S.optional(__S(1521, __c47, 17)),
           targets: S.optional(__S(353, __c11, 1)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1527, __c47, 23)),
+          tracing: S.optional(__S(1524, __c47, 20)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
@@ -34810,11 +34768,11 @@ function __c11(j: number): any {
           trustedIps: S.optional(S.NullOr(S.Unknown)),
           trustedSources: S.optional(S.NullOr(__S(361, __c11, 9))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1529, __c47, 25)),
+          usageStatus: S.optional(__S(1526, __c47, 22)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          vercelFlags: S.optional(__S(1530, __c47, 26)),
-          webAnalytics: S.optional(__S(1531, __c47, 27)),
+          vercelFlags: S.optional(__S(1527, __c47, 23)),
+          webAnalytics: S.optional(__S(1528, __c47, 24)),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
@@ -34946,66 +34904,68 @@ function __c17(j: number): any {
     case 3:
       return S.Record(S.String, S.Unknown);
     case 4:
+      return S.Array(S.Number);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           attributes: __S(547, __c17, 3),
           name: S.String,
-          timestamp: __S(1441, __c45, 1),
+          timestamp: __S(548, __c17, 4),
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItemEventsItem" });
-    case 5:
-      return S.Array(__S(548, __c17, 4));
     case 6:
+      return S.Array(__S(549, __c17, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItemLibrary" });
-    case 7:
-      return S.Array(__S(547, __c17, 3));
     case 8:
+      return S.Array(__S(547, __c17, 3));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           code: S.Number,
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItemStatus" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           attributes: __S(547, __c17, 3),
-          duration: __S(1441, __c45, 1),
-          endTime: __S(1441, __c45, 1),
-          events: __S(549, __c17, 5),
+          duration: __S(548, __c17, 4),
+          endTime: __S(548, __c17, 4),
+          events: __S(550, __c17, 6),
           kind: S.Number,
-          library: __S(550, __c17, 6),
-          links: __S(551, __c17, 7),
+          library: __S(551, __c17, 7),
+          links: __S(552, __c17, 8),
           name: S.String,
           parentSpanId: S.optional(S.String),
           resource: S.String,
           spanId: S.String,
-          startTime: __S(1441, __c45, 1),
-          status: __S(552, __c17, 8),
+          startTime: __S(548, __c17, 4),
+          status: __S(553, __c17, 9),
           traceFlags: S.Number,
           traceState: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTraceSpansItem" });
-    case 10:
-      return S.Array(__S(553, __c17, 9));
     case 11:
+      return S.Array(__S(554, __c17, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           resources: S.optional(__S(546, __c17, 2)),
           rootSpanId: S.optional(S.String),
-          spans: __S(554, __c17, 10),
+          spans: __S(555, __c17, 11),
           traceId: S.String,
         }),
       ).annotate({ identifier: "GetProjectTraceResponseTrace" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          trace: __S(555, __c17, 11),
+          trace: __S(556, __c17, 12),
         }),
       ).annotate({ identifier: "GetProjectTraceResponse" });
   }
@@ -35254,8 +35214,8 @@ function __c26(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -35264,7 +35224,7 @@ function __c26(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseDefaultResourceConfig" });
     case 7:
@@ -35335,7 +35295,7 @@ function __c26(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -35396,8 +35356,8 @@ function __c26(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -35406,7 +35366,7 @@ function __c26(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseResourceConfig" });
     case 24:
@@ -35426,8 +35386,8 @@ function __c26(j: number): any {
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
-          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+          rateLimit: S.optional(S.NullOr(__S(1515, __c47, 11))),
+          redirect: S.optional(S.NullOr(__S(1516, __c47, 12))),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponseSecurityRulesetsValue" });
     case 26:
@@ -35447,7 +35407,7 @@ function __c26(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          managedRules: S.optional(S.NullOr(__S(1514, __c47, 10))),
           pageIntegrityEnabled: S.optional(S.Boolean),
           rulesets: S.optional(__S(858, __c26, 26)),
         }),
@@ -35499,7 +35459,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
           label: S.optional(S.String),
         }),
       ).annotate({
@@ -35613,23 +35573,23 @@ function __c27(j: number): any {
           protectionConfig: S.optional(__S(1508, __c47, 4)),
           resourceConfig: __S(855, __c26, 23),
           rollbackDescription: S.optional(__S(856, __c26, 24)),
-          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rollingRelease: S.optional(S.NullOr(__S(1511, __c47, 7))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1515, __c47, 11)),
+          sandbox: S.optional(__S(1512, __c47, 8)),
           security: S.optional(__S(859, __c26, 27)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1521, __c47, 17)),
+          services: S.optional(__S(1518, __c47, 14)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1522, __c47, 18)),
-          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
-          staticIps: S.optional(__S(1524, __c47, 20)),
+          speedInsights: S.optional(__S(1519, __c47, 15)),
+          ssoProtection: S.optional(S.NullOr(__S(1520, __c47, 16))),
+          staticIps: S.optional(__S(1521, __c47, 17)),
           targets: S.optional(__S(861, __c26, 29)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1527, __c47, 23)),
+          tracing: S.optional(__S(1524, __c47, 20)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
@@ -35637,11 +35597,11 @@ function __c27(j: number): any {
           trustedIps: S.optional(S.NullOr(S.Unknown)),
           trustedSources: S.optional(S.NullOr(__S(869, __c27, 5))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1529, __c47, 25)),
+          usageStatus: S.optional(__S(1526, __c47, 22)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          vercelFlags: S.optional(__S(1530, __c47, 26)),
-          webAnalytics: S.optional(__S(1531, __c47, 27)),
+          vercelFlags: S.optional(__S(1527, __c47, 23)),
+          webAnalytics: S.optional(__S(1528, __c47, 24)),
         }),
       ).annotate({ identifier: "UpdateMicrofrontendsResponse" });
   }
@@ -35761,7 +35721,7 @@ function __c28(j: number): any {
         S.Struct({
           label: S.optional(S.String),
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
         }),
       ).annotate({ identifier: "UpdateProjectRequestTrustedSourcesOidcProvidersValueItem" });
     case 17:
@@ -35922,8 +35882,8 @@ function __c28(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -35932,7 +35892,7 @@ function __c28(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectResponseDefaultResourceConfig" });
     case 29:
@@ -36005,7 +35965,7 @@ function __c29(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -36066,8 +36026,8 @@ function __c29(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -36076,7 +36036,7 @@ function __c29(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectResponseResourceConfig" });
     case 14:
@@ -36096,8 +36056,8 @@ function __c29(j: number): any {
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
-          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+          rateLimit: S.optional(S.NullOr(__S(1515, __c47, 11))),
+          redirect: S.optional(S.NullOr(__S(1516, __c47, 12))),
         }),
       ).annotate({ identifier: "UpdateProjectResponseSecurityRulesetsValue" });
     case 16:
@@ -36117,7 +36077,7 @@ function __c29(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          managedRules: S.optional(S.NullOr(__S(1514, __c47, 10))),
           pageIntegrityEnabled: S.optional(S.Boolean),
           rulesets: S.optional(__S(944, __c29, 16)),
         }),
@@ -36169,7 +36129,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateProjectResponseTrustedSourcesOidcProvidersValueItem" });
@@ -36275,23 +36235,23 @@ function __c29(j: number): any {
           protectionConfig: S.optional(__S(1508, __c47, 4)),
           resourceConfig: __S(941, __c29, 13),
           rollbackDescription: S.optional(__S(942, __c29, 14)),
-          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rollingRelease: S.optional(S.NullOr(__S(1511, __c47, 7))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1515, __c47, 11)),
+          sandbox: S.optional(__S(1512, __c47, 8)),
           security: S.optional(__S(945, __c29, 17)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1521, __c47, 17)),
+          services: S.optional(__S(1518, __c47, 14)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1522, __c47, 18)),
-          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
-          staticIps: S.optional(__S(1524, __c47, 20)),
+          speedInsights: S.optional(__S(1519, __c47, 15)),
+          ssoProtection: S.optional(S.NullOr(__S(1520, __c47, 16))),
+          staticIps: S.optional(__S(1521, __c47, 17)),
           targets: S.optional(__S(947, __c29, 19)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1527, __c47, 23)),
+          tracing: S.optional(__S(1524, __c47, 20)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
@@ -36299,11 +36259,11 @@ function __c29(j: number): any {
           trustedIps: S.optional(S.NullOr(S.Unknown)),
           trustedSources: S.optional(S.NullOr(__S(955, __c29, 27))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1529, __c47, 25)),
+          usageStatus: S.optional(__S(1526, __c47, 22)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          vercelFlags: S.optional(__S(1530, __c47, 26)),
-          webAnalytics: S.optional(__S(1531, __c47, 27)),
+          vercelFlags: S.optional(__S(1527, __c47, 23)),
+          webAnalytics: S.optional(__S(1528, __c47, 24)),
         }),
       ).annotate({ identifier: "UpdateProjectResponse" });
   }
@@ -36483,8 +36443,8 @@ function __c33(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -36493,7 +36453,7 @@ function __c33(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseDefaultResourceConfig" });
     case 7:
@@ -36564,7 +36524,7 @@ function __c33(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -36625,8 +36585,8 @@ function __c33(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -36635,7 +36595,7 @@ function __c33(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseResourceConfig" });
     case 24:
@@ -36655,8 +36615,8 @@ function __c33(j: number): any {
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
-          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+          rateLimit: S.optional(S.NullOr(__S(1515, __c47, 11))),
+          redirect: S.optional(S.NullOr(__S(1516, __c47, 12))),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseSecurityRulesetsValue" });
     case 26:
@@ -36676,7 +36636,7 @@ function __c33(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          managedRules: S.optional(S.NullOr(__S(1514, __c47, 10))),
           pageIntegrityEnabled: S.optional(S.Boolean),
           rulesets: S.optional(__S(1082, __c33, 26)),
         }),
@@ -36728,7 +36688,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponseTrustedSourcesOidcProvidersValueItem" });
@@ -36840,23 +36800,23 @@ function __c34(j: number): any {
           protectionConfig: S.optional(__S(1508, __c47, 4)),
           resourceConfig: __S(1079, __c33, 23),
           rollbackDescription: S.optional(__S(1080, __c33, 24)),
-          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rollingRelease: S.optional(S.NullOr(__S(1511, __c47, 7))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1515, __c47, 11)),
+          sandbox: S.optional(__S(1512, __c47, 8)),
           security: S.optional(__S(1083, __c33, 27)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1521, __c47, 17)),
+          services: S.optional(__S(1518, __c47, 14)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1522, __c47, 18)),
-          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
-          staticIps: S.optional(__S(1524, __c47, 20)),
+          speedInsights: S.optional(__S(1519, __c47, 15)),
+          ssoProtection: S.optional(S.NullOr(__S(1520, __c47, 16))),
+          staticIps: S.optional(__S(1521, __c47, 17)),
           targets: S.optional(__S(1085, __c33, 29)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1527, __c47, 23)),
+          tracing: S.optional(__S(1524, __c47, 20)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
@@ -36864,11 +36824,11 @@ function __c34(j: number): any {
           trustedIps: S.optional(S.NullOr(S.Unknown)),
           trustedSources: S.optional(S.NullOr(__S(1093, __c34, 5))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1529, __c47, 25)),
+          usageStatus: S.optional(__S(1526, __c47, 22)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          vercelFlags: S.optional(__S(1530, __c47, 26)),
-          webAnalytics: S.optional(__S(1531, __c47, 27)),
+          vercelFlags: S.optional(__S(1527, __c47, 23)),
+          webAnalytics: S.optional(__S(1528, __c47, 24)),
         }),
       ).annotate({ identifier: "UploadProjectAvatarResponse" });
   }
@@ -37064,7 +37024,7 @@ function __c42(j: number): any {
           target: S.Unknown,
           gitBranch: S.optional(S.String),
           type: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateProjectRequestEnvironmentVariablesItem" });
     case 2:
@@ -37206,8 +37166,8 @@ function __c42(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -37216,7 +37176,7 @@ function __c42(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseDefaultResourceConfig" });
     case 12:
@@ -37285,7 +37245,7 @@ function __c42(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -37346,8 +37306,8 @@ function __c42(j: number): any {
           buildMachineElasticReason: S.optional(S.String),
           buildMachineElasticTransition: S.optional(__S(1491, __c46, 19)),
           buildMachineSelection: S.optional(S.String),
-          buildMachineType: S.optional(S.String),
           buildQueue: S.optional(__S(1474, __c46, 2)),
+          elasticBuildMachine: S.optional(S.Unknown),
           elasticConcurrencyEnabled: S.optional(S.Boolean),
           enableFunctionsBeta: S.optional(S.Boolean),
           fluid: S.optional(S.Boolean),
@@ -37356,7 +37316,7 @@ function __c42(j: number): any {
           functionDefaultTimeout: S.optional(S.Number),
           functionZeroConfigFailover: S.optional(S.Boolean),
           isNSNBDisabled: S.optional(S.Boolean),
-          elasticBuildMachine: S.optional(S.Unknown),
+          buildMachineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseResourceConfig" });
     case 29:
@@ -37376,8 +37336,8 @@ function __c42(j: number): any {
           actionDuration: S.optional(S.NullOr(S.String)),
           bypassSystem: S.optional(S.NullOr(S.Boolean)),
           logHeaders: S.optional(S.Unknown),
-          rateLimit: S.optional(S.NullOr(__S(1518, __c47, 14))),
-          redirect: S.optional(S.NullOr(__S(1519, __c47, 15))),
+          rateLimit: S.optional(S.NullOr(__S(1515, __c47, 11))),
+          redirect: S.optional(S.NullOr(__S(1516, __c47, 12))),
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityRulesetsValue" });
     case 31:
@@ -37401,7 +37361,7 @@ function __c43(j: number): any {
           ja3Enabled: S.optional(S.Boolean),
           ja4Enabled: S.optional(S.Boolean),
           log_headers: S.optional(S.Unknown),
-          managedRules: S.optional(S.NullOr(__S(1517, __c47, 13))),
+          managedRules: S.optional(S.NullOr(__S(1514, __c47, 10))),
           pageIntegrityEnabled: S.optional(S.Boolean),
           rulesets: S.optional(__S(1375, __c42, 31)),
         }),
@@ -37453,7 +37413,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           to: S.Unknown,
-          claims: __S(1528, __c47, 24),
+          claims: __S(1525, __c47, 21),
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseTrustedSourcesOidcProvidersValueItem" });
@@ -37559,23 +37519,23 @@ function __c43(j: number): any {
           protectionConfig: S.optional(__S(1508, __c47, 4)),
           resourceConfig: __S(1372, __c42, 28),
           rollbackDescription: S.optional(__S(1373, __c42, 29)),
-          rollingRelease: S.optional(S.NullOr(__S(1514, __c47, 10))),
+          rollingRelease: S.optional(S.NullOr(__S(1511, __c47, 7))),
           rootDirectory: S.optional(S.NullOr(S.String)),
-          sandbox: S.optional(__S(1515, __c47, 11)),
+          sandbox: S.optional(__S(1512, __c47, 8)),
           security: S.optional(__S(1376, __c43, 0)),
           serverlessFunctionZeroConfigFailover: S.optional(S.Boolean),
-          services: S.optional(__S(1521, __c47, 17)),
+          services: S.optional(__S(1518, __c47, 14)),
           skewProtectionAllowedDomains: S.optional(__S(1216, __c38, 0)),
           skewProtectionBoundaryAt: S.optional(S.Number),
           skewProtectionMaxAge: S.optional(S.Number),
           skipGitConnectDuringLink: S.optional(S.Boolean),
           sourceFilesOutsideRootDirectory: S.optional(S.Boolean),
-          speedInsights: S.optional(__S(1522, __c47, 18)),
-          ssoProtection: S.optional(S.NullOr(__S(1523, __c47, 19))),
-          staticIps: S.optional(__S(1524, __c47, 20)),
+          speedInsights: S.optional(__S(1519, __c47, 15)),
+          ssoProtection: S.optional(S.NullOr(__S(1520, __c47, 16))),
+          staticIps: S.optional(__S(1521, __c47, 17)),
           targets: S.optional(__S(1378, __c43, 2)),
           tier: S.optional(S.String),
-          tracing: S.optional(__S(1527, __c47, 23)),
+          tracing: S.optional(__S(1524, __c47, 20)),
           transferCompletedAt: S.optional(S.Number),
           transferredFromAccountId: S.optional(S.String),
           transferStartedAt: S.optional(S.Number),
@@ -37583,11 +37543,11 @@ function __c43(j: number): any {
           trustedIps: S.optional(S.NullOr(S.Unknown)),
           trustedSources: S.optional(S.NullOr(__S(1386, __c43, 10))),
           updatedAt: S.optional(S.Number),
-          usageStatus: S.optional(__S(1529, __c47, 25)),
+          usageStatus: S.optional(__S(1526, __c47, 22)),
           v0: S.optional(S.Boolean),
           v0Created: S.optional(S.Boolean),
-          vercelFlags: S.optional(__S(1530, __c47, 26)),
-          webAnalytics: S.optional(__S(1531, __c47, 27)),
+          vercelFlags: S.optional(__S(1527, __c47, 23)),
+          webAnalytics: S.optional(__S(1528, __c47, 24)),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
@@ -37609,8 +37569,6 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
-    case 1:
-      return S.Array(S.Number);
   }
 }
 function __c46(j: number): any {
@@ -37887,6 +37845,7 @@ function __c47(j: number): any {
           aiGatewayApiKeySpendAttribution: S.optional(__S(1408, __c44, 0)),
           aiGatewayApiKeyZdrExemption: S.optional(__S(1408, __c44, 0)),
           aiGatewayBudget: S.optional(__S(1408, __c44, 0)),
+          aiGatewayBudgetOwnedBySelf: S.optional(__S(1408, __c44, 0)),
           aiGatewayByokCredentials: S.optional(__S(1408, __c44, 0)),
           aiGatewayCredits: S.optional(__S(1408, __c44, 0)),
           aiGatewayGuardrails: S.optional(__S(1408, __c44, 0)),
@@ -37959,6 +37918,7 @@ function __c47(j: number): any {
           deploymentProtectionException: S.optional(__S(1408, __c44, 0)),
           deploymentRollback: S.optional(__S(1408, __c44, 0)),
           deploymentV0: S.optional(__S(1408, __c44, 0)),
+          desktopDevice: S.optional(__S(1408, __c44, 0)),
           domain: S.optional(__S(1408, __c44, 0)),
           domainAcceptDelegation: S.optional(__S(1408, __c44, 0)),
           domainAuthCodes: S.optional(__S(1408, __c44, 0)),
@@ -38055,13 +38015,17 @@ function __c47(j: number): any {
           openTelemetryEndpoint: S.optional(__S(1408, __c44, 0)),
           optionsAllowlist: S.optional(__S(1408, __c44, 0)),
           organization: S.optional(__S(1408, __c44, 0)),
+          organizationAdmin: S.optional(__S(1408, __c44, 0)),
           organizationDomain: S.optional(__S(1408, __c44, 0)),
+          organizationMember: S.optional(__S(1408, __c44, 0)),
           organizationTeam: S.optional(__S(1408, __c44, 0)),
           ownEvent: S.optional(__S(1408, __c44, 0)),
           pageIntegrity: S.optional(__S(1408, __c44, 0)),
           passwordProtection: S.optional(__S(1408, __c44, 0)),
           passwordProtectionInvoiceItem: S.optional(__S(1408, __c44, 0)),
           paymentMethod: S.optional(__S(1408, __c44, 0)),
+          perimeter: S.optional(__S(1408, __c44, 0)),
+          perimeterLink: S.optional(__S(1408, __c44, 0)),
           permissions: S.optional(__S(1408, __c44, 0)),
           postgres: S.optional(__S(1408, __c44, 0)),
           postgresStoreTokenSet: S.optional(__S(1408, __c44, 0)),
@@ -38089,6 +38053,8 @@ function __c47(j: number): any {
           projectEnvVarsUnownedByIntegration: S.optional(__S(1408, __c44, 0)),
           projectEvent: S.optional(__S(1408, __c44, 0)),
           projectFlags: S.optional(__S(1408, __c44, 0)),
+          projectFlagsOverride: S.optional(__S(1408, __c44, 0)),
+          projectFlagsOverrideProduction: S.optional(__S(1408, __c44, 0)),
           projectFlagsProduction: S.optional(__S(1408, __c44, 0)),
           projectFlagsSdkKey: S.optional(__S(1408, __c44, 0)),
           projectFromV0: S.optional(__S(1408, __c44, 0)),
@@ -38195,71 +38161,47 @@ function __c47(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          excludePaths: S.optional(__S(1216, __c38, 0)),
-          excludeStatusCodes: S.optional(__S(1441, __c45, 1)),
-          ingestWatermarkSeconds: S.optional(S.Number),
-          significanceLevel: S.optional(S.Number),
-          type: S.String,
-        }),
-      ).annotate({ identifier: "CreateProjectResponseRollingReleaseGateChecksItem" });
-    case 6:
-      return S.Array(__S(1509, __c47, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          checks: __S(1510, __c47, 6),
-          dryRun: S.Boolean,
-          enabled: S.Boolean,
-          failureThreshold: S.optional(S.Number),
-          windowSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CreateProjectResponseRollingReleaseGate" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
           duration: S.optional(S.Number),
           linearShift: S.optional(S.Boolean),
           requireApproval: S.optional(S.Boolean),
           targetPercentage: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseRollingReleaseStagesItem" });
-    case 9:
-      return S.Array(__S(1512, __c47, 8));
-    case 10:
+    case 6:
+      return S.Array(__S(1509, __c47, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           canaryResponseHeader: S.optional(S.Boolean),
-          gate: S.optional(__S(1511, __c47, 7)),
-          stages: S.optional(S.NullOr(__S(1513, __c47, 9))),
+          stages: S.optional(S.NullOr(__S(1510, __c47, 6))),
           target: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseRollingRelease" });
-    case 11:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           failoverRegions: S.optional(__S(1408, __c44, 0)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseSandbox" });
-    case 12:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
           active: S.Boolean,
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityManagedRulesAiBots" });
-    case 13:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          ai_bots: __S(1516, __c47, 12),
-          bot_filter: __S(1516, __c47, 12),
-          owasp: __S(1516, __c47, 12),
-          traffic_sources: __S(1516, __c47, 12),
-          vercel_ruleset: __S(1516, __c47, 12),
+          ai_bots: __S(1513, __c47, 9),
+          bot_filter: __S(1513, __c47, 9),
+          owasp: __S(1513, __c47, 9),
+          traffic_sources: __S(1513, __c47, 9),
+          vercel_ruleset: __S(1513, __c47, 9),
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityManagedRules" });
-    case 14:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.NullOr(S.String)),
@@ -38269,14 +38211,14 @@ function __c47(j: number): any {
           window: S.Number,
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityRulesetsValueRateLimit" });
-    case 15:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           location: S.String,
           permanent: S.Boolean,
         }),
       ).annotate({ identifier: "CreateProjectResponseSecurityRulesetsValueRedirect" });
-    case 16:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           framework: S.optional(S.String),
@@ -38285,9 +38227,9 @@ function __c47(j: number): any {
           serviceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseServicesItem" });
-    case 17:
-      return S.Array(__S(1520, __c47, 16));
-    case 18:
+    case 14:
+      return S.Array(__S(1517, __c47, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.Number),
@@ -38299,7 +38241,7 @@ function __c47(j: number): any {
           paidAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateProjectResponseSpeedInsights" });
-    case 19:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           april2026SecurityIncidentMigrationAppliedFrom: S.optional(S.NullOr(S.String)),
@@ -38307,7 +38249,7 @@ function __c47(j: number): any {
           deploymentType: S.String,
         }),
       ).annotate({ identifier: "CreateProjectResponseSsoProtection" });
-    case 20:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           builds: S.Boolean,
@@ -38315,7 +38257,7 @@ function __c47(j: number): any {
           regions: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "CreateProjectResponseStaticIps" });
-    case 21:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           destination: S.optional(S.String),
@@ -38324,19 +38266,19 @@ function __c47(j: number): any {
           requestPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectResponseTracingSamplingRulesItem" });
-    case 22:
-      return S.Array(__S(1525, __c47, 21));
-    case 23:
+    case 19:
+      return S.Array(__S(1522, __c47, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
           domains: S.optional(S.String),
           ignorePaths: S.optional(__S(1216, __c38, 0)),
-          samplingRules: S.optional(__S(1526, __c47, 22)),
+          samplingRules: S.optional(__S(1523, __c47, 19)),
         }),
       ).annotate({ identifier: "CreateProjectResponseTracing" });
-    case 24:
+    case 21:
       return S.Record(S.String, __S(1216, __c38, 0));
-    case 25:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           bypassThrottleUntil: S.optional(S.Number),
@@ -38346,13 +38288,13 @@ function __c47(j: number): any {
           throttled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateProjectResponseUsageStatus" });
-    case 26:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           enabledAt: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateProjectResponseVercelFlags" });
-    case 27:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           canceledAt: S.optional(S.Number),

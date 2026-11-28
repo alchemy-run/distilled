@@ -1,0 +1,89 @@
+{
+  "description": "Sms_Send answers 202 with an SmsSendResponse body (one item per recipient: messageId, httpStatusCode, successful, errorMessage); the converter drops 202 bodies and leaves the output as Unit. Add the response shapes and point SendSms at them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#SmsSendResponseItem",
+      "value": {
+        "type": "structure",
+        "members": {
+          "to": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The recipient's phone number in E.164 format.",
+              "smithy.api#required": {}
+            }
+          },
+          "messageId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The identifier of the outgoing SMS message. Only present if the message was processed."
+            }
+          },
+          "httpStatusCode": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "HTTP status code for this recipient.",
+              "smithy.api#required": {}
+            }
+          },
+          "repeatabilityResult": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Result of a repeatable request: `accepted` or `rejected`."
+            }
+          },
+          "successful": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether the message was processed successfully.",
+              "smithy.api#required": {}
+            }
+          },
+          "errorMessage": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Error message for 4xx/5xx/repeatable errors."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Response for a single recipient."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#SmsSendResponseValueList",
+      "value": {
+        "type": "list",
+        "member": { "target": "com.azure.communication_sms#SmsSendResponseItem" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#SmsSendResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "value": {
+            "target": "com.azure.communication_sms#SmsSendResponseValueList",
+            "traits": {
+              "smithy.api#documentation": "One result per recipient.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {},
+          "smithy.api#documentation": "Response for a successful or multi-status send SMS request."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.communication_sms#SmsSend/output",
+      "value": { "target": "com.azure.communication_sms#SmsSendResponse" }
+    }
+  ]
+}

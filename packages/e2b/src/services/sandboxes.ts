@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -142,6 +142,8 @@ export interface CreateSandboxRequest {
   templateID: string;
   /** Time to live for the sandbox in seconds. */
   timeout?: number | undefined;
+  /** Online vCPU target for the sandbox. Defaults to the template's cpuCount; at most its maxCpuCount (fixed-size templates accept only their cpuCount). */
+  cpuCount?: number | undefined;
   /** Automatically pauses the sandbox after the timeout */
   autoPause?: boolean | undefined;
   /** Controls the snapshot kind taken when the sandbox auto-pauses on timeout (only relevant when autoPause is true). When false, the auto-pause drops the in-memory state and persists only the filesystem (a filesystem-only snapshot); resuming it cold-boots (reboots) the sandbox from disk. Such a snapshot cannot be auto-resumed by traffic and must be resumed explicitly, so it cannot be combined with autoResume. Defaults to true (full memory snapshot). */
@@ -417,7 +419,8 @@ export const connectSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConnectSandboxRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<Sandbox>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -434,7 +437,8 @@ export const createSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21, __c2, 5) as any as S.Schema<CreateSandboxRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<Sandbox>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -451,7 +455,8 @@ export const createSandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<SnapshotInfo>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -468,7 +473,8 @@ export const deleteSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<DeleteSandboxRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -485,7 +491,8 @@ export const forkSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ForkSandboxRequest>,
   output: __S(124, __c15, 4) as any as S.Schema<ForkSandboxResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -502,7 +509,8 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetSandboxRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<SandboxDetail>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -521,7 +529,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
   () => ({
     input: __S(137, __c17, 1) as any as S.Schema<ListSandboxesRequest>,
     output: __S(140, __c17, 4) as any as S.Schema<ListSandboxesResponse>,
-    errors: [UnknownE2BError],
+    errors: [],
+    serviceErrors: E2BServiceErrors,
     protocol: E2BProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -546,7 +555,8 @@ export const listSandboxesMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListSandboxesMetricsRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<SandboxesWithMetrics>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -563,7 +573,8 @@ export const listSandboxLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListSandboxLogsRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<SandboxLogsV2Response>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -580,7 +591,8 @@ export const listSandboxMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListSandboxMetricsRequest>,
   output: __S(170, __c21, 2) as any as S.Schema<ListSandboxMetricsResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -597,7 +609,8 @@ export const pauseSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<PauseSandboxRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<PauseSandboxResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -614,7 +627,8 @@ export const refreshSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<RefreshSandboxRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<RefreshSandboxResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -631,7 +645,8 @@ export const setSandboxTimeout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<SetSandboxTimeoutResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -648,7 +663,8 @@ export const updateSandboxNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<UpdateSandboxNetworkResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -715,6 +731,7 @@ function __c2(j: number): any {
         S.Struct({
           templateID: S.String,
           timeout: S.optional(S.Number),
+          cpuCount: S.optional(S.Number),
           autoPause: S.optional(S.Boolean),
           autoPauseMemory: S.optional(S.Boolean),
           autoResume: S.optional(__S(16, __c2, 0)),

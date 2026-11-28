@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -223,7 +224,7 @@ export interface CreateParallelDataRequest {
   Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
   EncryptionKey?: EncryptionKey | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type ParallelDataStatus =
@@ -474,7 +475,7 @@ export interface StartTextTranslationJobRequest {
   TargetLanguageCodes: string[];
   TerminologyNames?: string[] | undefined;
   ParallelDataNames?: string[] | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Settings?: TranslationSettings | undefined;
 }
 export interface StartTextTranslationJobResponse {
@@ -552,7 +553,7 @@ export interface UpdateParallelDataRequest {
   Name: string;
   Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateParallelDataResponse {
   Name?: string | undefined;
@@ -594,6 +595,7 @@ export const createParallelData: API.OperationMethod<
     TooManyRequestsException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParallelData",
@@ -624,6 +626,7 @@ export const deleteParallelData: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParallelData",
@@ -654,6 +657,7 @@ export const deleteTerminology: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTerminology",
@@ -679,6 +683,7 @@ export const describeTextTranslationJob: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<DescribeTextTranslationJobRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<DescribeTextTranslationJobResponse>,
   errors: [InternalServerException, ResourceNotFoundException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTextTranslationJob",
@@ -709,6 +714,7 @@ export const getParallelData: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParallelData",
@@ -739,6 +745,7 @@ export const getTerminology: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTerminology",
@@ -781,6 +788,7 @@ export const importTerminology: API.OperationMethod<
     TooManyRequestsException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportTerminology",
@@ -812,6 +820,7 @@ export const listLanguages: API.PaginatedOperationMethod<
     TooManyRequestsException,
     UnsupportedDisplayLanguageCodeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLanguages",
@@ -842,6 +851,7 @@ export const listParallelData: API.PaginatedOperationMethod<
   input: __S(80, __c20, 0) as any as S.Schema<ListParallelDataRequest>,
   output: __S(82, __c20, 2) as any as S.Schema<ListParallelDataResponse>,
   errors: [InternalServerException, InvalidParameterValueException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListParallelData",
@@ -873,6 +883,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(84, __c21, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(85, __c21, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, InvalidParameterValueException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -898,6 +909,7 @@ export const listTerminologies: API.PaginatedOperationMethod<
   input: __S(88, __c22, 0) as any as S.Schema<ListTerminologiesRequest>,
   output: __S(90, __c22, 2) as any as S.Schema<ListTerminologiesResponse>,
   errors: [InternalServerException, InvalidParameterValueException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTerminologies",
@@ -934,6 +946,7 @@ export const listTextTranslationJobs: API.PaginatedOperationMethod<
     InvalidRequestException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTextTranslationJobs",
@@ -981,6 +994,7 @@ export const startTextTranslationJob: API.OperationMethod<
     TooManyRequestsException,
     UnsupportedLanguagePairException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTextTranslationJob",
@@ -1013,6 +1027,7 @@ export const stopTextTranslationJob: API.OperationMethod<
   input: __S(104, __c26, 0) as any as S.Schema<StopTextTranslationJobRequest>,
   output: __S(100, __c25, 0) as any as S.Schema<StopTextTranslationJobResponse>,
   errors: [InternalServerException, ResourceNotFoundException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTextTranslationJob",
@@ -1048,6 +1063,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     TooManyTagsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1093,6 +1109,7 @@ export const translateDocument: API.OperationMethod<
     TooManyRequestsException,
     UnsupportedLanguagePairException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateDocument",
@@ -1132,6 +1149,7 @@ export const translateText: API.OperationMethod<
     TooManyRequestsException,
     UnsupportedLanguagePairException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateText",
@@ -1164,6 +1182,7 @@ export const untagResource: API.OperationMethod<
     InvalidParameterValueException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1203,6 +1222,7 @@ export const updateParallelData: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParallelData",
@@ -1220,7 +1240,7 @@ function __c0(j: number): any {
           Description: S.optional(S.String),
           ParallelDataConfig: __S(12, __c3, 0),
           EncryptionKey: S.optional(__S(8, __c2, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(17, __c4, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateParallelDataRequest" });
@@ -1603,7 +1623,7 @@ function __c24(j: number): any {
           TargetLanguageCodes: __S(36, __c9, 0),
           TerminologyNames: S.optional(__S(36, __c9, 0)),
           ParallelDataNames: S.optional(__S(36, __c9, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Settings: S.optional(__S(48, __c12, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartTextTranslationJobRequest" });
@@ -1727,7 +1747,7 @@ function __c32(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           ParallelDataConfig: __S(12, __c3, 0),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateParallelDataRequest" });
     case 1:

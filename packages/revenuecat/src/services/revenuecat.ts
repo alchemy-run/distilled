@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownRevenueCatError } from "../errors.ts";
+import { RevenueCatServiceErrors } from "../errors.ts";
 import { paginateNextPage } from "../pagination.ts";
 import {
   RevenueCatProtocol,
@@ -1069,7 +1069,7 @@ export interface Package {
   position: number | null;
   /** The date the package was created at in ms since epoch */
   created_at: number;
-  products?: PackageProducts | null | undefined;
+  products?: PackageProducts | undefined;
 }
 /** Details about each object. */
 export type OfferingPackagesItemsList = Array<Package>;
@@ -1232,7 +1232,6 @@ export type StateDeclaration =
   | StateDeclarationIntegerVariant
   | StateDeclarationDoubleVariant
   | StateDeclarationStringVariant;
-/** State declarations for this version, keyed by state key name. An empty object when the paywall has no state declarations; null for paywalls not written to since before state declarations were introduced. */
 export type PaywallComponentsVersionStateDeclarationsMap = {
   [key: string]: StateDeclaration | undefined;
 };
@@ -1279,9 +1278,9 @@ export interface Paywall {
   /** The paywall's current revision. Used on updates to reject stale writes (if another update has bumped the revision in the meantime). */
   revision: number;
   /** The offering associated with this paywall. Expandable. */
-  offering?: Offering | null | undefined;
+  offering?: Offering | undefined;
   /** Published and draft components configurations for this paywall. Expandable. */
-  components?: PaywallComponents | null | undefined;
+  components?: PaywallComponents | undefined;
 }
 /** IDs of the products to be attached to the entitlement. */
 export type AttachProductsToEntitlementRequestProductIdsList = Array<string>;
@@ -1423,7 +1422,7 @@ export type SubscriptionPendingChangesStatus =
 /** Expected changes to the subscription that will occur at the end of the current period. Present when the subscription has a pending product change, has already renewed for the next period, or has a failed upcoming renewal. Only fields that differ from the current subscription state are included. */
 export interface SubscriptionPendingChanges {
   /** The product that will be active as of the next renewal */
-  product?: Product | null | undefined;
+  product?: Product | undefined;
   /** Expected start of the next billing period in ms since epoch. Omitted when unchanged from the current subscription. */
   current_period_starts_at?: number | null | undefined;
   /** Expected end of the next billing period in ms since epoch. Omitted when unchanged from the current subscription. */
@@ -1431,9 +1430,9 @@ export interface SubscriptionPendingChanges {
   /** Expected store subscription identifier for the next period. Omitted when unchanged from the current subscription. */
   store_subscription_identifier?: string | null | undefined;
   /** Expected auto renewal status for the next period. Omitted when unchanged from the current subscription. */
-  auto_renewal_status?: SubscriptionPendingChangesAutoRenewalStatus | null | undefined;
+  auto_renewal_status?: SubscriptionPendingChangesAutoRenewalStatus | undefined;
   /** Expected subscription status for the next period. Omitted when unchanged from the current subscription. */
-  status?: SubscriptionPendingChangesStatus | null | undefined;
+  status?: SubscriptionPendingChangesStatus | undefined;
   /** Expected pending payment flag for the next period. Omitted when unchanged from the current subscription. */
   pending_payment?: boolean | null | undefined;
   /** Expected access flag for the next period. Omitted when unchanged from the current subscription. */
@@ -1792,7 +1791,19 @@ export type AudienceRuleConditionCurrency =
   | "SEK"
   | "PLN"
   | "NZD"
-  | "CHF";
+  | "CHF"
+  | "DKK"
+  | "HKD"
+  | "IDR"
+  | "INR"
+  | "KES"
+  | "MYR"
+  | "NOK"
+  | "PKR"
+  | "SGD"
+  | "TRY"
+  | "TWD"
+  | "ZAR";
 /** A single Audience rule condition. */
 export interface AudienceRuleCondition {
   /** The subscriber field evaluated by the condition. Custom subscriber attributes are referenced as `customAttribute:<key>` (e.g. `customAttribute:plan_tier`). */
@@ -1918,86 +1929,36 @@ export interface Audience {
   /** Targeting rules and experiments that use this Audience. Only present when requested with `expand=used_by`. */
   used_by?: AudienceUsedBy | undefined;
 }
-export type CreateChartSubscriberListExportRequestChartName =
-  | "actives"
-  | "actives_movement"
-  | "actives_new"
-  | "arr"
-  | "churn"
-  | "cohort_explorer"
-  | "conversion_to_paying"
-  | "customers_new"
-  | "initial_conversion"
-  | "ltv_per_customer"
-  | "ltv_per_paying_customer"
-  | "mrr"
-  | "mrr_movement"
-  | "prediction_explorer"
-  | "refund_rate"
-  | "refund_request"
-  | "refunds"
-  | "revenue"
-  | "subscription_retention"
-  | "subscription_status"
-  | "trials"
-  | "trials_movement"
-  | "trials_new"
-  | "customers_active"
-  | "trial_conversion"
-  | "trial_conversion_rate"
-  | "trial_cancellation"
-  | "non-subscription_purchases"
-  | "ad_revenue"
-  | "ad_impressions"
-  | "ad_clicks"
-  | "ad_monetized_customers"
-  | "ad_arpdau"
-  | "ad_rpm"
-  | "ad_fill_rate"
-  | "ad_ctr"
-  | "paywall_encounter"
-  | "paywall_conversion"
-  | "paywall_ltv"
-  | "paywall_abandonment"
-  | "app_store_save_outcomes";
-/** Values to match for the filter dimension. */
-export type CreateChartSubscriberListExportRequestFiltersItemValuesList = Array<string>;
-export interface CreateChartSubscriberListExportRequestFiltersItem {
-  /** The filter dimension to apply. */
-  name: string;
-  /** Values to match for the filter dimension. */
-  values: CreateChartSubscriberListExportRequestFiltersItemValuesList;
-}
-/** Filters to apply to the exported population. Available filters vary per chart; use the chart options schema endpoint to discover them. */
-export type CreateChartSubscriberListExportRequestFiltersList =
-  Array<CreateChartSubscriberListExportRequestFiltersItem>;
-/** Chart selectors, as returned by the chart options schema endpoint (e.g. conversion_timeframe or revenue_type). */
-export type CreateChartSubscriberListExportRequestSelectorsMap = {
-  [key: string]: string | undefined;
-};
-export interface CreateChartSubscriberListExportRequest {
+export interface CreateChartAnnotationRequest {
   /** ID of the project */
   project_id: string;
-  /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
-  chart_name: CreateChartSubscriberListExportRequestChartName | (string & {});
-  /** Time resolution for the chart data. Use the chart options endpoint to discover available resolutions and their IDs. */
-  resolution?: string | undefined;
-  /** Start date for the data range (ISO 8601 format) */
-  start_date?: string | undefined;
-  /** End date for the data range (ISO 8601 format) */
-  end_date?: string | undefined;
-  /** Segment the data by this dimension. Must be one of the segments returned by the chart options schema endpoint for this chart; segments vary per chart, and unsupported segments return a 400 `parameter_error` listing the supported ones. */
-  segment?: string | undefined;
-  /** Filters to apply to the exported population. Available filters vary per chart; use the chart options schema endpoint to discover them. */
-  filters?: CreateChartSubscriberListExportRequestFiltersList | undefined;
-  /** Chart selectors, as returned by the chart options schema endpoint (e.g. conversion_timeframe or revenue_type). */
-  selectors?: CreateChartSubscriberListExportRequestSelectorsMap | undefined;
+  /** Human-readable description of the event this annotation represents. */
+  description: string;
+  /** The start date of the annotated period (ISO 8601 date format). */
+  start_date: string;
+  /** The end date of the annotated period (ISO 8601 date format), or null for a single-day event. */
+  end_date?: string | null | undefined;
 }
-export interface CreateChartSubscriberListExportResponse {}
+/** String representing the object's type. Objects of the same type share the same value. */
+export type ChartAnnotationObject = "chart_annotation";
+/** A chart annotation marking a significant event on charts. */
+export interface ChartAnnotation {
+  /** String representing the object's type. Objects of the same type share the same value. */
+  object: ChartAnnotationObject;
+  /** The ID of the chart annotation. */
+  id: string;
+  /** Human-readable description of the event this annotation represents. */
+  description: string;
+  /** The start date of the annotated period (ISO 8601 date format). */
+  start_date: string;
+  /** The end date of the annotated period (ISO 8601 date format), or null if the annotation is a single-day event. */
+  end_date: string | null;
+}
 export type CustomerAttributeReservedName =
   | "$ad"
   | "$adGroup"
   | "$adjustId"
+  | "$adjustWebUuid"
   | "$airbridgeDeviceId"
   | "$airshipChannelId"
   | "$amazonAdId"
@@ -2163,11 +2124,11 @@ export interface Customer {
   /** The last platform version the customer was seen on */
   last_seen_platform_version: string | null;
   /** List of the entitlements currently active for the customer. This property is only available in the "Get a customer" endpoint. */
-  active_entitlements?: CustomerActiveEntitlementList | null | undefined;
+  active_entitlements?: CustomerActiveEntitlementList | undefined;
   /** The experiment enrollment object */
   experiment?: ExperimentEnrollment | null | undefined;
   /** List of the attributes of the customer. This is an expandable property, only available in the "Get a customer" endpoint. */
-  attributes?: CustomerAttributeList | null | undefined;
+  attributes?: CustomerAttributeList | undefined;
 }
 /** The type of discount to apply. */
 export type CreateDiscountRequestType = "percentage" | "fixed_amount";
@@ -2391,7 +2352,6 @@ export interface CreateIAMMagicLinkAuthenticationMethodRequest {
 export type CreateIAMOidcAuthenticationMethodRequestType = "oidc";
 /** OAuth scopes requested from the identity provider in addition to `openid`, which is always requested. */
 export type CreateIAMOidcAuthenticationMethodRequestRequestedScopesList = Array<string>;
-/** Static query parameters added to the authorize URL of the identity provider during interactive login. OAuth and PKCE parameters cannot be overridden. */
 export type CreateIAMOidcAuthenticationMethodRequestAuthorizationParamsMap = {
   [key: string]: string | undefined;
 };
@@ -2425,24 +2385,26 @@ export interface CreateIAMGoogleAuthenticationMethodRequest {
   name: string;
   /** The type of the authentication method. */
   type: CreateIAMGoogleAuthenticationMethodRequestType;
-  /** Google OAuth client id, matched against the `aud` claim of the ID token. */
+  /** Google OAuth web client ID, matched against the `aud` claim of the ID token. Use the web client ID on every platform. iOS and Android apps must pass it to the Google Sign-In SDK as the server client ID (`GIDServerClientID` on iOS, `setServerClientId` on Android) so the ID token's `aud` matches. */
   client_id: string;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
   id_token_iat_freshness_seconds?: number | null | undefined;
 }
 /** The type of the authentication method. */
 export type CreateIAMAppleAuthenticationMethodRequestType = "apple";
-/** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. */
+/** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. Include the app that the Services ID is grouped with in Apple. Set to an empty list for a web-only method, whose Services ID is grouped with no app of the project; it then needs a `services_id`. */
 export type CreateIAMAppleAuthenticationMethodRequestAppIdsList = Array<string>;
 export interface CreateIAMAppleAuthenticationMethodRequest {
   /** The display name of the authentication method. */
   name: string;
   /** The type of the authentication method. */
   type: CreateIAMAppleAuthenticationMethodRequestType;
-  /** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. */
+  /** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. Include the app that the Services ID is grouped with in Apple. Set to an empty list for a web-only method, whose Services ID is grouped with no app of the project; it then needs a `services_id`. */
   app_ids?: CreateIAMAppleAuthenticationMethodRequestAppIdsList | null | undefined;
   /** Id of the Apple app whose App ID is the primary one in the Apple Developer account. */
   primary_app_id?: string | null | undefined;
+  /** Apple Services ID used by Sign in with Apple on the web and on Android. Matched against the `aud` claim of the ID token. */
+  services_id?: string | null | undefined;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
   id_token_iat_freshness_seconds?: number | null | undefined;
 }
@@ -2601,7 +2563,7 @@ export interface IAMGoogleAuthenticationMethod {
   updated_at: number;
   /** The type of the authentication method. */
   type: IAMGoogleAuthenticationMethodType;
-  /** Google OAuth client id. */
+  /** Google OAuth web client ID, matched against the `aud` claim of the ID token. */
   client_id: string;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. */
   id_token_iat_freshness_seconds: number | null;
@@ -2611,7 +2573,7 @@ export interface IAMGoogleAuthenticationMethod {
 export type IAMAppleAuthenticationMethodObject = "iam_authentication_method";
 /** The type of the authentication method. */
 export type IAMAppleAuthenticationMethodType = "apple";
-/** Ids of the Apple apps that form the Apple App ID group of the method. Null when the method covers every Apple app of the project. */
+/** Ids of the Apple apps that form the Apple App ID group of the method. Null when the method covers every Apple app of the project, empty for a web-only method. */
 export type IAMAppleAuthenticationMethodAppIdsList = Array<string>;
 export interface IAMAppleAuthenticationMethod {
   /** String representing the object's type. Objects of the same type share the same value. */
@@ -2626,10 +2588,12 @@ export interface IAMAppleAuthenticationMethod {
   updated_at: number;
   /** The type of the authentication method. */
   type: IAMAppleAuthenticationMethodType;
-  /** Ids of the Apple apps that form the Apple App ID group of the method. Null when the method covers every Apple app of the project. */
+  /** Ids of the Apple apps that form the Apple App ID group of the method. Null when the method covers every Apple app of the project, empty for a web-only method. */
   app_ids: IAMAppleAuthenticationMethodAppIdsList | null;
   /** Id of the Apple app whose App ID is the primary one in the Apple Developer account. */
   primary_app_id: string | null;
+  /** Apple Services ID used by Sign in with Apple on the web and on Android. */
+  services_id: string | null;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. */
   id_token_iat_freshness_seconds: number | null;
   [key: string]: unknown;
@@ -2727,7 +2691,6 @@ export interface MediaAssetFormat {
   /** The image height in pixels. */
   height: number | null;
 }
-/** Rendered image formats keyed by format name. */
 export type MediaAssetFormatsMap = { [key: string]: MediaAssetFormat | undefined };
 /** The media asset type. */
 export type MediaAssetAssetType = "image" | "video";
@@ -2760,7 +2723,7 @@ export interface MediaAsset {
   asset_type: MediaAssetAssetType;
   /** Video metadata, if this is a video asset. */
   video_metadata: MediaAssetVideoMetadataMap | null;
-  /** The video transcoding status, if this is a video asset. */
+  /** The processing status of the asset: `pending`, `processing`, `completed` or `failed`. Images and videos are processed asynchronously, and `formats` or `video_metadata` are only filled in once the status is `completed`. */
   transcoding_status: string | null;
 }
 export interface CreateOfferingRequest {
@@ -2833,13 +2796,11 @@ export type PaywallVersionObject = "paywall_version";
 /** The raw paywall components configuration captured by this version. */
 export type PaywallVersionComponentsConfigMap = { [key: string]: unknown | undefined };
 export type PaywallVersionComponentsLocalizationsValueMap = { [key: string]: unknown | undefined };
-/** Localized component values keyed by locale. */
 export type PaywallVersionComponentsLocalizationsMap = {
   [key: string]: PaywallVersionComponentsLocalizationsValueMap | undefined;
 };
 /** Exit offer configuration captured by this version. */
 export type PaywallVersionExitOffersMap = { [key: string]: unknown | undefined };
-/** State declarations captured by this version, keyed by state key name. */
 export type PaywallVersionStateDeclarationsMap = { [key: string]: StateDeclaration | undefined };
 /** Play Store product change mode configuration captured by this version. */
 export type PaywallVersionPlayStoreProductChangeModeMap = { [key: string]: unknown | undefined };
@@ -2880,9 +2841,9 @@ export interface ProductSubscriptionInput {
 export interface CreateProductRequest {
   /** ID of the project */
   project_id: string;
-  /** The store identifier of the product. - For Apple App Store products this is the product ID of the subscription or in-app product. To add the 12-month commitment (monthly billing) plan of an existing 1-year subscription, use '<productId>:monthly' (e.g. 'com.example.app.yearly:monthly'). - For Google's Play Store, it should follow the format 'productId:basePlanId' for subscription products and SKU for one-time purchase products. - For Stripe, the product identifier that always starts with "prod_". RevenueCat selects the active, supported default price when available, or the only active, supported price otherwise. If no price can be selected, the product is created without a web price. For projects that model Stripe products per price, the `store_identifier` in the response is the Stripe price ID when a price is selected. - For Amazon, if it's a subscription, the term SKU of the subscription. If it's a one-time purchase, the SKU of the product. - For Roku, this is the product identifier of the subscription or one-time purchase product. */
+  /** The store identifier of the product. - For Apple App Store products this is the product ID of the subscription or in-app product. To add the 12-month commitment (monthly billing) plan of an existing 1-year subscription, use '<productId>:monthly' (e.g. 'com.example.app.yearly:monthly'). - For Google's Play Store, it should follow the format 'productId:basePlanId' for subscription products and SKU for one-time purchase products. - For Stripe, the Stripe product ID (starting with "prod_"). RevenueCat imports the price given in `price_identifier`, or otherwise selects the active, supported default price when available, or the only active, supported price. For projects that model Stripe products per price, you can instead pass a Stripe price ID (starting with "price_", or a legacy plan ID) without `price_identifier`, and RevenueCat imports that price under its Stripe product. In those projects, the `store_identifier` in the response is the Stripe price ID. - For Amazon, if it's a subscription, the term SKU of the subscription. If it's a one-time purchase, the SKU of the product. - For Roku, this is the product identifier of the subscription or one-time purchase product. */
   store_identifier: string;
-  /** The Stripe price identifier to import. When provided, the price must exist, belong to the Stripe product, and be active and supported. Only supported for Stripe products. */
+  /** The Stripe price identifier to import when `store_identifier` is a Stripe product ID. The price must exist, belong to that product, and be active and supported. Only supported for Stripe products. */
   price_identifier?: string | null | undefined;
   /** The ID of the app */
   app_id: string;
@@ -2942,6 +2903,8 @@ export interface StoreProductCreation {
 export interface CreateProjectRequest {
   /** The name of the project */
   name: string;
+  /** The ID of the organization to which the project will belong. Not released yet. Please open a support ticket to express interest in this feature detailing your use case. */
+  organization_id?: string | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type ProjectObject = "project";
@@ -2987,7 +2950,7 @@ export interface VirtualCurrencyBalance {
   /** The balance of the in-app currency (virtual currency). */
   balance: number;
   /** The description of the in-app currency (virtual currency). */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /** The name of the in-app currency (virtual currency). */
   name?: string | undefined;
 }
@@ -3050,6 +3013,8 @@ export type WebhookEventType =
   | "virtual_currency_transaction";
 /** Event types that will trigger the webhook */
 export type CreateWebhookIntegrationRequestEventTypesList = Array<WebhookEventType | (string & {})>;
+/** Whether the webhook integration sends events. A disabled webhook integration keeps its settings but sends no events until it is set back to active. Events that happen while it is disabled are not sent later. Defaults to active. */
+export type CreateWebhookIntegrationRequestStatus = "active" | "disabled";
 export interface CreateWebhookIntegrationRequest {
   /** ID of the project */
   project_id: string;
@@ -3065,6 +3030,8 @@ export interface CreateWebhookIntegrationRequest {
   event_types?: CreateWebhookIntegrationRequestEventTypesList | null | undefined;
   /** The ID of the app the webhook integration is scoped to */
   app_id?: string | null | undefined;
+  /** Whether the webhook integration sends events. A disabled webhook integration keeps its settings but sends no events until it is set back to active. Events that happen while it is disabled are not sent later. Defaults to active. */
+  status?: CreateWebhookIntegrationRequestStatus | (string & {}) | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type WebhookIntegrationObject = "webhook_integration";
@@ -3072,6 +3039,8 @@ export type WebhookIntegrationObject = "webhook_integration";
 export type WebhookIntegrationEnvironment = "production" | "sandbox";
 /** Event types that will trigger the webhook. Only events for the selected event types will be sent. */
 export type WebhookIntegrationEventTypesList = Array<string>;
+/** Whether the webhook integration sends events. A disabled webhook integration keeps its settings but sends no events until it is set back to active. */
+export type WebhookIntegrationStatus = "active" | "disabled";
 export interface WebhookIntegration {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: WebhookIntegrationObject;
@@ -3089,6 +3058,8 @@ export interface WebhookIntegration {
   event_types?: WebhookIntegrationEventTypesList | null | undefined;
   /** The ID of the app the webhook integration is scoped to. If not provided, the webhook integration will be scoped to all apps in the project. */
   app_id: string | null;
+  /** Whether the webhook integration sends events. A disabled webhook integration keeps its settings but sends no events until it is set back to active. */
+  status: WebhookIntegrationStatus;
   /** The plaintext HMAC signing secret. Only returned in the response to a rotate request. */
   signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** The timestamp in ms since epoch when the webhook integration was created */
@@ -3108,14 +3079,17 @@ export type DeletedObjectObject =
   | "discount"
   | "discount_code"
   | "entitlement"
+  | "entitlement_ad_reward"
   | "experiment"
   | "iam_authentication_method"
+  | "integration"
   | "offering"
   | "package"
   | "paywall"
   | "product"
   | "targeting_rule"
   | "virtual_currency"
+  | "virtual_currency_ad_reward"
   | "webhook_integration";
 export interface DeletedObject {
   /** The type of the deleted object */
@@ -3124,6 +3098,12 @@ export interface DeletedObject {
   id: string;
   /** The date when the object was deleted in ms since epoch */
   deleted_at: number;
+}
+export interface DeleteChartAnnotationRequest {
+  /** ID of the project */
+  project_id: string;
+  /** ID of the chart annotation */
+  annotation_id: string;
 }
 export interface DeleteCustomerRequest {
   /** ID of the project */
@@ -3397,80 +3377,8 @@ export type AuthenticatedManagementUrlObject = "authenticated_management_url";
 export interface AuthenticatedManagementUrl {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: AuthenticatedManagementUrlObject;
-  /** A secure URL that provides temporary access to the subscription management portal. For RC Billing subscriptions, this is a single-use magic link to the RevenueCat customer portal. For Paddle subscriptions, this is a short-lived authenticated Paddle Customer Portal URL when the API key has the Customer portal session (Write) permission and Paddle returns the required management URLs; otherwise a non-authenticated URL (customer signs in via email) or `null` if no URL can be generated. */
+  /** A secure URL that provides temporary access to the subscription management portal. For RC Billing subscriptions, this is a single-use magic link to the RevenueCat customer portal that expires if it isn't opened within 5 minutes. For Paddle subscriptions, this is an authenticated Paddle Customer Portal URL when the Paddle API key has the Customer portal session (Write) permission and Paddle returns the required management URLs. Paddle's token in that URL stays valid for up to 24 hours and keeps working even if the RevenueCat API key that requested it is revoked. Otherwise it's a non-authenticated URL (customer signs in via email), or `null` if no URL can be generated. */
   management_url: string | null;
-}
-export type GetBenchmarksRequestComparisonCategory =
-  | "business"
-  | "education"
-  | "gaming"
-  | "health_and_fitness"
-  | "media_and_entertainment"
-  | "photo_and_video"
-  | "productivity"
-  | "shopping"
-  | "social_and_lifestyle"
-  | "travel"
-  | "utilities";
-export interface GetBenchmarksRequest {
-  /** ID of the project */
-  project_id: string;
-  /** Optional filter that restricts the response to benchmarks for a single app within the project. When omitted, benchmarks for every app in the project are returned. */
-  app_id?: string | undefined;
-  /** Overrides the default peer group used to compute the benchmark percentiles. When omitted, each app is compared against its own store category. */
-  comparison_category?: GetBenchmarksRequestComparisonCategory | (string & {}) | undefined;
-}
-/** String representing the object's type. Objects of the same type share the same value. */
-export type BenchmarksObject = "benchmarks";
-/** String representing the object's type. Objects of the same type share the same value. */
-export type BenchmarkMetricObject = "benchmark_metric";
-/** Human-readable percentile range that the app falls into within the peer group. Expressed as `"<lower>-<upper>"` where lower/upper are the percentile bounds (0-10, 10-20, ..., 90-100). `null` when the app does not have enough data to be placed in a bucket. */
-export type BenchmarkMetricPercentileBucket =
-  | "0-10"
-  | "10-20"
-  | "20-30"
-  | "30-40"
-  | "40-50"
-  | "50-60"
-  | "60-70"
-  | "70-80"
-  | "80-90"
-  | "90-100";
-export interface BenchmarkMetric {
-  /** String representing the object's type. Objects of the same type share the same value. */
-  object: BenchmarkMetricObject;
-  /** Stable identifier for this benchmark row, composed of the app id and the metric name separated by a colon. */
-  id: string;
-  /** Machine-readable identifier of the benchmark metric. */
-  metric_name: string;
-  /** Human-readable label for the benchmark metric. */
-  metric_display_name: string;
-  /** RevenueCat app id that this metric belongs to. */
-  app_id: string;
-  /** Store the app's metric value was computed for. */
-  store: string;
-  /** Store category currently assigned to the app. */
-  app_category: string | null;
-  /** Category used to resolve the benchmark percentiles for this row. */
-  comparison_category: string | null;
-  /** Whether the app has enough data for this metric to be reliably compared against the peer group. Rows with `false` should be treated as low-confidence. */
-  is_eligible_for_benchmarking: boolean;
-  /** When `true`, lower values are better for this metric (e.g. churn, refund rate). Callers should not recommend reducing a metric when the app already scores highly. */
-  is_reverse_metric: boolean;
-  /** The app's own value for this metric for the current period. */
-  metric_value: number | null;
-  /** Human-readable percentile range that the app falls into within the peer group. Expressed as `"<lower>-<upper>"` where lower/upper are the percentile bounds (0-10, 10-20, ..., 90-100). `null` when the app does not have enough data to be placed in a bucket. */
-  percentile_bucket: BenchmarkMetricPercentileBucket | null;
-  /** When the app's benchmark data was last refreshed, in ms since epoch. */
-  updated_at: number | null;
-}
-/** Benchmark metrics for every app in the project that has data. */
-export type BenchmarksMetricsList = Array<BenchmarkMetric>;
-export interface Benchmarks {
-  /** String representing the object's type. Objects of the same type share the same value. */
-  object: BenchmarksObject;
-  /** Benchmark metrics for every app in the project that has data. */
-  metrics: BenchmarksMetricsList;
 }
 export type GetChartDataRequestChartName =
   | "actives"
@@ -3513,7 +3421,8 @@ export type GetChartDataRequestChartName =
   | "paywall_conversion"
   | "paywall_ltv"
   | "paywall_abandonment"
-  | "app_store_save_outcomes";
+  | "app_store_save_outcomes"
+  | "app_store_save_rate_conversion";
 export type GetChartDataRequestAggregateItem = "average" | "total";
 export type GetChartDataRequestAggregateList = Array<
   GetChartDataRequestAggregateItem | (string & {})
@@ -3532,11 +3441,23 @@ export type GetChartDataRequestCurrency =
   | "SEK"
   | "PLN"
   | "NZD"
-  | "CHF";
+  | "CHF"
+  | "DKK"
+  | "HKD"
+  | "IDR"
+  | "INR"
+  | "KES"
+  | "MYR"
+  | "NOK"
+  | "PKR"
+  | "SGD"
+  | "TRY"
+  | "TWD"
+  | "ZAR";
 export interface GetChartDataRequest {
   /** ID of the project */
   project_id: string;
-  /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
+  /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) - app_store_save_rate_conversion: Apple retention messages sent per period and the share of them that were saved (save rate) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
   chart_name: GetChartDataRequestChartName | (string & {});
   /** Whether to request real-time (v3) charts. Defaults to true. Set to false to request the v2 charts. */
   realtime?: boolean | undefined;
@@ -3567,15 +3488,15 @@ export interface GetChartDataRequest {
 export type ChartDataObject = "chart_data";
 /** Time resolution of the data points */
 export type ChartDataResolution = "day" | "week" | "month" | "quarter" | "year";
-export type ChartDataValuesItemCase0List = Array<number | null>;
+export type ChartDataValuesItemCase0ItemCase2List = Array<number | null>;
+export type ChartDataValuesItemCase0Item = number | string | ChartDataValuesItemCase0ItemCase2List;
+export type ChartDataValuesItemCase0List = Array<ChartDataValuesItemCase0Item>;
 export type ChartDataValuesItemCase1Map = { [key: string]: unknown | undefined };
 export type ChartDataValuesItem = ChartDataValuesItemCase0List | ChartDataValuesItemCase1Map;
-/** Chart data points. Structure varies by chart type - can be arrays of numbers or objects with timestamps and values. Returned as an empty array when aggregate operations are requested. Cohort charts (`cohort_explorer`, `prediction_explorer`, `subscription_retention`, ...) return objects shaped `{cohort, period, value}`, optionally with `confidence`, `scale` and `incomplete`. `period` is the index into the `periods` array, not a month number: `periods[0]` is the cohort size (a customer or subscription count, unit `#`) and the measure starts at `period: 1`, which `periods[1].display_name` labels (typically `Month 0`). Read `periods[period]` for the label, unit and scale of each point instead of assuming `period` is the month number. */
+/** Chart data points. Structure varies by chart type - can be arrays of numbers or objects with timestamps and values. Returned as an empty array when aggregate operations are requested. Cohort charts (`cohort_explorer`, `prediction_explorer`, `subscription_retention`, ...) return objects shaped `{cohort, period, value}`, optionally with `confidence`, `scale` and `incomplete`. `period` is the index into the `periods` array, not a month number: `periods[0]` is the cohort size (a customer or subscription count, unit `#`) and the measure starts at `period: 1`, which `periods[1].display_name` labels (typically `Month 0`). Read `periods[period]` for the label, unit and scale of each point instead of assuming `period` is the month number. Non-realtime (`realtime=false`) cohort charts instead return one array per cohort: the cohort label followed by its values, e.g. `["Total", 3900, 1500]`. Non-realtime segmented charts with more than one measure return one array per date: the date followed by one array per entry in `segments`, holding that segment's value for each measure, e.g. `[1642075008, [100, 20], [10, 50]]`. */
 export type ChartDataValuesList = Array<ChartDataValuesItem>;
 /** Summary statistics for the chart data */
 export type ChartDataSummaryMap = { [key: string]: unknown | undefined };
-/** Whether the values of this series are absolute amounts or percentages of a baseline. */
-export type ChartSeriesScale = "absolute" | "relative";
 /** Per-measure metadata, when a segmented series carries more than one measure. */
 export type ChartSeriesNestedMeasuresList = Array<ChartSeries>;
 /** Metadata describing one series (a segment, measure, or cohort period) of a chart, used to label and format the matching data points in `values`. */
@@ -3588,8 +3509,8 @@ export interface ChartSeries {
   unit?: string | undefined;
   /** Number of decimal places the values of this series should be rendered with. */
   decimal_precision?: number | undefined;
-  /** Whether the values of this series are absolute amounts or percentages of a baseline. */
-  scale?: ChartSeriesScale | undefined;
+  /** The scale this series belongs to. Charts that offer a scale selector group their series by it, e.g. `absolute` / `relative` amounts or an LTV window such as `30 days`. Values are chart-specific labels. */
+  scale?: string | undefined;
   /** Whether the series is meaningful to plot. */
   chartable?: boolean | undefined;
   /** Whether the series is meaningful to show as a table column. */
@@ -3609,28 +3530,12 @@ export type ChartDataPeriodsList = Array<ChartSeries>;
 export type ChartDataMeasuresItemMap = { [key: string]: unknown | undefined };
 /** Measure definitions for the chart (v3 charts) */
 export type ChartDataMeasuresList = Array<ChartDataMeasuresItemMap>;
-/** Currently selected values for user-configurable selectors (keyed by selector name) */
 export type ChartDataUserSelectorsMap = { [key: string]: string | undefined };
 export type ChartDataUnsupportedParamsFiltersList = Array<string>;
 /** Deprecated and always `null`. Unsupported parameters are rejected with a 400 error instead of being reported in the response. */
 export interface ChartDataUnsupportedParams {
   filters?: ChartDataUnsupportedParamsFiltersList | undefined;
   segment?: string | null | undefined;
-}
-/** String representing the object's type. Objects of the same type share the same value. */
-export type ChartAnnotationObject = "chart_annotation";
-/** A chart annotation marking a significant event on charts. */
-export interface ChartAnnotation {
-  /** String representing the object's type. Objects of the same type share the same value. */
-  object: ChartAnnotationObject;
-  /** The ID of the chart annotation. */
-  id: string;
-  /** Human-readable description of the event this annotation represents. */
-  description: string;
-  /** The start date of the annotated period (ISO 8601 date format). */
-  start_date: string;
-  /** The end date of the annotated period (ISO 8601 date format), or null if the annotation is a single-day event. */
-  end_date: string | null;
 }
 /** Chart annotations for the project, filtered to the chart's date window. Only present when include_annotations=true is passed in the request. */
 export type ChartDataAnnotationsList = Array<ChartAnnotation>;
@@ -3650,9 +3555,9 @@ export interface ChartData {
   documentation_link?: string | null | undefined;
   /** Timestamp when the chart data was last computed (ms since epoch) */
   last_computed_at?: number | null | undefined;
-  /** Start date of the data range (ms since epoch) */
+  /** Start date of the data range (seconds since epoch, like each data point's `cohort`) */
   start_date?: number | null | undefined;
-  /** End date of the data range (ms since epoch) */
+  /** End date of the data range (seconds since epoch, like each data point's `cohort`) */
   end_date?: number | null | undefined;
   /** Currency used for monetary values */
   yaxis_currency?: string | undefined;
@@ -3662,7 +3567,7 @@ export interface ChartData {
   segmenting_allowed?: boolean | undefined;
   /** Time resolution of the data points */
   resolution: ChartDataResolution;
-  /** Chart data points. Structure varies by chart type - can be arrays of numbers or objects with timestamps and values. Returned as an empty array when aggregate operations are requested. Cohort charts (`cohort_explorer`, `prediction_explorer`, `subscription_retention`, ...) return objects shaped `{cohort, period, value}`, optionally with `confidence`, `scale` and `incomplete`. `period` is the index into the `periods` array, not a month number: `periods[0]` is the cohort size (a customer or subscription count, unit `#`) and the measure starts at `period: 1`, which `periods[1].display_name` labels (typically `Month 0`). Read `periods[period]` for the label, unit and scale of each point instead of assuming `period` is the month number. */
+  /** Chart data points. Structure varies by chart type - can be arrays of numbers or objects with timestamps and values. Returned as an empty array when aggregate operations are requested. Cohort charts (`cohort_explorer`, `prediction_explorer`, `subscription_retention`, ...) return objects shaped `{cohort, period, value}`, optionally with `confidence`, `scale` and `incomplete`. `period` is the index into the `periods` array, not a month number: `periods[0]` is the cohort size (a customer or subscription count, unit `#`) and the measure starts at `period: 1`, which `periods[1].display_name` labels (typically `Month 0`). Read `periods[period]` for the label, unit and scale of each point instead of assuming `period` is the month number. Non-realtime (`realtime=false`) cohort charts instead return one array per cohort: the cohort label followed by its values, e.g. `["Total", 3900, 1500]`. Non-realtime segmented charts with more than one measure return one array per date: the date followed by one array per entry in `segments`, holding that segment's value for each measure, e.g. `[1642075008, [100, 20], [10, 50]]`. */
   values: ChartDataValuesList;
   /** Summary statistics for the chart data */
   summary?: ChartDataSummaryMap | null | undefined;
@@ -3724,11 +3629,12 @@ export type GetChartOptionsRequestChartName =
   | "paywall_conversion"
   | "paywall_ltv"
   | "paywall_abandonment"
-  | "app_store_save_outcomes";
+  | "app_store_save_outcomes"
+  | "app_store_save_rate_conversion";
 export interface GetChartOptionsRequest {
   /** ID of the project */
   project_id: string;
-  /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
+  /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) - app_store_save_rate_conversion: Apple retention messages sent per period and the share of them that were saved (save rate) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
   chart_name: GetChartOptionsRequestChartName | (string & {});
   /** Whether to request real-time (v3) charts. Defaults to true. Set to false to request the v2 charts. */
   realtime?: boolean | undefined;
@@ -3799,7 +3705,6 @@ export interface ChartOptionsUserSelectorsValue {
   display_name?: string | undefined;
   options?: ChartOptionsUserSelectorsValueOptionsList | undefined;
 }
-/** User-configurable selectors for the chart (keyed by selector name) */
 export type ChartOptionsUserSelectorsMap = {
   [key: string]: ChartOptionsUserSelectorsValue | undefined;
 };
@@ -3815,77 +3720,6 @@ export interface ChartOptions {
   filters: ChartOptionsFiltersList;
   /** User-configurable selectors for the chart (keyed by selector name) */
   user_selectors?: ChartOptionsUserSelectorsMap | null | undefined;
-}
-export type GetChartSubscriberListExportRequestChartName =
-  | "actives"
-  | "actives_movement"
-  | "actives_new"
-  | "arr"
-  | "churn"
-  | "cohort_explorer"
-  | "conversion_to_paying"
-  | "customers_new"
-  | "initial_conversion"
-  | "ltv_per_customer"
-  | "ltv_per_paying_customer"
-  | "mrr"
-  | "mrr_movement"
-  | "prediction_explorer"
-  | "refund_rate"
-  | "refund_request"
-  | "refunds"
-  | "revenue"
-  | "subscription_retention"
-  | "subscription_status"
-  | "trials"
-  | "trials_movement"
-  | "trials_new"
-  | "customers_active"
-  | "trial_conversion"
-  | "trial_conversion_rate"
-  | "trial_cancellation"
-  | "non-subscription_purchases"
-  | "ad_revenue"
-  | "ad_impressions"
-  | "ad_clicks"
-  | "ad_monetized_customers"
-  | "ad_arpdau"
-  | "ad_rpm"
-  | "ad_fill_rate"
-  | "ad_ctr"
-  | "paywall_encounter"
-  | "paywall_conversion"
-  | "paywall_ltv"
-  | "paywall_abandonment"
-  | "app_store_save_outcomes";
-export interface GetChartSubscriberListExportRequest {
-  /** ID of the project */
-  project_id: string;
-  /** Name of the chart to retrieve: - actives: Active (paying) subscriptions - actives_movement: Period-over-period delta of active (paying) subscriptions - actives_new: New paying subscriptions, including trial conversions, resubscriptions, and product changes - arr: Annual recurring revenue - churn: Churn rate: active and expired subscriptions per period - cohort_explorer: allows measuring the performance of various cohort definitions over time for revenue, retained subscriptions, subscriptions that are still set to renew (not cancelled), and cohort LTV - conversion_to_paying: Conversion of new customers to paying - customers_new: Newly seen customers - initial_conversion: Initial conversion of new customers to paying within fixed windows (0, 3, 7, 14, 30 days, and unbounded) - ltv_per_customer: Realized LTV per customer, also known as ARPU, cohorted by first seen date - ltv_per_paying_customer: Realized LTV per paying customer, also known as ARPPU, cohorted by first seen date - mrr: Monthly recurring revenue - mrr_movement: Period-over-period delta of monthly recurring revenue - prediction_explorer: similar to cohort_explorer but including future predictions - refund_rate: transactions per period, refunds, refund rate - refund_request: App Store and Google Play refund and chargeback events per period, broken down by resolution status (granted, declined, reversed, pending) - refunds: Refunded revenue and number of refunded transactions per period, by refund date (realtime only) - revenue: revenue (gross, net of taxes, or proceeds net of taxes and commissions) and number of transactions (subscriptions and non-subscriptions) per period - subscription_retention: Per-period retention of paying subscriptions by duration - subscription_status: Break down paying subscriptions, trials, MRR, ARR, or revenue by whether the subscription is set to renew, cancelled, or in billing recovery - trials: Active trials - trials_movement: Movement of active trials - trials_new: New trials - customers_active: Customers seen during the period (also known as DAU/MAU/WAU/etc.) (realtime only) - trial_conversion: Trial conversion funnel from new customers to trials started to paying subscriptions, cohorted by first seen date - trial_conversion_rate: Number of trials started in a period and ratio of them converting to paying (realtime only) - trial_cancellation: Portion of trials started in a period that were cancelled and expired without converting to paid (realtime only) - non-subscription_purchases: Number of non-subscription purchases per period - ad_revenue: Estimated ad revenue per period (realtime only) - ad_impressions: Number of ad impressions per period (realtime only) - ad_clicks: Number of ad clicks per period (realtime only) - ad_monetized_customers: Customers who saw at least one monetized ad during the period, also known as daily ad-monetized users (realtime only) - ad_arpdau: Average ad revenue per daily ad-monetized customer (realtime only) - ad_rpm: Effective cost per mille (eCPM): ad revenue per thousand impressions (realtime only) - ad_fill_rate: Ratio of ad requests that were filled with an ad (realtime only) - ad_ctr: Ad click-through rate: clicks over impressions (realtime only) - paywall_encounter: Share of new customers who encounter a paywall within 0, 1, 3, 7, or 14 days, cohorted by first seen date (realtime only) - paywall_conversion: Conversion of paywall impressions into initial, paid, and trial conversions, cohorted by first impression date (realtime only) - paywall_ltv: Realized LTV attributed to paywall impressions that led to an initial conversion, cohorted by first impression date (realtime only) - paywall_abandonment: Share of paywall impressions with no initial conversion, split into bounces and purchase cancellations (realtime only) - app_store_save_outcomes: Saved Apple retention messages per period, broken down by outcome (promotional offer redeemed, alternate plan redeemed, no purchase) (realtime only) Charts marked as realtime only are served exclusively by Charts v3 and require `realtime=true` (the default). */
-  chart_name: GetChartSubscriberListExportRequestChartName | (string & {});
-  /** ID of the subscriber list export job */
-  export_id: string;
-}
-/** String representing the object's type. Objects of the same type share the same value. */
-export type ChartSubscriberListExportObject = "chart_subscriber_list_export";
-/** Current status of the export job. */
-export type ChartSubscriberListExportStatus = "pending" | "running" | "succeeded" | "failed";
-/** An async export of the full subscriber list behind a chart. */
-export interface ChartSubscriberListExport {
-  /** String representing the object's type. Objects of the same type share the same value. */
-  object: ChartSubscriberListExportObject;
-  /** The ID of the export job. */
-  id: string;
-  /** Current status of the export job. */
-  status: ChartSubscriberListExportStatus;
-  /** Timestamp (ms since epoch) when the export finished, or null while it is still pending or running. */
-  completed_at?: number | null | undefined;
-  /** Generic failure notice when status is failed. Invalid requests are rejected synchronously with a 400 instead. */
-  error_message?: string | null | undefined;
-  /** Presigned URL to download the exported file (a zip or gzipped CSV, see the create endpoint). Only present when status is succeeded; null if the exported file is no longer stored, in which case create a new export. */
-  download_url?: string | null | undefined;
-  /** Timestamp (ms since epoch) when the download URL expires. Poll the endpoint again to get a fresh URL. */
-  download_url_expires_at?: number | null | undefined;
 }
 export type GetCustomerRequestExpandItem = "attributes";
 export type GetCustomerRequestExpandList = Array<GetCustomerRequestExpandItem | (string & {})>;
@@ -3941,6 +3775,91 @@ export interface GetEntitlementRequest {
   entitlement_id: string;
   /** Specifies which fields in the response should be expanded. Accepted values are: `product` (requires `project_configuration:products:read` permission). */
   expand?: GetEntitlementRequestExpandList | undefined;
+}
+export interface GetIamAttributePermissionsRequest {
+  /** ID of the project */
+  project_id: string;
+}
+/** String representing the object's type. Objects of the same type share the same value. */
+export type IAMAttributePermissionsObject = "iam_attribute_permissions";
+/** The read permission set for all reserved attributes (prefixed with `$`), or null when it was never set. */
+export type IAMReservedAttributeDefaultsReadPermission = "authenticated" | "private";
+/** The read permission in effect for reserved attributes. It is `authenticated` when none was set. */
+export type IAMReservedAttributeDefaultsEffectiveReadPermission = "authenticated" | "private";
+export interface IAMReservedAttributeDefaults {
+  /** The read permission set for all reserved attributes (prefixed with `$`), or null when it was never set. */
+  read_permission: IAMReservedAttributeDefaultsReadPermission | null;
+  /** The read permission in effect for reserved attributes. It is `authenticated` when none was set. */
+  effective_read_permission: IAMReservedAttributeDefaultsEffectiveReadPermission;
+  [key: string]: unknown;
+}
+/** The default read permission of custom attributes, or null when it was never set. */
+export type IAMCustomAttributeDefaultsReadPermission = "authenticated" | "private";
+/** The default read permission in effect. It is `authenticated` when none was set. */
+export type IAMCustomAttributeDefaultsEffectiveReadPermission = "authenticated" | "private";
+/** The default write permission of custom attributes, or null when it was never set. */
+export type IAMCustomAttributeDefaultsWritePermission =
+  | "authenticated"
+  | "authenticated_protected"
+  | "private"
+  | "private_protected";
+/** The default write permission in effect. It is `authenticated` when none was set. */
+export type IAMCustomAttributeDefaultsEffectiveWritePermission =
+  | "authenticated"
+  | "authenticated_protected"
+  | "private"
+  | "private_protected";
+export interface IAMCustomAttributeDefaults {
+  /** The default read permission of custom attributes, or null when it was never set. */
+  read_permission: IAMCustomAttributeDefaultsReadPermission | null;
+  /** The default read permission in effect. It is `authenticated` when none was set. */
+  effective_read_permission: IAMCustomAttributeDefaultsEffectiveReadPermission;
+  /** The default write permission of custom attributes, or null when it was never set. */
+  write_permission: IAMCustomAttributeDefaultsWritePermission | null;
+  /** The default write permission in effect. It is `authenticated` when none was set. */
+  effective_write_permission: IAMCustomAttributeDefaultsEffectiveWritePermission;
+  [key: string]: unknown;
+}
+/** The read permission of this attribute, or null when it inherits the custom attribute default. */
+export type IAMCustomAttributeOverrideReadPermission = "authenticated" | "private";
+/** The read permission in effect for this attribute. */
+export type IAMCustomAttributeOverrideEffectiveReadPermission = "authenticated" | "private";
+/** The write permission of this attribute, or null when it inherits the custom attribute default. */
+export type IAMCustomAttributeOverrideWritePermission =
+  | "authenticated"
+  | "authenticated_protected"
+  | "private"
+  | "private_protected";
+/** The write permission in effect for this attribute. */
+export type IAMCustomAttributeOverrideEffectiveWritePermission =
+  | "authenticated"
+  | "authenticated_protected"
+  | "private"
+  | "private_protected";
+export interface IAMCustomAttributeOverride {
+  /** The name of the custom attribute. */
+  key: string;
+  /** The read permission of this attribute, or null when it inherits the custom attribute default. */
+  read_permission: IAMCustomAttributeOverrideReadPermission | null;
+  /** The read permission in effect for this attribute. */
+  effective_read_permission: IAMCustomAttributeOverrideEffectiveReadPermission;
+  /** The write permission of this attribute, or null when it inherits the custom attribute default. */
+  write_permission: IAMCustomAttributeOverrideWritePermission | null;
+  /** The write permission in effect for this attribute. */
+  effective_write_permission: IAMCustomAttributeOverrideEffectiveWritePermission;
+  [key: string]: unknown;
+}
+/** The custom attributes with their own permissions, sorted by key. */
+export type IAMAttributePermissionsCustomOverridesList = Array<IAMCustomAttributeOverride>;
+/** Who can read and write customer attributes. `authenticated`: your app, for customers signed in with RevenueCat authentication, and your backend. `private`: your backend only, with a secret API key. The `_protected` write permissions only allow setting an attribute while it is unset; clearing it is still allowed. Custom attributes without an override use the custom attribute defaults. */
+export interface IAMAttributePermissions {
+  /** String representing the object's type. Objects of the same type share the same value. */
+  object: IAMAttributePermissionsObject;
+  reserved_defaults: IAMReservedAttributeDefaults;
+  custom_defaults: IAMCustomAttributeDefaults;
+  /** The custom attributes with their own permissions, sorted by key. */
+  custom_overrides: IAMAttributePermissionsCustomOverridesList;
+  [key: string]: unknown;
 }
 export interface GetIamAuthenticationMethodRequest {
   /** ID of the project */
@@ -4007,7 +3926,19 @@ export type GetOverviewMetricsRequestCurrency =
   | "SEK"
   | "PLN"
   | "NZD"
-  | "CHF";
+  | "CHF"
+  | "DKK"
+  | "HKD"
+  | "IDR"
+  | "INR"
+  | "KES"
+  | "MYR"
+  | "NOK"
+  | "PKR"
+  | "SGD"
+  | "TRY"
+  | "TWD"
+  | "ZAR";
 export interface GetOverviewMetricsRequest {
   /** ID of the project */
   project_id: string;
@@ -4057,7 +3988,19 @@ export type OverviewMetricsCurrency =
   | "SEK"
   | "PLN"
   | "NZD"
-  | "CHF";
+  | "CHF"
+  | "DKK"
+  | "HKD"
+  | "IDR"
+  | "INR"
+  | "KES"
+  | "MYR"
+  | "NOK"
+  | "PKR"
+  | "SGD"
+  | "TRY"
+  | "TWD"
+  | "ZAR";
 export interface OverviewMetrics {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: OverviewMetricsObject;
@@ -4296,7 +4239,19 @@ export type GetRevenueMetricRequestCurrency =
   | "SEK"
   | "PLN"
   | "NZD"
-  | "CHF";
+  | "CHF"
+  | "DKK"
+  | "HKD"
+  | "IDR"
+  | "INR"
+  | "KES"
+  | "MYR"
+  | "NOK"
+  | "PKR"
+  | "SGD"
+  | "TRY"
+  | "TWD"
+  | "ZAR";
 export type GetRevenueMetricRequestRevenueType = "revenue" | "revenue_net_of_taxes" | "proceeds";
 export interface GetRevenueMetricRequest {
   /** ID of the project */
@@ -4504,6 +4459,32 @@ export interface BlockedCustomerList {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: BlockedCustomerListObject;
   [key: string]: unknown;
+}
+export interface ListChartAnnotationsRequest {
+  /** ID of the project */
+  project_id: string;
+  /** Start date for the data range (ISO 8601 format) */
+  start_date?: string | undefined;
+  /** End date for the data range (ISO 8601 format) */
+  end_date?: string | undefined;
+  /** Pagination cursor. Pass the id of the last item from the previous page to fetch the next page; omit for the first page. */
+  starting_after?: string | undefined;
+  /** Maximum number of items to return per page. Values below 1 or above 100 are clamped to that range rather than rejected. */
+  limit?: number | undefined;
+}
+/** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
+export type ChartAnnotationListObject = "list";
+/** Details about each object. */
+export type ChartAnnotationListItemsList = Array<ChartAnnotation>;
+export interface ChartAnnotationList {
+  /** String representing the object's type. Objects of the same type share the same value. Always has the value `list`. */
+  object: ChartAnnotationListObject;
+  /** Details about each object. */
+  items: ChartAnnotationListItemsList;
+  /** URL to access the next page of the project's chart annotations. If not present / null, there is no next page */
+  next_page: string | null;
+  /** The URL where this list can be accessed. */
+  url: string;
 }
 export interface ListCollaboratorsRequest {
   /** ID of the project */
@@ -5426,6 +5407,18 @@ export interface UpdateAudienceRequest {
   /** The Audience membership rules */
   rules?: AudienceRules | undefined;
 }
+export interface UpdateChartAnnotationRequest {
+  /** ID of the project */
+  project_id: string;
+  /** ID of the chart annotation */
+  annotation_id: string;
+  /** Human-readable description of the event this annotation represents. */
+  description: string;
+  /** The start date of the annotated period (ISO 8601 date format). */
+  start_date: string;
+  /** The end date of the annotated period (ISO 8601 date format), or null for a single-day event. */
+  end_date?: string | null | undefined;
+}
 /** The type of discount to apply. */
 export type UpdateDiscountOfferRequestType = "percentage" | "fixed_amount";
 export type UpdateDiscountOfferRequestFixedAmountsValue = CreateDiscountRequestFixedAmountsValue;
@@ -5474,13 +5467,84 @@ export interface UpdateEntitlementRequest {
   /** The display name of the entitlement */
   display_name: string;
 }
+/** The read permission of all reserved attributes (prefixed with `$`). */
+export type UpdateIamAttributePermissionsRequestReservedDefaultsReadPermission =
+  | "authenticated"
+  | "private";
+export interface UpdateIamAttributePermissionsRequestReservedDefaults {
+  /** The read permission of all reserved attributes (prefixed with `$`). */
+  read_permission:
+    | UpdateIamAttributePermissionsRequestReservedDefaultsReadPermission
+    | (string & {})
+    | null;
+}
+/** The default read permission of custom attributes. */
+export type UpdateIamAttributePermissionsRequestCustomDefaultsReadPermission =
+  | "authenticated"
+  | "private";
+/** The default write permission of custom attributes. */
+export type UpdateIamAttributePermissionsRequestCustomDefaultsWritePermission =
+  | "authenticated"
+  | "authenticated_protected"
+  | "private"
+  | "private_protected";
+export interface UpdateIamAttributePermissionsRequestCustomDefaults {
+  /** The default read permission of custom attributes. */
+  read_permission?:
+    | UpdateIamAttributePermissionsRequestCustomDefaultsReadPermission
+    | (string & {})
+    | null
+    | undefined;
+  /** The default write permission of custom attributes. */
+  write_permission?:
+    | UpdateIamAttributePermissionsRequestCustomDefaultsWritePermission
+    | (string & {})
+    | null
+    | undefined;
+}
+/** The read permission of this attribute. `null` makes it inherit the custom attribute default. */
+export type UpdateIamAttributePermissionsRequestCustomOverridesItemReadPermission =
+  | "authenticated"
+  | "private";
+/** The write permission of this attribute. `null` makes it inherit the custom attribute default. */
+export type UpdateIamAttributePermissionsRequestCustomOverridesItemWritePermission =
+  | "authenticated"
+  | "authenticated_protected"
+  | "private"
+  | "private_protected";
+export interface UpdateIamAttributePermissionsRequestCustomOverridesItem {
+  /** The name of the custom attribute. */
+  key: string;
+  /** The read permission of this attribute. `null` makes it inherit the custom attribute default. */
+  read_permission?:
+    | UpdateIamAttributePermissionsRequestCustomOverridesItemReadPermission
+    | (string & {})
+    | null
+    | undefined;
+  /** The write permission of this attribute. `null` makes it inherit the custom attribute default. */
+  write_permission?:
+    | UpdateIamAttributePermissionsRequestCustomOverridesItemWritePermission
+    | (string & {})
+    | null
+    | undefined;
+}
+/** Permissions for specific custom attributes. Each key can only appear once. Keys that are not listed are left as they are. */
+export type UpdateIamAttributePermissionsRequestCustomOverridesList =
+  Array<UpdateIamAttributePermissionsRequestCustomOverridesItem>;
+export interface UpdateIamAttributePermissionsRequest {
+  /** ID of the project */
+  project_id: string;
+  reserved_defaults?: UpdateIamAttributePermissionsRequestReservedDefaults | undefined;
+  custom_defaults?: UpdateIamAttributePermissionsRequestCustomDefaults | undefined;
+  /** Permissions for specific custom attributes. Each key can only appear once. Keys that are not listed are left as they are. */
+  custom_overrides?: UpdateIamAttributePermissionsRequestCustomOverridesList | undefined;
+}
 /** OAuth scopes requested from the identity provider in addition to `openid`, which is always requested. */
 export type UpdateIamAuthenticationMethodRequestRequestedScopesList = Array<string>;
-/** Static query parameters added to the authorize URL of the identity provider during interactive login. OAuth and PKCE parameters cannot be overridden. */
 export type UpdateIamAuthenticationMethodRequestAuthorizationParamsMap = {
   [key: string]: string | undefined;
 };
-/** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. */
+/** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. Include the app that the Services ID is grouped with in Apple. Set to an empty list for a web-only method, whose Services ID is grouped with no app of the project; it then needs a `services_id`. */
 export type UpdateIamAuthenticationMethodRequestAppIdsList = Array<string>;
 export interface UpdateIamAuthenticationMethodRequest {
   /** ID of the project */
@@ -5499,7 +5563,7 @@ export interface UpdateIamAuthenticationMethodRequest {
   magic_link_expiration_minutes?: number | null | undefined;
   /** Issuer URL of the identity provider. The OpenID configuration is discovered from it. */
   issuer_url?: string | undefined;
-  /** OAuth client id (`oidc`, `google`). Matched against the `aud` claim of the ID token. */
+  /** OAuth client id (`oidc`, `google`). Matched against the `aud` claim of the ID token. For `google`, this is the web client ID. */
   client_id?: string | null | undefined;
   /** Client secret used for interactive login. It is never returned. */
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
@@ -5514,10 +5578,12 @@ export interface UpdateIamAuthenticationMethodRequest {
     | undefined;
   /** Maximum age in seconds of the `iat` claim of the external ID token, used for replay protection. When omitted, 5 seconds are used. */
   id_token_iat_freshness_seconds?: number | null | undefined;
-  /** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. */
+  /** Ids of the Apple apps that form the Apple App ID group of the method. Omit or set to null to cover every Apple app of the project. Include the app that the Services ID is grouped with in Apple. Set to an empty list for a web-only method, whose Services ID is grouped with no app of the project; it then needs a `services_id`. */
   app_ids?: UpdateIamAuthenticationMethodRequestAppIdsList | null | undefined;
   /** Id of the Apple app whose App ID is the primary one in the Apple Developer account. */
   primary_app_id?: string | null | undefined;
+  /** Apple Services ID used by Sign in with Apple on the web and on Android. Matched against the `aud` claim of the ID token. */
+  services_id?: string | null | undefined;
   /** Meta app id, matched against the token audience. */
   facebook_app_id?: string | undefined;
   /** Meta app secret, used to verify Android access tokens. It is never returned. */
@@ -5622,7 +5688,6 @@ export type StateDeclarationInput =
   | StateDeclarationInputIntegerVariant
   | StateDeclarationInputDoubleVariant
   | StateDeclarationInputStringVariant;
-/** State declarations to save on the draft, keyed by state key name. Pass null to clear all state declarations. Omit to leave unchanged. */
 export type UpdatePaywallRequestStateDeclarationsMap = {
   [key: string]: StateDeclarationInput | undefined;
 };
@@ -5707,6 +5772,8 @@ export interface UpdateVirtualCurrencyRequest {
 export type UpdateWebhookIntegrationRequestEnvironment = "production" | "sandbox";
 /** Event types that will trigger the webhook */
 export type UpdateWebhookIntegrationRequestEventTypesList = Array<WebhookEventType | (string & {})>;
+/** Whether the webhook integration sends events. A disabled webhook integration keeps its settings but sends no events until it is set back to active. Events that happen while it is disabled are not sent later. */
+export type UpdateWebhookIntegrationRequestStatus = "active" | "disabled";
 export interface UpdateWebhookIntegrationRequest {
   /** ID of the project */
   project_id: string;
@@ -5724,6 +5791,8 @@ export interface UpdateWebhookIntegrationRequest {
   event_types?: UpdateWebhookIntegrationRequestEventTypesList | null | undefined;
   /** The ID of the app the webhook integration is scoped to */
   app_id?: string | null | undefined;
+  /** Whether the webhook integration sends events. A disabled webhook integration keeps its settings but sends no events until it is set back to active. Events that happen while it is disabled are not sent later. */
+  status?: UpdateWebhookIntegrationRequestStatus | (string & {}) | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type Error400BodyObject = "error";
@@ -5924,9 +5993,10 @@ export const archiveEntitlement: API.OperationMethod<
   ArchiveEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ArchiveEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1904, __c119, 0) as any as S.Schema<ArchiveEntitlementRequest>,
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5947,9 +6017,10 @@ export const archiveOffering: API.OperationMethod<
   ArchiveOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ArchiveOfferingRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2128, __c133, 0) as any as S.Schema<ArchiveOfferingRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<Offering>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5970,9 +6041,10 @@ export const archiveProduct: API.OperationMethod<
   ArchiveProductError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<ArchiveProductRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2448, __c153, 0) as any as S.Schema<ArchiveProductRequest>,
+  output: __S(1955, __c122, 3) as any as S.Schema<Product>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5993,9 +6065,10 @@ export const archiveVirtualCurrency: API.OperationMethod<
   ArchiveVirtualCurrencyError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ArchiveVirtualCurrencyRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2640, __c165, 0) as any as S.Schema<ArchiveVirtualCurrencyRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<VirtualCurrency>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6016,9 +6089,10 @@ export const assignCustomerOffering: API.OperationMethod<
   AssignCustomerOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<AssignCustomerOfferingRequest>,
-  output: __S(2768, __c173, 0) as any as S.Schema<AssignCustomerOfferingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2848, __c178, 0) as any as S.Schema<AssignCustomerOfferingRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<AssignCustomerOfferingResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6041,7 +6115,8 @@ export const attachOfferingToPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<AttachOfferingToPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6063,8 +6138,9 @@ export const attachProductsToEntitlement: API.OperationMethod<
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<AttachProductsToEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6086,8 +6162,9 @@ export const attachProductsToPackage: API.OperationMethod<
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(434, __c27, 2) as any as S.Schema<AttachProductsToPackageRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  output: __S(2144, __c134, 0) as any as S.Schema<Package>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6110,7 +6187,8 @@ export const authenticateSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<AuthenticateSubscriberRequest>,
   output: __S(609, __c38, 1) as any as S.Schema<Authentication>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6124,7 +6202,7 @@ export type BlockCustomerError =
   | Conflict
   | UnprocessableEntity
   | RevenueCatOpError;
-/** Add a customer to the block list This endpoint requires the following permission(s): <code>customer_information:customers:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
+/** Add a customer to the block list Adds the customer ID to the block list. If the customer exists, it is permanently deleted. Deletion is queued asynchronously. While the ID is blocked, SDK requests for it are rejected and the customer cannot be created again. This endpoint requires the following permission(s): <code>customer_information:customers:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
 export const blockCustomer: API.OperationMethod<
   BlockCustomerRequest,
   BlockCustomerResponse,
@@ -6132,8 +6210,9 @@ export const blockCustomer: API.OperationMethod<
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<BlockCustomerRequest>,
-  output: __S(2768, __c173, 0) as any as S.Schema<BlockCustomerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  output: __S(2864, __c179, 0) as any as S.Schema<BlockCustomerResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6154,9 +6233,10 @@ export const cancelSubscription: API.OperationMethod<
   CancelSubscriptionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CancelSubscriptionRequest>,
-  output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(944, __c59, 0) as any as S.Schema<CancelSubscriptionRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<Subscription>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6177,9 +6257,10 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<CreateAppRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<CreateAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateAppRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<CreateAppResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6200,36 +6281,38 @@ export const createAudience: API.OperationMethod<
   CreateAudienceError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateAudienceRequest>,
-  output: __S(1050, __c65, 10) as any as S.Schema<Audience>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1056, __c66, 0) as any as S.Schema<CreateAudienceRequest>,
+  output: __S(1098, __c68, 10) as any as S.Schema<Audience>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAudience",
 }));
 
-export type CreateChartSubscriberListExportError =
+export type CreateChartAnnotationError =
   | BadRequest
   | Forbidden
   | NotFound
   | Conflict
   | UnprocessableEntity
   | RevenueCatOpError;
-/** Create a chart subscriber list export Queues an async export of the full subscriber list behind a chart: every customer with activity contributing to the chart during the requested period. The export is delivered as a zip archive containing a CSV with one row per customer (`app_user_id`, `country`, `app_uuid`, `status`, `product_identifier`, `first_seen_at`, `last_seen_at`). Projects not yet migrated to the zip format receive a gzipped CSV instead, with columns `user_uuid`, `country`, `app_uuid`, `status`, `product`, `first_seen`, `last_seen`. The export runs asynchronously: this endpoint returns `202 Accepted` with the export job, and the file is built in the background. Poll the export with `GET /projects/{project_id}/charts/{chart_name}/subscriber_list_exports/{export_id}` until its status is `succeeded`, then download the file from `download_url`. A download link is also emailed to the project owner. Only realtime (Charts v3) charts backed by ClickHouse support subscriber list exports. The chart parameters (`resolution`, `start_date`, `end_date`, `filters`, `selectors`, `segment`) work like in `GET /charts/{chart_name}` and define the exported population. Only one export with identical settings can run at a time; a duplicate request returns `423 Locked` while the first one is still running. This endpoint requires the following permission(s): <code>charts_metrics:subscriber_lists:read_write</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
-export const createChartSubscriberListExport: API.OperationMethod<
-  CreateChartSubscriberListExportRequest,
-  CreateChartSubscriberListExportResponse,
-  CreateChartSubscriberListExportError,
+/** Create a chart annotation This endpoint requires the following permission(s): <code>charts_metrics:charts:read_write</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
+export const createChartAnnotation: API.OperationMethod<
+  CreateChartAnnotationRequest,
+  ChartAnnotation,
+  CreateChartAnnotationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1058, __c66, 2) as any as S.Schema<CreateChartSubscriberListExportRequest>,
-  output: __S(2768, __c173, 0) as any as S.Schema<CreateChartSubscriberListExportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1104, __c69, 0) as any as S.Schema<CreateChartAnnotationRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<ChartAnnotation>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "CreateChartSubscriberListExport",
+  span: "CreateChartAnnotation",
 }));
 
 export type CreateCustomerError =
@@ -6246,9 +6329,10 @@ export const createCustomer: API.OperationMethod<
   CreateCustomerError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1090, __c68, 2) as any as S.Schema<CreateCustomerRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1138, __c71, 2) as any as S.Schema<CreateCustomerRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Customer>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6269,9 +6353,10 @@ export const createDiscount: API.OperationMethod<
   CreateDiscountError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateDiscountRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<CreateDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1200, __c75, 0) as any as S.Schema<CreateDiscountRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<CreateDiscountResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6292,9 +6377,10 @@ export const createDiscountCodes: API.OperationMethod<
   CreateDiscountCodesError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<CreateDiscountCodesRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<CreateDiscountCodesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1248, __c78, 0) as any as S.Schema<CreateDiscountCodesRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<CreateDiscountCodesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6315,9 +6401,10 @@ export const createEntitlement: API.OperationMethod<
   CreateEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<CreateEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1280, __c80, 0) as any as S.Schema<CreateEntitlementRequest>,
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6338,9 +6425,10 @@ export const createFont: API.OperationMethod<
   CreateFontError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<CreateFontRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<Font>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1296, __c81, 0) as any as S.Schema<CreateFontRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<Font>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6361,9 +6449,10 @@ export const createIamAuthenticationMethod: API.OperationMethod<
   CreateIamAuthenticationMethodError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<CreateIamAuthenticationMethodRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<CreateIamAuthenticationMethodResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateIamAuthenticationMethodRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<CreateIamAuthenticationMethodResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6384,9 +6473,10 @@ export const createMediaAsset: API.OperationMethod<
   CreateMediaAssetError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<CreateMediaAssetRequest>,
-  output: __S(1330, __c83, 2) as any as S.Schema<MediaAsset>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateMediaAssetRequest>,
+  output: __S(1378, __c86, 2) as any as S.Schema<MediaAsset>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6407,9 +6497,10 @@ export const createOffering: API.OperationMethod<
   CreateOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<CreateOfferingRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1392, __c87, 0) as any as S.Schema<CreateOfferingRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<Offering>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6430,9 +6521,10 @@ export const createPackages: API.OperationMethod<
   CreatePackagesError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<CreatePackagesRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1408, __c88, 0) as any as S.Schema<CreatePackagesRequest>,
+  output: __S(2144, __c134, 0) as any as S.Schema<Package>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6453,9 +6545,10 @@ export const createPaywall: API.OperationMethod<
   CreatePaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<CreatePaywallRequest2>,
+  input: __S(1424, __c89, 0) as any as S.Schema<CreatePaywallRequest2>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6476,9 +6569,10 @@ export const createPaywallVersion: API.OperationMethod<
   CreatePaywallVersionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<CreatePaywallVersionRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<PaywallVersion>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1440, __c90, 0) as any as S.Schema<CreatePaywallVersionRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<PaywallVersion>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6499,9 +6593,10 @@ export const createProduct: API.OperationMethod<
   CreateProductError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1425, __c89, 1) as any as S.Schema<CreateProductRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1473, __c92, 1) as any as S.Schema<CreateProductRequest>,
+  output: __S(1955, __c122, 3) as any as S.Schema<Product>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6522,9 +6617,10 @@ export const createProductInStore: API.OperationMethod<
   CreateProductInStoreError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<CreateProductInStoreRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<StoreProductCreation>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1488, __c93, 0) as any as S.Schema<CreateProductInStoreRequest>,
+  output: __S(1490, __c93, 2) as any as S.Schema<StoreProductCreation>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6545,9 +6641,10 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1504, __c94, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<Project>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6568,9 +6665,10 @@ export const createVirtualCurrenciesTransaction: API.OperationMethod<
   CreateVirtualCurrenciesTransactionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<CreateVirtualCurrenciesTransactionRequest>,
-  output: __S(1506, __c94, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1536, __c96, 0) as any as S.Schema<CreateVirtualCurrenciesTransactionRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6591,9 +6689,10 @@ export const createVirtualCurrency: API.OperationMethod<
   CreateVirtualCurrencyError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<CreateVirtualCurrencyRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1584, __c99, 0) as any as S.Schema<CreateVirtualCurrencyRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<VirtualCurrency>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6614,9 +6713,10 @@ export const createWebhookIntegration: API.OperationMethod<
   CreateWebhookIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<CreateWebhookIntegrationRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<WebhookIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1616, __c101, 0) as any as S.Schema<CreateWebhookIntegrationRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<WebhookIntegration>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6637,13 +6737,38 @@ export const deleteApp: API.OperationMethod<
   DeleteAppError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1664, __c104, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteApp",
+}));
+
+export type DeleteChartAnnotationError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RevenueCatOpError;
+/** Delete a chart annotation This endpoint requires the following permission(s): <code>charts_metrics:charts:read_write</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
+export const deleteChartAnnotation: API.OperationMethod<
+  DeleteChartAnnotationRequest,
+  DeletedObject,
+  DeleteChartAnnotationError,
+  RevenueCatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c106, 0) as any as S.Schema<DeleteChartAnnotationRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
+  protocol: RevenueCatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChartAnnotation",
 }));
 
 export type DeleteCustomerError =
@@ -6660,9 +6785,10 @@ export const deleteCustomer: API.OperationMethod<
   DeleteCustomerError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DeleteCustomerRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1712, __c107, 0) as any as S.Schema<DeleteCustomerRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6683,9 +6809,10 @@ export const deleteDiscount: API.OperationMethod<
   DeleteDiscountError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DeleteDiscountRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1728, __c108, 0) as any as S.Schema<DeleteDiscountRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6706,9 +6833,10 @@ export const deleteDiscountCode: API.OperationMethod<
   DeleteDiscountCodeError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DeleteDiscountCodeRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1744, __c109, 0) as any as S.Schema<DeleteDiscountCodeRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6729,9 +6857,10 @@ export const deleteEntitlement: API.OperationMethod<
   DeleteEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DeleteEntitlementRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1760, __c110, 0) as any as S.Schema<DeleteEntitlementRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6752,9 +6881,10 @@ export const deleteIamAuthenticationMethod: API.OperationMethod<
   DeleteIamAuthenticationMethodError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<DeleteIamAuthenticationMethodRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1776, __c111, 0) as any as S.Schema<DeleteIamAuthenticationMethodRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6775,9 +6905,10 @@ export const deleteOffering: API.OperationMethod<
   DeleteOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<DeleteOfferingRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1792, __c112, 0) as any as S.Schema<DeleteOfferingRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6798,9 +6929,10 @@ export const deletePackageFromOffering: API.OperationMethod<
   DeletePackageFromOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<DeletePackageFromOfferingRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1808, __c113, 0) as any as S.Schema<DeletePackageFromOfferingRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6821,9 +6953,10 @@ export const deletePaywall: API.OperationMethod<
   DeletePaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<DeletePaywallRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1824, __c114, 0) as any as S.Schema<DeletePaywallRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6844,9 +6977,10 @@ export const deleteProduct: API.OperationMethod<
   DeleteProductError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<DeleteProductRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1840, __c115, 0) as any as S.Schema<DeleteProductRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6867,9 +7001,10 @@ export const deleteVirtualCurrency: API.OperationMethod<
   DeleteVirtualCurrencyError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<DeleteVirtualCurrencyRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1856, __c116, 0) as any as S.Schema<DeleteVirtualCurrencyRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6890,9 +7025,10 @@ export const deleteWebhookIntegration: API.OperationMethod<
   DeleteWebhookIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<DeleteWebhookIntegrationRequest>,
-  output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1872, __c117, 0) as any as S.Schema<DeleteWebhookIntegrationRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<DeletedObject>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6913,9 +7049,10 @@ export const detachOfferingFromPaywall: API.OperationMethod<
   DetachOfferingFromPaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<DetachOfferingFromPaywallRequest>,
+  input: __S(1888, __c118, 0) as any as S.Schema<DetachOfferingFromPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6936,9 +7073,10 @@ export const detachProductsFromEntitlement: API.OperationMethod<
   DetachProductsFromEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<DetachProductsFromEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1968, __c123, 0) as any as S.Schema<DetachProductsFromEntitlementRequest>,
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6959,9 +7097,10 @@ export const detachProductsFromPackage: API.OperationMethod<
   DetachProductsFromPackageError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<DetachProductsFromPackageRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(1984, __c124, 0) as any as S.Schema<DetachProductsFromPackageRequest>,
+  output: __S(2144, __c134, 0) as any as S.Schema<Package>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6982,9 +7121,10 @@ export const disableDiscount: API.OperationMethod<
   DisableDiscountError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<DisableDiscountRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<DisableDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2000, __c125, 0) as any as S.Schema<DisableDiscountRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<DisableDiscountResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7005,9 +7145,10 @@ export const duplicatePaywall: API.OperationMethod<
   DuplicatePaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1953, __c122, 1) as any as S.Schema<DuplicatePaywallRequest>,
+  input: __S(2017, __c126, 1) as any as S.Schema<DuplicatePaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7028,9 +7169,10 @@ export const enableDiscount: API.OperationMethod<
   EnableDiscountError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<EnableDiscountRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<EnableDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2032, __c127, 0) as any as S.Schema<EnableDiscountRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<EnableDiscountResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7051,9 +7193,10 @@ export const extendSubscription: API.OperationMethod<
   ExtendSubscriptionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<ExtendSubscriptionRequest2>,
-  output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2048, __c128, 0) as any as S.Schema<ExtendSubscriptionRequest2>,
+  output: __S(1010, __c63, 2) as any as S.Schema<Subscription>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7068,9 +7211,10 @@ export const getApp: API.OperationMethod<
   GetAppError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetAppRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GetAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2064, __c129, 0) as any as S.Schema<GetAppRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<GetAppResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7085,9 +7229,10 @@ export const getAppStorekitConfig: API.OperationMethod<
   GetAppStorekitConfigError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<GetAppStorekitConfigRequest>,
-  output: __S(2017, __c126, 1) as any as S.Schema<StoreKitConfigFile>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2080, __c130, 0) as any as S.Schema<GetAppStorekitConfigRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<StoreKitConfigFile>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7102,9 +7247,10 @@ export const getAudience: API.OperationMethod<
   GetAudienceError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetAudienceRequest>,
-  output: __S(1050, __c65, 10) as any as S.Schema<Audience>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2096, __c131, 0) as any as S.Schema<GetAudienceRequest>,
+  output: __S(1098, __c68, 10) as any as S.Schema<Audience>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7119,9 +7265,10 @@ export const getAudienceFilterOptions: API.OperationMethod<
   GetAudienceFilterOptionsError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2049, __c128, 1) as any as S.Schema<GetAudienceFilterOptionsRequest>,
-  output: __S(2054, __c128, 6) as any as S.Schema<ListAudienceFilterOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2113, __c132, 1) as any as S.Schema<GetAudienceFilterOptionsRequest>,
+  output: __S(2118, __c132, 6) as any as S.Schema<ListAudienceFilterOptions>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7133,37 +7280,21 @@ export type GetAuthorizedSubscriptionManagementUrlError =
   | Forbidden
   | NotFound
   | RevenueCatOpError;
-/** Get an authenticated subscription management URL Get a secure, single-use URL that allows customers to access their Web Billing customer portal. This endpoint requires the following permission(s): <code>customer_information:subscriptions:read</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
+/** Get an authenticated subscription management URL Get a URL that opens the customer portal for this subscription without signing in. For Web Billing subscriptions, it's a single-use link to the RevenueCat customer portal that expires if it isn't opened within 5 minutes. For Paddle subscriptions, it's a Paddle Customer Portal URL whose token stays valid for up to 24 hours and keeps working even if the API key that requested it is revoked. Treat it as a credential: give it only to the customer and don't store it. This endpoint requires the following permission(s): <code>customer_information:subscriptions:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
 export const getAuthorizedSubscriptionManagementUrl: API.OperationMethod<
   GetAuthorizedSubscriptionManagementUrlRequest,
   AuthenticatedManagementUrl,
   GetAuthorizedSubscriptionManagementUrlError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetAuthorizedSubscriptionManagementUrlRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<AuthenticatedManagementUrl>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2224, __c139, 0) as any as S.Schema<GetAuthorizedSubscriptionManagementUrlRequest>,
+  output: __S(2225, __c139, 1) as any as S.Schema<AuthenticatedManagementUrl>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAuthorizedSubscriptionManagementUrl",
-}));
-
-export type GetBenchmarksError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
-/** Get industry benchmarks for a project This endpoint requires the following permission(s): <code>charts_metrics:benchmarks:read</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
-export const getBenchmarks: API.OperationMethod<
-  GetBenchmarksRequest,
-  Benchmarks,
-  GetBenchmarksError,
-  RevenueCatOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetBenchmarksRequest>,
-  output: __S(2179, __c136, 3) as any as S.Schema<Benchmarks>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
-  protocol: RevenueCatProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBenchmarks",
 }));
 
 export type GetChartDataError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
@@ -7174,9 +7305,10 @@ export const getChartData: API.OperationMethod<
   GetChartDataError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetChartDataRequest>,
-  output: __S(2201, __c137, 9) as any as S.Schema<ChartData>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2240, __c140, 0) as any as S.Schema<GetChartDataRequest>,
+  output: __S(2247, __c140, 7) as any as S.Schema<ChartData>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7191,34 +7323,14 @@ export const getChartOptions: API.OperationMethod<
   GetChartOptionsError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetChartOptionsRequest>,
-  output: __S(2219, __c138, 11) as any as S.Schema<ChartOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2288, __c143, 0) as any as S.Schema<GetChartOptionsRequest>,
+  output: __S(2299, __c143, 11) as any as S.Schema<ChartOptions>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetChartOptions",
-}));
-
-export type GetChartSubscriberListExportError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | RevenueCatOpError;
-/** Get a chart subscriber list export Polls the status of an export created by `POST /projects/{project_id}/charts/{chart_name}/subscriber_list_exports`. Keep polling until a terminal status: - `succeeded`: download the file from `download_url` before `download_url_expires_at` (polling again returns a fresh URL). - `failed`: inspect `error_message`, adjust the request, and create a new export. This endpoint requires the following permission(s): <code>charts_metrics:subscriber_lists:read</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
-export const getChartSubscriberListExport: API.OperationMethod<
-  GetChartSubscriberListExportRequest,
-  ChartSubscriberListExport,
-  GetChartSubscriberListExportError,
-  RevenueCatOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<GetChartSubscriberListExportRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<ChartSubscriberListExport>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
-  protocol: RevenueCatProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetChartSubscriberListExport",
 }));
 
 export type GetCustomerError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
@@ -7229,9 +7341,10 @@ export const getCustomer: API.OperationMethod<
   GetCustomerError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetCustomerRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2304, __c144, 0) as any as S.Schema<GetCustomerRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Customer>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7246,9 +7359,10 @@ export const getCustomerCenterConfig: API.OperationMethod<
   GetCustomerCenterConfigError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<GetCustomerCenterConfigRequest>,
-  output: __S(2257, __c141, 1) as any as S.Schema<CustomerCenterConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2320, __c145, 0) as any as S.Schema<GetCustomerCenterConfigRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<CustomerCenterConfig>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7263,9 +7377,10 @@ export const getDiscount: API.OperationMethod<
   GetDiscountError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetDiscountRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<GetDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2336, __c146, 0) as any as S.Schema<GetDiscountRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<GetDiscountResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7280,13 +7395,32 @@ export const getEntitlement: API.OperationMethod<
   GetEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2352, __c147, 0) as any as S.Schema<GetEntitlementRequest>,
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetEntitlement",
+}));
+
+export type GetIamAttributePermissionsError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
+/** Get the customer attribute permissions of a project This endpoint requires the following permission(s): <code>iam:settings:read</code>. This endpoint belongs to the <strong>Iam</strong> domain, which has a default rate limit of <strong>60 requests per minute</strong>. */
+export const getIamAttributePermissions: API.OperationMethod<
+  GetIamAttributePermissionsRequest,
+  IAMAttributePermissions,
+  GetIamAttributePermissionsError,
+  RevenueCatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2368, __c148, 0) as any as S.Schema<GetIamAttributePermissionsRequest>,
+  output: __S(2388, __c149, 4) as any as S.Schema<IAMAttributePermissions>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
+  protocol: RevenueCatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamAttributePermissions",
 }));
 
 export type GetIamAuthenticationMethodError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
@@ -7297,9 +7431,10 @@ export const getIamAuthenticationMethod: API.OperationMethod<
   GetIamAuthenticationMethodError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<GetIamAuthenticationMethodRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<GetIamAuthenticationMethodResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2400, __c150, 0) as any as S.Schema<GetIamAuthenticationMethodRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<GetIamAuthenticationMethodResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7314,9 +7449,10 @@ export const getIamSettings: API.OperationMethod<
   GetIamSettingsError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetIamSettingsRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<IAMSettings>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2416, __c151, 0) as any as S.Schema<GetIamSettingsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<IAMSettings>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7331,9 +7467,10 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(2768, __c173, 0) as any as S.Schema<GetInvoiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2464, __c154, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<GetInvoiceResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7348,9 +7485,10 @@ export const getOffering: API.OperationMethod<
   GetOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<GetOfferingRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2480, __c155, 0) as any as S.Schema<GetOfferingRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<Offering>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7365,9 +7503,10 @@ export const getOverviewMetrics: API.OperationMethod<
   GetOverviewMetricsError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetOverviewMetricsRequest>,
-  output: __S(2403, __c150, 3) as any as S.Schema<OverviewMetrics>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2496, __c156, 0) as any as S.Schema<GetOverviewMetricsRequest>,
+  output: __S(2499, __c156, 3) as any as S.Schema<OverviewMetrics>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7382,9 +7521,10 @@ export const getPackage: API.OperationMethod<
   GetPackageError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetPackageRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2512, __c157, 0) as any as S.Schema<GetPackageRequest>,
+  output: __S(2144, __c134, 0) as any as S.Schema<Package>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7399,9 +7539,10 @@ export const getPaywall: API.OperationMethod<
   GetPaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetPaywallRequest>,
+  input: __S(2528, __c158, 0) as any as S.Schema<GetPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7416,9 +7557,10 @@ export const getPaywallVersion: API.OperationMethod<
   GetPaywallVersionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetPaywallVersionRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<PaywallVersion>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2544, __c159, 0) as any as S.Schema<GetPaywallVersionRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<PaywallVersion>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7440,12 +7582,13 @@ export const getPlayStoreOrAppStoreSubscriptionTransactions: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      2464,
-      __c154,
+      2560,
+      __c160,
       0,
     ) as any as S.Schema<GetPlayStoreOrAppStoreSubscriptionTransactionsRequest>,
-    output: __S(2466, __c154, 2) as any as S.Schema<ListSubscriptionTransaction>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    output: __S(2562, __c160, 2) as any as S.Schema<ListSubscriptionTransaction>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7469,9 +7612,10 @@ export const getProduct: API.OperationMethod<
   GetProductError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetProductRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2592, __c162, 0) as any as S.Schema<GetProductRequest>,
+  output: __S(1955, __c122, 3) as any as S.Schema<Product>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7488,9 +7632,10 @@ export const getProductsFromEntitlement: API.PaginatedOperationMethod<
   Product
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2512, __c157, 0) as any as S.Schema<GetProductsFromEntitlementRequest>,
-    output: __S(1873, __c117, 1) as any as S.Schema<ProductsFromEntitlement>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2608, __c163, 0) as any as S.Schema<GetProductsFromEntitlementRequest>,
+    output: __S(1921, __c120, 1) as any as S.Schema<ProductsFromEntitlement>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7516,9 +7661,10 @@ export const getProductsFromPackage: API.PaginatedOperationMethod<
   PackageProductAssociation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2528, __c158, 0) as any as S.Schema<GetProductsFromPackageRequest>,
-    output: __S(2114, __c132, 2) as any as S.Schema<ProductsFromPackage>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2624, __c164, 0) as any as S.Schema<GetProductsFromPackageRequest>,
+    output: __S(2162, __c135, 2) as any as S.Schema<ProductsFromPackage>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7542,9 +7688,10 @@ export const getPurchase: API.OperationMethod<
   GetPurchaseError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetPurchaseRequest>,
-  output: __S(2592, __c162, 0) as any as S.Schema<Purchase>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2672, __c167, 0) as any as S.Schema<GetPurchaseRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<Purchase>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7559,9 +7706,10 @@ export const getRevenueMetric: API.OperationMethod<
   GetRevenueMetricError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetRevenueMetricRequest>,
-  output: __S(2609, __c163, 1) as any as S.Schema<RevenueMetric>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2704, __c169, 0) as any as S.Schema<GetRevenueMetricRequest>,
+  output: __S(2705, __c169, 1) as any as S.Schema<RevenueMetric>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7576,9 +7724,10 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetSubscriptionRequest>,
-  output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2720, __c170, 0) as any as S.Schema<GetSubscriptionRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<Subscription>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7593,9 +7742,10 @@ export const getVirtualCurrency: API.OperationMethod<
   GetVirtualCurrencyError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetVirtualCurrencyRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2736, __c171, 0) as any as S.Schema<GetVirtualCurrencyRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<VirtualCurrency>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7610,9 +7760,10 @@ export const getWebhookIntegration: API.OperationMethod<
   GetWebhookIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetWebhookIntegrationRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<WebhookIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2752, __c172, 0) as any as S.Schema<GetWebhookIntegrationRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<WebhookIntegration>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7633,9 +7784,10 @@ export const grantCustomerEntitlement: API.OperationMethod<
   GrantCustomerEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GrantCustomerEntitlementRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(2768, __c173, 0) as any as S.Schema<GrantCustomerEntitlementRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Customer>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7650,9 +7802,10 @@ export const listAppPublicApiKeys: API.OperationMethod<
   ListAppPublicApiKeysError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<ListAppPublicApiKeysRequest>,
-  output: __S(2691, __c168, 3) as any as S.Schema<ListPublicApiKeys>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2784, __c174, 0) as any as S.Schema<ListAppPublicApiKeysRequest>,
+  output: __S(2787, __c174, 3) as any as S.Schema<ListPublicApiKeys>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7669,9 +7822,10 @@ export const listApps: API.PaginatedOperationMethod<
   App
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2704, __c169, 0) as any as S.Schema<ListAppsRequest>,
-    output: __S(2706, __c169, 2) as any as S.Schema<AppList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2800, __c175, 0) as any as S.Schema<ListAppsRequest>,
+    output: __S(2802, __c175, 2) as any as S.Schema<AppList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7695,9 +7849,10 @@ export const listAudiences: API.OperationMethod<
   ListAudiencesError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<ListAudiencesRequest>,
-  output: __S(2722, __c170, 2) as any as S.Schema<AudienceList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2816, __c176, 0) as any as S.Schema<ListAudiencesRequest>,
+  output: __S(2818, __c176, 2) as any as S.Schema<AudienceList>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7714,9 +7869,10 @@ export const listAuditLogs: API.PaginatedOperationMethod<
   AuditLog
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2736, __c171, 0) as any as S.Schema<ListAuditLogsRequest>,
-    output: __S(2739, __c171, 3) as any as S.Schema<AuditLogList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2832, __c177, 0) as any as S.Schema<ListAuditLogsRequest>,
+    output: __S(2835, __c177, 3) as any as S.Schema<AuditLogList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7740,14 +7896,44 @@ export const listBlockedCustomers: API.OperationMethod<
   ListBlockedCustomersError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<ListBlockedCustomersRequest>,
-  output: __S(2785, __c174, 1) as any as S.Schema<BlockedCustomerList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(2880, __c180, 0) as any as S.Schema<ListBlockedCustomersRequest>,
+  output: __S(2881, __c180, 1) as any as S.Schema<BlockedCustomerList>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBlockedCustomers",
 }));
+
+export type ListChartAnnotationsError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
+/** Get chart annotations Returns a list of chart annotations for the project, optionally filtered by date range. Annotations mark significant events on charts (such as app releases, pricing changes, or external events) that may explain changes in chart data. Each annotation has a start date and an optional end date. This endpoint requires the following permission(s): <code>charts_metrics:charts:read</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
+export const listChartAnnotations: API.PaginatedOperationMethod<
+  ListChartAnnotationsRequest,
+  ChartAnnotationList,
+  ListChartAnnotationsError,
+  RevenueCatOpContext,
+  ChartAnnotation
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(2896, __c181, 0) as any as S.Schema<ListChartAnnotationsRequest>,
+    output: __S(2897, __c181, 1) as any as S.Schema<ChartAnnotationList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
+    protocol: RevenueCatProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListChartAnnotations",
+    pagination: {
+      mode: "cursor",
+      inputToken: "starting_after",
+      outputToken: "next_page",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateNextPage,
+) as any;
 
 export type ListCollaboratorsError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
 /** Get a list of collaborators This endpoint requires the following permission(s): <code>project_configuration:collaborators:read</code>. This endpoint belongs to the <strong>Project Configuration</strong> domain, which has a default rate limit of <strong>60 requests per minute</strong>. */
@@ -7759,9 +7945,10 @@ export const listCollaborators: API.PaginatedOperationMethod<
   Collaborator
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2800, __c175, 0) as any as S.Schema<ListCollaboratorsRequest>,
-    output: __S(2803, __c175, 3) as any as S.Schema<CollaboratorList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2912, __c182, 0) as any as S.Schema<ListCollaboratorsRequest>,
+    output: __S(2915, __c182, 3) as any as S.Schema<CollaboratorList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7791,9 +7978,10 @@ export const listCustomerActiveEntitlements: API.PaginatedOperationMethod<
   CustomerEntitlement
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2816, __c176, 0) as any as S.Schema<ListCustomerActiveEntitlementsRequest>,
-    output: __S(1106, __c69, 2) as any as S.Schema<CustomerActiveEntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2928, __c183, 0) as any as S.Schema<ListCustomerActiveEntitlementsRequest>,
+    output: __S(1154, __c72, 2) as any as S.Schema<CustomerActiveEntitlementList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7819,9 +8007,10 @@ export const listCustomerAliases: API.PaginatedOperationMethod<
   CustomerAlias
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2832, __c177, 0) as any as S.Schema<ListCustomerAliasesRequest>,
-    output: __S(2835, __c177, 3) as any as S.Schema<CustomerAliasList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2944, __c184, 0) as any as S.Schema<ListCustomerAliasesRequest>,
+    output: __S(2947, __c184, 3) as any as S.Schema<CustomerAliasList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7847,9 +8036,10 @@ export const listCustomerAttributes: API.PaginatedOperationMethod<
   CustomerAttribute
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2848, __c178, 0) as any as S.Schema<ListCustomerAttributesRequest>,
-    output: __S(1122, __c70, 2) as any as S.Schema<CustomerAttributeList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2960, __c185, 0) as any as S.Schema<ListCustomerAttributesRequest>,
+    output: __S(1170, __c73, 2) as any as S.Schema<CustomerAttributeList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7875,9 +8065,10 @@ export const listCustomerEvents: API.PaginatedOperationMethod<
   CustomerEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2864, __c179, 0) as any as S.Schema<ListCustomerEventsRequest>,
-    output: __S(2867, __c179, 3) as any as S.Schema<CustomerEventsList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2976, __c186, 0) as any as S.Schema<ListCustomerEventsRequest>,
+    output: __S(2979, __c186, 3) as any as S.Schema<CustomerEventsList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7903,9 +8094,10 @@ export const listCustomerInvoices: API.PaginatedOperationMethod<
   Invoice
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2880, __c180, 0) as any as S.Schema<ListCustomerInvoicesRequest>,
-    output: __S(2885, __c180, 5) as any as S.Schema<CustomerInvoicesList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(2992, __c187, 0) as any as S.Schema<ListCustomerInvoicesRequest>,
+    output: __S(2997, __c187, 5) as any as S.Schema<CustomerInvoicesList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7931,9 +8123,10 @@ export const listCustomers: API.PaginatedOperationMethod<
   Customer
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2896, __c181, 0) as any as S.Schema<ListCustomersRequest>,
-    output: __S(2898, __c181, 2) as any as S.Schema<CustomerList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(3008, __c188, 0) as any as S.Schema<ListCustomersRequest>,
+    output: __S(3010, __c188, 2) as any as S.Schema<CustomerList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7959,9 +8152,10 @@ export const listDiscountCodes: API.PaginatedOperationMethod<
   DiscountCode
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2912, __c182, 0) as any as S.Schema<ListDiscountCodesRequest>,
-    output: __S(2913, __c182, 1) as any as S.Schema<DiscountCodeList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(3024, __c189, 0) as any as S.Schema<ListDiscountCodesRequest>,
+    output: __S(3025, __c189, 1) as any as S.Schema<DiscountCodeList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7987,9 +8181,10 @@ export const listDiscounts: API.PaginatedOperationMethod<
   Discount
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2928, __c183, 0) as any as S.Schema<ListDiscountsRequest>,
-    output: __S(2930, __c183, 2) as any as S.Schema<DiscountList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(64, __c4, 0) as any as S.Schema<ListDiscountsRequest>,
+    output: __S(66, __c4, 2) as any as S.Schema<DiscountList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8015,9 +8210,10 @@ export const listEntitlements: API.PaginatedOperationMethod<
   Entitlement
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c4, 0) as any as S.Schema<ListEntitlementsRequest>,
-    output: __S(929, __c58, 1) as any as S.Schema<EntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(80, __c5, 0) as any as S.Schema<ListEntitlementsRequest>,
+    output: __S(977, __c61, 1) as any as S.Schema<EntitlementList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8043,9 +8239,10 @@ export const listFonts: API.PaginatedOperationMethod<
   Font
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c5, 0) as any as S.Schema<ListFontsRequest>,
-    output: __S(82, __c5, 2) as any as S.Schema<FontList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(96, __c6, 0) as any as S.Schema<ListFontsRequest>,
+    output: __S(98, __c6, 2) as any as S.Schema<FontList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8075,9 +8272,10 @@ export const listIamAuthenticationMethods: API.PaginatedOperationMethod<
   IAMAuthenticationMethod
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(96, __c6, 0) as any as S.Schema<ListIamAuthenticationMethodsRequest>,
-    output: __S(98, __c6, 2) as any as S.Schema<ListIAMAuthenticationMethods>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(112, __c7, 0) as any as S.Schema<ListIamAuthenticationMethodsRequest>,
+    output: __S(114, __c7, 2) as any as S.Schema<ListIAMAuthenticationMethods>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8103,9 +8301,10 @@ export const listMediaAssets: API.PaginatedOperationMethod<
   MediaAsset
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(112, __c7, 0) as any as S.Schema<ListMediaAssetsRequest>,
-    output: __S(114, __c7, 2) as any as S.Schema<MediaAssetList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(128, __c8, 0) as any as S.Schema<ListMediaAssetsRequest>,
+    output: __S(130, __c8, 2) as any as S.Schema<MediaAssetList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8131,9 +8330,10 @@ export const listOfferings: API.PaginatedOperationMethod<
   Offering
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c8, 0) as any as S.Schema<ListOfferingsRequest>,
-    output: __S(130, __c8, 2) as any as S.Schema<OfferingList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(144, __c9, 0) as any as S.Schema<ListOfferingsRequest>,
+    output: __S(146, __c9, 2) as any as S.Schema<OfferingList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8159,9 +8359,10 @@ export const listPackages: API.PaginatedOperationMethod<
   Package
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(144, __c9, 0) as any as S.Schema<ListPackagesRequest>,
-    output: __S(2145, __c134, 1) as any as S.Schema<PackageList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(160, __c10, 0) as any as S.Schema<ListPackagesRequest>,
+    output: __S(2193, __c137, 1) as any as S.Schema<PackageList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8187,9 +8388,10 @@ export const listPaywalls: API.PaginatedOperationMethod<
   Paywall
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c10, 0) as any as S.Schema<ListPaywallsRequest>,
-    output: __S(162, __c10, 2) as any as S.Schema<PaywallList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(176, __c11, 0) as any as S.Schema<ListPaywallsRequest>,
+    output: __S(178, __c11, 2) as any as S.Schema<PaywallList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8215,9 +8417,10 @@ export const listProducts: API.PaginatedOperationMethod<
   Product
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(176, __c11, 0) as any as S.Schema<ListProductsRequest>,
-    output: __S(1873, __c117, 1) as any as S.Schema<ProductList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(192, __c12, 0) as any as S.Schema<ListProductsRequest>,
+    output: __S(1921, __c120, 1) as any as S.Schema<ProductList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8243,9 +8446,10 @@ export const listProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(192, __c12, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(194, __c12, 2) as any as S.Schema<ProjectList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(208, __c13, 0) as any as S.Schema<ListProjectsRequest>,
+    output: __S(210, __c13, 2) as any as S.Schema<ProjectList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8271,9 +8475,10 @@ export const listPurchaseEntitlements: API.PaginatedOperationMethod<
   Entitlement
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(208, __c13, 0) as any as S.Schema<ListPurchaseEntitlementsRequest>,
-    output: __S(929, __c58, 1) as any as S.Schema<EntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(240, __c15, 0) as any as S.Schema<ListPurchaseEntitlementsRequest>,
+    output: __S(977, __c61, 1) as any as S.Schema<EntitlementList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8299,9 +8504,10 @@ export const listPurchases: API.PaginatedOperationMethod<
   Purchase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(240, __c15, 0) as any as S.Schema<ListPurchasesRequest>,
-    output: __S(257, __c16, 1) as any as S.Schema<PurchaseList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(256, __c16, 0) as any as S.Schema<ListPurchasesRequest>,
+    output: __S(273, __c17, 1) as any as S.Schema<PurchaseList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8331,9 +8537,10 @@ export const listSubscriptionEntitlements: API.PaginatedOperationMethod<
   Entitlement
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(272, __c17, 0) as any as S.Schema<ListSubscriptionEntitlementsRequest>,
-    output: __S(929, __c58, 1) as any as S.Schema<EntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(288, __c18, 0) as any as S.Schema<ListSubscriptionEntitlementsRequest>,
+    output: __S(977, __c61, 1) as any as S.Schema<EntitlementList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8359,9 +8566,10 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   Subscription
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(288, __c18, 0) as any as S.Schema<ListSubscriptionsRequest>,
-    output: __S(305, __c19, 1) as any as S.Schema<SubscriptionList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(304, __c19, 0) as any as S.Schema<ListSubscriptionsRequest>,
+    output: __S(321, __c20, 1) as any as S.Schema<SubscriptionList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8387,9 +8595,10 @@ export const listVirtualCurrencies: API.PaginatedOperationMethod<
   VirtualCurrency
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(320, __c20, 0) as any as S.Schema<ListVirtualCurrenciesRequest>,
-    output: __S(322, __c20, 2) as any as S.Schema<VirtualCurrencyList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(336, __c21, 0) as any as S.Schema<ListVirtualCurrenciesRequest>,
+    output: __S(338, __c21, 2) as any as S.Schema<VirtualCurrencyList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8419,9 +8628,10 @@ export const listVirtualCurrenciesBalances: API.PaginatedOperationMethod<
   VirtualCurrencyBalance
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(336, __c21, 0) as any as S.Schema<ListVirtualCurrenciesBalancesRequest>,
-    output: __S(1506, __c94, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(352, __c22, 0) as any as S.Schema<ListVirtualCurrenciesBalancesRequest>,
+    output: __S(1554, __c97, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8447,9 +8657,10 @@ export const listWebhookIntegrations: API.PaginatedOperationMethod<
   WebhookIntegration
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(352, __c22, 0) as any as S.Schema<ListWebhookIntegrationsRequest>,
-    output: __S(354, __c22, 2) as any as S.Schema<WebhookIntegrationList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    input: __S(368, __c23, 0) as any as S.Schema<ListWebhookIntegrationsRequest>,
+    output: __S(370, __c23, 2) as any as S.Schema<WebhookIntegrationList>,
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8479,9 +8690,10 @@ export const previewAudience: API.OperationMethod<
   PreviewAudienceError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<PreviewAudienceRequest2>,
-  output: __S(369, __c23, 1) as any as S.Schema<AudiencePreview>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(384, __c24, 0) as any as S.Schema<PreviewAudienceRequest2>,
+  output: __S(385, __c24, 1) as any as S.Schema<AudiencePreview>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8495,16 +8707,17 @@ export type PublishPaywallError =
   | Conflict
   | UnprocessableEntity
   | RevenueCatOpError;
-/** Publish a paywall Publish the current paywall draft so RevenueCat SDKs can serve it to customers. This endpoint requires the following permission(s): <code>project_configuration:offerings:read_write</code>. This endpoint belongs to the <strong>Project Configuration</strong> domain, which has a default rate limit of <strong>60 requests per minute</strong>. */
+/** Publish a paywall Publish the current paywall draft so RevenueCat SDKs can serve it to customers. This will not work for publishing a paywall with multiple steps. This endpoint requires the following permission(s): <code>project_configuration:offerings:read_write</code>. This endpoint belongs to the <strong>Project Configuration</strong> domain, which has a default rate limit of <strong>60 requests per minute</strong>. */
 export const publishPaywall: API.OperationMethod<
   PublishPaywallRequest,
   Paywall,
   PublishPaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<PublishPaywallRequest>,
+  input: __S(400, __c25, 0) as any as S.Schema<PublishPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8526,12 +8739,13 @@ export const refundPlayStoreOrGalaxySubscriptionTransaction: API.OperationMethod
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    400,
-    __c25,
+    416,
+    __c26,
     0,
   ) as any as S.Schema<RefundPlayStoreOrGalaxySubscriptionTransactionRequest>,
-  output: __S(2480, __c155, 0) as any as S.Schema<SubscriptionTransaction>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  output: __S(2576, __c161, 0) as any as S.Schema<SubscriptionTransaction>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8552,9 +8766,10 @@ export const refundPurchase: API.OperationMethod<
   RefundPurchaseError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<RefundPurchaseRequest>,
-  output: __S(2592, __c162, 0) as any as S.Schema<Purchase>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(448, __c28, 0) as any as S.Schema<RefundPurchaseRequest>,
+  output: __S(2688, __c168, 0) as any as S.Schema<Purchase>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8575,9 +8790,10 @@ export const refundSubscription: API.OperationMethod<
   RefundSubscriptionError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<RefundSubscriptionRequest>,
-  output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(464, __c29, 0) as any as S.Schema<RefundSubscriptionRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<Subscription>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8598,9 +8814,10 @@ export const restorePurchaseByOrderId: API.OperationMethod<
   RestorePurchaseByOrderIdError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<RestorePurchaseByOrderIdRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(480, __c30, 0) as any as S.Schema<RestorePurchaseByOrderIdRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Customer>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8621,9 +8838,10 @@ export const revokeCustomerGrantedEntitlement: API.OperationMethod<
   RevokeCustomerGrantedEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<RevokeCustomerGrantedEntitlementRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(496, __c31, 0) as any as S.Schema<RevokeCustomerGrantedEntitlementRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<Customer>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8638,9 +8856,10 @@ export const searchPurchases: API.OperationMethod<
   SearchPurchasesError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<SearchPurchasesRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<PurchaseList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(512, __c32, 0) as any as S.Schema<SearchPurchasesRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<PurchaseList>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8655,9 +8874,10 @@ export const searchSubscriptions: API.OperationMethod<
   SearchSubscriptionsError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<SearchSubscriptionsRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<SubscriptionList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  input: __S(528, __c33, 0) as any as S.Schema<SearchSubscriptionsRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<SubscriptionList>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8678,9 +8898,10 @@ export const setCustomerAttributes: API.OperationMethod<
   SetCustomerAttributesError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(530, __c33, 2) as any as S.Schema<SetCustomerAttributesRequest>,
-  output: __S(1122, __c70, 2) as any as S.Schema<CustomerAttributeList>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(546, __c34, 2) as any as S.Schema<SetCustomerAttributesRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<CustomerAttributeList>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8701,9 +8922,10 @@ export const transferCustomerData: API.OperationMethod<
   TransferCustomerDataError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<TransferCustomerDataRequest>,
-  output: __S(545, __c34, 1) as any as S.Schema<Transfer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(560, __c35, 0) as any as S.Schema<TransferCustomerDataRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<Transfer>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8724,9 +8946,10 @@ export const unarchiveEntitlement: API.OperationMethod<
   UnarchiveEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UnarchiveEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(576, __c36, 0) as any as S.Schema<UnarchiveEntitlementRequest>,
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8747,9 +8970,10 @@ export const unarchiveOffering: API.OperationMethod<
   UnarchiveOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UnarchiveOfferingRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(592, __c37, 0) as any as S.Schema<UnarchiveOfferingRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<Offering>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8770,9 +8994,10 @@ export const unarchiveProduct: API.OperationMethod<
   UnarchiveProductError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<UnarchiveProductRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(624, __c39, 0) as any as S.Schema<UnarchiveProductRequest>,
+  output: __S(1955, __c122, 3) as any as S.Schema<Product>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8793,9 +9018,10 @@ export const unarchiveVirtualCurrency: API.OperationMethod<
   UnarchiveVirtualCurrencyError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<UnarchiveVirtualCurrencyRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(640, __c40, 0) as any as S.Schema<UnarchiveVirtualCurrencyRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<VirtualCurrency>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8809,16 +9035,17 @@ export type UnblockCustomerError =
   | Conflict
   | UnprocessableEntity
   | RevenueCatOpError;
-/** Remove a customer from the block list This endpoint requires the following permission(s): <code>customer_information:customers:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
+/** Remove a customer from the block list Removes the customer ID from the block list. Data deleted when the customer was blocked is not restored. This endpoint requires the following permission(s): <code>customer_information:customers:read_write</code>. This endpoint belongs to the <strong>Customer Information</strong> domain, which has a default rate limit of <strong>480 requests per minute</strong>. */
 export const unblockCustomer: API.OperationMethod<
   UnblockCustomerRequest,
   UnblockCustomerResponse,
   UnblockCustomerError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UnblockCustomerRequest>,
-  output: __S(2768, __c173, 0) as any as S.Schema<UnblockCustomerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(656, __c41, 0) as any as S.Schema<UnblockCustomerRequest>,
+  output: __S(2864, __c179, 0) as any as S.Schema<UnblockCustomerResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8839,9 +9066,10 @@ export const unpublishPaywall: API.OperationMethod<
   UnpublishPaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<UnpublishPaywallRequest>,
+  input: __S(672, __c42, 0) as any as S.Schema<UnpublishPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8862,9 +9090,10 @@ export const updateApp: API.OperationMethod<
   UpdateAppError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c42, 8) as any as S.Schema<UpdateAppRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<UpdateAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(696, __c43, 8) as any as S.Schema<UpdateAppRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<UpdateAppResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8885,13 +9114,38 @@ export const updateAudience: API.OperationMethod<
   UpdateAudienceError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<UpdateAudienceRequest>,
-  output: __S(1050, __c65, 10) as any as S.Schema<Audience>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(704, __c44, 0) as any as S.Schema<UpdateAudienceRequest>,
+  output: __S(1098, __c68, 10) as any as S.Schema<Audience>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAudience",
+}));
+
+export type UpdateChartAnnotationError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RevenueCatOpError;
+/** Update a chart annotation Replaces the description and dates of the annotation. If `end_date` is omitted or null, the annotation becomes a single-day event. This endpoint requires the following permission(s): <code>charts_metrics:charts:read_write</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
+export const updateChartAnnotation: API.OperationMethod<
+  UpdateChartAnnotationRequest,
+  ChartAnnotation,
+  UpdateChartAnnotationError,
+  RevenueCatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(720, __c45, 0) as any as S.Schema<UpdateChartAnnotationRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<ChartAnnotation>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
+  protocol: RevenueCatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChartAnnotation",
 }));
 
 export type UpdateDiscountOfferError =
@@ -8908,9 +9162,10 @@ export const updateDiscountOffer: API.OperationMethod<
   UpdateDiscountOfferError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<UpdateDiscountOfferRequest>,
-  output: __S(1184, __c74, 0) as any as S.Schema<UpdateDiscountOfferResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(736, __c46, 0) as any as S.Schema<UpdateDiscountOfferRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<UpdateDiscountOfferResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8931,13 +9186,38 @@ export const updateEntitlement: API.OperationMethod<
   UpdateEntitlementError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<UpdateEntitlementRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(752, __c47, 0) as any as S.Schema<UpdateEntitlementRequest>,
+  output: __S(1936, __c121, 0) as any as S.Schema<Entitlement>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEntitlement",
+}));
+
+export type UpdateIamAttributePermissionsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RevenueCatOpError;
+/** Update the customer attribute permissions of a project This endpoint requires the following permission(s): <code>iam:settings:read_write</code>. This endpoint belongs to the <strong>Iam</strong> domain, which has a default rate limit of <strong>60 requests per minute</strong>. */
+export const updateIamAttributePermissions: API.OperationMethod<
+  UpdateIamAttributePermissionsRequest,
+  IAMAttributePermissions,
+  UpdateIamAttributePermissionsError,
+  RevenueCatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(772, __c48, 4) as any as S.Schema<UpdateIamAttributePermissionsRequest>,
+  output: __S(2388, __c149, 4) as any as S.Schema<IAMAttributePermissions>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
+  protocol: RevenueCatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIamAttributePermissions",
 }));
 
 export type UpdateIamAuthenticationMethodError =
@@ -8954,9 +9234,10 @@ export const updateIamAuthenticationMethod: API.OperationMethod<
   UpdateIamAuthenticationMethodError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<UpdateIamAuthenticationMethodRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<UpdateIamAuthenticationMethodResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(800, __c50, 0) as any as S.Schema<UpdateIamAuthenticationMethodRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<UpdateIamAuthenticationMethodResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8977,9 +9258,10 @@ export const updateIamSettings: API.OperationMethod<
   UpdateIamSettingsError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<UpdateIamSettingsRequest>,
-  output: __S(2336, __c146, 0) as any as S.Schema<IAMSettings>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(816, __c51, 0) as any as S.Schema<UpdateIamSettingsRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<IAMSettings>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9000,9 +9282,10 @@ export const updateOffering: API.OperationMethod<
   UpdateOfferingError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<UpdateOfferingRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(832, __c52, 0) as any as S.Schema<UpdateOfferingRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<Offering>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9023,9 +9306,10 @@ export const updatePackage: API.OperationMethod<
   UpdatePackageError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<UpdatePackageRequest>,
-  output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(848, __c53, 0) as any as S.Schema<UpdatePackageRequest>,
+  output: __S(2144, __c134, 0) as any as S.Schema<Package>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9046,9 +9330,10 @@ export const updatePaywall: API.OperationMethod<
   UpdatePaywallError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c51, 1) as any as S.Schema<UpdatePaywallRequest>,
+  input: __S(865, __c54, 1) as any as S.Schema<UpdatePaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9069,9 +9354,10 @@ export const updateProduct: API.OperationMethod<
   UpdateProductError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<UpdateProductRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(880, __c55, 0) as any as S.Schema<UpdateProductRequest>,
+  output: __S(1955, __c122, 3) as any as S.Schema<Product>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9092,9 +9378,10 @@ export const updateVirtualCurrenciesBalance: API.OperationMethod<
   UpdateVirtualCurrenciesBalanceError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<UpdateVirtualCurrenciesBalanceRequest>,
-  output: __S(1506, __c94, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(896, __c56, 0) as any as S.Schema<UpdateVirtualCurrenciesBalanceRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9115,9 +9402,10 @@ export const updateVirtualCurrency: API.OperationMethod<
   UpdateVirtualCurrencyError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<UpdateVirtualCurrencyRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(912, __c57, 0) as any as S.Schema<UpdateVirtualCurrencyRequest>,
+  output: __S(2658, __c166, 2) as any as S.Schema<VirtualCurrency>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9138,9 +9426,10 @@ export const updateWebhookIntegration: API.OperationMethod<
   UpdateWebhookIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<UpdateWebhookIntegrationRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<WebhookIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  input: __S(928, __c58, 0) as any as S.Schema<UpdateWebhookIntegrationRequest>,
+  output: __S(1648, __c103, 0) as any as S.Schema<WebhookIntegration>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9188,7 +9477,7 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(2128, __c133, 0));
+      return S.Record(S.String, __S(2176, __c136, 0));
     case 1:
       return S.Record(S.String, S.Unknown);
   }
@@ -9199,12 +9488,12 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           revision: S.NullOr(S.Number),
-          components_config: S.NullOr(__S(2128, __c133, 0)),
+          components_config: S.NullOr(__S(2176, __c136, 0)),
           default_locale: S.NullOr(S.String),
           components_localizations: __S(32, __c2, 0),
           automatically_scale_font_size: S.Boolean,
           state_declarations: S.NullOr(__S(33, __c2, 1)),
-          fonts: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          fonts: S.optional(S.NullOr(__S(2176, __c136, 0))),
         }),
       ).annotate({ identifier: "PaywallComponentsVersion" });
     case 1:
@@ -9225,8 +9514,8 @@ function __c3(j: number): any {
           published_at: S.NullOr(S.Number),
           automatically_scale_font_size: S.Boolean,
           revision: S.Number,
-          offering: S.optional(S.NullOr(__S(2160, __c135, 0))),
-          components: S.optional(S.NullOr(__S(49, __c3, 1))),
+          offering: S.optional(__S(2208, __c138, 0)),
+          components: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "Paywall" });
   }
@@ -9239,9 +9528,19 @@ function __c4(j: number): any {
           project_id: S.String.pipe(T.Label()),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/entitlements", code: 200 })),
-      ).annotate({ identifier: "ListEntitlementsRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/discounts", code: 200 })),
+      ).annotate({ identifier: "ListDiscountsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          items: __S(65, __c4, 1),
+          next_page: S.NullOr(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "DiscountList" });
   }
 }
 function __c5(j: number): any {
@@ -9252,22 +9551,35 @@ function __c5(j: number): any {
           project_id: S.String.pipe(T.Label()),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/entitlements", code: 200 })),
+      ).annotate({ identifier: "ListEntitlementsRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          starting_after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/fonts", code: 200 })),
       ).annotate({ identifier: "ListFontsRequest" });
     case 1:
-      return S.Array(__S(1264, __c79, 0));
+      return S.Array(__S(1312, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(81, __c5, 1),
+          items: __S(97, __c6, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "FontList" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9289,34 +9601,11 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(97, __c6, 1),
-          next_page: S.NullOr(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "ListIAMAuthenticationMethods" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          starting_after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/media_assets", code: 200 })),
-      ).annotate({ identifier: "ListMediaAssetsRequest" });
-    case 1:
-      return S.Array(__S(1330, __c83, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
           items: __S(113, __c7, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
-      ).annotate({ identifier: "MediaAssetList" });
+      ).annotate({ identifier: "ListIAMAuthenticationMethods" });
   }
 }
 function __c8(j: number): any {
@@ -9327,11 +9616,10 @@ function __c8(j: number): any {
           project_id: S.String.pipe(T.Label()),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/offerings", code: 200 })),
-      ).annotate({ identifier: "ListOfferingsRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/media_assets", code: 200 })),
+      ).annotate({ identifier: "ListMediaAssetsRequest" });
     case 1:
-      return S.Array(__S(2160, __c135, 0));
+      return S.Array(__S(1378, __c86, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9340,7 +9628,7 @@ function __c8(j: number): any {
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
-      ).annotate({ identifier: "OfferingList" });
+      ).annotate({ identifier: "MediaAssetList" });
   }
 }
 function __c9(j: number): any {
@@ -9349,10 +9637,34 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          starting_after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/offerings", code: 200 })),
+      ).annotate({ identifier: "ListOfferingsRequest" });
+    case 1:
+      return S.Array(__S(2208, __c138, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          items: __S(145, __c9, 1),
+          next_page: S.NullOr(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "OfferingList" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           offering_id: S.String.pipe(T.Label()),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9363,7 +9675,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ListPackagesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9371,7 +9683,7 @@ function __c10(j: number): any {
           project_id: S.String.pipe(T.Label()),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/paywalls", code: 200 })),
       ).annotate({ identifier: "ListPaywallsRequest" });
     case 1:
@@ -9380,14 +9692,14 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(161, __c10, 1),
+          items: __S(177, __c11, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "PaywallList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9396,12 +9708,12 @@ function __c11(j: number): any {
           app_id: S.optional(S.String.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/products", code: 200 })),
       ).annotate({ identifier: "ListProductsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9411,35 +9723,16 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(1472, __c92, 0));
+      return S.Array(__S(1520, __c95, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(193, __c12, 1),
+          items: __S(209, __c13, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "ProjectList" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          purchase_id: S.String.pipe(T.Label()),
-          starting_after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/purchases/{purchase_id}/entitlements",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPurchaseEntitlementsRequest" });
   }
 }
 function __c14(j: number): any {
@@ -9466,11 +9759,30 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          purchase_id: S.String.pipe(T.Label()),
+          starting_after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/purchases/{purchase_id}/entitlements",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPurchaseEntitlementsRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           customer_id: S.String.pipe(T.Label()),
           environment: S.optional(S.String.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9481,22 +9793,22 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListPurchasesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2592, __c162, 0));
+      return S.Array(__S(2688, __c168, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(256, __c16, 0),
+          items: __S(272, __c17, 0),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "PurchaseList" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9515,7 +9827,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListSubscriptionEntitlementsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9525,7 +9837,7 @@ function __c18(j: number): any {
           environment: S.optional(S.String.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9536,22 +9848,22 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListSubscriptionsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(962, __c60, 2));
+      return S.Array(__S(1010, __c63, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(304, __c19, 0),
+          items: __S(320, __c20, 0),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "SubscriptionList" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9564,19 +9876,19 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListVirtualCurrenciesRequest" });
     case 1:
-      return S.Array(__S(2562, __c160, 2));
+      return S.Array(__S(2658, __c166, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(321, __c20, 1),
+          items: __S(337, __c21, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "VirtualCurrencyList" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9596,7 +9908,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListVirtualCurrenciesBalancesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9609,19 +9921,19 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListWebhookIntegrationsRequest" });
     case 1:
-      return S.Array(__S(1600, __c100, 0));
+      return S.Array(__S(1648, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(353, __c22, 1),
+          items: __S(369, __c23, 1),
           next_page: S.optional(S.NullOr(S.String)),
           url: S.String,
         }),
       ).annotate({ identifier: "WebhookIntegrationList" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9642,13 +9954,13 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          stats: __S(1024, __c64, 0),
-          customer_sample: __S(1026, __c64, 2),
+          stats: __S(1072, __c67, 0),
+          customer_sample: __S(1074, __c67, 2),
         }),
       ).annotate({ identifier: "AudiencePreview" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9665,7 +9977,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PublishPaywallRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9681,23 +9993,6 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RefundPlayStoreOrGalaxySubscriptionTransactionRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          purchase_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/purchases/{purchase_id}/actions/refund",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RefundPurchaseRequest" });
   }
 }
 function __c27(j: number): any {
@@ -9733,6 +10028,23 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          purchase_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/purchases/{purchase_id}/actions/refund",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RefundPurchaseRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           subscription_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9744,7 +10056,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RefundSubscriptionRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9762,7 +10074,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RestorePurchaseByOrderIdRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9780,19 +10092,19 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RevokeCustomerGrantedEntitlementRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           store_purchase_identifier: S.String.pipe(T.Query()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/purchases", code: 200 })),
       ).annotate({ identifier: "SearchPurchasesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9800,12 +10112,12 @@ function __c32(j: number): any {
           project_id: S.String.pipe(T.Label()),
           store_subscription_identifier: S.String.pipe(T.Query()),
           include_scheduled: S.optional(S.Boolean.pipe(T.Query())),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/subscriptions", code: 200 })),
       ).annotate({ identifier: "SearchSubscriptionsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9815,13 +10127,13 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "SetCustomerAttributesRequestAttributesItem" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           customer_id: S.String.pipe(T.Label()),
-          attributes: __S(529, __c33, 1),
+          attributes: __S(545, __c34, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9832,7 +10144,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SetCustomerAttributesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9853,15 +10165,15 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            source_customer: __S(1137, __c71, 1),
-            target_customer: __S(1137, __c71, 1),
+            source_customer: __S(1185, __c74, 1),
+            target_customer: __S(1185, __c74, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Transfer" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9878,7 +10190,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UnarchiveEntitlementRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9894,23 +10206,6 @@ function __c36(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UnarchiveOfferingRequest" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          product_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/products/{product_id}/actions/unarchive",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnarchiveProductRequest" });
   }
 }
 function __c38(j: number): any {
@@ -9945,6 +10240,23 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          product_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/products/{product_id}/actions/unarchive",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnarchiveProductRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           virtual_currency_code: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9956,7 +10268,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "UnarchiveVirtualCurrencyRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9973,7 +10285,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UnblockCustomerRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9990,7 +10302,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UnpublishPaywallRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10065,19 +10377,19 @@ function __c42(j: number): any {
           project_id: S.String.pipe(T.Label()),
           app_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          amazon: S.optional(__S(673, __c42, 1)),
-          app_store: S.optional(__S(674, __c42, 2)),
-          mac_app_store: S.optional(__S(675, __c42, 3)),
-          play_store: S.optional(__S(676, __c42, 4)),
-          stripe: S.optional(__S(677, __c42, 5)),
-          rc_billing: S.optional(__S(678, __c42, 6)),
-          roku: S.optional(__S(672, __c42, 0)),
-          paddle: S.optional(__S(679, __c42, 7)),
+          amazon: S.optional(__S(689, __c43, 1)),
+          app_store: S.optional(__S(690, __c43, 2)),
+          mac_app_store: S.optional(__S(691, __c43, 3)),
+          play_store: S.optional(__S(692, __c43, 4)),
+          stripe: S.optional(__S(693, __c43, 5)),
+          rc_billing: S.optional(__S(694, __c43, 6)),
+          roku: S.optional(__S(688, __c43, 0)),
+          paddle: S.optional(__S(695, __c43, 7)),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/apps/{app_id}", code: 200 })),
       ).annotate({ identifier: "UpdateAppRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10085,7 +10397,7 @@ function __c43(j: number): any {
           project_id: S.String.pipe(T.Label()),
           audience_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          rules: S.optional(__S(1044, __c65, 4)),
+          rules: S.optional(__S(1092, __c68, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10096,7 +10408,27 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdateAudienceRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          annotation_id: S.String.pipe(T.Label()),
+          description: S.String,
+          start_date: S.String,
+          end_date: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/annotations/{annotation_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateChartAnnotationRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10106,7 +10438,7 @@ function __c44(j: number): any {
           customer_facing_name: S.optional(S.String),
           type: S.optional(S.String),
           percentage: S.optional(S.Number),
-          fixed_amounts: S.optional(__S(1169, __c73, 1)),
+          fixed_amounts: S.optional(__S(1217, __c76, 1)),
           duration_mode: S.optional(S.String),
           eligibility: S.optional(S.String),
           time_window: S.optional(S.String),
@@ -10121,7 +10453,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateDiscountOfferRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10139,73 +10471,46 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateEntitlementRequest" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          authentication_method_id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          sender_name: S.optional(S.NullOr(S.String)),
-          reply_to_email: S.optional(S.NullOr(S.String)),
-          code_expiration_minutes: S.optional(S.NullOr(S.Number)),
-          magic_link_expiration_minutes: S.optional(S.NullOr(S.Number)),
-          issuer_url: S.optional(S.String),
-          client_id: S.optional(S.NullOr(S.String)),
-          client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          requested_scopes: S.optional(S.NullOr(__S(0, __c0, 0))),
-          app_user_id_claim: S.optional(S.NullOr(S.String)),
-          authorization_params: S.optional(S.NullOr(__S(1072, __c67, 0))),
-          id_token_iat_freshness_seconds: S.optional(S.NullOr(S.Number)),
-          app_ids: S.optional(S.NullOr(__S(0, __c0, 0))),
-          primary_app_id: S.optional(S.NullOr(S.String)),
-          facebook_app_id: S.optional(S.String),
-          app_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          firebase_project_id: S.optional(S.String),
-          api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          auth_domain: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/iam/authentication_methods/{authentication_method_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateIamAuthenticationMethodRequest" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          migration_mode: S.optional(S.String),
-          anonymous_migration_mode: S.optional(S.String),
-          sdk_virtual_currency_spend_enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/iam/settings", code: 200 })),
-      ).annotate({ identifier: "UpdateIamSettingsRequest" });
-  }
-}
 function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          read_permission: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "UpdateIamAttributePermissionsRequestReservedDefaults" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          read_permission: S.optional(S.NullOr(S.String)),
+          write_permission: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "UpdateIamAttributePermissionsRequestCustomDefaults" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          read_permission: S.optional(S.NullOr(S.String)),
+          write_permission: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "UpdateIamAttributePermissionsRequestCustomOverridesItem" });
+    case 3:
+      return S.Array(__S(770, __c48, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           project_id: S.String.pipe(T.Label()),
-          offering_id: S.String.pipe(T.Label()),
-          display_name: S.optional(S.String),
-          is_current: S.optional(S.Boolean),
-          metadata: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          reserved_defaults: S.optional(__S(768, __c48, 0)),
+          custom_defaults: S.optional(__S(769, __c48, 1)),
+          custom_overrides: S.optional(__S(771, __c48, 3)),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/projects/{project_id}/offerings/{offering_id}",
+            uri: "/projects/{project_id}/iam/attribute_permissions",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "UpdateOfferingRequest" });
+      ).annotate({ identifier: "UpdateIamAttributePermissionsRequest" });
   }
 }
 function __c49(j: number): any {
@@ -10231,6 +10536,76 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          authentication_method_id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          sender_name: S.optional(S.NullOr(S.String)),
+          reply_to_email: S.optional(S.NullOr(S.String)),
+          code_expiration_minutes: S.optional(S.NullOr(S.Number)),
+          magic_link_expiration_minutes: S.optional(S.NullOr(S.Number)),
+          issuer_url: S.optional(S.String),
+          client_id: S.optional(S.NullOr(S.String)),
+          client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          requested_scopes: S.optional(S.NullOr(__S(0, __c0, 0))),
+          app_user_id_claim: S.optional(S.NullOr(S.String)),
+          authorization_params: S.optional(S.NullOr(__S(2256, __c141, 0))),
+          id_token_iat_freshness_seconds: S.optional(S.NullOr(S.Number)),
+          app_ids: S.optional(S.NullOr(__S(0, __c0, 0))),
+          primary_app_id: S.optional(S.NullOr(S.String)),
+          services_id: S.optional(S.NullOr(S.String)),
+          facebook_app_id: S.optional(S.String),
+          app_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          firebase_project_id: S.optional(S.String),
+          api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          auth_domain: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/iam/authentication_methods/{authentication_method_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateIamAuthenticationMethodRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          migration_mode: S.optional(S.String),
+          anonymous_migration_mode: S.optional(S.String),
+          sdk_virtual_currency_spend_enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/iam/settings", code: 200 })),
+      ).annotate({ identifier: "UpdateIamSettingsRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          offering_id: S.String.pipe(T.Label()),
+          display_name: S.optional(S.String),
+          is_current: S.optional(S.Boolean),
+          metadata: S.optional(S.NullOr(__S(2176, __c136, 0))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/offerings/{offering_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateOfferingRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           package_id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           position: S.optional(S.Number),
@@ -10244,7 +10619,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdatePackageRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -10254,15 +10629,15 @@ function __c51(j: number): any {
           project_id: S.String.pipe(T.Label()),
           paywall_id: S.String.pipe(T.Label()),
           revision: S.Number,
-          components_config: S.optional(__S(2128, __c133, 0)),
+          components_config: S.optional(__S(2176, __c136, 0)),
           components_localizations: S.optional(__S(32, __c2, 0)),
           default_locale: S.optional(S.String),
           offering_id: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           automatically_scale_font_size: S.optional(S.Boolean),
-          exit_offers: S.optional(S.NullOr(__S(2128, __c133, 0))),
-          state_declarations: S.optional(S.NullOr(__S(816, __c51, 0))),
-          play_store_product_change_mode: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          exit_offers: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          state_declarations: S.optional(S.NullOr(__S(864, __c54, 0))),
+          play_store_product_change_mode: S.optional(S.NullOr(__S(2176, __c136, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10273,14 +10648,14 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdatePaywallRequest" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           product_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
           display_name: S.optional(S.String),
           type: S.optional(S.String),
         }).pipe(
@@ -10293,7 +10668,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateProductRequest" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10301,7 +10676,7 @@ function __c53(j: number): any {
           project_id: S.String.pipe(T.Label()),
           customer_id: S.String.pipe(T.Label()),
           include_empty_balances: S.optional(S.Boolean.pipe(T.Query())),
-          adjustments: __S(1520, __c95, 0),
+          adjustments: __S(1568, __c98, 0),
           reference: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -10313,7 +10688,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateVirtualCurrenciesBalanceRequest" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10322,7 +10697,7 @@ function __c54(j: number): any {
           virtual_currency_code: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          product_grants: S.optional(S.NullOr(__S(1553, __c97, 1))),
+          product_grants: S.optional(S.NullOr(__S(1601, __c100, 1))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10333,7 +10708,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateVirtualCurrencyRequest" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10344,8 +10719,9 @@ function __c55(j: number): any {
           url: S.optional(S.String),
           authorization_header: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           environment: S.optional(S.NullOr(S.String)),
-          event_types: S.optional(S.NullOr(__S(1584, __c99, 0))),
+          event_types: S.optional(S.NullOr(__S(1632, __c102, 0))),
           app_id: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10356,7 +10732,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateWebhookIntegrationRequest" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10373,7 +10749,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CancelSubscriptionRequest" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10390,22 +10766,22 @@ function __c57(j: number): any {
       ).annotate({ identifier: "MonetaryAmount" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1888, __c118, 0));
+      return S.Array(__S(1936, __c121, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(928, __c58, 0),
+          items: __S(976, __c61, 0),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "SubscriptionEntitlements" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10416,18 +10792,18 @@ function __c59(j: number): any {
       ).annotate({ identifier: "Redemption" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            product: S.optional(S.NullOr(__S(1907, __c119, 3))),
+            product: S.optional(__S(1955, __c122, 3)),
             current_period_starts_at: S.optional(S.NullOr(S.Number)),
             current_period_ends_at: S.optional(S.NullOr(S.Number)),
             store_subscription_identifier: S.optional(S.NullOr(S.String)),
-            auto_renewal_status: S.optional(S.NullOr(S.String)),
-            status: S.optional(S.NullOr(S.String)),
+            auto_renewal_status: S.optional(S.String),
+            status: S.optional(S.String),
             pending_payment: S.optional(S.NullOr(S.Boolean)),
             gives_access: S.optional(S.NullOr(S.Boolean)),
           }),
@@ -10460,23 +10836,23 @@ function __c60(j: number): any {
           pending_payment: S.Boolean,
           auto_renewal_status: S.String,
           status: S.String,
-          total_revenue_in_usd: __S(912, __c57, 0),
+          total_revenue_in_usd: __S(960, __c60, 0),
           presented_offering_id: S.NullOr(S.String),
-          entitlements: __S(929, __c58, 1),
+          entitlements: __S(977, __c61, 1),
           environment: S.String,
           store: S.String,
           store_subscription_identifier: S.String,
           ownership: S.String,
-          pending_changes: S.optional(S.NullOr(__S(960, __c60, 0))),
+          pending_changes: S.optional(S.NullOr(__S(1008, __c63, 0))),
           country: S.optional(S.NullOr(S.String)),
           management_url: S.NullOr(S.String),
-          redemption: S.optional(S.NullOr(__S(944, __c59, 0))),
-          product_change: S.optional(__S(961, __c60, 1)),
+          redemption: S.optional(S.NullOr(__S(992, __c62, 0))),
+          product_change: S.optional(__S(1009, __c63, 1)),
         }),
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10487,7 +10863,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CreateAppRequest" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -10495,19 +10871,19 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           name: S.String,
-          rules: __S(1044, __c65, 4),
+          rules: __S(1092, __c68, 4),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/audiences", code: 200 })),
       ).annotate({ identifier: "CreateAudienceRequest" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10536,10 +10912,10 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "AudienceSampleItem" });
     case 2:
-      return S.Array(__S(1025, __c64, 1));
+      return S.Array(__S(1073, __c67, 1));
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10551,19 +10927,19 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "AudienceRuleCondition" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          conditions: __S(1041, __c65, 1),
+          conditions: __S(1089, __c68, 1),
         }),
       ).annotate({ identifier: "AudienceRulesGroupsItem" });
     case 3:
-      return S.Array(__S(1042, __c65, 2));
+      return S.Array(__S(1090, __c68, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(1043, __c65, 3),
+          groups: __S(1091, __c68, 3),
         }),
       ).annotate({ identifier: "AudienceRules" });
     case 5:
@@ -10576,7 +10952,7 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "AudienceTargetingRuleReference" });
     case 6:
-      return S.Array(__S(1045, __c65, 5));
+      return S.Array(__S(1093, __c68, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -10587,13 +10963,13 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "AudienceExperimentReference" });
     case 8:
-      return S.Array(__S(1047, __c65, 7));
+      return S.Array(__S(1095, __c68, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          targeting_rules: __S(1046, __c65, 6),
-          experiments: __S(1048, __c65, 8),
+          targeting_rules: __S(1094, __c68, 6),
+          experiments: __S(1096, __c68, 8),
         }),
       ).annotate({ identifier: "AudienceUsedBy" });
     case 10:
@@ -10604,55 +10980,44 @@ function __c65(j: number): any {
           project_id: S.String,
           customer_list_id: S.String,
           name: S.String,
-          rules: __S(1044, __c65, 4),
+          rules: __S(1092, __c68, 4),
           created_at: S.Number,
           updated_at: S.NullOr(S.Number),
-          stats: S.optional(__S(1024, __c64, 0)),
-          customer_sample: S.optional(__S(1026, __c64, 2)),
-          used_by: S.optional(__S(1049, __c65, 9)),
+          stats: S.optional(__S(1072, __c67, 0)),
+          customer_sample: S.optional(__S(1074, __c67, 2)),
+          used_by: S.optional(__S(1097, __c68, 9)),
         }),
       ).annotate({ identifier: "Audience" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          values: __S(0, __c0, 0),
-        }),
-      ).annotate({ identifier: "CreateChartSubscriberListExportRequestFiltersItem" });
-    case 1:
-      return S.Array(__S(1056, __c66, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          chart_name: S.String.pipe(T.Label()),
-          resolution: S.optional(S.String),
-          start_date: S.optional(S.String),
-          end_date: S.optional(S.String),
-          segment: S.optional(S.String),
-          filters: S.optional(__S(1057, __c66, 1)),
-          selectors: S.optional(__S(1072, __c67, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/charts/{chart_name}/subscriber_list_exports",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateChartSubscriberListExportRequest" });
+          description: S.String,
+          start_date: S.String,
+          end_date: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/annotations", code: 200 })),
+      ).annotate({ identifier: "CreateChartAnnotationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          description: S.String,
+          start_date: S.String,
+          end_date: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ChartAnnotation" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10662,18 +11027,18 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "CreateCustomerRequestAttributesItem" });
     case 1:
-      return S.Array(__S(1088, __c68, 0));
+      return S.Array(__S(1136, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String,
-          attributes: S.optional(__S(1089, __c68, 1)),
+          attributes: S.optional(__S(1137, __c71, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/customers", code: 200 })),
       ).annotate({ identifier: "CreateCustomerRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10684,19 +11049,19 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "CustomerEntitlement" });
     case 1:
-      return S.Array(__S(1104, __c69, 0));
+      return S.Array(__S(1152, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(1105, __c69, 1),
+          items: __S(1153, __c72, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomerActiveEntitlementList" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10708,19 +11073,19 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "CustomerAttribute" });
     case 1:
-      return S.Array(__S(1120, __c70, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(1121, __c70, 1),
+          items: __S(1169, __c73, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomerAttributeList" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10743,14 +11108,14 @@ function __c71(j: number): any {
           last_seen_country: S.NullOr(S.String),
           last_seen_platform: S.NullOr(S.String),
           last_seen_platform_version: S.NullOr(S.String),
-          active_entitlements: S.optional(S.NullOr(__S(1106, __c69, 2))),
-          experiment: S.optional(S.NullOr(__S(1136, __c71, 0))),
-          attributes: S.optional(S.NullOr(__S(1122, __c70, 2))),
+          active_entitlements: S.optional(__S(1154, __c72, 2)),
+          experiment: S.optional(S.NullOr(__S(1184, __c74, 0))),
+          attributes: S.optional(__S(1170, __c73, 2)),
         }),
       ).annotate({ identifier: "Customer" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10760,7 +11125,7 @@ function __c72(j: number): any {
           customer_facing_name: S.String,
           type: S.String,
           percentage: S.optional(S.Number),
-          fixed_amounts: S.optional(__S(1169, __c73, 1)),
+          fixed_amounts: S.optional(__S(1217, __c76, 1)),
           duration_mode: S.String,
           eligibility: S.String,
           time_window: S.optional(S.String),
@@ -10769,7 +11134,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateDiscountRequest" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10779,10 +11144,10 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "CreateDiscountRequestFixedAmountsValue" });
     case 1:
-      return S.Record(S.String, __S(1168, __c73, 0));
+      return S.Record(S.String, __S(1216, __c76, 0));
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -10790,7 +11155,7 @@ function __c74(j: number): any {
       });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10807,12 +11172,12 @@ function __c75(j: number): any {
         ),
       ).annotate({ identifier: "CreateDiscountCodesRequest" });
     case 1:
-      return S.suspend(() => __S(1217, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1265, __c79, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateDiscountCodesResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10823,10 +11188,10 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "DiscountCode" });
     case 1:
-      return S.Array(__S(1216, __c76, 0));
+      return S.Array(__S(1264, __c79, 0));
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10838,7 +11203,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreateEntitlementRequest" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10851,7 +11216,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateFontRequest" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10868,7 +11233,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "Font" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10885,7 +11250,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateIamAuthenticationMethodRequest" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -10893,7 +11258,7 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10906,7 +11271,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "CreateMediaAssetRequest" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10919,7 +11284,7 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "MediaAssetFormat" });
     case 1:
-      return S.Record(S.String, __S(1328, __c83, 0));
+      return S.Record(S.String, __S(1376, __c86, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10930,18 +11295,18 @@ function __c83(j: number): any {
           original_size: S.Number,
           original_width: S.NullOr(S.Number),
           original_height: S.NullOr(S.Number),
-          formats: S.NullOr(__S(1329, __c83, 1)),
+          formats: S.NullOr(__S(1377, __c86, 1)),
           alt_text: S.NullOr(S.String),
           is_decorative: S.Boolean,
           asset_base_url: S.NullOr(S.String),
           asset_type: S.String,
-          video_metadata: S.NullOr(__S(2128, __c133, 0)),
+          video_metadata: S.NullOr(__S(2176, __c136, 0)),
           transcoding_status: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "MediaAsset" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10949,12 +11314,12 @@ function __c84(j: number): any {
           project_id: S.String.pipe(T.Label()),
           lookup_key: S.String,
           display_name: S.String,
-          metadata: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          metadata: S.optional(S.NullOr(__S(2176, __c136, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/offerings", code: 200 })),
       ).annotate({ identifier: "CreateOfferingRequest" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10974,7 +11339,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreatePackagesRequest" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10985,7 +11350,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreatePaywallRequest2" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11003,7 +11368,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreatePaywallVersionRequest" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11014,20 +11379,20 @@ function __c88(j: number): any {
             name: S.String,
             revision: S.Number,
             created_at: S.Number,
-            components_config: S.NullOr(__S(2128, __c133, 0)),
+            components_config: S.NullOr(__S(2176, __c136, 0)),
             components_localizations: S.NullOr(__S(32, __c2, 0)),
             default_locale: S.NullOr(S.String),
             automatically_scale_font_size: S.Boolean,
-            exit_offers: S.NullOr(__S(2128, __c133, 0)),
+            exit_offers: S.NullOr(__S(2176, __c136, 0)),
             state_declarations: S.NullOr(__S(33, __c2, 1)),
-            play_store_product_change_mode: S.NullOr(__S(2128, __c133, 0)),
+            play_store_product_change_mode: S.NullOr(__S(2176, __c136, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "PaywallVersion" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11044,13 +11409,13 @@ function __c89(j: number): any {
           app_id: S.String,
           type: S.String,
           display_name: S.optional(S.NullOr(S.String)),
-          subscription: S.optional(S.NullOr(__S(1424, __c89, 0))),
+          subscription: S.optional(S.NullOr(__S(1472, __c92, 0))),
           title: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/products", code: 200 })),
       ).annotate({ identifier: "CreateProductRequest" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11079,24 +11444,25 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            created_product: __S(1441, __c90, 1),
+            created_product: __S(1489, __c93, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "StoreProductCreation" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
+          organization_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11111,7 +11477,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c93(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11119,7 +11485,7 @@ function __c93(j: number): any {
           project_id: S.String.pipe(T.Label()),
           customer_id: S.String.pipe(T.Label()),
           include_empty_balances: S.optional(S.Boolean.pipe(T.Query())),
-          adjustments: __S(1520, __c95, 0),
+          adjustments: __S(1568, __c98, 0),
           reference: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -11131,7 +11497,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "CreateVirtualCurrenciesTransactionRequest" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11139,30 +11505,30 @@ function __c94(j: number): any {
           object: S.String,
           currency_code: S.String,
           balance: S.Number,
-          description: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualCurrencyBalance" });
     case 1:
-      return S.Array(__S(1504, __c94, 0));
+      return S.Array(__S(1552, __c97, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(1505, __c94, 1),
+          items: __S(1553, __c97, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "VirtualCurrenciesBalancesList" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11171,14 +11537,14 @@ function __c96(j: number): any {
           code: S.String,
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
-          product_grants: S.optional(S.NullOr(__S(1553, __c97, 1))),
+          product_grants: S.optional(S.NullOr(__S(1601, __c100, 1))),
         }).pipe(
           T.Http({ method: "POST", uri: "/projects/{project_id}/virtual_currencies", code: 200 }),
         ),
       ).annotate({ identifier: "CreateVirtualCurrencyRequest" });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11190,10 +11556,10 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "VirtualCurrencyProductGrantInput" });
     case 1:
-      return S.Array(__S(1552, __c97, 0));
+      return S.Array(__S(1600, __c100, 0));
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11203,8 +11569,9 @@ function __c98(j: number): any {
           url: S.String,
           authorization_header: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           environment: S.optional(S.NullOr(S.String)),
-          event_types: S.optional(S.NullOr(__S(1584, __c99, 0))),
+          event_types: S.optional(S.NullOr(__S(1632, __c102, 0))),
           app_id: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11215,13 +11582,13 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CreateWebhookIntegrationRequest" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11234,13 +11601,14 @@ function __c100(j: number): any {
           environment: S.NullOr(S.String),
           event_types: S.optional(S.NullOr(__S(0, __c0, 0))),
           app_id: S.NullOr(S.String),
+          status: S.String,
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           created_at: S.Number,
         }),
       ).annotate({ identifier: "WebhookIntegration" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11253,7 +11621,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeleteAppRequest" });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11265,7 +11633,24 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeletedObject" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          annotation_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/projects/{project_id}/annotations/{annotation_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteChartAnnotationRequest" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11282,7 +11667,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteCustomerRequest" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11299,7 +11684,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteDiscountRequest" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11317,7 +11702,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteDiscountCodeRequest" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11334,7 +11719,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteEntitlementRequest" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11351,7 +11736,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DeleteIamAuthenticationMethodRequest" });
   }
 }
-function __c108(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11368,7 +11753,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DeleteOfferingRequest" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11385,7 +11770,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DeletePackageFromOfferingRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11402,7 +11787,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DeletePaywallRequest" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11419,7 +11804,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DeleteProductRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11436,7 +11821,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteVirtualCurrencyRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11453,7 +11838,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeleteWebhookIntegrationRequest" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11470,25 +11855,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DetachOfferingFromPaywallRequest" });
   }
 }
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          entitlement_id: S.String.pipe(T.Label()),
-          product_ids: __S(0, __c0, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/entitlements/{entitlement_id}/actions/detach_products",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DetachProductsFromEntitlementRequest" });
-  }
-}
-function __c116(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11505,22 +11872,22 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ArchiveEntitlementRequest" });
   }
 }
-function __c117(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1907, __c119, 3));
+      return S.Array(__S(1955, __c122, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(1872, __c117, 0),
+          items: __S(1920, __c120, 0),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "EntitlementProducts" });
   }
 }
-function __c118(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11532,12 +11899,12 @@ function __c118(j: number): any {
           lookup_key: S.String,
           display_name: S.String,
           created_at: S.Number,
-          products: S.optional(S.NullOr(__S(1873, __c117, 1))),
+          products: S.optional(S.NullOr(__S(1921, __c120, 1))),
         }),
       ).annotate({ identifier: "Entitlement" });
   }
 }
-function __c119(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11576,18 +11943,36 @@ function __c119(j: number): any {
           id: S.String,
           store_identifier: S.String,
           type: S.String,
-          subscription: S.optional(S.NullOr(__S(1904, __c119, 0))),
-          one_time: S.optional(S.NullOr(__S(1905, __c119, 1))),
+          subscription: S.optional(S.NullOr(__S(1952, __c122, 0))),
+          one_time: S.optional(S.NullOr(__S(1953, __c122, 1))),
           created_at: S.Number,
           app_id: S.String,
           app: S.optional(S.NullOr(S.Unknown)),
-          indicative_price: S.optional(S.NullOr(__S(1906, __c119, 2))),
+          indicative_price: S.optional(S.NullOr(__S(1954, __c122, 2))),
           display_name: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Product" });
   }
 }
-function __c120(j: number): any {
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          entitlement_id: S.String.pipe(T.Label()),
+          product_ids: __S(0, __c0, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/entitlements/{entitlement_id}/actions/detach_products",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DetachProductsFromEntitlementRequest" });
+  }
+}
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11605,7 +11990,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DetachProductsFromPackageRequest" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11622,7 +12007,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DisableDiscountRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11638,7 +12023,7 @@ function __c122(j: number): any {
           paywall_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           source_version: S.optional(S.String),
-          offering: S.optional(__S(1952, __c122, 0)),
+          offering: S.optional(__S(2016, __c126, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11649,7 +12034,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DuplicatePaywallRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11666,7 +12051,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "EnableDiscountRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11684,7 +12069,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ExtendSubscriptionRequest2" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11695,7 +12080,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetAppRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11714,19 +12099,19 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          contents: __S(2128, __c133, 0),
+          contents: __S(2176, __c136, 0),
         }),
       ).annotate({ identifier: "StoreKitConfigFile" });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           audience_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11737,7 +12122,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetAudienceRequest" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -11745,7 +12130,7 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          fields: __S(2048, __c128, 0).pipe(T.Query()),
+          fields: __S(2112, __c132, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -11763,30 +12148,129 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "AudienceFilterOption" });
     case 3:
-      return S.Array(__S(2050, __c128, 2));
+      return S.Array(__S(2114, __c132, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           field: S.Unknown,
-          options: __S(2051, __c128, 3),
+          options: __S(2115, __c132, 3),
           cardinality_exceeded: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AudienceFilterFieldOptions" });
     case 5:
-      return S.Array(__S(2052, __c128, 4));
+      return S.Array(__S(2116, __c132, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2053, __c128, 5),
+          items: __S(2117, __c132, 5),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "ListAudienceFilterOptions" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          offering_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/projects/{project_id}/offerings/{offering_id}/actions/archive",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ArchiveOfferingRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          id: S.String,
+          lookup_key: S.String,
+          display_name: S.String,
+          position: S.NullOr(S.Number),
+          created_at: S.Number,
+          products: S.optional(__S(2162, __c135, 2)),
+        }),
+      ).annotate({ identifier: "Package" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            product: __S(1955, __c122, 3),
+            eligibility_criteria: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PackageProductAssociation" });
+    case 1:
+      return S.Array(__S(2160, __c135, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          items: __S(2161, __c135, 1),
+          next_page: S.NullOr(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "PackageProducts" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2144, __c134, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          items: __S(2192, __c137, 0),
+          next_page: S.NullOr(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "OfferingPackages" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.String,
+          object: S.String,
+          id: S.String,
+          lookup_key: S.String,
+          display_name: S.String,
+          is_current: S.Boolean,
+          created_at: S.Number,
+          project_id: S.String,
+          paywall_id: S.NullOr(S.String),
+          metadata: S.optional(S.NullOr(__S(2176, __c136, 0))),
+          packages: S.optional(S.NullOr(__S(2193, __c137, 1))),
+        }),
+      ).annotate({ identifier: "Offering" });
+  }
+}
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11810,145 +12294,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "AuthenticatedManagementUrl" });
   }
 }
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          offering_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/projects/{project_id}/offerings/{offering_id}/actions/archive",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ArchiveOfferingRequest" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          lookup_key: S.String,
-          display_name: S.String,
-          position: S.NullOr(S.Number),
-          created_at: S.Number,
-          products: S.optional(S.NullOr(__S(2114, __c132, 2))),
-        }),
-      ).annotate({ identifier: "Package" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            product: __S(1907, __c119, 3),
-            eligibility_criteria: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PackageProductAssociation" });
-    case 1:
-      return S.Array(__S(2112, __c132, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          items: __S(2113, __c132, 1),
-          next_page: S.NullOr(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "PackageProducts" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2096, __c131, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          items: __S(2144, __c134, 0),
-          next_page: S.NullOr(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "OfferingPackages" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.String,
-          object: S.String,
-          id: S.String,
-          lookup_key: S.String,
-          display_name: S.String,
-          is_current: S.Boolean,
-          created_at: S.Number,
-          project_id: S.String,
-          paywall_id: S.NullOr(S.String),
-          metadata: S.optional(S.NullOr(__S(2128, __c133, 0))),
-          packages: S.optional(S.NullOr(__S(2145, __c134, 1))),
-        }),
-      ).annotate({ identifier: "Offering" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          app_id: S.optional(S.String.pipe(T.Query())),
-          comparison_category: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/benchmarks", code: 200 })),
-      ).annotate({ identifier: "GetBenchmarksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          metric_name: S.String,
-          metric_display_name: S.String,
-          app_id: S.String,
-          store: S.String,
-          app_category: S.NullOr(S.String),
-          comparison_category: S.NullOr(S.String),
-          is_eligible_for_benchmarking: S.Boolean,
-          is_reverse_metric: S.Boolean,
-          metric_value: S.NullOr(S.Number),
-          percentile_bucket: S.NullOr(S.String),
-          updated_at: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "BenchmarkMetric" });
-    case 2:
-      return S.Array(__S(2177, __c136, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          metrics: __S(2178, __c136, 2),
-        }),
-      ).annotate({ identifier: "Benchmarks" });
-  }
-}
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11958,7 +12304,7 @@ function __c137(j: number): any {
           realtime: S.optional(S.Boolean.pipe(T.Query())),
           filters: S.optional(S.String.pipe(T.Query())),
           selectors: S.optional(S.String.pipe(T.Query())),
-          aggregate: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          aggregate: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
           currency: S.optional(S.String.pipe(T.Query())),
           resolution: S.optional(S.String.pipe(T.Query())),
           start_date: S.optional(S.String.pipe(T.Query())),
@@ -11974,7 +12320,7 @@ function __c137(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2195, __c137, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2243, __c140, 3)));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -11988,15 +12334,15 @@ function __c137(j: number): any {
             tabulable: S.optional(S.Boolean),
             is_total: S.optional(S.Boolean),
             is_other: S.optional(S.Boolean),
-            nested_measures: S.optional(S.NullOr(__S(2194, __c137, 2))),
+            nested_measures: S.optional(S.NullOr(__S(2242, __c140, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ChartSeries" });
     case 4:
-      return S.Array(__S(2195, __c137, 3));
+      return S.Array(__S(2243, __c140, 3));
     case 5:
-      return S.Array(__S(2128, __c133, 0));
+      return S.Array(__S(2176, __c136, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -12005,18 +12351,6 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "ChartDataUnsupportedParams" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          description: S.String,
-          start_date: S.String,
-          end_date: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ChartAnnotation" });
-    case 8:
-      return S.Array(__S(2199, __c137, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
@@ -12032,21 +12366,33 @@ function __c137(j: number): any {
           filtering_allowed: S.optional(S.Boolean),
           segmenting_allowed: S.optional(S.Boolean),
           resolution: S.String,
-          values: __S(2193, __c137, 1),
-          summary: S.optional(S.NullOr(__S(2128, __c133, 0))),
+          values: __S(2241, __c140, 1),
+          summary: S.optional(S.NullOr(__S(2176, __c136, 0))),
           yaxis: S.String,
-          segments: S.optional(S.NullOr(__S(2196, __c137, 4))),
+          segments: S.optional(S.NullOr(__S(2244, __c140, 4))),
           segments_limit: S.optional(S.NullOr(S.Number)),
-          periods: S.optional(S.NullOr(__S(2196, __c137, 4))),
-          measures: S.optional(S.NullOr(__S(2197, __c137, 5))),
-          user_selectors: S.optional(S.NullOr(__S(1072, __c67, 0))),
-          unsupported_params: S.optional(S.NullOr(__S(2198, __c137, 6))),
-          annotations: S.optional(__S(2200, __c137, 8)),
+          periods: S.optional(S.NullOr(__S(2244, __c140, 4))),
+          measures: S.optional(S.NullOr(__S(2245, __c140, 5))),
+          user_selectors: S.optional(S.NullOr(__S(2256, __c141, 0))),
+          unsupported_params: S.optional(S.NullOr(__S(2246, __c140, 6))),
+          annotations: S.optional(__S(2272, __c142, 0)),
         }),
       ).annotate({ identifier: "ChartData" });
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1120, __c70, 0));
+  }
+}
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12070,7 +12416,7 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "ChartOptionsResolutionsItem" });
     case 2:
-      return S.Array(__S(2209, __c138, 1));
+      return S.Array(__S(2289, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -12084,7 +12430,7 @@ function __c138(j: number): any {
         ),
       ).annotate({ identifier: "ChartSegmentOption" });
     case 4:
-      return S.Array(__S(2211, __c138, 3));
+      return S.Array(__S(2291, __c143, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
@@ -12096,7 +12442,7 @@ function __c138(j: number): any {
         ),
       ).annotate({ identifier: "ChartFilterOptionOptionsItem" });
     case 6:
-      return S.Array(__S(2213, __c138, 5));
+      return S.Array(__S(2293, __c143, 5));
     case 7:
       return S.suspend(() =>
         S.StructWithRest(
@@ -12105,73 +12451,43 @@ function __c138(j: number): any {
             id: S.String,
             display_name: S.String,
             group_display_name: S.optional(S.NullOr(S.String)),
-            options: __S(2214, __c138, 6),
+            options: __S(2294, __c143, 6),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ChartFilterOption" });
     case 8:
-      return S.Array(__S(2215, __c138, 7));
+      return S.Array(__S(2295, __c143, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           default: S.optional(S.String),
           display_name: S.optional(S.String),
-          options: S.optional(__S(2210, __c138, 2)),
+          options: S.optional(__S(2290, __c143, 2)),
         }),
       ).annotate({ identifier: "ChartOptionsUserSelectorsValue" });
     case 10:
-      return S.Record(S.String, __S(2217, __c138, 9));
+      return S.Record(S.String, __S(2297, __c143, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          resolutions: __S(2210, __c138, 2),
-          segments: __S(2212, __c138, 4),
-          filters: __S(2216, __c138, 8),
-          user_selectors: S.optional(S.NullOr(__S(2218, __c138, 10))),
+          resolutions: __S(2290, __c143, 2),
+          segments: __S(2292, __c143, 4),
+          filters: __S(2296, __c143, 8),
+          user_selectors: S.optional(S.NullOr(__S(2298, __c143, 10))),
         }),
       ).annotate({ identifier: "ChartOptions" });
   }
 }
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          chart_name: S.String.pipe(T.Label()),
-          export_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/charts/{chart_name}/subscriber_list_exports/{export_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetChartSubscriberListExportRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          status: S.String,
-          completed_at: S.optional(S.NullOr(S.Number)),
-          error_message: S.optional(S.NullOr(S.String)),
-          download_url: S.optional(S.NullOr(S.String)),
-          download_url_expires_at: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "ChartSubscriberListExport" });
-  }
-}
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           customer_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12182,7 +12498,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetCustomerRequest" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12203,12 +12519,12 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          customer_center: __S(2128, __c133, 0),
+          customer_center: __S(2176, __c136, 0),
         }),
       ).annotate({ identifier: "CustomerCenterConfig" });
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12225,14 +12541,14 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetDiscountRequest" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           entitlement_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12243,7 +12559,76 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetEntitlementRequest" });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/iam/attribute_permissions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIamAttributePermissionsRequest" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            read_permission: S.NullOr(S.String),
+            effective_read_permission: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IAMReservedAttributeDefaults" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            read_permission: S.NullOr(S.String),
+            effective_read_permission: S.String,
+            write_permission: S.NullOr(S.String),
+            effective_write_permission: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IAMCustomAttributeDefaults" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            key: S.String,
+            read_permission: S.NullOr(S.String),
+            effective_read_permission: S.String,
+            write_permission: S.NullOr(S.String),
+            effective_write_permission: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IAMCustomAttributeOverride" });
+    case 3:
+      return S.Array(__S(2386, __c149, 2));
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            object: S.String,
+            reserved_defaults: __S(2384, __c149, 0),
+            custom_defaults: __S(2385, __c149, 1),
+            custom_overrides: __S(2387, __c149, 3),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IAMAttributePermissions" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12260,7 +12645,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetIamAuthenticationMethodRequest" });
   }
 }
-function __c145(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12270,7 +12655,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetIamSettingsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12287,7 +12672,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "IAMSettings" });
   }
 }
-function __c147(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12304,7 +12689,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ArchiveProductRequest" });
   }
 }
-function __c148(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12322,14 +12707,14 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetInvoiceRequest" });
   }
 }
-function __c149(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           offering_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12340,7 +12725,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetOfferingRequest" });
   }
 }
-function __c150(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12366,46 +12751,46 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "OverviewMetric" });
     case 2:
-      return S.Array(__S(2401, __c150, 1));
+      return S.Array(__S(2497, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          metrics: __S(2402, __c150, 2),
+          metrics: __S(2498, __c156, 2),
           currency: S.String,
         }),
       ).annotate({ identifier: "OverviewMetrics" });
   }
 }
-function __c151(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           package_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/projects/{project_id}/packages/{package_id}", code: 200 }),
         ),
       ).annotate({ identifier: "GetPackageRequest" });
   }
 }
-function __c152(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           paywall_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/projects/{project_id}/paywalls/{paywall_id}", code: 200 }),
         ),
       ).annotate({ identifier: "GetPaywallRequest" });
   }
 }
-function __c153(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12423,7 +12808,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetPaywallVersionRequest" });
   }
 }
-function __c154(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12443,19 +12828,19 @@ function __c154(j: number): any {
         ),
       ).annotate({ identifier: "GetPlayStoreOrAppStoreSubscriptionTransactionsRequest" });
     case 1:
-      return S.Array(__S(2480, __c155, 0));
+      return S.Array(__S(2576, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2465, __c154, 1),
+          items: __S(2561, __c160, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "ListSubscriptionTransaction" });
   }
 }
-function __c155(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12464,29 +12849,29 @@ function __c155(j: number): any {
           id: S.String,
           purchased_at: S.Number,
           product_store_identifier: S.String,
-          revenue_in_local_currency: S.optional(S.NullOr(__S(912, __c57, 0))),
-          revenue_in_usd: S.optional(S.NullOr(__S(912, __c57, 0))),
+          revenue_in_local_currency: S.optional(S.NullOr(__S(960, __c60, 0))),
+          revenue_in_usd: S.optional(S.NullOr(__S(960, __c60, 0))),
           expiration_date: S.optional(S.NullOr(S.Number)),
           effective_expiration_date: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "SubscriptionTransaction" });
   }
 }
-function __c156(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           product_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/projects/{project_id}/products/{product_id}", code: 200 }),
         ),
       ).annotate({ identifier: "GetProductRequest" });
   }
 }
-function __c157(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12505,7 +12890,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetProductsFromEntitlementRequest" });
   }
 }
-function __c158(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12524,7 +12909,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetProductsFromPackageRequest" });
   }
 }
-function __c159(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12541,7 +12926,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ArchiveVirtualCurrencyRequest" });
   }
 }
-function __c160(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12554,7 +12939,7 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "VirtualCurrencyProductGrant" });
     case 1:
-      return S.Array(__S(2560, __c160, 0));
+      return S.Array(__S(2656, __c166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12565,19 +12950,19 @@ function __c160(j: number): any {
           name: S.String,
           created_at: S.Number,
           description: S.optional(S.NullOr(S.String)),
-          product_grants: S.optional(S.NullOr(__S(2561, __c160, 1))),
+          product_grants: S.optional(S.NullOr(__S(2657, __c166, 1))),
         }),
       ).annotate({ identifier: "VirtualCurrency" });
   }
 }
-function __c161(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           purchase_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12588,7 +12973,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetPurchaseRequest" });
   }
 }
-function __c162(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12599,22 +12984,22 @@ function __c162(j: number): any {
           original_customer_id: S.String,
           product_id: S.String,
           purchased_at: S.Number,
-          revenue_in_usd: __S(912, __c57, 0),
+          revenue_in_usd: __S(960, __c60, 0),
           quantity: S.Number,
           status: S.String,
           presented_offering_id: S.NullOr(S.String),
-          entitlements: __S(929, __c58, 1),
+          entitlements: __S(977, __c61, 1),
           environment: S.String,
           store: S.String,
           store_purchase_identifier: S.String,
           ownership: S.String,
           country: S.optional(S.NullOr(S.String)),
-          redemption: S.optional(S.NullOr(__S(944, __c59, 0))),
+          redemption: S.optional(S.NullOr(__S(992, __c62, 0))),
         }),
       ).annotate({ identifier: "Purchase" });
   }
 }
-function __c163(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12641,14 +13026,14 @@ function __c163(j: number): any {
       ).annotate({ identifier: "RevenueMetric" });
   }
 }
-function __c164(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           subscription_id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(1584, __c99, 0).pipe(T.Query())),
+          expand: S.optional(__S(1632, __c102, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12659,7 +13044,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c165(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12676,7 +13061,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetVirtualCurrencyRequest" });
   }
 }
-function __c166(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12693,7 +13078,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetWebhookIntegrationRequest" });
   }
 }
-function __c167(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12712,7 +13097,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GrantCustomerEntitlementRequest" });
   }
 }
-function __c168(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12739,19 +13124,19 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "PublicApiKey" });
     case 2:
-      return S.Array(__S(2689, __c168, 1));
+      return S.Array(__S(2785, __c174, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2690, __c168, 2),
+          items: __S(2786, __c174, 2),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "ListPublicApiKeys" });
   }
 }
-function __c169(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12767,14 +13152,14 @@ function __c169(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2705, __c169, 1),
+          items: __S(2801, __c175, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "AppList" });
   }
 }
-function __c170(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12783,19 +13168,19 @@ function __c170(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/audiences", code: 200 })),
       ).annotate({ identifier: "ListAudiencesRequest" });
     case 1:
-      return S.Array(__S(1050, __c65, 10));
+      return S.Array(__S(1098, __c68, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2721, __c170, 1),
+          items: __S(2817, __c176, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "AudienceList" });
   }
 }
-function __c171(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12819,23 +13204,23 @@ function __c171(j: number): any {
           actor_type: S.String,
           actor_identifier: S.String,
           occurred_at: S.Number,
-          additional_data: __S(2128, __c133, 0),
+          additional_data: __S(2176, __c136, 0),
         }),
       ).annotate({ identifier: "AuditLog" });
     case 2:
-      return S.Array(__S(2737, __c171, 1));
+      return S.Array(__S(2833, __c177, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2738, __c171, 2),
+          items: __S(2834, __c177, 2),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "AuditLogList" });
   }
 }
-function __c172(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12853,7 +13238,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "AssignCustomerOfferingRequest" });
   }
 }
-function __c173(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -12861,7 +13246,7 @@ function __c173(j: number): any {
       });
   }
 }
-function __c174(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12886,7 +13271,30 @@ function __c174(j: number): any {
       ).annotate({ identifier: "BlockedCustomerList" });
   }
 }
-function __c175(j: number): any {
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          start_date: S.optional(S.String.pipe(T.Query())),
+          end_date: S.optional(S.String.pipe(T.Query())),
+          starting_after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/annotations", code: 200 })),
+      ).annotate({ identifier: "ListChartAnnotationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.String,
+          items: __S(2272, __c142, 0),
+          next_page: S.NullOr(S.String),
+          url: S.String,
+        }),
+      ).annotate({ identifier: "ChartAnnotationList" });
+  }
+}
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12909,19 +13317,19 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "Collaborator" });
     case 2:
-      return S.Array(__S(2801, __c175, 1));
+      return S.Array(__S(2913, __c182, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2802, __c175, 2),
+          items: __S(2914, __c182, 2),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CollaboratorList" });
   }
 }
-function __c176(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12940,7 +13348,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "ListCustomerActiveEntitlementsRequest" });
   }
 }
-function __c177(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12966,19 +13374,19 @@ function __c177(j: number): any {
         }),
       ).annotate({ identifier: "CustomerAlias" });
     case 2:
-      return S.Array(__S(2833, __c177, 1));
+      return S.Array(__S(2945, __c184, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2834, __c177, 2),
+          items: __S(2946, __c184, 2),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomerAliasList" });
   }
 }
-function __c178(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12997,7 +13405,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "ListCustomerAttributesRequest" });
   }
 }
-function __c179(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13022,25 +13430,25 @@ function __c179(j: number): any {
           id: S.String,
           app_id: S.optional(S.NullOr(S.String)),
           type: S.String,
-          body: __S(2128, __c133, 0),
+          body: __S(2176, __c136, 0),
           created_at: S.Number,
           occurred_at: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "CustomerEvent" });
     case 2:
-      return S.Array(__S(2865, __c179, 1));
+      return S.Array(__S(2977, __c186, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2866, __c179, 2),
+          items: __S(2978, __c186, 2),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomerEventsList" });
   }
 }
-function __c180(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13065,37 +13473,37 @@ function __c180(j: number): any {
           product_display_name: S.NullOr(S.String),
           product_duration: S.NullOr(S.String),
           quantity: S.Number,
-          unit_amount: __S(912, __c57, 0),
+          unit_amount: __S(960, __c60, 0),
         }),
       ).annotate({ identifier: "InvoiceLineItem" });
     case 2:
-      return S.Array(__S(2881, __c180, 1));
+      return S.Array(__S(2993, __c187, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           id: S.String,
-          total_amount: __S(912, __c57, 0),
-          line_items: __S(2882, __c180, 2),
+          total_amount: __S(960, __c60, 0),
+          line_items: __S(2994, __c187, 2),
           issued_at: S.Number,
           paid_at: S.NullOr(S.Number),
           invoice_url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "Invoice" });
     case 4:
-      return S.Array(__S(2883, __c180, 3));
+      return S.Array(__S(2995, __c187, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2884, __c180, 4),
+          items: __S(2996, __c187, 4),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomerInvoicesList" });
   }
 }
-function __c181(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13107,19 +13515,19 @@ function __c181(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/customers", code: 200 })),
       ).annotate({ identifier: "ListCustomersRequest" });
     case 1:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1185, __c74, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(2897, __c181, 1),
+          items: __S(3009, __c188, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomerList" });
   }
 }
-function __c182(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13140,34 +13548,11 @@ function __c182(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(1217, __c76, 1),
+          items: __S(1265, __c79, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "DiscountCodeList" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          starting_after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/discounts", code: 200 })),
-      ).annotate({ identifier: "ListDiscountsRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          items: __S(2929, __c183, 1),
-          next_page: S.NullOr(S.String),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "DiscountList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

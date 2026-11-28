@@ -73,7 +73,7 @@ const recordingClient = (
   return { seen, layer };
 };
 
-const run = <A, E, R>(effect: Effect.Effect<A, E, R>, layer: Layer.Layer<any>) =>
+const run = <A, E, R>(effect: Effect.Effect<A, E, R>, layer: Layer.Layer<any, any>) =>
   Effect.runPromise(effect.pipe(Retry.none, Effect.provide(layer)) as Effect.Effect<A, E, never>);
 
 describe("ConnectProtocol", () => {
@@ -95,9 +95,13 @@ describe("ConnectProtocol", () => {
 
   test("ConnectCredentialsFromEnv appends /v1 to OP_CONNECT_HOST", async () => {
     const { seen, layer } = recordingClient(() => ({ status: 200, body: [] }));
+    // The layer reads the environment when it is built, so it gets the provider.
     await run(
-      getVaults({}).pipe(
-        Effect.provide(
+      getVaults({}),
+      Layer.merge(
+        layer,
+        Layer.provide(
+          ConnectCredentialsFromEnv,
           ConfigProvider.layer(
             ConfigProvider.fromUnknown({
               OP_CONNECT_TOKEN: "env-token",
@@ -106,7 +110,6 @@ describe("ConnectProtocol", () => {
           ),
         ),
       ),
-      Layer.merge(layer, ConnectCredentialsFromEnv),
     );
     expect(seen[0]!.url).toBe("https://connect.example.com/v1/vaults");
     expect(seen[0]!.headers.authorization).toBe("Bearer env-token");

@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -3061,6 +3062,7 @@ export interface EnvironmentResolvedAccount {
 }
 export interface EnvironmentConfigurationUserParameter {
   environmentId?: string | undefined;
+  environmentBlueprintId?: string | undefined;
   environmentResolvedAccount?: EnvironmentResolvedAccount | undefined;
   environmentConfigurationName?: string | redacted.Redacted<string> | undefined;
   environmentParameters?: EnvironmentParameter[] | undefined;
@@ -3185,7 +3187,7 @@ export type RegionName = string;
 export type Region =
   | { regionName: string; regionNamePath?: undefined }
   | { regionName?: undefined; regionNamePath: string };
-const Region = /*@__PURE__*/ __L.at(__c265, 0);
+const Region = /*@__PURE__*/ __L.at(__c267, 0);
 export type DeploymentOrder = number;
 export interface EnvironmentConfiguration {
   name: string | redacted.Redacted<string>;
@@ -3758,6 +3760,14 @@ export interface GetAssetInput {
   identifier: string;
   revision?: string | undefined;
 }
+export type AssetOwnershipTransferStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
+export interface AssetOwnershipTransfer {
+  status: AssetOwnershipTransferStatus;
+  sourceProjectId: string;
+  targetProjectId: string;
+  startedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+}
 export interface GetAssetOutput {
   id: string;
   name: string | redacted.Redacted<string>;
@@ -3778,6 +3788,7 @@ export interface GetAssetOutput {
   formsOutput: FormOutput[];
   readOnlyFormsOutput?: FormOutput[] | undefined;
   latestTimeSeriesDataPointFormsOutput?: TimeSeriesDataPointSummaryFormOutput[] | undefined;
+  ownershipTransfer?: AssetOwnershipTransfer | undefined;
 }
 export interface GetAssetFilterInput {
   domainIdentifier: string;
@@ -6473,6 +6484,17 @@ export interface UpdateAssetFilterOutput {
   effectiveColumnNames?: string[] | undefined;
   effectiveRowFilter?: string | undefined;
 }
+export interface UpdateAssetOwnerInput {
+  domainIdentifier: string;
+  identifier: string;
+  targetProjectIdentifier: string;
+  clientToken?: string | undefined;
+}
+export interface UpdateAssetOwnerOutput {
+  id: string;
+  revision: string;
+  ownershipTransfer: AssetOwnershipTransfer;
+}
 export interface AthenaPropertiesPatch {
   workgroupName?: string | undefined;
 }
@@ -7019,6 +7041,7 @@ export interface UpdateNotebookOutput {
   error?: NotebookError | undefined;
   gitMetadata?: GitMetadata | undefined;
 }
+export type ProjectProfileAction = "DISASSOCIATE" | (string & {});
 export interface UpdateProjectInput {
   domainIdentifier: string;
   identifier: string;
@@ -7030,6 +7053,7 @@ export interface UpdateProjectInput {
   environmentDeploymentDetails?: EnvironmentDeploymentDetails | undefined;
   userParameters?: EnvironmentConfigurationUserParameter[] | undefined;
   projectProfileVersion?: string | undefined;
+  projectProfileAction?: ProjectProfileAction | undefined;
 }
 export interface UpdateProjectOutput {
   domainId: string;
@@ -7213,17 +7237,19 @@ export const acceptPredictions: API.OperationMethod<
   AcceptPredictionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8450, __c264, 2) as any as S.Schema<AcceptPredictionsInput>,
-  output: __S(8451, __c264, 3) as any as S.Schema<AcceptPredictionsOutput>,
+  input: __S(8514, __c266, 2) as any as S.Schema<AcceptPredictionsInput>,
+  output: __S(8515, __c266, 3) as any as S.Schema<AcceptPredictionsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPredictions",
@@ -7253,15 +7279,17 @@ export const acceptSubscriptionRequest: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<AcceptSubscriptionRequestInput>,
   output: __S(320, __c10, 0) as any as S.Schema<AcceptSubscriptionRequestOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptSubscriptionRequest",
@@ -7291,15 +7319,17 @@ export const addEntityOwner: API.OperationMethod<
   input: __S(736, __c23, 0) as any as S.Schema<AddEntityOwnerInput>,
   output: __S(768, __c24, 0) as any as S.Schema<AddEntityOwnerOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEntityOwner",
@@ -7328,14 +7358,16 @@ export const addPolicyGrant: API.OperationMethod<
   input: __S(1248, __c39, 0) as any as S.Schema<AddPolicyGrantInput>,
   output: __S(1249, __c39, 1) as any as S.Schema<AddPolicyGrantOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPolicyGrant",
@@ -7364,14 +7396,16 @@ export const associateEnvironmentRole: API.OperationMethod<
   input: __S(1664, __c52, 0) as any as S.Schema<AssociateEnvironmentRoleInput>,
   output: __S(768, __c24, 0) as any as S.Schema<AssociateEnvironmentRoleOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentRole",
@@ -7400,14 +7434,16 @@ export const associateGovernedTerms: API.OperationMethod<
   input: __S(2016, __c63, 0) as any as S.Schema<AssociateGovernedTermsInput>,
   output: __S(768, __c24, 0) as any as S.Schema<AssociateGovernedTermsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGovernedTerms",
@@ -7434,14 +7470,12 @@ export const batchGetAttributesMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<BatchGetAttributesMetadataInput>,
   output: __S(2371, __c74, 3) as any as S.Schema<BatchGetAttributesMetadataOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAttributesMetadata",
@@ -7470,14 +7504,16 @@ export const batchPutAttributesMetadata: API.OperationMethod<
   input: __S(2754, __c86, 2) as any as S.Schema<BatchPutAttributesMetadataInput>,
   output: __S(2757, __c86, 5) as any as S.Schema<BatchPutAttributesMetadataOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutAttributesMetadata",
@@ -7514,14 +7550,16 @@ export const cancelMetadataGenerationRun: API.OperationMethod<
   input: __S(3232, __c101, 0) as any as S.Schema<CancelMetadataGenerationRunInput>,
   output: __S(768, __c24, 0) as any as S.Schema<CancelMetadataGenerationRunOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataGenerationRun",
@@ -7550,14 +7588,16 @@ export const cancelSubscription: API.OperationMethod<
   input: __S(3616, __c113, 0) as any as S.Schema<CancelSubscriptionInput>,
   output: __S(3648, __c114, 0) as any as S.Schema<CancelSubscriptionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
@@ -7587,15 +7627,17 @@ export const createAccountPool: API.OperationMethod<
   input: __S(4000, __c125, 0) as any as S.Schema<CreateAccountPoolInput>,
   output: __S(4066, __c127, 2) as any as S.Schema<CreateAccountPoolOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountPool",
@@ -7645,15 +7687,17 @@ export const createAsset: API.OperationMethod<
   input: __S(4416, __c138, 0) as any as S.Schema<CreateAssetInput>,
   output: __S(4450, __c139, 2) as any as S.Schema<CreateAssetOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAsset",
@@ -7692,18 +7736,20 @@ export const createAssetFilter: API.OperationMethod<
   CreateAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<CreateAssetFilterInput>,
-  output: __S(4713, __c147, 9) as any as S.Schema<CreateAssetFilterOutput>,
+  input: __S(4704, __c147, 0) as any as S.Schema<CreateAssetFilterInput>,
+  output: __S(4745, __c148, 9) as any as S.Schema<CreateAssetFilterOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetFilter",
@@ -7743,17 +7789,19 @@ export const createAssetRevision: API.OperationMethod<
   CreateAssetRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<CreateAssetRevisionInput>,
+  input: __S(4768, __c149, 0) as any as S.Schema<CreateAssetRevisionInput>,
   output: __S(4450, __c139, 2) as any as S.Schema<CreateAssetRevisionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetRevision",
@@ -7791,17 +7839,19 @@ export const createAssetType: API.OperationMethod<
   CreateAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4770, __c149, 2) as any as S.Schema<CreateAssetTypeInput>,
-  output: __S(4771, __c149, 3) as any as S.Schema<CreateAssetTypeOutput>,
+  input: __S(4802, __c150, 2) as any as S.Schema<CreateAssetTypeInput>,
+  output: __S(4803, __c150, 3) as any as S.Schema<CreateAssetTypeOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssetType",
@@ -7828,18 +7878,20 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4841, __c151, 9) as any as S.Schema<CreateConnectionInput>,
-  output: __S(4842, __c151, 10) as any as S.Schema<CreateConnectionOutput>,
+  input: __S(4873, __c152, 9) as any as S.Schema<CreateConnectionInput>,
+  output: __S(4874, __c152, 10) as any as S.Schema<CreateConnectionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
@@ -7878,18 +7930,20 @@ export const createDataProduct: API.OperationMethod<
   CreateDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<CreateDataProductInput>,
-  output: __S(5058, __c158, 2) as any as S.Schema<CreateDataProductOutput>,
+  input: __S(5056, __c158, 0) as any as S.Schema<CreateDataProductInput>,
+  output: __S(5090, __c159, 2) as any as S.Schema<CreateDataProductOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProduct",
@@ -7925,17 +7979,19 @@ export const createDataProductRevision: API.OperationMethod<
   CreateDataProductRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<CreateDataProductRevisionInput>,
-  output: __S(5058, __c158, 2) as any as S.Schema<CreateDataProductRevisionOutput>,
+  input: __S(5120, __c160, 0) as any as S.Schema<CreateDataProductRevisionInput>,
+  output: __S(5090, __c159, 2) as any as S.Schema<CreateDataProductRevisionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProductRevision",
@@ -7962,18 +8018,20 @@ export const createDataSource: API.OperationMethod<
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<CreateDataSourceInput>,
-  output: __S(5121, __c160, 1) as any as S.Schema<CreateDataSourceOutput>,
+  input: __S(5152, __c161, 0) as any as S.Schema<CreateDataSourceInput>,
+  output: __S(5153, __c161, 1) as any as S.Schema<CreateDataSourceOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
@@ -8000,18 +8058,20 @@ export const createDesignation: API.OperationMethod<
   CreateDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<CreateDesignationInput>,
-  output: __S(5344, __c167, 0) as any as S.Schema<CreateDesignationOutput>,
+  input: __S(5344, __c167, 0) as any as S.Schema<CreateDesignationInput>,
+  output: __S(5376, __c168, 0) as any as S.Schema<CreateDesignationOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDesignation",
@@ -8038,18 +8098,20 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<CreateDomainInput>,
-  output: __S(5377, __c168, 1) as any as S.Schema<CreateDomainOutput>,
+  input: __S(5408, __c169, 0) as any as S.Schema<CreateDomainInput>,
+  output: __S(5409, __c169, 1) as any as S.Schema<CreateDomainOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
@@ -8075,17 +8137,19 @@ export const createDomainUnit: API.OperationMethod<
   CreateDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<CreateDomainUnitInput>,
-  output: __S(5441, __c170, 1) as any as S.Schema<CreateDomainUnitOutput>,
+  input: __S(5472, __c171, 0) as any as S.Schema<CreateDomainUnitInput>,
+  output: __S(5473, __c171, 1) as any as S.Schema<CreateDomainUnitOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainUnit",
@@ -8111,17 +8175,19 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<CreateEnvironmentInput>,
-  output: __S(5703, __c178, 7) as any as S.Schema<CreateEnvironmentOutput>,
+  input: __S(5536, __c173, 0) as any as S.Schema<CreateEnvironmentInput>,
+  output: __S(5735, __c179, 7) as any as S.Schema<CreateEnvironmentOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
@@ -8147,17 +8213,19 @@ export const createEnvironmentAction: API.OperationMethod<
   CreateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<CreateEnvironmentActionInput>,
-  output: __S(5762, __c180, 2) as any as S.Schema<CreateEnvironmentActionOutput>,
+  input: __S(5760, __c180, 0) as any as S.Schema<CreateEnvironmentActionInput>,
+  output: __S(5794, __c181, 2) as any as S.Schema<CreateEnvironmentActionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentAction",
@@ -8184,18 +8252,20 @@ export const createEnvironmentBlueprint: API.OperationMethod<
   CreateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<CreateEnvironmentBlueprintInput>,
-  output: __S(5824, __c182, 0) as any as S.Schema<CreateEnvironmentBlueprintOutput>,
+  input: __S(5824, __c182, 0) as any as S.Schema<CreateEnvironmentBlueprintInput>,
+  output: __S(5856, __c183, 0) as any as S.Schema<CreateEnvironmentBlueprintOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentBlueprint",
@@ -8222,18 +8292,20 @@ export const createEnvironmentProfile: API.OperationMethod<
   CreateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<CreateEnvironmentProfileInput>,
-  output: __S(5888, __c184, 0) as any as S.Schema<CreateEnvironmentProfileOutput>,
+  input: __S(5888, __c184, 0) as any as S.Schema<CreateEnvironmentProfileInput>,
+  output: __S(5920, __c185, 0) as any as S.Schema<CreateEnvironmentProfileOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentProfile",
@@ -8271,17 +8343,19 @@ export const createFormType: API.OperationMethod<
   CreateFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<CreateFormTypeInput>,
-  output: __S(5921, __c185, 1) as any as S.Schema<CreateFormTypeOutput>,
+  input: __S(5952, __c186, 0) as any as S.Schema<CreateFormTypeInput>,
+  output: __S(5953, __c186, 1) as any as S.Schema<CreateFormTypeOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFormType",
@@ -8319,17 +8393,19 @@ export const createGlossary: API.OperationMethod<
   CreateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<CreateGlossaryInput>,
-  output: __S(6016, __c188, 0) as any as S.Schema<CreateGlossaryOutput>,
+  input: __S(6016, __c188, 0) as any as S.Schema<CreateGlossaryInput>,
+  output: __S(6048, __c189, 0) as any as S.Schema<CreateGlossaryOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlossary",
@@ -8368,18 +8444,20 @@ export const createGlossaryTerm: API.OperationMethod<
   CreateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<CreateGlossaryTermInput>,
-  output: __S(6112, __c191, 0) as any as S.Schema<CreateGlossaryTermOutput>,
+  input: __S(6080, __c190, 0) as any as S.Schema<CreateGlossaryTermInput>,
+  output: __S(6144, __c192, 0) as any as S.Schema<CreateGlossaryTermOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlossaryTerm",
@@ -8404,16 +8482,14 @@ export const createGroupProfile: API.OperationMethod<
   CreateGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<CreateGroupProfileInput>,
-  output: __S(6176, __c193, 0) as any as S.Schema<CreateGroupProfileOutput>,
-  errors: [
+  input: __S(6176, __c193, 0) as any as S.Schema<CreateGroupProfileInput>,
+  output: __S(6208, __c194, 0) as any as S.Schema<CreateGroupProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupProfile",
@@ -8440,18 +8516,20 @@ export const createListingChangeSet: API.OperationMethod<
   CreateListingChangeSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<CreateListingChangeSetInput>,
-  output: __S(6209, __c194, 1) as any as S.Schema<CreateListingChangeSetOutput>,
+  input: __S(6240, __c195, 0) as any as S.Schema<CreateListingChangeSetInput>,
+  output: __S(6241, __c195, 1) as any as S.Schema<CreateListingChangeSetOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListingChangeSet",
@@ -8478,18 +8556,20 @@ export const createNotebook: API.OperationMethod<
   CreateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<CreateNotebookInput>,
-  output: __S(6368, __c199, 0) as any as S.Schema<CreateNotebookOutput>,
+  input: __S(6272, __c196, 0) as any as S.Schema<CreateNotebookInput>,
+  output: __S(6400, __c200, 0) as any as S.Schema<CreateNotebookOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
@@ -8516,18 +8596,20 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6402, __c200, 2) as any as S.Schema<CreateProjectInput>,
-  output: __S(6472, __c202, 8) as any as S.Schema<CreateProjectOutput>,
+  input: __S(6434, __c201, 2) as any as S.Schema<CreateProjectInput>,
+  output: __S(6504, __c203, 8) as any as S.Schema<CreateProjectOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
@@ -8552,16 +8634,14 @@ export const createProjectMembership: API.OperationMethod<
   CreateProjectMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<CreateProjectMembershipInput>,
+  input: __S(6560, __c205, 0) as any as S.Schema<CreateProjectMembershipInput>,
   output: __S(768, __c24, 0) as any as S.Schema<CreateProjectMembershipOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectMembership",
@@ -8588,18 +8668,20 @@ export const createProjectProfile: API.OperationMethod<
   CreateProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<CreateProjectProfileInput>,
-  output: __S(6600, __c206, 8) as any as S.Schema<CreateProjectProfileOutput>,
+  input: __S(6592, __c206, 0) as any as S.Schema<CreateProjectProfileInput>,
+  output: __S(6632, __c207, 8) as any as S.Schema<CreateProjectProfileOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectProfile",
@@ -8626,18 +8708,20 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<CreateRuleInput>,
-  output: __S(6625, __c207, 1) as any as S.Schema<CreateRuleOutput>,
+  input: __S(6656, __c208, 0) as any as S.Schema<CreateRuleInput>,
+  output: __S(6657, __c208, 1) as any as S.Schema<CreateRuleOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
@@ -8663,17 +8747,19 @@ export const createSubscriptionGrant: API.OperationMethod<
   CreateSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6724, __c210, 4) as any as S.Schema<CreateSubscriptionGrantInput>,
-  output: __S(6757, __c211, 5) as any as S.Schema<CreateSubscriptionGrantOutput>,
+  input: __S(6756, __c211, 4) as any as S.Schema<CreateSubscriptionGrantInput>,
+  output: __S(6789, __c212, 5) as any as S.Schema<CreateSubscriptionGrantOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionGrant",
@@ -8700,18 +8786,20 @@ export const createSubscriptionRequest: API.OperationMethod<
   CreateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6789, __c212, 5) as any as S.Schema<CreateSubscriptionRequestInput>,
+  input: __S(6821, __c213, 5) as any as S.Schema<CreateSubscriptionRequestInput>,
   output: __S(320, __c10, 0) as any as S.Schema<CreateSubscriptionRequestOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionRequest",
@@ -8737,17 +8825,19 @@ export const createSubscriptionTarget: API.OperationMethod<
   CreateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<CreateSubscriptionTargetInput>,
-  output: __S(6850, __c214, 2) as any as S.Schema<CreateSubscriptionTargetOutput>,
+  input: __S(6848, __c214, 0) as any as S.Schema<CreateSubscriptionTargetInput>,
+  output: __S(6882, __c215, 2) as any as S.Schema<CreateSubscriptionTargetOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionTarget",
@@ -8772,16 +8862,14 @@ export const createUserProfile: API.OperationMethod<
   CreateUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<CreateUserProfileInput>,
-  output: __S(6912, __c216, 0) as any as S.Schema<CreateUserProfileOutput>,
-  errors: [
+  input: __S(6912, __c216, 0) as any as S.Schema<CreateUserProfileInput>,
+  output: __S(6944, __c217, 0) as any as S.Schema<CreateUserProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserProfile",
@@ -8806,16 +8894,14 @@ export const deleteAccountPool: API.OperationMethod<
   DeleteAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<DeleteAccountPoolInput>,
+  input: __S(6976, __c218, 0) as any as S.Schema<DeleteAccountPoolInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteAccountPoolOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPool",
@@ -8851,17 +8937,19 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<DeleteAssetInput>,
+  input: __S(7008, __c219, 0) as any as S.Schema<DeleteAssetInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteAssetOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
@@ -8895,17 +8983,19 @@ export const deleteAssetFilter: API.OperationMethod<
   DeleteAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<DeleteAssetFilterInput>,
+  input: __S(7040, __c220, 0) as any as S.Schema<DeleteAssetFilterInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteAssetFilterResponse>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssetFilter",
@@ -8941,17 +9031,19 @@ export const deleteAssetType: API.OperationMethod<
   DeleteAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<DeleteAssetTypeInput>,
+  input: __S(7072, __c221, 0) as any as S.Schema<DeleteAssetTypeInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteAssetTypeOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssetType",
@@ -8976,16 +9068,14 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<DeleteConnectionInput>,
-  output: __S(7073, __c221, 1) as any as S.Schema<DeleteConnectionOutput>,
-  errors: [
+  input: __S(7104, __c222, 0) as any as S.Schema<DeleteConnectionInput>,
+  output: __S(7105, __c222, 1) as any as S.Schema<DeleteConnectionOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
@@ -9015,17 +9105,19 @@ export const deleteDataExportConfiguration: API.OperationMethod<
   DeleteDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<DeleteDataExportConfigurationInput>,
+  input: __S(7136, __c223, 0) as any as S.Schema<DeleteDataExportConfigurationInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteDataExportConfigurationOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataExportConfiguration",
@@ -9059,17 +9151,19 @@ export const deleteDataProduct: API.OperationMethod<
   DeleteDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<DeleteDataProductInput>,
+  input: __S(7168, __c224, 0) as any as S.Schema<DeleteDataProductInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteDataProductOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProduct",
@@ -9096,18 +9190,20 @@ export const deleteDataSource: API.OperationMethod<
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<DeleteDataSourceInput>,
-  output: __S(7169, __c224, 1) as any as S.Schema<DeleteDataSourceOutput>,
+  input: __S(7200, __c225, 0) as any as S.Schema<DeleteDataSourceInput>,
+  output: __S(7201, __c225, 1) as any as S.Schema<DeleteDataSourceOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
@@ -9133,17 +9229,19 @@ export const deleteDesignation: API.OperationMethod<
   DeleteDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<DeleteDesignationInput>,
+  input: __S(7264, __c227, 0) as any as S.Schema<DeleteDesignationInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteDesignationOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDesignation",
@@ -9169,17 +9267,19 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<DeleteDomainInput>,
-  output: __S(7265, __c227, 1) as any as S.Schema<DeleteDomainOutput>,
+  input: __S(7296, __c228, 0) as any as S.Schema<DeleteDomainInput>,
+  output: __S(7297, __c228, 1) as any as S.Schema<DeleteDomainOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
@@ -9205,17 +9305,19 @@ export const deleteDomainUnit: API.OperationMethod<
   DeleteDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<DeleteDomainUnitInput>,
+  input: __S(7328, __c229, 0) as any as S.Schema<DeleteDomainUnitInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteDomainUnitOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainUnit",
@@ -9240,16 +9342,14 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<DeleteEnvironmentInput>,
+  input: __S(7360, __c230, 0) as any as S.Schema<DeleteEnvironmentInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
@@ -9275,17 +9375,19 @@ export const deleteEnvironmentAction: API.OperationMethod<
   DeleteEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<DeleteEnvironmentActionInput>,
+  input: __S(7392, __c231, 0) as any as S.Schema<DeleteEnvironmentActionInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentActionResponse>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentAction",
@@ -9311,17 +9413,19 @@ export const deleteEnvironmentBlueprint: API.OperationMethod<
   DeleteEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<DeleteEnvironmentBlueprintInput>,
+  input: __S(7424, __c232, 0) as any as S.Schema<DeleteEnvironmentBlueprintInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentBlueprintResponse>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentBlueprint",
@@ -9347,17 +9451,19 @@ export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
   DeleteEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationInput>,
+  input: __S(7456, __c233, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentBlueprintConfigurationOutput>,
   errors: [
-    AccessDeniedException,
     InternalServerException,
     ValidationException,
     ResourceNotFoundException,
     EnvironmentBlueprintConfigurationInUse,
+  ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentBlueprintConfiguration",
@@ -9382,16 +9488,14 @@ export const deleteEnvironmentProfile: API.OperationMethod<
   DeleteEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<DeleteEnvironmentProfileInput>,
+  input: __S(7488, __c234, 0) as any as S.Schema<DeleteEnvironmentProfileInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteEnvironmentProfileResponse>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentProfile",
@@ -9429,17 +9533,19 @@ export const deleteFormType: API.OperationMethod<
   DeleteFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<DeleteFormTypeInput>,
+  input: __S(7520, __c235, 0) as any as S.Schema<DeleteFormTypeInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteFormTypeOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFormType",
@@ -9477,17 +9583,19 @@ export const deleteGlossary: API.OperationMethod<
   DeleteGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<DeleteGlossaryInput>,
+  input: __S(7552, __c236, 0) as any as S.Schema<DeleteGlossaryInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteGlossaryOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlossary",
@@ -9523,17 +9631,19 @@ export const deleteGlossaryTerm: API.OperationMethod<
   DeleteGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<DeleteGlossaryTermInput>,
+  input: __S(7584, __c237, 0) as any as S.Schema<DeleteGlossaryTermInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteGlossaryTermOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlossaryTerm",
@@ -9558,16 +9668,14 @@ export const deleteLineageEvent: API.OperationMethod<
   DeleteLineageEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<DeleteLineageEventInput>,
-  output: __S(7585, __c237, 1) as any as S.Schema<DeleteLineageEventOutput>,
-  errors: [
+  input: __S(7616, __c238, 0) as any as S.Schema<DeleteLineageEventInput>,
+  output: __S(7617, __c238, 1) as any as S.Schema<DeleteLineageEventOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLineageEvent",
@@ -9593,17 +9701,19 @@ export const deleteListing: API.OperationMethod<
   DeleteListingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<DeleteListingInput>,
+  input: __S(7648, __c239, 0) as any as S.Schema<DeleteListingInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteListingOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListing",
@@ -9628,16 +9738,14 @@ export const deleteNotebook: API.OperationMethod<
   DeleteNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<DeleteNotebookInput>,
+  input: __S(7680, __c240, 0) as any as S.Schema<DeleteNotebookInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteNotebookOutput>,
-  errors: [
+  errors: [ConflictException, InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
@@ -9662,16 +9770,14 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<DeleteProjectInput>,
+  input: __S(7712, __c241, 0) as any as S.Schema<DeleteProjectInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteProjectOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
@@ -9697,17 +9803,19 @@ export const deleteProjectMembership: API.OperationMethod<
   DeleteProjectMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<DeleteProjectMembershipInput>,
+  input: __S(7744, __c242, 0) as any as S.Schema<DeleteProjectMembershipInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteProjectMembershipOutput>,
   errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectMembership",
@@ -9732,16 +9840,14 @@ export const deleteProjectProfile: API.OperationMethod<
   DeleteProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<DeleteProjectProfileInput>,
+  input: __S(7776, __c243, 0) as any as S.Schema<DeleteProjectProfileInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteProjectProfileOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectProfile",
@@ -9767,17 +9873,19 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<DeleteRuleInput>,
+  input: __S(7808, __c244, 0) as any as S.Schema<DeleteRuleInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteRuleOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
@@ -9803,17 +9911,19 @@ export const deleteSubscriptionGrant: API.OperationMethod<
   DeleteSubscriptionGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<DeleteSubscriptionGrantInput>,
-  output: __S(6757, __c211, 5) as any as S.Schema<DeleteSubscriptionGrantOutput>,
+  input: __S(7840, __c245, 0) as any as S.Schema<DeleteSubscriptionGrantInput>,
+  output: __S(6789, __c212, 5) as any as S.Schema<DeleteSubscriptionGrantOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionGrant",
@@ -9839,17 +9949,19 @@ export const deleteSubscriptionRequest: API.OperationMethod<
   DeleteSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<DeleteSubscriptionRequestInput>,
+  input: __S(7872, __c246, 0) as any as S.Schema<DeleteSubscriptionRequestInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteSubscriptionRequestResponse>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionRequest",
@@ -9875,17 +9987,19 @@ export const deleteSubscriptionTarget: API.OperationMethod<
   DeleteSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<DeleteSubscriptionTargetInput>,
+  input: __S(7904, __c247, 0) as any as S.Schema<DeleteSubscriptionTargetInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteSubscriptionTargetResponse>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionTarget",
@@ -9910,16 +10024,14 @@ export const deleteTimeSeriesDataPoints: API.OperationMethod<
   DeleteTimeSeriesDataPointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<DeleteTimeSeriesDataPointsInput>,
+  input: __S(7936, __c248, 0) as any as S.Schema<DeleteTimeSeriesDataPointsInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteTimeSeriesDataPointsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimeSeriesDataPoints",
@@ -9945,17 +10057,19 @@ export const disassociateEnvironmentRole: API.OperationMethod<
   DisassociateEnvironmentRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<DisassociateEnvironmentRoleInput>,
+  input: __S(7968, __c249, 0) as any as S.Schema<DisassociateEnvironmentRoleInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DisassociateEnvironmentRoleOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentRole",
@@ -9981,17 +10095,19 @@ export const disassociateGovernedTerms: API.OperationMethod<
   DisassociateGovernedTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<DisassociateGovernedTermsInput>,
+  input: __S(8000, __c250, 0) as any as S.Schema<DisassociateGovernedTermsInput>,
   output: __S(768, __c24, 0) as any as S.Schema<DisassociateGovernedTermsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGovernedTerms",
@@ -10016,16 +10132,14 @@ export const getAccountPool: API.OperationMethod<
   GetAccountPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetAccountPoolInput>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetAccountPoolInput>,
   output: __S(4066, __c127, 2) as any as S.Schema<GetAccountPoolOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPool",
@@ -10060,16 +10174,14 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetAssetInput>,
-  output: __S(8033, __c251, 1) as any as S.Schema<GetAssetOutput>,
-  errors: [
+  input: __S(8064, __c252, 0) as any as S.Schema<GetAssetInput>,
+  output: __S(8065, __c252, 1) as any as S.Schema<GetAssetOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsset",
@@ -10102,16 +10214,14 @@ export const getAssetFilter: API.OperationMethod<
   GetAssetFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetAssetFilterInput>,
-  output: __S(4713, __c147, 9) as any as S.Schema<GetAssetFilterOutput>,
-  errors: [
+  input: __S(8128, __c254, 0) as any as S.Schema<GetAssetFilterInput>,
+  output: __S(4745, __c148, 9) as any as S.Schema<GetAssetFilterOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetFilter",
@@ -10146,16 +10256,14 @@ export const getAssetType: API.OperationMethod<
   GetAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetAssetTypeInput>,
-  output: __S(8128, __c254, 0) as any as S.Schema<GetAssetTypeOutput>,
-  errors: [
+  input: __S(8160, __c255, 0) as any as S.Schema<GetAssetTypeInput>,
+  output: __S(8192, __c256, 0) as any as S.Schema<GetAssetTypeOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetType",
@@ -10180,16 +10288,14 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetConnectionInput>,
-  output: __S(8161, __c255, 1) as any as S.Schema<GetConnectionOutput>,
-  errors: [
+  input: __S(8224, __c257, 0) as any as S.Schema<GetConnectionInput>,
+  output: __S(8225, __c257, 1) as any as S.Schema<GetConnectionOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -10214,16 +10320,14 @@ export const getDataExportConfiguration: API.OperationMethod<
   GetDataExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<GetDataExportConfigurationInput>,
-  output: __S(8225, __c257, 1) as any as S.Schema<GetDataExportConfigurationOutput>,
-  errors: [
+  input: __S(8288, __c259, 0) as any as S.Schema<GetDataExportConfigurationInput>,
+  output: __S(8289, __c259, 1) as any as S.Schema<GetDataExportConfigurationOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataExportConfiguration",
@@ -10256,16 +10360,14 @@ export const getDataProduct: API.OperationMethod<
   GetDataProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<GetDataProductInput>,
-  output: __S(5058, __c158, 2) as any as S.Schema<GetDataProductOutput>,
-  errors: [
+  input: __S(8352, __c261, 0) as any as S.Schema<GetDataProductInput>,
+  output: __S(5090, __c159, 2) as any as S.Schema<GetDataProductOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProduct",
@@ -10292,18 +10394,20 @@ export const getDataSource: API.OperationMethod<
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetDataSourceInput>,
-  output: __S(8321, __c260, 1) as any as S.Schema<GetDataSourceOutput>,
+  input: __S(8384, __c262, 0) as any as S.Schema<GetDataSourceInput>,
+  output: __S(8385, __c262, 1) as any as S.Schema<GetDataSourceOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
@@ -10330,18 +10434,20 @@ export const getDataSourceRun: API.OperationMethod<
   GetDataSourceRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<GetDataSourceRunInput>,
-  output: __S(8353, __c261, 1) as any as S.Schema<GetDataSourceRunOutput>,
+  input: __S(8416, __c263, 0) as any as S.Schema<GetDataSourceRunInput>,
+  output: __S(8417, __c263, 1) as any as S.Schema<GetDataSourceRunOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceRun",
@@ -10366,16 +10472,14 @@ export const getDesignation: API.OperationMethod<
   GetDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<GetDesignationInput>,
-  output: __S(5344, __c167, 0) as any as S.Schema<GetDesignationOutput>,
-  errors: [
+  input: __S(8608, __c269, 0) as any as S.Schema<GetDesignationInput>,
+  output: __S(5376, __c168, 0) as any as S.Schema<GetDesignationOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDesignation",
@@ -10401,17 +10505,19 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<GetDomainInput>,
-  output: __S(8580, __c268, 4) as any as S.Schema<GetDomainOutput>,
+  input: __S(8640, __c270, 0) as any as S.Schema<GetDomainInput>,
+  output: __S(8644, __c270, 4) as any as S.Schema<GetDomainOutput>,
   errors: [
-    AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
@@ -10436,16 +10542,14 @@ export const getDomainUnit: API.OperationMethod<
   GetDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<GetDomainUnitInput>,
-  output: __S(8609, __c269, 1) as any as S.Schema<GetDomainUnitOutput>,
-  errors: [
+  input: __S(8672, __c271, 0) as any as S.Schema<GetDomainUnitInput>,
+  output: __S(8673, __c271, 1) as any as S.Schema<GetDomainUnitOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainUnit",
@@ -10470,16 +10574,14 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<GetEnvironmentInput>,
-  output: __S(5703, __c178, 7) as any as S.Schema<GetEnvironmentOutput>,
-  errors: [
+  input: __S(8704, __c272, 0) as any as S.Schema<GetEnvironmentInput>,
+  output: __S(5735, __c179, 7) as any as S.Schema<GetEnvironmentOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
@@ -10504,16 +10606,14 @@ export const getEnvironmentAction: API.OperationMethod<
   GetEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<GetEnvironmentActionInput>,
-  output: __S(5762, __c180, 2) as any as S.Schema<GetEnvironmentActionOutput>,
-  errors: [
+  input: __S(8736, __c273, 0) as any as S.Schema<GetEnvironmentActionInput>,
+  output: __S(5794, __c181, 2) as any as S.Schema<GetEnvironmentActionOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentAction",
@@ -10538,16 +10638,14 @@ export const getEnvironmentBlueprint: API.OperationMethod<
   GetEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetEnvironmentBlueprintInput>,
-  output: __S(5824, __c182, 0) as any as S.Schema<GetEnvironmentBlueprintOutput>,
-  errors: [
+  input: __S(8768, __c274, 0) as any as S.Schema<GetEnvironmentBlueprintInput>,
+  output: __S(5856, __c183, 0) as any as S.Schema<GetEnvironmentBlueprintOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentBlueprint",
@@ -10572,16 +10670,14 @@ export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
   GetEnvironmentBlueprintConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<GetEnvironmentBlueprintConfigurationInput>,
-  output: __S(8774, __c274, 6) as any as S.Schema<GetEnvironmentBlueprintConfigurationOutput>,
-  errors: [
+  input: __S(8800, __c275, 0) as any as S.Schema<GetEnvironmentBlueprintConfigurationInput>,
+  output: __S(8838, __c276, 6) as any as S.Schema<GetEnvironmentBlueprintConfigurationOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentBlueprintConfiguration",
@@ -10606,16 +10702,14 @@ export const getEnvironmentCredentials: API.OperationMethod<
   GetEnvironmentCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<GetEnvironmentCredentialsInput>,
-  output: __S(8192, __c256, 0) as any as S.Schema<GetEnvironmentCredentialsOutput>,
-  errors: [
+  input: __S(8864, __c277, 0) as any as S.Schema<GetEnvironmentCredentialsInput>,
+  output: __S(8256, __c258, 0) as any as S.Schema<GetEnvironmentCredentialsOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentCredentials",
@@ -10640,16 +10734,14 @@ export const getEnvironmentProfile: API.OperationMethod<
   GetEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<GetEnvironmentProfileInput>,
-  output: __S(5888, __c184, 0) as any as S.Schema<GetEnvironmentProfileOutput>,
-  errors: [
+  input: __S(8896, __c278, 0) as any as S.Schema<GetEnvironmentProfileInput>,
+  output: __S(5920, __c185, 0) as any as S.Schema<GetEnvironmentProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentProfile",
@@ -10690,16 +10782,14 @@ export const getFormType: API.OperationMethod<
   GetFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<GetFormTypeInput>,
-  output: __S(8865, __c277, 1) as any as S.Schema<GetFormTypeOutput>,
-  errors: [
+  input: __S(8928, __c279, 0) as any as S.Schema<GetFormTypeInput>,
+  output: __S(8929, __c279, 1) as any as S.Schema<GetFormTypeOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFormType",
@@ -10732,14 +10822,12 @@ export const getGlossary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetGlossaryInput>,
   output: __S(353, __c11, 1) as any as S.Schema<GetGlossaryOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlossary",
@@ -10774,14 +10862,12 @@ export const getGlossaryTerm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetGlossaryTermInput>,
   output: __S(385, __c12, 1) as any as S.Schema<GetGlossaryTermOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlossaryTerm",
@@ -10807,15 +10893,13 @@ export const getGroupProfile: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetGroupProfileInput>,
-  output: __S(6176, __c193, 0) as any as S.Schema<GetGroupProfileOutput>,
-  errors: [
+  output: __S(6208, __c194, 0) as any as S.Schema<GetGroupProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupProfile",
@@ -10844,14 +10928,16 @@ export const getIamPortalLoginUrl: API.OperationMethod<
   input: __S(448, __c14, 0) as any as S.Schema<GetIamPortalLoginUrlInput>,
   output: __S(449, __c14, 1) as any as S.Schema<GetIamPortalLoginUrlOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIamPortalLoginUrl",
@@ -10878,14 +10964,12 @@ export const getJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetJobRunInput>,
   output: __S(484, __c15, 4) as any as S.Schema<GetJobRunOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
@@ -10912,14 +10996,12 @@ export const getLineageEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetLineageEventInput>,
   output: __S(513, __c16, 1) as any as S.Schema<GetLineageEventOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageEvent",
@@ -10946,14 +11028,12 @@ export const getLineageNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetLineageNodeInput>,
   output: __S(547, __c17, 3) as any as S.Schema<GetLineageNodeOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageNode",
@@ -10980,14 +11060,12 @@ export const getListing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetListingInput>,
   output: __S(580, __c18, 4) as any as S.Schema<GetListingOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
@@ -11022,14 +11100,12 @@ export const getMetadataGenerationRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetMetadataGenerationRunInput>,
   output: __S(643, __c20, 3) as any as S.Schema<GetMetadataGenerationRunOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetadataGenerationRun",
@@ -11055,15 +11131,13 @@ export const getNotebook: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetNotebookInput>,
-  output: __S(6368, __c199, 0) as any as S.Schema<GetNotebookOutput>,
-  errors: [
+  output: __S(6400, __c200, 0) as any as S.Schema<GetNotebookOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebook",
@@ -11090,14 +11164,12 @@ export const getNotebookExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetNotebookExportInput>,
   output: __S(835, __c26, 3) as any as S.Schema<GetNotebookExportOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookExport",
@@ -11124,14 +11196,12 @@ export const getNotebookRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetNotebookRunInput>,
   output: __S(933, __c29, 5) as any as S.Schema<GetNotebookRunOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookRun",
@@ -11157,15 +11227,13 @@ export const getProject: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetProjectInput>,
-  output: __S(6472, __c202, 8) as any as S.Schema<GetProjectOutput>,
-  errors: [
+  output: __S(6504, __c203, 8) as any as S.Schema<GetProjectOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
@@ -11191,15 +11259,13 @@ export const getProjectProfile: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetProjectProfileInput>,
-  output: __S(6600, __c206, 8) as any as S.Schema<GetProjectProfileOutput>,
-  errors: [
+  output: __S(6632, __c207, 8) as any as S.Schema<GetProjectProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProjectProfile",
@@ -11226,14 +11292,12 @@ export const getRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetRuleInput>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetRuleOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
@@ -11260,14 +11324,12 @@ export const getSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetSubscriptionInput>,
   output: __S(3648, __c114, 0) as any as S.Schema<GetSubscriptionOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
@@ -11293,15 +11355,13 @@ export const getSubscriptionGrant: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetSubscriptionGrantInput>,
-  output: __S(6757, __c211, 5) as any as S.Schema<GetSubscriptionGrantOutput>,
-  errors: [
+  output: __S(6789, __c212, 5) as any as S.Schema<GetSubscriptionGrantOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionGrant",
@@ -11328,14 +11388,12 @@ export const getSubscriptionRequestDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetSubscriptionRequestDetailsInput>,
   output: __S(320, __c10, 0) as any as S.Schema<GetSubscriptionRequestDetailsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionRequestDetails",
@@ -11361,15 +11419,13 @@ export const getSubscriptionTarget: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetSubscriptionTargetInput>,
-  output: __S(6850, __c214, 2) as any as S.Schema<GetSubscriptionTargetOutput>,
-  errors: [
+  output: __S(6882, __c215, 2) as any as S.Schema<GetSubscriptionTargetOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionTarget",
@@ -11396,14 +11452,12 @@ export const getTimeSeriesDataPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetTimeSeriesDataPointInput>,
   output: __S(1185, __c37, 1) as any as S.Schema<GetTimeSeriesDataPointOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTimeSeriesDataPoint",
@@ -11429,15 +11483,13 @@ export const getUserProfile: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetUserProfileInput>,
-  output: __S(6912, __c216, 0) as any as S.Schema<GetUserProfileOutput>,
-  errors: [
+  output: __S(6944, __c217, 0) as any as S.Schema<GetUserProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserProfile",
@@ -11464,13 +11516,12 @@ export const listAccountPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ListAccountPoolsInput>,
   output: __S(1379, __c43, 3) as any as S.Schema<ListAccountPoolsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountPools",
@@ -11504,14 +11555,12 @@ export const listAccountsInAccountPool: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListAccountsInAccountPoolInput>,
   output: __S(1409, __c44, 1) as any as S.Schema<ListAccountsInAccountPoolOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountsInAccountPool",
@@ -11551,14 +11600,12 @@ export const listAssetFilters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ListAssetFiltersInput>,
   output: __S(1443, __c45, 3) as any as S.Schema<ListAssetFiltersOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssetFilters",
@@ -11602,14 +11649,12 @@ export const listAssetRevisions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ListAssetRevisionsInput>,
   output: __S(1475, __c46, 3) as any as S.Schema<ListAssetRevisionsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssetRevisions",
@@ -11642,13 +11687,12 @@ export const listConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ListConnectionsInput>,
   output: __S(1507, __c47, 3) as any as S.Schema<ListConnectionsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnections",
@@ -11690,14 +11734,12 @@ export const listDataProductRevisions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListDataProductRevisionsInput>,
   output: __S(1539, __c48, 3) as any as S.Schema<ListDataProductRevisionsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataProductRevisions",
@@ -11734,15 +11776,17 @@ export const listDataSourceRunActivities: API.PaginatedOperationMethod<
   input: __S(1568, __c49, 0) as any as S.Schema<ListDataSourceRunActivitiesInput>,
   output: __S(1572, __c49, 4) as any as S.Schema<ListDataSourceRunActivitiesOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSourceRunActivities",
@@ -11779,15 +11823,17 @@ export const listDataSourceRuns: API.PaginatedOperationMethod<
   input: __S(1600, __c50, 0) as any as S.Schema<ListDataSourceRunsInput>,
   output: __S(1603, __c50, 3) as any as S.Schema<ListDataSourceRunsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSourceRuns",
@@ -11824,15 +11870,17 @@ export const listDataSources: API.PaginatedOperationMethod<
   input: __S(1632, __c51, 0) as any as S.Schema<ListDataSourcesInput>,
   output: __S(1635, __c51, 3) as any as S.Schema<ListDataSourcesOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSources",
@@ -11866,14 +11914,12 @@ export const listDesignations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListDesignationsInput>,
   output: __S(1699, __c53, 3) as any as S.Schema<ListDesignationsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDesignations",
@@ -11910,15 +11956,17 @@ export const listDomains: API.PaginatedOperationMethod<
   input: __S(1728, __c54, 0) as any as S.Schema<ListDomainsInput>,
   output: __S(1731, __c54, 3) as any as S.Schema<ListDomainsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomains",
@@ -11951,13 +11999,12 @@ export const listDomainUnitsForParent: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListDomainUnitsForParentInput>,
   output: __S(1763, __c55, 3) as any as S.Schema<ListDomainUnitsForParentOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainUnitsForParent",
@@ -11990,13 +12037,12 @@ export const listEntityOwners: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListEntityOwnersInput>,
   output: __S(1793, __c56, 1) as any as S.Schema<ListEntityOwnersOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntityOwners",
@@ -12029,13 +12075,12 @@ export const listEnvironmentActions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListEnvironmentActionsInput>,
   output: __S(1826, __c57, 2) as any as S.Schema<ListEnvironmentActionsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironmentActions",
@@ -12069,14 +12114,12 @@ export const listEnvironmentBlueprintConfigurations: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListEnvironmentBlueprintConfigurationsInput>,
   output: __S(1858, __c58, 2) as any as S.Schema<ListEnvironmentBlueprintConfigurationsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironmentBlueprintConfigurations",
@@ -12110,14 +12153,12 @@ export const listEnvironmentBlueprints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListEnvironmentBlueprintsInput>,
   output: __S(1891, __c59, 3) as any as S.Schema<ListEnvironmentBlueprintsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironmentBlueprints",
@@ -12150,13 +12191,12 @@ export const listEnvironmentProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListEnvironmentProfilesInput>,
   output: __S(1923, __c60, 3) as any as S.Schema<ListEnvironmentProfilesOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironmentProfiles",
@@ -12190,14 +12230,12 @@ export const listEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListEnvironmentsInput>,
   output: __S(1955, __c61, 3) as any as S.Schema<ListEnvironmentsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
-    ResourceNotFoundException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
@@ -12231,14 +12269,12 @@ export const listJobRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListJobRunsInput>,
   output: __S(1987, __c62, 3) as any as S.Schema<ListJobRunsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRuns",
@@ -12271,13 +12307,12 @@ export const listLineageEvents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListLineageEventsInput>,
   output: __S(2055, __c64, 7) as any as S.Schema<ListLineageEventsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLineageEvents",
@@ -12311,14 +12346,12 @@ export const listLineageNodeHistory: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListLineageNodeHistoryInput>,
   output: __S(2083, __c65, 3) as any as S.Schema<ListLineageNodeHistoryOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLineageNodeHistory",
@@ -12360,14 +12393,12 @@ export const listMetadataGenerationRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListMetadataGenerationRunsInput>,
   output: __S(2115, __c66, 3) as any as S.Schema<ListMetadataGenerationRunsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMetadataGenerationRuns",
@@ -12400,13 +12431,12 @@ export const listNotebookRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListNotebookRunsInput>,
   output: __S(2147, __c67, 3) as any as S.Schema<ListNotebookRunsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookRuns",
@@ -12439,13 +12469,12 @@ export const listNotebooks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListNotebooksInput>,
   output: __S(2179, __c68, 3) as any as S.Schema<ListNotebooksOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebooks",
@@ -12479,14 +12508,12 @@ export const listNotifications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListNotificationsInput>,
   output: __S(2213, __c69, 5) as any as S.Schema<ListNotificationsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotifications",
@@ -12519,13 +12546,12 @@ export const listPolicyGrants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListPolicyGrantsInput>,
   output: __S(2243, __c70, 3) as any as S.Schema<ListPolicyGrantsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyGrants",
@@ -12559,14 +12585,12 @@ export const listProjectMemberships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListProjectMembershipsInput>,
   output: __S(2278, __c71, 6) as any as S.Schema<ListProjectMembershipsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProjectMemberships",
@@ -12599,13 +12623,12 @@ export const listProjectProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListProjectProfilesInput>,
   output: __S(2307, __c72, 3) as any as S.Schema<ListProjectProfilesOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProjectProfiles",
@@ -12639,14 +12662,12 @@ export const listProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListProjectsInput>,
   output: __S(2339, __c73, 3) as any as S.Schema<ListProjectsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
-    ResourceNotFoundException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProjects",
@@ -12680,14 +12701,12 @@ export const listRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListRulesInput>,
   output: __S(2435, __c76, 3) as any as S.Schema<ListRulesOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
@@ -12721,14 +12740,12 @@ export const listSubscriptionGrants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListSubscriptionGrantsInput>,
   output: __S(2466, __c77, 2) as any as S.Schema<ListSubscriptionGrantsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionGrants",
@@ -12762,14 +12779,12 @@ export const listSubscriptionRequests: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListSubscriptionRequestsInput>,
   output: __S(2501, __c78, 5) as any as S.Schema<ListSubscriptionRequestsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionRequests",
@@ -12803,14 +12818,12 @@ export const listSubscriptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListSubscriptionsInput>,
   output: __S(2530, __c79, 2) as any as S.Schema<ListSubscriptionsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptions",
@@ -12844,14 +12857,12 @@ export const listSubscriptionTargets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListSubscriptionTargetsInput>,
   output: __S(2562, __c80, 2) as any as S.Schema<ListSubscriptionTargetsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionTargets",
@@ -12884,14 +12895,12 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(2593, __c81, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -12919,14 +12928,12 @@ export const listTimeSeriesDataPoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListTimeSeriesDataPointsInput>,
   output: __S(2625, __c82, 1) as any as S.Schema<ListTimeSeriesDataPointsOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTimeSeriesDataPoints",
@@ -12962,15 +12969,17 @@ export const postLineageEvent: API.OperationMethod<
   input: __S(2656, __c83, 0) as any as S.Schema<PostLineageEventInput>,
   output: __S(2657, __c83, 1) as any as S.Schema<PostLineageEventOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostLineageEvent",
@@ -13000,15 +13009,17 @@ export const postTimeSeriesDataPoints: API.OperationMethod<
   input: __S(2690, __c84, 2) as any as S.Schema<PostTimeSeriesDataPointsInput>,
   output: __S(2692, __c84, 4) as any as S.Schema<PostTimeSeriesDataPointsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostTimeSeriesDataPoints",
@@ -13048,15 +13059,17 @@ export const putDataExportConfiguration: API.OperationMethod<
   input: __S(2720, __c85, 0) as any as S.Schema<PutDataExportConfigurationInput>,
   output: __S(768, __c24, 0) as any as S.Schema<PutDataExportConfigurationOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataExportConfiguration",
@@ -13083,16 +13096,18 @@ export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2818, __c88, 2) as any as S.Schema<PutEnvironmentBlueprintConfigurationInput>,
-  output: __S(8774, __c274, 6) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>,
+  output: __S(8838, __c276, 6) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEnvironmentBlueprintConfiguration",
@@ -13119,13 +13134,12 @@ export const queryGraph: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2853, __c89, 5) as any as S.Schema<QueryGraphInput>,
   output: __S(2857, __c89, 9) as any as S.Schema<QueryGraphOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QueryGraph",
@@ -13160,14 +13174,16 @@ export const rejectPredictions: API.OperationMethod<
   input: __S(2915, __c91, 3) as any as S.Schema<RejectPredictionsInput>,
   output: __S(2916, __c91, 4) as any as S.Schema<RejectPredictionsOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPredictions",
@@ -13196,14 +13212,16 @@ export const rejectSubscriptionRequest: API.OperationMethod<
   input: __S(2944, __c92, 0) as any as S.Schema<RejectSubscriptionRequestInput>,
   output: __S(320, __c10, 0) as any as S.Schema<RejectSubscriptionRequestOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSubscriptionRequest",
@@ -13230,14 +13248,12 @@ export const removeEntityOwner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<RemoveEntityOwnerInput>,
   output: __S(768, __c24, 0) as any as S.Schema<RemoveEntityOwnerOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEntityOwner",
@@ -13263,13 +13279,12 @@ export const removePolicyGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<RemovePolicyGrantInput>,
   output: __S(768, __c24, 0) as any as S.Schema<RemovePolicyGrantOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePolicyGrant",
@@ -13298,14 +13313,16 @@ export const revokeSubscription: API.OperationMethod<
   input: __S(3040, __c95, 0) as any as S.Schema<RevokeSubscriptionInput>,
   output: __S(3648, __c114, 0) as any as S.Schema<RevokeSubscriptionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSubscription",
@@ -13354,13 +13371,12 @@ export const search: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<SearchInput>,
   output: __S(3081, __c96, 9) as any as S.Schema<SearchOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Search",
@@ -13394,14 +13410,12 @@ export const searchGroupProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<SearchGroupProfilesInput>,
   output: __S(3170, __c99, 2) as any as S.Schema<SearchGroupProfilesOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchGroupProfiles",
@@ -13446,13 +13460,12 @@ export const searchListings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3202, __c100, 2) as any as S.Schema<SearchListingsInput>,
   output: __S(3213, __c100, 13) as any as S.Schema<SearchListingsOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchListings",
@@ -13499,13 +13512,12 @@ export const searchTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<SearchTypesInput>,
   output: __S(3269, __c102, 5) as any as S.Schema<SearchTypesOutput>,
-  errors: [
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
     ThrottlingException,
-    ValidationException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchTypes",
@@ -13539,14 +13551,12 @@ export const searchUserProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<SearchUserProfilesInput>,
   output: __S(3298, __c103, 2) as any as S.Schema<SearchUserProfilesOutput>,
-  errors: [
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUserProfiles",
@@ -13582,15 +13592,17 @@ export const startDataSourceRun: API.OperationMethod<
   input: __S(3328, __c104, 0) as any as S.Schema<StartDataSourceRunInput>,
   output: __S(3329, __c104, 1) as any as S.Schema<StartDataSourceRunOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceRun",
@@ -13632,15 +13644,17 @@ export const startMetadataGenerationRun: API.OperationMethod<
   input: __S(3360, __c105, 0) as any as S.Schema<StartMetadataGenerationRunInput>,
   output: __S(3361, __c105, 1) as any as S.Schema<StartMetadataGenerationRunOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataGenerationRun",
@@ -13670,15 +13684,17 @@ export const startNotebookExport: API.OperationMethod<
   input: __S(3392, __c106, 0) as any as S.Schema<StartNotebookExportInput>,
   output: __S(3393, __c106, 1) as any as S.Schema<StartNotebookExportOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookExport",
@@ -13708,15 +13724,17 @@ export const startNotebookImport: API.OperationMethod<
   input: __S(3424, __c107, 0) as any as S.Schema<StartNotebookImportInput>,
   output: __S(3425, __c107, 1) as any as S.Schema<StartNotebookImportOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookImport",
@@ -13746,15 +13764,17 @@ export const startNotebookRun: API.OperationMethod<
   input: __S(3488, __c109, 0) as any as S.Schema<StartNotebookRunInput>,
   output: __S(933, __c29, 5) as any as S.Schema<StartNotebookRunOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookRun",
@@ -13784,15 +13804,17 @@ export const startNotebookSync: API.OperationMethod<
   input: __S(3520, __c110, 0) as any as S.Schema<StartNotebookSyncInput>,
   output: __S(3521, __c110, 1) as any as S.Schema<StartNotebookSyncOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookSync",
@@ -13821,14 +13843,16 @@ export const stopNotebookRun: API.OperationMethod<
   input: __S(3552, __c111, 0) as any as S.Schema<StopNotebookRunInput>,
   output: __S(3553, __c111, 1) as any as S.Schema<StopNotebookRunOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookRun",
@@ -13855,14 +13879,12 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -13888,13 +13910,12 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
+  errors: [InternalServerException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -13924,15 +13945,17 @@ export const updateAccountPool: API.OperationMethod<
   input: __S(3712, __c116, 0) as any as S.Schema<UpdateAccountPoolInput>,
   output: __S(4066, __c127, 2) as any as S.Schema<UpdateAccountPoolOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPool",
@@ -13967,21 +13990,69 @@ export const updateAssetFilter: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<UpdateAssetFilterInput>,
-  output: __S(4713, __c147, 9) as any as S.Schema<UpdateAssetFilterOutput>,
+  output: __S(4745, __c148, 9) as any as S.Schema<UpdateAssetFilterOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssetFilter",
   telemetry: TELEMETRY,
   span: "UpdateAssetFilter",
+}));
+
+export type UpdateAssetOwnerError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Transfers the ownership of an asset to another project in the same Amazon DataZone domain. The transfer changes the asset's owning project and moves its published listing, subscriptions, and subscription grants to the target project.
+ *
+ * The transfer runs asynchronously, and the operation returns HTTP status code 202. To follow the transfer, call `GetAsset` and check `ownershipTransfer.status` until it is `SUCCEEDED` or `FAILED`.
+ *
+ * You need to be an owner of the project that currently owns the asset. You can transfer an asset from the domain's administration project to any project. You can also transfer an asset from any project to the administration project.
+ *
+ * An asset can have only one ownership transfer in progress at a time. While a transfer is in progress, requests that change the asset or its listing fail with a `ConflictException`.
+ */
+export const updateAssetOwner: API.OperationMethod<
+  UpdateAssetOwnerInput & RegionInput,
+  UpdateAssetOwnerOutput,
+  UpdateAssetOwnerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3776, __c118, 0) as any as S.Schema<UpdateAssetOwnerInput>,
+  output: __S(3777, __c118, 1) as any as S.Schema<UpdateAssetOwnerOutput>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAssetOwner",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetOwner",
 }));
 
 export type UpdateConnectionError =
@@ -14003,18 +14074,20 @@ export const updateConnection: API.OperationMethod<
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3784, __c118, 8) as any as S.Schema<UpdateConnectionInput>,
-  output: __S(3785, __c118, 9) as any as S.Schema<UpdateConnectionOutput>,
+  input: __S(3816, __c119, 8) as any as S.Schema<UpdateConnectionInput>,
+  output: __S(3817, __c119, 9) as any as S.Schema<UpdateConnectionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
@@ -14041,18 +14114,20 @@ export const updateDataSource: API.OperationMethod<
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<UpdateDataSourceInput>,
-  output: __S(3809, __c119, 1) as any as S.Schema<UpdateDataSourceOutput>,
+  input: __S(3840, __c120, 0) as any as S.Schema<UpdateDataSourceInput>,
+  output: __S(3841, __c120, 1) as any as S.Schema<UpdateDataSourceOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
@@ -14078,17 +14153,19 @@ export const updateDesignation: API.OperationMethod<
   UpdateDesignationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<UpdateDesignationInput>,
-  output: __S(5344, __c167, 0) as any as S.Schema<UpdateDesignationOutput>,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdateDesignationInput>,
+  output: __S(5376, __c168, 0) as any as S.Schema<UpdateDesignationOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDesignation",
@@ -14115,18 +14192,20 @@ export const updateDomain: API.OperationMethod<
   UpdateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<UpdateDomainInput>,
-  output: __S(3873, __c121, 1) as any as S.Schema<UpdateDomainOutput>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateDomainInput>,
+  output: __S(3905, __c122, 1) as any as S.Schema<UpdateDomainOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
@@ -14152,17 +14231,19 @@ export const updateDomainUnit: API.OperationMethod<
   UpdateDomainUnitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<UpdateDomainUnitInput>,
-  output: __S(3905, __c122, 1) as any as S.Schema<UpdateDomainUnitOutput>,
+  input: __S(3936, __c123, 0) as any as S.Schema<UpdateDomainUnitInput>,
+  output: __S(3937, __c123, 1) as any as S.Schema<UpdateDomainUnitOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainUnit",
@@ -14188,17 +14269,19 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<UpdateEnvironmentInput>,
-  output: __S(5703, __c178, 7) as any as S.Schema<UpdateEnvironmentOutput>,
+  input: __S(3968, __c124, 0) as any as S.Schema<UpdateEnvironmentInput>,
+  output: __S(5735, __c179, 7) as any as S.Schema<UpdateEnvironmentOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
@@ -14224,17 +14307,19 @@ export const updateEnvironmentAction: API.OperationMethod<
   UpdateEnvironmentActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<UpdateEnvironmentActionInput>,
-  output: __S(5762, __c180, 2) as any as S.Schema<UpdateEnvironmentActionOutput>,
+  input: __S(4096, __c128, 0) as any as S.Schema<UpdateEnvironmentActionInput>,
+  output: __S(5794, __c181, 2) as any as S.Schema<UpdateEnvironmentActionOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentAction",
@@ -14261,18 +14346,20 @@ export const updateEnvironmentBlueprint: API.OperationMethod<
   UpdateEnvironmentBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<UpdateEnvironmentBlueprintInput>,
-  output: __S(5824, __c182, 0) as any as S.Schema<UpdateEnvironmentBlueprintOutput>,
+  input: __S(4128, __c129, 0) as any as S.Schema<UpdateEnvironmentBlueprintInput>,
+  output: __S(5856, __c183, 0) as any as S.Schema<UpdateEnvironmentBlueprintOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentBlueprint",
@@ -14299,18 +14386,20 @@ export const updateEnvironmentProfile: API.OperationMethod<
   UpdateEnvironmentProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<UpdateEnvironmentProfileInput>,
-  output: __S(5888, __c184, 0) as any as S.Schema<UpdateEnvironmentProfileOutput>,
+  input: __S(4160, __c130, 0) as any as S.Schema<UpdateEnvironmentProfileInput>,
+  output: __S(5920, __c185, 0) as any as S.Schema<UpdateEnvironmentProfileOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentProfile",
@@ -14346,17 +14435,19 @@ export const updateGlossary: API.OperationMethod<
   UpdateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<UpdateGlossaryInput>,
-  output: __S(6016, __c188, 0) as any as S.Schema<UpdateGlossaryOutput>,
+  input: __S(4192, __c131, 0) as any as S.Schema<UpdateGlossaryInput>,
+  output: __S(6048, __c189, 0) as any as S.Schema<UpdateGlossaryOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlossary",
@@ -14392,17 +14483,19 @@ export const updateGlossaryTerm: API.OperationMethod<
   UpdateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<UpdateGlossaryTermInput>,
-  output: __S(6112, __c191, 0) as any as S.Schema<UpdateGlossaryTermOutput>,
+  input: __S(4224, __c132, 0) as any as S.Schema<UpdateGlossaryTermInput>,
+  output: __S(6144, __c192, 0) as any as S.Schema<UpdateGlossaryTermOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlossaryTerm",
@@ -14427,16 +14520,14 @@ export const updateGroupProfile: API.OperationMethod<
   UpdateGroupProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<UpdateGroupProfileInput>,
-  output: __S(6176, __c193, 0) as any as S.Schema<UpdateGroupProfileOutput>,
-  errors: [
+  input: __S(4256, __c133, 0) as any as S.Schema<UpdateGroupProfileInput>,
+  output: __S(6208, __c194, 0) as any as S.Schema<UpdateGroupProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupProfile",
@@ -14462,17 +14553,19 @@ export const updateNotebook: API.OperationMethod<
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<UpdateNotebookInput>,
-  output: __S(6368, __c199, 0) as any as S.Schema<UpdateNotebookOutput>,
+  input: __S(4288, __c134, 0) as any as S.Schema<UpdateNotebookInput>,
+  output: __S(6400, __c200, 0) as any as S.Schema<UpdateNotebookOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
@@ -14499,18 +14592,20 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<UpdateProjectInput>,
-  output: __S(6472, __c202, 8) as any as S.Schema<UpdateProjectOutput>,
+  input: __S(4320, __c135, 0) as any as S.Schema<UpdateProjectInput>,
+  output: __S(6504, __c203, 8) as any as S.Schema<UpdateProjectOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
@@ -14537,18 +14632,20 @@ export const updateProjectProfile: API.OperationMethod<
   UpdateProjectProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<UpdateProjectProfileInput>,
-  output: __S(6600, __c206, 8) as any as S.Schema<UpdateProjectProfileOutput>,
+  input: __S(4352, __c136, 0) as any as S.Schema<UpdateProjectProfileInput>,
+  output: __S(6632, __c207, 8) as any as S.Schema<UpdateProjectProfileOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProjectProfile",
@@ -14574,17 +14671,19 @@ export const updateRootDomainUnitOwner: API.OperationMethod<
   UpdateRootDomainUnitOwnerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<UpdateRootDomainUnitOwnerInput>,
+  input: __S(4384, __c137, 0) as any as S.Schema<UpdateRootDomainUnitOwnerInput>,
   output: __S(768, __c24, 0) as any as S.Schema<UpdateRootDomainUnitOwnerOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRootDomainUnitOwner",
@@ -14611,18 +14710,20 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<UpdateRuleInput>,
-  output: __S(4385, __c137, 1) as any as S.Schema<UpdateRuleOutput>,
+  input: __S(4544, __c142, 0) as any as S.Schema<UpdateRuleInput>,
+  output: __S(4545, __c142, 1) as any as S.Schema<UpdateRuleOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
@@ -14648,17 +14749,19 @@ export const updateSubscriptionGrantStatus: API.OperationMethod<
   UpdateSubscriptionGrantStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<UpdateSubscriptionGrantStatusInput>,
-  output: __S(6757, __c211, 5) as any as S.Schema<UpdateSubscriptionGrantStatusOutput>,
+  input: __S(4576, __c143, 0) as any as S.Schema<UpdateSubscriptionGrantStatusInput>,
+  output: __S(6789, __c212, 5) as any as S.Schema<UpdateSubscriptionGrantStatusOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionGrantStatus",
@@ -14684,17 +14787,19 @@ export const updateSubscriptionRequest: API.OperationMethod<
   UpdateSubscriptionRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<UpdateSubscriptionRequestInput>,
+  input: __S(4608, __c144, 0) as any as S.Schema<UpdateSubscriptionRequestInput>,
   output: __S(320, __c10, 0) as any as S.Schema<UpdateSubscriptionRequestOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionRequest",
@@ -14720,17 +14825,19 @@ export const updateSubscriptionTarget: API.OperationMethod<
   UpdateSubscriptionTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<UpdateSubscriptionTargetInput>,
-  output: __S(6850, __c214, 2) as any as S.Schema<UpdateSubscriptionTargetOutput>,
+  input: __S(4640, __c145, 0) as any as S.Schema<UpdateSubscriptionTargetInput>,
+  output: __S(6882, __c215, 2) as any as S.Schema<UpdateSubscriptionTargetOutput>,
   errors: [
-    AccessDeniedException,
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
-    UnauthorizedException,
   ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    ThrottlingException,
+    UnauthorizedException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionTarget",
@@ -14755,16 +14862,14 @@ export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<UpdateUserProfileInput>,
-  output: __S(6912, __c216, 0) as any as S.Schema<UpdateUserProfileOutput>,
-  errors: [
+  input: __S(4672, __c146, 0) as any as S.Schema<UpdateUserProfileInput>,
+  output: __S(6944, __c217, 0) as any as S.Schema<UpdateUserProfileOutput>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
     ThrottlingException,
     UnauthorizedException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProfile",
@@ -15070,7 +15175,7 @@ function __c12(j: number): any {
           name: SensitiveString,
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(6080, __c190, 0)),
+          termRelations: S.optional(__S(6112, __c191, 0)),
           status: S.String,
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -15169,7 +15274,7 @@ function __c15(j: number): any {
           runMode: S.optional(S.String),
           details: S.optional(__S(483, __c15, 3)),
           status: S.optional(S.String),
-          error: S.optional(__S(6272, __c196, 0)),
+          error: S.optional(__S(6304, __c197, 0)),
           createdBy: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -15513,7 +15618,7 @@ function __c26(j: number): any {
           fileFormat: S.String,
           status: S.String,
           outputLocation: S.optional(__S(834, __c26, 2)),
-          error: S.optional(__S(6272, __c196, 0)),
+          error: S.optional(__S(6304, __c197, 0)),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -15588,17 +15693,17 @@ function __c29(j: number): any {
           notebookId: S.String,
           scheduleId: S.optional(S.String),
           status: S.String,
-          cellOrder: S.optional(__S(6305, __c197, 1)),
-          metadata: S.optional(__S(6304, __c197, 0)),
-          parameters: S.optional(__S(4928, __c154, 0)),
+          cellOrder: S.optional(__S(6337, __c198, 1)),
+          metadata: S.optional(__S(6336, __c198, 0)),
+          parameters: S.optional(__S(4960, __c155, 0)),
           computeConfiguration: S.optional(__S(928, __c29, 0)),
           networkConfiguration: S.optional(__S(929, __c29, 1)),
           timeoutConfiguration: S.optional(__S(930, __c29, 2)),
-          environmentConfiguration: S.optional(__S(6307, __c197, 3)),
+          environmentConfiguration: S.optional(__S(6339, __c198, 3)),
           storageConfiguration: S.optional(__S(931, __c29, 3)),
           notificationConfiguration: S.optional(__S(932, __c29, 4)),
           triggerSource: S.optional(__S(896, __c28, 0)),
-          error: S.optional(__S(6272, __c196, 0)),
+          error: S.optional(__S(6304, __c197, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -15678,10 +15783,10 @@ function __c32(j: number): any {
           revision: S.String,
           name: SensitiveString,
           ruleType: S.String,
-          target: __S(6657, __c208, 1),
+          target: __S(6689, __c209, 1),
           action: S.String,
-          scope: __S(6660, __c208, 4),
-          detail: __S(6692, __c209, 4),
+          scope: __S(6692, __c209, 4),
+          detail: __S(6724, __c210, 4),
           targetType: S.optional(S.String),
           description: S.optional(SensitiveString),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -16160,15 +16265,15 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(4962, __c155, 2)),
+          configurations: S.optional(__S(4994, __c156, 2)),
           connectionId: S.String,
           domainId: S.String,
           domainUnitId: S.String,
           environmentId: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4983, __c155, 23),
+          physicalEndpoints: __S(5015, __c156, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4996, __c156, 4)),
+          props: S.optional(__S(5028, __c157, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
@@ -16264,7 +16369,7 @@ function __c49(j: number): any {
           projectId: S.String,
           dataAssetId: S.optional(S.String),
           technicalDescription: S.optional(SensitiveString),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           lineageSummary: S.optional(__S(1569, __c49, 1)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -16310,13 +16415,13 @@ function __c50(j: number): any {
           type: S.String,
           status: S.String,
           projectId: S.String,
-          runStatisticsForAssets: S.optional(__S(8416, __c263, 0)),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          runStatisticsForAssets: S.optional(__S(8480, __c265, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           stoppedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lineageSummary: S.optional(__S(8384, __c262, 0)),
+          lineageSummary: S.optional(__S(8448, __c264, 0)),
         }),
       ).annotate({ identifier: "DataSourceRunSummary" });
     case 2:
@@ -16363,10 +16468,10 @@ function __c51(j: number): any {
           type: S.String,
           status: S.String,
           enableSetting: S.optional(S.String),
-          schedule: S.optional(__S(5184, __c162, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
+          lastRunErrorMessage: S.optional(__S(5280, __c165, 0)),
           lastRunAssetCount: S.optional(S.Number),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -16537,7 +16642,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ListEntityOwnersInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ owners: __S(5475, __c171, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ owners: __S(5507, __c172, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEntityOwnersOutput" });
   }
 }
@@ -16565,7 +16670,7 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListEnvironmentActionsInput" });
     case 1:
-      return S.Array(__S(5762, __c180, 2));
+      return S.Array(__S(5794, __c181, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: S.optional(__S(1825, __c57, 1)), nextToken: S.optional(S.String) }),
@@ -16595,7 +16700,7 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListEnvironmentBlueprintConfigurationsInput" });
     case 1:
-      return S.Array(__S(8774, __c274, 6));
+      return S.Array(__S(8838, __c276, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: S.optional(__S(1857, __c58, 1)), nextToken: S.optional(S.String) }),
@@ -16630,7 +16735,7 @@ function __c59(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           provider: S.String,
-          provisioningProperties: __S(5569, __c174, 1),
+          provisioningProperties: __S(5601, __c175, 1),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           blueprintCategory: S.optional(S.String),
@@ -16787,7 +16892,7 @@ function __c62(j: number): any {
           runId: S.optional(S.String),
           runMode: S.optional(S.String),
           status: S.optional(S.String),
-          error: S.optional(__S(6272, __c196, 0)),
+          error: S.optional(__S(6304, __c197, 0)),
           createdBy: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -17142,7 +17247,7 @@ function __c69(j: number): any {
           actionLink: SensitiveString,
           creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          metadata: S.optional(__S(4928, __c154, 0)),
+          metadata: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "NotificationOutput" });
     case 4:
@@ -17328,7 +17433,7 @@ function __c73(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           projectStatus: S.optional(S.String),
-          failureReasons: S.optional(__S(6433, __c201, 1)),
+          failureReasons: S.optional(__S(6465, __c202, 1)),
           createdBy: S.String,
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -17428,9 +17533,9 @@ function __c76(j: number): any {
           ruleType: S.optional(S.String),
           name: S.optional(SensitiveString),
           targetType: S.optional(S.String),
-          target: S.optional(__S(6657, __c208, 1)),
+          target: S.optional(__S(6689, __c209, 1)),
           action: S.optional(S.String),
-          scope: S.optional(__S(6660, __c208, 4)),
+          scope: S.optional(__S(6692, __c209, 4)),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedBy: S.optional(S.String),
         }),
@@ -17473,7 +17578,7 @@ function __c77(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionGrantsInput" });
     case 1:
-      return S.Array(__S(6757, __c211, 5));
+      return S.Array(__S(6789, __c212, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: __S(2465, __c77, 1), nextToken: S.optional(S.String) }),
@@ -17610,7 +17715,7 @@ function __c80(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionTargetsInput" });
     case 1:
-      return S.Array(__S(6850, __c214, 2));
+      return S.Array(__S(6882, __c215, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: __S(2561, __c80, 1), nextToken: S.optional(S.String) }),
@@ -17633,7 +17738,7 @@ function __c81(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(4928, __c154, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(4960, __c155, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
@@ -17759,7 +17864,7 @@ function __c85(j: number): any {
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           enableExport: S.Boolean,
-          encryptionConfiguration: S.optional(__S(8256, __c258, 0)),
+          encryptionConfiguration: S.optional(__S(8320, __c260, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -17845,7 +17950,7 @@ function __c88(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           region: S.String,
-          parameters: __S(4928, __c154, 0),
+          parameters: __S(4960, __c155, 0),
         }),
       ).annotate({ identifier: "PutResourceConfiguration" });
     case 1:
@@ -17861,11 +17966,11 @@ function __c88(j: number): any {
           manageAccessRoleArn: S.optional(S.String),
           environmentRolePermissionBoundary: S.optional(S.String),
           enabledRegions: __S(32, __c1, 0),
-          regionalParameters: S.optional(__S(8768, __c274, 0)),
+          regionalParameters: S.optional(__S(8832, __c276, 0)),
           resourceConfigurations: S.optional(__S(2817, __c88, 1)),
           allowUserProvidedConfigurations: S.optional(S.Boolean),
-          globalParameters: S.optional(__S(4928, __c154, 0)),
-          provisioningConfigurations: S.optional(__S(8773, __c274, 5)),
+          globalParameters: S.optional(__S(4960, __c155, 0)),
+          provisioningConfigurations: S.optional(__S(8837, __c276, 5)),
         }).pipe(
           T.all(
             T.Http({
@@ -18010,7 +18115,7 @@ function __c91(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-          rejectRule: S.optional(__S(8512, __c266, 0)),
+          rejectRule: S.optional(__S(8576, __c268, 0)),
           rejectChoices: S.optional(__S(2914, __c91, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -18192,7 +18297,7 @@ function __c96(j: number): any {
           shortDescription: S.optional(SensitiveString),
           usageRestrictions: S.optional(__S(96, __c3, 0)),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(6080, __c190, 0)),
+          termRelations: S.optional(__S(6112, __c191, 0)),
           status: S.String,
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -18325,7 +18430,7 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "SearchGroupProfilesInput" });
     case 1:
-      return S.Array(__S(6176, __c193, 0));
+      return S.Array(__S(6208, __c194, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: S.optional(__S(3169, __c99, 1)), nextToken: S.optional(S.String) }),
@@ -18504,7 +18609,7 @@ function __c102(j: number): any {
           domainId: S.String,
           name: SensitiveString,
           revision: S.String,
-          model: S.optional(__S(5952, __c186, 0)),
+          model: S.optional(__S(5984, __c187, 0)),
           status: S.optional(S.String),
           owningProjectId: S.optional(S.String),
           originDomainId: S.optional(S.String),
@@ -18512,7 +18617,7 @@ function __c102(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          imports: S.optional(__S(8897, __c278, 1)),
+          imports: S.optional(__S(8961, __c280, 1)),
         }),
       ).annotate({ identifier: "FormTypeData" });
     case 2:
@@ -18526,12 +18631,12 @@ function __c102(j: number): any {
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedBy: S.optional(S.String),
           revision: S.String,
-          formsOutput: __S(4801, __c150, 1),
+          formsOutput: __S(4833, __c151, 1),
         }),
       ).annotate({ identifier: "LineageNodeTypeItem" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ assetTypeItem: __S(8128, __c254, 0) }),
+        /*@__PURE__*/ S.Struct({ assetTypeItem: __S(8192, __c256, 0) }),
         /*@__PURE__*/ S.Struct({ formTypeItem: __S(3265, __c102, 1) }),
         /*@__PURE__*/ S.Struct({ lineageNodeTypeItem: __S(3266, __c102, 2) }),
       ]);
@@ -18569,7 +18674,7 @@ function __c103(j: number): any {
         ),
       ).annotate({ identifier: "SearchUserProfilesInput" });
     case 1:
-      return S.Array(__S(6912, __c216, 0));
+      return S.Array(__S(6944, __c217, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: S.optional(__S(3297, __c103, 1)), nextToken: S.optional(S.String) }),
@@ -18608,8 +18713,8 @@ function __c104(j: number): any {
           status: S.String,
           type: S.String,
           dataSourceConfigurationSnapshot: S.optional(S.String),
-          runStatisticsForAssets: S.optional(__S(8416, __c263, 0)),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          runStatisticsForAssets: S.optional(__S(8480, __c265, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -18765,8 +18870,8 @@ function __c109(j: number): any {
           timeoutConfiguration: S.optional(__S(930, __c29, 2)),
           notificationConfiguration: S.optional(__S(932, __c29, 4)),
           triggerSource: S.optional(__S(896, __c28, 0)),
-          metadata: S.optional(__S(6304, __c197, 0)),
-          parameters: S.optional(__S(4928, __c154, 0)),
+          metadata: S.optional(__S(6336, __c198, 0)),
+          parameters: S.optional(__S(4960, __c155, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -18789,7 +18894,7 @@ function __c110(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           owningProjectIdentifier: S.String,
           sourceLocation: __S(3459, __c108, 3),
-          gitMetadata: S.optional(__S(6336, __c198, 0)),
+          gitMetadata: S.optional(__S(6368, __c199, 0)),
           notebookId: S.optional(S.String),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
@@ -18813,7 +18918,7 @@ function __c110(j: number): any {
           domainId: S.optional(S.String),
           owningProjectId: S.optional(S.String),
           sourceLocation: S.optional(__S(3459, __c108, 3)),
-          gitMetadata: S.optional(__S(6336, __c198, 0)),
+          gitMetadata: S.optional(__S(6368, __c199, 0)),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -18856,7 +18961,7 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(4928, __c154, 0),
+          tags: __S(4960, __c155, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -18970,7 +19075,7 @@ function __c117(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(S.String),
           description: S.optional(SensitiveString),
-          configuration: S.optional(__S(4712, __c147, 8)),
+          configuration: S.optional(__S(4744, __c148, 8)),
         }).pipe(
           T.all(
             T.Http({
@@ -18992,38 +19097,64 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+          targetProjectIdentifier: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/v2/domains/{domainIdentifier}/assets/{identifier}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAssetOwnerInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, revision: S.String, ownershipTransfer: __S(8096, __c253, 0) }),
+      ).annotate({ identifier: "UpdateAssetOwnerOutput" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           oAuth2GrantType: S.optional(S.String),
-          oAuth2ClientApplication: S.optional(__S(4965, __c155, 5)),
+          oAuth2ClientApplication: S.optional(__S(4997, __c156, 5)),
           tokenUrl: S.optional(S.String),
-          tokenUrlParametersMap: S.optional(__S(4928, __c154, 0)),
+          tokenUrlParametersMap: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "OAuth2PropertiesPatch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           secretArn: S.optional(S.String),
-          basicAuthenticationCredentials: S.optional(__S(4864, __c152, 0)),
-          oAuth2Properties: S.optional(__S(3776, __c118, 0)),
+          basicAuthenticationCredentials: S.optional(__S(4896, __c153, 0)),
+          oAuth2Properties: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "AuthenticationConfigurationPatch" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          connectionProperties: S.optional(__S(4928, __c154, 0)),
-          authenticationConfiguration: S.optional(__S(3777, __c118, 1)),
+          connectionProperties: S.optional(__S(4960, __c155, 0)),
+          authenticationConfiguration: S.optional(__S(3809, __c119, 1)),
         }),
       ).annotate({ identifier: "GlueConnectionPatch" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ glueConnectionInput: S.optional(__S(3778, __c118, 2)) }),
+        S.Struct({ glueConnectionInput: S.optional(__S(3810, __c119, 2)) }),
       ).annotate({ identifier: "GluePropertiesPatch" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          connectivityPropertiesPatch: S.optional(__S(3778, __c118, 2)),
+          connectivityPropertiesPatch: S.optional(__S(3810, __c119, 2)),
           snowflakeRole: S.optional(S.String),
-          lineageSync: S.optional(__S(4869, __c152, 5)),
+          lineageSync: S.optional(__S(4901, __c153, 5)),
         }),
       ).annotate({ identifier: "SnowflakePropertiesPatch" });
     case 5:
@@ -19040,28 +19171,28 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GitPropertiesPatch" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4963, __c155, 3) }),
-        /*@__PURE__*/ S.Struct({ glueProperties: __S(3779, __c118, 3) }),
-        /*@__PURE__*/ S.Struct({ iamProperties: __S(4979, __c155, 19) }),
-        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4866, __c152, 2) }),
-        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4867, __c152, 3) }),
-        /*@__PURE__*/ S.Struct({ s3Properties: __S(4868, __c152, 4) }),
-        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(3780, __c118, 4) }),
-        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4976, __c155, 16) }),
-        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4977, __c155, 17) }),
-        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4979, __c155, 19) }),
-        /*@__PURE__*/ S.Struct({ vpcProperties: __S(3781, __c118, 5) }),
-        /*@__PURE__*/ S.Struct({ gitProperties: __S(3782, __c118, 6) }),
+        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ glueProperties: __S(3811, __c119, 3) }),
+        /*@__PURE__*/ S.Struct({ iamProperties: __S(5011, __c156, 19) }),
+        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4898, __c153, 2) }),
+        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4899, __c153, 3) }),
+        /*@__PURE__*/ S.Struct({ s3Properties: __S(4900, __c153, 4) }),
+        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(3812, __c119, 4) }),
+        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(5008, __c156, 16) }),
+        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(5009, __c156, 17) }),
+        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(5011, __c156, 19) }),
+        /*@__PURE__*/ S.Struct({ vpcProperties: __S(3813, __c119, 5) }),
+        /*@__PURE__*/ S.Struct({ gitProperties: __S(3814, __c119, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(4962, __c155, 2)),
+          configurations: S.optional(__S(4994, __c156, 2)),
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           description: S.optional(SensitiveString),
-          awsLocation: S.optional(__S(4960, __c155, 0)),
-          props: S.optional(__S(3783, __c118, 7)),
+          awsLocation: S.optional(__S(4992, __c156, 0)),
+          props: S.optional(__S(3815, __c119, 7)),
         }).pipe(
           T.all(
             T.Http({
@@ -19079,23 +19210,23 @@ function __c118(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(4962, __c155, 2)),
+          configurations: S.optional(__S(4994, __c156, 2)),
           connectionId: S.String,
           description: S.optional(SensitiveString),
           domainId: S.String,
           domainUnitId: S.String,
           environmentId: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4983, __c155, 23),
+          physicalEndpoints: __S(5015, __c156, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4996, __c156, 4)),
+          props: S.optional(__S(5028, __c157, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateConnectionOutput" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19107,9 +19238,9 @@ function __c119(j: number): any {
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
           assetFormsInput: S.optional(__S(2785, __c87, 1)),
-          schedule: S.optional(__S(5184, __c162, 0)),
-          configuration: S.optional(__S(5155, __c161, 3)),
-          recommendation: S.optional(__S(5280, __c165, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
+          configuration: S.optional(__S(5187, __c162, 3)),
+          recommendation: S.optional(__S(5312, __c166, 0)),
           retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -19137,25 +19268,25 @@ function __c119(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(5227, __c163, 11)),
-          recommendation: S.optional(__S(5280, __c165, 0)),
+          configuration: S.optional(__S(5259, __c164, 11)),
+          recommendation: S.optional(__S(5312, __c166, 0)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
           assetFormsOutput: S.optional(__S(65, __c2, 1)),
-          schedule: S.optional(__S(5184, __c162, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          lastRunErrorMessage: S.optional(__S(5280, __c165, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          selfGrantStatus: S.optional(__S(7203, __c225, 3)),
+          selfGrantStatus: S.optional(__S(7235, __c226, 3)),
           retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateDataSourceOutput" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19182,14 +19313,14 @@ function __c120(j: number): any {
       ).annotate({ identifier: "UpdateDesignationInput" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5408, __c169, 0)),
+          singleSignOn: S.optional(__S(5440, __c170, 0)),
           domainExecutionRole: S.optional(S.String),
           serviceRole: S.optional(S.String),
           name: S.optional(S.String),
@@ -19211,7 +19342,7 @@ function __c121(j: number): any {
           id: S.String,
           rootDomainUnitId: S.optional(S.String),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5408, __c169, 0)),
+          singleSignOn: S.optional(__S(5440, __c170, 0)),
           domainExecutionRole: S.optional(S.String),
           serviceRole: S.optional(S.String),
           name: S.optional(S.String),
@@ -19220,7 +19351,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "UpdateDomainOutput" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19249,7 +19380,7 @@ function __c122(j: number): any {
           id: S.String,
           domainId: S.String,
           name: SensitiveString,
-          owners: __S(5475, __c171, 3),
+          owners: __S(5507, __c172, 3),
           description: S.optional(SensitiveString),
           parentDomainUnitId: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -19260,7 +19391,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateDomainUnitOutput" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19271,7 +19402,7 @@ function __c123(j: number): any {
           description: S.optional(S.String),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           blueprintVersion: S.optional(S.String),
-          userParameters: S.optional(__S(5633, __c176, 1)),
+          userParameters: S.optional(__S(5665, __c177, 1)),
           environmentConfigurationName: S.optional(SensitiveString),
         }).pipe(
           T.all(
@@ -19287,33 +19418,6 @@ function __c123(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateEnvironmentInput" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-          parameters: S.optional(__S(5761, __c180, 1)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateEnvironmentActionInput" });
   }
 }
 function __c125(j: number): any {
@@ -19388,10 +19492,37 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
+          parameters: S.optional(__S(5793, __c181, 1)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateEnvironmentActionInput" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           description: S.optional(S.String),
-          provisioningProperties: S.optional(__S(5569, __c174, 1)),
-          userParameters: S.optional(__S(5537, __c173, 1)),
+          provisioningProperties: S.optional(__S(5601, __c175, 1)),
+          userParameters: S.optional(__S(5569, __c174, 1)),
           blueprintCategory: S.optional(S.String),
         }).pipe(
           T.all(
@@ -19409,7 +19540,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentBlueprintInput" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19418,7 +19549,7 @@ function __c129(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(SensitiveString),
           description: S.optional(S.String),
-          userParameters: S.optional(__S(5633, __c176, 1)),
+          userParameters: S.optional(__S(5665, __c177, 1)),
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
         }).pipe(
@@ -19437,7 +19568,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentProfileInput" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19464,7 +19595,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "UpdateGlossaryInput" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19475,7 +19606,7 @@ function __c131(j: number): any {
           name: S.optional(SensitiveString),
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(6080, __c190, 0)),
+          termRelations: S.optional(__S(6112, __c191, 0)),
           status: S.optional(S.String),
         }).pipe(
           T.all(
@@ -19493,7 +19624,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "UpdateGlossaryTermInput" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19517,7 +19648,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "UpdateGroupProfileInput" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19527,11 +19658,11 @@ function __c133(j: number): any {
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
           name: S.optional(SensitiveString),
-          cellOrder: S.optional(__S(6305, __c197, 1)),
+          cellOrder: S.optional(__S(6337, __c198, 1)),
           type: S.optional(S.String),
-          metadata: S.optional(__S(6304, __c197, 0)),
-          parameters: S.optional(__S(4928, __c154, 0)),
-          environmentConfiguration: S.optional(__S(6307, __c197, 3)),
+          metadata: S.optional(__S(6336, __c198, 0)),
+          parameters: S.optional(__S(4960, __c155, 0)),
+          environmentConfiguration: S.optional(__S(6339, __c198, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19549,7 +19680,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "UpdateNotebookInput" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19558,12 +19689,13 @@ function __c134(j: number): any {
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          resourceTags: S.optional(__S(4928, __c154, 0)),
+          resourceTags: S.optional(__S(4960, __c155, 0)),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           domainUnitId: S.optional(S.String),
-          environmentDeploymentDetails: S.optional(__S(6471, __c202, 7)),
-          userParameters: S.optional(__S(6466, __c202, 2)),
+          environmentDeploymentDetails: S.optional(__S(6503, __c203, 7)),
+          userParameters: S.optional(__S(6498, __c203, 2)),
           projectProfileVersion: S.optional(S.String),
+          projectProfileAction: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({
@@ -19580,7 +19712,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "UpdateProjectInput" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19590,10 +19722,10 @@ function __c135(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          projectResourceTags: S.optional(__S(6593, __c206, 1)),
+          projectResourceTags: S.optional(__S(6625, __c207, 1)),
           allowCustomProjectResourceTags: S.optional(S.Boolean),
           projectResourceTagsDescription: S.optional(SensitiveString),
-          environmentConfigurations: S.optional(__S(6599, __c206, 7)),
+          environmentConfigurations: S.optional(__S(6631, __c207, 7)),
           domainUnitIdentifier: S.optional(S.String),
         }).pipe(
           T.all(
@@ -19611,7 +19743,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "UpdateProjectProfileInput" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19634,49 +19766,6 @@ function __c136(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateRootDomainUnitOwnerInput" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          identifier: S.String.pipe(T.HttpLabel("identifier")),
-          name: S.optional(SensitiveString),
-          description: S.optional(SensitiveString),
-          scope: S.optional(__S(6660, __c208, 4)),
-          detail: S.optional(__S(6692, __c209, 4)),
-          includeChildDomainUnits: S.optional(S.Boolean),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/v2/domains/{domainIdentifier}/rules/{identifier}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateRuleInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.String,
-          revision: S.String,
-          name: SensitiveString,
-          ruleType: S.String,
-          target: __S(6657, __c208, 1),
-          action: S.String,
-          scope: __S(6660, __c208, 4),
-          detail: __S(6692, __c209, 4),
-          description: S.optional(SensitiveString),
-          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          createdBy: S.String,
-          lastUpdatedBy: S.String,
-        }),
-      ).annotate({ identifier: "UpdateRuleOutput" });
   }
 }
 function __c138(j: number): any {
@@ -19777,9 +19866,52 @@ function __c142(j: number): any {
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
+          name: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          scope: S.optional(__S(6692, __c209, 4)),
+          detail: S.optional(__S(6724, __c210, 4)),
+          includeChildDomainUnits: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/v2/domains/{domainIdentifier}/rules/{identifier}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateRuleInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          identifier: S.String,
+          revision: S.String,
+          name: SensitiveString,
+          ruleType: S.String,
+          target: __S(6689, __c209, 1),
+          action: S.String,
+          scope: __S(6692, __c209, 4),
+          detail: __S(6724, __c210, 4),
+          description: S.optional(SensitiveString),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          createdBy: S.String,
+          lastUpdatedBy: S.String,
+        }),
+      ).annotate({ identifier: "UpdateRuleOutput" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+          identifier: S.String.pipe(T.HttpLabel("identifier")),
           assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
           status: S.String,
-          failureCause: S.optional(__S(6754, __c211, 2)),
+          failureCause: S.optional(__S(6786, __c212, 2)),
           targetName: S.optional(S.String),
         }).pipe(
           T.all(
@@ -19797,7 +19929,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionGrantStatusInput" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19821,7 +19953,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionRequestInput" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19832,7 +19964,7 @@ function __c144(j: number): any {
           name: S.optional(SensitiveString),
           authorizedPrincipals: S.optional(__S(32, __c1, 0)),
           applicableAssetTypes: S.optional(__S(32, __c1, 0)),
-          subscriptionTargetConfig: S.optional(__S(6849, __c214, 1)),
+          subscriptionTargetConfig: S.optional(__S(6881, __c215, 1)),
           manageAccessRole: S.optional(S.String),
           provider: S.optional(S.String),
           subscriptionGrantCreationMode: S.optional(S.String),
@@ -19852,7 +19984,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionTargetInput" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19878,7 +20010,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "UpdateUserProfileInput" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19887,7 +20019,7 @@ function __c146(j: number): any {
           assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          configuration: __S(4712, __c147, 8),
+          configuration: __S(4744, __c148, 8),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19905,7 +20037,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "CreateAssetFilterInput" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19925,45 +20057,45 @@ function __c147(j: number): any {
       );
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ equalTo: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ notEqualTo: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ greaterThan: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ lessThan: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ greaterThanOrEqualTo: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ lessThanOrEqualTo: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ isNull: __S(4706, __c147, 2) }),
-        /*@__PURE__*/ S.Struct({ isNotNull: __S(4706, __c147, 2) }),
-        /*@__PURE__*/ S.Struct({ in: __S(4707, __c147, 3) }),
-        /*@__PURE__*/ S.Struct({ notIn: __S(4707, __c147, 3) }),
-        /*@__PURE__*/ S.Struct({ like: __S(4705, __c147, 1) }),
-        /*@__PURE__*/ S.Struct({ notLike: __S(4705, __c147, 1) }),
+        /*@__PURE__*/ S.Struct({ equalTo: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ notEqualTo: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ greaterThan: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ lessThan: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ greaterThanOrEqualTo: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ lessThanOrEqualTo: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ isNull: __S(4738, __c148, 2) }),
+        /*@__PURE__*/ S.Struct({ isNotNull: __S(4738, __c148, 2) }),
+        /*@__PURE__*/ S.Struct({ in: __S(4739, __c148, 3) }),
+        /*@__PURE__*/ S.Struct({ notIn: __S(4739, __c148, 3) }),
+        /*@__PURE__*/ S.Struct({ like: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ notLike: __S(4737, __c148, 1) }),
       ]);
     case 5:
       return S.Array(
-        /*@__PURE__*/ S.suspend(() => __S(4710, __c147, 6)).annotate({ identifier: "RowFilter" }),
+        /*@__PURE__*/ S.suspend(() => __S(4742, __c148, 6)).annotate({ identifier: "RowFilter" }),
       );
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ expression: __S(4708, __c147, 4) }),
+        /*@__PURE__*/ S.Struct({ expression: __S(4740, __c148, 4) }),
         /*@__PURE__*/ S.Struct({
-          and: /*@__PURE__*/ S.suspend(() => __S(4709, __c147, 5)).annotate({
+          and: /*@__PURE__*/ S.suspend(() => __S(4741, __c148, 5)).annotate({
             identifier: "RowFilterList",
           }),
         }),
         /*@__PURE__*/ S.Struct({
-          or: /*@__PURE__*/ S.suspend(() => __S(4709, __c147, 5)).annotate({
+          or: /*@__PURE__*/ S.suspend(() => __S(4741, __c148, 5)).annotate({
             identifier: "RowFilterList",
           }),
         }),
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ rowFilter: __S(4710, __c147, 6), sensitive: S.optional(S.Boolean) }),
+        S.Struct({ rowFilter: __S(4742, __c148, 6), sensitive: S.optional(S.Boolean) }),
       ).annotate({ identifier: "RowFilterConfiguration" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ columnConfiguration: __S(4704, __c147, 0) }),
-        /*@__PURE__*/ S.Struct({ rowConfiguration: __S(4711, __c147, 7) }),
+        /*@__PURE__*/ S.Struct({ columnConfiguration: __S(4736, __c148, 0) }),
+        /*@__PURE__*/ S.Struct({ rowConfiguration: __S(4743, __c148, 7) }),
       ]);
     case 9:
       return S.suspend(() =>
@@ -19974,7 +20106,7 @@ function __c147(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          configuration: __S(4712, __c147, 8),
+          configuration: __S(4744, __c148, 8),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           errorMessage: S.optional(S.String),
           effectiveColumnNames: S.optional(__S(32, __c1, 0)),
@@ -19983,7 +20115,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CreateAssetFilterOutput" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20013,7 +20145,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "CreateAssetRevisionInput" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20024,14 +20156,14 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "FormEntryInput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4768, __c149, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4800, __c150, 0).pipe(S.optional));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: S.String,
           description: S.optional(SensitiveString),
-          formsInput: __S(4769, __c149, 1),
+          formsInput: __S(4801, __c150, 1),
           owningProjectIdentifier: S.String,
         }).pipe(
           T.all(
@@ -20051,7 +20183,7 @@ function __c149(j: number): any {
           name: S.String,
           revision: S.String,
           description: S.optional(SensitiveString),
-          formsOutput: __S(4801, __c150, 1),
+          formsOutput: __S(4833, __c151, 1),
           owningProjectId: S.optional(S.String),
           originDomainId: S.optional(S.String),
           originProjectId: S.optional(S.String),
@@ -20063,7 +20195,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "CreateAssetTypeOutput" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20074,42 +20206,42 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "FormEntryOutput" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4800, __c150, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4832, __c151, 0).pipe(S.optional));
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authenticationType: S.optional(S.String),
-          oAuth2Properties: S.optional(__S(4968, __c155, 8)),
+          oAuth2Properties: S.optional(__S(5000, __c156, 8)),
           secretArn: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
-          basicAuthenticationCredentials: S.optional(__S(4864, __c152, 0)),
-          customAuthenticationCredentials: S.optional(__S(4928, __c154, 0)),
+          basicAuthenticationCredentials: S.optional(__S(4896, __c153, 0)),
+          customAuthenticationCredentials: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "AuthenticationConfigurationInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectionProperties: S.optional(__S(4928, __c154, 0)),
-          physicalConnectionRequirements: S.optional(__S(4964, __c155, 4)),
+          connectionProperties: S.optional(__S(4960, __c155, 0)),
+          physicalConnectionRequirements: S.optional(__S(4996, __c156, 4)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           connectionType: S.optional(S.String),
           matchCriteria: S.optional(S.String),
           validateCredentials: S.optional(S.Boolean),
           validateForComputeEnvironments: S.optional(__S(96, __c3, 0)),
-          sparkProperties: S.optional(__S(4928, __c154, 0)),
-          athenaProperties: S.optional(__S(4928, __c154, 0)),
-          pythonProperties: S.optional(__S(4928, __c154, 0)),
-          authenticationConfiguration: S.optional(__S(4832, __c151, 0)),
+          sparkProperties: S.optional(__S(4960, __c155, 0)),
+          athenaProperties: S.optional(__S(4960, __c155, 0)),
+          pythonProperties: S.optional(__S(4960, __c155, 0)),
+          authenticationConfiguration: S.optional(__S(4864, __c152, 0)),
         }),
       ).annotate({ identifier: "GlueConnectionInput" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ glueConnectionInput: S.optional(__S(4833, __c151, 1)) }),
+        S.Struct({ glueConnectionInput: S.optional(__S(4865, __c152, 1)) }),
       ).annotate({ identifier: "GluePropertiesInput" });
     case 3:
       return S.suspend(() =>
@@ -20118,25 +20250,25 @@ function __c151(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          connectionProperties: S.optional(__S(4928, __c154, 0)),
-          physicalConnectionRequirements: S.optional(__S(4964, __c155, 4)),
+          connectionProperties: S.optional(__S(4960, __c155, 0)),
+          physicalConnectionRequirements: S.optional(__S(4996, __c156, 4)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           validateCredentials: S.optional(S.Boolean),
           validateForComputeEnvironments: S.optional(__S(96, __c3, 0)),
-          sparkProperties: S.optional(__S(4928, __c154, 0)),
-          athenaProperties: S.optional(__S(4928, __c154, 0)),
-          pythonProperties: S.optional(__S(4928, __c154, 0)),
-          authenticationConfiguration: S.optional(__S(4832, __c151, 0)),
+          sparkProperties: S.optional(__S(4960, __c155, 0)),
+          athenaProperties: S.optional(__S(4960, __c155, 0)),
+          pythonProperties: S.optional(__S(4960, __c155, 0)),
+          authenticationConfiguration: S.optional(__S(4864, __c152, 0)),
         }),
       ).annotate({ identifier: "ConnectivityProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          connectivityProperties: S.optional(__S(4836, __c151, 4)),
+          connectivityProperties: S.optional(__S(4868, __c152, 4)),
           snowflakeRole: S.String,
-          identityMapping: __S(4975, __c155, 15),
-          lineageSync: S.optional(__S(4869, __c152, 5)),
+          identityMapping: __S(5007, __c156, 15),
+          lineageSync: S.optional(__S(4901, __c153, 5)),
         }),
       ).annotate({ identifier: "SnowflakePropertiesInput" });
     case 6:
@@ -20153,34 +20285,34 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GitPropertiesInput" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4963, __c155, 3) }),
-        /*@__PURE__*/ S.Struct({ glueProperties: __S(4834, __c151, 2) }),
-        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4896, __c153, 0) }),
-        /*@__PURE__*/ S.Struct({ iamProperties: __S(4835, __c151, 3) }),
-        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4866, __c152, 2) }),
-        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4867, __c152, 3) }),
-        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(4974, __c155, 14) }),
-        /*@__PURE__*/ S.Struct({ s3Properties: __S(4868, __c152, 4) }),
-        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4837, __c151, 5) }),
-        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4976, __c155, 16) }),
-        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4977, __c155, 17) }),
-        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(4978, __c155, 18) }),
+        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ glueProperties: __S(4866, __c152, 2) }),
+        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4928, __c154, 0) }),
+        /*@__PURE__*/ S.Struct({ iamProperties: __S(4867, __c152, 3) }),
+        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4898, __c153, 2) }),
+        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4899, __c153, 3) }),
+        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(5006, __c156, 14) }),
+        /*@__PURE__*/ S.Struct({ s3Properties: __S(4900, __c153, 4) }),
+        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4869, __c152, 5) }),
+        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(5008, __c156, 16) }),
+        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(5009, __c156, 17) }),
+        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(5010, __c156, 18) }),
         /*@__PURE__*/ S.Struct({ workflowsServerlessProperties: __S(768, __c24, 0) }),
-        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4979, __c155, 19) }),
-        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4838, __c151, 6) }),
-        /*@__PURE__*/ S.Struct({ gitProperties: __S(4839, __c151, 7) }),
+        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(5011, __c156, 19) }),
+        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4870, __c152, 6) }),
+        /*@__PURE__*/ S.Struct({ gitProperties: __S(4871, __c152, 7) }),
       ]);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          awsLocation: S.optional(__S(4960, __c155, 0)),
+          awsLocation: S.optional(__S(4992, __c156, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          configurations: S.optional(__S(4962, __c155, 2)),
+          configurations: S.optional(__S(4994, __c156, 2)),
           description: S.optional(SensitiveString),
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.optional(S.String),
           name: S.String,
-          props: S.optional(__S(4840, __c151, 8)),
+          props: S.optional(__S(4872, __c152, 8)),
           enableTrustedIdentityPropagation: S.optional(S.Boolean),
           scope: S.optional(S.String),
         }).pipe(
@@ -20198,22 +20330,22 @@ function __c151(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectionId: S.String,
-          configurations: S.optional(__S(4962, __c155, 2)),
+          configurations: S.optional(__S(4994, __c156, 2)),
           description: S.optional(SensitiveString),
           domainId: S.String,
           domainUnitId: S.String,
           environmentId: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4983, __c155, 23),
+          physicalEndpoints: __S(5015, __c156, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4996, __c156, 4)),
+          props: S.optional(__S(5028, __c157, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateConnectionOutput" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20221,17 +20353,17 @@ function __c152(j: number): any {
       ).annotate({ identifier: "BasicAuthenticationCredentials" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ enabled: S.optional(S.Boolean), schedule: S.optional(__S(4972, __c155, 12)) }),
+        S.Struct({ enabled: S.optional(S.Boolean), schedule: S.optional(__S(5004, __c156, 12)) }),
       ).annotate({ identifier: "RedshiftLineageSyncConfigurationInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(4969, __c155, 9)),
+          storage: S.optional(__S(5001, __c156, 9)),
           databaseName: S.optional(S.String),
           host: S.optional(S.String),
           port: S.optional(S.Number),
-          credentials: S.optional(__S(4971, __c155, 11)),
-          lineageSync: S.optional(__S(4865, __c152, 1)),
+          credentials: S.optional(__S(5003, __c156, 11)),
+          lineageSync: S.optional(__S(4897, __c153, 1)),
         }),
       ).annotate({ identifier: "RedshiftPropertiesInput" });
     case 3:
@@ -20265,7 +20397,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "LineageSyncInput" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ clusterName: S.String })).annotate({
@@ -20273,13 +20405,13 @@ function __c153(j: number): any {
       });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20294,11 +20426,11 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           classification: S.optional(S.String),
-          properties: S.optional(__S(4928, __c154, 0)),
+          properties: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "Configuration" });
     case 2:
-      return S.Array(__S(4961, __c155, 1));
+      return S.Array(__S(4993, __c156, 1));
     case 3:
       return S.suspend(() => S.Struct({ workgroupName: S.optional(S.String) })).annotate({
         identifier: "AthenaPropertiesInput",
@@ -20336,11 +20468,11 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oAuth2GrantType: S.optional(S.String),
-          oAuth2ClientApplication: S.optional(__S(4965, __c155, 5)),
+          oAuth2ClientApplication: S.optional(__S(4997, __c156, 5)),
           tokenUrl: S.optional(S.String),
-          tokenUrlParametersMap: S.optional(__S(4928, __c154, 0)),
-          authorizationCodeProperties: S.optional(__S(4966, __c155, 6)),
-          oAuth2Credentials: S.optional(__S(4967, __c155, 7)),
+          tokenUrlParametersMap: S.optional(__S(4960, __c155, 0)),
+          authorizationCodeProperties: S.optional(__S(4998, __c156, 6)),
+          oAuth2Credentials: S.optional(__S(4999, __c156, 7)),
         }),
       ).annotate({ identifier: "OAuth2Properties" });
     case 9:
@@ -20355,7 +20487,7 @@ function __c155(j: number): any {
     case 11:
       return S.Union([
         /*@__PURE__*/ S.Struct({ secretArn: S.String }),
-        /*@__PURE__*/ S.Struct({ usernamePassword: __S(4970, __c155, 10) }),
+        /*@__PURE__*/ S.Struct({ usernamePassword: __S(5002, __c156, 10) }),
       ]);
     case 12:
       return S.suspend(() => S.Struct({ schedule: S.optional(S.String) })).annotate({
@@ -20368,7 +20500,7 @@ function __c155(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          additionalArgs: S.optional(__S(4973, __c155, 13)),
+          additionalArgs: S.optional(__S(5005, __c156, 13)),
           glueConnectionName: S.optional(S.String),
           glueConnectionNames: S.optional(__S(32, __c1, 0)),
           glueVersion: S.optional(S.String),
@@ -20408,7 +20540,7 @@ function __c155(j: number): any {
         S.Struct({
           authenticationType: S.optional(S.String),
           secretArn: S.optional(S.String),
-          oAuth2Properties: S.optional(__S(4968, __c155, 8)),
+          oAuth2Properties: S.optional(__S(5000, __c156, 8)),
         }),
       ).annotate({ identifier: "AuthenticationConfiguration" });
     case 21:
@@ -20418,18 +20550,18 @@ function __c155(j: number): any {
           description: S.optional(S.String),
           connectionType: S.optional(S.String),
           matchCriteria: S.optional(__S(32, __c1, 0)),
-          connectionProperties: S.optional(__S(4928, __c154, 0)),
-          sparkProperties: S.optional(__S(4928, __c154, 0)),
-          athenaProperties: S.optional(__S(4928, __c154, 0)),
-          pythonProperties: S.optional(__S(4928, __c154, 0)),
-          physicalConnectionRequirements: S.optional(__S(4964, __c155, 4)),
+          connectionProperties: S.optional(__S(4960, __c155, 0)),
+          sparkProperties: S.optional(__S(4960, __c155, 0)),
+          athenaProperties: S.optional(__S(4960, __c155, 0)),
+          pythonProperties: S.optional(__S(4960, __c155, 0)),
+          physicalConnectionRequirements: S.optional(__S(4996, __c156, 4)),
           creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedBy: S.optional(S.String),
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
           lastConnectionValidationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          authenticationConfiguration: S.optional(__S(4980, __c155, 20)),
+          authenticationConfiguration: S.optional(__S(5012, __c156, 20)),
           connectionSchemaVersion: S.optional(S.Number),
           compatibleComputeEnvironments: S.optional(__S(96, __c3, 0)),
         }),
@@ -20437,10 +20569,10 @@ function __c155(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          awsLocation: S.optional(__S(4960, __c155, 0)),
+          awsLocation: S.optional(__S(4992, __c156, 0)),
           glueConnectionName: S.optional(S.String),
           glueConnectionNames: S.optional(__S(32, __c1, 0)),
-          glueConnection: S.optional(__S(4981, __c155, 21)),
+          glueConnection: S.optional(__S(5013, __c156, 21)),
           enableTrustedIdentityPropagation: S.optional(S.Boolean),
           host: S.optional(S.String),
           port: S.optional(S.Number),
@@ -20449,7 +20581,7 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "PhysicalEndpoint" });
     case 23:
-      return S.Array(__S(4982, __c155, 22));
+      return S.Array(__S(5014, __c156, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({ status: S.optional(S.String), errorMessage: S.optional(S.String) }),
@@ -20474,19 +20606,19 @@ function __c155(j: number): any {
         S.Struct({
           lineageJobId: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          schedule: S.optional(__S(4972, __c155, 12)),
+          schedule: S.optional(__S(5004, __c156, 12)),
         }),
       ).annotate({ identifier: "RedshiftLineageSyncConfigurationOutput" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(4969, __c155, 9)),
-          credentials: S.optional(__S(4971, __c155, 11)),
+          storage: S.optional(__S(5001, __c156, 9)),
+          credentials: S.optional(__S(5003, __c156, 11)),
           isProvisionedSecret: S.optional(S.Boolean),
           jdbcIamUrl: S.optional(S.String),
           jdbcUrl: S.optional(S.String),
           redshiftTempDir: S.optional(S.String),
-          lineageSync: S.optional(__S(4987, __c155, 27)),
+          lineageSync: S.optional(__S(5019, __c156, 27)),
           status: S.optional(S.String),
           databaseName: S.optional(S.String),
         }),
@@ -20499,7 +20631,7 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           computeArn: S.optional(S.String),
-          credentials: S.optional(__S(4970, __c155, 10)),
+          credentials: S.optional(__S(5002, __c156, 10)),
           credentialsExpiration: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           governanceType: S.optional(S.String),
           instanceProfileArn: S.optional(S.String),
@@ -20511,7 +20643,7 @@ function __c155(j: number): any {
           trustedCertificatesS3Uri: S.optional(S.String),
           certificateData: S.optional(S.String),
           managedEndpointArn: S.optional(S.String),
-          managedEndpointCredentials: S.optional(__S(4989, __c155, 29)),
+          managedEndpointCredentials: S.optional(__S(5021, __c156, 29)),
         }),
       ).annotate({ identifier: "SparkEmrPropertiesOutput" });
     case 31:
@@ -20526,7 +20658,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "S3PropertiesOutput" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20541,8 +20673,8 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           snowflakeRole: S.String,
-          identityMapping: __S(4975, __c155, 15),
-          lineageSync: __S(4992, __c156, 0),
+          identityMapping: __S(5007, __c156, 15),
+          lineageSync: __S(5024, __c157, 0),
           status: S.String,
           errorMessage: S.optional(S.String),
         }),
@@ -20569,26 +20701,26 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GitPropertiesOutput" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4963, __c155, 3) }),
-        /*@__PURE__*/ S.Struct({ glueProperties: __S(4984, __c155, 24) }),
-        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(4985, __c155, 25) }),
-        /*@__PURE__*/ S.Struct({ iamProperties: __S(4986, __c155, 26) }),
-        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(4988, __c155, 28) }),
-        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(4990, __c155, 30) }),
-        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(4974, __c155, 14) }),
-        /*@__PURE__*/ S.Struct({ s3Properties: __S(4991, __c155, 31) }),
-        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(4993, __c156, 1) }),
-        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(4976, __c155, 16) }),
-        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(4977, __c155, 17) }),
-        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(4978, __c155, 18) }),
+        /*@__PURE__*/ S.Struct({ athenaProperties: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ glueProperties: __S(5016, __c156, 24) }),
+        /*@__PURE__*/ S.Struct({ hyperPodProperties: __S(5017, __c156, 25) }),
+        /*@__PURE__*/ S.Struct({ iamProperties: __S(5018, __c156, 26) }),
+        /*@__PURE__*/ S.Struct({ redshiftProperties: __S(5020, __c156, 28) }),
+        /*@__PURE__*/ S.Struct({ sparkEmrProperties: __S(5022, __c156, 30) }),
+        /*@__PURE__*/ S.Struct({ sparkGlueProperties: __S(5006, __c156, 14) }),
+        /*@__PURE__*/ S.Struct({ s3Properties: __S(5023, __c156, 31) }),
+        /*@__PURE__*/ S.Struct({ snowflakeProperties: __S(5025, __c157, 1) }),
+        /*@__PURE__*/ S.Struct({ amazonQProperties: __S(5008, __c156, 16) }),
+        /*@__PURE__*/ S.Struct({ mlflowProperties: __S(5009, __c156, 17) }),
+        /*@__PURE__*/ S.Struct({ workflowsMwaaProperties: __S(5010, __c156, 18) }),
         /*@__PURE__*/ S.Struct({ workflowsServerlessProperties: __S(768, __c24, 0) }),
-        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(4979, __c155, 19) }),
-        /*@__PURE__*/ S.Struct({ vpcProperties: __S(4994, __c156, 2) }),
-        /*@__PURE__*/ S.Struct({ gitProperties: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ lakehouseProperties: __S(5011, __c156, 19) }),
+        /*@__PURE__*/ S.Struct({ vpcProperties: __S(5026, __c157, 2) }),
+        /*@__PURE__*/ S.Struct({ gitProperties: __S(5027, __c157, 3) }),
       ]);
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20599,7 +20731,7 @@ function __c157(j: number): any {
           description: S.optional(SensitiveString),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           formsInput: S.optional(__S(2785, __c87, 1)),
-          items: S.optional(__S(5057, __c158, 1)),
+          items: S.optional(__S(5089, __c159, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -20614,7 +20746,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "CreateDataProductInput" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20626,7 +20758,7 @@ function __c158(j: number): any {
         }),
       ).annotate({ identifier: "DataProductItem" });
     case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20638,7 +20770,7 @@ function __c158(j: number): any {
           status: S.String,
           description: S.optional(SensitiveString),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
-          items: S.optional(__S(5057, __c158, 1)),
+          items: S.optional(__S(5089, __c159, 1)),
           formsOutput: S.optional(__S(65, __c2, 1)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -20648,7 +20780,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "CreateDataProductOutput" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20658,7 +20790,7 @@ function __c159(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
-          items: S.optional(__S(5057, __c158, 1)),
+          items: S.optional(__S(5089, __c159, 1)),
           formsInput: S.optional(__S(2785, __c87, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -20677,7 +20809,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "CreateDataProductRevisionInput" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20689,10 +20821,10 @@ function __c160(j: number): any {
           environmentIdentifier: S.optional(S.String),
           connectionIdentifier: S.optional(S.String),
           type: S.String,
-          configuration: S.optional(__S(5155, __c161, 3)),
-          recommendation: S.optional(__S(5280, __c165, 0)),
+          configuration: S.optional(__S(5187, __c162, 3)),
+          recommendation: S.optional(__S(5312, __c166, 0)),
           enableSetting: S.optional(S.String),
-          schedule: S.optional(__S(5184, __c162, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
           publishOnImport: S.optional(S.Boolean),
           assetFormsInput: S.optional(__S(2785, __c87, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -20719,29 +20851,29 @@ function __c160(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(5227, __c163, 11)),
-          recommendation: S.optional(__S(5280, __c165, 0)),
+          configuration: S.optional(__S(5259, __c164, 11)),
+          recommendation: S.optional(__S(5312, __c166, 0)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
           assetFormsOutput: S.optional(__S(65, __c2, 1)),
-          schedule: S.optional(__S(5184, __c162, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          lastRunErrorMessage: S.optional(__S(5280, __c165, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "CreateDataSourceOutput" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(5219, __c163, 3),
+          relationalFilterConfigurations: __S(5251, __c164, 3),
           autoImportDataQualityResult: S.optional(S.Boolean),
           catalogName: S.optional(S.String),
         }),
@@ -20750,24 +20882,24 @@ function __c161(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(5219, __c163, 3),
-          redshiftCredentialConfiguration: S.optional(__S(5220, __c163, 4)),
-          redshiftStorage: S.optional(__S(5222, __c163, 6)),
+          relationalFilterConfigurations: __S(5251, __c164, 3),
+          redshiftCredentialConfiguration: S.optional(__S(5252, __c164, 4)),
+          redshiftStorage: S.optional(__S(5254, __c164, 6)),
         }),
       ).annotate({ identifier: "RedshiftRunConfigurationInput" });
     case 2:
-      return S.suspend(() => S.Struct({ trackingAssets: __S(5223, __c163, 7) })).annotate({
+      return S.suspend(() => S.Struct({ trackingAssets: __S(5255, __c164, 7) })).annotate({
         identifier: "SageMakerRunConfigurationInput",
       });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(5152, __c161, 0) }),
-        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(5153, __c161, 1) }),
-        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(5154, __c161, 2) }),
+        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(5184, __c162, 0) }),
+        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(5185, __c162, 1) }),
+        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(5186, __c162, 2) }),
       ]);
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20775,24 +20907,24 @@ function __c162(j: number): any {
       ).annotate({ identifier: "ScheduleConfiguration" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ type: S.String, expression: S.String })).annotate({
         identifier: "FilterExpression",
       });
     case 1:
-      return S.Array(__S(5216, __c163, 0));
+      return S.Array(__S(5248, __c164, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           databaseName: S.String,
           schemaName: S.optional(S.String),
-          filterExpressions: S.optional(__S(5217, __c163, 1)),
+          filterExpressions: S.optional(__S(5249, __c164, 1)),
         }),
       ).annotate({ identifier: "RelationalFilterConfiguration" });
     case 3:
-      return S.Array(__S(5218, __c163, 2));
+      return S.Array(__S(5250, __c164, 2));
     case 4:
       return S.suspend(() => S.Struct({ secretManagerArn: S.String })).annotate({
         identifier: "RedshiftCredentialConfiguration",
@@ -20803,8 +20935,8 @@ function __c163(j: number): any {
       });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ redshiftClusterSource: __S(4896, __c153, 0) }),
-        /*@__PURE__*/ S.Struct({ redshiftServerlessSource: __S(5221, __c163, 5) }),
+        /*@__PURE__*/ S.Struct({ redshiftClusterSource: __S(4928, __c154, 0) }),
+        /*@__PURE__*/ S.Struct({ redshiftServerlessSource: __S(5253, __c164, 5) }),
       ]);
     case 7:
       return S.Record(S.String, /*@__PURE__*/ __S(32, __c1, 0).pipe(S.optional));
@@ -20814,7 +20946,7 @@ function __c163(j: number): any {
           accountId: S.optional(S.String),
           region: S.optional(S.String),
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(5219, __c163, 3),
+          relationalFilterConfigurations: __S(5251, __c164, 3),
           autoImportDataQualityResult: S.optional(S.Boolean),
           catalogName: S.optional(S.String),
         }),
@@ -20825,9 +20957,9 @@ function __c163(j: number): any {
           accountId: S.optional(S.String),
           region: S.optional(S.String),
           dataAccessRole: S.optional(S.String),
-          relationalFilterConfigurations: __S(5219, __c163, 3),
-          redshiftCredentialConfiguration: S.optional(__S(5220, __c163, 4)),
-          redshiftStorage: __S(5222, __c163, 6),
+          relationalFilterConfigurations: __S(5251, __c164, 3),
+          redshiftCredentialConfiguration: S.optional(__S(5252, __c164, 4)),
+          redshiftStorage: __S(5254, __c164, 6),
         }),
       ).annotate({ identifier: "RedshiftRunConfigurationOutput" });
     case 10:
@@ -20835,18 +20967,18 @@ function __c163(j: number): any {
         S.Struct({
           accountId: S.optional(S.String),
           region: S.optional(S.String),
-          trackingAssets: __S(5223, __c163, 7),
+          trackingAssets: __S(5255, __c164, 7),
         }),
       ).annotate({ identifier: "SageMakerRunConfigurationOutput" });
     case 11:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(5224, __c163, 8) }),
-        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(5226, __c163, 10) }),
+        /*@__PURE__*/ S.Struct({ glueRunConfiguration: __S(5256, __c164, 8) }),
+        /*@__PURE__*/ S.Struct({ redshiftRunConfiguration: __S(5257, __c164, 9) }),
+        /*@__PURE__*/ S.Struct({ sageMakerRunConfiguration: __S(5258, __c164, 10) }),
       ]);
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20854,7 +20986,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "DataSourceErrorMessage" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20862,7 +20994,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "RecommendationConfiguration" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20885,7 +21017,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "CreateDesignationInput" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20904,17 +21036,17 @@ function __c167(j: number): any {
       ).annotate({ identifier: "CreateDesignationOutput" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5408, __c169, 0)),
+          singleSignOn: S.optional(__S(5440, __c170, 0)),
           domainExecutionRole: S.optional(S.String),
           kmsKeyIdentifier: S.optional(S.String),
-          tags: S.optional(__S(4928, __c154, 0)),
+          tags: S.optional(__S(4960, __c155, 0)),
           domainVersion: S.optional(S.String),
           serviceRole: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -20929,20 +21061,20 @@ function __c168(j: number): any {
           rootDomainUnitId: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5408, __c169, 0)),
+          singleSignOn: S.optional(__S(5440, __c170, 0)),
           domainExecutionRole: S.optional(S.String),
           arn: S.optional(S.String),
           kmsKeyIdentifier: S.optional(S.String),
           status: S.optional(S.String),
           portalUrl: S.optional(S.String),
-          tags: S.optional(__S(4928, __c154, 0)),
+          tags: S.optional(__S(4960, __c155, 0)),
           domainVersion: S.optional(S.String),
           serviceRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDomainOutput" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20954,7 +21086,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "SingleSignOn" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20983,7 +21115,7 @@ function __c170(j: number): any {
           name: SensitiveString,
           parentDomainUnitId: S.optional(S.String),
           description: S.optional(SensitiveString),
-          owners: __S(5475, __c171, 3),
+          owners: __S(5507, __c172, 3),
           ancestorDomainUnitIds: __S(32, __c1, 0),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -20991,7 +21123,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "CreateDomainUnitOutput" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ userId: S.optional(S.String) })).annotate({
@@ -21003,14 +21135,14 @@ function __c171(j: number): any {
       });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ user: __S(5472, __c171, 0) }),
-        /*@__PURE__*/ S.Struct({ group: __S(5473, __c171, 1) }),
+        /*@__PURE__*/ S.Struct({ user: __S(5504, __c172, 0) }),
+        /*@__PURE__*/ S.Struct({ group: __S(5505, __c172, 1) }),
       ]);
     case 3:
-      return S.Array(__S(5474, __c171, 2));
+      return S.Array(__S(5506, __c172, 2));
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21020,7 +21152,7 @@ function __c172(j: number): any {
           description: S.optional(S.String),
           name: S.String,
           environmentProfileIdentifier: S.optional(S.String),
-          userParameters: S.optional(__S(5633, __c176, 1)),
+          userParameters: S.optional(__S(5665, __c177, 1)),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           environmentAccountIdentifier: S.optional(S.String),
           environmentAccountRegion: S.optional(S.String),
@@ -21041,7 +21173,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentInput" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21056,10 +21188,10 @@ function __c173(j: number): any {
         }),
       ).annotate({ identifier: "CustomParameter" });
     case 1:
-      return S.Array(__S(5536, __c173, 0));
+      return S.Array(__S(5568, __c174, 0));
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ templateUrl: S.String })).annotate({
@@ -21067,12 +21199,12 @@ function __c174(j: number): any {
       });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cloudFormation: __S(5568, __c174, 0) }),
+        /*@__PURE__*/ S.Struct({ cloudFormation: __S(5600, __c175, 0) }),
         /*@__PURE__*/ S.Struct({ manual: /*@__PURE__*/ S.Struct({}) }),
       ]);
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21083,17 +21215,17 @@ function __c175(j: number): any {
       ).annotate({ identifier: "DeploymentProperties" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ name: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "EnvironmentParameter" });
     case 1:
-      return S.Array(__S(5632, __c176, 0));
+      return S.Array(__S(5664, __c177, 0));
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ code: S.optional(S.String), message: S.String })).annotate({
@@ -21101,7 +21233,7 @@ function __c177(j: number): any {
       });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21113,26 +21245,26 @@ function __c178(j: number): any {
         }),
       ).annotate({ identifier: "Resource" });
     case 1:
-      return S.Array(__S(5696, __c178, 0));
+      return S.Array(__S(5728, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "ConfigurableActionParameter" });
     case 3:
-      return S.Array(__S(5698, __c178, 2));
+      return S.Array(__S(5730, __c179, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ type: S.String, auth: S.optional(S.String), parameters: __S(5699, __c178, 3) }),
+        S.Struct({ type: S.String, auth: S.optional(S.String), parameters: __S(5731, __c179, 3) }),
       ).annotate({ identifier: "ConfigurableEnvironmentAction" });
     case 5:
-      return S.Array(__S(5700, __c178, 4));
+      return S.Array(__S(5732, __c179, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           deploymentId: S.optional(S.String),
           deploymentType: S.optional(S.String),
           deploymentStatus: S.optional(S.String),
-          failureReason: S.optional(__S(5664, __c177, 0)),
+          failureReason: S.optional(__S(5696, __c178, 0)),
           messages: S.optional(__S(32, __c1, 0)),
           isDeploymentComplete: S.optional(S.Boolean),
         }),
@@ -21152,14 +21284,14 @@ function __c178(j: number): any {
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
           provider: S.String,
-          provisionedResources: S.optional(__S(5697, __c178, 1)),
+          provisionedResources: S.optional(__S(5729, __c179, 1)),
           status: S.optional(S.String),
-          environmentActions: S.optional(__S(5701, __c178, 5)),
+          environmentActions: S.optional(__S(5733, __c179, 5)),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
-          userParameters: S.optional(__S(5537, __c173, 1)),
-          lastDeployment: S.optional(__S(5702, __c178, 6)),
-          provisioningProperties: S.optional(__S(5569, __c174, 1)),
-          deploymentProperties: S.optional(__S(5600, __c175, 0)),
+          userParameters: S.optional(__S(5569, __c174, 1)),
+          lastDeployment: S.optional(__S(5734, __c179, 6)),
+          provisioningProperties: S.optional(__S(5601, __c175, 1)),
+          deploymentProperties: S.optional(__S(5632, __c176, 0)),
           environmentBlueprintId: S.optional(S.String),
           environmentConfigurationId: S.optional(SensitiveString),
           environmentConfigurationName: S.optional(SensitiveString),
@@ -21167,7 +21299,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentOutput" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21175,7 +21307,7 @@ function __c179(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
           name: S.String,
-          parameters: __S(5761, __c180, 1),
+          parameters: __S(5793, __c181, 1),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -21193,14 +21325,14 @@ function __c179(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentActionInput" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ uri: S.optional(S.String) })).annotate({
         identifier: "AwsConsoleLinkParameters",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ awsConsoleLink: __S(5760, __c180, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ awsConsoleLink: __S(5792, __c181, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21208,13 +21340,13 @@ function __c180(j: number): any {
           environmentId: S.String,
           id: S.String,
           name: S.String,
-          parameters: __S(5761, __c180, 1),
+          parameters: __S(5793, __c181, 1),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateEnvironmentActionOutput" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21222,8 +21354,8 @@ function __c181(j: number): any {
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: S.String,
           description: S.optional(SensitiveString),
-          provisioningProperties: __S(5569, __c174, 1),
-          userParameters: S.optional(__S(5537, __c173, 1)),
+          provisioningProperties: __S(5601, __c175, 1),
+          userParameters: S.optional(__S(5569, __c174, 1)),
           blueprintCategory: S.optional(S.String),
         }).pipe(
           T.all(
@@ -21241,7 +21373,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentBlueprintInput" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21250,9 +21382,9 @@ function __c182(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           provider: S.String,
-          provisioningProperties: __S(5569, __c174, 1),
-          deploymentProperties: S.optional(__S(5600, __c175, 0)),
-          userParameters: S.optional(__S(5537, __c173, 1)),
+          provisioningProperties: __S(5601, __c175, 1),
+          deploymentProperties: S.optional(__S(5632, __c176, 0)),
+          userParameters: S.optional(__S(5569, __c174, 1)),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           blueprintCategory: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -21261,7 +21393,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentBlueprintOutput" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21271,7 +21403,7 @@ function __c183(j: number): any {
           description: S.optional(SensitiveString),
           environmentBlueprintIdentifier: S.String,
           projectIdentifier: S.String,
-          userParameters: S.optional(__S(5633, __c176, 1)),
+          userParameters: S.optional(__S(5665, __c177, 1)),
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
         }).pipe(
@@ -21287,7 +21419,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentProfileInput" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21303,19 +21435,19 @@ function __c184(j: number): any {
           description: S.optional(SensitiveString),
           environmentBlueprintId: S.String,
           projectId: S.optional(S.String),
-          userParameters: S.optional(__S(5537, __c173, 1)),
+          userParameters: S.optional(__S(5569, __c174, 1)),
         }),
       ).annotate({ identifier: "CreateEnvironmentProfileOutput" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: SensitiveString,
-          model: __S(5952, __c186, 0),
+          model: __S(5984, __c187, 0),
           owningProjectIdentifier: S.String,
           status: S.optional(S.String),
           description: S.optional(SensitiveString),
@@ -21344,13 +21476,13 @@ function __c185(j: number): any {
       ).annotate({ identifier: "CreateFormTypeOutput" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ smithy: S.String })]);
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21375,7 +21507,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "CreateGlossaryInput" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21391,7 +21523,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "CreateGlossaryOutput" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21402,7 +21534,7 @@ function __c189(j: number): any {
           status: S.optional(S.String),
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(6080, __c190, 0)),
+          termRelations: S.optional(__S(6112, __c191, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -21417,7 +21549,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "CreateGlossaryTermInput" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21425,7 +21557,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "TermRelations" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21437,13 +21569,13 @@ function __c191(j: number): any {
           status: S.String,
           shortDescription: S.optional(SensitiveString),
           longDescription: S.optional(SensitiveString),
-          termRelations: S.optional(__S(6080, __c190, 0)),
+          termRelations: S.optional(__S(6112, __c191, 0)),
           usageRestrictions: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "CreateGlossaryTermOutput" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21465,7 +21597,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "CreateGroupProfileInput" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21480,7 +21612,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "CreateGroupProfileOutput" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21508,7 +21640,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "CreateListingChangeSetOutput" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21518,8 +21650,8 @@ function __c195(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           type: S.optional(S.String),
-          metadata: S.optional(__S(6304, __c197, 0)),
-          parameters: S.optional(__S(4928, __c154, 0)),
+          metadata: S.optional(__S(6336, __c198, 0)),
+          parameters: S.optional(__S(4960, __c155, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -21534,7 +21666,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "CreateNotebookInput" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ message: S.String })).annotate({
@@ -21542,7 +21674,7 @@ function __c196(j: number): any {
       });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
@@ -21556,12 +21688,12 @@ function __c197(j: number): any {
       return S.suspend(() =>
         S.Struct({
           imageVersion: S.optional(S.String),
-          packageConfig: S.optional(__S(6306, __c197, 2)),
+          packageConfig: S.optional(__S(6338, __c198, 2)),
         }),
       ).annotate({ identifier: "EnvironmentConfig" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21577,7 +21709,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "GitMetadata" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21586,7 +21718,7 @@ function __c199(j: number): any {
           name: SensitiveString,
           owningProjectId: S.String,
           domainId: S.String,
-          cellOrder: __S(6305, __c197, 1),
+          cellOrder: __S(6337, __c198, 1),
           status: S.String,
           type: S.optional(S.String),
           description: S.optional(SensitiveString),
@@ -21598,41 +21730,41 @@ function __c199(j: number): any {
           lockedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lockExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           computeId: S.optional(S.String),
-          metadata: S.optional(__S(6304, __c197, 0)),
-          parameters: S.optional(__S(4928, __c154, 0)),
-          environmentConfiguration: S.optional(__S(6307, __c197, 3)),
-          error: S.optional(__S(6272, __c196, 0)),
-          gitMetadata: S.optional(__S(6336, __c198, 0)),
+          metadata: S.optional(__S(6336, __c198, 0)),
+          parameters: S.optional(__S(4960, __c155, 0)),
+          environmentConfiguration: S.optional(__S(6339, __c198, 3)),
+          error: S.optional(__S(6304, __c197, 0)),
+          gitMetadata: S.optional(__S(6368, __c199, 0)),
         }),
       ).annotate({ identifier: "CreateNotebookOutput" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          member: __S(6496, __c203, 0),
+          member: __S(6528, __c204, 0),
           designation: S.String,
           userCreatedDesignationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectMembershipAssignment" });
     case 1:
-      return S.Array(__S(6400, __c200, 0));
+      return S.Array(__S(6432, __c201, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          resourceTags: S.optional(__S(4928, __c154, 0)),
+          resourceTags: S.optional(__S(4960, __c155, 0)),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           domainUnitId: S.optional(S.String),
           projectProfileId: S.optional(S.String),
-          userParameters: S.optional(__S(6466, __c202, 2)),
+          userParameters: S.optional(__S(6498, __c203, 2)),
           projectCategory: S.optional(S.String),
           projectExecutionRole: S.optional(S.String),
-          membershipAssignments: S.optional(__S(6401, __c200, 1)),
+          membershipAssignments: S.optional(__S(6433, __c201, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v2/domains/{domainIdentifier}/projects" }),
@@ -21646,17 +21778,17 @@ function __c200(j: number): any {
       ).annotate({ identifier: "CreateProjectInput" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
       ).annotate({ identifier: "ProjectDeletionError" });
     case 1:
-      return S.Array(__S(6432, __c201, 0));
+      return S.Array(__S(6464, __c202, 0));
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21670,28 +21802,29 @@ function __c202(j: number): any {
       return S.suspend(() =>
         S.Struct({
           environmentId: S.optional(S.String),
-          environmentResolvedAccount: S.optional(__S(6464, __c202, 0)),
+          environmentBlueprintId: S.optional(S.String),
+          environmentResolvedAccount: S.optional(__S(6496, __c203, 0)),
           environmentConfigurationName: S.optional(SensitiveString),
-          environmentParameters: S.optional(__S(5633, __c176, 1)),
+          environmentParameters: S.optional(__S(5665, __c177, 1)),
         }),
       ).annotate({ identifier: "EnvironmentConfigurationUserParameter" });
     case 2:
-      return S.Array(__S(6465, __c202, 1));
+      return S.Array(__S(6497, __c203, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ key: S.String, value: S.String, source: S.String }),
       ).annotate({ identifier: "ResourceTag" });
     case 4:
-      return S.Array(__S(6467, __c202, 3));
+      return S.Array(__S(6499, __c203, 3));
     case 5:
-      return S.Array(__S(5664, __c177, 0));
+      return S.Array(__S(5696, __c178, 0));
     case 6:
-      return S.Record(S.String, /*@__PURE__*/ __S(6469, __c202, 5).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(6501, __c203, 5).pipe(S.optional));
     case 7:
       return S.suspend(() =>
         S.Struct({
           overallDeploymentStatus: S.optional(S.String),
-          environmentFailureReasons: S.optional(__S(6470, __c202, 6)),
+          environmentFailureReasons: S.optional(__S(6502, __c203, 6)),
         }),
       ).annotate({ identifier: "EnvironmentDeploymentDetails" });
     case 8:
@@ -21702,22 +21835,22 @@ function __c202(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           projectStatus: S.optional(S.String),
-          failureReasons: S.optional(__S(6433, __c201, 1)),
+          failureReasons: S.optional(__S(6465, __c202, 1)),
           createdBy: S.String,
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          resourceTags: S.optional(__S(6468, __c202, 4)),
+          resourceTags: S.optional(__S(6500, __c203, 4)),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           domainUnitId: S.optional(S.String),
           projectProfileId: S.optional(S.String),
-          userParameters: S.optional(__S(6466, __c202, 2)),
-          environmentDeploymentDetails: S.optional(__S(6471, __c202, 7)),
+          userParameters: S.optional(__S(6498, __c203, 2)),
+          environmentDeploymentDetails: S.optional(__S(6503, __c203, 7)),
           projectCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateProjectOutput" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -21726,14 +21859,14 @@ function __c203(j: number): any {
       ]);
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-          member: __S(6496, __c203, 0),
+          member: __S(6528, __c204, 0),
           designation: S.String,
           userCreatedDesignationId: S.optional(S.String),
         }).pipe(
@@ -21752,7 +21885,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "CreateProjectMembershipInput" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21761,10 +21894,10 @@ function __c205(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          projectResourceTags: S.optional(__S(6593, __c206, 1)),
+          projectResourceTags: S.optional(__S(6625, __c207, 1)),
           allowCustomProjectResourceTags: S.optional(S.Boolean),
           projectResourceTagsDescription: S.optional(SensitiveString),
-          environmentConfigurations: S.optional(__S(6599, __c206, 7)),
+          environmentConfigurations: S.optional(__S(6631, __c207, 7)),
           domainUnitIdentifier: S.optional(S.String),
         }).pipe(
           T.all(
@@ -21779,14 +21912,14 @@ function __c205(j: number): any {
       ).annotate({ identifier: "CreateProjectProfileInput" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.String, value: S.String, isValueEditable: S.Boolean }),
       ).annotate({ identifier: "ResourceTagParameter" });
     case 1:
-      return S.Array(__S(6592, __c206, 0));
+      return S.Array(__S(6624, __c207, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21796,13 +21929,13 @@ function __c206(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentConfigurationParameter" });
     case 3:
-      return S.Array(__S(6594, __c206, 2));
+      return S.Array(__S(6626, __c207, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           ssmPath: S.optional(S.String),
-          parameterOverrides: S.optional(__S(6595, __c206, 3)),
-          resolvedParameters: S.optional(__S(6595, __c206, 3)),
+          parameterOverrides: S.optional(__S(6627, __c207, 3)),
+          resolvedParameters: S.optional(__S(6627, __c207, 3)),
         }),
       ).annotate({ identifier: "EnvironmentConfigurationParametersDetails" });
     case 5:
@@ -21818,15 +21951,15 @@ function __c206(j: number): any {
           environmentBlueprintId: S.String,
           description: S.optional(SensitiveString),
           deploymentMode: S.optional(S.String),
-          configurationParameters: S.optional(__S(6596, __c206, 4)),
-          awsAccount: S.optional(__S(6597, __c206, 5)),
+          configurationParameters: S.optional(__S(6628, __c207, 4)),
+          awsAccount: S.optional(__S(6629, __c207, 5)),
           accountPools: S.optional(__S(32, __c1, 0)),
           awsRegion: S.optional(Region),
           deploymentOrder: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EnvironmentConfiguration" });
     case 7:
-      return S.Array(__S(6598, __c206, 6));
+      return S.Array(__S(6630, __c207, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -21835,10 +21968,10 @@ function __c206(j: number): any {
           name: SensitiveString,
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
-          projectResourceTags: S.optional(__S(6593, __c206, 1)),
+          projectResourceTags: S.optional(__S(6625, __c207, 1)),
           allowCustomProjectResourceTags: S.optional(S.Boolean),
           projectResourceTagsDescription: S.optional(SensitiveString),
-          environmentConfigurations: S.optional(__S(6599, __c206, 7)),
+          environmentConfigurations: S.optional(__S(6631, __c207, 7)),
           createdBy: S.String,
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -21847,17 +21980,17 @@ function __c206(j: number): any {
       ).annotate({ identifier: "CreateProjectProfileOutput" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           name: SensitiveString,
-          target: __S(6657, __c208, 1),
+          target: __S(6689, __c209, 1),
           action: S.String,
-          scope: __S(6660, __c208, 4),
-          detail: __S(6692, __c209, 4),
+          scope: __S(6692, __c209, 4),
+          detail: __S(6724, __c210, 4),
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -21877,10 +22010,10 @@ function __c207(j: number): any {
           identifier: S.String,
           name: SensitiveString,
           ruleType: S.String,
-          target: __S(6657, __c208, 1),
+          target: __S(6689, __c209, 1),
           action: S.String,
-          scope: __S(6660, __c208, 4),
-          detail: __S(6692, __c209, 4),
+          scope: __S(6692, __c209, 4),
+          detail: __S(6724, __c210, 4),
           targetType: S.optional(S.String),
           description: S.optional(SensitiveString),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -21889,14 +22022,14 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CreateRuleOutput" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ domainUnitId: S.String, includeChildDomainUnits: S.optional(S.Boolean) }),
       ).annotate({ identifier: "DomainUnitTarget" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ domainUnitTarget: __S(6656, __c208, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ domainUnitTarget: __S(6688, __c209, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({ selectionMode: S.String, specificAssetTypes: S.optional(__S(32, __c1, 0)) }),
@@ -21908,24 +22041,24 @@ function __c208(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          assetType: S.optional(__S(6658, __c208, 2)),
+          assetType: S.optional(__S(6690, __c209, 2)),
           dataProduct: S.optional(S.Boolean),
-          project: S.optional(__S(6659, __c208, 3)),
+          project: S.optional(__S(6691, __c209, 3)),
         }),
       ).annotate({ identifier: "RuleScope" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ typeIdentifier: S.String, typeRevision: S.String }),
       ).annotate({ identifier: "MetadataFormReference" });
     case 1:
-      return S.Array(__S(6688, __c209, 0));
+      return S.Array(__S(6720, __c210, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ requiredMetadataForms: S.optional(__S(6689, __c209, 1)) }),
+        S.Struct({ requiredMetadataForms: S.optional(__S(6721, __c210, 1)) }),
       ).annotate({ identifier: "MetadataFormEnforcementDetail" });
     case 3:
       return S.suspend(() =>
@@ -21933,33 +22066,33 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GlossaryTermEnforcementDetail" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ metadataFormEnforcementDetail: __S(6690, __c209, 2) }),
-        /*@__PURE__*/ S.Struct({ glossaryTermEnforcementDetail: __S(6691, __c209, 3) }),
+        /*@__PURE__*/ S.Struct({ metadataFormEnforcementDetail: __S(6722, __c210, 2) }),
+        /*@__PURE__*/ S.Struct({ glossaryTermEnforcementDetail: __S(6723, __c210, 3) }),
       ]);
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.String, revision: S.String })).annotate({
         identifier: "ListingRevisionInput",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6720, __c210, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6752, __c211, 0) })]);
     case 2:
       return S.suspend(() => S.Struct({ assetId: S.String, targetName: S.String })).annotate({
         identifier: "AssetTargetNameMap",
       });
     case 3:
-      return S.Array(__S(6722, __c210, 2));
+      return S.Array(__S(6754, __c211, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           environmentIdentifier: S.String,
           subscriptionTargetIdentifier: S.optional(S.String),
-          grantedEntity: __S(6721, __c210, 1),
-          assetTargetNames: S.optional(__S(6723, __c210, 3)),
+          grantedEntity: __S(6753, __c211, 1),
+          assetTargetNames: S.optional(__S(6755, __c211, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -21974,14 +22107,14 @@ function __c210(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionGrantInput" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ id: S.String, revision: S.String })).annotate({
         identifier: "ListingRevision",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6752, __c211, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ listing: __S(6784, __c212, 0) })]);
     case 2:
       return S.suspend(() => S.Struct({ message: S.optional(S.String) })).annotate({
         identifier: "FailureCause",
@@ -21993,7 +22126,7 @@ function __c211(j: number): any {
           assetRevision: S.String,
           status: S.String,
           targetName: S.optional(S.String),
-          failureCause: S.optional(__S(6754, __c211, 2)),
+          failureCause: S.optional(__S(6786, __c212, 2)),
           grantedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           failureTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           assetScope: S.optional(__S(129, __c4, 1)),
@@ -22001,7 +22134,7 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "SubscribedAsset" });
     case 4:
-      return S.Array(__S(6755, __c211, 3));
+      return S.Array(__S(6787, __c212, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -22013,15 +22146,15 @@ function __c211(j: number): any {
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           environmentId: S.optional(S.String),
           subscriptionTargetId: S.String,
-          grantedEntity: __S(6753, __c211, 1),
+          grantedEntity: __S(6785, __c212, 1),
           status: S.String,
-          assets: S.optional(__S(6756, __c211, 4)),
+          assets: S.optional(__S(6788, __c212, 4)),
           subscriptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSubscriptionGrantOutput" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.optional(S.String) })).annotate({
@@ -22029,25 +22162,25 @@ function __c212(j: number): any {
       });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ project: __S(6784, __c212, 0) }),
-        /*@__PURE__*/ S.Struct({ user: __S(6784, __c212, 0) }),
-        /*@__PURE__*/ S.Struct({ group: __S(6784, __c212, 0) }),
-        /*@__PURE__*/ S.Struct({ iam: __S(6784, __c212, 0) }),
+        /*@__PURE__*/ S.Struct({ project: __S(6816, __c213, 0) }),
+        /*@__PURE__*/ S.Struct({ user: __S(6816, __c213, 0) }),
+        /*@__PURE__*/ S.Struct({ group: __S(6816, __c213, 0) }),
+        /*@__PURE__*/ S.Struct({ iam: __S(6816, __c213, 0) }),
       ]);
     case 2:
-      return S.Array(__S(6785, __c212, 1));
+      return S.Array(__S(6817, __c213, 1));
     case 3:
       return S.suspend(() => S.Struct({ identifier: S.String })).annotate({
         identifier: "SubscribedListingInput",
       });
     case 4:
-      return S.Array(__S(6787, __c212, 3));
+      return S.Array(__S(6819, __c213, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-          subscribedPrincipals: __S(6786, __c212, 2),
-          subscribedListings: __S(6788, __c212, 4),
+          subscribedPrincipals: __S(6818, __c213, 2),
+          subscribedListings: __S(6820, __c213, 4),
           requestReason: SensitiveString,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           metadataForms: S.optional(__S(2785, __c87, 1)),
@@ -22066,7 +22199,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionRequestInput" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22075,7 +22208,7 @@ function __c213(j: number): any {
           environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
           name: SensitiveString,
           type: S.String,
-          subscriptionTargetConfig: __S(6849, __c214, 1),
+          subscriptionTargetConfig: __S(6881, __c215, 1),
           authorizedPrincipals: __S(32, __c1, 0),
           manageAccessRole: S.String,
           applicableAssetTypes: __S(32, __c1, 0),
@@ -22098,14 +22231,14 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CreateSubscriptionTargetInput" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ formName: S.String, content: S.String })).annotate({
         identifier: "SubscriptionTargetForm",
       });
     case 1:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22122,14 +22255,14 @@ function __c214(j: number): any {
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           manageAccessRole: S.optional(S.String),
           applicableAssetTypes: __S(32, __c1, 0),
-          subscriptionTargetConfig: __S(6849, __c214, 1),
+          subscriptionTargetConfig: __S(6881, __c215, 1),
           provider: S.String,
           subscriptionGrantCreationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSubscriptionTargetOutput" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22152,7 +22285,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "CreateUserProfileInput" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22166,7 +22299,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "CreateUserProfileOutput" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22189,7 +22322,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "DeleteAccountPoolInput" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22209,7 +22342,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "DeleteAssetInput" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22233,7 +22366,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "DeleteAssetFilterInput" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22256,7 +22389,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "DeleteAssetTypeInput" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22283,7 +22416,7 @@ function __c221(j: number): any {
       });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22303,7 +22436,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "DeleteDataExportConfigurationInput" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22326,7 +22459,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "DeleteDataProductInput" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22363,24 +22496,24 @@ function __c224(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(5227, __c163, 11)),
+          configuration: S.optional(__S(5259, __c164, 11)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
           assetFormsOutput: S.optional(__S(65, __c2, 1)),
-          schedule: S.optional(__S(5184, __c162, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          lastRunErrorMessage: S.optional(__S(5280, __c165, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          selfGrantStatus: S.optional(__S(7203, __c225, 3)),
+          selfGrantStatus: S.optional(__S(7235, __c226, 3)),
           retainPermissionsOnRevokeFailure: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DeleteDataSourceOutput" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22392,19 +22525,19 @@ function __c225(j: number): any {
         }),
       ).annotate({ identifier: "SelfGrantStatusDetail" });
     case 1:
-      return S.Array(__S(7200, __c225, 0));
+      return S.Array(__S(7232, __c226, 0));
     case 2:
-      return S.suspend(() => S.Struct({ selfGrantStatusDetails: __S(7201, __c225, 1) })).annotate({
+      return S.suspend(() => S.Struct({ selfGrantStatusDetails: __S(7233, __c226, 1) })).annotate({
         identifier: "GlueSelfGrantStatusOutput",
       });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ glueSelfGrantStatus: __S(7202, __c225, 2) }),
-        /*@__PURE__*/ S.Struct({ redshiftSelfGrantStatus: __S(7202, __c225, 2) }),
+        /*@__PURE__*/ S.Struct({ glueSelfGrantStatus: __S(7234, __c226, 2) }),
+        /*@__PURE__*/ S.Struct({ redshiftSelfGrantStatus: __S(7234, __c226, 2) }),
       ]);
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22427,7 +22560,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "DeleteDesignationInput" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22453,7 +22586,7 @@ function __c227(j: number): any {
       });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22476,7 +22609,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "DeleteDomainUnitInput" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22499,7 +22632,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentInput" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22523,7 +22656,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentActionInput" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22546,7 +22679,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentBlueprintInput" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22571,7 +22704,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentBlueprintConfigurationInput" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22594,7 +22727,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentProfileInput" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22617,7 +22750,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "DeleteFormTypeInput" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22640,7 +22773,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryInput" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22663,7 +22796,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryTermInput" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22694,7 +22827,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "DeleteLineageEventOutput" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22717,7 +22850,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "DeleteListingInput" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22740,7 +22873,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "DeleteNotebookInput" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22764,14 +22897,14 @@ function __c240(j: number): any {
       ).annotate({ identifier: "DeleteProjectInput" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
-          member: __S(6496, __c203, 0),
+          member: __S(6528, __c204, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -22788,7 +22921,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "DeleteProjectMembershipInput" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22811,7 +22944,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "DeleteProjectProfileInput" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22831,7 +22964,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "DeleteRuleInput" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22854,7 +22987,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionGrantInput" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22877,7 +23010,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionRequestInput" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22901,7 +23034,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionTargetInput" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22927,7 +23060,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "DeleteTimeSeriesDataPointsInput" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22951,7 +23084,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "DisassociateEnvironmentRoleInput" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22976,7 +23109,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "DisassociateGovernedTermsInput" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22999,7 +23132,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetAccountPoolInput" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23040,11 +23173,26 @@ function __c251(j: number): any {
           formsOutput: __S(65, __c2, 1),
           readOnlyFormsOutput: S.optional(__S(65, __c2, 1)),
           latestTimeSeriesDataPointFormsOutput: S.optional(__S(4513, __c141, 1)),
+          ownershipTransfer: S.optional(__S(8096, __c253, 0)),
         }),
       ).annotate({ identifier: "GetAssetOutput" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          sourceProjectId: S.String,
+          targetProjectId: S.String,
+          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "AssetOwnershipTransfer" });
+  }
+}
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23068,7 +23216,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetAssetFilterInput" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23092,7 +23240,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GetAssetTypeInput" });
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23101,7 +23249,7 @@ function __c254(j: number): any {
           name: S.String,
           revision: S.String,
           description: S.optional(SensitiveString),
-          formsOutput: __S(4801, __c150, 1),
+          formsOutput: __S(4833, __c151, 1),
           owningProjectId: S.String,
           originDomainId: S.optional(S.String),
           originProjectId: S.optional(S.String),
@@ -23113,7 +23261,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetAssetTypeOutput" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23138,8 +23286,8 @@ function __c255(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectionCredentials: S.optional(__S(8192, __c256, 0)),
-          configurations: S.optional(__S(4962, __c155, 2)),
+          connectionCredentials: S.optional(__S(8256, __c258, 0)),
+          configurations: S.optional(__S(4994, __c156, 2)),
           connectionId: S.String,
           description: S.optional(SensitiveString),
           domainId: S.String,
@@ -23147,16 +23295,16 @@ function __c255(j: number): any {
           environmentId: S.optional(S.String),
           environmentUserRole: S.optional(S.String),
           name: S.String,
-          physicalEndpoints: __S(4983, __c155, 23),
+          physicalEndpoints: __S(5015, __c156, 23),
           projectId: S.optional(S.String),
-          props: S.optional(__S(4996, __c156, 4)),
+          props: S.optional(__S(5028, __c157, 4)),
           type: S.String,
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConnectionOutput" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23169,7 +23317,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "ConnectionCredentials" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23192,7 +23340,7 @@ function __c257(j: number): any {
         S.Struct({
           isExportEnabled: S.optional(S.Boolean),
           status: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(8256, __c258, 0)),
+          encryptionConfiguration: S.optional(__S(8320, __c260, 0)),
           s3TableBucketArn: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -23200,7 +23348,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetDataExportConfigurationOutput" });
   }
 }
-function __c258(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23208,7 +23356,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
-function __c259(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23232,7 +23380,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "GetDataProductInput" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23265,25 +23413,25 @@ function __c260(j: number): any {
           projectId: S.String,
           environmentId: S.optional(S.String),
           connectionId: S.optional(S.String),
-          configuration: S.optional(__S(5227, __c163, 11)),
-          recommendation: S.optional(__S(5280, __c165, 0)),
+          configuration: S.optional(__S(5259, __c164, 11)),
+          recommendation: S.optional(__S(5312, __c166, 0)),
           enableSetting: S.optional(S.String),
           publishOnImport: S.optional(S.Boolean),
           assetFormsOutput: S.optional(__S(65, __c2, 1)),
-          schedule: S.optional(__S(5184, __c162, 0)),
+          schedule: S.optional(__S(5216, __c163, 0)),
           lastRunStatus: S.optional(S.String),
           lastRunAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          lastRunErrorMessage: S.optional(__S(5248, __c164, 0)),
+          lastRunErrorMessage: S.optional(__S(5280, __c165, 0)),
           lastRunAssetCount: S.optional(S.Number),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          selfGrantStatus: S.optional(__S(7203, __c225, 3)),
+          selfGrantStatus: S.optional(__S(7235, __c226, 3)),
         }),
       ).annotate({ identifier: "GetDataSourceOutput" });
   }
 }
-function __c261(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23314,9 +23462,9 @@ function __c261(j: number): any {
           status: S.String,
           type: S.String,
           dataSourceConfigurationSnapshot: S.optional(S.String),
-          runStatisticsForAssets: S.optional(__S(8416, __c263, 0)),
-          lineageSummary: S.optional(__S(8384, __c262, 0)),
-          errorMessage: S.optional(__S(5248, __c164, 0)),
+          runStatisticsForAssets: S.optional(__S(8480, __c265, 0)),
+          lineageSummary: S.optional(__S(8448, __c264, 0)),
+          errorMessage: S.optional(__S(5280, __c165, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -23325,7 +23473,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "GetDataSourceRunOutput" });
   }
 }
-function __c262(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ importStatus: S.optional(S.String) })).annotate({
@@ -23333,7 +23481,7 @@ function __c262(j: number): any {
       });
   }
 }
-function __c263(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23347,7 +23495,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "RunStatisticsForAssets" });
   }
 }
-function __c264(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23358,15 +23506,15 @@ function __c264(j: number): any {
         }),
       ).annotate({ identifier: "AcceptChoice" });
     case 1:
-      return S.Array(__S(8448, __c264, 0));
+      return S.Array(__S(8512, __c266, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
-          acceptRule: S.optional(__S(8512, __c266, 0)),
-          acceptChoices: S.optional(__S(8449, __c264, 1)),
+          acceptRule: S.optional(__S(8576, __c268, 0)),
+          acceptChoices: S.optional(__S(8513, __c266, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -23388,7 +23536,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "AcceptPredictionsOutput" });
   }
 }
-function __c265(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -23397,7 +23545,7 @@ function __c265(j: number): any {
       ]);
   }
 }
-function __c266(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23405,7 +23553,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "AcceptRule" });
   }
 }
-function __c267(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23428,7 +23576,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "GetDesignationInput" });
   }
 }
-function __c268(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23448,7 +23596,7 @@ function __c268(j: number): any {
         S.Struct({ id: S.optional(S.String), message: S.optional(S.String) }),
       ).annotate({ identifier: "FailureReason" });
     case 2:
-      return S.Array(__S(8577, __c268, 1));
+      return S.Array(__S(8641, __c270, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ successfullyDeletedProjectCount: S.optional(S.Number) }),
@@ -23460,7 +23608,7 @@ function __c268(j: number): any {
           rootDomainUnitId: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          singleSignOn: S.optional(__S(5408, __c169, 0)),
+          singleSignOn: S.optional(__S(5440, __c170, 0)),
           domainExecutionRole: S.String,
           arn: S.optional(S.String),
           kmsKeyIdentifier: S.optional(S.String),
@@ -23468,16 +23616,16 @@ function __c268(j: number): any {
           portalUrl: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          tags: S.optional(__S(4928, __c154, 0)),
+          tags: S.optional(__S(4960, __c155, 0)),
           domainVersion: S.optional(S.String),
           serviceRole: S.optional(S.String),
-          failureReasons: S.optional(__S(8578, __c268, 2)),
-          deleteProgress: S.optional(__S(8579, __c268, 3)),
+          failureReasons: S.optional(__S(8642, __c270, 2)),
+          deleteProgress: S.optional(__S(8643, __c270, 3)),
         }),
       ).annotate({ identifier: "GetDomainOutput" });
   }
 }
-function __c269(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23506,7 +23654,7 @@ function __c269(j: number): any {
           name: SensitiveString,
           parentDomainUnitId: S.optional(S.String),
           description: S.optional(SensitiveString),
-          owners: __S(5475, __c171, 3),
+          owners: __S(5507, __c172, 3),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
@@ -23515,7 +23663,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetDomainUnitOutput" });
   }
 }
-function __c270(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23538,7 +23686,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetEnvironmentInput" });
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23562,7 +23710,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "GetEnvironmentActionInput" });
   }
 }
-function __c272(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23585,7 +23733,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "GetEnvironmentBlueprintInput" });
   }
 }
-function __c273(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23610,10 +23758,10 @@ function __c273(j: number): any {
       ).annotate({ identifier: "GetEnvironmentBlueprintConfigurationInput" });
   }
 }
-function __c274(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ __S(4928, __c154, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4960, __c155, 0).pipe(S.optional));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -23621,11 +23769,11 @@ function __c274(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           region: S.String,
-          parameters: __S(4928, __c154, 0),
+          parameters: __S(4960, __c155, 0),
         }),
       ).annotate({ identifier: "ResourceConfiguration" });
     case 2:
-      return S.Array(__S(8769, __c274, 1));
+      return S.Array(__S(8833, __c276, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -23635,10 +23783,10 @@ function __c274(j: number): any {
       ).annotate({ identifier: "LakeFormationConfiguration" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ lakeFormationConfiguration: __S(8771, __c274, 3) }),
+        /*@__PURE__*/ S.Struct({ lakeFormationConfiguration: __S(8835, __c276, 3) }),
       ]);
     case 5:
-      return S.Array(__S(8772, __c274, 4));
+      return S.Array(__S(8836, __c276, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -23648,17 +23796,17 @@ function __c274(j: number): any {
           environmentRolePermissionBoundary: S.optional(S.String),
           manageAccessRoleArn: S.optional(S.String),
           enabledRegions: S.optional(__S(32, __c1, 0)),
-          regionalParameters: S.optional(__S(8768, __c274, 0)),
+          regionalParameters: S.optional(__S(8832, __c276, 0)),
           allowUserProvidedConfigurations: S.optional(S.Boolean),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          resourceConfigurations: S.optional(__S(8770, __c274, 2)),
-          provisioningConfigurations: S.optional(__S(8773, __c274, 5)),
+          resourceConfigurations: S.optional(__S(8834, __c276, 2)),
+          provisioningConfigurations: S.optional(__S(8837, __c276, 5)),
         }),
       ).annotate({ identifier: "GetEnvironmentBlueprintConfigurationOutput" });
   }
 }
-function __c275(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23681,7 +23829,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GetEnvironmentCredentialsInput" });
   }
 }
-function __c276(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23704,7 +23852,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "GetEnvironmentProfileInput" });
   }
 }
-function __c277(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23732,7 +23880,7 @@ function __c277(j: number): any {
           domainId: S.String,
           name: SensitiveString,
           revision: S.String,
-          model: __S(5952, __c186, 0),
+          model: __S(5984, __c187, 0),
           owningProjectId: S.optional(S.String),
           originDomainId: S.optional(S.String),
           originProjectId: S.optional(S.String),
@@ -23740,19 +23888,19 @@ function __c277(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          imports: S.optional(__S(8897, __c278, 1)),
+          imports: S.optional(__S(8961, __c280, 1)),
         }),
       ).annotate({ identifier: "GetFormTypeOutput" });
   }
 }
-function __c278(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: SensitiveString, revision: S.String })).annotate({
         identifier: "Import",
       });
     case 1:
-      return S.Array(__S(8896, __c278, 0));
+      return S.Array(__S(8960, __c280, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

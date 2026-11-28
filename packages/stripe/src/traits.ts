@@ -13,6 +13,7 @@ import { Http as CoreHttp, type HttpTrait as CoreHttpTrait } from "@distilled.cl
 export {
   Body,
   Header,
+  IdempotencyToken,
   Query,
   Label,
   ResponseCode,

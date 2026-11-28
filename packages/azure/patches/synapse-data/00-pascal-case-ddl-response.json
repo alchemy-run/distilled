@@ -1,0 +1,49 @@
+{
+  "description": "SyMS answers DDL publishes in PascalCase (`{\"DDLType\":\"CREATE\",\"EntityName\":\"db\",\"EntityType\":\"DATABASE\",\"PublishStatus\":\"PUBLISHED\",\"OriginObjectId\":null,\"ObjectId\":\"\u2026\",\"ObjectVersion\":1}`, live 2026-10-25), but the spec declares camelCase members, so every decoded member came back undefined. Map each member to its PascalCase wire name; `OriginObjectId` is null for objects created through the API, so it is optional. `ExecuteChange` wraps them as `{\"SyMSAPIDDLResponseArr\":[\u2026]}` (empty for a DROP).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/ddlType/traits/smithy.api#jsonName",
+      "value": "DDLType"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/entityName/traits/smithy.api#jsonName",
+      "value": "EntityName"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/entityType/traits/smithy.api#jsonName",
+      "value": "EntityType"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/publishStatus/traits/smithy.api#jsonName",
+      "value": "PublishStatus"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/originObjectId/traits/smithy.api#jsonName",
+      "value": "OriginObjectId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/objectId/traits/smithy.api#jsonName",
+      "value": "ObjectId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/objectVersion/traits/smithy.api#jsonName",
+      "value": "ObjectVersion"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponse/members/originObjectId/traits/smithy.api#required"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SyMSAPIDDLResponses/members/syMsApiDdlResponse/traits/smithy.api#jsonName",
+      "value": "SyMSAPIDDLResponseArr"
+    }
+  ]
+}

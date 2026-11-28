@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { SlackError, SlackRateLimited } from "../errors.ts";
+import { SlackServiceErrors } from "../errors.ts";
 import { slackPaginate } from "../pagination.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -102,7 +102,7 @@ export interface CreateManifestRequest {
 export interface CreateManifestResponseCredentials {
   client_id?: string | undefined;
   client_secret?: string | Redacted.Redacted<string> | undefined;
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   signing_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateManifestResponse {
@@ -115,7 +115,7 @@ export interface CreateManifestResponse {
   team_id?: string | undefined;
   /** The team domain where the app was created on */
   team_domain?: string | undefined;
-  app_token?: string | undefined;
+  app_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** A map of attributes referenced in expression */
 export type DatastoreCountRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
@@ -228,7 +228,7 @@ export interface GetAuthExternalRequest {
 export interface GetAuthExternalResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  external_token: string;
+  external_token: string | Redacted.Redacted<string>;
   token_response_extras: unknown;
 }
 export interface GetDatastoreRequest {
@@ -442,7 +442,8 @@ export const bulkDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BulkDeleteRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<BulkDeleteResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,7 +460,8 @@ export const bulkGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<BulkGetRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<BulkGetResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -476,7 +478,8 @@ export const bulkPut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<BulkPutRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<BulkPutResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -493,7 +496,8 @@ export const connectionsOpen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<ConnectionsOpenRequest>,
   output: __S(81, __c20, 1) as any as S.Schema<ConnectionsOpenResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -501,7 +505,7 @@ export const connectionsOpen: API.OperationMethod<
 }));
 
 export type CreateManifestError = SlackOpError;
-/** Create an app from an app manifest. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_arguments` -- Invalid API arguments provided. - `invalid_manager_app` -- The calling app is not enrolled as a manager app. Ensure the app has `app_configurations:write` in its configured scopes and its home team has manager app support enabled. - `invalid_manifest` -- The provided manifest file does not validate against schema. Consult the additional errors field to locate specific issues. - `invalid_team_id` -- The provided team ID is not valid - `not_in_team` -- Cannot create an app in a team that user is not a member of - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `failed_datastore_operation` -- Failed while managing datastore infrastructure - `failed_generating_app_token` -- App level token failed to generate. - `feature_not_enabled` -- The required feature is not enabled for this workspace. - `managed_app_limit_reached` -- The manager app has reached the maximum number of managed apps it can create. - `ratelimited` -- Too many calls in succession to create endpoint during a short period of time. - `socket_mode_not_enabled` -- Socket mode is not enabled in manifest. - `enterprise_is_restricted` -- Org-level tokens are not allowed. - `unknown_method` -- Unknown method - `dynamic_client_registration_invalid_redirect_uri` -- The remote server rejected Slack's redirect URI during Dynamic Client Registration. The server must allowlist https://oauth2.slack.com/external/auth/callback as a valid redirect URI. - `dynamic_client_registration_failed` -- Dynamic client registration failed for an MCP server that requires OAuth authentication. - `oauth_metadata_not_found` -- Could not discover OAuth metadata for the MCP server. Ensure the server exposes a .well-known/oauth-authorization-server or .well-known/openid-configuration endpoint. - `dynamic_client_registration_not_supported` -- The MCP server's OAuth metadata does not include a registration endpoint. The server may not support Dynamic Client Registration. - `dynamic_client_registration_missing_oauth_endpoints` -- The MCP server's OAuth metadata is missing a required authorization or token endpoint. - `dynamic_client_registration_rejected` -- The MCP server rejected the Dynamic Client Registration request. - `dynamic_client_registration_invalid_response` -- The MCP server returned an invalid response during Dynamic Client Registration. See https://docs.slack.dev/reference/methods/apps.manifest.create */
+/** Create an app from an app manifest. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_arguments` -- Invalid API arguments provided. - `invalid_manager_app` -- The calling app is not enrolled as a manager app. Ensure the app has `app_configurations:write` in its configured scopes and its home team has manager app support enabled. - `invalid_manifest` -- The provided manifest file does not validate against schema. Consult the additional errors field to locate specific issues. - `invalid_team_id` -- The provided team ID is not valid - `not_in_team` -- Cannot create an app in a team that user is not a member of - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `failed_datastore_operation` -- Failed while managing datastore infrastructure - `failed_generating_app_token` -- App level token failed to generate. - `feature_not_enabled` -- The required feature is not enabled for this workspace. - `managed_app_limit_reached` -- The manager app has reached the maximum number of managed apps it can create. - `ratelimited` -- Too many calls in succession to create endpoint during a short period of time. - `socket_mode_not_enabled` -- Socket mode is not enabled in manifest. - `enterprise_is_restricted` -- Org-level tokens are not allowed. - `unknown_method` -- Unknown method - `dynamic_client_registration_invalid_redirect_uri` -- The remote server rejected Slack's redirect URI during Dynamic Client Registration. The server must allowlist https://oauth2.slack.com/external/auth/callback as a valid redirect URI. - `dynamic_client_registration_failed` -- Dynamic client registration failed for an MCP server that requires OAuth authentication. - `oauth_metadata_not_found` -- Could not discover OAuth metadata for the MCP server. Ensure the server exposes a .well-known/oauth-authorization-server or .well-known/openid-configuration endpoint. - `dynamic_client_registration_not_supported` -- The MCP server's OAuth metadata does not include a registration endpoint. The server may not support Dynamic Client Registration. - `dynamic_client_registration_missing_oauth_endpoints` -- The MCP server's OAuth metadata is missing a required authorization or token endpoint. - `dynamic_client_registration_rejected` -- The MCP server rejected the Dynamic Client Registration request. - `dynamic_client_registration_invalid_response` -- The MCP server returned an invalid response during Dynamic Client Registration. See https://docs.slack.dev/reference/methods/apps.manifest.create */
 export const createManifest: API.OperationMethod<
   CreateManifestRequest,
   CreateManifestResponse,
@@ -510,7 +514,8 @@ export const createManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<CreateManifestRequest>,
   output: __S(86, __c21, 2) as any as S.Schema<CreateManifestResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -527,7 +532,8 @@ export const datastoreCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<DatastoreCountRequest>,
   output: __S(89, __c22, 1) as any as S.Schema<DatastoreCountResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -546,7 +552,8 @@ export const datastoreQuery: API.PaginatedOperationMethod<
   () => ({
     input: __S(92, __c23, 0) as any as S.Schema<DatastoreQueryRequest>,
     output: __S(93, __c23, 1) as any as S.Schema<DatastoreQueryResponse>,
-    errors: [SlackError, SlackRateLimited],
+    errors: [],
+    serviceErrors: SlackServiceErrors,
     protocol: SlackProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -572,7 +579,8 @@ export const deleteAuthExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<DeleteAuthExternalRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<DeleteAuthExternalResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -589,7 +597,8 @@ export const deleteDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<DeleteDatastoreResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -597,7 +606,7 @@ export const deleteDatastore: API.OperationMethod<
 }));
 
 export type DeleteManifestError = SlackOpError;
-/** Permanently deletes an app created through app manifests. When called with a manager app token, this method can only delete apps that were created by that manager app. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `app_not_found` -- The specified app was not found. - `internal_error` -- Internal error. - `invalid_app_id` -- The app ID passed in was invalid. - `no_permission` -- User described by the used token does not have proper permissions to take this action. - `published_app_only` -- This action is only permitted for published app IDs. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only delete apps that it originally created via apps.manifest.create. See https://docs.slack.dev/reference/methods/apps.manifest.delete */
+/** Permanently deletes an app created through app manifests. When called with a manager app token, this method can only delete apps that were created by that manager app. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `app_not_found` -- The specified app was not found. - `internal_error` -- Internal error. - `invalid_app_id` -- The app ID passed in was invalid. - `no_permission` -- User described by the used token does not have proper permissions to take this action. - `published_app_only` -- This action is only permitted for published app IDs. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only delete apps that it originally created via apps.manifest.create. See https://docs.slack.dev/reference/methods/apps.manifest.delete */
 export const deleteManifest: API.OperationMethod<
   DeleteManifestRequest,
   DeleteManifestResponse,
@@ -606,7 +615,8 @@ export const deleteManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<DeleteManifestRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<DeleteManifestResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -623,7 +633,8 @@ export const exportManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ExportManifestRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<ExportManifestResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -640,7 +651,8 @@ export const getAuthExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetAuthExternalRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<GetAuthExternalResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +669,8 @@ export const getDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetDatastoreRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<GetDatastoreResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -676,7 +689,8 @@ export const listActivities: API.PaginatedOperationMethod<
   () => ({
     input: __S(36, __c9, 0) as any as S.Schema<ListActivitiesRequest>,
     output: __S(38, __c9, 2) as any as S.Schema<ListActivitiesResponse>,
-    errors: [SlackError, SlackRateLimited],
+    errors: [],
+    serviceErrors: SlackServiceErrors,
     protocol: SlackProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -704,7 +718,8 @@ export const listEventAuthorizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c10, 0) as any as S.Schema<ListEventAuthorizationsRequest>,
     output: __S(43, __c10, 3) as any as S.Schema<ListEventAuthorizationsResponse>,
-    errors: [SlackError, SlackRateLimited],
+    errors: [],
+    serviceErrors: SlackServiceErrors,
     protocol: SlackProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -730,7 +745,8 @@ export const putDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<PutDatastoreRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<PutDatastoreResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -738,7 +754,7 @@ export const putDatastore: API.OperationMethod<
 }));
 
 export type SetIconError = SlackOpError;
-/** Sets the app icon Required scopes -- user: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create. - `error_bad_format` -- Icon must be a valid image file. - `internal_error` -- Internal error. - `icon_not_accessible` -- The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image. - `invalid_app` -- App does not exist. - `invalid_app_id` -- App ID is not valid. - `invalid_icon_size` -- Icon dimensions must be between 512x512px and 2000x2000px. - `invalid_parameters` -- Only one of `URL` or `file` can be defined. - `missing_arguments` -- One of `URL` or `file` must be provided. - `no_permission` -- User does not have required permissions for app. - `unable_to_open_file` -- Error with file upload. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.icon.set */
+/** Sets the app icon Required scopes -- user: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create. - `error_bad_format` -- Icon must be a valid image file. - `internal_error` -- Internal error. - `icon_not_accessible` -- The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image. - `invalid_app` -- App does not exist. - `invalid_app_id` -- App ID is not valid. - `invalid_icon_size` -- Icon dimensions must be between 512x512px and 2000x2000px. - `invalid_parameters` -- Only one of `URL` or `file` can be defined. - `missing_arguments` -- One of `URL` or `file` must be provided. - `no_permission` -- User does not have required permissions for app. - `unable_to_open_file` -- Error with file upload. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.icon.set */
 export const setIcon: API.OperationMethod<
   SetIconRequest,
   SetIconResponse,
@@ -747,7 +763,8 @@ export const setIcon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<SetIconRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<SetIconResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -764,7 +781,8 @@ export const setManagedPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<SetManagedPermissionsRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<SetManagedPermissionsResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -781,7 +799,8 @@ export const uninstallApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<UninstallAppRequest>,
   output: __S(57, __c14, 1) as any as S.Schema<UninstallAppResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -798,7 +817,8 @@ export const updateDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<UpdateDatastoreRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<UpdateDatastoreResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -806,7 +826,7 @@ export const updateDatastore: API.OperationMethod<
 }));
 
 export type UpdateManifestError = SlackOpError;
-/** Update an app from an app manifest. When called with a manager app token, this method can only update apps that were created by that manager app. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `app_not_found` -- The specified app was not found or has been deleted. - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `failed_datastore_operation` -- Failed while managing datastore infrastructure - `internal_error` -- Internal error. - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_app_id` -- The app id passed is invalid. - `invalid_manifest` -- The provided manifest file does not validate against schema. - `no_permission` -- User does not have permission to update app - `unknown_method` -- Unknown method - `dynamic_client_registration_invalid_redirect_uri` -- The remote server rejected Slack's redirect URI during Dynamic Client Registration. The server must allowlist https://oauth2.slack.com/external/auth/callback as a valid redirect URI. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only update apps that it originally created via apps.manifest.create. It cannot modify apps created by other manager apps or apps created manually, even if the same user owns both. - `ratelimited` -- Too many calls in succession to update endpoint during a short period of time. - `dynamic_client_registration_failed` -- Dynamic client registration failed for an MCP server that requires OAuth authentication. - `oauth_metadata_not_found` -- Could not discover OAuth metadata for the MCP server. Ensure the server exposes a .well-known/oauth-authorization-server or .well-known/openid-configuration endpoint. - `dynamic_client_registration_not_supported` -- The MCP server's OAuth metadata does not include a registration endpoint. The server may not support Dynamic Client Registration. - `dynamic_client_registration_missing_oauth_endpoints` -- The MCP server's OAuth metadata is missing a required authorization or token endpoint. - `dynamic_client_registration_rejected` -- The MCP server rejected the Dynamic Client Registration request. - `dynamic_client_registration_invalid_response` -- The MCP server returned an invalid response during Dynamic Client Registration. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.manifest.update */
+/** Update an app from an app manifest. When called with a manager app token, this method can only update apps that were created by that manager app. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `app_not_found` -- The specified app was not found or has been deleted. - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `failed_datastore_operation` -- Failed while managing datastore infrastructure - `internal_error` -- Internal error. - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_app_id` -- The app id passed is invalid. - `invalid_manifest` -- The provided manifest file does not validate against schema. - `no_permission` -- User does not have permission to update app - `unknown_method` -- Unknown method - `dynamic_client_registration_invalid_redirect_uri` -- The remote server rejected Slack's redirect URI during Dynamic Client Registration. The server must allowlist https://oauth2.slack.com/external/auth/callback as a valid redirect URI. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only update apps that it originally created via apps.manifest.create. It cannot modify apps created by other manager apps or apps created manually, even if the same user owns both. - `ratelimited` -- Too many calls in succession to update endpoint during a short period of time. - `dynamic_client_registration_failed` -- Dynamic client registration failed for an MCP server that requires OAuth authentication. - `oauth_metadata_not_found` -- Could not discover OAuth metadata for the MCP server. Ensure the server exposes a .well-known/oauth-authorization-server or .well-known/openid-configuration endpoint. - `dynamic_client_registration_not_supported` -- The MCP server's OAuth metadata does not include a registration endpoint. The server may not support Dynamic Client Registration. - `dynamic_client_registration_missing_oauth_endpoints` -- The MCP server's OAuth metadata is missing a required authorization or token endpoint. - `dynamic_client_registration_rejected` -- The MCP server rejected the Dynamic Client Registration request. - `dynamic_client_registration_invalid_response` -- The MCP server returned an invalid response during Dynamic Client Registration. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.manifest.update */
 export const updateManifest: API.OperationMethod<
   UpdateManifestRequest,
   UpdateManifestResponse,
@@ -815,7 +835,8 @@ export const updateManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<UpdateManifestRequest>,
   output: __S(69, __c17, 1) as any as S.Schema<UpdateManifestResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -832,7 +853,8 @@ export const updateUserConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<UpdateUserConnectionRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<UpdateUserConnectionResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -849,7 +871,8 @@ export const validateManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<ValidateManifestRequest>,
   output: __S(79, __c19, 3) as any as S.Schema<ValidateManifestResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -944,7 +967,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          external_token: S.String,
+          external_token: S.String.pipe(T.SensitiveValue({})),
           token_response_extras: S.Unknown,
         }),
       ).annotate({ identifier: "GetAuthExternalResponse" });
@@ -1226,7 +1249,7 @@ function __c21(j: number): any {
         S.Struct({
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateManifestResponseCredentials" });
@@ -1239,7 +1262,7 @@ function __c21(j: number): any {
           oauth_authorize_url: S.optional(S.String),
           team_id: S.optional(S.String),
           team_domain: S.optional(S.String),
-          app_token: S.optional(S.String),
+          app_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateManifestResponse" });
   }

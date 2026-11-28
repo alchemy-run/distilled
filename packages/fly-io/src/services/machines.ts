@@ -6,6 +6,7 @@ import type * as Redacted from "effect/Redacted";
 import {
   BadRequest,
   Conflict,
+  FlyIoServiceErrors,
   Forbidden,
   GatewayTimeout,
   NotFound,
@@ -84,11 +85,16 @@ export class NetworkNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NetworkNotFound>()("NetworkNotFound", {
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1856, __c58, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "network not found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class StorageHostCapacity
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -111,6 +117,7 @@ export class VolumeAttached
   ) {}
 
 export interface AuthenticateTokenRequest {
+  /** Value of the Authorization header to verify, e.g. `FlyV1 fm2_...`. */
   header?: string | undefined;
 }
 export type MacaroonCaveatSetCaveatsList = Array<unknown>;
@@ -163,7 +170,9 @@ export interface MainTokenAccess {
   volume_id?: string | undefined;
 }
 export interface AuthorizeTokenRequest {
+  /** Access to check the token against. */
   access?: MainTokenAccess | undefined;
+  /** Value of the Authorization header to verify, e.g. `FlyV1 fm2_...`. */
   header?: string | undefined;
 }
 export type FlyioAccessCommandList = Array<string>;
@@ -185,7 +194,9 @@ export interface FlyioAccess {
   volume?: string | undefined;
 }
 export interface AuthorizeResponse {
+  /** The requested access, with names resolved to IDs. */
   access?: FlyioAccess | undefined;
+  /** The token that grants the requested access. */
   verified_token?: RootVerifiedToken | undefined;
 }
 export interface CheckAppCertificateRequest {
@@ -194,79 +205,135 @@ export interface CheckAppCertificateRequest {
   /** Certificate Hostname */
   hostname: string;
 }
+/** Key type of the certificate. */
 export type IssuedCertificateType = "rsa" | "ecdsa";
 export interface IssuedCertificate {
+  /** The certificate authority that issued the certificate. */
   certificate_authority?: string | undefined;
+  /** When the certificate expires. */
   expires_at?: string | undefined;
+  /** Key type of the certificate. */
   type?: IssuedCertificateType | undefined;
 }
+/** The individual Fly.io-issued certificates, newest first. Empty for custom certificates. */
 export type CertificateEntryIssuedList = Array<IssuedCertificate>;
+/** `custom` for an uploaded certificate, `fly` for certificates issued by Fly.io. */
 export type CertificateEntrySource = "custom" | "fly";
+/** `active` once ownership of the hostname is verified. Until then, `pending_ownership` for custom certificates and `pending_validation` for Fly.io-issued certificates. */
 export type CertificateEntryStatus = "active" | "pending_ownership" | "pending_validation";
 export interface CertificateEntry {
+  /** When the certificate was added; for Fly.io-issued certificates, the earliest one. */
   created_at?: string | undefined;
+  /** When the certificate expires; for Fly.io-issued certificates, the latest one. */
   expires_at?: string | undefined;
+  /** The individual Fly.io-issued certificates, newest first. Empty for custom certificates. */
   issued?: CertificateEntryIssuedList | undefined;
+  /** Issuer of a custom certificate. Omitted for Fly.io-issued certificates. */
   issuer?: string | undefined;
+  /** `custom` for an uploaded certificate, `fly` for certificates issued by Fly.io. */
   source?: CertificateEntrySource | undefined;
+  /** `active` once ownership of the hostname is verified. Until then, `pending_ownership` for custom certificates and `pending_validation` for Fly.io-issued certificates. */
   status?: CertificateEntryStatus | undefined;
 }
+/** The hostname's certificates: at most one custom entry and one Fly.io entry. */
 export type CertificateCheckResponseCertificatesList = Array<CertificateEntry>;
+/** A records found for the hostname. */
 export type DNSRecordsAList = Array<string>;
+/** AAAA records found for the hostname. */
 export type DNSRecordsAaaaList = Array<string>;
+/** CNAME records found for the hostname. */
 export type DNSRecordsCnameList = Array<string>;
+/** All addresses the hostname resolved to, after following CNAMEs. */
 export type DNSRecordsResolvedAddressesList = Array<string>;
 export interface DNSRecords {
+  /** A records found for the hostname. */
   a?: DNSRecordsAList | undefined;
+  /** AAAA records found for the hostname. */
   aaaa?: DNSRecordsAaaaList | undefined;
+  /** Target of the `_acme-challenge` CNAME record, if found. */
   acme_challenge_cname?: string | undefined;
+  /** CNAME records found for the hostname. */
   cname?: DNSRecordsCnameList | undefined;
+  /** Value of the `_fly-ownership` TXT record, if found. */
   ownership_txt?: string | undefined;
+  /** All addresses the hostname resolved to, after following CNAMEs. */
   resolved_addresses?: DNSRecordsResolvedAddressesList | undefined;
+  /** Primary name server from the SOA record of the hostname's zone. */
   soa?: string | undefined;
 }
+/** IPv4 addresses the hostname's A records can point to: the app's global IPv4 addresses and its shared IPv4 address. */
 export type DNSRequirementsAList = Array<string>;
+/** IPv6 addresses the hostname's AAAA records can point to: the app's global IPv6 addresses. */
 export type DNSRequirementsAaaaList = Array<string>;
 export interface AcmeChallenge {
+  /** Name of the CNAME record to create, such as `_acme-challenge.example.com`. */
   name?: string | undefined;
+  /** Value the CNAME record must point to. */
   target?: string | undefined;
 }
 export interface OwnershipVerification {
+  /** TXT record value that proves ownership for this app. */
   app_value?: string | undefined;
+  /** Name of the TXT record to create, such as `_fly-ownership.example.com`. */
   name?: string | undefined;
+  /** TXT record value that proves ownership for every app in the organization. */
   org_value?: string | undefined;
 }
 export interface DNSRequirements {
+  /** IPv4 addresses the hostname's A records can point to: the app's global IPv4 addresses and its shared IPv4 address. */
   a?: DNSRequirementsAList | undefined;
+  /** IPv6 addresses the hostname's AAAA records can point to: the app's global IPv6 addresses. */
   aaaa?: DNSRequirementsAaaaList | undefined;
+  /** Record for DNS-01 validation. */
   acme_challenge?: AcmeChallenge | undefined;
+  /** Target the hostname can CNAME to instead of using A and AAAA records. */
   cname?: string | undefined;
+  /** Record for proving ownership of the hostname. */
   ownership?: OwnershipVerification | undefined;
 }
 export interface CertificateValidation {
+  /** Whether the hostname points at the app, allowing TLS-ALPN-01 validation. */
   alpn_configured?: boolean | undefined;
+  /** Whether the `_acme-challenge` CNAME record is set up, allowing DNS-01 validation. */
   dns_configured?: boolean | undefined;
+  /** Whether the hostname points at the app, allowing HTTP-01 validation. */
   http_configured?: boolean | undefined;
+  /** Whether the `_fly-ownership` TXT record is set up. */
   ownership_txt_configured?: boolean | undefined;
 }
 export interface CertificateValidationError {
+  /** Machine-readable error code. */
   code?: string | undefined;
+  /** Human-readable description of the problem. */
   message?: string | undefined;
+  /** How to fix the problem, if known. */
   remediation?: string | undefined;
+  /** When the problem was detected. */
   timestamp?: string | undefined;
 }
+/** Problems found by the most recent validation. */
 export type CertificateCheckResponseValidationErrorsList = Array<CertificateValidationError>;
 export interface CertificateCheckResponse {
+  /** Whether Fly.io-issued (ACME) certificates were requested for the hostname. */
   acme_requested?: boolean | undefined;
+  /** The hostname's certificates: at most one custom entry and one Fly.io entry. */
   certificates?: CertificateCheckResponseCertificatesList | undefined;
+  /** Whether ownership of the hostname has been verified. */
   configured?: boolean | undefined;
+  /** DNS provider detected for the hostname, if known. */
   dns_provider?: string | undefined;
   dns_records?: DNSRecords | undefined;
+  /** DNS records to create to point the hostname at the app and validate it. */
   dns_requirements?: DNSRequirements | undefined;
+  /** The hostname the certificate is for. May start with `*.` for a wildcard certificate. */
   hostname?: string | undefined;
+  /** If Let's Encrypt is rate-limiting certificate requests for the hostname, when that ends. */
   rate_limited_until?: string | undefined;
+  /** Human-readable status: `Ready`, `Awaiting certificates`, `Awaiting configuration`, or a hint about what is misconfigured. */
   status?: string | undefined;
+  /** Which validation methods are currently possible. */
   validation?: CertificateValidation | undefined;
+  /** Problems found by the most recent validation. */
   validation_errors?: CertificateCheckResponseValidationErrorsList | undefined;
 }
 export interface CordonMachineRequest {
@@ -277,6 +344,7 @@ export interface CordonMachineRequest {
   lease_nonce?: string | undefined;
 }
 export interface OkResponse {
+  /** Always true. */
   ok?: boolean | undefined;
 }
 export interface CreateAppRequest {
@@ -292,44 +360,63 @@ export interface CreateAppRequest {
   org_slug?: string | undefined;
 }
 export interface CreateAppResponse {
+  /** When the app was created, in Unix milliseconds. */
   created_at?: number | undefined;
+  /** Name of the new app. Despite the field's name, this is not the app's `id` as returned by Get App. */
   id?: string | undefined;
 }
 export interface CreateAppAcmeCertificateRequest {
   /** Fly App Name */
   app_name: string;
+  /** Hostname to request certificates for, such as `example.com` or `*.example.com`. Required. Hostnames under `fly.dev` are not allowed. */
   hostname?: string | undefined;
 }
+/** The hostname's certificates: at most one custom entry and one Fly.io entry. */
 export type CertificateDetailCertificatesList = Array<CertificateEntry>;
+/** Problems found by the most recent validation. */
 export type CertificateDetailValidationErrorsList = Array<CertificateValidationError>;
 export interface CertificateDetail {
+  /** Whether Fly.io-issued (ACME) certificates were requested for the hostname. */
   acme_requested?: boolean | undefined;
+  /** The hostname's certificates: at most one custom entry and one Fly.io entry. */
   certificates?: CertificateDetailCertificatesList | undefined;
+  /** Whether ownership of the hostname has been verified. */
   configured?: boolean | undefined;
+  /** DNS provider detected for the hostname, if known. */
   dns_provider?: string | undefined;
+  /** DNS records to create to point the hostname at the app and validate it. */
   dns_requirements?: DNSRequirements | undefined;
+  /** The hostname the certificate is for. May start with `*.` for a wildcard certificate. */
   hostname?: string | undefined;
+  /** If Let's Encrypt is rate-limiting certificate requests for the hostname, when that ends. */
   rate_limited_until?: string | undefined;
+  /** Human-readable status: `Ready`, `Awaiting certificates`, `Awaiting configuration`, or a hint about what is misconfigured. */
   status?: string | undefined;
+  /** Which validation methods are currently possible. */
   validation?: CertificateValidation | undefined;
+  /** Problems found by the most recent validation. */
   validation_errors?: CertificateDetailValidationErrorsList | undefined;
 }
 export interface CreateAppCustomCertificateRequest {
   /** Fly App Name */
   app_name: string;
+  /** PEM-encoded certificate, followed by any intermediate certificates. Required. */
   fullchain?: string | undefined;
+  /** Hostname the certificate is for. Required. Hostnames under `fly.dev` are not allowed. */
   hostname?: string | undefined;
+  /** PEM-encoded private key of the certificate. Required. */
   private_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateAppDeployTokenRequest {
   /** Fly App Name */
   app_name: string;
+  /** How long the token is valid, as a Go duration string such as `720h`. If omitted, the token is valid for as long as the token used to make this request. */
   expiry?: string | undefined;
 }
 export interface CreateAppDeployTokenResponse {
   token?: string | Redacted.Redacted<string> | undefined;
 }
-/** Type of IP address to allocate. "egress-pair" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs). */
+/** Type of IP address to allocate. "egress_pair" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs). */
 export type IPAssignmentType =
   | "v4"
   | "v6"
@@ -341,34 +428,51 @@ export type IPAssignmentType =
 export interface CreateAppIPAssignmentRequest {
   /** Fly App Name */
   app_name: string;
+  /** Only for `private_v6`: name of the private network to allocate the Flycast address in. Defaults to the organization's default network. */
   network?: string | undefined;
+  /** Only for `private_v6`: slug of the organization whose private network the Flycast address is allocated in, to make the app reachable from that organization. Defaults to the app's organization. */
   org_slug?: string | undefined;
+  /** Region to scope the address to. Required for egress types. Optional for `v4` and `v6`, which default to `global` (announced in all regions). Must be empty or `global` for `shared_v4` and `private_v6`. */
   region?: string | undefined;
+  /** Scope the address to a single service of the app. Not supported for egress types. */
   service_name?: string | undefined;
+  /** Type of IP address to allocate. Required. */
   type?: IPAssignmentType | (string & {}) | undefined;
 }
 export interface IPPair {
+  /** The egress IPv4 address. */
   v4?: string | undefined;
+  /** The egress IPv6 address. */
   v6?: string | undefined;
 }
 /** The 6PN network a Flycast (private_v6) address belongs to. Null for all other IP types. */
 export interface IPAssignmentNetwork {
   /** Network name; empty for the organization's default network. */
   name?: string | undefined;
+  /** Slug of the organization the network belongs to. */
   org_slug?: string | undefined;
 }
 export interface AssignIPResponse {
+  /** When the address was assigned to the app, in RFC 3339 format. */
   created_at?: string | undefined;
+  /** Whether this is an egress address. */
   egress?: boolean | undefined;
+  /** The allocated IP address. Null for `egress_pair`; see `ip_pair`. */
   ip?: string | undefined;
-  /** ip_pair is returned when "egress-pair" IP type is requested; in this case, ip is null. */
+  /** The allocated IPv4 and IPv6 addresses when the `egress_pair` type was requested; null otherwise. */
   ip_pair?: IPPair | undefined;
   network?: IPAssignmentNetwork | null | undefined;
+  /** Region the address is scoped to, or `global` for addresses announced in all regions. */
   region?: string | undefined;
+  /** Name of the service the address is scoped to, if any. */
   service_name?: string | undefined;
+  /** Whether this is the app's shared IPv4 address. */
   shared?: boolean | undefined;
 }
 export interface FlyMachineCacheDrive {
+  /** Absolute path in the Machine at which to mount the cache disk. */
+  path?: string | undefined;
+  /** Size of the cache disk in MiB. Between 16 and 51200. Changing the size discards the disk's contents. */
   size_mb?: number | undefined;
 }
 /** The header value */
@@ -380,12 +484,14 @@ export interface FlyMachineHTTPHeader {
   /** The header value */
   values?: FlyMachineHTTPHeaderValuesList | undefined;
 }
+/** For http checks, headers to send with the request */
 export type FlyMachineCheckHeadersList = Array<FlyMachineHTTPHeader>;
 /** Kind of the check (informational, readiness) */
 export type FlyMachineCheckKind = "informational" | "readiness";
 export interface FlyMachineCheck {
   /** The time to wait after a VM starts before checking its health */
   grace_period?: string | undefined;
+  /** For http checks, headers to send with the request */
   headers?: FlyMachineCheckHeadersList | undefined;
   /** The time between connectivity checks */
   interval?: string | undefined;
@@ -395,7 +501,7 @@ export interface FlyMachineCheck {
   method?: string | undefined;
   /** For http checks, the path to send the request to */
   path?: string | undefined;
-  /** The port to connect to, often the same as internal_port */
+  /** The port to connect to. Required for top-level checks */
   port?: number | undefined;
   /** For http checks, whether to use http or https */
   protocol?: string | undefined;
@@ -414,7 +520,9 @@ export type FlyMachineConfigChecksMap = { [key: string]: FlyMachineCheck | undef
 export type FlyContainerConfigCmdList = Array<string>;
 export type FlyContainerDependencyCondition = "exited_successfully" | "healthy" | "started";
 export interface FlyContainerDependency {
+  /** When the container can start: once the dependency has `started`, is `healthy`, or has `exited_successfully` */
   condition?: FlyContainerDependencyCondition | (string & {}) | undefined;
+  /** Name of the container this one depends on */
   name?: string | undefined;
 }
 /** DependsOn can be used to define dependencies between containers. The container will only be started after all of its dependent conditions have been satisfied. */
@@ -483,11 +591,13 @@ export interface FlyTCPHealthcheck {
 }
 export type FlyUnhealthyPolicy = "stop";
 export interface FlyContainerHealthcheck {
+  /** Check that a command run in the container exits with status 0 */
   exec?: FlyExecHealthcheck | undefined;
   /** The number of times the check must fail before considering the container unhealthy. */
   failure_threshold?: number | undefined;
   /** The time in seconds to wait after a container starts before checking its health. */
   grace_period?: number | undefined;
+  /** Check that an HTTP request succeeds */
   http?: FlyHTTPHealthcheck | undefined;
   /** The time in seconds between executing the defined check. */
   interval?: number | undefined;
@@ -497,6 +607,7 @@ export interface FlyContainerHealthcheck {
   name?: string | undefined;
   /** The number of times the check must succeeed before considering the container healthy. */
   success_threshold?: number | undefined;
+  /** Check that a TCP connection can be opened */
   tcp?: FlyTCPHealthcheck | undefined;
   /** The time in seconds to wait for the check to complete. */
   timeout?: number | undefined;
@@ -523,6 +634,7 @@ export interface FlyMachineSecret {
 }
 /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
 export type FlyContainerConfigSecretsList = Array<FlyMachineSecret>;
+/** Signal to send to the Machine's processes. Defaults to SIGINT */
 export type FlyStopConfigSignal =
   | "SIGHUP"
   | "SIGINT"
@@ -532,7 +644,9 @@ export type FlyStopConfigSignal =
   | "SIGUSR2"
   | "SIGTERM";
 export interface FlyStopConfig {
+  /** Signal to send to the Machine's processes. Defaults to SIGINT */
   signal?: FlyStopConfigSignal | (string & {}) | undefined;
+  /** How long to wait for the Machine to exit after sending the signal, before killing it. At most 5 minutes (1 minute for spot Machines). Defaults to 5s (60s for spot Machines) */
   timeout?: string | undefined;
 }
 export interface FlyContainerConfig {
@@ -568,118 +682,179 @@ export interface FlyContainerConfig {
 /** Containers are a list of containers that will run in the machine, each from its own image. */
 export type FlyMachineConfigContainersList = Array<FlyContainerConfig>;
 export interface FlyDnsForwardRule {
+  /** Address and port of the DNS server to forward queries to over TCP, e.g. `10.0.0.1:53` */
   addr?: string | undefined;
+  /** Domain to forward queries for, including subdomains. Must end in a dot, e.g. `example.com.` */
   basename?: string | undefined;
 }
+/** Forward DNS queries for some domains to other DNS servers */
 export type FlyDNSConfigDnsForwardRulesList = Array<FlyDnsForwardRule>;
+/** Nameservers to use instead of the default, Fly.io's private DNS server `fdaa::3` */
 export type FlyDNSConfigNameserversList = Array<string>;
 export interface FlyDnsOption {
+  /** Option name, e.g. `ndots` */
   name?: string | undefined;
+  /** Option value, e.g. `5` */
   value?: string | undefined;
 }
+/** Options for /etc/resolv.conf */
 export type FlyDNSConfigOptionsList = Array<FlyDnsOption>;
+/** Search domains for /etc/resolv.conf */
 export type FlyDNSConfigSearchesList = Array<string>;
 export interface FlyDNSConfig {
+  /** Forward DNS queries for some domains to other DNS servers */
   dns_forward_rules?: FlyDNSConfigDnsForwardRulesList | undefined;
+  /** Hostname of the Machine. Defaults to the Machine ID. Also added to /etc/hosts with the Machine's 6PN address */
   hostname?: string | undefined;
+  /** Fully qualified domain name added to /etc/hosts for `hostname` */
   hostname_fqdn?: string | undefined;
+  /** Nameservers to use instead of the default, Fly.io's private DNS server `fdaa::3` */
   nameservers?: FlyDNSConfigNameserversList | undefined;
+  /** Options for /etc/resolv.conf */
   options?: FlyDNSConfigOptionsList | undefined;
+  /** Search domains for /etc/resolv.conf */
   searches?: FlyDNSConfigSearchesList | undefined;
+  /** Currently has no effect */
   skip_registration?: boolean | undefined;
 }
 /** An object filled with key/value pairs to be set as environment variables */
 export type FlyMachineConfigEnvMap = { [key: string]: string | undefined };
 /** Files to write into the Machine, from either a raw value or an app secret */
 export type FlyMachineConfigFilesList = Array<FlyFile>;
+/** Extra arguments appended to the guest kernel command line */
 export type FlyMachineGuestKernelArgsList = Array<string>;
 /** Deprecated: use MachineConfig.Rootfs instead */
 export type FlyMachineGuestPersistRootfs = "never" | "always" | "restart";
+/** Host features the Machine's host must have, such as `storage-tier-1`. At most 16, each made of lowercase letters, digits and dashes. Each feature must be enabled for the organization */
 export type FlyMachineGuestRequiredHostFeaturesList = Array<string>;
 export interface FlyMachineGuest {
+  /** Kind of CPU: shared or performance. Performance CPUs must be enabled for the organization. Defaults to shared when `guest` is omitted */
   cpu_kind?: string | undefined;
+  /** Number of CPUs: 1, 2, 4, 6, 8, 10, 12, 14, 16, 32, 64 or 128, up to 8 for shared and 16 for performance CPUs unless the organization's limit is higher. Defaults to 1 when `guest` is omitted */
   cpus?: number | undefined;
+  /** No longer supported. Requests that set it are rejected */
   gpu_kind?: string | undefined;
+  /** No longer supported. Requests that set it are rejected */
   gpus?: number | undefined;
+  /** Place the Machine on hosts dedicated to the organization under this ID. Only available to organizations with dedicated hosts */
   host_dedication_id?: string | undefined;
+  /** Extra arguments appended to the guest kernel command line */
   kernel_args?: FlyMachineGuestKernelArgsList | undefined;
+  /** Memory in MiB that the Machine's memory limit can later be raised to without a restart, using the memory endpoints. Must be at least memory_mb and at most the per-CPU maximum. The Machine starts with a limit of memory_mb */
   max_memory_mb?: number | undefined;
+  /** Memory in MiB. Must be a multiple of 256 for shared and 1024 for performance CPUs, and between 256 and 2048 (shared) or 2048 and 8192 (performance) per CPU. Defaults to 256 when `guest` is omitted */
   memory_mb?: number | undefined;
   /** Deprecated: use MachineConfig.Rootfs instead */
   persist_rootfs?: FlyMachineGuestPersistRootfs | (string & {}) | undefined;
+  /** Host features the Machine's host must have, such as `storage-tier-1`. At most 16, each made of lowercase letters, digits and dashes. Each feature must be enabled for the organization */
   required_host_features?: FlyMachineGuestRequiredHostFeaturesList | undefined;
 }
+/** Replaces the image's CMD. It's appended to the entrypoint */
 export type FlyMachineInitCmdList = Array<string>;
+/** Replaces the image's ENTRYPOINT */
 export type FlyMachineInitEntrypointList = Array<string>;
+/** Command to run instead of the image's ENTRYPOINT and CMD. Takes precedence over entrypoint and cmd */
 export type FlyMachineInitExecList = Array<string>;
+/** Currently has no effect. Use `guest.kernel_args` instead */
 export type FlyMachineInitKernelArgsList = Array<string>;
 export interface FlyMachineInit {
+  /** Replaces the image's CMD. It's appended to the entrypoint */
   cmd?: FlyMachineInitCmdList | undefined;
+  /** Replaces the image's ENTRYPOINT */
   entrypoint?: FlyMachineInitEntrypointList | undefined;
+  /** Command to run instead of the image's ENTRYPOINT and CMD. Takes precedence over entrypoint and cmd */
   exec?: FlyMachineInitExecList | undefined;
+  /** Currently has no effect. Use `guest.kernel_args` instead */
   kernel_args?: FlyMachineInitKernelArgsList | undefined;
+  /** Size in MiB of a swap device to give the Machine. Machines with swap cannot be suspended */
   swap_size_mb?: number | undefined;
+  /** Currently has no effect */
   tty?: boolean | undefined;
 }
 /** Key/value pairs of Machine metadata. Fly.io uses metadata internally for routing, process groups, and clusters */
 export type FlyMachineConfigMetadataMap = { [key: string]: string | undefined };
 export interface FlyMachineMetrics {
+  /** Scrape over HTTPS instead of HTTP */
   https?: boolean | undefined;
+  /** HTTP path to scrape. Defaults to `/` */
   path?: string | undefined;
+  /** Port in the Machine to scrape metrics from */
   port?: number | undefined;
 }
 export interface FlyMachineMount {
+  /** With automatic extension, grow the volume by this many GB at a time. Between 1 and 100. Mutually exclusive with add_size_percent */
   add_size_gb?: number | undefined;
   /** AddSizePercent grows by a percentage of the current size, rounded up to GiB. It is mutually exclusive with AddSizeGb. */
   add_size_percent?: number | undefined;
+  /** Whether the volume is encrypted. Set by Fly.io; ignored in requests */
   encrypted?: boolean | undefined;
+  /** Enable automatic volume extension: grow the volume when its usage exceeds this percentage. Between 50 and 99; 0 disables it */
   extend_threshold_percent?: number | undefined;
   /** MinAddSizeGb is the minimum proportional growth in GiB (default 1). */
   min_add_size_gb?: number | undefined;
+  /** Name of the volume. Set by Fly.io; ignored in requests */
   name?: string | undefined;
+  /** Absolute path in the Machine to mount the volume at. Required */
   path?: string | undefined;
+  /** Size of the volume in GB. Set by Fly.io; ignored in requests */
   size_gb?: number | undefined;
+  /** With automatic extension, never grow the volume beyond this size in GB. At most the organization's maximum volume size */
   size_gb_limit?: number | undefined;
+  /** ID (`vol_...`) or name of the volume to mount. Required. With a name, any unattached volume of the app with that name in the Machine's region is used */
   volume?: string | undefined;
 }
 /** Persistent volumes to mount in the Machine. A Machine can mount at most one volume, which must be on the same host. The mounted volume cannot be changed by updating the Machine */
 export type FlyMachineConfigMountsList = Array<FlyMachineMount>;
+/** Replaces the image's CMD for this process. It's appended to the entrypoint */
 export type FlyMachineProcessCmdList = Array<string>;
+/** Replaces the image's ENTRYPOINT for this process */
 export type FlyMachineProcessEntrypointList = Array<string>;
+/** Environment variables for this process, in addition to the Machine's `env` */
 export type FlyMachineProcessEnvMap = { [key: string]: string | undefined };
 /** EnvFrom can be provided to set environment variables from machine fields. */
 export type FlyMachineProcessEnvFromList = Array<FlyEnvFrom>;
+/** Command to run instead of the image's ENTRYPOINT and CMD. Takes precedence over entrypoint and cmd */
 export type FlyMachineProcessExecList = Array<string>;
 /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
 export type FlyMachineProcessSecretsList = Array<FlyMachineSecret>;
 export interface FlyMachineProcess {
+  /** Replaces the image's CMD for this process. It's appended to the entrypoint */
   cmd?: FlyMachineProcessCmdList | undefined;
+  /** Replaces the image's ENTRYPOINT for this process */
   entrypoint?: FlyMachineProcessEntrypointList | undefined;
+  /** Environment variables for this process, in addition to the Machine's `env` */
   env?: FlyMachineProcessEnvMap | undefined;
   /** EnvFrom can be provided to set environment variables from machine fields. */
   env_from?: FlyMachineProcessEnvFromList | undefined;
+  /** Command to run instead of the image's ENTRYPOINT and CMD. Takes precedence over entrypoint and cmd */
   exec?: FlyMachineProcessExecList | undefined;
   /** IgnoreAppSecrets can be set to true to ignore the secrets for the App the Machine belongs to and only use the secrets provided at the process level. The default/legacy behavior is to use the secrets provided at the App level. */
   ignore_app_secrets?: boolean | undefined;
   /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
   secrets?: FlyMachineProcessSecretsList | undefined;
+  /** User to run the process as, instead of the image's USER */
   user?: string | undefined;
 }
 /** Multiple processes to run within this one Machine, all from the Machine's image. Unrelated to the process groups in fly.toml, which run on separate Machines. To run processes from different images, use containers instead */
 export type FlyMachineConfigProcessesList = Array<FlyMachineProcess>;
+/** Whether changes to the root filesystem are kept. `never` (default): reset on every start. `restart`: kept across stops and restarts, reset when the Machine is updated. `always`: also kept across updates */
 export type FlyMachineRootfsPersist = "never" | "always" | "restart";
 export interface FlyMachineRootfs {
+  /** Whether changes to the root filesystem are kept. `never` (default): reset on every start. `restart`: kept across stops and restarts, reset when the Machine is updated. `always`: also kept across updates */
   persist?: FlyMachineRootfsPersist | (string & {}) | undefined;
+  /** Size of the root filesystem in GB. At most 50; 0 uses the default */
   size_gb?: number | undefined;
 }
 /** Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for "off" and "stop" in responses. * "off" or false - Do not autostop the Machine. * "stop" or true - Automatically stop the Machine. * "suspend" - Automatically suspend the Machine, falling back to a full stop if this is not possible. */
 export type FlyMachineServiceAutostopMode = "off" | "stop" | "suspend";
 /** Accepts off, stop, or suspend. For backward compatibility, responses encode off as false and stop as true. */
 export type FlyMachineServiceAutostop = FlyMachineServiceAutostopMode | (string & {}) | boolean;
+/** For http checks, headers to send with the request */
 export type FlyMachineServiceCheckHeadersList = Array<FlyMachineHTTPHeader>;
 export interface FlyMachineServiceCheck {
   /** The time to wait after a VM starts before checking its health */
   grace_period?: string | undefined;
+  /** For http checks, headers to send with the request */
   headers?: FlyMachineServiceCheckHeadersList | undefined;
   /** The time between connectivity checks */
   interval?: string | undefined;
@@ -687,7 +862,7 @@ export interface FlyMachineServiceCheck {
   method?: string | undefined;
   /** For http checks, the path to send the request to */
   path?: string | undefined;
-  /** The port to connect to, often the same as internal_port */
+  /** The port to connect to. Defaults to the service's internal_port */
   port?: number | undefined;
   /** For http checks, whether to use http or https */
   protocol?: string | undefined;
@@ -703,70 +878,111 @@ export interface FlyMachineServiceCheck {
 /** An optional list of service checks */
 export type FlyMachineServiceChecksList = Array<FlyMachineServiceCheck>;
 export interface FlyMachineServiceConcurrency {
+  /** Fly Proxy sends no more than this many connections or requests to a Machine at once. 0 means no hard limit */
   hard_limit?: number | undefined;
+  /** Above this many connections or requests, Fly Proxy prefers other Machines. Defaults to 20, and is lowered to hard_limit if higher */
   soft_limit?: number | undefined;
+  /** What to count: `connections` (default) or `requests` */
   type?: string | undefined;
 }
+/** How Fly Proxy handles connections before forwarding them: `tls` terminates TLS, `pg_tls` terminates PostgreSQL TLS, `http` handles HTTP, `proxy_proto` adds a PROXY protocol header. Without handlers, raw TCP is forwarded */
 export type FlyMachinePortHandlersList = Array<string>;
 /** Currently either "cookie" or "header" */
 export type FlyReplayCacheType = "cookie" | "header";
 export interface FlyReplayCache {
+  /** Let clients skip the cache by sending the `fly-replay-cache-control: skip` header */
   allow_bypass?: boolean | undefined;
   /** Name of the cookie or header to key the cache on */
   name?: string | undefined;
+  /** Requests whose path starts with this prefix use the rule. May start with a hostname, e.g. `example.com/api/*` */
   path_prefix?: string | undefined;
+  /** How long a cached replay is used, in seconds */
   ttl_seconds?: number | undefined;
   /** Currently either "cookie" or "header" */
   type?: FlyReplayCacheType | (string & {}) | undefined;
 }
+/** Cache `fly-replay` responses from the Machine: once a client is replayed, its further requests are replayed directly, keyed on a cookie or header, without asking the Machine again */
 export type FlyHTTPOptionsReplayCacheList = Array<FlyReplayCache>;
+/** Response headers to set. A string sets the header, a list of strings sets it to multiple values, and false removes it */
 export type FlyHTTPResponseOptionsHeadersMap = { [key: string]: unknown | undefined };
 export interface FlyHTTPResponseOptions {
+  /** Response headers to set. A string sets the header, a list of strings sets it to multiple values, and false removes it */
   headers?: FlyHTTPResponseOptionsHeadersMap | undefined;
+  /** Don't let Fly Proxy add or change any response headers */
   pristine?: boolean | undefined;
 }
 export interface FlyHTTPOptions {
+  /** Compress response bodies. Defaults to true */
   compress?: boolean | undefined;
+  /** Use HTTP/2 to talk to the Machine */
   h2_backend?: boolean | undefined;
+  /** Seconds Fly Proxy waits for a client to send request headers. Defaults to 5 */
   headers_read_timeout?: number | undefined;
+  /** Seconds a client connection can be idle between requests before it's closed. Defaults to 300 */
   idle_timeout?: number | undefined;
+  /** Cache `fly-replay` responses from the Machine: once a client is replayed, its further requests are replayed directly, keyed on a cookie or header, without asking the Machine again */
   replay_cache?: FlyHTTPOptionsReplayCacheList | undefined;
+  /** Changes Fly Proxy makes to responses */
   response?: FlyHTTPResponseOptions | undefined;
 }
 export interface FlyProxyProtoOptions {
+  /** With version v2, add the Fly-Src header and its signature to the PROXY protocol header */
   fly_src?: boolean | undefined;
+  /** PROXY protocol version: v1 (default) or v2 */
   version?: string | undefined;
 }
+/** ALPN protocols to offer, e.g. `h2`, `http/1.1`. Defaults to `h2` and `http/1.1` */
 export type FlyTLSOptionsAlpnList = Array<string>;
+/** TLS versions to accept: `TLSv1.2`, `TLSv1.3`. Defaults to both */
 export type FlyTLSOptionsVersionsList = Array<string>;
 export interface FlyTLSOptions {
+  /** ALPN protocols to offer, e.g. `h2`, `http/1.1`. Defaults to `h2` and `http/1.1` */
   alpn?: FlyTLSOptionsAlpnList | undefined;
+  /** Use a self-signed certificate when there is no certificate for the requested hostname */
   default_self_signed?: boolean | undefined;
+  /** TLS versions to accept: `TLSv1.2`, `TLSv1.3`. Defaults to both */
   versions?: FlyTLSOptionsVersionsList | undefined;
 }
 export interface FlyMachinePort {
+  /** Last public port of a range */
   end_port?: number | undefined;
+  /** Redirect plain HTTP requests to HTTPS */
   force_https?: boolean | undefined;
+  /** How Fly Proxy handles connections before forwarding them: `tls` terminates TLS, `pg_tls` terminates PostgreSQL TLS, `http` handles HTTP, `proxy_proto` adds a PROXY protocol header. Without handlers, raw TCP is forwarded */
   handlers?: FlyMachinePortHandlersList | undefined;
+  /** Options for the `http` handler */
   http_options?: FlyHTTPOptions | undefined;
+  /** Public port. Use either port, or start_port and end_port */
   port?: number | undefined;
+  /** Options for the `proxy_proto` handler */
   proxy_proto_options?: FlyProxyProtoOptions | undefined;
+  /** First public port of a range */
   start_port?: number | undefined;
+  /** Options for the `tls` handler */
   tls_options?: FlyTLSOptions | undefined;
 }
+/** Public ports that Fly Proxy accepts traffic on */
 export type FlyMachineServicePortsList = Array<FlyMachinePort>;
 export interface FlyMachineService {
+  /** Whether Fly Proxy starts stopped or suspended Machines when requests arrive. Defaults to true */
   autostart?: boolean | undefined;
   /** Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for "off" and "stop" in responses. * "off" or false - Do not autostop the Machine. * "stop" or true - Automatically stop the Machine. * "suspend" - Automatically suspend the Machine, falling back to a full stop if this is not possible. */
   autostop?: FlyMachineServiceAutostop | undefined;
   /** An optional list of service checks */
   checks?: FlyMachineServiceChecksList | undefined;
+  /** Load limits Fly Proxy uses to balance traffic across Machines */
   concurrency?: FlyMachineServiceConcurrency | undefined;
+  /** Currently has no effect */
   force_instance_description?: string | undefined;
+  /** Currently has no effect */
   force_instance_key?: string | undefined;
+  /** Port in the Machine that Fly Proxy forwards traffic to. Defaults to 8080 */
   internal_port?: number | undefined;
+  /** When autostop is on, the number of Machines Fly Proxy keeps running in the app's primary region (`PRIMARY_REGION` env var). Machines in other regions can all be stopped */
   min_machines_running?: number | undefined;
+  /** Public ports that Fly Proxy accepts traffic on */
   ports?: FlyMachineServicePortsList | undefined;
+  /** Protocol: tcp or udp. Defaults to tcp */
   protocol?: string | undefined;
 }
 /** Network services that Fly Proxy routes traffic to */
@@ -792,8 +1008,8 @@ export type FlyMachineConfigStaticsList = Array<FlyStatic>;
 export interface FlyMachineConfig {
   /** Optional boolean telling the Machine to destroy itself once it's complete (default false) */
   auto_destroy?: boolean | undefined;
-  /** A cache drive attached to the Machine */
-  cache_drive?: FlyMachineCacheDrive | undefined;
+  /** Semi-durable cache disk attached to the Machine. Contents generally survive Machine stops, restarts, and updates, but durability is not guaranteed. Expect Machines to start with an empty cache disk at any time */
+  cache_disk?: FlyMachineCacheDrive | undefined;
   /** An optional object that defines one or more named top-level checks. The key for each check is the check name. */
   checks?: FlyMachineConfigChecksMap | undefined;
   /** Containers are a list of containers that will run in the machine, each from its own image. */
@@ -822,7 +1038,7 @@ export interface FlyMachineConfig {
   processes?: FlyMachineConfigProcessesList | undefined;
   /** Whether and how the Machine is restarted after its main process exits */
   restart?: FlyMachineRestart | undefined;
-  /** The size of the Machine's root filesystem and whether it persists */
+  /** Beta: the size of the Machine's root filesystem and whether it persists. This field may be removed in the future */
   rootfs?: FlyMachineRootfs | undefined;
   /** Run the Machine at an interval: one of hourly, daily, weekly or monthly. The interval starts when the Machine is created */
   schedule?: string | undefined;
@@ -844,71 +1060,115 @@ export interface CreateMachineRequest {
   app_name: string;
   /** An object defining the Machine configuration */
   config?: FlyMachineConfig | undefined;
+  /** Acquire a lease on the new Machine that lasts this many seconds. The response's `nonce` field holds the lease nonce. */
   lease_ttl?: number | undefined;
   /** The minimum version of the app's secrets the Machine must run with. Set it to the `version` returned by the endpoints that set or delete app secrets, so that the Machine is guaranteed to see those changes. This field belongs at the top level of the request body, not in `config`. If omitted, the app's current secrets version is looked up for you. */
   min_secrets_version?: number | undefined;
-  /** Unique name for this Machine. If omitted, one is generated for you */
+  /** Name for this Machine. If omitted, one is generated for you. Names are not required to be unique. */
   name?: string | undefined;
-  /** The target region. Omitting this param launches in the same region as your WireGuard peer connection (somewhere near you). */
+  /** The region to create the Machine in, such as `iad`. Also accepts a comma-separated list of regions and region groups (`any`, `us`, `na`, `sa`, `eu`, `apac`, `africa`, `asia_pacific`, `europe`, `north_america`, `south_america`), in which case Fly.io picks one with capacity. If the Machine mounts a volume, defaults to the volume's region; the region must include it. Otherwise defaults to the region of the API server handling the request, which is usually the one closest to you. */
   region?: string | undefined;
+  /** Create the Machine without starting it. It ends up `stopped`; start it with the Start Machine endpoint. Not allowed for spot Machines. */
   skip_launch?: boolean | undefined;
+  /** Don't look up the app's current secrets version. The Machine still gets the app's secrets, but may not see recent changes to them. Takes precedence over `min_secrets_version`. */
   skip_secrets?: boolean | undefined;
+  /** Create the Machine cordoned, so Fly Proxy doesn't route requests to it until it is uncordoned. Its services are still registered. */
   skip_service_registration?: boolean | undefined;
 }
+/** Result of the check: `passing`, `warning`, or `critical`. */
+export type CheckStatusStatus = "passing" | "warning" | "critical";
 export interface CheckStatus {
+  /** Name of the check: the key of a top-level check in `config.checks`, or `servicecheck-<index>-<type>-<internal_port>` for a check defined in a service. */
   name?: string | undefined;
+  /** Output of the most recent check run, such as an error message. */
   output?: string | undefined;
-  status?: string | undefined;
+  /** Result of the check: `passing`, `warning`, or `critical`. */
+  status?: CheckStatusStatus | undefined;
+  /** When the check's status was last updated. */
   updated_at?: string | undefined;
 }
+/** Status of each health check: the Machine's top-level `checks` and its services' checks. */
 export type MachineChecksList = Array<CheckStatus>;
 export interface MachineEvent {
+  /** Unique ID of the event (a ULID). */
   id?: string | undefined;
+  /** Details that depend on the event type. For example, `exit` events carry the exit code and whether the process was killed for running out of memory, and `update` events carry the new version. */
   request?: unknown | undefined;
+  /** Who triggered the event: `user` for requests to this API, `flyd` for the host's Machine manager acting on its own (for example when a Machine exits or restarts), or `proxy` for Fly Proxy starting and stopping Machines. */
   source?: string | undefined;
+  /** The state the Machine moved to with this event, such as `created`, `started`, or `stopped`. The Machine's `state` is the status of its latest event. */
   status?: string | undefined;
+  /** When the event happened, in Unix milliseconds. */
   timestamp?: number | undefined;
+  /** What happened, such as `launch`, `start`, `stop`, `exit`, `restart`, `update`, `suspension`, `cancel_suspension`, `migration`, `metadata_update`, `archive`, or `destroy`. */
   type?: string | undefined;
 }
+/** Up to 5 of the most recent events of the current Machine version, newest first. Use the List Events endpoint for more. */
 export type MachineEventsList = Array<MachineEvent>;
+/** Features of the Machine's host, for comparison with `config.guest.required_host_features`. Only returned when the request sets the `fly-include-host-features: true` header. */
 export type MachineHostFeaturesList = Array<string>;
+/** Whether Fly.io could reach the Machine's host: `ok` if it could, `unreachable` if it could not, in which case the response is built from last known state. `unknown` if the host's status was not reported. */
 export type MachineHostStatus = "ok" | "unknown" | "unreachable";
+/** The image's OCI labels. */
 export type ImageRefLabelsMap = { [key: string]: string | undefined };
 export interface ImageRef {
+  /** Content digest of the image (`sha256:...`). */
   digest?: string | undefined;
+  /** The image's OCI labels. */
   labels?: ImageRefLabelsMap | undefined;
+  /** Registry host of the image, such as `registry.fly.io`. */
   registry?: string | undefined;
+  /** Repository of the image within the registry, such as `library/nginx`. */
   repository?: string | undefined;
+  /** Tag the image was referenced by, if any. */
   tag?: string | undefined;
 }
 export interface StrippedLease {
+  /** Description given when the lease was acquired. */
   description?: string | undefined;
+  /** When the lease expires, in Unix seconds. */
   expires_at?: number | undefined;
+  /** Email address of the user who acquired the lease. */
   owner?: string | undefined;
 }
 export interface Machine {
+  /** Status of each health check: the Machine's top-level `checks` and its services' checks. */
   checks?: MachineChecksList | undefined;
+  /** The Machine's configuration, as provided when it was created or last updated, with `metadata` and `mounts` reflecting their current values. Null when the host is not reachable (`host_status` is not `ok`) or `summary=true` was requested; see `incomplete_config`. */
   config?: FlyMachineConfig | undefined;
+  /** Whether the Machine is cordoned, meaning Fly Proxy does not route requests to it. See the Cordon Machine endpoint. */
   cordoned?: boolean | undefined;
+  /** When the Machine was created. */
   created_at?: string | undefined;
+  /** Up to 5 of the most recent events of the current Machine version, newest first. Use the List Events endpoint for more. */
   events?: MachineEventsList | undefined;
+  /** Features of the Machine's host, for comparison with `config.guest.required_host_features`. Only returned when the request sets the `fly-include-host-features: true` header. */
   host_features?: MachineHostFeaturesList | undefined;
+  /** Whether Fly.io could reach the Machine's host: `ok` if it could, `unreachable` if it could not, in which case the response is built from last known state. `unknown` if the host's status was not reported. */
   host_status?: MachineHostStatus | undefined;
+  /** Unique ID of the Machine. */
   id?: string | undefined;
+  /** The image the Machine runs, as resolved when it was last created or updated. */
   image_ref?: ImageRef | undefined;
+  /** Last known configuration, returned in place of `config` when the host could not be reached (`host_status` is not `ok`) or when listing Machines with `summary=true`. It comes from Fly.io's replicated state rather than the host, so it may be stale or lack fields. */
   incomplete_config?: FlyMachineConfig | undefined;
-  /** InstanceID is the same value as `version`. Deprecated: use `version`. */
+  /** Same value as `version`. Deprecated: use `version`. */
   instance_id?: string | undefined;
+  /** The lease currently held on the Machine. Only returned when `include_leases=true` was requested and a lease is held. */
   lease?: StrippedLease | undefined;
+  /** Name of the Machine. Generated when not provided at creation. Names are not required to be unique. */
   name?: string | undefined;
-  /** Nonce is only every returned on machine creation if a lease_duration was provided. */
+  /** Nonce of the lease acquired on the Machine at creation. Only returned when creating a Machine with `lease_ttl` set. Pass it in the `fly-machine-lease-nonce` header to act on the Machine while the lease is held. */
   nonce?: string | undefined;
-  /** PrivateIP is the internal 6PN address of the machine. */
+  /** The Machine's address on the organization's private (6PN) IPv6 network. */
   private_ip?: string | undefined;
+  /** Code of the region the Machine runs in, such as `iad`. */
   region?: string | undefined;
+  /** Current state of the Machine, taken from the status of its most recent event. One of `created`, `starting`, `started`, `stopping`, `stopped`, `suspending`, `suspended`, `replacing`, `replaced`, `destroying`, `destroyed`, `failed`, `migrating`, `migrated`, `archived`, or `pending`. See https://fly.io/docs/machines/machine-states/. */
   state?: string | undefined;
+  /** Time of the Machine's most recent event, truncated to whole seconds. The zero time (0001-01-01T00:00:00Z) if the host could not be reached. With `summary=true`, the time Fly.io last recorded a change to the Machine. */
   updated_at?: string | undefined;
-  /** Version is unique for each version of the machine. Pass it as `current_version` when updating the Machine to reject the update if the Machine has changed since this version. */
+  /** Unique ID of this version of the Machine. Every update creates a new version. Pass it as `current_version` when updating the Machine to reject the update if the Machine has changed since this version. */
   version?: string | undefined;
 }
 export interface CreateMachineLeaseRequest {
@@ -916,22 +1176,23 @@ export interface CreateMachineLeaseRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  description?: string | undefined;
-  /** seconds lease will be valid */
+  /** How long the lease is valid, in seconds. Overridden by ttl in the request body. */
   ttl?: number | undefined;
+  /** Description or reason for the lease, shown to others who look at it. */
+  description?: string | undefined;
   /** Existing lease nonce when refreshing; omit to acquire a new lease. Keep the nonce private. */
   lease_nonce?: string | undefined;
 }
 export interface Lease {
-  /** Description or reason for the Lease. */
+  /** Description or reason for the lease. */
   description?: string | undefined;
-  /** ExpiresAt is the unix timestamp in UTC to denote when the Lease will no longer be valid. */
+  /** When the lease expires, in Unix seconds. */
   expires_at?: number | undefined;
-  /** Nonce is the unique ID autogenerated and associated with the Lease. */
+  /** Unique ID generated for the lease. Pass it in the `fly-machine-lease-nonce` header to act on the leased Machine, refresh the lease, or release it. */
   nonce?: string | undefined;
-  /** Owner is the user identifier which acquired the Lease. */
+  /** Email address of the user who acquired the lease. */
   owner?: string | undefined;
-  /** Machine version */
+  /** ID of the Machine's version at the time of the request. */
   version?: string | undefined;
 }
 export interface MachineLease {
@@ -941,11 +1202,17 @@ export interface MachineLease {
 /** Postgres major version. */
 export type CreatePostgresRequestPgMajorVersion = "16" | "17";
 /** Plan slug selecting CPU, memory, and disk sizing. Matched case-insensitively. */
-export type CreatePostgresRequestPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
+export type CreatePostgresRequestPlan =
+  | "dev-256"
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
 /** Connection pooler mode. */
 export type CreatePostgresRequestPoolMode = "session" | "transaction";
 export interface CreatePostgresRequest {
-  /** Disk size in gigabytes. */
+  /** Disk size in gigabytes. Defaults to the plan's starting size: 1 for dev-256 and 10 for the other plans. */
   disk_size_gb?: number | undefined;
   /** Name for the cluster. A name is generated when omitted. */
   name?: string | undefined;
@@ -995,7 +1262,13 @@ export interface OrganizationRef {
 /** Postgres major version. */
 export type PostgresClusterPgMajorVersion = "16" | "17";
 /** Plan slug. */
-export type PostgresClusterPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
+export type PostgresClusterPlan =
+  | "dev-256"
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
 /** Current lifecycle status. */
 export type PostgresClusterStatus =
   | "creating"
@@ -1112,63 +1385,106 @@ export interface CreateSecretRequest {
   value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SetAppSecretResponse {
-  /** DEPRECATED */
+  /** Same value as `version`. Deprecated: use `version`. */
   Version?: number | undefined;
+  /** When the secret was first set. Only returned when reading secrets. */
   created_at?: string | undefined;
+  /** Short fingerprint of the value, to tell whether it changed without revealing it. Omitted for deleted secrets. */
   digest?: string | undefined;
+  /** Name of the secret. */
   name?: string | undefined;
+  /** When the secret's value last changed. Only returned when reading secrets. */
   updated_at?: string | undefined;
   value?: string | Redacted.Redacted<string> | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
   version?: number | undefined;
 }
+/** Filesystem to format the volume with: `ext4`, or `raw` for an unformatted block device. */
+export type CreateVolumeRequestFstype = "ext4" | "raw";
 export interface CreateVolumeRequest {
   /** Fly App Name */
   app_name: string;
-  /** enable scheduled automatic snapshots. Defaults to `true` */
+  /** Take daily automatic snapshots of the volume. Defaults to `true`. */
   auto_backup_enabled?: boolean | undefined;
+  /** Requirements of the Machine that will use the volume, so that the volume is placed on a host that can run it. Uses `cpus`, `memory_mb`, `cpu_kind`, `host_dedication_id`, and `required_host_features`. */
   compute?: FlyMachineGuest | undefined;
+  /** Ignored. */
   compute_image?: string | undefined;
+  /** Encrypt the volume at rest. Defaults to true. When forking, the source volume's setting is used. */
   encrypted?: boolean | undefined;
-  fstype?: string | undefined;
+  /** Filesystem to format the volume with: `ext4`, or `raw` for an unformatted block device. */
+  fstype?: CreateVolumeRequestFstype | (string & {}) | undefined;
+  /** Name of the volume: at most 30 lowercase letters, digits, and underscores. Required. */
   name?: string | undefined;
+  /** Region to create the volume in. Accepts the same values as the `region` of Create Machine. When forking, defaults to the source volume's region; otherwise defaults to the region of the API server handling the request. */
   region?: string | undefined;
+  /** Place the volume on a host that has no other volume of the app with the same name in the region, so that Machines using these volumes don't share a host. Fails with 400 if no such host is available. */
   require_unique_zone?: boolean | undefined;
+  /** Size of the volume in GiB, from 1 to the organization's maximum (500 by default). Required unless forking, in which case it must be omitted and the source volume's size is used. */
   size_gb?: number | undefined;
-  /** restore from snapshot */
+  /** ID of a snapshot to restore into the new volume. Mutually exclusive with `source_volume_id`. */
   snapshot_id?: string | undefined;
+  /** Number of days to keep snapshots of the volume, from 1 to 60. Defaults to 5. */
   snapshot_retention?: number | undefined;
-  /** fork from remote volume */
+  /** ID of a volume to fork: the new volume starts as a copy of it. The volume must belong to an app in the same organization. */
   source_volume_id?: string | undefined;
+  /** With `require_unique_zone`, avoid hosts with any volume of the app in the region, not just volumes with the same name. */
   unique_zone_app_wide?: boolean | undefined;
 }
+/** Features of the volume's host. Only returned when the request sets the `fly-include-host-features: true` header. */
 export type VolumeHostFeaturesList = Array<string>;
+/** Whether Fly.io could reach the volume's host: `ok` if it could, `unreachable` or `unknown` if it could not, in which case host-reported fields are missing. */
 export type VolumeHostStatus = "ok" | "unknown" | "unreachable";
+/** Host features the volume's host was required to have; see `compute.required_host_features` in the create request. */
 export type VolumeRequiredHostFeaturesList = Array<string>;
+/** Kind of volume: `local` for regular volumes, or `cache` for volumes that hold disposable data and support neither snapshots nor restores. */
 export type VolumeType = "local" | "cache";
 export interface Volume {
+  /** Always null. Deprecated: volumes are no longer attached to Nomad allocations. */
   attached_alloc_id?: string | undefined;
+  /** ID of the Machine the volume is attached to, or null if it is not attached. */
   attached_machine_id?: string | undefined;
+  /** Whether daily automatic snapshots are taken. */
   auto_backup_enabled?: boolean | undefined;
+  /** Size of a filesystem block, in bytes. See `blocks`. */
   block_size?: number | undefined;
+  /** Size of the volume's filesystem, in blocks of `block_size` bytes, as last reported by a Machine that mounted the volume. 0 if never reported, if the host could not be reached, or with `summary=true`. */
   blocks?: number | undefined;
+  /** Number of filesystem blocks available to unprivileged users. See `blocks`. */
   blocks_avail?: number | undefined;
+  /** Number of free filesystem blocks, including blocks reserved for the root user. See `blocks`. */
   blocks_free?: number | undefined;
+  /** Size of the volume, in bytes. 0 if the host could not be reached or with `summary=true`. */
   bytes_total?: number | undefined;
+  /** Bytes of storage the volume occupies on its host. Volumes are thinly provisioned, so this grows as blocks are written and does not shrink when files are deleted. It is not the filesystem's usage; use `blocks` and `blocks_free` for that. 0 if the host could not be reached or with `summary=true`. */
   bytes_used?: number | undefined;
+  /** When the volume was created. */
   created_at?: string | undefined;
+  /** Whether the volume is encrypted at rest. */
   encrypted?: boolean | undefined;
+  /** Filesystem the volume was formatted with: `ext4`, or `raw` for an unformatted block device. */
   fstype?: string | undefined;
+  /** Features of the volume's host. Only returned when the request sets the `fly-include-host-features: true` header. */
   host_features?: VolumeHostFeaturesList | undefined;
+  /** Whether Fly.io could reach the volume's host: `ok` if it could, `unreachable` or `unknown` if it could not, in which case host-reported fields are missing. */
   host_status?: VolumeHostStatus | undefined;
+  /** Unique ID of the volume, such as `vol_1234567890abcdef`. */
   id?: string | undefined;
+  /** Name of the volume. Several volumes of an app can share a name. */
   name?: string | undefined;
+  /** Code of the region the volume is in. */
   region?: string | undefined;
+  /** Host features the volume's host was required to have; see `compute.required_host_features` in the create request. */
   required_host_features?: VolumeRequiredHostFeaturesList | undefined;
+  /** Size of the volume, in GiB. */
   size_gb?: number | undefined;
+  /** Number of days snapshots of the volume are kept. */
   snapshot_retention?: number | undefined;
+  /** State of the volume, such as `creating`, `created`, `extending`, `restoring`, `hydrating`, `scheduling_destroy`, `pending_destroy`, `destroying`, `destroyed`, or `failed`. */
   state?: string | undefined;
+  /** Kind of volume: `local` for regular volumes, or `cache` for volumes that hold disposable data and support neither snapshots nor restores. */
   type?: VolumeType | undefined;
+  /** Identifies the host the volume is on. Volumes with different zones are on different hosts. */
   zone?: string | undefined;
 }
 export interface CreateVolumeSnapshotRequest {
@@ -1183,12 +1499,15 @@ export interface DecryptSecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
+  /** Additional data passed when encrypting, base64-encoded. */
   associated_data?: string | undefined;
+  /** Data to decrypt, as returned by the encrypt endpoint, base64-encoded. */
   ciphertext?: string | undefined;
 }
 export interface DecryptSecretkeyResponse {
+  /** Decrypted data, base64-encoded. */
   plaintext?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteAppRequest {
@@ -1215,20 +1534,33 @@ export interface DeleteAppCustomCertificateRequest {
   /** Certificate Hostname */
   hostname: string;
 }
+/** The hostname's certificates: at most one custom entry and one Fly.io entry. */
 export type DestroyCustomCertificateResponseCertificatesList = Array<CertificateEntry>;
+/** Problems found by the most recent validation. */
 export type DestroyCustomCertificateResponseValidationErrorsList =
   Array<CertificateValidationError>;
 export interface DestroyCustomCertificateResponse {
+  /** Whether Fly.io-issued (ACME) certificates were requested for the hostname. */
   acme_requested?: boolean | undefined;
+  /** The hostname's certificates: at most one custom entry and one Fly.io entry. */
   certificates?: DestroyCustomCertificateResponseCertificatesList | undefined;
+  /** Whether ownership of the hostname has been verified. */
   configured?: boolean | undefined;
+  /** DNS provider detected for the hostname, if known. */
   dns_provider?: string | undefined;
+  /** DNS records to create to point the hostname at the app and validate it. */
   dns_requirements?: DNSRequirements | undefined;
+  /** The hostname the certificate is for. May start with `*.` for a wildcard certificate. */
   hostname?: string | undefined;
+  /** If Let's Encrypt is rate-limiting certificate requests for the hostname, when that ends. */
   rate_limited_until?: string | undefined;
+  /** Human-readable status: `Ready`, `Awaiting certificates`, `Awaiting configuration`, or a hint about what is misconfigured. */
   status?: string | undefined;
+  /** Which validation methods are currently possible. */
   validation?: CertificateValidation | undefined;
+  /** Problems found by the most recent validation. */
   validation_errors?: DestroyCustomCertificateResponseValidationErrorsList | undefined;
+  /** Set when no ACME certificates are configured for the hostname either, so it no longer has any certificate. */
   warning?: string | undefined;
 }
 export interface DeleteAppIPAssignmentRequest {
@@ -1288,7 +1620,7 @@ export interface DeleteSecretRequest {
   secret_name: string;
 }
 export interface DeleteAppSecretResponse {
-  /** DEPRECATED */
+  /** Same value as `version`. Deprecated: use `version`. */
   Version?: number | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
   version?: number | undefined;
@@ -1300,8 +1632,9 @@ export interface DeleteSecretKeyRequest {
   secret_name: string;
 }
 export interface DeleteSecretkeyResponse {
-  /** DEPRECATED */
+  /** Same value as `version`. Deprecated: use `version`. */
   Version?: number | undefined;
+  /** The app's secrets version after this change. */
   version?: number | undefined;
 }
 export interface DeleteVolumeRequest {
@@ -1339,33 +1672,45 @@ export interface EncryptSecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
+  /** Additional data to authenticate but not encrypt, base64-encoded. The same data must be passed when decrypting. */
   associated_data?: string | undefined;
+  /** Data to encrypt, base64-encoded. */
   plaintext?: string | Redacted.Redacted<string> | undefined;
 }
 export interface EncryptSecretkeyResponse {
+  /** Encrypted data, base64-encoded. */
   ciphertext?: string | undefined;
 }
+/** Command to run, as the program followed by its arguments. It is run directly, not by a shell. */
 export type ExecMachineRequestCommandList = Array<string>;
 export interface ExecMachineRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  /** Deprecated: use Command instead */
+  /** Command line to run, split into arguments like a shell would. Takes precedence over `command`. Deprecated: use `command`. */
   cmd?: string | undefined;
+  /** Command to run, as the program followed by its arguments. It is run directly, not by a shell. */
   command?: ExecMachineRequestCommandList | undefined;
+  /** Name of the container to run the command in, for Machines with containers. */
   container?: string | undefined;
-  /** Machine runs the command in the machine's own namespace instead of in a container. It is mutually exclusive with Container. */
+  /** Run the command in the Machine's own namespace instead of in a container. Mutually exclusive with `container`. */
   machine?: boolean | undefined;
+  /** Data to write to the command's standard input. */
   stdin?: string | undefined;
+  /** How long to let the command run, in seconds. Defaults to 10; at most 600. */
   timeout?: number | undefined;
 }
-export interface Flydv1ExecResponse {
+export interface ExecResponse {
+  /** The command's exit code. */
   exit_code?: number | undefined;
+  /** The signal that terminated the command, or 0 if it exited normally. */
   exit_signal?: number | undefined;
+  /** The command's standard error. */
   stderr?: string | undefined;
+  /** The command's standard output. */
   stdout?: string | undefined;
 }
 export interface ExtendVolumeRequest {
@@ -1373,14 +1718,23 @@ export interface ExtendVolumeRequest {
   app_name: string;
   /** Volume ID */
   volume_id: string;
+  /** New size of the volume in GiB. Must be larger than the current size and at most the organization's maximum (500 by default). */
   size_gb?: number | undefined;
 }
 export interface ExtendVolumeResponse {
+  /** Whether the volume is attached to a running Machine that could not resize its filesystem while running. If true, restart the Machine for the filesystem to use the new size. */
   needs_restart?: boolean | undefined;
+  /** The extended volume. */
   volume?: Volume | undefined;
 }
 /** Plan slug selecting CPU and memory sizing for the fork. Defaults to the source cluster's plan. Matched case-insensitively. */
-export type ForkPostgresRequestPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
+export type ForkPostgresRequestPlan =
+  | "dev-256"
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
 export interface ForkPostgresRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
@@ -1389,23 +1743,30 @@ export interface ForkPostgresRequest {
   /** Plan slug selecting CPU and memory sizing for the fork. Defaults to the source cluster's plan. Matched case-insensitively. */
   plan?: ForkPostgresRequestPlan | (string & {}) | undefined;
 }
-export type GenerateSecretKeyRequestValueList = Array<number>;
 export interface GenerateSecretKeyRequest {
   /** Fly App Name */
   app_name: string;
   /** Secret key name */
   secret_name: string;
+  /** Type of the key: `hs256`, `hs384`, `hs512`, `xaes256gcm`, `nacl_auth`, `nacl_box`, `nacl_secretbox`, `nacl_sign`, or `es256`. Required. */
   type?: string | undefined;
-  value?: GenerateSecretKeyRequestValueList | undefined;
+  /** Key material, base64-encoded. Ignored when generating a key. */
+  value?: string | undefined;
 }
 export interface SetSecretkeyResponse {
-  /** DEPRECATED */
+  /** Same value as `version`. Deprecated: use `version`. */
   Version?: number | undefined;
+  /** When the key was first set. */
   created_at?: string | undefined;
+  /** Name of the secret key. */
   name?: string | undefined;
+  /** Public key of asymmetric keys (`nacl_box`, `nacl_sign`, `es256`), base64-encoded. */
   public_key?: string | undefined;
+  /** Type of the key: `hs256`, `hs384`, `hs512`, `xaes256gcm`, `nacl_auth`, `nacl_box`, `nacl_secretbox`, `nacl_sign`, or `es256`. */
   type?: string | undefined;
+  /** When the key last changed. */
   updated_at?: string | undefined;
+  /** The app's secrets version after this change. Pass it as `min_version` to read the change back. */
   version?: number | undefined;
 }
 export interface GetAppRequest {
@@ -1413,19 +1774,33 @@ export interface GetAppRequest {
   app_name: string;
 }
 export interface AppOrganizationInfo {
+  /** Fly.io's internal numeric ID of the organization. */
   internal_numeric_id?: number | undefined;
+  /** Display name of the organization. */
   name?: string | undefined;
+  /** Slug of the organization, used to refer to it in API requests such as `org_slug`. */
   slug?: string | undefined;
 }
+/** State of the app. `pending` until one of its Machines changes state. After that, updated asynchronously whenever a Machine changes state: `deployed` if at least one Machine is started, and `suspended` otherwise. */
+export type AppStatus = "pending" | "deployed" | "suspended";
 export interface App {
+  /** Unique ID of the app, as used by Fly.io's GraphQL API. */
   id?: string | undefined;
+  /** Fly.io's internal numeric ID of the app. */
   internal_numeric_id?: number | undefined;
+  /** Number of the app's Machines that have not been destroyed. */
   machine_count?: number | undefined;
+  /** Globally unique name of the app. */
   name?: string | undefined;
+  /** Name of the private network the app is attached to: `default` for the organization's default network, or the name given when the app was created. */
   network?: string | undefined;
+  /** The /48 IPv6 prefix of the private (6PN) network the app is attached to, such as `fdaa:0:1234::/48`. Apps on the same network share it. */
   network_cidr?: string | undefined;
+  /** The organization that owns the app. */
   organization?: AppOrganizationInfo | undefined;
-  status?: string | undefined;
+  /** State of the app. `pending` until one of its Machines changes state. After that, updated asynchronously whenever a Machine changes state: `deployed` if at least one Machine is started, and `suspended` otherwise. */
+  status?: AppStatus | undefined;
+  /** Number of the app's volumes that have not been destroyed or scheduled for destruction. */
   volume_count?: number | undefined;
 }
 export interface GetAppCertificateRequest {
@@ -1435,21 +1810,28 @@ export interface GetAppCertificateRequest {
   hostname: string;
 }
 export interface GetCurrentTokenRequest {}
+/** Names of the apps the token is restricted to. Omitted if the token is not restricted to specific apps. */
 export type MainTokenInfoAppsList = Array<string>;
 export interface MainTokenInfo {
+  /** Names of the apps the token is restricted to. Omitted if the token is not restricted to specific apps. */
   apps?: MainTokenInfoAppsList | undefined;
+  /** Slug of the organization the token is scoped to. */
   org_slug?: string | undefined;
+  /** Name of the organization the token is scoped to. */
   organization?: string | undefined;
-  /** Machine the token is restricted to (FromMachine caveat) */
+  /** ID of the Machine the token may only be used from. Omitted if the token is not restricted to a Machine. */
   restricted_to_machine?: string | undefined;
-  /** Machine making the request */
+  /** Never set. */
   source_machine_id?: string | undefined;
+  /** ID of the token. */
   token_id?: string | undefined;
-  /** User identifier if token is for a user */
+  /** Opaque identifier of the user the token belongs to: the first 7 hex characters of a hash of the user's ID. Omitted for tokens that do not belong to a user. */
   user?: string | undefined;
 }
+/** One entry per token in the Authorization header that could be verified, in no particular order; use `token_id` to tell them apart. Tokens that fail verification or are not scoped to an organization are left out. */
 export type CurrentTokenResponseTokensList = Array<MainTokenInfo>;
 export interface CurrentTokenResponse {
+  /** One entry per token in the Authorization header that could be verified, in no particular order; use `token_id` to tell them apart. Tokens that fail verification or are not scoped to an organization are left out. */
   tokens?: CurrentTokenResponseTokensList | undefined;
 }
 export interface GetMachineRequest {
@@ -1475,7 +1857,9 @@ export interface GetMachineMemoryRequest {
   machine_id: string;
 }
 export interface MainMemoryResponse {
+  /** Highest limit, in MiB, that the Machine could currently be raised to: its configured memory (`guest.max_memory_mb` if set, else `guest.memory_mb`), capped by the host's free memory. */
   available_mb?: number | undefined;
+  /** Memory, in MiB, the guest can currently use. */
   limit_mb?: number | undefined;
 }
 export interface GetMachineMetadataRequest {
@@ -1495,6 +1879,7 @@ export interface GetMachineMetadataKeyRequest {
   key: string;
 }
 export interface MetadataValueResponse {
+  /** Value of the metadata key. */
   value?: string | undefined;
 }
 export type PlacementWeights = { [key: string]: number | undefined };
@@ -1503,58 +1888,117 @@ export interface GetPlacementsRequest {
   compute?: FlyMachineGuest | undefined;
   /** Number of machines to simulate placement. Defaults to 0, which returns the org-specific limit for each region. */
   count?: number | undefined;
+  /** Slug of the organization to place Machines for, or `personal`. Required. */
   org_slug: string;
-  /** Region expression for placement as a comma-delimited set of regions or aliases. Defaults to "[region],any", to prefer the API endpoint's local region with any other region as fallback. */
+  /** Region expression for placement as a comma-delimited set of regions or aliases. Defaults to the API endpoint's local region. When `count` is greater than 0, `any` is added as a fallback. */
   region?: string | undefined;
+  /** Currently unused. */
   volume_name?: string | undefined;
+  /** Size of a volume each Machine will need, in bytes. Only hosts with room for it are considered. */
   volume_size_bytes?: number | undefined;
   /** Optional weights to override default placement preferences. */
   weights?: PlacementWeights | undefined;
 }
 export interface PlacementRegionPlacement {
-  concurrency?: number | undefined;
-  count?: number | undefined;
-  region?: string | undefined;
+  /** Number of distinct hosts those Machines would be spread over. 0 when the request's count is 0. */
+  Concurrency?: number | undefined;
+  /** Number of Machines that would be placed in the region. When the request's count is 0, the organization's Machine limit for the region instead. */
+  Count?: number | undefined;
+  /** Code of the region. */
+  Region?: string | undefined;
 }
+/** The regions Machines would be placed in. With `count` 0, every requested region with the organization's Machine limit in it. */
 export type MainGetPlacementsResponseRegionsList = Array<PlacementRegionPlacement>;
 export interface MainGetPlacementsResponse {
-  regions?: MainGetPlacementsResponseRegionsList | undefined;
+  /** The regions Machines would be placed in. With `count` 0, every requested region with the organization's Machine limit in it. */
+  Regions?: MainGetPlacementsResponseRegionsList | undefined;
 }
 export interface GetPostgresRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
 }
+export interface GetPostgresMaintenanceWindowRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+}
+/** Day of the week the window starts on. */
+export type ShowPostgresMaintenanceWindowResponseDataDay =
+  | "sunday"
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday";
+/** The cluster's maintenance window, or null when it has none and its maintenance can run at any time. */
+export interface ShowPostgresMaintenanceWindowResponseData {
+  /** Day of the week the window starts on. */
+  day?: ShowPostgresMaintenanceWindowResponseDataDay | undefined;
+  /** Length of the window in hours. */
+  duration_hours?: number | undefined;
+  /** Hour of the day the window starts, in the cluster's timezone. */
+  start_hour?: number | undefined;
+  /** IANA timezone the window is expressed in, derived from the cluster's region. */
+  timezone?: string | undefined;
+}
+export interface ShowPostgresMaintenanceWindowResponse {
+  /** The cluster's maintenance window, or null when it has none and its maintenance can run at any time. */
+  data?: ShowPostgresMaintenanceWindowResponseData | null | undefined;
+}
 export interface GetRegionsRequest {}
+/** Geographic area the region belongs to. */
+export type MainRegionRowGeoRegion =
+  | "africa"
+  | "asia_pacific"
+  | "europe"
+  | "north_america"
+  | "south_america";
 export interface MainRegionRow {
+  /** Region code, such as `iad`, used to select the region in other requests. */
   code?: string | undefined;
+  /** Whether the region is deprecated. Avoid creating new resources in it. */
   deprecated?: boolean | undefined;
+  /** Whether the region has a WireGuard gateway that private network peers can connect to. */
   gateway_available?: boolean | undefined;
-  geo_region?: string | undefined;
+  /** Geographic area the region belongs to. */
+  geo_region?: MainRegionRowGeoRegion | undefined;
+  /** Latitude of the region's location. */
   latitude?: number | undefined;
+  /** Longitude of the region's location. */
   longitude?: number | undefined;
+  /** Whether Managed Postgres clusters can be created in the region. */
   mpg_available?: boolean | undefined;
+  /** Human-readable name of the region, such as `Ashburn, Virginia (US)`. */
   name?: string | undefined;
+  /** Whether only organizations on a paid plan can use the region. */
   requires_paid_plan?: boolean | undefined;
 }
+/** The regions available to the caller. */
 export type MainRegionResponseRegionsList = Array<MainRegionRow>;
 export interface MainRegionResponse {
+  /** The regions available to the caller. */
+  Regions?: MainRegionResponseRegionsList | undefined;
+  /** Code of the region of the Fly.io edge that received the request, usually the one closest to the caller. */
   nearest?: string | undefined;
-  regions?: MainRegionResponseRegionsList | undefined;
 }
 export interface GetSecretRequest {
   /** Fly App Name */
   app_name: string;
   /** App secret name */
   secret_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
-  /** Show the secret value. */
+  /** Include the secret value. Only allowed when the request comes from a Machine of the app; otherwise the request fails with 403. */
   show_secrets?: boolean | undefined;
 }
 export interface AppSecret {
+  /** When the secret was first set. Only returned when reading secrets. */
   created_at?: string | undefined;
+  /** Short fingerprint of the value, to tell whether it changed without revealing it. Omitted for deleted secrets. */
   digest?: string | undefined;
+  /** Name of the secret. */
   name?: string | undefined;
+  /** When the secret's value last changed. Only returned when reading secrets. */
   updated_at?: string | undefined;
   value?: string | Redacted.Redacted<string> | undefined;
 }
@@ -1563,14 +2007,19 @@ export interface GetSecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
 }
 export interface SecretKey {
+  /** When the key was first set. */
   created_at?: string | undefined;
+  /** Name of the secret key. */
   name?: string | undefined;
+  /** Public key of asymmetric keys (`nacl_box`, `nacl_sign`, `es256`), base64-encoded. */
   public_key?: string | undefined;
+  /** Type of the key: `hs256`, `hs384`, `hs512`, `xaes256gcm`, `nacl_auth`, `nacl_box`, `nacl_secretbox`, `nacl_sign`, or `es256`. */
   type?: string | undefined;
+  /** When the key last changed. */
   updated_at?: string | undefined;
 }
 export interface GetVolumeByIdRequest {
@@ -1590,24 +2039,41 @@ export interface ListAppCertificatesRequest {
   limit?: number | undefined;
 }
 export interface CertificateSummary {
+  /** Whether the hostname points at the app, allowing TLS-ALPN-01 validation. */
   acme_alpn_configured?: boolean | undefined;
+  /** Whether the `_acme-challenge` CNAME record is set up, allowing DNS-01 validation. */
   acme_dns_configured?: boolean | undefined;
+  /** Whether the hostname points at the app, allowing HTTP-01 validation. */
   acme_http_configured?: boolean | undefined;
+  /** Whether Fly.io-issued (ACME) certificates were requested for the hostname. */
   acme_requested?: boolean | undefined;
+  /** Whether ownership of the hostname has been verified by any of the methods above. */
   configured?: boolean | undefined;
+  /** When the hostname was added to the app. */
   created_at?: string | undefined;
+  /** DNS provider detected for the hostname, if known. */
   dns_provider?: string | undefined;
+  /** Whether a custom certificate was uploaded for the hostname. */
   has_custom_certificate?: boolean | undefined;
+  /** Whether Fly.io has issued certificates for the hostname. */
   has_fly_certificate?: boolean | undefined;
+  /** The hostname the certificate is for. May start with `*.` for a wildcard certificate. */
   hostname?: string | undefined;
+  /** Whether the `_fly-ownership` TXT record is set up. */
   ownership_txt_configured?: boolean | undefined;
+  /** Human-readable status: `Ready`, `Awaiting certificates`, `Awaiting configuration`, or a hint about what is misconfigured. */
   status?: string | undefined;
+  /** When the hostname's certificate configuration last changed. */
   updated_at?: string | undefined;
 }
+/** The certificates on this page, ordered by when they were added. */
 export type ListCertificatesResponseCertificatesList = Array<CertificateSummary>;
 export interface ListCertificatesResponse {
+  /** The certificates on this page, ordered by when they were added. */
   certificates?: ListCertificatesResponseCertificatesList | undefined;
+  /** Pagination cursor for the next page. Absent when no more certificates remain. */
   next_cursor?: string | undefined;
+  /** Number of certificates matching `filter` (and after `cursor`, if given), across all pages. */
   total_count?: number | undefined;
 }
 export interface ListAppIPAssignmentsRequest {
@@ -1615,17 +2081,25 @@ export interface ListAppIPAssignmentsRequest {
   app_name: string;
 }
 export interface IPAssignment {
+  /** When the address was assigned to the app, in RFC 3339 format. Null for the app's shared IPv4 address. */
   created_at?: string | undefined;
+  /** Whether this is an egress address, used for the app's outbound traffic rather than for receiving requests. */
   egress?: boolean | undefined;
+  /** The IP address. */
   ip?: string | undefined;
   network?: IPAssignmentNetwork | null | undefined;
+  /** Region the address is scoped to, or `global` for addresses announced in all regions. Empty for the app's shared IPv4 address. */
   region?: string | undefined;
+  /** Name of the service the address is scoped to, if any. */
   service_name?: string | undefined;
+  /** Whether this is the app's shared IPv4 address, which other apps use too. */
   shared?: boolean | undefined;
   type?: string | undefined;
 }
+/** The app's IP addresses, including its shared IPv4 address and egress addresses. */
 export type ListIPAssignmentsResponseIpsList = Array<IPAssignment>;
 export interface ListIPAssignmentsResponse {
+  /** The app's IP addresses, including its shared IPv4 address and egress addresses. */
   ips?: ListIPAssignmentsResponseIpsList | undefined;
 }
 export interface ListAppsRequest {
@@ -1638,12 +2112,14 @@ export interface ListAppsRequest {
   /** Value of next_cursor from the previous page. Requires limit. Later pages only include apps that existed when the first page was requested. Apps created in the seconds before the first page was requested may be missing. Cursors expire 30 minutes after the first page was requested. */
   cursor?: string | undefined;
 }
+/** The apps on this page, or all apps if `limit` was not provided. */
 export type ListAppsResponseAppsList = Array<App>;
 export interface ListAppsResponse {
+  /** The apps on this page, or all apps if `limit` was not provided. */
   apps?: ListAppsResponseAppsList | undefined;
   /** Pagination cursor for the next page. Absent when no more apps remain. Cursors expire 30 minutes after the first page was requested. */
   next_cursor?: string | undefined;
-  /** The number of apps matching the request, across all pages. When paginating, it is counted once when the first page is requested and not updated afterwards, so it may differ slightly from the number of apps returned: it excludes apps created later and includes apps deleted while paginating. Apps created in the seconds before the first page may also be counted but missing from the pages. */
+  /** The number of matching apps across all pages. With an organization-wide token, it is counted when the first page is requested and not updated afterwards, so it excludes apps created later and includes apps deleted while paginating. With an app-scoped token, such as a deploy token, it is recounted on each page and includes only the apps the token can read. Either way, it may differ slightly from the number of apps returned. */
   total_apps?: number | undefined;
 }
 export interface ListMachineEventsRequest {
@@ -1656,29 +2132,42 @@ export interface ListMachineEventsRequest {
 }
 export type ListMachineEventsResponseBodyList = Array<MachineEvent>;
 export type ListMachineEventsResponse = ListMachineEventsResponseBodyList;
+export type ListMachineProcessesRequestSortBy = "cpu" | "pid" | "stime" | "rtime";
+export type ListMachineProcessesRequestOrder = "asc" | "desc";
 export interface ListMachineProcessesRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  /** Sort by */
-  sort_by?: string | undefined;
-  /** Order */
-  order?: string | undefined;
+  /** Field to sort processes by */
+  sort_by?: ListMachineProcessesRequestSortBy | (string & {}) | undefined;
+  /** Sort order. Requires sort_by. Defaults to asc. */
+  order?: ListMachineProcessesRequestOrder | (string & {}) | undefined;
 }
 export interface ListenSocket {
+  /** Local address and port the socket is bound to, such as `0.0.0.0:8080` or `[::]:8080`. */
   address?: string | undefined;
+  /** Protocol of the socket. Always `tcp`. */
   proto?: string | undefined;
 }
+/** TCP sockets the process is listening on. */
 export type ProcessStatListenSocketsList = Array<ListenSocket>;
 export interface ProcessStat {
+  /** The process's command line, with arguments separated by spaces. */
   command?: string | undefined;
+  /** Average CPU usage over the process's lifetime, in percent of one CPU. May exceed 100 on Machines with more than one CPU. */
   cpu?: number | undefined;
+  /** The process's working directory. */
   directory?: string | undefined;
+  /** TCP sockets the process is listening on. */
   listen_sockets?: ProcessStatListenSocketsList | undefined;
+  /** Process ID inside the Machine. */
   pid?: number | undefined;
+  /** Resident set size: the physical memory the process uses, in bytes. */
   rss?: number | undefined;
+  /** How long the process has been running, in seconds. */
   rtime?: number | undefined;
+  /** When the process started, in seconds since the Machine booted. */
   stime?: number | undefined;
 }
 export type ListMachineProcessesResponseBodyList = Array<ProcessStat>;
@@ -1723,31 +2212,52 @@ export interface ListMachinesOrgRequest {
   /** The number of machines to fetch (max of 1000). This limit is advisory. Responses may be shorter, or even empty, even when more machines remain. If omitted, the maximum is used */
   limit?: number | undefined;
 }
+/** Regions that could not be queried. Their Machines are missing from the response. */
 export type OrgMachinesResponseErrorRegionsList = Array<string>;
+/** The Machine's metadata key-value pairs. */
 export type MachineOverviewConfigMetadataMap = { [key: string]: string | undefined };
 export interface MachineOverviewConfig {
+  /** The Machine's CPU, memory, and GPU configuration. */
   guest?: FlyMachineGuest | undefined;
+  /** The image reference the Machine was configured with. */
   image?: string | undefined;
+  /** The Machine's metadata key-value pairs. */
   metadata?: MachineOverviewConfigMetadataMap | undefined;
 }
 export interface OrgMachine {
+  /** Name of the app the Machine belongs to. */
   app_name?: string | undefined;
+  /** Subset of the Machine's configuration. Omitted when `summary=true`. */
   config?: MachineOverviewConfig | undefined;
+  /** When the Machine was created. */
   created_at?: string | undefined;
+  /** Unique ID of the Machine. */
   id?: string | undefined;
+  /** Name of the Machine. */
   name?: string | undefined;
+  /** The Machine's address on the organization's private (6PN) IPv6 network. */
   private_ip?: string | undefined;
+  /** Code of the region the Machine runs in. */
   region?: string | undefined;
+  /** Current state of the Machine; see the `state` field of Machine. */
   state?: string | undefined;
+  /** When Fly.io last recorded a change to the Machine. */
   updated_at?: string | undefined;
+  /** ID of the Machine's current version. */
   version?: string | undefined;
 }
+/** The Machines on this page. */
 export type OrgMachinesResponseMachinesList = Array<OrgMachine>;
 export interface OrgMachinesResponse {
+  /** Regions that could not be queried. Their Machines are missing from the response. */
   error_regions?: OrgMachinesResponseErrorRegionsList | undefined;
+  /** ID of the last Machine on this page. */
   last_machine_id?: string | undefined;
+  /** `updated_at` of the last Machine on this page. */
   last_updated_at?: string | undefined;
+  /** The Machines on this page. */
   machines?: OrgMachinesResponseMachinesList | undefined;
+  /** Pagination cursor for the next page. Absent when no more Machines remain. Cursors expire 30 minutes after the first page was requested. */
   next_cursor?: string | undefined;
 }
 export interface ListMachineVersionsRequest {
@@ -1757,7 +2267,9 @@ export interface ListMachineVersionsRequest {
   machine_id: string;
 }
 export interface MachineVersion {
+  /** The configuration of that version, as provided by the create or update request. */
   user_config?: FlyMachineConfig | undefined;
+  /** ID of the Machine version. */
   version?: string | undefined;
 }
 export type ListMachineVersionsResponseBodyList = Array<MachineVersion>;
@@ -1771,7 +2283,13 @@ export interface ListPostgresRequest {
 /** Apps attached to the cluster. */
 export type PostgresClusterSummaryAttachedAppsList = Array<PostgresAttachedApp>;
 /** Plan slug. */
-export type PostgresClusterSummaryPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
+export type PostgresClusterSummaryPlan =
+  | "dev-256"
+  | "basic"
+  | "starter"
+  | "launch"
+  | "scale"
+  | "Performance";
 /** Current lifecycle status. */
 export type PostgresClusterSummaryStatus =
   | "creating"
@@ -1870,7 +2388,7 @@ export interface ListPostgresPlansRequest {
 /** CPU class. */
 export type PostgresPlanCpuKind = "shared" | "performance";
 /** Plan slug. Pass it as `plan` when creating or forking a cluster. */
-export type PostgresPlanPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
+export type PostgresPlanPlan = "dev-256" | "basic" | "starter" | "launch" | "scale" | "Performance";
 export interface PostgresPlan {
   /** CPU class. */
   cpu_kind?: PostgresPlanCpuKind | undefined;
@@ -1898,25 +2416,29 @@ export interface ListPostgresUsersResponse {
 export interface ListSecretKeysRequest {
   /** Fly App Name */
   app_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
-  /** Comma-seperated list of secret keys to list */
+  /** Comma-separated list of key types to list, such as hs256,es256. Defaults to all types. */
   types?: string | undefined;
 }
+/** The app's secret keys. Key material is never returned. */
 export type SecretKeysSecretKeysList = Array<SecretKey>;
 export interface SecretKeys {
+  /** The app's secret keys. Key material is never returned. */
   secret_keys?: SecretKeysSecretKeysList | undefined;
 }
 export interface ListSecretsRequest {
   /** Fly App Name */
   app_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
-  /** Show the secret values. */
+  /** Include secret values. Only allowed when the request comes from a Machine of the app; otherwise the request fails with 403. */
   show_secrets?: boolean | undefined;
 }
+/** The app's secrets. */
 export type AppSecretsSecretsList = Array<AppSecret>;
 export interface AppSecrets {
+  /** The app's secrets. */
   secrets?: AppSecretsSecretsList | undefined;
 }
 export interface ListVolumesRequest {
@@ -1938,12 +2460,19 @@ export interface ListVolumeSnapshotsRequest {
   volume_id: string;
 }
 export interface VolumeSnapshot {
+  /** When the snapshot finished, in RFC 3339 format. The zero time (0001-01-01T00:00:00Z) while the snapshot is in progress. */
   created_at?: string | undefined;
+  /** Content digest of the snapshot. Empty while the snapshot is in progress. */
   digest?: string | undefined;
+  /** Unique ID of the snapshot. Pass it as `snapshot_id` when creating a volume to restore it. */
   id?: string | undefined;
+  /** Number of days the snapshot is kept after it was created. Omitted while the snapshot is in progress. */
   retention_days?: number | undefined;
+  /** Size of the stored snapshot, in bytes. 0 while the snapshot is in progress. */
   size?: number | undefined;
+  /** `created` for completed snapshots; other values while the snapshot is in progress. */
   status?: string | undefined;
+  /** Size of the volume the snapshot was taken of, in bytes. */
   volume_size?: number | undefined;
 }
 export type ListVolumeSnapshotsResponseBodyList = Array<VolumeSnapshot>;
@@ -1966,42 +2495,76 @@ export interface ListVolumesOrgRequest {
   /** The number of volumes to fetch (max of 1000). This limit is advisory. Responses may be shorter, even when more volumes remain. If omitted, the maximum is used */
   limit?: number | undefined;
 }
+/** Features of the volume's host. Only returned when the request sets the `fly-include-host-features: true` header. */
 export type OrgVolumeHostFeaturesList = Array<string>;
+/** Whether Fly.io could reach the volume's host: `ok` if it could, `unreachable` or `unknown` if it could not, in which case host-reported fields are missing. */
 export type OrgVolumeHostStatus = "ok" | "unknown" | "unreachable";
+/** Host features the volume's host was required to have; see `compute.required_host_features` in the create request. */
 export type OrgVolumeRequiredHostFeaturesList = Array<string>;
+/** Kind of volume: `local` for regular volumes, or `cache` for volumes that hold disposable data and support neither snapshots nor restores. */
 export type OrgVolumeType = "local" | "cache";
 export interface OrgVolume {
+  /** Name of the app the volume belongs to. */
   app_name?: string | undefined;
+  /** Always null. Deprecated: volumes are no longer attached to Nomad allocations. */
   attached_alloc_id?: string | undefined;
+  /** ID of the Machine the volume is attached to, or null if it is not attached. */
   attached_machine_id?: string | undefined;
+  /** Whether daily automatic snapshots are taken. */
   auto_backup_enabled?: boolean | undefined;
+  /** Size of a filesystem block, in bytes. See `blocks`. */
   block_size?: number | undefined;
+  /** Size of the volume's filesystem, in blocks of `block_size` bytes, as last reported by a Machine that mounted the volume. 0 if never reported, if the host could not be reached, or with `summary=true`. */
   blocks?: number | undefined;
+  /** Number of filesystem blocks available to unprivileged users. See `blocks`. */
   blocks_avail?: number | undefined;
+  /** Number of free filesystem blocks, including blocks reserved for the root user. See `blocks`. */
   blocks_free?: number | undefined;
+  /** Size of the volume, in bytes. 0 if the host could not be reached or with `summary=true`. */
   bytes_total?: number | undefined;
+  /** Bytes of storage the volume occupies on its host. Volumes are thinly provisioned, so this grows as blocks are written and does not shrink when files are deleted. It is not the filesystem's usage; use `blocks` and `blocks_free` for that. 0 if the host could not be reached or with `summary=true`. */
   bytes_used?: number | undefined;
+  /** When the volume was created. */
   created_at?: string | undefined;
+  /** Whether the volume is encrypted at rest. */
   encrypted?: boolean | undefined;
+  /** Filesystem the volume was formatted with: `ext4`, or `raw` for an unformatted block device. */
   fstype?: string | undefined;
+  /** Features of the volume's host. Only returned when the request sets the `fly-include-host-features: true` header. */
   host_features?: OrgVolumeHostFeaturesList | undefined;
+  /** Whether Fly.io could reach the volume's host: `ok` if it could, `unreachable` or `unknown` if it could not, in which case host-reported fields are missing. */
   host_status?: OrgVolumeHostStatus | undefined;
+  /** Unique ID of the volume, such as `vol_1234567890abcdef`. */
   id?: string | undefined;
+  /** Name of the volume. Several volumes of an app can share a name. */
   name?: string | undefined;
+  /** Code of the region the volume is in. */
   region?: string | undefined;
+  /** Host features the volume's host was required to have; see `compute.required_host_features` in the create request. */
   required_host_features?: OrgVolumeRequiredHostFeaturesList | undefined;
+  /** Size of the volume, in GiB. */
   size_gb?: number | undefined;
+  /** Number of days snapshots of the volume are kept. */
   snapshot_retention?: number | undefined;
+  /** State of the volume, such as `creating`, `created`, `extending`, `restoring`, `hydrating`, `scheduling_destroy`, `pending_destroy`, `destroying`, `destroyed`, or `failed`. */
   state?: string | undefined;
+  /** Kind of volume: `local` for regular volumes, or `cache` for volumes that hold disposable data and support neither snapshots nor restores. */
   type?: OrgVolumeType | undefined;
+  /** When Fly.io last recorded a change to the volume. */
   updated_at?: string | undefined;
+  /** Identifies the host the volume is on. Volumes with different zones are on different hosts. */
   zone?: string | undefined;
 }
+/** The volumes on this page. */
 export type OrgVolumesResponseVolumesList = Array<OrgVolume>;
 export interface OrgVolumesResponse {
+  /** `updated_at` of the last volume on this page. */
   last_updated_at?: string | undefined;
+  /** ID of the last volume on this page. */
   last_volume_id?: string | undefined;
+  /** Pagination cursor for the next page. Absent when no more volumes remain. */
   next_cursor?: string | undefined;
+  /** The volumes on this page. */
   volumes?: OrgVolumesResponseVolumesList | undefined;
 }
 export interface MachinesReleaseLeaseRequest {
@@ -2012,18 +2575,55 @@ export interface MachinesReleaseLeaseRequest {
   /** Nonce of the lease to release. Keep the nonce private. */
   lease_nonce: string;
 }
-export interface MachinesReleaseLeaseResponse {}
+/** Always `success`. */
+export type LeaseOkResponseStatus = "success";
+export interface LeaseOkResponse {
+  data?: OkResponse | undefined;
+  /** Always `success`. */
+  status?: LeaseOkResponseStatus | undefined;
+}
+/** Keys to change. A string value sets the key; null, an empty string or whitespace removes it. Keys and values have surrounding whitespace trimmed. Keys not listed are left alone. Must contain at least one key. */
 export type PatchMachineMetadataRequestMetadataMap = { [key: string]: string | undefined };
 export interface PatchMachineMetadataRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** Only apply the change if this is still the Machine's current version; otherwise fail with 412. Defaults to the current version. */
   machine_version?: string | undefined;
+  /** Keys to change. A string value sets the key; null, an empty string or whitespace removes it. Keys and values have surrounding whitespace trimmed. Keys not listed are left alone. Must contain at least one key. */
   metadata?: PatchMachineMetadataRequestMetadataMap | undefined;
+  /** Time to record for the change in the Machine's `metadata_update` event. Defaults to now. */
   updated_at?: string | undefined;
 }
 export interface PatchMachineMetadataResponse {}
+export interface PostgresDatabasesQueryRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Database Name */
+  database_name: string;
+  /** SQL to run, up to 102400 bytes. Multiple statements are allowed; only the last result set is returned. */
+  sql: string;
+}
+export interface PostgresQueryColumn {
+  /** Column name as returned by Postgres. */
+  name?: string | undefined;
+  /** Postgres type name. */
+  type?: string | undefined;
+}
+/** Columns of the final result set, in order. */
+export type PostgresQueryResponseColumnsList = Array<PostgresQueryColumn>;
+export type PostgresQueryResponseRowsItemList = Array<unknown>;
+/** Rows of the final result set; each row holds one JSON value per column, with NULL as null and json/jsonb as decoded JSON. */
+export type PostgresQueryResponseRowsList = Array<PostgresQueryResponseRowsItemList>;
+export interface PostgresQueryResponse {
+  /** Columns of the final result set, in order. */
+  columns?: PostgresQueryResponseColumnsList | undefined;
+  /** Number of rows returned. */
+  row_count?: number | undefined;
+  /** Rows of the final result set; each row holds one JSON value per column, with NULL as null and json/jsonb as decoded JSON. */
+  rows?: PostgresQueryResponseRowsList | undefined;
+}
 export interface PostgresQueriesActiveRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
@@ -2106,15 +2706,19 @@ export interface ReclaimMachineMemoryRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** Memory to reclaim, in MiB. Must be positive and at most the Machine's memory limit minus 128 MiB. */
   amount_mb?: number | undefined;
 }
 export interface MainReclaimMemoryResponse {
+  /** Memory, in MiB, that the guest actually gave up. Can be less than requested. */
   actual_mb?: number | undefined;
 }
 export interface RequestKmsTokenRequest {}
 export interface RequestKmsTokenResponse {}
 export interface RequestOidcTokenRequest {
+  /** Value of the token's `aud` claim. Defaults to `https://fly.io/<org-slug>`. */
   aud?: string | undefined;
+  /** Add AWS principal tag claims (`https://aws.amazon.com/tags/principal_tags/<tag>`) for use with AWS IAM: FlyAppName, FlyOrgSlug, FlyOrgId, FlyMachineName and FlyRegion. */
   aws_principal_tags?: boolean | undefined;
 }
 export interface RequestOidcTokenResponse {}
@@ -2163,17 +2767,20 @@ export interface SetMachineMemoryLimitRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** New limit in MiB. Must be at least 128 and at most the Machine's configured memory (`guest.max_memory_mb` if set, else `guest.memory_mb`). */
   limit_mb?: number | undefined;
 }
-export type SetSecretKeyRequestValueList = Array<number>;
 export interface SetSecretKeyRequest {
   /** Fly App Name */
   app_name: string;
   /** Secret key name */
   secret_name: string;
+  /** Type of the key: `hs256`, `hs384`, `hs512`, `xaes256gcm`, `nacl_auth`, `nacl_box`, `nacl_secretbox`, `nacl_sign`, or `es256`. Required. */
   type?: string | undefined;
-  value?: SetSecretKeyRequestValueList | undefined;
+  /** Key material, base64-encoded. Ignored when generating a key. */
+  value?: string | undefined;
 }
+/** Signal to send to the Machine's main process. */
 export type SignalMachineRequestSignal =
   | "SIGABRT"
   | "SIGALRM"
@@ -2194,6 +2801,7 @@ export interface SignalMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** Signal to send to the Machine's main process. */
   signal?: SignalMachineRequestSignal | (string & {}) | undefined;
 }
 export interface SignSecretKeyRequest {
@@ -2201,11 +2809,13 @@ export interface SignSecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
+  /** Data to sign, base64-encoded. */
   plaintext?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SignSecretkeyResponse {
+  /** Signature or MAC of the data, base64-encoded. */
   signature?: string | undefined;
 }
 export interface StartMachineRequest {
@@ -2223,6 +2833,7 @@ export interface StartMachineResponse {
   /** The state the Machine was in before it was started */
   previous_state?: string | undefined;
 }
+/** Signal to send to the Machine's main process. Defaults to `config.stop_config.signal`, or SIGINT. */
 export type StopMachineRequestSignal =
   | "SIGHUP"
   | "SIGINT"
@@ -2236,7 +2847,9 @@ export interface StopMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
+  /** Signal to send to the Machine's main process. Defaults to `config.stop_config.signal`, or SIGINT. */
   signal?: StopMachineRequestSignal | (string & {}) | undefined;
+  /** How long to wait for the Machine to exit after sending `signal` before killing it, as a Go duration string. Defaults to `config.stop_config.timeout`, or 5s. */
   timeout?: string | undefined;
   lease_nonce?: string | undefined;
 }
@@ -2259,21 +2872,44 @@ export interface UpdateMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  /** An object defining the Machine configuration */
+  /** The new Machine configuration. It replaces the current one entirely. */
   config?: FlyMachineConfig | undefined;
-  /** CurrentVersion is an optional optimistic-concurrency guard: the Machine's `version`, as returned by create, get or a previous update. When set and it is no longer the Machine's current version, the update is rejected with 409 Conflict and nothing changes. Omit it to update unconditionally. */
+  /** Optional optimistic-concurrency guard: the Machine's `version`, as returned by create, get or a previous update. When set and it is no longer the Machine's current version, the update is rejected with 409 Conflict and nothing changes. Omit it to update unconditionally. */
   current_version?: string | undefined;
+  /** Ignored. Use the lease endpoints to lease an existing Machine. */
   lease_ttl?: number | undefined;
   /** The minimum version of the app's secrets the Machine must run with. Set it to the `version` returned by the endpoints that set or delete app secrets, so that the Machine is guaranteed to see those changes. This field belongs at the top level of the request body, not in `config`. If omitted, the app's current secrets version is looked up for you. */
   min_secrets_version?: number | undefined;
-  /** Unique name for this Machine. If omitted, one is generated for you */
+  /** Ignored. */
   name?: string | undefined;
-  /** The target region. Omitting this param launches in the same region as your WireGuard peer connection (somewhere near you). */
+  /** Not used to place the Machine: an update never moves it to another region or host. */
   region?: string | undefined;
+  /** Apply the update without starting the Machine. It ends up `stopped`; start it with the Start Machine endpoint. Not allowed for spot Machines. */
   skip_launch?: boolean | undefined;
+  /** Don't look up the app's current secrets version. The Machine still gets the app's secrets, but may not see recent changes to them. Takes precedence over `min_secrets_version`. */
   skip_secrets?: boolean | undefined;
+  /** Ignored. Use the cordon and uncordon endpoints instead. */
   skip_service_registration?: boolean | undefined;
   lease_nonce?: string | undefined;
+}
+/** Day of the week the window starts on. */
+export type UpdatePostgresMaintenanceWindowRequestDay =
+  | "sunday"
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday";
+export interface UpdatePostgresMaintenanceWindowRequest {
+  /** Managed Postgres Cluster ID */
+  postgres_cluster_id: string;
+  /** Day of the week the window starts on. */
+  day?: UpdatePostgresMaintenanceWindowRequestDay | (string & {}) | undefined;
+  /** Length of the window in hours. */
+  duration_hours?: number | undefined;
+  /** Hour of the day the window starts, in the cluster's timezone. */
+  start_hour?: number | undefined;
 }
 /** New role for the user. */
 export type UpdatePostgresUserRoleRequestRole = "schema_admin" | "writer" | "reader";
@@ -2286,18 +2922,22 @@ export interface UpdatePostgresUserRoleRequest {
   role: UpdatePostgresUserRoleRequestRole | (string & {});
 }
 export interface UpdatePostgresUserRoleResponse {}
+/** Secrets to change, keyed by name. A string value sets the secret; null deletes it. Names may only contain letters, digits, and underscores. Secrets not listed are left alone. */
 export type UpdateSecretsRequestValuesMap = {
   [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 export interface UpdateSecretsRequest {
   /** Fly App Name */
   app_name: string;
+  /** Secrets to change, keyed by name. A string value sets the secret; null deletes it. Names may only contain letters, digits, and underscores. Secrets not listed are left alone. */
   values?: UpdateSecretsRequestValuesMap | undefined;
 }
+/** The secrets from the request, with their new values and digests; deleted secrets only have a name. */
 export type AppSecretsUpdateRespSecretsList = Array<AppSecret>;
 export interface AppSecretsUpdateResp {
-  /** DEPRECATED */
+  /** Same value as `version`. Deprecated: use `version`. */
   Version?: number | undefined;
+  /** The secrets from the request, with their new values and digests; deleted secrets only have a name. */
   secrets?: AppSecretsUpdateRespSecretsList | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
   version?: number | undefined;
@@ -2307,7 +2947,9 @@ export interface UpdateVolumeRequest {
   app_name: string;
   /** Volume ID */
   volume_id: string;
+  /** Take daily automatic snapshots of the volume. Unchanged if omitted. */
   auto_backup_enabled?: boolean | undefined;
+  /** Number of days to keep snapshots of the volume, from 1 to 60. Unchanged if omitted. */
   snapshot_retention?: number | undefined;
 }
 export interface UpsertMachineMetadataRequest {
@@ -2317,7 +2959,9 @@ export interface UpsertMachineMetadataRequest {
   machine_id: string;
   /** Metadata Key */
   key: string;
+  /** Time to record for the change in the Machine's `metadata_update` event. Defaults to now. */
   updated_at?: string | undefined;
+  /** Value to set. Must not be empty or whitespace only. */
   value?: string | undefined;
 }
 export interface UpsertMachineMetadataResponse {}
@@ -2326,9 +2970,11 @@ export interface VerifySecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  /** Minimum secrets version to return. Returned when setting a new secret */
+  /** Minimum secrets version to read, as returned by the endpoints that set or delete secrets. Use it to read your own writes. */
   min_version?: string | undefined;
+  /** Data that was signed, base64-encoded. */
   plaintext?: string | Redacted.Redacted<string> | undefined;
+  /** Signature or MAC to check, base64-encoded. */
   signature?: string | undefined;
 }
 export interface VerifySecretKeyResponse {}
@@ -2338,6 +2984,7 @@ export type WaitMachineRequestState =
   | "suspended"
   | "destroyed"
   | "failed"
+  | "archived"
   | "settled";
 export interface WaitMachineRequest {
   /** Fly App Name */
@@ -2350,26 +2997,34 @@ export interface WaitMachineRequest {
   instance_id?: string | undefined;
   /** 26-character Machine event ID to start waiting after */
   from_event_id?: string | undefined;
-  /** wait timeout. default 60s */
+  /** Wait timeout in seconds. Defaults to 60. */
   timeout?: number | undefined;
-  /** desired state(s), supports repeated or comma-separated values */
+  /** Desired state(s). Supports repeated or comma-separated values. settled matches any of started, stopped, suspended, failed, destroyed, or archived. Defaults to started. */
   state?: WaitMachineRequestState | (string & {}) | undefined;
 }
 export interface WaitMachineResponse {
+  /** ID of the event that moved the Machine into `state`. Pass it as `from_event_id` to wait for a later state change. */
   event_id?: string | undefined;
+  /** Always true. */
   ok?: boolean | undefined;
+  /** The state the Machine reached, one of the requested states. */
   state?: string | undefined;
+  /** ID of the Machine version that reached `state`. */
   version?: string | undefined;
 }
 export type MainStatusCode =
   | "unknown"
   | "insufficient_capacity"
   | "volume_placement_capacity"
+  | "exec_request_too_large"
+  | "exec_output_too_large"
   | "name_taken";
 export interface ErrorResponse {
-  /** Deprecated */
+  /** Deprecated: details about some errors. Do not rely on its contents. */
   details?: unknown | undefined;
+  /** Human-readable description of the error. Its wording may change; use `status` to tell errors apart. */
   error?: string | undefined;
+  /** Machine-readable error code, set for some errors, such as `insufficient_capacity`, `volume_placement_capacity`, `name_taken`, `exec_request_too_large`, or `exec_output_too_large`. */
   status?: MainStatusCode | undefined;
 }
 export interface PostgresErrorResponse {
@@ -2377,6 +3032,14 @@ export interface PostgresErrorResponse {
   error?: string | undefined;
   /** Optional machine-readable error status. */
   status?: string | undefined;
+}
+/** Always `error`. */
+export type LeaseErrorResponseStatus = "error";
+export interface LeaseErrorResponse {
+  /** What went wrong. */
+  message?: string | undefined;
+  /** Always `error`. */
+  status?: LeaseErrorResponseStatus | undefined;
 }
 export type AuthenticateTokenError = BadRequest | FlyIoOpError;
 /** Authenticate token header Verify a token header without checking resource access. */
@@ -2386,9 +3049,10 @@ export const authenticateToken: API.OperationMethod<
   AuthenticateTokenError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<AuthenticateTokenRequest>,
-  output: __S(2882, __c90, 2) as any as S.Schema<AuthenticateTokenResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<AuthenticateTokenRequest>,
+  output: __S(3042, __c95, 2) as any as S.Schema<AuthenticateTokenResponse>,
   errors: [BadRequest],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2403,9 +3067,10 @@ export const authorizeToken: API.OperationMethod<
   AuthorizeTokenError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3329, __c104, 1) as any as S.Schema<AuthorizeTokenRequest>,
-  output: __S(3331, __c104, 3) as any as S.Schema<AuthorizeResponse>,
+  input: __S(3489, __c109, 1) as any as S.Schema<AuthorizeTokenRequest>,
+  output: __S(3491, __c109, 3) as any as S.Schema<AuthorizeResponse>,
   errors: [BadRequest],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2420,9 +3085,10 @@ export const checkAppCertificate: API.OperationMethod<
   CheckAppCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<CheckAppCertificateRequest>,
-  output: __S(3746, __c117, 2) as any as S.Schema<CertificateCheckResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<CheckAppCertificateRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<CertificateCheckResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2440,6 +3106,7 @@ export const cordonMachine: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CordonMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2460,9 +3127,10 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateAppRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<CreateAppResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateAppRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<CreateAppResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2483,9 +3151,10 @@ export const createAppAcmeCertificate: API.OperationMethod<
   CreateAppAcmeCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateAppAcmeCertificateRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<CertificateDetail>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateAppAcmeCertificateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CertificateDetail>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2506,9 +3175,10 @@ export const createAppCustomCertificate: API.OperationMethod<
   CreateAppCustomCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CreateAppCustomCertificateRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<CertificateDetail>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateAppCustomCertificateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CertificateDetail>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2523,9 +3193,10 @@ export const createAppDeployToken: API.OperationMethod<
   CreateAppDeployTokenError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateAppDeployTokenRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<CreateAppDeployTokenResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateAppDeployTokenRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<CreateAppDeployTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2546,9 +3217,10 @@ export const createAppIPAssignment: API.OperationMethod<
   CreateAppIPAssignmentError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateAppIPAssignmentRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<AssignIPResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateAppIPAssignmentRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<AssignIPResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, NetworkNotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2570,8 +3242,8 @@ export const createMachine: API.OperationMethod<
   CreateMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreateMachineRequest>,
-  output: __S(644, __c20, 4) as any as S.Schema<Machine>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateMachineRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<Machine>,
   errors: [
     BadRequest,
     Forbidden,
@@ -2580,6 +3252,7 @@ export const createMachine: API.OperationMethod<
     InsufficientHostResources,
     StorageHostCapacity,
   ],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2594,9 +3267,10 @@ export const createMachineLease: API.OperationMethod<
   CreateMachineLeaseError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreateMachineLeaseRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<MachineLease>,
+  input: __S(832, __c26, 0) as any as S.Schema<CreateMachineLeaseRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<MachineLease>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2611,9 +3285,10 @@ export const createPostgres: API.OperationMethod<
   CreatePostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreatePostgresRequest>,
-  output: __S(901, __c28, 5) as any as S.Schema<ShowPostgresClusterResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<CreatePostgresRequest>,
+  output: __S(997, __c31, 5) as any as S.Schema<ShowPostgresClusterResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2628,9 +3303,10 @@ export const createPostgresAttachment: API.OperationMethod<
   CreatePostgresAttachmentError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreatePostgresAttachmentRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<CreatePostgresAttachmentResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreatePostgresAttachmentRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<CreatePostgresAttachmentResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2645,9 +3321,10 @@ export const createPostgresBackup: API.OperationMethod<
   CreatePostgresBackupError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreatePostgresBackupRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<CreatePostgresBackupResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<CreatePostgresBackupRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<CreatePostgresBackupResponse>,
   errors: [NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2666,9 +3343,10 @@ export const createPostgresDatabase: API.OperationMethod<
   CreatePostgresDatabaseError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<CreatePostgresDatabaseRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<PostgresDatabaseResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreatePostgresDatabaseRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<PostgresDatabaseResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2688,9 +3366,10 @@ export const createPostgresUser: API.OperationMethod<
   CreatePostgresUserError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CreatePostgresUserRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<CreatePostgresUserResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreatePostgresUserRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<CreatePostgresUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2705,9 +3384,10 @@ export const createSecret: API.OperationMethod<
   CreateSecretError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateSecretRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SetAppSecretResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateSecretRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<SetAppSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2728,9 +3408,10 @@ export const createVolume: API.OperationMethod<
   CreateVolumeError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateVolumeRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Volume>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateVolumeRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Volume>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, StorageHostCapacity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2745,26 +3426,28 @@ export const createVolumeSnapshot: API.OperationMethod<
   CreateVolumeSnapshotError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateVolumeSnapshotRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<CreateVolumeSnapshotResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateVolumeSnapshotRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<CreateVolumeSnapshotResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVolumeSnapshot",
 }));
 
-export type DecryptSecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Decrypt with a secret key */
+export type DecryptSecretKeyError = BadRequest | Forbidden | NotFound | Forbidden | FlyIoOpError;
+/** Decrypt with a secret key The request must come from a Machine of the app; otherwise it fails with 403. */
 export const decryptSecretKey: API.OperationMethod<
   DecryptSecretKeyRequest,
   DecryptSecretkeyResponse,
   DecryptSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DecryptSecretKeyRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<DecryptSecretkeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(1376, __c43, 0) as any as S.Schema<DecryptSecretKeyRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<DecryptSecretkeyResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2779,9 +3462,10 @@ export const deleteApp: API.OperationMethod<
   DeleteAppError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteAppResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeleteAppResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2796,9 +3480,10 @@ export const deleteAppAcmeCertificate: API.OperationMethod<
   DeleteAppAcmeCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteAppAcmeCertificateRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<CertificateDetail>,
+  input: __S(1440, __c45, 0) as any as S.Schema<DeleteAppAcmeCertificateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CertificateDetail>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2813,9 +3498,10 @@ export const deleteAppCertificate: API.OperationMethod<
   DeleteAppCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteAppCertificateRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteAppCertificateResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeleteAppCertificateRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeleteAppCertificateResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2830,9 +3516,10 @@ export const deleteAppCustomCertificate: API.OperationMethod<
   DeleteAppCustomCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DeleteAppCustomCertificateRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<DestroyCustomCertificateResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteAppCustomCertificateRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<DestroyCustomCertificateResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2847,9 +3534,10 @@ export const deleteAppIPAssignment: API.OperationMethod<
   DeleteAppIPAssignmentError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteAppIPAssignmentRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteAppIPAssignmentResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeleteAppIPAssignmentRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeleteAppIPAssignmentResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2864,9 +3552,10 @@ export const deleteMachine: API.OperationMethod<
   DeleteMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteMachineRequest>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2881,9 +3570,10 @@ export const deleteMachineMetadata: API.OperationMethod<
   DeleteMachineMetadataError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DeleteMachineMetadataRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeleteMachineMetadataResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteMachineMetadataRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeleteMachineMetadataResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2898,9 +3588,10 @@ export const deletePostgres: API.OperationMethod<
   DeletePostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeletePostgresRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeletePostgresResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeletePostgresRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeletePostgresResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2915,9 +3606,10 @@ export const deletePostgresAttachment: API.OperationMethod<
   DeletePostgresAttachmentError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeletePostgresAttachmentRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeletePostgresAttachmentResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeletePostgresAttachmentRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeletePostgresAttachmentResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2932,9 +3624,10 @@ export const deletePostgresDatabase: API.OperationMethod<
   DeletePostgresDatabaseError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeletePostgresDatabaseRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<PostgresDatabaseResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeletePostgresDatabaseRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<PostgresDatabaseResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2949,9 +3642,10 @@ export const deletePostgresUser: API.OperationMethod<
   DeletePostgresUserError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeletePostgresUserRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DeletePostgresUserResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeletePostgresUserRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DeletePostgresUserResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2966,9 +3660,10 @@ export const deleteSecret: API.OperationMethod<
   DeleteSecretError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteSecretRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DeleteAppSecretResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteSecretRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<DeleteAppSecretResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2983,9 +3678,10 @@ export const deleteSecretKey: API.OperationMethod<
   DeleteSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteSecretKeyRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<DeleteSecretkeyResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteSecretKeyRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<DeleteSecretkeyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3000,9 +3696,10 @@ export const deleteVolume: API.OperationMethod<
   DeleteVolumeError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteVolumeRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Volume>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteVolumeRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Volume>,
   errors: [Forbidden, NotFound, Conflict, VolumeAttached],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3021,9 +3718,10 @@ export const disablePostgresExtension: API.OperationMethod<
   DisablePostgresExtensionError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DisablePostgresExtensionRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<DisablePostgresExtensionResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DisablePostgresExtensionRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<DisablePostgresExtensionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3043,26 +3741,28 @@ export const enablePostgresExtension: API.OperationMethod<
   EnablePostgresExtensionError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<EnablePostgresExtensionRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<EnablePostgresExtensionResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<EnablePostgresExtensionRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<EnablePostgresExtensionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnablePostgresExtension",
 }));
 
-export type EncryptSecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Encrypt with a secret key */
+export type EncryptSecretKeyError = BadRequest | Forbidden | NotFound | Forbidden | FlyIoOpError;
+/** Encrypt with a secret key The request must come from a Machine of the app; otherwise it fails with 403. */
 export const encryptSecretKey: API.OperationMethod<
   EncryptSecretKeyRequest,
   EncryptSecretkeyResponse,
   EncryptSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<EncryptSecretKeyRequest>,
-  output: __S(1857, __c58, 1) as any as S.Schema<EncryptSecretkeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(1984, __c62, 0) as any as S.Schema<EncryptSecretKeyRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<EncryptSecretkeyResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3070,16 +3770,17 @@ export const encryptSecretKey: API.OperationMethod<
 }));
 
 export type ExecMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
-/** Execute Command Execute a command on a specific Machine and return the raw command output bytes. */
+/** Execute Command Execute a command on a specific Machine and return a JSON response containing stdout, stderr, exit_code, and exit_signal. A completed command returns HTTP 200, including when the command exits unsuccessfully. HTTP 412 is returned when the Machine is not running. On Machines without containers, it can also indicate an error before or during command execution. For example, the executable may be missing or lack execute permission. The `error` field describes the failure. HTTP 413 responses include a `status` field identifying the size limit that was exceeded: * `exec_request_too_large`: the Machine rejected the exec request as too large. The error message is `exec request rejected: payload too large`. The limit applies to the encoded request sent to the Machine, which can differ in size from the public API request. * `exec_output_too_large`: the command ran, but its output could not be returned because it exceeded the maximum allowed response size after JSON encoding. */
 export const execMachine: API.OperationMethod<
   ExecMachineRequest,
-  Flydv1ExecResponse,
+  ExecResponse,
   ExecMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ExecMachineRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<Flydv1ExecResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ExecMachineRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<ExecResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3094,9 +3795,10 @@ export const extendVolume: API.OperationMethod<
   ExtendVolumeError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ExtendVolumeRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ExtendVolumeResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ExtendVolumeRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<ExtendVolumeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3116,9 +3818,10 @@ export const forkPostgres: API.OperationMethod<
   ForkPostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ForkPostgresRequest>,
-  output: __S(901, __c28, 5) as any as S.Schema<ShowPostgresClusterResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ForkPostgresRequest>,
+  output: __S(997, __c31, 5) as any as S.Schema<ShowPostgresClusterResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3133,9 +3836,10 @@ export const generateSecretKey: API.OperationMethod<
   GenerateSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GenerateSecretKeyRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SetSecretkeyResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GenerateSecretKeyRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<SetSecretkeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3146,9 +3850,10 @@ export type GetAppError = Forbidden | NotFound | FlyIoOpError;
 /** Get App Retrieve details about a specific app by its name. */
 export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, FlyIoOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2048, __c64, 0) as any as S.Schema<GetAppRequest>,
-    output: __S(2081, __c65, 1) as any as S.Schema<App>,
+    input: __S(2176, __c68, 0) as any as S.Schema<GetAppRequest>,
+    output: __S(2209, __c69, 1) as any as S.Schema<App>,
     errors: [Forbidden, NotFound],
+    serviceErrors: FlyIoServiceErrors,
     protocol: FlyIoProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3163,9 +3868,10 @@ export const getAppCertificate: API.OperationMethod<
   GetAppCertificateError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetAppCertificateRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<CertificateDetail>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetAppCertificateRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<CertificateDetail>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3180,9 +3886,10 @@ export const getCurrentToken: API.OperationMethod<
   GetCurrentTokenError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetCurrentTokenRequest>,
-  output: __S(2147, __c67, 3) as any as S.Schema<CurrentTokenResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetCurrentTokenRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<CurrentTokenResponse>,
   errors: [Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3197,9 +3904,10 @@ export const getMachine: API.OperationMethod<
   GetMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetMachineRequest>,
-  output: __S(644, __c20, 4) as any as S.Schema<Machine>,
+  input: __S(2304, __c72, 0) as any as S.Schema<GetMachineRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<Machine>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3214,9 +3922,10 @@ export const getMachineLease: API.OperationMethod<
   GetMachineLeaseError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetMachineLeaseRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<MachineLease>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetMachineLeaseRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<MachineLease>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3224,16 +3933,17 @@ export const getMachineLease: API.OperationMethod<
 }));
 
 export type GetMachineMemoryError = Forbidden | NotFound | FlyIoOpError;
-/** Get Machine Memory Get current memory limit and available capacity for a machine */
+/** Get Machine Memory Get the current memory limit of a started Firecracker Machine, and how far it can be raised. */
 export const getMachineMemory: API.OperationMethod<
   GetMachineMemoryRequest,
   MainMemoryResponse,
   GetMachineMemoryError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetMachineMemoryRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<MainMemoryResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetMachineMemoryRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<MainMemoryResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3248,9 +3958,10 @@ export const getMachineMetadata: API.OperationMethod<
   GetMachineMetadataError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetMachineMetadataRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<GetMachineMetadataResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetMachineMetadataRequest>,
+  output: __S(2433, __c76, 1) as any as S.Schema<GetMachineMetadataResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3265,9 +3976,10 @@ export const getMachineMetadataKey: API.OperationMethod<
   GetMachineMetadataKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetMachineMetadataKeyRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<MetadataValueResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetMachineMetadataKeyRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<MetadataValueResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3282,9 +3994,10 @@ export const getPlacements: API.OperationMethod<
   GetPlacementsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2369, __c74, 1) as any as S.Schema<GetPlacementsRequest>,
-  output: __S(2372, __c74, 4) as any as S.Schema<MainGetPlacementsResponse>,
+  input: __S(2497, __c78, 1) as any as S.Schema<GetPlacementsRequest>,
+  output: __S(2500, __c78, 4) as any as S.Schema<MainGetPlacementsResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3299,13 +4012,32 @@ export const getPostgres: API.OperationMethod<
   GetPostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetPostgresRequest>,
-  output: __S(901, __c28, 5) as any as S.Schema<ShowPostgresClusterResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetPostgresRequest>,
+  output: __S(997, __c31, 5) as any as S.Schema<ShowPostgresClusterResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPostgres",
+}));
+
+export type GetPostgresMaintenanceWindowError = NotFound | FlyIoOpError;
+/** Get Maintenance Window Get the weekly window in which a cluster may undergo maintenance. A cluster that never set one returns its region's default. Some clusters have no window: their maintenance can run at any time, and `data` is null. Requires only read access to the organization. */
+export const getPostgresMaintenanceWindow: API.OperationMethod<
+  GetPostgresMaintenanceWindowRequest,
+  ShowPostgresMaintenanceWindowResponse,
+  GetPostgresMaintenanceWindowError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2560, __c80, 0) as any as S.Schema<GetPostgresMaintenanceWindowRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<ShowPostgresMaintenanceWindowResponse>,
+  errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresMaintenanceWindow",
 }));
 
 export type GetRegionsError = Forbidden | FlyIoOpError;
@@ -3316,9 +4048,10 @@ export const getRegions: API.OperationMethod<
   GetRegionsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetRegionsRequest>,
-  output: __S(2435, __c76, 3) as any as S.Schema<MainRegionResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetRegionsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<MainRegionResponse>,
   errors: [Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3333,9 +4066,10 @@ export const getSecret: API.OperationMethod<
   GetSecretError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetSecretRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<AppSecret>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetSecretRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<AppSecret>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3350,9 +4084,10 @@ export const getSecretKey: API.OperationMethod<
   GetSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetSecretKeyRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<SecretKey>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetSecretKeyRequest>,
+  output: __S(2752, __c86, 0) as any as S.Schema<SecretKey>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3367,9 +4102,10 @@ export const getVolumeById: API.OperationMethod<
   GetVolumeByIdError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetVolumeByIdRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Volume>,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetVolumeByIdRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Volume>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3384,9 +4120,10 @@ export const listAppCertificates: API.OperationMethod<
   ListAppCertificatesError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListAppCertificatesRequest>,
-  output: __S(2627, __c82, 3) as any as S.Schema<ListCertificatesResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListAppCertificatesRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<ListCertificatesResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3401,9 +4138,10 @@ export const listAppIPAssignments: API.OperationMethod<
   ListAppIPAssignmentsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListAppIPAssignmentsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<ListIPAssignmentsResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListAppIPAssignmentsRequest>,
+  output: __S(2851, __c89, 3) as any as S.Schema<ListIPAssignmentsResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3418,9 +4156,10 @@ export const listApps: API.OperationMethod<
   ListAppsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListAppsRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<ListAppsResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListAppsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<ListAppsResponse>,
   errors: [Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3435,9 +4174,10 @@ export const listMachineEvents: API.OperationMethod<
   ListMachineEventsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListMachineEventsRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<ListMachineEventsResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListMachineEventsRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<ListMachineEventsResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3445,16 +4185,17 @@ export const listMachineEvents: API.OperationMethod<
 }));
 
 export type ListMachineProcessesError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** List Processes List all processes running on a specific Machine within an app, with optional sorting parameters. */
+/** List Processes List all processes running on a specific Machine within an app, with optional sorting parameters. The Machine must be started. */
 export const listMachineProcesses: API.OperationMethod<
   ListMachineProcessesRequest,
   ListMachineProcessesResponse,
   ListMachineProcessesError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListMachineProcessesRequest>,
-  output: __S(2757, __c86, 5) as any as S.Schema<ListMachineProcessesResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListMachineProcessesRequest>,
+  output: __S(2949, __c92, 5) as any as S.Schema<ListMachineProcessesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3469,9 +4210,10 @@ export const listMachines: API.OperationMethod<
   ListMachinesError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListMachinesRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<ListMachinesResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListMachinesRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<ListMachinesResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3479,16 +4221,17 @@ export const listMachines: API.OperationMethod<
 }));
 
 export type ListMachinesOrgError = Forbidden | NotFound | FlyIoOpError;
-/** List All Machines List all Machines associated with a specific organization. Machines are sorted by their `updated_at` timestamps, oldest to newest. This API call represents "a point in time". Recent machine changes, including creations and destructions, may take time to propagate. When polling with `updated_after`, offset your timestamps to catch late-arriving events. */
+/** List All Machines List all Machines associated with a specific organization. Machines are returned region by region, and sorted by their `updated_at` timestamps, oldest to newest, within each region. The list as a whole is therefore not sorted by `updated_at`. This API call represents "a point in time". Recent machine changes, including creations and destructions, may take time to propagate. When polling with `updated_after`, offset your timestamps to catch late-arriving events. */
 export const listMachinesOrg: API.OperationMethod<
   ListMachinesOrgRequest,
   OrgMachinesResponse,
   ListMachinesOrgError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListMachinesOrgRequest>,
-  output: __S(2820, __c88, 4) as any as S.Schema<OrgMachinesResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListMachinesOrgRequest>,
+  output: __S(3012, __c94, 4) as any as S.Schema<OrgMachinesResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3503,9 +4246,10 @@ export const listMachineVersions: API.OperationMethod<
   ListMachineVersionsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListMachineVersionsRequest>,
-  output: __S(2851, __c89, 3) as any as S.Schema<ListMachineVersionsResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListMachineVersionsRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListMachineVersionsResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3520,9 +4264,10 @@ export const listPostgres: API.OperationMethod<
   ListPostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListPostgresRequest>,
-  output: __S(2979, __c93, 3) as any as S.Schema<ListPostgresClustersResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListPostgresRequest>,
+  output: __S(3171, __c99, 3) as any as S.Schema<ListPostgresClustersResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3537,9 +4282,10 @@ export const listPostgresBackups: API.OperationMethod<
   ListPostgresBackupsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListPostgresBackupsRequest>,
-  output: __S(3011, __c94, 3) as any as S.Schema<ListPostgresBackupsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListPostgresBackupsRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<ListPostgresBackupsResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3554,9 +4300,10 @@ export const listPostgresDatabases: API.OperationMethod<
   ListPostgresDatabasesError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListPostgresDatabasesRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<ListPostgresDatabasesResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListPostgresDatabasesRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<ListPostgresDatabasesResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3571,9 +4318,10 @@ export const listPostgresExtensions: API.OperationMethod<
   ListPostgresExtensionsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListPostgresExtensionsRequest>,
-  output: __S(3076, __c96, 4) as any as S.Schema<ListPostgresExtensionsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListPostgresExtensionsRequest>,
+  output: __S(3268, __c102, 4) as any as S.Schema<ListPostgresExtensionsResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3588,9 +4336,10 @@ export const listPostgresPlans: API.OperationMethod<
   ListPostgresPlansError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListPostgresPlansRequest>,
-  output: __S(3107, __c97, 3) as any as S.Schema<ListPostgresPlansResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListPostgresPlansRequest>,
+  output: __S(3299, __c103, 3) as any as S.Schema<ListPostgresPlansResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3605,9 +4354,10 @@ export const listPostgresUsers: API.OperationMethod<
   ListPostgresUsersError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListPostgresUsersRequest>,
-  output: __S(3138, __c98, 2) as any as S.Schema<ListPostgresUsersResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ListPostgresUsersRequest>,
+  output: __S(3330, __c104, 2) as any as S.Schema<ListPostgresUsersResponse>,
   errors: [NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3622,9 +4372,10 @@ export const listSecretKeys: API.OperationMethod<
   ListSecretKeysError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListSecretKeysRequest>,
-  output: __S(3170, __c99, 2) as any as S.Schema<SecretKeys>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ListSecretKeysRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<SecretKeys>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3639,9 +4390,10 @@ export const listSecrets: API.OperationMethod<
   ListSecretsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListSecretsRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<AppSecrets>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ListSecretsRequest>,
+  output: __S(3393, __c106, 1) as any as S.Schema<AppSecrets>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3656,9 +4408,10 @@ export const listVolumes: API.OperationMethod<
   ListVolumesError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListVolumesRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<ListVolumesResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListVolumesRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<ListVolumesResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3673,9 +4426,10 @@ export const listVolumeSnapshots: API.OperationMethod<
   ListVolumeSnapshotsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ListVolumeSnapshotsRequest>,
-  output: __S(3299, __c103, 3) as any as S.Schema<ListVolumeSnapshotsResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListVolumeSnapshotsRequest>,
+  output: __S(3555, __c111, 3) as any as S.Schema<ListVolumeSnapshotsResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3690,9 +4444,10 @@ export const listVolumesOrg: API.OperationMethod<
   ListVolumesOrgError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ListVolumesOrgRequest>,
-  output: __S(3395, __c106, 3) as any as S.Schema<OrgVolumesResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListVolumesOrgRequest>,
+  output: __S(3587, __c112, 3) as any as S.Schema<OrgVolumesResponse>,
   errors: [],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3703,13 +4458,14 @@ export type MachinesReleaseLeaseError = Forbidden | NotFound | FlyIoOpError;
 /** Release Lease Release the lease of a specific Machine within an app. Machine leases can be used to obtain an exclusive lock on modifying a Machine. */
 export const machinesReleaseLease: API.OperationMethod<
   MachinesReleaseLeaseRequest,
-  MachinesReleaseLeaseResponse,
+  LeaseOkResponse,
   MachinesReleaseLeaseError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<MachinesReleaseLeaseRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<MachinesReleaseLeaseResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<MachinesReleaseLeaseRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<LeaseOkResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3724,13 +4480,36 @@ export const patchMachineMetadata: API.OperationMethod<
   PatchMachineMetadataError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<PatchMachineMetadataRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<PatchMachineMetadataResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<PatchMachineMetadataRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<PatchMachineMetadataResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchMachineMetadata",
+}));
+
+export type PostgresDatabasesQueryError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Query Database Run read-only SQL against a database and return the final result set. The SQL runs as pg_read_all_data inside a read-only transaction with a statement timeout, so it can read every table but cannot change data or schema. Results over 1000 rows are rejected rather than truncated; add a LIMIT. System databases cannot be queried. Requires only read access to the organization. */
+export const postgresDatabasesQuery: API.OperationMethod<
+  PostgresDatabasesQueryRequest,
+  PostgresQueryResponse,
+  PostgresDatabasesQueryError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3680, __c115, 0) as any as S.Schema<PostgresDatabasesQueryRequest>,
+  output: __S(3684, __c115, 4) as any as S.Schema<PostgresQueryResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostgresDatabasesQuery",
 }));
 
 export type PostgresQueriesActiveError = NotFound | UnprocessableEntity | FlyIoOpError;
@@ -3741,9 +4520,10 @@ export const postgresQueriesActive: API.OperationMethod<
   PostgresQueriesActiveError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<PostgresQueriesActiveRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<ListPostgresActiveQueriesResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<PostgresQueriesActiveRequest>,
+  output: __S(3715, __c116, 3) as any as S.Schema<ListPostgresActiveQueriesResponse>,
   errors: [NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3758,9 +4538,10 @@ export const postgresQueriesSlow: API.OperationMethod<
   PostgresQueriesSlowError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<PostgresQueriesSlowRequest>,
-  output: __S(3523, __c110, 3) as any as S.Schema<ListPostgresSlowQueriesResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<PostgresQueriesSlowRequest>,
+  output: __S(3747, __c117, 3) as any as S.Schema<ListPostgresSlowQueriesResponse>,
   errors: [NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3775,9 +4556,10 @@ export const postgresUsersCredentials: API.OperationMethod<
   PostgresUsersCredentialsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<PostgresUsersCredentialsRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<GetPostgresUserCredentialsResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<PostgresUsersCredentialsRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetPostgresUserCredentialsResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3785,16 +4567,17 @@ export const postgresUsersCredentials: API.OperationMethod<
 }));
 
 export type ReclaimMachineMemoryError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Reclaim Machine Memory Trigger the balloon device to reclaim memory from a machine */
+/** Reclaim Machine Memory Return unused memory of a started Firecracker Machine to the host. The memory balloon is inflated by `amount_mb` for a few seconds and then deflated again, so the Machine's memory limit does not change. + Fails with 409 while the Machine has a lease, even when the lease nonce is passed. */
 export const reclaimMachineMemory: API.OperationMethod<
   ReclaimMachineMemoryRequest,
   MainReclaimMemoryResponse,
   ReclaimMachineMemoryError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ReclaimMachineMemoryRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<MainReclaimMemoryResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ReclaimMachineMemoryRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<MainReclaimMemoryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3809,9 +4592,10 @@ export const requestKmsToken: API.OperationMethod<
   RequestKmsTokenError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<RequestKmsTokenRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<RequestKmsTokenResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<RequestKmsTokenRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<RequestKmsTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3819,16 +4603,17 @@ export const requestKmsToken: API.OperationMethod<
 }));
 
 export type RequestOidcTokenError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Request an OIDC token Request an Open ID Connect token for your machine. Customize the audience claim with the `aud` parameter. This returns a JWT token. Learn more about [using OpenID Connect](/docs/reference/openid-connect/) on Fly.io. */
+/** Request an OIDC token Request an Open ID Connect token for your machine. Customize the audience claim with the `aud` parameter. This returns a JWT token. Learn more about [using OpenID Connect](https://docs.fly.io/security/openid-connect) on Fly.io. */
 export const requestOidcToken: API.OperationMethod<
   RequestOidcTokenRequest,
   RequestOidcTokenResponse,
   RequestOidcTokenError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<RequestOidcTokenRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<RequestOidcTokenResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<RequestOidcTokenRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<RequestOidcTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3843,9 +4628,10 @@ export const restartMachine: API.OperationMethod<
   RestartMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<RestartMachineRequest>,
+  input: __S(4000, __c125, 0) as any as S.Schema<RestartMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3860,9 +4646,10 @@ export const restorePostgres: API.OperationMethod<
   RestorePostgresError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<RestorePostgresRequest>,
-  output: __S(901, __c28, 5) as any as S.Schema<ShowPostgresClusterResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<RestorePostgresRequest>,
+  output: __S(997, __c31, 5) as any as S.Schema<ShowPostgresClusterResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3881,9 +4668,10 @@ export const rotatePostgresUserPassword: API.OperationMethod<
   RotatePostgresUserPasswordError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<RotatePostgresUserPasswordRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<RotatePostgresPasswordResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<RotatePostgresUserPasswordRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<RotatePostgresPasswordResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3891,16 +4679,17 @@ export const rotatePostgresUserPassword: API.OperationMethod<
 }));
 
 export type SetMachineMemoryLimitError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Set Machine Memory Limit Set the memory limit for a machine using the balloon device */
+/** Set Machine Memory Limit Set the memory limit of a started Firecracker Machine by resizing its memory balloon. The limit lasts until the Machine stops or is updated. + Fails with 409 while the Machine has a lease, even when the lease nonce is passed. */
 export const setMachineMemoryLimit: API.OperationMethod<
   SetMachineMemoryLimitRequest,
   MainMemoryResponse,
   SetMachineMemoryLimitError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<SetMachineMemoryLimitRequest>,
-  output: __S(2272, __c71, 0) as any as S.Schema<MainMemoryResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<SetMachineMemoryLimitRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<MainMemoryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3915,9 +4704,10 @@ export const setSecretKey: API.OperationMethod<
   SetSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<SetSecretKeyRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SetSecretkeyResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<SetSecretKeyRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<SetSecretkeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3932,26 +4722,28 @@ export const signalMachine: API.OperationMethod<
   SignalMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<SignalMachineRequest>,
+  input: __S(4160, __c130, 0) as any as S.Schema<SignalMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignalMachine",
 }));
 
-export type SignSecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Sign with a secret key */
+export type SignSecretKeyError = BadRequest | Forbidden | NotFound | Forbidden | FlyIoOpError;
+/** Sign with a secret key The request must come from a Machine of the app; otherwise it fails with 403. */
 export const signSecretKey: API.OperationMethod<
   SignSecretKeyRequest,
   SignSecretkeyResponse,
   SignSecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<SignSecretKeyRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<SignSecretkeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(4192, __c131, 0) as any as S.Schema<SignSecretKeyRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<SignSecretkeyResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3973,8 +4765,8 @@ export const startMachine: API.OperationMethod<
   StartMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<StartMachineRequest>,
-  output: __S(4001, __c125, 1) as any as S.Schema<StartMachineResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<StartMachineRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<StartMachineResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -3983,6 +4775,7 @@ export const startMachine: API.OperationMethod<
     MachineStartFromCreatedState,
     MachineReplacing,
   ],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3997,9 +4790,10 @@ export const stopMachine: API.OperationMethod<
   StopMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<StopMachineRequest>,
+  input: __S(4256, __c133, 0) as any as S.Schema<StopMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4014,9 +4808,10 @@ export const suspendMachine: API.OperationMethod<
   SuspendMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<SuspendMachineRequest>,
+  input: __S(64, __c2, 0) as any as S.Schema<SuspendMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4031,9 +4826,10 @@ export const uncordonMachine: API.OperationMethod<
   UncordonMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<UncordonMachineRequest>,
+  input: __S(96, __c3, 0) as any as S.Schema<UncordonMachineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<OkResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4048,13 +4844,36 @@ export const updateMachine: API.OperationMethod<
   UpdateMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<UpdateMachineRequest>,
-  output: __S(644, __c20, 4) as any as S.Schema<Machine>,
+  input: __S(128, __c4, 0) as any as S.Schema<UpdateMachineRequest>,
+  output: __S(740, __c23, 4) as any as S.Schema<Machine>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateMachine",
+}));
+
+export type UpdatePostgresMaintenanceWindowError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | FlyIoOpError;
+/** Update Maintenance Window Update a cluster's weekly maintenance window. Give at least one of `day`, `start_hour` and `duration_hours`; omitted fields keep their current value. `start_hour` is in the cluster's timezone, which is derived from its region and cannot be changed. Changes are accepted only while the cluster is ready and no maintenance is running. A cluster with no window, whose maintenance can run at any time, can't be given one: the request fails with 422. A successful update always returns a window in `data`. */
+export const updatePostgresMaintenanceWindow: API.OperationMethod<
+  UpdatePostgresMaintenanceWindowRequest,
+  ShowPostgresMaintenanceWindowResponse,
+  UpdatePostgresMaintenanceWindowError,
+  FlyIoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c5, 0) as any as S.Schema<UpdatePostgresMaintenanceWindowRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<ShowPostgresMaintenanceWindowResponse>,
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
+  protocol: FlyIoProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostgresMaintenanceWindow",
 }));
 
 export type UpdatePostgresUserRoleError =
@@ -4069,9 +4888,10 @@ export const updatePostgresUserRole: API.OperationMethod<
   UpdatePostgresUserRoleError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<UpdatePostgresUserRoleRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<UpdatePostgresUserRoleResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<UpdatePostgresUserRoleRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<UpdatePostgresUserRoleResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4086,9 +4906,10 @@ export const updateSecrets: API.OperationMethod<
   UpdateSecretsError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c4, 1) as any as S.Schema<UpdateSecretsRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<AppSecretsUpdateResp>,
+  input: __S(225, __c7, 1) as any as S.Schema<UpdateSecretsRequest>,
+  output: __S(226, __c7, 2) as any as S.Schema<AppSecretsUpdateResp>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4103,9 +4924,10 @@ export const updateVolume: API.OperationMethod<
   UpdateVolumeError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<UpdateVolumeRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Volume>,
+  input: __S(256, __c8, 0) as any as S.Schema<UpdateVolumeRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Volume>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4120,26 +4942,28 @@ export const upsertMachineMetadata: API.OperationMethod<
   UpsertMachineMetadataError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<UpsertMachineMetadataRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<UpsertMachineMetadataResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<UpsertMachineMetadataRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<UpsertMachineMetadataResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpsertMachineMetadata",
 }));
 
-export type VerifySecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
-/** Verify with a secret key */
+export type VerifySecretKeyError = BadRequest | Forbidden | NotFound | Forbidden | FlyIoOpError;
+/** Verify with a secret key The request must come from a Machine of the app; otherwise it fails with 403. Responds with 204 if the signature is valid. */
 export const verifySecretKey: API.OperationMethod<
   VerifySecretKeyRequest,
   VerifySecretKeyResponse,
   VerifySecretKeyError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<VerifySecretKeyRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<VerifySecretKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(320, __c10, 0) as any as S.Schema<VerifySecretKeyRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<VerifySecretKeyResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Forbidden],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4160,9 +4984,10 @@ export const waitMachine: API.OperationMethod<
   WaitMachineError,
   FlyIoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<WaitMachineRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<WaitMachineResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<WaitMachineRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<WaitMachineResponse>,
   errors: [BadRequest, Forbidden, NotFound, GatewayTimeout, MachineWaitTimeout],
+  serviceErrors: FlyIoServiceErrors,
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4205,7 +5030,43 @@ function __c2(j: number): any {
         S.Struct({
           app_name: S.String.pipe(T.Label()),
           machine_id: S.String.pipe(T.Label()),
-          config: S.optional(__S(724, __c22, 20)),
+          lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/apps/{app_name}/machines/{machine_id}/suspend",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SuspendMachineRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          app_name: S.String.pipe(T.Label()),
+          machine_id: S.String.pipe(T.Label()),
+          lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/apps/{app_name}/machines/{machine_id}/uncordon",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UncordonMachineRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          app_name: S.String.pipe(T.Label()),
+          machine_id: S.String.pipe(T.Label()),
+          config: S.optional(__S(820, __c25, 20)),
           current_version: S.optional(S.String),
           lease_ttl: S.optional(S.Number),
           min_secrets_version: S.optional(S.Number),
@@ -4221,7 +5082,26 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateMachineRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          postgres_cluster_id: S.String.pipe(T.Label()),
+          day: S.optional(S.String),
+          duration_hours: S.optional(S.Number),
+          start_hour: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/postgres/{postgres_cluster_id}/maintenance_window",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdatePostgresMaintenanceWindowRequest" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4239,7 +5119,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdatePostgresUserRoleRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
@@ -4247,20 +5127,20 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           app_name: S.String.pipe(T.Label()),
-          values: S.optional(__S(128, __c4, 0)),
+          values: S.optional(__S(224, __c7, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{app_name}/secrets", code: 200 })),
       ).annotate({ identifier: "UpdateSecretsRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Version: S.optional(S.Number),
-          secrets: S.optional(__S(3232, __c101, 0)),
+          secrets: S.optional(__S(3424, __c107, 0)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppSecretsUpdateResp" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4275,7 +5155,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateVolumeRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4295,7 +5175,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpsertMachineMetadataRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4315,7 +5195,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "VerifySecretKeyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4346,7 +5226,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "WaitMachineResponse" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4367,7 +5247,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateAppResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4380,26 +5260,26 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateAppAcmeCertificateRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           acme_requested: S.optional(S.Boolean),
-          certificates: S.optional(__S(3779, __c118, 3)),
+          certificates: S.optional(__S(3939, __c123, 3)),
           configured: S.optional(S.Boolean),
           dns_provider: S.optional(S.String),
-          dns_requirements: S.optional(__S(3782, __c118, 6)),
+          dns_requirements: S.optional(__S(3942, __c123, 6)),
           hostname: S.optional(S.String),
           rate_limited_until: S.optional(S.String),
           status: S.optional(S.String),
-          validation: S.optional(__S(3783, __c118, 7)),
-          validation_errors: S.optional(__S(3785, __c118, 9)),
+          validation: S.optional(__S(3943, __c123, 7)),
+          validation_errors: S.optional(__S(3945, __c123, 9)),
         }),
       ).annotate({ identifier: "CertificateDetail" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4414,7 +5294,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateAppCustomCertificateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4431,7 +5311,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateAppDeployTokenResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4457,8 +5337,8 @@ function __c14(j: number): any {
           created_at: S.optional(S.String),
           egress: S.optional(S.Boolean),
           ip: S.optional(S.String),
-          ip_pair: S.optional(__S(449, __c14, 1)),
-          network: S.optional(S.NullOr(__S(480, __c15, 0))),
+          ip_pair: S.optional(__S(545, __c17, 1)),
+          network: S.optional(S.NullOr(__S(576, __c18, 0))),
           region: S.optional(S.String),
           service_name: S.optional(S.String),
           shared: S.optional(S.Boolean),
@@ -4466,7 +5346,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "AssignIPResponse" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4477,13 +5357,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "IPAssignmentNetwork" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           app_name: S.String.pipe(T.Label()),
-          config: S.optional(__S(724, __c22, 20)),
+          config: S.optional(__S(820, __c25, 20)),
           lease_ttl: S.optional(S.Number),
           min_secrets_version: S.optional(S.Number),
           name: S.optional(S.String),
@@ -4495,7 +5375,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateMachineRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4505,22 +5385,22 @@ function __c17(j: number): any {
           gpu_kind: S.optional(S.String),
           gpus: S.optional(S.Number),
           host_dedication_id: S.optional(S.String),
-          kernel_args: S.optional(__S(3360, __c105, 0)),
+          kernel_args: S.optional(__S(3520, __c110, 0)),
           max_memory_mb: S.optional(S.Number),
           memory_mb: S.optional(S.Number),
           persist_rootfs: S.optional(S.String),
-          required_host_features: S.optional(__S(3360, __c105, 0)),
+          required_host_features: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "FlyMachineGuest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4534,10 +5414,10 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "MachineEvent" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(704, __c22, 0));
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4549,12 +5429,12 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "CheckStatus" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           digest: S.optional(S.String),
-          labels: S.optional(__S(576, __c18, 0)),
+          labels: S.optional(__S(672, __c21, 0)),
           registry: S.optional(S.String),
           repository: S.optional(S.String),
           tag: S.optional(S.String),
@@ -4571,18 +5451,18 @@ function __c20(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          checks: S.optional(__S(641, __c20, 1)),
-          config: S.optional(__S(724, __c22, 20)),
+          checks: S.optional(__S(737, __c23, 1)),
+          config: S.optional(__S(820, __c25, 20)),
           cordoned: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          events: S.optional(__S(609, __c19, 1)),
-          host_features: S.optional(__S(3360, __c105, 0)),
+          events: S.optional(__S(705, __c22, 1)),
+          host_features: S.optional(__S(3520, __c110, 0)),
           host_status: S.optional(S.String),
           id: S.optional(S.String),
-          image_ref: S.optional(__S(642, __c20, 2)),
-          incomplete_config: S.optional(__S(724, __c22, 20)),
+          image_ref: S.optional(__S(738, __c23, 2)),
+          incomplete_config: S.optional(__S(820, __c25, 20)),
           instance_id: S.optional(S.String),
-          lease: S.optional(__S(643, __c20, 3)),
+          lease: S.optional(__S(739, __c23, 3)),
           name: S.optional(S.String),
           nonce: S.optional(S.String),
           private_ip: S.optional(S.String),
@@ -4594,11 +5474,12 @@ function __c20(j: number): any {
       ).annotate({ identifier: "Machine" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          path: S.optional(S.String),
           size_mb: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FlyMachineCacheDrive" });
@@ -4606,16 +5487,16 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          values: S.optional(__S(3360, __c105, 0)),
+          values: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "FlyMachineHTTPHeader" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(769, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           grace_period: S.optional(S.String),
-          headers: S.optional(__S(674, __c21, 2)),
+          headers: S.optional(__S(770, __c24, 2)),
           interval: S.optional(S.String),
           kind: S.optional(S.String),
           method: S.optional(S.String),
@@ -4629,7 +5510,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyMachineCheck" });
     case 4:
-      return S.Record(S.String, __S(675, __c21, 3));
+      return S.Record(S.String, __S(771, __c24, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4638,7 +5519,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyContainerDependency" });
     case 6:
-      return S.Array(__S(677, __c21, 5));
+      return S.Array(__S(773, __c24, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4647,7 +5528,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyEnvFrom" });
     case 8:
-      return S.Array(__S(679, __c21, 7));
+      return S.Array(__S(775, __c24, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4659,17 +5540,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyFile" });
     case 10:
-      return S.Array(__S(681, __c21, 9));
+      return S.Array(__S(777, __c24, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(__S(3360, __c105, 0)),
+          command: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "FlyExecHealthcheck" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(674, __c21, 2)),
+          headers: S.optional(__S(770, __c24, 2)),
           method: S.optional(S.String),
           path: S.optional(S.String),
           port: S.optional(S.Number),
@@ -4687,21 +5568,21 @@ function __c21(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          exec: S.optional(__S(683, __c21, 11)),
+          exec: S.optional(__S(779, __c24, 11)),
           failure_threshold: S.optional(S.Number),
           grace_period: S.optional(S.Number),
-          http: S.optional(__S(684, __c21, 12)),
+          http: S.optional(__S(780, __c24, 12)),
           interval: S.optional(S.Number),
           kind: S.optional(S.String),
           name: S.optional(S.String),
           success_threshold: S.optional(S.Number),
-          tcp: S.optional(__S(685, __c21, 13)),
+          tcp: S.optional(__S(781, __c24, 13)),
           timeout: S.optional(S.Number),
           unhealthy: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlyContainerHealthcheck" });
     case 15:
-      return S.Array(__S(686, __c21, 14));
+      return S.Array(__S(782, __c24, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -4717,7 +5598,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyMachineSecret" });
     case 18:
-      return S.Array(__S(689, __c21, 17));
+      return S.Array(__S(785, __c24, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -4728,24 +5609,24 @@ function __c21(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          cmd: S.optional(__S(3360, __c105, 0)),
-          depends_on: S.optional(__S(678, __c21, 6)),
-          entrypoint: S.optional(__S(3360, __c105, 0)),
-          env: S.optional(__S(576, __c18, 0)),
-          env_from: S.optional(__S(680, __c21, 8)),
-          exec: S.optional(__S(3360, __c105, 0)),
-          files: S.optional(__S(682, __c21, 10)),
-          healthchecks: S.optional(__S(687, __c21, 15)),
+          cmd: S.optional(__S(3520, __c110, 0)),
+          depends_on: S.optional(__S(774, __c24, 6)),
+          entrypoint: S.optional(__S(3520, __c110, 0)),
+          env: S.optional(__S(672, __c21, 0)),
+          env_from: S.optional(__S(776, __c24, 8)),
+          exec: S.optional(__S(3520, __c110, 0)),
+          files: S.optional(__S(778, __c24, 10)),
+          healthchecks: S.optional(__S(783, __c24, 15)),
           image: S.optional(S.String),
           name: S.optional(S.String),
-          restart: S.optional(__S(688, __c21, 16)),
-          secrets: S.optional(__S(690, __c21, 18)),
-          stop: S.optional(__S(691, __c21, 19)),
+          restart: S.optional(__S(784, __c24, 16)),
+          secrets: S.optional(__S(786, __c24, 18)),
+          stop: S.optional(__S(787, __c24, 19)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlyContainerConfig" });
     case 21:
-      return S.Array(__S(692, __c21, 20));
+      return S.Array(__S(788, __c24, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -4754,7 +5635,7 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyDnsForwardRule" });
     case 23:
-      return S.Array(__S(694, __c21, 22));
+      return S.Array(__S(790, __c24, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -4763,26 +5644,26 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyDnsOption" });
     case 25:
-      return S.Array(__S(696, __c21, 24));
+      return S.Array(__S(792, __c24, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          dns_forward_rules: S.optional(__S(695, __c21, 23)),
+          dns_forward_rules: S.optional(__S(791, __c24, 23)),
           hostname: S.optional(S.String),
           hostname_fqdn: S.optional(S.String),
-          nameservers: S.optional(__S(3360, __c105, 0)),
-          options: S.optional(__S(697, __c21, 25)),
-          searches: S.optional(__S(3360, __c105, 0)),
+          nameservers: S.optional(__S(3520, __c110, 0)),
+          options: S.optional(__S(793, __c24, 25)),
+          searches: S.optional(__S(3520, __c110, 0)),
           skip_registration: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FlyDNSConfig" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          cmd: S.optional(__S(3360, __c105, 0)),
-          entrypoint: S.optional(__S(3360, __c105, 0)),
-          exec: S.optional(__S(3360, __c105, 0)),
-          kernel_args: S.optional(__S(3360, __c105, 0)),
+          cmd: S.optional(__S(3520, __c110, 0)),
+          entrypoint: S.optional(__S(3520, __c110, 0)),
+          exec: S.optional(__S(3520, __c110, 0)),
+          kernel_args: S.optional(__S(3520, __c110, 0)),
           swap_size_mb: S.optional(S.Number),
           tty: S.optional(S.Boolean),
         }),
@@ -4811,26 +5692,26 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "FlyMachineMount" });
     case 30:
-      return S.Array(__S(701, __c21, 29));
+      return S.Array(__S(797, __c24, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          cmd: S.optional(__S(3360, __c105, 0)),
-          entrypoint: S.optional(__S(3360, __c105, 0)),
-          env: S.optional(__S(576, __c18, 0)),
-          env_from: S.optional(__S(680, __c21, 8)),
-          exec: S.optional(__S(3360, __c105, 0)),
+          cmd: S.optional(__S(3520, __c110, 0)),
+          entrypoint: S.optional(__S(3520, __c110, 0)),
+          env: S.optional(__S(672, __c21, 0)),
+          env_from: S.optional(__S(776, __c24, 8)),
+          exec: S.optional(__S(3520, __c110, 0)),
           ignore_app_secrets: S.optional(S.Boolean),
-          secrets: S.optional(__S(690, __c21, 18)),
+          secrets: S.optional(__S(786, __c24, 18)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlyMachineProcess" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(703, __c21, 31));
+      return S.Array(__S(799, __c24, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -4844,7 +5725,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           grace_period: S.optional(S.String),
-          headers: S.optional(__S(674, __c21, 2)),
+          headers: S.optional(__S(770, __c24, 2)),
           interval: S.optional(S.String),
           method: S.optional(S.String),
           path: S.optional(S.String),
@@ -4857,7 +5738,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "FlyMachineServiceCheck" });
     case 4:
-      return S.Array(__S(707, __c22, 3));
+      return S.Array(__S(803, __c25, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4877,13 +5758,13 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "FlyReplayCache" });
     case 7:
-      return S.Array(__S(710, __c22, 6));
+      return S.Array(__S(806, __c25, 6));
     case 8:
       return S.Record(S.String, S.Unknown);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(712, __c22, 8)),
+          headers: S.optional(__S(808, __c25, 8)),
           pristine: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FlyHTTPResponseOptions" });
@@ -4894,8 +5775,8 @@ function __c22(j: number): any {
           h2_backend: S.optional(S.Boolean),
           headers_read_timeout: S.optional(S.Number),
           idle_timeout: S.optional(S.Number),
-          replay_cache: S.optional(__S(711, __c22, 7)),
-          response: S.optional(__S(713, __c22, 9)),
+          replay_cache: S.optional(__S(807, __c25, 7)),
+          response: S.optional(__S(809, __c25, 9)),
         }),
       ).annotate({ identifier: "FlyHTTPOptions" });
     case 11:
@@ -4908,9 +5789,9 @@ function __c22(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          alpn: S.optional(__S(3360, __c105, 0)),
+          alpn: S.optional(__S(3520, __c110, 0)),
           default_self_signed: S.optional(S.Boolean),
-          versions: S.optional(__S(3360, __c105, 0)),
+          versions: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "FlyTLSOptions" });
     case 13:
@@ -4918,33 +5799,33 @@ function __c22(j: number): any {
         S.Struct({
           end_port: S.optional(S.Number),
           force_https: S.optional(S.Boolean),
-          handlers: S.optional(__S(3360, __c105, 0)),
-          http_options: S.optional(__S(714, __c22, 10)),
+          handlers: S.optional(__S(3520, __c110, 0)),
+          http_options: S.optional(__S(810, __c25, 10)),
           port: S.optional(S.Number),
-          proxy_proto_options: S.optional(__S(715, __c22, 11)),
+          proxy_proto_options: S.optional(__S(811, __c25, 11)),
           start_port: S.optional(S.Number),
-          tls_options: S.optional(__S(716, __c22, 12)),
+          tls_options: S.optional(__S(812, __c25, 12)),
         }),
       ).annotate({ identifier: "FlyMachinePort" });
     case 14:
-      return S.Array(__S(717, __c22, 13));
+      return S.Array(__S(813, __c25, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           autostart: S.optional(S.Boolean),
-          autostop: S.optional(__S(706, __c22, 2)),
-          checks: S.optional(__S(708, __c22, 4)),
-          concurrency: S.optional(__S(709, __c22, 5)),
+          autostop: S.optional(__S(802, __c25, 2)),
+          checks: S.optional(__S(804, __c25, 4)),
+          concurrency: S.optional(__S(805, __c25, 5)),
           force_instance_description: S.optional(S.String),
           force_instance_key: S.optional(S.String),
           internal_port: S.optional(S.Number),
           min_machines_running: S.optional(S.Number),
-          ports: S.optional(__S(718, __c22, 14)),
+          ports: S.optional(__S(814, __c25, 14)),
           protocol: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlyMachineService" });
     case 16:
-      return S.Array(__S(719, __c22, 15));
+      return S.Array(__S(815, __c25, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -4961,47 +5842,47 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "FlyStatic" });
     case 19:
-      return S.Array(__S(722, __c22, 18));
+      return S.Array(__S(818, __c25, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
           auto_destroy: S.optional(S.Boolean),
-          cache_drive: S.optional(__S(672, __c21, 0)),
-          checks: S.optional(__S(676, __c21, 4)),
-          containers: S.optional(__S(693, __c21, 21)),
+          cache_disk: S.optional(__S(768, __c24, 0)),
+          checks: S.optional(__S(772, __c24, 4)),
+          containers: S.optional(__S(789, __c24, 21)),
           disable_machine_autostart: S.optional(S.Boolean),
-          dns: S.optional(__S(698, __c21, 26)),
-          env: S.optional(__S(576, __c18, 0)),
-          files: S.optional(__S(682, __c21, 10)),
-          guest: S.optional(__S(544, __c17, 0)),
+          dns: S.optional(__S(794, __c24, 26)),
+          env: S.optional(__S(672, __c21, 0)),
+          files: S.optional(__S(778, __c24, 10)),
+          guest: S.optional(__S(640, __c20, 0)),
           image: S.optional(S.String),
-          init: S.optional(__S(699, __c21, 27)),
-          metadata: S.optional(__S(576, __c18, 0)),
-          metrics: S.optional(__S(700, __c21, 28)),
-          mounts: S.optional(__S(702, __c21, 30)),
-          processes: S.optional(__S(704, __c22, 0)),
-          restart: S.optional(__S(688, __c21, 16)),
-          rootfs: S.optional(__S(705, __c22, 1)),
+          init: S.optional(__S(795, __c24, 27)),
+          metadata: S.optional(__S(672, __c21, 0)),
+          metrics: S.optional(__S(796, __c24, 28)),
+          mounts: S.optional(__S(798, __c24, 30)),
+          processes: S.optional(__S(800, __c25, 0)),
+          restart: S.optional(__S(784, __c24, 16)),
+          rootfs: S.optional(__S(801, __c25, 1)),
           schedule: S.optional(S.String),
-          services: S.optional(__S(720, __c22, 16)),
+          services: S.optional(__S(816, __c25, 16)),
           size: S.optional(S.String),
-          spot: S.optional(__S(721, __c22, 17)),
-          standbys: S.optional(__S(3360, __c105, 0)),
-          statics: S.optional(__S(723, __c22, 19)),
-          stop_config: S.optional(__S(691, __c21, 19)),
+          spot: S.optional(__S(817, __c25, 17)),
+          standbys: S.optional(__S(3520, __c110, 0)),
+          statics: S.optional(__S(819, __c25, 19)),
+          stop_config: S.optional(__S(787, __c24, 19)),
         }),
       ).annotate({ identifier: "FlyMachineConfig" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           app_name: S.String.pipe(T.Label()),
           machine_id: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
           ttl: S.optional(S.Number.pipe(T.Query())),
+          description: S.optional(S.String),
           lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
         }).pipe(
           T.Http({
@@ -5013,7 +5894,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateMachineLeaseRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5029,12 +5910,12 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          data: S.optional(__S(768, __c24, 0)),
+          data: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "MachineLease" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5051,7 +5932,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreatePostgresRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5061,13 +5942,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PostgresAttachedApp" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(928, __c29, 0));
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5079,14 +5960,14 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          direct: S.optional(__S(896, __c28, 0)),
-          pooler: S.optional(__S(896, __c28, 0)),
+          direct: S.optional(__S(992, __c31, 0)),
+          pooler: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "PostgresNodeEndpoints" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          primary: S.optional(__S(897, __c28, 1)),
+          primary: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "PostgresClusterEndpoints" });
     case 3:
@@ -5099,16 +5980,16 @@ function __c28(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          attached_apps: S.optional(__S(864, __c27, 0)),
+          attached_apps: S.optional(__S(960, __c30, 0)),
           cpu_kind: S.optional(S.String),
           cpus: S.optional(S.Number),
           created_at: S.optional(S.String),
           disk_size_gb: S.optional(S.Number),
-          endpoints: S.optional(__S(898, __c28, 2)),
+          endpoints: S.optional(__S(994, __c31, 2)),
           id: S.optional(S.String),
           memory_mb: S.optional(S.Number),
           name: S.optional(S.String),
-          organization: S.optional(__S(899, __c28, 3)),
+          organization: S.optional(__S(995, __c31, 3)),
           pg_major_version: S.optional(S.String),
           plan: S.optional(S.String),
           postgis_enabled: S.optional(S.Boolean),
@@ -5122,12 +6003,12 @@ function __c28(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(900, __c28, 4)),
+          data: S.optional(__S(996, __c31, 4)),
         }),
       ).annotate({ identifier: "ShowPostgresClusterResponse" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5153,12 +6034,12 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(929, __c29, 1)),
+          data: S.optional(__S(1025, __c32, 1)),
         }),
       ).annotate({ identifier: "CreatePostgresAttachmentResponse" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5171,13 +6052,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreatePostgresBackupRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreatePostgresBackupResponse" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5194,17 +6075,17 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreatePostgresDatabaseRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(832, __c26, 0)),
+          data: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "PostgresDatabaseResponse" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5219,12 +6100,12 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1120, __c35, 0)),
+          data: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "CreatePostgresUserResponse" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,7 +6116,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "PostgresUser" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5261,14 +6142,14 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SetAppSecretResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           app_name: S.String.pipe(T.Label()),
           auto_backup_enabled: S.optional(S.Boolean),
-          compute: S.optional(__S(544, __c17, 0)),
+          compute: S.optional(__S(640, __c20, 0)),
           compute_image: S.optional(S.String),
           encrypted: S.optional(S.Boolean),
           fstype: S.optional(S.String),
@@ -5284,7 +6165,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateVolumeRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5301,12 +6182,12 @@ function __c38(j: number): any {
           created_at: S.optional(S.String),
           encrypted: S.optional(S.Boolean),
           fstype: S.optional(S.String),
-          host_features: S.optional(__S(3360, __c105, 0)),
+          host_features: S.optional(__S(3520, __c110, 0)),
           host_status: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
           region: S.optional(S.String),
-          required_host_features: S.optional(__S(3360, __c105, 0)),
+          required_host_features: S.optional(__S(3520, __c110, 0)),
           size_gb: S.optional(S.Number),
           snapshot_retention: S.optional(S.Number),
           state: S.optional(S.String),
@@ -5316,7 +6197,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "Volume" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5333,7 +6214,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateVolumeSnapshotRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5359,7 +6240,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DecryptSecretkeyResponse" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5369,7 +6250,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteAppRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5386,7 +6267,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteAppAcmeCertificateRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5403,7 +6284,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteAppCertificateRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5422,21 +6303,21 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           acme_requested: S.optional(S.Boolean),
-          certificates: S.optional(__S(3779, __c118, 3)),
+          certificates: S.optional(__S(3939, __c123, 3)),
           configured: S.optional(S.Boolean),
           dns_provider: S.optional(S.String),
-          dns_requirements: S.optional(__S(3782, __c118, 6)),
+          dns_requirements: S.optional(__S(3942, __c123, 6)),
           hostname: S.optional(S.String),
           rate_limited_until: S.optional(S.String),
           status: S.optional(S.String),
-          validation: S.optional(__S(3783, __c118, 7)),
-          validation_errors: S.optional(__S(3785, __c118, 9)),
+          validation: S.optional(__S(3943, __c123, 7)),
+          validation_errors: S.optional(__S(3945, __c123, 9)),
           warning: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestroyCustomCertificateResponse" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5449,7 +6330,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteAppIPAssignmentRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5464,7 +6345,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteMachineRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5482,7 +6363,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteMachineMetadataRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5492,7 +6373,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeletePostgresRequest" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5509,7 +6390,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeletePostgresAttachmentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5526,7 +6407,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeletePostgresDatabaseRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5543,7 +6424,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeletePostgresUserRequest" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5556,7 +6437,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteSecretRequest" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5567,7 +6448,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteAppSecretResponse" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5584,7 +6465,19 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteSecretKeyRequest" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          details: S.optional(S.Unknown),
+          error: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5597,7 +6490,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteVolumeRequest" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5616,7 +6509,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DisablePostgresExtensionRequest" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5636,7 +6529,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "EnablePostgresExtensionRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5662,7 +6555,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "EncryptSecretkeyResponse" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5670,7 +6563,7 @@ function __c59(j: number): any {
           app_name: S.String.pipe(T.Label()),
           machine_id: S.String.pipe(T.Label()),
           cmd: S.optional(S.String),
-          command: S.optional(__S(3360, __c105, 0)),
+          command: S.optional(__S(3520, __c110, 0)),
           container: S.optional(S.String),
           machine: S.optional(S.Boolean),
           stdin: S.optional(S.String),
@@ -5691,10 +6584,10 @@ function __c59(j: number): any {
           stderr: S.optional(S.String),
           stdout: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Flydv1ExecResponse" });
+      ).annotate({ identifier: "ExecResponse" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5714,12 +6607,12 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           needs_restart: S.optional(S.Boolean),
-          volume: S.optional(__S(1216, __c38, 0)),
+          volume: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "ExtendVolumeResponse" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5733,7 +6626,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ForkPostgresRequest" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5741,7 +6634,7 @@ function __c62(j: number): any {
           app_name: S.String.pipe(T.Label()),
           secret_name: S.String.pipe(T.Label()),
           type: S.optional(S.String),
-          value: S.optional(__S(2944, __c92, 0)),
+          value: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5752,7 +6645,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GenerateSecretKeyRequest" });
   }
 }
-function __c63(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5768,7 +6661,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetSecretkeyResponse" });
   }
 }
-function __c64(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5778,7 +6671,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetAppRequest" });
   }
 }
-function __c65(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5797,14 +6690,14 @@ function __c65(j: number): any {
           name: S.optional(S.String),
           network: S.optional(S.String),
           network_cidr: S.optional(S.String),
-          organization: S.optional(__S(2080, __c65, 0)),
+          organization: S.optional(__S(2208, __c69, 0)),
           status: S.optional(S.String),
           volume_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "App" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5817,7 +6710,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetAppCertificateRequest" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5826,7 +6719,7 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(3360, __c105, 0)),
+          apps: S.optional(__S(3520, __c110, 0)),
           org_slug: S.optional(S.String),
           organization: S.optional(S.String),
           restricted_to_machine: S.optional(S.String),
@@ -5836,16 +6729,16 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "MainTokenInfo" });
     case 2:
-      return S.Array(__S(2145, __c67, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(2146, __c67, 2)),
+          tokens: S.optional(__S(2274, __c71, 2)),
         }),
       ).annotate({ identifier: "CurrentTokenResponse" });
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5860,7 +6753,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetMachineRequest" });
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5877,7 +6770,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetMachineLeaseRequest" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5894,7 +6787,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetMachineMemoryRequest" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5905,7 +6798,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "MainMemoryResponse" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5921,12 +6814,12 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "GetMachineMetadataRequest" });
     case 1:
-      return S.suspend(() => __S(576, __c18, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(672, __c21, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMachineMetadataResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5950,41 +6843,41 @@ function __c73(j: number): any {
       ).annotate({ identifier: "MetadataValueResponse" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          compute: S.optional(__S(544, __c17, 0)),
+          compute: S.optional(__S(640, __c20, 0)),
           count: S.optional(S.Number),
           org_slug: S.String,
           region: S.optional(S.String),
           volume_name: S.optional(S.String),
           volume_size_bytes: S.optional(S.Number),
-          weights: S.optional(__S(2368, __c74, 0)),
+          weights: S.optional(__S(2496, __c78, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/platform/placements", code: 200 })),
       ).annotate({ identifier: "GetPlacementsRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          concurrency: S.optional(S.Number),
-          count: S.optional(S.Number),
-          region: S.optional(S.String),
+          Concurrency: S.optional(S.Number),
+          Count: S.optional(S.Number),
+          Region: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlacementRegionPlacement" });
     case 3:
-      return S.Array(__S(2370, __c74, 2));
+      return S.Array(__S(2498, __c78, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(2371, __c74, 3)),
+          Regions: S.optional(__S(2499, __c78, 3)),
         }),
       ).annotate({ identifier: "MainGetPlacementsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5994,7 +6887,42 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetPostgresRequest" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          postgres_cluster_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/postgres/{postgres_cluster_id}/maintenance_window",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetPostgresMaintenanceWindowRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          day: S.optional(S.String),
+          duration_hours: S.optional(S.Number),
+          start_hour: S.optional(S.Number),
+          timezone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShowPostgresMaintenanceWindowResponseData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(2592, __c81, 0))),
+        }),
+      ).annotate({ identifier: "ShowPostgresMaintenanceWindowResponse" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6015,17 +6943,17 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "MainRegionRow" });
     case 2:
-      return S.Array(__S(2433, __c76, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          Regions: S.optional(__S(2626, __c82, 2)),
           nearest: S.optional(S.String),
-          regions: S.optional(__S(2434, __c76, 2)),
         }),
       ).annotate({ identifier: "MainRegionResponse" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6040,7 +6968,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetSecretRequest" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6054,7 +6982,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "AppSecret" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6068,7 +6996,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetSecretKeyRequest" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6082,7 +7010,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "SecretKey" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6095,7 +7023,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetVolumeByIdRequest" });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6125,18 +7053,18 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "CertificateSummary" });
     case 2:
-      return S.Array(__S(2625, __c82, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(2626, __c82, 2)),
+          certificates: S.optional(__S(2818, __c88, 2)),
           next_cursor: S.optional(S.String),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListCertificatesResponse" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6150,7 +7078,7 @@ function __c83(j: number): any {
           created_at: S.optional(S.String),
           egress: S.optional(S.Boolean),
           ip: S.optional(S.String),
-          network: S.optional(S.NullOr(__S(480, __c15, 0))),
+          network: S.optional(S.NullOr(__S(576, __c18, 0))),
           region: S.optional(S.String),
           service_name: S.optional(S.String),
           shared: S.optional(S.Boolean),
@@ -6158,16 +7086,16 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "IPAssignment" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ips: S.optional(__S(2658, __c83, 2)),
+          ips: S.optional(__S(2850, __c89, 2)),
         }),
       ).annotate({ identifier: "ListIPAssignmentsResponse" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6179,18 +7107,18 @@ function __c84(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/apps", code: 200 })),
       ).annotate({ identifier: "ListAppsRequest" });
     case 1:
-      return S.Array(__S(2081, __c65, 1));
+      return S.Array(__S(2209, __c69, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apps: S.optional(__S(2689, __c84, 1)),
+          apps: S.optional(__S(2881, __c90, 1)),
           next_cursor: S.optional(S.String),
           total_apps: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListAppsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6207,12 +7135,12 @@ function __c85(j: number): any {
         ),
       ).annotate({ identifier: "ListMachineEventsRequest" });
     case 1:
-      return S.suspend(() => __S(609, __c19, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(705, __c22, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMachineEventsResponse",
       });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6233,14 +7161,14 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "ListenSocket" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(2945, __c92, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           command: S.optional(S.String),
           cpu: S.optional(S.Number),
           directory: S.optional(S.String),
-          listen_sockets: S.optional(__S(2754, __c86, 2)),
+          listen_sockets: S.optional(__S(2946, __c92, 2)),
           pid: S.optional(S.Number),
           rss: S.optional(S.Number),
           rtime: S.optional(S.Number),
@@ -6248,14 +7176,14 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "ProcessStat" });
     case 4:
-      return S.Array(__S(2755, __c86, 3));
+      return S.Array(__S(2947, __c92, 3));
     case 5:
-      return S.suspend(() => __S(2756, __c86, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2948, __c92, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMachineProcessesResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6272,14 +7200,14 @@ function __c87(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/machines", code: 200 })),
       ).annotate({ identifier: "ListMachinesRequest" });
     case 1:
-      return S.Array(__S(644, __c20, 4));
+      return S.Array(__S(740, __c23, 4));
     case 2:
-      return S.suspend(() => __S(2785, __c87, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2977, __c93, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMachinesResponse",
       });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6297,16 +7225,16 @@ function __c88(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          guest: S.optional(__S(544, __c17, 0)),
+          guest: S.optional(__S(640, __c20, 0)),
           image: S.optional(S.String),
-          metadata: S.optional(__S(576, __c18, 0)),
+          metadata: S.optional(__S(672, __c21, 0)),
         }),
       ).annotate({ identifier: "MachineOverviewConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           app_name: S.optional(S.String),
-          config: S.optional(__S(2817, __c88, 1)),
+          config: S.optional(__S(3009, __c94, 1)),
           created_at: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
@@ -6318,20 +7246,71 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "OrgMachine" });
     case 3:
-      return S.Array(__S(2818, __c88, 2));
+      return S.Array(__S(3010, __c94, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          error_regions: S.optional(__S(3360, __c105, 0)),
+          error_regions: S.optional(__S(3520, __c110, 0)),
           last_machine_id: S.optional(S.String),
           last_updated_at: S.optional(S.String),
-          machines: S.optional(__S(2819, __c88, 3)),
+          machines: S.optional(__S(3011, __c94, 3)),
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgMachinesResponse" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          header: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authenticate", code: 200 })),
+      ).annotate({ identifier: "AuthenticateTokenRequest" });
+    case 1:
+      return S.Array(__S(3075, __c96, 3));
+    case 2:
+      return S.suspend(() => __S(3041, __c95, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "AuthenticateTokenResponse",
+      });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          caveats: S.optional(__S(3104, __c97, 0)),
+        }),
+      ).annotate({ identifier: "MacaroonCaveatSet" });
+    case 1:
+      return S.Array(S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          kid: S.optional(__S(3073, __c96, 1)),
+          proof: S.optional(S.Boolean),
+          rnd: S.optional(__S(3073, __c96, 1)),
+        }),
+      ).annotate({ identifier: "MacaroonNonce" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          caveats: S.optional(__S(3072, __c96, 0)),
+          header: S.optional(S.String),
+          nonce: S.optional(__S(3074, __c96, 2)),
+          permission_token: S.optional(__S(3073, __c96, 1)),
+        }),
+      ).annotate({ identifier: "RootVerifiedToken" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6349,70 +7328,19 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          user_config: S.optional(__S(724, __c22, 20)),
+          user_config: S.optional(__S(820, __c25, 20)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineVersion" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
-      return S.suspend(() => __S(2850, __c89, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3138, __c98, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMachineVersionsResponse",
       });
   }
 }
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          header: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authenticate", code: 200 })),
-      ).annotate({ identifier: "AuthenticateTokenRequest" });
-    case 1:
-      return S.Array(__S(2915, __c91, 3));
-    case 2:
-      return S.suspend(() => __S(2881, __c90, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "AuthenticateTokenResponse",
-      });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          caveats: S.optional(__S(2912, __c91, 0)),
-        }),
-      ).annotate({ identifier: "MacaroonCaveatSet" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          kid: S.optional(__S(2944, __c92, 0)),
-          proof: S.optional(S.Boolean),
-          rnd: S.optional(__S(2944, __c92, 0)),
-        }),
-      ).annotate({ identifier: "MacaroonNonce" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          caveats: S.optional(__S(2913, __c91, 1)),
-          header: S.optional(S.String),
-          nonce: S.optional(__S(2914, __c91, 2)),
-          permission_token: S.optional(__S(2944, __c92, 0)),
-        }),
-      ).annotate({ identifier: "RootVerifiedToken" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c93(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6424,7 +7352,7 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attached_apps: S.optional(__S(864, __c27, 0)),
+          attached_apps: S.optional(__S(960, __c30, 0)),
           created_at: S.optional(S.String),
           deleted_at: S.optional(S.String),
           id: S.optional(S.String),
@@ -6435,16 +7363,16 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "PostgresClusterSummary" });
     case 2:
-      return S.Array(__S(2977, __c93, 1));
+      return S.Array(__S(3169, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(2978, __c93, 2)),
+          data: S.optional(__S(3170, __c99, 2)),
         }),
       ).annotate({ identifier: "ListPostgresClustersResponse" });
   }
 }
-function __c94(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6466,16 +7394,16 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "PostgresBackup" });
     case 2:
-      return S.Array(__S(3009, __c94, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3010, __c94, 2)),
+          data: S.optional(__S(3202, __c100, 2)),
         }),
       ).annotate({ identifier: "ListPostgresBackupsResponse" });
   }
 }
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6488,12 +7416,12 @@ function __c95(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(864, __c27, 0)),
+          data: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "ListPostgresDatabasesResponse" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6520,22 +7448,22 @@ function __c96(j: number): any {
         S.Struct({
           default_version: S.optional(S.String),
           description: S.optional(S.String),
-          installed: S.optional(S.NullOr(__S(3073, __c96, 1))),
+          installed: S.optional(S.NullOr(__S(3265, __c102, 1))),
           name: S.optional(S.String),
           system: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PostgresExtension" });
     case 3:
-      return S.Array(__S(3074, __c96, 2));
+      return S.Array(__S(3266, __c102, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3075, __c96, 3)),
+          data: S.optional(__S(3267, __c102, 3)),
         }),
       ).annotate({ identifier: "ListPostgresExtensionsResponse" });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6554,16 +7482,16 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "PostgresPlan" });
     case 2:
-      return S.Array(__S(3105, __c97, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3106, __c97, 2)),
+          data: S.optional(__S(3298, __c103, 2)),
         }),
       ).annotate({ identifier: "ListPostgresPlansResponse" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6574,16 +7502,16 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "ListPostgresUsersRequest" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3137, __c98, 1)),
+          data: S.optional(__S(3329, __c104, 1)),
         }),
       ).annotate({ identifier: "ListPostgresUsersResponse" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6594,16 +7522,16 @@ function __c99(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/secretkeys", code: 200 })),
       ).annotate({ identifier: "ListSecretKeysRequest" });
     case 1:
-      return S.Array(__S(2560, __c80, 0));
+      return S.Array(__S(2752, __c86, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          secret_keys: S.optional(__S(3169, __c99, 1)),
+          secret_keys: S.optional(__S(3361, __c105, 1)),
         }),
       ).annotate({ identifier: "SecretKeys" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6616,18 +7544,18 @@ function __c100(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secrets: S.optional(__S(3232, __c101, 0)),
+          secrets: S.optional(__S(3424, __c107, 0)),
         }),
       ).annotate({ identifier: "AppSecrets" });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2496, __c78, 0));
+      return S.Array(__S(2688, __c84, 0));
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6639,14 +7567,75 @@ function __c102(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{app_name}/volumes", code: 200 })),
       ).annotate({ identifier: "ListVolumesRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
-      return S.suspend(() => __S(3265, __c102, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3457, __c108, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVolumesResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.Number),
+          app_feature: S.optional(S.String),
+          app_name: S.optional(S.String),
+          command: S.optional(__S(3520, __c110, 0)),
+          machine_feature: S.optional(S.String),
+          machine_id: S.optional(S.String),
+          mutation: S.optional(S.String),
+          org_feature: S.optional(S.String),
+          org_slug: S.optional(S.String),
+          source_machine: S.optional(S.String),
+          storage_object: S.optional(S.String),
+          volume_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MainTokenAccess" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          access: S.optional(__S(3488, __c109, 0)),
+          header: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authorize", code: 200 })),
+      ).annotate({ identifier: "AuthorizeTokenRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.Number),
+          app_feature: S.optional(S.String),
+          appid: S.optional(S.Number),
+          cluster: S.optional(S.String),
+          command: S.optional(__S(3520, __c110, 0)),
+          feature: S.optional(S.String),
+          machine: S.optional(S.String),
+          machine_feature: S.optional(S.String),
+          mutation: S.optional(S.String),
+          orgid: S.optional(S.Number),
+          sourceApp: S.optional(S.String),
+          sourceMachine: S.optional(S.String),
+          sourceOrganization: S.optional(S.String),
+          storage_object: S.optional(S.String),
+          volume: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FlyioAccess" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          access: S.optional(__S(3490, __c109, 2)),
+          verified_token: S.optional(__S(3075, __c96, 3)),
+        }),
+      ).annotate({ identifier: "AuthorizeResponse" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6674,75 +7663,14 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "VolumeSnapshot" });
     case 2:
-      return S.Array(__S(3297, __c103, 1));
+      return S.Array(__S(3553, __c111, 1));
     case 3:
-      return S.suspend(() => __S(3298, __c103, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3554, __c111, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListVolumeSnapshotsResponse",
       });
   }
 }
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.Number),
-          app_feature: S.optional(S.String),
-          app_name: S.optional(S.String),
-          command: S.optional(__S(3360, __c105, 0)),
-          machine_feature: S.optional(S.String),
-          machine_id: S.optional(S.String),
-          mutation: S.optional(S.String),
-          org_feature: S.optional(S.String),
-          org_slug: S.optional(S.String),
-          source_machine: S.optional(S.String),
-          storage_object: S.optional(S.String),
-          volume_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MainTokenAccess" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          access: S.optional(__S(3328, __c104, 0)),
-          header: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/authorize", code: 200 })),
-      ).annotate({ identifier: "AuthorizeTokenRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.Number),
-          app_feature: S.optional(S.String),
-          appid: S.optional(S.Number),
-          cluster: S.optional(S.String),
-          command: S.optional(__S(3360, __c105, 0)),
-          feature: S.optional(S.String),
-          machine: S.optional(S.String),
-          machine_feature: S.optional(S.String),
-          mutation: S.optional(S.String),
-          orgid: S.optional(S.Number),
-          sourceApp: S.optional(S.String),
-          sourceMachine: S.optional(S.String),
-          sourceOrganization: S.optional(S.String),
-          storage_object: S.optional(S.String),
-          volume: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FlyioAccess" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          access: S.optional(__S(3330, __c104, 2)),
-          verified_token: S.optional(__S(2915, __c91, 3)),
-        }),
-      ).annotate({ identifier: "AuthorizeResponse" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c106(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6773,12 +7701,12 @@ function __c106(j: number): any {
           created_at: S.optional(S.String),
           encrypted: S.optional(S.Boolean),
           fstype: S.optional(S.String),
-          host_features: S.optional(__S(3360, __c105, 0)),
+          host_features: S.optional(__S(3520, __c110, 0)),
           host_status: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
           region: S.optional(S.String),
-          required_host_features: S.optional(__S(3360, __c105, 0)),
+          required_host_features: S.optional(__S(3520, __c110, 0)),
           size_gb: S.optional(S.Number),
           snapshot_retention: S.optional(S.Number),
           state: S.optional(S.String),
@@ -6788,19 +7716,19 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "OrgVolume" });
     case 2:
-      return S.Array(__S(3393, __c106, 1));
+      return S.Array(__S(3585, __c112, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           last_updated_at: S.optional(S.String),
           last_volume_id: S.optional(S.String),
           next_cursor: S.optional(S.String),
-          volumes: S.optional(__S(3394, __c106, 2)),
+          volumes: S.optional(__S(3586, __c112, 2)),
         }),
       ).annotate({ identifier: "OrgVolumesResponse" });
   }
 }
-function __c107(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6816,9 +7744,16 @@ function __c107(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MachinesReleaseLeaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(__S(32, __c1, 0)),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LeaseOkResponse" });
   }
 }
-function __c108(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6826,7 +7761,7 @@ function __c108(j: number): any {
           app_name: S.String.pipe(T.Label()),
           machine_id: S.String.pipe(T.Label()),
           machine_version: S.optional(S.String),
-          metadata: S.optional(__S(576, __c18, 0)),
+          metadata: S.optional(__S(672, __c21, 0)),
           updated_at: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -6838,7 +7773,44 @@ function __c108(j: number): any {
       ).annotate({ identifier: "PatchMachineMetadataRequest" });
   }
 }
-function __c109(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          postgres_cluster_id: S.String.pipe(T.Label()),
+          database_name: S.String.pipe(T.Label()),
+          sql: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/postgres/{postgres_cluster_id}/databases/{database_name}/query",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostgresDatabasesQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgresQueryColumn" });
+    case 2:
+      return S.Array(__S(3681, __c115, 1));
+    case 3:
+      return S.Array(__S(3104, __c97, 0));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          columns: S.optional(__S(3682, __c115, 2)),
+          row_count: S.optional(S.Number),
+          rows: S.optional(__S(3683, __c115, 3)),
+        }),
+      ).annotate({ identifier: "PostgresQueryResponse" });
+  }
+}
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6870,16 +7842,16 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "PostgresActiveQuery" });
     case 2:
-      return S.Array(__S(3489, __c109, 1));
+      return S.Array(__S(3713, __c116, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3490, __c109, 2)),
+          data: S.optional(__S(3714, __c116, 2)),
         }),
       ).annotate({ identifier: "ListPostgresActiveQueriesResponse" });
   }
 }
-function __c110(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6908,16 +7880,16 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "PostgresSlowQuery" });
     case 2:
-      return S.Array(__S(3521, __c110, 1));
+      return S.Array(__S(3745, __c117, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3522, __c110, 2)),
+          data: S.optional(__S(3746, __c117, 2)),
         }),
       ).annotate({ identifier: "ListPostgresSlowQueriesResponse" });
   }
 }
-function __c111(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6934,7 +7906,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "PostgresUsersCredentialsRequest" });
   }
 }
-function __c112(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6946,12 +7918,12 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(3584, __c112, 0)),
+          data: S.optional(__S(3808, __c119, 0)),
         }),
       ).annotate({ identifier: "GetPostgresUserCredentialsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6975,7 +7947,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "MainReclaimMemoryResponse" });
   }
 }
-function __c114(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6983,38 +7955,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "RequestKmsTokenRequest" });
   }
 }
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          aud: S.optional(S.String),
-          aws_principal_tags: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/oidc", code: 200 })),
-      ).annotate({ identifier: "RequestOidcTokenRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          app_name: S.String.pipe(T.Label()),
-          machine_id: S.String.pipe(T.Label()),
-          timeout: S.optional(S.String.pipe(T.Query())),
-          signal: S.optional(S.String.pipe(T.Query())),
-          lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/apps/{app_name}/machines/{machine_id}/restart",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RestartMachineRequest" });
-  }
-}
-function __c117(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7032,12 +7973,12 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          a: S.optional(__S(3360, __c105, 0)),
-          aaaa: S.optional(__S(3360, __c105, 0)),
+          a: S.optional(__S(3520, __c110, 0)),
+          aaaa: S.optional(__S(3520, __c110, 0)),
           acme_challenge_cname: S.optional(S.String),
-          cname: S.optional(__S(3360, __c105, 0)),
+          cname: S.optional(__S(3520, __c110, 0)),
           ownership_txt: S.optional(S.String),
-          resolved_addresses: S.optional(__S(3360, __c105, 0)),
+          resolved_addresses: S.optional(__S(3520, __c110, 0)),
           soa: S.optional(S.String),
         }),
       ).annotate({ identifier: "DNSRecords" });
@@ -7045,21 +7986,21 @@ function __c117(j: number): any {
       return S.suspend(() =>
         S.Struct({
           acme_requested: S.optional(S.Boolean),
-          certificates: S.optional(__S(3779, __c118, 3)),
+          certificates: S.optional(__S(3939, __c123, 3)),
           configured: S.optional(S.Boolean),
           dns_provider: S.optional(S.String),
-          dns_records: S.optional(__S(3745, __c117, 1)),
-          dns_requirements: S.optional(__S(3782, __c118, 6)),
+          dns_records: S.optional(__S(3905, __c122, 1)),
+          dns_requirements: S.optional(__S(3942, __c123, 6)),
           hostname: S.optional(S.String),
           rate_limited_until: S.optional(S.String),
           status: S.optional(S.String),
-          validation: S.optional(__S(3783, __c118, 7)),
-          validation_errors: S.optional(__S(3785, __c118, 9)),
+          validation: S.optional(__S(3943, __c123, 7)),
+          validation_errors: S.optional(__S(3945, __c123, 9)),
         }),
       ).annotate({ identifier: "CertificateCheckResponse" });
   }
 }
-function __c118(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7070,20 +8011,20 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "IssuedCertificate" });
     case 1:
-      return S.Array(__S(3776, __c118, 0));
+      return S.Array(__S(3936, __c123, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           created_at: S.optional(S.String),
           expires_at: S.optional(S.String),
-          issued: S.optional(__S(3777, __c118, 1)),
+          issued: S.optional(__S(3937, __c123, 1)),
           issuer: S.optional(S.String),
           source: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateEntry" });
     case 3:
-      return S.Array(__S(3778, __c118, 2));
+      return S.Array(__S(3938, __c123, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7102,11 +8043,11 @@ function __c118(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          a: S.optional(__S(3360, __c105, 0)),
-          aaaa: S.optional(__S(3360, __c105, 0)),
-          acme_challenge: S.optional(__S(3780, __c118, 4)),
+          a: S.optional(__S(3520, __c110, 0)),
+          aaaa: S.optional(__S(3520, __c110, 0)),
+          acme_challenge: S.optional(__S(3940, __c123, 4)),
           cname: S.optional(S.String),
-          ownership: S.optional(__S(3781, __c118, 5)),
+          ownership: S.optional(__S(3941, __c123, 5)),
         }),
       ).annotate({ identifier: "DNSRequirements" });
     case 7:
@@ -7128,10 +8069,41 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "CertificateValidationError" });
     case 9:
-      return S.Array(__S(3784, __c118, 8));
+      return S.Array(__S(3944, __c123, 8));
   }
 }
-function __c119(j: number): any {
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          aud: S.optional(S.String),
+          aws_principal_tags: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/tokens/oidc", code: 200 })),
+      ).annotate({ identifier: "RequestOidcTokenRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          app_name: S.String.pipe(T.Label()),
+          machine_id: S.String.pipe(T.Label()),
+          timeout: S.optional(S.String.pipe(T.Query())),
+          signal: S.optional(S.String.pipe(T.Query())),
+          lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/apps/{app_name}/machines/{machine_id}/restart",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RestartMachineRequest" });
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7146,7 +8118,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "RestorePostgresRequest" });
   }
 }
-function __c120(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7164,7 +8136,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "RotatePostgresUserPasswordRequest" });
   }
 }
-function __c121(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7182,7 +8154,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "SetMachineMemoryLimitRequest" });
   }
 }
-function __c122(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7190,7 +8162,7 @@ function __c122(j: number): any {
           app_name: S.String.pipe(T.Label()),
           secret_name: S.String.pipe(T.Label()),
           type: S.optional(S.String),
-          value: S.optional(__S(2944, __c92, 0)),
+          value: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7201,7 +8173,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "SetSecretKeyRequest" });
   }
 }
-function __c123(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7219,7 +8191,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "SignalMachineRequest" });
   }
 }
-function __c124(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7244,7 +8216,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "SignSecretkeyResponse" });
   }
 }
-function __c125(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7270,7 +8242,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "StartMachineResponse" });
   }
 }
-function __c126(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7288,42 +8260,6 @@ function __c126(j: number): any {
           }),
         ),
       ).annotate({ identifier: "StopMachineRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          app_name: S.String.pipe(T.Label()),
-          machine_id: S.String.pipe(T.Label()),
-          lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/apps/{app_name}/machines/{machine_id}/suspend",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SuspendMachineRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          app_name: S.String.pipe(T.Label()),
-          machine_id: S.String.pipe(T.Label()),
-          lease_nonce: S.optional(S.String.pipe(T.Header("fly-machine-lease-nonce"))),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/apps/{app_name}/machines/{machine_id}/uncordon",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UncordonMachineRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

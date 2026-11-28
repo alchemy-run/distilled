@@ -1,0 +1,828 @@
+{
+  "description": "Page Jira's list operations (https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#pagination); the spec marks none. `startAt` lists take `startAt`/`maxResults` and return `startAt`, `maxResults`, `total` and, on `PageBean` lists, `isLast` beside the items (`values`, or `comments`, `worklogs`, `dashboards`, `issueTypes` on the older beans); src/pagination.ts advances `startAt` by the items received and stops on `isLast`, `total` or an empty page. `mode: token` lists take `nextPageToken` and return `nextPageToken`, absent on the last page (JQL search, bulk changelogs, invalid-JQL audit entries, and the status/workflow usage pages, which nest it with their `values`), or take `cursor` and return `nextPageCursor` (plans, plan teams, policies; `startAt` is 'legacy' on policies and 'only 0 is accepted in cursor mode'). All read off the spec's own parameter and response schemas. Left out: operations that return a bare array (user searches) and `getCreateIssueMetaIssueTypeId`, whose page bean has two item arrays (`fields`, `results`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#BulkGetGroups/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#BulkGetUsers/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#FindComponentsForProjects/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#FindUserKeysByQuery/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#FindUsersByQuery/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAllDashboards/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "dashboards",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAllIssueFieldOptions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAllIssueTypeSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAllLabels/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAllWorkflowSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAuditEntries/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "nextPageToken",
+        "items": "entries",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetAvailablePrioritiesByPriorityScheme/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetBulkChangelogs/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "nextPageToken",
+        "items": "issueChangeLogs",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetChangeLogs/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetComments/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "comments",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetContextDefaultValues/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetContextsForField/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetCreateIssueMetaIssueTypes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "issueTypes",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetCustomFieldConfiguration/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetCustomFieldContextsForProjectsAndIssueTypes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetCustomFieldsConfigurations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetDashboardsPaginated/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetDynamicWebhooksForApp/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetFieldAssociationSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetFieldProjectAssociations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetFieldsPaginated/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetFiltersPaginated/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueSecurityLevelMembers/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueTypeMappingsForContexts/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueTypeSchemeForProjects/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueTypeSchemesMapping/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueTypeScreenSchemeMappings/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueTypeScreenSchemeProjectAssociations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueTypeScreenSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetIssueWorklog/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "worklogs",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetNotificationSchemeToProjectMappings/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetNotificationSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetOptionsForContext/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetPlans/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "cursor",
+        "outputToken": "nextPageCursor",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetPrecomputations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetPrioritiesByPriorityScheme/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetPrioritySchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectComponentsPaginated/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectContextMapping/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectFields/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectIssueTypeUsagesForStatus/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "issueTypes.nextPageToken",
+        "items": "issueTypes.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectUsagesForStatus/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "projects.nextPageToken",
+        "items": "projects.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectUsagesForWorkflow/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "projects.nextPageToken",
+        "items": "projects.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectUsagesForWorkflowScheme/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "projects.nextPageToken",
+        "items": "projects.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectVersionsPaginated/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectsByPriorityScheme/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectsForIssueTypeScreenScheme/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetProjectsWithFieldSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetScreenSchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetScreens/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetScreensForField/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetSecurityLevelMembers/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetSecurityLevels/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetSelectableIssueFieldOptions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetTeams/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "cursor",
+        "outputToken": "nextPageCursor",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetTrashedFieldsPaginated/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetUiModifications/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetUsersFromGroup/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetVisibleIssueFieldOptions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetWorkflowProjectIssueTypeUsages/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "issueTypes.nextPageToken",
+        "items": "issueTypes.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetWorkflowSchemeUsagesForWorkflow/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "workflowSchemes.nextPageToken",
+        "items": "workflowSchemes.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetWorkflowTransitionRuleConfigurations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#GetWorkflowUsagesForStatus/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "workflows.nextPageToken",
+        "items": "workflows.values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#ListPolicies/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "cursor",
+        "outputToken": "nextPageCursor",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#Search/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchAndReconsileIssuesUsingJql/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "nextPageToken",
+        "items": "issues",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchAndReconsileIssuesUsingJqlPost/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "nextPageToken",
+        "outputToken": "nextPageToken",
+        "items": "issues",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchFieldAssociationSchemeFields/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchFieldAssociationSchemeProjects/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchPriorities/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchProjects/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchProjectsUsingSecuritySchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchResolutions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchSecuritySchemes/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SearchWorkflows/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.atlassian.jira#SuggestedPrioritiesForMappings/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "startAt",
+        "outputToken": "total",
+        "items": "values",
+        "pageSize": "maxResults"
+      }
+    }
+  ]
+}

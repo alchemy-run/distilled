@@ -10,6 +10,11 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Inngest's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * Operations the spec marks `x-beta: true` are marked `smithy.api#unstable`,
+ * so generate writes them to src/unstable-services (imported as
+ * `@distilled.cloud/inngest/unstable/<module>`) and the rest to src/services.
+ * A patch can remove the mark from one operation.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
@@ -40,5 +45,6 @@ await runOpenApiConvert({
     namespace: "com.inngest.api",
     serviceName: "Inngest",
     skipDeprecated: true,
+    unstableOperation: (op) => op["x-beta"] === true,
   },
 });

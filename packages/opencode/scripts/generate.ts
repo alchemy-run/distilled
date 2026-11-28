@@ -66,7 +66,7 @@ const opencodeSpec: SdkSpec = {
   operationDecl: {
     contextType: "OpencodeOpContext",
     commonErrorType: "OpencodeOpError",
-    commonErrorClasses: ["UnknownOpencodeError"],
+    serviceErrors: "OpencodeServiceErrors",
     protocol: "OpencodeProtocol",
     retry: "Retry.Retry",
   },
@@ -90,5 +90,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => opencodeSpec,
 });

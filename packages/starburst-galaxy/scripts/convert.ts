@@ -64,8 +64,8 @@ const toPascal = (slug: string): string =>
  * Status → error class. Galaxy documents `{ message, … }` bodies for
  * 400/403/404/409 (core's classes) and `FailedPrecondition` for 412 on the
  * operations that can hit a state conflict. 401 and 429 are global. The 412
- * class is `PreconditionFailed` in `src/errors.ts`, wired into the protocol's
- * `statusMap` for operations that do not declare it.
+ * class is `PreconditionFailed` in `src/errors.ts`, declared on the service
+ * (`StarburstGalaxyServiceErrors`) for operations that do not declare it.
  */
 const STATUS_TO_ERROR_CLASS = {
   "400": "BadRequest",

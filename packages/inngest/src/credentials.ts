@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Inngest credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Inngest authenticates with an API key or signing
  * key as `Authorization: Bearer <key>`.
  */
@@ -20,9 +20,12 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "InngestCredentials",
   ) {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -37,21 +40,29 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads INNGEST_API_KEY (required) and INNGEST_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads INNGEST_API_KEY (required) and INNGEST_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.INNGEST_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.INNGEST_API_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "INNGEST_API_KEY environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "INNGEST_API_KEY environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.INNGEST_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: process.env.INNGEST_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

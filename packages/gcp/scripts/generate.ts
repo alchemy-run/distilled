@@ -3,9 +3,9 @@
  * generate — run scripts/convert.ts in memory and compile its Smithy models
  * into an Effect SDK.
  *
- * Input:  the stable and unstable models convert.ts converts (in memory)
+ * Input:  the models convert.ts converts (in memory)
  * Output: src/services/<service>.ts + index.ts            (stable)
- *         src/unstable-services/<service>.ts + index.ts   (unstable)
+ *         src/unstable-services/<service>.ts + index.ts   (marked smithy.api#unstable)
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is GCP's provider spec: the
@@ -13,10 +13,6 @@
  * envelope fields on the standard 4xx error classes, simple-shape aliases
  * (discovery primitive/any schemas), the token pagination profile, and the
  * protocol/retry names.
- *
- * One run converts once and compiles both trees. `--smithy`/`--out` compile
- * a single tree instead:
- *   node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
@@ -26,6 +22,7 @@ import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import { lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
 const ERROR_MATCHERS_TRAIT = "com.gcp.protocols#errorMatchers";
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /** Discovery simple shapes → TS type / schema expression. */
 const SIMPLE_SHAPES: Record<string, readonly [string, string]> = {
@@ -46,6 +43,25 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   opExportName: (name) => lowerFirst(name.replace(/_+$/, "")),
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   sourceNote: ".generated-specs (converted Google Discovery documents)",
+
+  // Sensitive strings (passwords, keys, tokens): the schema member carries
+  // T.SensitiveValue; the protocol delivers Redacted values and accepts
+  // string | Redacted on input.
+  memberTraitPipes: {
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
+  },
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) =>
+    code.includes("Redacted.Redacted<")
+      ? code.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : code,
 
   // Each Google service has its own host: bake `rootUrl + servicePath` from
   // the model metadata into the op's Http trait (read by GcpProtocol).
@@ -95,7 +111,7 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   operationDecl: {
     contextType: "GcpOpContext",
     commonErrorType: "GcpOpError",
-    commonErrorClasses: ["UnknownGCPError"],
+    serviceErrors: "GcpServiceErrors",
     protocol: "GcpProtocol",
     retry: "Retry.Retry",
   },
@@ -108,9 +124,6 @@ runGeneratorCli({
   // A request body schema becomes top-level input fields, as in every other
   // SDK, after convert has applied the patches to it.
   transformModel: (model) => flattenStructurePayloads(model),
-  targets: [
-    { smithyDir: ".generated-specs/stable", outDir: "src/services" },
-    { smithyDir: ".generated-specs/unstable", outDir: "src/unstable-services" },
-  ],
+  unstableOutDir: "src/unstable-services",
   spec: (model) => makeGcpSpec(model.metadata ?? {}),
 });

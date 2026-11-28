@@ -12,7 +12,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * See https://redis.io/docs/latest/operate/rc/api/get-started/manage-api-keys/
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  */
 import * as Context from "effect/Context";
@@ -34,7 +34,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "RedisCloudCredentials",
   ) {}
 
@@ -70,26 +70,32 @@ export const fromApiKey = (config: {
 /**
  * Reads REDIS_CLOUD_API_KEY and REDIS_CLOUD_API_SECRET_KEY (required),
  * REDIS_CLOUD_AUTH_TOKEN and REDIS_CLOUD_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.REDIS_CLOUD_API_KEY;
-    const apiSecretKey = process.env.REDIS_CLOUD_API_SECRET_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.REDIS_CLOUD_API_KEY;
+      const apiSecretKey = process.env.REDIS_CLOUD_API_SECRET_KEY;
 
-    if (!apiKey || !apiSecretKey) {
-      return yield* new ConfigError({
-        message:
-          "REDIS_CLOUD_API_KEY and REDIS_CLOUD_API_SECRET_KEY environment variables are required",
-      });
-    }
+      if (!apiKey || !apiSecretKey) {
+        return yield* new ConfigError({
+          message:
+            "REDIS_CLOUD_API_KEY and REDIS_CLOUD_API_SECRET_KEY environment variables are required",
+        });
+      }
 
-    const authToken = process.env.REDIS_CLOUD_AUTH_TOKEN;
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiSecretKey: Redacted.make(apiSecretKey),
-      authToken: authToken !== undefined ? Redacted.make(authToken) : undefined,
-      apiBaseUrl: process.env.REDIS_CLOUD_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-    };
-  }),
+      const authToken = process.env.REDIS_CLOUD_AUTH_TOKEN;
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiSecretKey: Redacted.make(apiSecretKey),
+        authToken: authToken !== undefined ? Redacted.make(authToken) : undefined,
+        apiBaseUrl: process.env.REDIS_CLOUD_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

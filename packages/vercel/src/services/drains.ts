@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -146,7 +147,7 @@ export interface CreateDrainRequestDeliveryCase1 {
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateDrainRequestDeliveryCase2Encoding = "json" | "ndjson";
-export type CreateDrainRequestDeliveryCase2Compression = "none";
+export type CreateDrainRequestDeliveryCase2Compression = "gzip" | "none";
 export type CreateDrainRequestDeliveryCase2FileStructure = "hive";
 export type CreateDrainRequestDeliveryCase2ServerSideEncryption =
   | "AES256"
@@ -160,7 +161,7 @@ export interface CreateDrainRequestDeliveryCase2 {
   type: string;
   endpoint: string;
   encoding: CreateDrainRequestDeliveryCase2Encoding | (string & {});
-  compression: CreateDrainRequestDeliveryCase2Compression;
+  compression: CreateDrainRequestDeliveryCase2Compression | (string & {});
   fileStructure: CreateDrainRequestDeliveryCase2FileStructure;
   roleArn: string;
   region: string;
@@ -168,6 +169,7 @@ export interface CreateDrainRequestDeliveryCase2 {
     | CreateDrainRequestDeliveryCase2ServerSideEncryption
     | (string & {})
     | undefined;
+  kmsKeyId?: string | undefined;
   objectAcl?: CreateDrainRequestDeliveryCase2ObjectAcl | (string & {}) | undefined;
 }
 export type CreateDrainRequestDelivery =
@@ -272,7 +274,7 @@ export interface CreateDrainResponseBodyCase0DeliveryCase2 {
   table: string;
   type: CreateDrainResponseBodyCase0DeliveryCase2Type;
 }
-export type CreateDrainResponseBodyCase0DeliveryCase3Compression = "none";
+export type CreateDrainResponseBodyCase0DeliveryCase3Compression = "gzip" | "none";
 export type CreateDrainResponseBodyCase0DeliveryCase3Encoding = "json" | "ndjson";
 export type CreateDrainResponseBodyCase0DeliveryCase3FileStructure = "hive";
 export type CreateDrainResponseBodyCase0DeliveryCase3ObjectAcl =
@@ -293,6 +295,7 @@ export interface CreateDrainResponseBodyCase0DeliveryCase3 {
   encoding: CreateDrainResponseBodyCase0DeliveryCase3Encoding;
   endpoint: string;
   fileStructure: CreateDrainResponseBodyCase0DeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: CreateDrainResponseBodyCase0DeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -313,6 +316,7 @@ export type CreateDrainResponseBodyCase0Delivery =
   | CreateDrainResponseBodyCase0DeliveryCase4;
 export type CreateDrainResponseBodyCase0DisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -359,13 +363,19 @@ export type CreateDrainResponseBodyCase0Source =
 export type CreateDrainResponseBodyCase0Status = "disabled" | "enabled" | "errored";
 export type CreateDrainResponseBodyCase0DeliveryStatsState = "failing" | "healthy" | "unknown";
 export type CreateDrainResponseBodyCase0DeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface CreateDrainResponseBodyCase0DeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: CreateDrainResponseBodyCase0DeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: CreateDrainResponseBodyCase0DeliveryStatsWindow;
 }
 export type CreateDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -433,7 +443,7 @@ export interface CreateDrainResponseBodyCase0 {
   status?: CreateDrainResponseBodyCase0Status | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: CreateDrainResponseBodyCase0DeliveryStats | undefined;
   filterV2?: CreateDrainResponseBodyCase0FilterV2 | undefined;
 }
@@ -485,7 +495,7 @@ export interface CreateDrainResponseBodyCase1DeliveryCase2 {
   table: string;
   type: CreateDrainResponseBodyCase1DeliveryCase2Type;
 }
-export type CreateDrainResponseBodyCase1DeliveryCase3Compression = "none";
+export type CreateDrainResponseBodyCase1DeliveryCase3Compression = "gzip" | "none";
 export type CreateDrainResponseBodyCase1DeliveryCase3Encoding = "json" | "ndjson";
 export type CreateDrainResponseBodyCase1DeliveryCase3FileStructure = "hive";
 export type CreateDrainResponseBodyCase1DeliveryCase3ObjectAcl =
@@ -506,6 +516,7 @@ export interface CreateDrainResponseBodyCase1DeliveryCase3 {
   encoding: CreateDrainResponseBodyCase1DeliveryCase3Encoding;
   endpoint: string;
   fileStructure: CreateDrainResponseBodyCase1DeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: CreateDrainResponseBodyCase1DeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -526,6 +537,7 @@ export type CreateDrainResponseBodyCase1Delivery =
   | CreateDrainResponseBodyCase1DeliveryCase4;
 export type CreateDrainResponseBodyCase1DisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -564,13 +576,19 @@ export type CreateDrainResponseBodyCase1Source =
 export type CreateDrainResponseBodyCase1Status = "disabled" | "enabled" | "errored";
 export type CreateDrainResponseBodyCase1DeliveryStatsState = "failing" | "healthy" | "unknown";
 export type CreateDrainResponseBodyCase1DeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface CreateDrainResponseBodyCase1DeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: CreateDrainResponseBodyCase1DeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: CreateDrainResponseBodyCase1DeliveryStatsWindow;
 }
 export type CreateDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -655,7 +673,7 @@ export interface CreateDrainResponseBodyCase1 {
   status?: CreateDrainResponseBodyCase1Status | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: CreateDrainResponseBodyCase1DeliveryStats | undefined;
   filterV2?: CreateDrainResponseBodyCase1FilterV2 | undefined;
   integrationConfigurationUri?: string | undefined;
@@ -675,7 +693,7 @@ export interface DeleteDrainRequest {
 export interface DeleteDrainResponse {}
 export interface GetDrainRequest {
   id: string;
-  /** Include `deliveryStats` with the delivery health of the drain over the last 24 hours. */
+  /** Include `deliveryStats` with the delivery health of the drain over the last 24 hours. Ignored for teams without drain delivery metrics. */
   includeDeliveryStats?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string | undefined;
@@ -721,7 +739,7 @@ export interface GetDrainResponseDeliveryCase2 {
   table: string;
   type: GetDrainResponseDeliveryCase2Type;
 }
-export type GetDrainResponseDeliveryCase3Compression = "none";
+export type GetDrainResponseDeliveryCase3Compression = "gzip" | "none";
 export type GetDrainResponseDeliveryCase3Encoding = "json" | "ndjson";
 export type GetDrainResponseDeliveryCase3FileStructure = "hive";
 export type GetDrainResponseDeliveryCase3ObjectAcl =
@@ -742,6 +760,7 @@ export interface GetDrainResponseDeliveryCase3 {
   encoding: GetDrainResponseDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetDrainResponseDeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: GetDrainResponseDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -762,6 +781,7 @@ export type GetDrainResponseDelivery =
   | GetDrainResponseDeliveryCase4;
 export type GetDrainResponseDisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -797,13 +817,19 @@ export type GetDrainResponseSource = GetDrainResponseSourceCase0 | GetDrainRespo
 export type GetDrainResponseStatus = "disabled" | "enabled" | "errored";
 export type GetDrainResponseDeliveryStatsState = "failing" | "healthy" | "unknown";
 export type GetDrainResponseDeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface GetDrainResponseDeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: GetDrainResponseDeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: GetDrainResponseDeliveryStatsWindow;
 }
 export type GetDrainResponseFilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -869,7 +895,7 @@ export interface GetDrainResponse {
   status?: GetDrainResponseStatus | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: GetDrainResponseDeliveryStats | undefined;
   filterV2?: GetDrainResponseFilterV2 | undefined;
 }
@@ -931,7 +957,7 @@ export interface GetDrainsResponseDrainsCase0ItemDeliveryCase2 {
   table: string;
   type: GetDrainsResponseDrainsCase0ItemDeliveryCase2Type;
 }
-export type GetDrainsResponseDrainsCase0ItemDeliveryCase3Compression = "none";
+export type GetDrainsResponseDrainsCase0ItemDeliveryCase3Compression = "gzip" | "none";
 export type GetDrainsResponseDrainsCase0ItemDeliveryCase3Encoding = "json" | "ndjson";
 export type GetDrainsResponseDrainsCase0ItemDeliveryCase3FileStructure = "hive";
 export type GetDrainsResponseDrainsCase0ItemDeliveryCase3ObjectAcl =
@@ -952,6 +978,7 @@ export interface GetDrainsResponseDrainsCase0ItemDeliveryCase3 {
   encoding: GetDrainsResponseDrainsCase0ItemDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetDrainsResponseDrainsCase0ItemDeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: GetDrainsResponseDrainsCase0ItemDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -974,6 +1001,7 @@ export type GetDrainsResponseDrainsCase0ItemDelivery =
   | GetDrainsResponseDrainsCase0ItemDeliveryCase4;
 export type GetDrainsResponseDrainsCase0ItemDisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -1014,13 +1042,19 @@ export type GetDrainsResponseDrainsCase0ItemSource =
 export type GetDrainsResponseDrainsCase0ItemStatus = "disabled" | "enabled" | "errored";
 export type GetDrainsResponseDrainsCase0ItemDeliveryStatsState = "failing" | "healthy" | "unknown";
 export type GetDrainsResponseDrainsCase0ItemDeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface GetDrainsResponseDrainsCase0ItemDeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: GetDrainsResponseDrainsCase0ItemDeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: GetDrainsResponseDrainsCase0ItemDeliveryStatsWindow;
 }
 export type GetDrainsResponseDrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -1088,7 +1122,7 @@ export interface GetDrainsResponseDrainsCase0Item {
   status?: GetDrainsResponseDrainsCase0ItemStatus | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: GetDrainsResponseDrainsCase0ItemDeliveryStats | undefined;
   filterV2?: GetDrainsResponseDrainsCase0ItemFilterV2 | undefined;
 }
@@ -1141,7 +1175,7 @@ export interface GetDrainsResponseDrainsCase1ItemDeliveryCase2 {
   table: string;
   type: GetDrainsResponseDrainsCase1ItemDeliveryCase2Type;
 }
-export type GetDrainsResponseDrainsCase1ItemDeliveryCase3Compression = "none";
+export type GetDrainsResponseDrainsCase1ItemDeliveryCase3Compression = "gzip" | "none";
 export type GetDrainsResponseDrainsCase1ItemDeliveryCase3Encoding = "json" | "ndjson";
 export type GetDrainsResponseDrainsCase1ItemDeliveryCase3FileStructure = "hive";
 export type GetDrainsResponseDrainsCase1ItemDeliveryCase3ObjectAcl =
@@ -1162,6 +1196,7 @@ export interface GetDrainsResponseDrainsCase1ItemDeliveryCase3 {
   encoding: GetDrainsResponseDrainsCase1ItemDeliveryCase3Encoding;
   endpoint: string;
   fileStructure: GetDrainsResponseDrainsCase1ItemDeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: GetDrainsResponseDrainsCase1ItemDeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -1184,6 +1219,7 @@ export type GetDrainsResponseDrainsCase1ItemDelivery =
   | GetDrainsResponseDrainsCase1ItemDeliveryCase4;
 export type GetDrainsResponseDrainsCase1ItemDisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -1224,13 +1260,19 @@ export type GetDrainsResponseDrainsCase1ItemSource =
 export type GetDrainsResponseDrainsCase1ItemStatus = "disabled" | "enabled" | "errored";
 export type GetDrainsResponseDrainsCase1ItemDeliveryStatsState = "failing" | "healthy" | "unknown";
 export type GetDrainsResponseDrainsCase1ItemDeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface GetDrainsResponseDrainsCase1ItemDeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: GetDrainsResponseDrainsCase1ItemDeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: GetDrainsResponseDrainsCase1ItemDeliveryStatsWindow;
 }
 export type GetDrainsResponseDrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -1315,7 +1357,7 @@ export interface GetDrainsResponseDrainsCase1Item {
   status?: GetDrainsResponseDrainsCase1ItemStatus | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: GetDrainsResponseDrainsCase1ItemDeliveryStats | undefined;
   filterV2?: GetDrainsResponseDrainsCase1ItemFilterV2 | undefined;
   integrationConfigurationUri?: string | undefined;
@@ -1356,7 +1398,7 @@ export interface TestDrainRequestDeliveryCase1 {
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type TestDrainRequestDeliveryCase2Encoding = "json" | "ndjson";
-export type TestDrainRequestDeliveryCase2Compression = "none";
+export type TestDrainRequestDeliveryCase2Compression = "gzip" | "none";
 export type TestDrainRequestDeliveryCase2FileStructure = "hive";
 export type TestDrainRequestDeliveryCase2ServerSideEncryption =
   | "AES256"
@@ -1370,7 +1412,7 @@ export interface TestDrainRequestDeliveryCase2 {
   type: string;
   endpoint: string;
   encoding: TestDrainRequestDeliveryCase2Encoding | (string & {});
-  compression: TestDrainRequestDeliveryCase2Compression;
+  compression: TestDrainRequestDeliveryCase2Compression | (string & {});
   fileStructure: TestDrainRequestDeliveryCase2FileStructure;
   roleArn: string;
   region: string;
@@ -1378,6 +1420,7 @@ export interface TestDrainRequestDeliveryCase2 {
     | TestDrainRequestDeliveryCase2ServerSideEncryption
     | (string & {})
     | undefined;
+  kmsKeyId?: string | undefined;
   objectAcl?: TestDrainRequestDeliveryCase2ObjectAcl | (string & {}) | undefined;
 }
 export type TestDrainRequestDelivery =
@@ -1469,7 +1512,7 @@ export interface UpdateDrainRequestDeliveryCase1 {
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateDrainRequestDeliveryCase2Encoding = "json" | "ndjson";
-export type UpdateDrainRequestDeliveryCase2Compression = "none";
+export type UpdateDrainRequestDeliveryCase2Compression = "gzip" | "none";
 export type UpdateDrainRequestDeliveryCase2FileStructure = "hive";
 export type UpdateDrainRequestDeliveryCase2ServerSideEncryption =
   | "AES256"
@@ -1483,7 +1526,7 @@ export interface UpdateDrainRequestDeliveryCase2 {
   type: string;
   endpoint: string;
   encoding: UpdateDrainRequestDeliveryCase2Encoding | (string & {});
-  compression: UpdateDrainRequestDeliveryCase2Compression;
+  compression: UpdateDrainRequestDeliveryCase2Compression | (string & {});
   fileStructure: UpdateDrainRequestDeliveryCase2FileStructure;
   roleArn: string;
   region: string;
@@ -1491,6 +1534,7 @@ export interface UpdateDrainRequestDeliveryCase2 {
     | UpdateDrainRequestDeliveryCase2ServerSideEncryption
     | (string & {})
     | undefined;
+  kmsKeyId?: string | undefined;
   objectAcl?: UpdateDrainRequestDeliveryCase2ObjectAcl | (string & {}) | undefined;
 }
 export type UpdateDrainRequestDelivery =
@@ -1588,7 +1632,7 @@ export interface UpdateDrainResponseBodyCase0DeliveryCase2 {
   table: string;
   type: UpdateDrainResponseBodyCase0DeliveryCase2Type;
 }
-export type UpdateDrainResponseBodyCase0DeliveryCase3Compression = "none";
+export type UpdateDrainResponseBodyCase0DeliveryCase3Compression = "gzip" | "none";
 export type UpdateDrainResponseBodyCase0DeliveryCase3Encoding = "json" | "ndjson";
 export type UpdateDrainResponseBodyCase0DeliveryCase3FileStructure = "hive";
 export type UpdateDrainResponseBodyCase0DeliveryCase3ObjectAcl =
@@ -1609,6 +1653,7 @@ export interface UpdateDrainResponseBodyCase0DeliveryCase3 {
   encoding: UpdateDrainResponseBodyCase0DeliveryCase3Encoding;
   endpoint: string;
   fileStructure: UpdateDrainResponseBodyCase0DeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: UpdateDrainResponseBodyCase0DeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -1629,6 +1674,7 @@ export type UpdateDrainResponseBodyCase0Delivery =
   | UpdateDrainResponseBodyCase0DeliveryCase4;
 export type UpdateDrainResponseBodyCase0DisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -1667,13 +1713,19 @@ export type UpdateDrainResponseBodyCase0Source =
 export type UpdateDrainResponseBodyCase0Status = "disabled" | "enabled" | "errored";
 export type UpdateDrainResponseBodyCase0DeliveryStatsState = "failing" | "healthy" | "unknown";
 export type UpdateDrainResponseBodyCase0DeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface UpdateDrainResponseBodyCase0DeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: UpdateDrainResponseBodyCase0DeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: UpdateDrainResponseBodyCase0DeliveryStatsWindow;
 }
 export type UpdateDrainResponseBodyCase0FilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -1741,7 +1793,7 @@ export interface UpdateDrainResponseBodyCase0 {
   status?: UpdateDrainResponseBodyCase0Status | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: UpdateDrainResponseBodyCase0DeliveryStats | undefined;
   filterV2?: UpdateDrainResponseBodyCase0FilterV2 | undefined;
 }
@@ -1793,7 +1845,7 @@ export interface UpdateDrainResponseBodyCase1DeliveryCase2 {
   table: string;
   type: UpdateDrainResponseBodyCase1DeliveryCase2Type;
 }
-export type UpdateDrainResponseBodyCase1DeliveryCase3Compression = "none";
+export type UpdateDrainResponseBodyCase1DeliveryCase3Compression = "gzip" | "none";
 export type UpdateDrainResponseBodyCase1DeliveryCase3Encoding = "json" | "ndjson";
 export type UpdateDrainResponseBodyCase1DeliveryCase3FileStructure = "hive";
 export type UpdateDrainResponseBodyCase1DeliveryCase3ObjectAcl =
@@ -1814,6 +1866,7 @@ export interface UpdateDrainResponseBodyCase1DeliveryCase3 {
   encoding: UpdateDrainResponseBodyCase1DeliveryCase3Encoding;
   endpoint: string;
   fileStructure: UpdateDrainResponseBodyCase1DeliveryCase3FileStructure;
+  kmsKeyId?: string | undefined;
   objectAcl?: UpdateDrainResponseBodyCase1DeliveryCase3ObjectAcl | undefined;
   region: string;
   roleArn: string;
@@ -1834,6 +1887,7 @@ export type UpdateDrainResponseBodyCase1Delivery =
   | UpdateDrainResponseBodyCase1DeliveryCase4;
 export type UpdateDrainResponseBodyCase1DisabledReason =
   | "account-plan-downgrade"
+  | "auto-paused-delivery-errors"
   | "disabled-by-admin"
   | "disabled-by-owner"
   | "feature-not-available"
@@ -1872,13 +1926,19 @@ export type UpdateDrainResponseBodyCase1Source =
 export type UpdateDrainResponseBodyCase1Status = "disabled" | "enabled" | "errored";
 export type UpdateDrainResponseBodyCase1DeliveryStatsState = "failing" | "healthy" | "unknown";
 export type UpdateDrainResponseBodyCase1DeliveryStatsWindow = "24h";
-/** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+/** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
 export interface UpdateDrainResponseBodyCase1DeliveryStats {
-  /** All delivery attempts in the window. */
+  /** Finished deliveries in the window: delivered plus finally failed. */
   attempts: number;
-  /** Delivery attempts that did not succeed in the window. */
+  /** Deliveries that finally failed in the window. */
   failures: number;
   state: UpdateDrainResponseBodyCase1DeliveryStatsState;
+  /** Deliveries that finally failed in the window, after any automatic retries. */
+  totalFailedDeliveries: number;
+  /** Deliveries whose first try failed and were scheduled for an automatic retry in the window, whatever their final outcome. */
+  totalRetriedDeliveries: number;
+  /** Deliveries delivered in the window, on the first try or after automatic retries. */
+  totalSuccessfulDeliveries: number;
   window: UpdateDrainResponseBodyCase1DeliveryStatsWindow;
 }
 export type UpdateDrainResponseBodyCase1FilterV2FilterCase0DeploymentEnvironmentsItem =
@@ -1963,7 +2023,7 @@ export interface UpdateDrainResponseBodyCase1 {
   status?: UpdateDrainResponseBodyCase1Status | undefined;
   teamId?: string | null | undefined;
   updatedAt: number;
-  /** Delivery health of a drain over the last 24 hours: `failing` when more than 5 delivery attempts and at least 1% of all attempts did not succeed, `healthy` otherwise, and `unknown` when there were no attempts or the stats could not be loaded. */
+  /** Delivery health of a drain over the last 24 hours, counted on finished deliveries (a delivery saved by an automatic retry counts once, as delivered): `failing` when more than 5 deliveries failed and they are at least 1% of all finished deliveries, `healthy` otherwise, and `unknown` when no delivery finished in the window. */
   deliveryStats?: UpdateDrainResponseBodyCase1DeliveryStats | undefined;
   filterV2?: UpdateDrainResponseBodyCase1FilterV2 | undefined;
   integrationConfigurationUri?: string | undefined;
@@ -1974,7 +2034,7 @@ export interface UpdateDrainResponseBodyCase1 {
 export type UpdateDrainResponseBody = UpdateDrainResponseBodyCase0 | UpdateDrainResponseBodyCase1;
 export type UpdateDrainResponse = UpdateDrainResponseBody;
 export type CreateDrainError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
-/** Create a new Drain Create a new Drain with the provided configuration. */
+/** Create a new Drain Create a new Drain with the provided configuration. Endpoint and header values of a drain connected to a Marketplace store are masked for every caller. */
 export const createDrain: API.OperationMethod<
   CreateDrainRequest,
   CreateDrainResponse,
@@ -1984,6 +2044,7 @@ export const createDrain: API.OperationMethod<
   input: __S(1, __c0, 1) as any as S.Schema<CreateDrainRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<CreateDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2001,6 +2062,7 @@ export const deleteDrain: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<DeleteDrainRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2008,7 +2070,7 @@ export const deleteDrain: API.OperationMethod<
 }));
 
 export type GetDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Find a Drain by id Get the information for a specific Drain by passing the drain id in the URL. */
+/** Find a Drain by id Get the information for a specific Drain by passing the drain id in the URL. Endpoint and header values of a drain connected to a Marketplace store are masked for every caller. */
 export const getDrain: API.OperationMethod<
   GetDrainRequest,
   GetDrainResponse,
@@ -2018,6 +2080,7 @@ export const getDrain: API.OperationMethod<
   input: __S(44, __c5, 4) as any as S.Schema<GetDrainRequest>,
   output: __S(46, __c5, 6) as any as S.Schema<GetDrainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2025,7 +2088,7 @@ export const getDrain: API.OperationMethod<
 }));
 
 export type GetDrainsError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Retrieve a list of all Drains Allows to retrieve the list of Drains of the authenticated team. */
+/** Retrieve a list of all Drains Allows to retrieve the list of Drains of the authenticated team. Endpoint and header values of a drain connected to a Marketplace store are masked for every caller. */
 export const getDrains: API.OperationMethod<
   GetDrainsRequest,
   GetDrainsResponse,
@@ -2035,6 +2098,7 @@ export const getDrains: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetDrainsRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetDrainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2052,6 +2116,7 @@ export const testDrain: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<TestDrainRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<TestDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2059,7 +2124,7 @@ export const testDrain: API.OperationMethod<
 }));
 
 export type UpdateDrainError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
-/** Update an existing Drain Update the configuration of an existing drain. */
+/** Update an existing Drain Update the configuration of an existing drain. A `delivery` with masked values is rejected, and only a drain connected to a Marketplace store can take its delivery from it. Endpoint and header values of a drain connected to a Marketplace store are masked for every caller. */
 export const updateDrain: API.OperationMethod<
   UpdateDrainRequest,
   UpdateDrainResponse,
@@ -2069,6 +2134,7 @@ export const updateDrain: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<UpdateDrainRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<UpdateDrainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2193,6 +2259,9 @@ function __c5(j: number): any {
           attempts: S.Number,
           failures: S.Number,
           state: S.String,
+          totalFailedDeliveries: S.Number,
+          totalRetriedDeliveries: S.Number,
+          totalSuccessfulDeliveries: S.Number,
           window: S.String,
         }),
       ).annotate({ identifier: "CreateDrainResponseBodyCase0DeliveryStats" });

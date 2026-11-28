@@ -64,12 +64,12 @@
       "distilled-lazy": "./lib/services.lazy/flowcontrol_apiserver.js",
       "default": "./lib/services/flowcontrol_apiserver.js"
     },
-    "./internal-apiserver": {
-      "types": "./lib/services/internal_apiserver.d.ts",
-      "bun": "./src/services/internal_apiserver.ts",
-      "worker": "./src/services/internal_apiserver.ts",
-      "distilled-lazy": "./lib/services.lazy/internal_apiserver.js",
-      "default": "./lib/services/internal_apiserver.js"
+    "./unstable/*": {
+      "types": "./lib/unstable-services/*.d.ts",
+      "bun": "./src/unstable-services/*.ts",
+      "worker": "./src/unstable-services/*.ts",
+      "distilled-lazy": "./lib/unstable-services.lazy/*.js",
+      "default": "./lib/unstable-services/*.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -98,7 +98,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-15",
-    "specUpdatedAt": "2026-11-08"
+    "generatedAt": "2026-11-27",
+    "specUpdatedAt": "2026-11-21"
   }
 }

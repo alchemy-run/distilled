@@ -23,10 +23,22 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Sentry.CredentialsFromEnv,
-  Sentry.SentryProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Experimental endpoints
+
+Sentry marks some endpoints experimental (`x-sentry-experimental: true` in its
+OpenAPI spec). Those operations import from `unstable/`:
+
+```ts
+import * as SentryUnstable from "@distilled.cloud/sentry/unstable/sentry";
+
+const metrics = yield* SentryUnstable.listOrganizationTraceMetrics({
+  organization_id_or_slug: "my-org",
+});
 ```
 
 ## Auth

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTinybirdError } from "../errors.ts";
+import { TinybirdServiceErrors } from "../errors.ts";
 import { TinybirdProtocol, type TinybirdOpError, type TinybirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -161,7 +161,8 @@ export const alterDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AlterDatasourceRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<AlterDatasourceResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -178,7 +179,8 @@ export const createDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<CreateDatasourceRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<CreateDatasourceResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -195,7 +197,8 @@ export const deleteDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<DeleteDatasourceRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeleteDatasourceResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -212,7 +215,8 @@ export const deleteDatasourceRows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c4, 0) as any as S.Schema<DeleteDatasourceRowsRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<DeleteDatasourceRowsResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -229,7 +233,8 @@ export const getDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c5, 0) as any as S.Schema<GetDatasourceRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<GetDatasourceResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -246,7 +251,8 @@ export const listDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c6, 0) as any as S.Schema<ListDatasourcesRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<ListDatasourcesResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -263,7 +269,8 @@ export const truncateDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c7, 0) as any as S.Schema<TruncateDatasourceRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<TruncateDatasourceResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -280,7 +287,8 @@ export const updateDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c8, 0) as any as S.Schema<UpdateDatasourceRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<UpdateDatasourceResponse>,
-  errors: [UnknownTinybirdError],
+  errors: [],
+  serviceErrors: TinybirdServiceErrors,
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

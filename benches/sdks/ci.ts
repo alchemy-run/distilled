@@ -202,14 +202,34 @@ const programsOf = (pkgs: string[]): Program[] =>
       target,
     })),
   );
+/** Package directories under packages/ by package name. */
+const packageDirs = new Map(
+  readdirSync(PACKAGES)
+    .filter((d) => existsSync(join(PACKAGES, d, "package.json")))
+    .map((d) => [readJson<{ name: string }>(join(PACKAGES, d, "package.json")).name, d]),
+);
+/** `pkg` and every workspace package it depends on, directly or not (aws: s3, aws4signer, core). */
+const workspaceDeps = (pkg: string, seen = new Set<string>()): Set<string> => {
+  if (seen.has(pkg)) return seen;
+  seen.add(pkg);
+  const json = readJson<Record<string, Record<string, string> | undefined>>(
+    join(PACKAGES, pkg, "package.json"),
+  );
+  for (const name of Object.keys({ ...json.dependencies, ...json.peerDependencies })) {
+    const dir = packageDirs.get(name);
+    if (dir) workspaceDeps(dir, seen);
+  }
+  return seen;
+};
 /**
- * Whole-SDK heap: an SDK's numbers depend only on its package, core, the build
- * scripts and the lockfile. When those git trees match the run in `--reuse`
- * (main's cached run, or the PR's run when this is the base), copy its numbers
- * instead of building the SDK, which takes minutes for aws or gcp.
+ * Whole-SDK heap: an SDK's numbers depend only on its package, the workspace
+ * packages it depends on (core; s3 for aws), the build scripts and the
+ * lockfile. When those git trees match the run in `--reuse` (main's cached
+ * run, or the PR's run when this is the base), copy its numbers instead of
+ * building the SDK, which takes minutes for aws or gcp.
  */
 const inputsOf = (pkg: string) =>
-  [`packages/${pkg}`, "packages/core", "scripts", "pnpm-lock.yaml"]
+  [...[...workspaceDeps(pkg)].sort().map((d) => `packages/${d}`), "scripts", "pnpm-lock.yaml"]
     .map((p) => git("rev-parse", `HEAD:${p}`))
     .join(" ");
 const reuseFrom = (() => {
@@ -243,6 +263,25 @@ const entry = (p: Program) =>
   (programs[p.name] ??= { pkg: p.pkg, protocol: p.target.protocol, label: p.target.label });
 const errors: string[] = [];
 const cores = cpus().length;
+const sizes: CiRun["sizes"] = {};
+
+/**
+ * Runtime SDKs to build and probe now. A whole-SDK one (`providers`: aws,
+ * cloudflare, gcp) takes minutes to build, so like its whole-SDK heap it is
+ * measured only when its inputs differ from the --reuse run; otherwise that
+ * run's numbers are copied.
+ */
+const runtimeToMeasure = runtimeSdks.filter((pkg) => {
+  if (!providerSdks.includes(pkg)) return true;
+  const own = programsOf([pkg]);
+  const prev = own.map((p) => reuseFrom?.programs[p.name]?.runtime);
+  const inputs = inputsOf(pkg);
+  if (own.length === 0 || prev.some((r) => r?.inputs !== inputs)) return true;
+  own.forEach((p, i) => (entry(p).runtime = { ...prev[i]!, reused: true }));
+  const size = reuseFrom?.sizes[pkg];
+  if (size) sizes[pkg] = size;
+  return false;
+});
 
 //#region bundle (src/, no build)
 
@@ -275,7 +314,7 @@ await phase("bundle", async () => {
 await phase("build", async () => {
   const dirs = [
     "packages/core",
-    ...[...new Set([...runtimeSdks, ...providersToMeasure])].map((p) => `packages/${p}`),
+    ...[...new Set([...runtimeToMeasure, ...providersToMeasure])].map((p) => `packages/${p}`),
   ];
   // The same steps as `pnpm build`, limited to these packages.
   const steps: Array<[string, string, string[]]> = [
@@ -298,9 +337,8 @@ await phase("build", async () => {
 
 //#region size (npm pack of what was built)
 
-const sizes: CiRun["sizes"] = {};
 await phase("size", async () => {
-  await pool(["core", ...runtimeSdks], Math.max(2, cores / 2), async (pkg) => {
+  await pool(["core", ...runtimeToMeasure], Math.max(2, cores / 2), async (pkg) => {
     try {
       const s = await packSize(join(PACKAGES, pkg));
       sizes[pkg] = { tarball: s.tarball, unpacked: s.unpacked, files: s.files };
@@ -337,7 +375,7 @@ await phase("runtime", async () => {
     mockRoundtripP50Us: b.mockRoundtrip?.p50Us,
   };
   // Parallel probes inflate cold-start timings, so keep a few cores idle.
-  await pool(programsOf(runtimeSdks), Math.max(1, Math.floor(cores / 3)), async (p) => {
+  await pool(programsOf(runtimeToMeasure), Math.max(1, Math.floor(cores / 3)), async (p) => {
     const req: ProbeRequest = {
       mode: "op",
       imports: resolveImports(p.target),
@@ -375,6 +413,7 @@ await phase("runtime", async () => {
       p50Us: min((r) => r.latency.p50Us),
       gcPer1k: min((r) => r.gcPer1k),
       maxRss: mid((r) => r.maxRss),
+      ...(providerSdks.includes(p.pkg) ? { inputs: inputsOf(p.pkg) } : {}),
     };
     const r = entry(p).runtime!;
     log(

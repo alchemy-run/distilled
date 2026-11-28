@@ -45,42 +45,67 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Microvm/members/id/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmOutput/members/id/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Microvm/members/name/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmBaseOutput/members/id/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Microvm/members/region/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmOutput/members/name/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Microvm/members/state/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmBaseOutput/members/name/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Microvm/members/created_at/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmOutput/members/region/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Checkpoint2/members/id/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmBaseOutput/members/region/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Checkpoint2/members/status/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmOutput/members/state/traits/smithy.api#required",
       "value": {}
     },
     {
       "op": "add",
-      "path": "/shapes/com.digitalocean.api#Checkpoint2/members/created_at/traits/smithy.api#required",
+      "path": "/shapes/com.digitalocean.api#MicrovmBaseOutput/members/state/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MicrovmOutput/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MicrovmBaseOutput/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Checkpoint2Output/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Checkpoint2Output/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Checkpoint2Output/members/created_at/traits/smithy.api#required",
       "value": {}
     },
     {

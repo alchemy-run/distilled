@@ -52,11 +52,14 @@ const spacetimedbSpec: SdkSpec = {
     if (SENSITIVE_TRAIT in m.traits) {
       return `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`;
     }
+    // A raw body (a module upload, SQL text): what core sends verbatim.
     if (m.binding === "rawBody" && tsRef(m.target) === "string") {
-      return `string | Uint8Array | Blob${m.nullable ? " | null" : ""}`;
+      return `RawBody${m.nullable ? " | null" : ""}`;
     }
     return undefined;
   },
+  memberSchema: (m, ref) =>
+    m.binding === "rawBody" && ref(m.target) === "S.String" ? "RawBody" : undefined,
 
   union: ({ name, caseTargets, tsRef }) => [
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
@@ -85,7 +88,7 @@ const spacetimedbSpec: SdkSpec = {
   operationDecl: {
     contextType: "SpacetimeDBOpContext",
     commonErrorType: "SpacetimeDBOpError",
-    commonErrorClasses: ["UnknownSpacetimeDBError"],
+    serviceErrors: "SpacetimeDBServiceErrors",
     protocol: "SpacetimeDBProtocol",
     retry: "Retry.Retry",
   },

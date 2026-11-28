@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownArchilError } from "../errors.ts";
+import { ArchilServiceErrors } from "../errors.ts";
 import { ArchilProtocol, type ArchilOpError, type ArchilOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1338,6 +1338,32 @@ export interface ApiResponseSandboxPortToken {
   success: boolean;
   data: SandboxPortToken;
 }
+export interface GetSandboxUsageRequest {
+  /** Sandbox UUID */
+  sid: string;
+}
+export interface SandboxUsageRates {
+  /** Dollars per vCPU-hour at the account's rates; zero on a plan that does not price sandbox usage. */
+  vcpu_hour: number;
+  /** Dollars per GiB-hour at the account's rates; zero on a plan that does not price sandbox usage. */
+  memory_gib_hour: number;
+}
+export interface SandboxUsage {
+  sandbox_id: string;
+  /** When the usage was read. */
+  as_of: string;
+  /** Allocated vCPUs times hours running. */
+  vcpu_hours: number;
+  /** Allocated memory in GiB times hours running. */
+  memory_gib_hours: number;
+  rates: SandboxUsageRates;
+  /** Dollars, before included allowances and prepaid credit. */
+  cost: number;
+}
+export interface ApiResponseSandboxUsage {
+  success: boolean;
+  data: SandboxUsage;
+}
 /** Path globs with ripgrep's `-g` rules, matched against paths relative to `directory`. A leading `!` excludes. A glob without a `/` matches a file or directory name at any depth; a glob with a `/` matches the whole relative path, and a leading `/` anchors it to `directory`. A trailing `/` matches only directories, so use `dir/**` to search the files under `dir`. When several globs match a path, the last one wins. A directory excluded this way is skipped with everything under it. If any non-`!` glob is given, files that match no glob are skipped. A file a glob matches is searched or skipped regardless of `types` and `typesNot`. */
 export type GrepDiskRequestGlobsList = Array<string>;
 /** Only search files of these types, using ripgrep's default type names (for example `py`, `ts`, `go`, `md`). */
@@ -1670,7 +1696,8 @@ export const addDiskUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<AddDiskUserRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<ApiResponseAuthorizedUser>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1687,7 +1714,8 @@ export const createApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<ApiResponseTokenCreated>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1704,7 +1732,8 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1721,7 +1750,8 @@ export const createDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(114, __c7, 2) as any as S.Schema<CreateDiskRequest>,
   output: __S(116, __c7, 4) as any as S.Schema<ApiResponseCreateDisk>,
-  errors: [BadRequest, Forbidden, UnknownArchilError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1738,7 +1768,8 @@ export const createImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(145, __c9, 1) as any as S.Schema<CreateImageRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ApiResponseImage>,
-  errors: [BadRequest, NoCapacity, NotEnabled, UnknownArchilError],
+  errors: [BadRequest, NoCapacity, NotEnabled],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1760,7 +1791,8 @@ export const createSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c11, 2) as any as S.Schema<CreateSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1777,7 +1809,8 @@ export const createSandboxConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<CreateSandboxConnectionRequest>,
   output: __S(290, __c18, 2) as any as S.Schema<ApiResponseSandboxConnection>,
-  errors: [NotFound, SandboxTerminated, UnknownArchilError],
+  errors: [NotFound, SandboxTerminated],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1794,7 +1827,8 @@ export const createSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateSandboxPortTokenRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<ApiResponseCreatedSandboxPortToken>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1811,7 +1845,8 @@ export const createShareUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CreateShareUrlRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<ApiResponseShareUrl>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1828,7 +1863,8 @@ export const deleteDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteDiskRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<ApiResponseEmpty>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1845,7 +1881,8 @@ export const deleteSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [NotFound, SandboxNotDeletable, SandboxHasForks, UnknownArchilError],
+  errors: [NotFound, SandboxNotDeletable, SandboxHasForks],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1862,7 +1899,8 @@ export const deleteSandboxPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteSandboxPortRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxPortResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1879,7 +1917,8 @@ export const deleteSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteSandboxPortTokenRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxPortTokenResponse>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1896,7 +1935,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1909,7 +1949,8 @@ export const exec: API.OperationMethod<ExecRequest, ApiResponseExec, ExecError, 
   /*@__PURE__*/ API.make(() => ({
     input: __S(449, __c28, 1) as any as S.Schema<ExecRequest>,
     output: __S(466, __c29, 2) as any as S.Schema<ApiResponseExec>,
-    errors: [BadRequest, NotFound, UnknownArchilError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: ArchilServiceErrors,
     protocol: ArchilProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1926,7 +1967,8 @@ export const execDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ExecDiskRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<ApiResponseExecDisk>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1943,7 +1985,8 @@ export const exposeSandboxPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ExposeSandboxPortRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<ApiResponseSandboxPort>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1974,8 +2017,8 @@ export const forkSandbox: API.OperationMethod<
     SandboxForkMounted,
     SandboxForkCheckpoint,
     SandboxNotForkable,
-    UnknownArchilError,
   ],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1992,7 +2035,8 @@ export const getAllowedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetAllowedIpsRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<ApiResponseAllowedIps>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2009,7 +2053,8 @@ export const getBillingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetBillingSubscriptionRequest>,
   output: __S(566, __c35, 6) as any as S.Schema<ApiResponseBillingSubscription>,
-  errors: [UnknownArchilError],
+  errors: [],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2026,7 +2071,8 @@ export const getBillingSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetBillingSummaryRequest>,
   output: __S(602, __c37, 10) as any as S.Schema<ApiResponseBillingSummary>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2043,7 +2089,8 @@ export const getBillingUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetBillingUsageRequest>,
   output: __S(615, __c38, 7) as any as S.Schema<ApiResponseBillingUsage>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2060,7 +2107,8 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2077,7 +2125,8 @@ export const getDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetDiskRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<ApiResponseDisk>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2094,7 +2143,8 @@ export const getImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetImageRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ApiResponseImage>,
-  errors: [NotFound, NotEnabled, UnknownArchilError],
+  errors: [NotFound, NotEnabled],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2111,7 +2161,8 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2128,7 +2179,8 @@ export const getSandboxMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetSandboxMountRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<ApiResponseSandboxMount>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2145,7 +2197,8 @@ export const getSandboxNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetSandboxNetworkRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,11 +2215,30 @@ export const getSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetSandboxPortTokenRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ApiResponseSandboxPortToken>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandboxPortToken",
+}));
+
+export type GetSandboxUsageError = NotFound | ArchilOpError;
+/** Get a sandbox's usage and cost Returns the vCPU-hours and GiB-hours a sandbox has been billed for since it was created, and their cost at the account's rates before included allowances and prepaid credit. The figures update about once a minute while the sandbox runs; paused and stopped time is free. Usage stays readable for 90 days after the sandbox is deleted. */
+export const getSandboxUsage: API.OperationMethod<
+  GetSandboxUsageRequest,
+  ApiResponseSandboxUsage,
+  GetSandboxUsageError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(800, __c50, 0) as any as S.Schema<GetSandboxUsageRequest>,
+  output: __S(803, __c50, 3) as any as S.Schema<ApiResponseSandboxUsage>,
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxUsage",
 }));
 
 export type GrepDiskError = BadRequest | NotFound | ArchilOpError;
@@ -2177,9 +2249,10 @@ export const grepDisk: API.OperationMethod<
   GrepDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GrepDiskRequest>,
-  output: __S(808, __c50, 8) as any as S.Schema<ApiResponseGrepDisk>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  input: __S(816, __c51, 0) as any as S.Schema<GrepDiskRequest>,
+  output: __S(824, __c51, 8) as any as S.Schema<ApiResponseGrepDisk>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2194,9 +2267,10 @@ export const listApiTokens: API.OperationMethod<
   ListApiTokensError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ListApiTokensRequest>,
-  output: __S(820, __c51, 4) as any as S.Schema<ApiResponseTokenList>,
-  errors: [UnknownArchilError],
+  input: __S(832, __c52, 0) as any as S.Schema<ListApiTokensRequest>,
+  output: __S(836, __c52, 4) as any as S.Schema<ApiResponseTokenList>,
+  errors: [],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2211,9 +2285,10 @@ export const listBranches: API.OperationMethod<
   ListBranchesError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<ListBranchesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<BranchListApiResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  input: __S(848, __c53, 0) as any as S.Schema<ListBranchesRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<BranchListApiResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2228,9 +2303,10 @@ export const listDelegations: API.OperationMethod<
   ListDelegationsError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListDelegationsRequest>,
-  output: __S(852, __c53, 4) as any as S.Schema<ApiResponseDelegations>,
-  errors: [NotFound, UnknownArchilError],
+  input: __S(864, __c54, 0) as any as S.Schema<ListDelegationsRequest>,
+  output: __S(868, __c54, 4) as any as S.Schema<ApiResponseDelegations>,
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2245,9 +2321,10 @@ export const listDisks: API.OperationMethod<
   ListDisksError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListDisksRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<ApiResponseDiskList>,
-  errors: [UnknownArchilError],
+  input: __S(880, __c55, 0) as any as S.Schema<ListDisksRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<ApiResponseDiskList>,
+  errors: [],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2262,9 +2339,10 @@ export const listSandboxes: API.OperationMethod<
   ListSandboxesError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListSandboxesRequest>,
-  output: __S(883, __c55, 3) as any as S.Schema<ApiResponseSandboxList>,
-  errors: [BadRequest, UnknownArchilError],
+  input: __S(896, __c56, 0) as any as S.Schema<ListSandboxesRequest>,
+  output: __S(899, __c56, 3) as any as S.Schema<ApiResponseSandboxList>,
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2279,9 +2357,10 @@ export const listSandboxPorts: API.OperationMethod<
   ListSandboxPortsError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListSandboxPortsRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<ApiResponseSandboxPortList>,
-  errors: [NotFound, UnknownArchilError],
+  input: __S(912, __c57, 0) as any as S.Schema<ListSandboxPortsRequest>,
+  output: __S(914, __c57, 2) as any as S.Schema<ApiResponseSandboxPortList>,
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2296,9 +2375,10 @@ export const listSandboxPortTokens: API.OperationMethod<
   ListSandboxPortTokensError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListSandboxPortTokensRequest>,
-  output: __S(915, __c57, 3) as any as S.Schema<ApiResponseSandboxPortTokenList>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  input: __S(928, __c58, 0) as any as S.Schema<ListSandboxPortTokensRequest>,
+  output: __S(931, __c58, 3) as any as S.Schema<ApiResponseSandboxPortTokenList>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2313,9 +2393,10 @@ export const pauseSandbox: API.OperationMethod<
   PauseSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<PauseSandboxRequest>,
+  input: __S(944, __c59, 0) as any as S.Schema<PauseSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, SandboxNotReady, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxNotReady],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2330,9 +2411,10 @@ export const prefetchDisk: API.OperationMethod<
   PrefetchDiskError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(946, __c59, 2) as any as S.Schema<PrefetchDiskRequest>,
-  output: __S(950, __c59, 6) as any as S.Schema<ApiResponsePrefetch>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  input: __S(962, __c60, 2) as any as S.Schema<PrefetchDiskRequest>,
+  output: __S(966, __c60, 6) as any as S.Schema<ApiResponsePrefetch>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2347,9 +2429,10 @@ export const removeDiskUser: API.OperationMethod<
   RemoveDiskUserError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<RemoveDiskUserRequest>,
+  input: __S(976, __c61, 0) as any as S.Schema<RemoveDiskUserRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2364,9 +2447,10 @@ export const resumeSandbox: API.OperationMethod<
   ResumeSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ResumeSandboxRequest>,
+  input: __S(992, __c62, 0) as any as S.Schema<ResumeSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, SandboxStartConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxStartConflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2381,9 +2465,10 @@ export const revokeDelegation: API.OperationMethod<
   RevokeDelegationError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<RevokeDelegationRequest>,
+  input: __S(1008, __c63, 0) as any as S.Schema<RevokeDelegationRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2398,9 +2483,10 @@ export const setAllowedIps: API.OperationMethod<
   SetAllowedIpsError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<SetAllowedIpsRequest>,
+  input: __S(1024, __c64, 0) as any as S.Schema<SetAllowedIpsRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<ApiResponseAllowedIps>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2415,9 +2501,10 @@ export const setSandboxMount: API.OperationMethod<
   SetSandboxMountError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SetSandboxMountRequest>,
+  input: __S(1040, __c65, 0) as any as S.Schema<SetSandboxMountRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<ApiResponseSandboxMount>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2432,9 +2519,10 @@ export const setSandboxTimeout: API.OperationMethod<
   SetSandboxTimeoutError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2457,7 +2545,7 @@ export const startSandbox: API.OperationMethod<
   StartSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<StartSandboxRequest>,
+  input: __S(1072, __c67, 0) as any as S.Schema<StartSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
   errors: [
     BadRequest,
@@ -2467,8 +2555,8 @@ export const startSandbox: API.OperationMethod<
     SandboxStartConflict,
     SandboxMountsWhileActive,
     SandboxTerminated,
-    UnknownArchilError,
   ],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2483,9 +2571,10 @@ export const stopSandbox: API.OperationMethod<
   StopSandboxError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<StopSandboxRequest>,
+  input: __S(1088, __c68, 0) as any as S.Schema<StopSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, SandboxStopConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxStopConflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2500,9 +2589,10 @@ export const updateSandboxNetwork: API.OperationMethod<
   UpdateSandboxNetworkError,
   ArchilOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownArchilError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3548,6 +3638,41 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          sid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}/usage", code: 200 })),
+      ).annotate({ identifier: "GetSandboxUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vcpu_hour: S.Number,
+          memory_gib_hour: S.Number,
+        }),
+      ).annotate({ identifier: "SandboxUsageRates" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sandbox_id: S.String,
+          as_of: S.String,
+          vcpu_hours: S.Number,
+          memory_gib_hours: S.Number,
+          rates: __S(801, __c50, 1),
+          cost: S.Number,
+        }),
+      ).annotate({ identifier: "SandboxUsage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          data: __S(802, __c50, 2),
+        }),
+      ).annotate({ identifier: "ApiResponseSandboxUsage" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           directory: S.String,
           pattern: S.String,
@@ -3574,7 +3699,7 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "GrepMatch" });
     case 2:
-      return S.Array(__S(801, __c50, 1));
+      return S.Array(__S(817, __c51, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3584,21 +3709,21 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "GrepGroupLine" });
     case 4:
-      return S.Array(__S(803, __c50, 3));
+      return S.Array(__S(819, __c51, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           file: S.String,
-          lines: __S(804, __c50, 4),
+          lines: __S(820, __c51, 4),
         }),
       ).annotate({ identifier: "GrepGroup" });
     case 6:
-      return S.Array(__S(805, __c50, 5));
+      return S.Array(__S(821, __c51, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          matches: __S(802, __c50, 2),
-          groups: S.optional(__S(806, __c50, 6)),
+          matches: __S(818, __c51, 2),
+          groups: S.optional(__S(822, __c51, 6)),
           stoppedReason: S.String,
           filesScanned: S.Number,
           containersDispatched: S.Number,
@@ -3612,12 +3737,12 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(807, __c50, 7),
+          data: __S(823, __c51, 7),
         }),
       ).annotate({ identifier: "ApiResponseGrepDisk" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3638,23 +3763,23 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "ApiTokenResponse" });
     case 2:
-      return S.Array(__S(817, __c51, 1));
+      return S.Array(__S(833, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(818, __c51, 2)),
+          tokens: S.optional(__S(834, __c52, 2)),
         }),
       ).annotate({ identifier: "ApiResponseTokenListData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(819, __c51, 3),
+          data: __S(835, __c52, 3),
         }),
       ).annotate({ identifier: "ApiResponseTokenList" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3668,12 +3793,12 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(833, __c52, 1),
+          data: __S(849, __c53, 1),
         }),
       ).annotate({ identifier: "BranchListApiResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3692,23 +3817,23 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "DelegationEntry" });
     case 2:
-      return S.Array(__S(849, __c53, 1));
+      return S.Array(__S(865, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          delegations: __S(850, __c53, 2),
+          delegations: __S(866, __c54, 2),
         }),
       ).annotate({ identifier: "ApiResponseDelegationsData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(851, __c53, 3),
+          data: __S(867, __c54, 3),
         }),
       ).annotate({ identifier: "ApiResponseDelegations" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3724,13 +3849,13 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(865, __c54, 1),
+          data: __S(881, __c55, 1),
           nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiResponseDiskList" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3743,19 +3868,19 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sandboxes: S.optional(__S(881, __c55, 1)),
+          sandboxes: S.optional(__S(897, __c56, 1)),
         }),
       ).annotate({ identifier: "ApiResponseSandboxListData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(882, __c55, 2),
+          data: __S(898, __c56, 2),
         }),
       ).annotate({ identifier: "ApiResponseSandboxList" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3773,12 +3898,12 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(897, __c56, 1),
+          data: __S(913, __c57, 1),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPortList" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3793,20 +3918,20 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tokens: __S(913, __c57, 1),
+          tokens: __S(929, __c58, 1),
         }),
       ).annotate({ identifier: "SandboxPortTokenList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(914, __c57, 2),
+          data: __S(930, __c58, 2),
           nextCursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiResponseSandboxPortTokenList" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3816,7 +3941,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "PauseSandboxRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3827,12 +3952,12 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "PrefetchRange" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(960, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          ranges: __S(945, __c59, 1),
+          ranges: __S(961, __c60, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/prefetch", code: 200 })),
       ).annotate({ identifier: "PrefetchDiskRequest" });
     case 3:
@@ -3845,23 +3970,23 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "PrefetchRangeResult" });
     case 4:
-      return S.Array(__S(947, __c59, 3));
+      return S.Array(__S(963, __c60, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(948, __c59, 4),
+          results: __S(964, __c60, 4),
         }),
       ).annotate({ identifier: "ApiResponsePrefetchData" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          data: __S(949, __c59, 5),
+          data: __S(965, __c60, 5),
         }),
       ).annotate({ identifier: "ApiResponsePrefetch" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3874,7 +3999,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RemoveDiskUserRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3885,7 +4010,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ResumeSandboxRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3897,7 +4022,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "RevokeDelegationRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3908,7 +4033,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetAllowedIpsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3919,7 +4044,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SetSandboxMountRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3931,7 +4056,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "SetSandboxTimeoutRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3943,7 +4068,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "StartSandboxRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3953,7 +4078,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "StopSandboxRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -1,6 +1,7 @@
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import type * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -12,6 +13,7 @@ import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
+  API_ERRORS,
   BadRequest,
   Conflict,
   InternalServerError,
@@ -21,17 +23,19 @@ import {
 } from "../src/errors.ts";
 import {
   BinaryResponse,
-  makeRestProtocol,
+  RawBody,
   RawResponse,
   RawResponseRoot,
+  restProtocol,
   SensitiveValue,
   type RestErrorInfo,
   type RestParseErrorInfo,
-  type RestProtocolOptions,
 } from "../src/protocol-rest.ts";
+import type { Protocol } from "../src/protocol.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
 import * as L from "../src/schema-lite.ts";
 import * as S from "../src/schema.ts";
+import { SdkError } from "../src/sdk-error.ts";
 import * as T from "../src/trait.ts";
 
 // =============================================================================
@@ -124,19 +128,17 @@ class TypedBody extends T.applyErrorMatchers(
   [{ status: 402 }],
 ) {}
 
-const baseOptions: RestProtocolOptions<Creds> = {
+const baseOptions = {
   credentials: Effect.gen(function* () {
     return yield* TestCreds;
   }),
-  baseUrl: (creds) => `https://${creds.host}`,
-  headers: (creds) => ({ authorization: `Bearer ${creds.token}` }),
-  unknownError: (info) => new TestUnknownError({ info }),
-  parseError: (info) => new TestParseError({ info }),
+  baseUrl: (creds: Creds) => `https://${creds.host}`,
+  headers: (creds: Creds) => ({ authorization: `Bearer ${creds.token}` }),
+  unknownError: (info: RestErrorInfo) => new TestUnknownError({ info }),
+  parseError: (info: RestParseErrorInfo) => new TestParseError({ info }),
 };
 
-// `API.make` memoizes protocol layers by identity, so each variant is a
-// module-level const like a provider's `protocol.ts`.
-const DefaultProtocol = makeRestProtocol(baseOptions);
+const DefaultProtocol = restProtocol(baseOptions);
 
 const ThingInput = S.Struct({
   id: S.String.pipe(T.Label()),
@@ -154,11 +156,18 @@ const ThingOutput = S.Struct({
   secret: S.optional(S.String.pipe(SensitiveValue(), T.Body("secret_value"))),
 });
 
-const thingOp = (protocol: Layer.Layer<API.Protocol>, errors: ReadonlyArray<any> = []) =>
+// The test service declares core's status classes, as most SDKs do: a
+// failed response that no matcher fits becomes core's class for its status.
+const thingOp = (
+  protocol: Protocol<any, any>,
+  errors: ReadonlyArray<any> = [],
+  serviceErrors: ReadonlyArray<any> = API_ERRORS,
+) =>
   API.make(() => ({
     input: ThingInput,
     output: ThingOutput,
     errors: errors as any,
+    serviceErrors: serviceErrors as any,
     protocol,
   })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
 
@@ -231,7 +240,7 @@ const bodyText = (request: HttpClientRequest.HttpClientRequest): string | undefi
 // Request
 // =============================================================================
 
-describe("makeRestProtocol request encoding", () => {
+describe("restProtocol request encoding", () => {
   test("builds path, query, header and JSON body members from the input schema", async () => {
     const recorded: Recorded = { requests: [] };
     await succeed(
@@ -294,7 +303,7 @@ describe("makeRestProtocol request encoding", () => {
   });
 
   test("a credentials failure fails the call before any request is sent", async () => {
-    const CredsFailProtocol = makeRestProtocol<Creds>({
+    const CredsFailProtocol = restProtocol({
       ...baseOptions,
       credentials: Effect.fail(new BadRequest({ message: "no creds" })),
     });
@@ -309,9 +318,9 @@ describe("makeRestProtocol request encoding", () => {
 
   test("baseUrl receives the operation's route", async () => {
     const targets: Array<unknown> = [];
-    const RoutingProtocol = makeRestProtocol<Creds>({
+    const RoutingProtocol = restProtocol({
       ...baseOptions,
-      baseUrl: (c, target) => {
+      baseUrl: (c: Creds, target) => {
         targets.push(target);
         return `https://routed.${c.host}`;
       },
@@ -328,7 +337,7 @@ describe("makeRestProtocol request encoding", () => {
 
   test("an error thrown by baseUrl fails the call instead of dying", async () => {
     const refusal = new BadRequest({ message: "scope missing" });
-    const RefusingProtocol = makeRestProtocol<Creds>({
+    const RefusingProtocol = restProtocol({
       ...baseOptions,
       baseUrl: () => {
         throw refusal;
@@ -340,12 +349,13 @@ describe("makeRestProtocol request encoding", () => {
       fakeClient(() => json({}), recorded),
       creds(),
     );
-    expect(error).toBe(refusal);
+    expect(error).toBeInstanceOf(SdkError);
+    expect(error.message).toBe(`baseUrl threw: ${String(refusal)}`);
     expect(recorded.requests).toHaveLength(0);
   });
 
   test("mapMemberHeader transforms member headers but not the auth headers", async () => {
-    const MappedHeaderProtocol = makeRestProtocol<Creds>({
+    const MappedHeaderProtocol = restProtocol({
       ...baseOptions,
       mapMemberHeader: (name, value) => `${name}=${value.toUpperCase()}`,
     });
@@ -360,7 +370,7 @@ describe("makeRestProtocol request encoding", () => {
   });
 
   test("unknownKeyToWire names input keys the schema does not model", async () => {
-    const SnakeProtocol = makeRestProtocol<Creds>({
+    const SnakeProtocol = restProtocol({
       ...baseOptions,
       unknownKeyToWire: (key) => key.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`),
     });
@@ -384,7 +394,7 @@ describe("makeRestProtocol request encoding", () => {
   });
 });
 
-describe("makeRestProtocol raw request bodies", () => {
+describe("restProtocol raw request bodies", () => {
   // Shaped like Cloudflare R2 putObject: a raw body, a Content-Type header
   // member, and a declared bodyMediaType.
   const UploadInput = S.Struct({
@@ -444,6 +454,45 @@ describe("makeRestProtocol raw request bodies", () => {
   test("with neither, a Blob body is sent under its own type", async () => {
     const request = await send(untypedUpload({ body: new Blob(["<p>"], { type: "text/html" }) }));
     expect(request.headers.get("content-type")).toBe("text/html");
+  });
+
+  test("a RawBody member's text is sent as bytes, also with no declared media type", async () => {
+    const binary = op(
+      S.Struct({ body: S.optional(RawBody.pipe(T.HttpBody())) }).pipe(
+        T.Http({ method: "PUT", uri: "/blob" }),
+      ),
+    );
+    const request = await send(binary({ body: "plain text" }));
+    expect(request.headers.get("content-type")).toBe("application/octet-stream");
+    expect(await request.text()).toBe("plain text");
+  });
+
+  test("a stream body is sent as a stream, chunked unless a Content-Length member is set", async () => {
+    const parts = ["a", "bc", "def"].map((part) => new TextEncoder().encode(part));
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      upload({ key: "a.bin", body: Stream.fromIterable(parts) }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    const body = recorded.requests[0]!.body as HttpBody.Stream;
+    expect(body._tag).toBe("Stream");
+    expect(body.contentType).toBe("application/octet-stream");
+    expect(body.contentLength).toBeUndefined();
+    const sent = await Effect.runPromise(Stream.mkUint8Array(body.stream));
+    expect(new TextDecoder().decode(sent)).toBe("abcdef");
+
+    const Sized = S.Struct({
+      body: S.optional(S.Unknown.pipe(T.HttpBody())),
+      contentLength: S.optional(S.Number.pipe(T.Header("Content-Length"))),
+    }).pipe(T.Http({ method: "PUT", uri: "/blob", bodyMediaType: "application/octet-stream" }));
+    const sized: Recorded = { requests: [] };
+    await succeed(
+      op(Sized)({ body: Stream.fromIterable(parts), contentLength: 6 }),
+      fakeClient(() => json({}), sized),
+      creds(),
+    );
+    expect((sized.requests[0]!.body as HttpBody.Stream).contentLength).toBe(6);
   });
 
   test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
@@ -519,7 +568,7 @@ describe("makeRestProtocol raw request bodies", () => {
 // Success responses
 // =============================================================================
 
-describe("makeRestProtocol success decoding", () => {
+describe("restProtocol success decoding", () => {
   test("maps wire keys to TS names and wraps sensitive members in Redacted", async () => {
     const out = await succeed(
       createThing({ id: "t1" }),
@@ -598,7 +647,7 @@ describe("makeRestProtocol success decoding", () => {
 
   test("transformResponse runs on the parsed body before key mapping", async () => {
     const seen: Array<unknown> = [];
-    const UnwrapProtocol = makeRestProtocol<Creds>({
+    const UnwrapProtocol = restProtocol({
       ...baseOptions,
       transformResponse: (body) => {
         seen.push(body);
@@ -616,7 +665,7 @@ describe("makeRestProtocol success decoding", () => {
 
   test("transformResponse is not applied to error responses", async () => {
     let calls = 0;
-    const CountingProtocol = makeRestProtocol<Creds>({
+    const CountingProtocol = restProtocol({
       ...baseOptions,
       transformResponse: (body) => {
         calls++;
@@ -719,7 +768,7 @@ describe("makeRestProtocol success decoding", () => {
     expect(out).toEqual([{ id: "a" }, { id: "b" }]);
   });
 
-  test("BinaryResponse outputs return the body bytes untouched", async () => {
+  test("BinaryResponse outputs stream the body bytes untouched", async () => {
     const bytes = new Uint8Array([0, 255, 1, 128, 10]);
     const BinaryOutput = S.Unknown.pipe(BinaryResponse());
     const binaryOp = API.make(() => ({
@@ -728,16 +777,37 @@ describe("makeRestProtocol success decoding", () => {
       protocol: DefaultProtocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
     const out = await succeed(
-      binaryOp({ id: "t1" }),
+      Effect.flatMap(binaryOp({ id: "t1" }), Stream.mkUint8Array),
       fakeClient(() => new Response(bytes, { status: 200 })),
       creds(),
     );
-    expect(out).toBeInstanceOf(Uint8Array);
     expect(Array.from(out)).toEqual(Array.from(bytes));
+  });
+
+  test("a BinaryResponse body member gets the byte stream and its output the headers", async () => {
+    const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0x00]);
+    const binaryOp = API.make(() => ({
+      input: ThingInput,
+      output: S.Struct({
+        body: S.Unknown.pipe(RawResponse(), BinaryResponse()),
+        contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+      }),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const out = await succeed(
+      binaryOp({ id: "t1" }),
+      fakeClient(
+        () => new Response(bytes, { status: 200, headers: { "content-type": "image/jpeg" } }),
+      ),
+      creds(),
+    );
+    expect(out.contentType).toBe("image/jpeg");
+    const body = await Effect.runPromise(Stream.mkUint8Array(out.body));
+    expect(Array.from(body)).toEqual(Array.from(bytes));
   });
 });
 
-describe("makeRestProtocol body read failures", () => {
+describe("restProtocol body read failures", () => {
   // A body that errors mid-read, like a connection reset after the headers.
   const brokenBody = (status: number) =>
     new Response(
@@ -753,19 +823,23 @@ describe("makeRestProtocol body read failures", () => {
     expect(error.reason._tag).toBe("DecodeError");
   });
 
-  test("a BinaryResponse body read failure fails with HttpClientError", async () => {
+  test("a BinaryResponse body read failure fails its stream with HttpClientError", async () => {
     const binaryOp = API.make(() => ({
       input: ThingInput,
       output: S.Unknown.pipe(BinaryResponse()),
       protocol: DefaultProtocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
-    const error = await failOn(() => brokenBody(200), binaryOp);
+    const error = await failWith(
+      Effect.flatMap(binaryOp({ id: "t1" }), Stream.mkUint8Array),
+      fakeClient(() => brokenBody(200)),
+      creds(),
+    );
     expect(error._tag).toBe("HttpClientError");
     expect(error.reason._tag).toBe("DecodeError");
   });
 });
 
-describe("makeRestProtocol label refusals", () => {
+describe("restProtocol label refusals", () => {
   test("a `..` label fails with InvalidInput and sends nothing", async () => {
     let sent = 0;
     const error = await failWith(
@@ -780,14 +854,68 @@ describe("makeRestProtocol label refusals", () => {
     expect(error.member).toBe("id");
     expect(sent).toBe(0);
   });
+
+  // `DELETE /things/` would address the collection `/things`.
+  test('a required `""` label fails with InvalidInput and sends nothing', async () => {
+    let sent = 0;
+    const error = await failWith(
+      createThingWithErrors({ id: "" }),
+      fakeClient(() => {
+        sent++;
+        return json({});
+      }),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("id");
+    expect(sent).toBe(0);
+  });
+
+  test('a required `""` greedy label fails with InvalidInput', async () => {
+    const deleteObject = API.make(() => ({
+      input: L.Struct({ key: L.String.pipe(T.Label()) }).pipe(
+        T.Http({ method: "DELETE", uri: "/objects/{key+}" }),
+      ),
+      output: L.Struct({}),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const error = await failWith(
+      deleteObject({ key: "" }),
+      fakeClient(() => json({})),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("key");
+  });
+
+  test.each([
+    ['`""`', { name: "db", version: "" }],
+    ["omitted", { name: "db" }],
+  ])("an optional label that is %s sends an empty segment", async (_, input) => {
+    const getSecret = API.make(() => ({
+      input: L.Struct({
+        name: L.String.pipe(T.Label()),
+        version: L.optional(L.String.pipe(T.Label())),
+      }).pipe(T.Http({ method: "GET", uri: "/secrets/{name}/{version}" })),
+      output: L.Struct({}),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      getSecret(input),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    expect(recorded.requests[0]!.url).toBe("https://api.test/secrets/db/");
+  });
 });
 
 // =============================================================================
 // Error responses
 // =============================================================================
 
-describe("makeRestProtocol typed error matching", () => {
-  test("a declared error whose status and message matcher match wins over the status map", async () => {
+describe("restProtocol typed error matching", () => {
+  test("a declared error whose status and message matcher match wins over the status class", async () => {
     const error = await failOn(() => json({ message: "thing is locked" }, 409));
     expect(error).toBeInstanceOf(ThingLocked);
     expect(error.message).toBe("thing is locked");
@@ -850,26 +978,27 @@ describe("makeRestProtocol typed error matching", () => {
     expect(error.message).toBe("thing is busy");
   });
 
-  test("operations without declared errors fall straight to the status map", async () => {
+  test("operations without declared errors fall straight to the service's status class", async () => {
     const error = await failOn(() => json({ message: "thing is locked" }, 409), createThing);
     expect(error._tag).toBe("Conflict");
   });
 });
 
-describe("makeRestProtocol error response fields", () => {
+describe("restProtocol error response fields", () => {
   const PlainOutput = S.Struct({ id: S.optional(S.String) });
-  const NestedProtocol = makeRestProtocol({ ...baseOptions, errorFieldsAt: "/error" });
-  const plainOp = (protocol: Layer.Layer<API.Protocol>) =>
+  const NestedProtocol = restProtocol({ ...baseOptions, errorFieldsAt: "/error" });
+  const plainOp = (protocol: Protocol<any, any>) =>
     API.make(() => ({
       input: ThingInput,
       output: PlainOutput,
       errors: [Nested, SlowDown, TypedBody] as any,
+      serviceErrors: API_ERRORS,
       protocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
   const plain = plainOp(DefaultProtocol);
   const nested = plainOp(NestedProtocol);
 
-  test("a status-mapped error carries the body and headers", async () => {
+  test("a status class error carries the body and headers", async () => {
     const error = await failOn(
       () => json({ message: "busy", requestId: "req_7" }, 409, { "x-request-id": "req_7" }),
       plain,
@@ -916,8 +1045,8 @@ describe("makeRestProtocol error response fields", () => {
   });
 });
 
-describe("makeRestProtocol status mapping and fallbacks", () => {
-  test("mapped 4xx statuses become core HTTP errors with the envelope message", async () => {
+describe("restProtocol status classes and fallbacks", () => {
+  test("declared 4xx statuses become core HTTP errors with the envelope message", async () => {
     const error = await failOn(() => json({ message: "no such thing" }, 404));
     expect(error).toBeInstanceOf(NotFound);
     expect(error.message).toBe("no such thing");
@@ -952,7 +1081,7 @@ describe("makeRestProtocol status mapping and fallbacks", () => {
     expect(error.retryAfter).toBeUndefined();
   });
 
-  test("unmapped 5xx statuses become a retryable InternalServerError", async () => {
+  test("undeclared 5xx statuses become a retryable InternalServerError", async () => {
     const error = await failOn(() => json({ message: "origin down" }, 521, { "retry-after": "3" }));
     expect(error).toBeInstanceOf(InternalServerError);
     expect(error.message).toBe("origin down");
@@ -960,7 +1089,7 @@ describe("makeRestProtocol status mapping and fallbacks", () => {
     expect(error.retryAfter).toBeUndefined();
   });
 
-  test("unmapped 4xx statuses go to the unknownError hook with the wire details", async () => {
+  test("undeclared 4xx statuses go to the unknownError hook with the wire details", async () => {
     const error = await failOn(() =>
       json({ code: "PAYMENT", message: "pay up" }, 402, { "x-id": "r1" }),
     );
@@ -991,7 +1120,7 @@ describe("makeRestProtocol status mapping and fallbacks", () => {
     expect(error.message).toBe("resource locked by another op");
   });
 
-  test("a non-JSON mapped error keeps the text as the message", async () => {
+  test("a non-JSON status class error keeps the text as the message", async () => {
     const error = await failOn(() => new Response("Service Unavailable", { status: 503 }));
     expect(error).toBeInstanceOf(ServiceUnavailable);
     expect(error.message).toBe("Service Unavailable");
@@ -1005,22 +1134,26 @@ describe("makeRestProtocol status mapping and fallbacks", () => {
   });
 });
 
-class CustomNotFound extends Schema.TaggedError<CustomNotFound>()("CustomNotFound", {
-  message: Schema.String,
-  retryAfter: Schema.optional(Schema.Unknown),
-}) {}
+// The service's own class for a status: a class with a status matcher.
+class CustomNotFound extends T.applyErrorMatchers(
+  Schema.TaggedError<CustomNotFound>()("CustomNotFound", {
+    message: Schema.String,
+    retryAfter: Schema.optional(Schema.Unknown),
+  }),
+  [{ status: 404 }],
+) {}
 
-const CustomEnvelopeProtocol = makeRestProtocol<Creds>({
+const CustomEnvelopeProtocol = restProtocol({
   ...baseOptions,
   errorEnvelope: (body) => {
     const err = (body as { err?: { id?: number; text?: string } } | null)?.err;
     return err ? { code: err.id, message: err.text } : undefined;
   },
-  statusMap: { 404: CustomNotFound },
 });
-const customOp = thingOp(CustomEnvelopeProtocol, [QuotaExceeded]);
+// A service that declares only its own class, and none of core's.
+const customOp = thingOp(CustomEnvelopeProtocol, [QuotaExceeded], [CustomNotFound]);
 
-describe("makeRestProtocol errorEnvelope and statusMap options", () => {
+describe("restProtocol errorEnvelope option and a service's own status class", () => {
   test("a custom errorEnvelope supplies the code and message used for matching", async () => {
     const error = await failOn(() => json({ err: { id: 4001, text: "quota" } }, 400), customOp);
     expect(error).toBeInstanceOf(QuotaExceeded);
@@ -1033,13 +1166,13 @@ describe("makeRestProtocol errorEnvelope and statusMap options", () => {
     expect(error.message).toBe("HTTP 404");
   });
 
-  test("a custom statusMap replaces the default map rather than extending it", async () => {
+  test("a service that declares only its own class gets none of core's status classes", async () => {
     const error = await failOn(() => json({ err: { text: "bad" } }, 400), customOp);
     expect(error).toBeInstanceOf(TestUnknownError);
     expect((error.info as RestErrorInfo).message).toBe("bad");
   });
 
-  test("unmapped 5xx still become InternalServerError with a custom statusMap", async () => {
+  test("undeclared 5xx still become InternalServerError when the service declares its own class", async () => {
     const error = await failOn(() => json({ err: { text: "boom" } }, 500), customOp);
     expect(error).toBeInstanceOf(InternalServerError);
     expect(error.message).toBe("boom");
@@ -1119,7 +1252,7 @@ describe("Link-header pagination", () => {
   });
 });
 
-describe("makeRestProtocol raw body members", () => {
+describe("restProtocol raw body members", () => {
   // Shaped like E2B's list endpoints: a bare JSON array body, with the next
   // page token in a response header.
   const PageOutput = S.Struct({

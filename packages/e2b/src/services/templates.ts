@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -50,6 +50,8 @@ export interface CreateTemplateRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
   teamID?: string | undefined;
   cpuCount?: number | undefined;
+  /** Maximum CPU count the template's sandboxes can be resized to; makes the template resizable. Must be at least cpuCount. */
+  maxCpuCount?: number | undefined;
   memoryMB?: number | undefined;
   minFreeDiskMb?: number | undefined;
 }
@@ -107,6 +109,8 @@ export interface TemplateBuild {
   /** Time when the build was finished */
   finishedAt?: string | undefined;
   cpuCount: number;
+  /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
+  maxCpuCount?: number | undefined;
   memoryMB: number;
   diskSizeMB?: number | undefined;
   envdVersion?: string | undefined;
@@ -119,6 +123,8 @@ export interface GetTemplateResponse {
   /** Identifier of the last successful build for given template */
   buildID: string;
   cpuCount: number;
+  /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
+  maxCpuCount?: number | undefined;
   memoryMB: number;
   diskSizeMB: number;
   /** Whether the template is public or only accessible by the team */
@@ -203,6 +209,37 @@ export interface TemplateAliasResponse {
   /** Whether the template is public or only accessible by the team */
   public: boolean;
 }
+export interface GetTemplateByTemplateIDRequest {
+  templateID: string;
+}
+/** Names of the template (namespace/alias format when namespaced) */
+export type TemplateV2NamesList = Array<string>;
+/** A template with its default build. `defaultBuild` is the build a sandbox created without a tag starts from, the latest ready build tagged default; it is absent until such a build is ready. `buildStatus` is the status of the latest build tagged default in any state: it is `building` while a rebuild runs, although sandboxes still start from the default build. */
+export interface TemplateV2 {
+  /** Identifier of the template */
+  templateID: string;
+  /** Names of the template (namespace/alias format when namespaced) */
+  names: TemplateV2NamesList;
+  /** Whether the template is public or only accessible by the team */
+  public: boolean;
+  /** Time when the template was created */
+  createdAt: string;
+  /** Time when the template was last updated */
+  updatedAt: string;
+  createdBy: TeamUser | null;
+  /** Time when the template was last used */
+  lastSpawnedAt: string | null;
+  /** Number of times the template was used */
+  spawnCount: number;
+  /** Number of times the template was built */
+  buildCount: number;
+  /** Whether the template is one of the platform's default templates */
+  isDefault: boolean;
+  /** Description of the template */
+  description?: string | undefined;
+  buildStatus: TemplateBuildStatus;
+  defaultBuild?: TemplateBuild | undefined;
+}
 export interface GetTemplateFileUploadLinkRequest {
   templateID: string;
   hash: string;
@@ -228,6 +265,8 @@ export interface Template {
   /** Identifier of the last successful build for given template */
   buildID: string;
   cpuCount: number;
+  /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
+  maxCpuCount?: number | undefined;
   memoryMB: number;
   diskSizeMB: number;
   /** Whether the template is public or only accessible by the team */
@@ -277,6 +316,45 @@ export type TemplateBuildLogsResponseLogsList = Array<BuildLogEntry>;
 export interface TemplateBuildLogsResponse {
   /** Build logs structured */
   logs: TemplateBuildLogsResponseLogsList;
+}
+export type ListTemplateBuildsRequestStatusesList = Array<TemplateBuildStatus | (string & {})>;
+export type ListTemplateBuildsRequestTagsList = Array<string>;
+export interface ListTemplateBuildsRequest {
+  templateID: string;
+  /** Cursor to start the list from */
+  nextToken?: string | undefined;
+  /** Maximum number of items to return per page */
+  limit?: number | undefined;
+  /** Comma-separated list of build statuses to include. Every status when omitted. */
+  statuses?: ListTemplateBuildsRequestStatusesList | undefined;
+  /** Comma-separated list of tags. Only the builds these tags point at are returned. Every build when omitted. */
+  tags?: ListTemplateBuildsRequestTagsList | undefined;
+}
+/** Tags of the template that point at this build. A tag points at the latest ready build it was assigned to, the build a sandbox created with that tag starts from. */
+export type TemplateBuildWithTagsTagsList = Array<string>;
+export interface TemplateBuildWithTags {
+  /** Identifier of the build */
+  buildID: string;
+  status: TemplateBuildStatus;
+  /** Time when the build was created */
+  createdAt: string;
+  /** Time when the build was last updated */
+  updatedAt: string;
+  /** Time when the build was finished */
+  finishedAt?: string | undefined;
+  cpuCount: number;
+  /** Maximum CPU count for resizable templates; absent for fixed-size templates. */
+  maxCpuCount?: number | undefined;
+  memoryMB: number;
+  diskSizeMB?: number | undefined;
+  envdVersion?: string | undefined;
+  /** Tags of the template that point at this build. A tag points at the latest ready build it was assigned to, the build a sandbox created with that tag starts from. */
+  tags: TemplateBuildWithTagsTagsList;
+}
+export type ListTemplateBuildsResponseBodyList = Array<TemplateBuildWithTags>;
+export interface ListTemplateBuildsResponse {
+  items: ListTemplateBuildsResponseBodyList;
+  nextToken?: string | undefined;
 }
 export interface ListTemplatesRequest {
   teamID?: string | undefined;
@@ -366,7 +444,7 @@ export interface TemplateUpdateResponse {
   names: TemplateUpdateResponseNamesList;
 }
 export type CreateTemplateError = E2BOpError;
-/** Create template (v3) Create a new template */
+/** Create template (v3) Create a new template. */
 export const createTemplate: API.OperationMethod<
   CreateTemplateRequest,
   TemplateRequestResponseV3,
@@ -375,7 +453,8 @@ export const createTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateTemplateRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<TemplateRequestResponseV3>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -390,9 +469,10 @@ export const deleteTemplate: API.OperationMethod<
   DeleteTemplateError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteTemplateRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<DeleteTemplateResponse>,
-  errors: [TemplateInUse, UnknownE2BError],
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteTemplateRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteTemplateResponse>,
+  errors: [TemplateInUse],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -407,9 +487,10 @@ export const getTemplate: API.OperationMethod<
   GetTemplateError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetTemplateRequest>,
-  output: __S(27, __c6, 3) as any as S.Schema<GetTemplateResponse>,
-  errors: [UnknownE2BError],
+  input: __S(64, __c8, 0) as any as S.Schema<GetTemplateRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<GetTemplateResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -424,9 +505,10 @@ export const getTemplateBuildStatus: API.OperationMethod<
   GetTemplateBuildStatusError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetTemplateBuildStatusRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<TemplateBuildInfo>,
-  errors: [UnknownE2BError],
+  input: __S(88, __c11, 0) as any as S.Schema<GetTemplateBuildStatusRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<TemplateBuildInfo>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -441,13 +523,32 @@ export const getTemplateByAlias: API.OperationMethod<
   GetTemplateByAliasError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetTemplateByAliasRequest>,
-  output: __S(41, __c10, 1) as any as S.Schema<TemplateAliasResponse>,
-  errors: [UnknownE2BError],
+  input: __S(104, __c13, 0) as any as S.Schema<GetTemplateByAliasRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<TemplateAliasResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTemplateByAlias",
+}));
+
+export type GetTemplateByTemplateIDError = E2BOpError;
+/** Template info (v2) Get a template by its ID or name, with its default build and without its other builds. */
+export const getTemplateByTemplateID: API.OperationMethod<
+  GetTemplateByTemplateIDRequest,
+  TemplateV2,
+  GetTemplateByTemplateIDError,
+  E2BOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<GetTemplateByTemplateIDRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<TemplateV2>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
+  protocol: E2BProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTemplateByTemplateID",
 }));
 
 export type GetTemplateFileUploadLinkError = E2BOpError;
@@ -458,9 +559,10 @@ export const getTemplateFileUploadLink: API.OperationMethod<
   GetTemplateFileUploadLinkError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetTemplateFileUploadLinkRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<TemplateBuildFileUpload>,
-  errors: [UnknownE2BError],
+  input: __S(120, __c15, 0) as any as S.Schema<GetTemplateFileUploadLinkRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<TemplateBuildFileUpload>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -475,9 +577,10 @@ export const listDefaultTemplates: API.OperationMethod<
   ListDefaultTemplatesError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ListDefaultTemplatesRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<ListDefaultTemplatesResponse>,
-  errors: [UnknownE2BError],
+  input: __S(128, __c16, 0) as any as S.Schema<ListDefaultTemplatesRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<ListDefaultTemplatesResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -492,14 +595,43 @@ export const listTemplateBuildLogs: API.OperationMethod<
   ListTemplateBuildLogsError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ListTemplateBuildLogsRequest>,
-  output: __S(57, __c14, 1) as any as S.Schema<TemplateBuildLogsResponse>,
-  errors: [UnknownE2BError],
+  input: __S(144, __c18, 0) as any as S.Schema<ListTemplateBuildLogsRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<TemplateBuildLogsResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTemplateBuildLogs",
 }));
+
+export type ListTemplateBuildsError = E2BOpError;
+/** List a template's builds List the builds of a template, newest first. The template is given by its ID or name. A template named `aliases` is given by its ID or by its name with the team prefix. */
+export const listTemplateBuilds: API.PaginatedOperationMethod<
+  ListTemplateBuildsRequest,
+  ListTemplateBuildsResponse,
+  ListTemplateBuildsError,
+  E2BOpContext,
+  TemplateBuildWithTags
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(17, __c2, 1) as any as S.Schema<ListTemplateBuildsRequest>,
+    output: __S(20, __c2, 4) as any as S.Schema<ListTemplateBuildsResponse>,
+    errors: [],
+    serviceErrors: E2BServiceErrors,
+    protocol: E2BProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTemplateBuilds",
+    pagination: {
+      inputToken: "nextToken",
+      outputToken: "nextToken",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateToken,
+) as any;
 
 export type ListTemplatesError = E2BOpError;
 /** List templates (v2) List all templates */
@@ -511,9 +643,10 @@ export const listTemplates: API.PaginatedOperationMethod<
   Template
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(60, __c15, 0) as any as S.Schema<ListTemplatesRequest>,
-    output: __S(61, __c15, 1) as any as S.Schema<ListTemplatesResponse>,
-    errors: [UnknownE2BError],
+    input: __S(24, __c3, 0) as any as S.Schema<ListTemplatesRequest>,
+    output: __S(25, __c3, 1) as any as S.Schema<ListTemplatesResponse>,
+    errors: [],
+    serviceErrors: E2BServiceErrors,
     protocol: E2BProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -529,16 +662,17 @@ export const listTemplates: API.PaginatedOperationMethod<
 ) as any;
 
 export type StartTemplateBuildError = E2BOpError;
-/** Start template build (v2) Start the build */
+/** Start template build (v2) Start the build. With an Idempotency-Key, replays continue to work after the build has left the waiting state. */
 export const startTemplateBuild: API.OperationMethod<
   StartTemplateBuildRequest,
   StartTemplateBuildResponse,
   StartTemplateBuildError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c2, 2) as any as S.Schema<StartTemplateBuildRequest>,
-  output: __S(20, __c5, 0) as any as S.Schema<StartTemplateBuildResponse>,
-  errors: [UnknownE2BError],
+  input: __S(34, __c4, 2) as any as S.Schema<StartTemplateBuildRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<StartTemplateBuildResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -553,9 +687,10 @@ export const updateTemplate: API.OperationMethod<
   UpdateTemplateError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<UpdateTemplateRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<TemplateUpdateResponse>,
-  errors: [UnknownE2BError],
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateTemplateRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TemplateUpdateResponse>,
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -569,10 +704,11 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          tags: S.optional(__S(4, __c1, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
           alias: S.optional(S.String),
           teamID: S.optional(S.String),
           cpuCount: S.optional(S.Number),
+          maxCpuCount: S.optional(S.Number),
           memoryMB: S.optional(S.Number),
           minFreeDiskMb: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v3/templates", code: 200 })),
@@ -583,9 +719,9 @@ function __c0(j: number): any {
           templateID: S.String,
           buildID: S.String,
           public: S.Boolean,
-          names: __S(4, __c1, 0),
-          tags: __S(4, __c1, 0),
-          aliases: __S(4, __c1, 0),
+          names: __S(8, __c1, 0),
+          tags: __S(8, __c1, 0),
+          aliases: __S(8, __c1, 0),
         }),
       ).annotate({ identifier: "TemplateRequestResponseV3" });
   }
@@ -599,16 +735,76 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          templateID: S.String.pipe(T.Label()),
+          nextToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          statuses: S.optional(__S(16, __c2, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          tags: S.optional(__S(8, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
+        }).pipe(T.Http({ method: "GET", uri: "/templates/{templateID}/builds", code: 200 })),
+      ).annotate({ identifier: "ListTemplateBuildsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          buildID: S.String,
+          status: S.String,
+          createdAt: S.String,
+          updatedAt: S.String,
+          finishedAt: S.optional(S.String),
+          cpuCount: S.Number,
+          maxCpuCount: S.optional(S.Number),
+          memoryMB: S.Number,
+          diskSizeMB: S.optional(S.Number),
+          envdVersion: S.optional(S.String),
+          tags: __S(8, __c1, 0),
+        }),
+      ).annotate({ identifier: "TemplateBuildWithTags" });
+    case 3:
+      return S.Array(__S(18, __c2, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(19, __c2, 3).pipe(T.RawResponse()),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "ListTemplateBuildsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          teamID: S.optional(S.String.pipe(T.Query())),
+          nextToken: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/templates", code: 200 })),
+      ).annotate({ identifier: "ListTemplatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(137, __c17, 1).pipe(T.RawResponse()),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "ListTemplatesResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          args: S.optional(__S(4, __c1, 0)),
+          args: S.optional(__S(8, __c1, 0)),
           filesHash: S.optional(S.String),
           force: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TemplateStep" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -618,7 +814,7 @@ function __c2(j: number): any {
           fromTemplate: S.optional(S.String),
           fromImageRegistry: S.optional(S.Unknown),
           force: S.optional(S.Boolean),
-          steps: S.optional(__S(9, __c2, 1)),
+          steps: S.optional(__S(33, __c4, 1)),
           startCmd: S.optional(S.String),
           readyCmd: S.optional(S.String),
         }).pipe(
@@ -627,7 +823,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "StartTemplateBuildRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -639,12 +835,12 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          names: __S(4, __c1, 0),
+          names: __S(8, __c1, 0),
         }),
       ).annotate({ identifier: "TemplateUpdateResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -654,13 +850,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteTemplateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTemplateResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -671,6 +867,38 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/templates/{templateID}", code: 200 })),
       ).annotate({ identifier: "GetTemplateRequest" });
     case 1:
+      return S.Array(__S(72, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          templateID: S.String,
+          buildID: S.String,
+          cpuCount: S.Number,
+          maxCpuCount: S.optional(S.Number),
+          memoryMB: S.Number,
+          diskSizeMB: S.Number,
+          public: S.Boolean,
+          aliases: __S(8, __c1, 0),
+          names: __S(8, __c1, 0),
+          createdAt: S.String,
+          updatedAt: S.String,
+          createdBy: S.NullOr(__S(80, __c10, 0)),
+          lastSpawnedAt: S.NullOr(S.String),
+          spawnCount: S.Number,
+          buildCount: S.Number,
+          envdVersion: S.String,
+          buildStatus: S.String,
+          isDefault: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          builds: __S(65, __c8, 1),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "GetTemplateResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           buildID: S.String,
@@ -679,41 +907,15 @@ function __c6(j: number): any {
           updatedAt: S.String,
           finishedAt: S.optional(S.String),
           cpuCount: S.Number,
+          maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
           diskSizeMB: S.optional(S.Number),
           envdVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateBuild" });
-    case 2:
-      return S.Array(__S(25, __c6, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          templateID: S.String,
-          buildID: S.String,
-          cpuCount: S.Number,
-          memoryMB: S.Number,
-          diskSizeMB: S.Number,
-          public: S.Boolean,
-          aliases: __S(4, __c1, 0),
-          names: __S(4, __c1, 0),
-          createdAt: S.String,
-          updatedAt: S.String,
-          createdBy: S.NullOr(__S(28, __c7, 0)),
-          lastSpawnedAt: S.NullOr(S.String),
-          spawnCount: S.Number,
-          buildCount: S.Number,
-          envdVersion: S.String,
-          buildStatus: S.String,
-          isDefault: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          builds: __S(26, __c6, 2),
-          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
-        }),
-      ).annotate({ identifier: "GetTemplateResponse" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -724,7 +926,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TeamUser" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -747,23 +949,23 @@ function __c8(j: number): any {
         S.Struct({
           message: S.String,
           step: S.optional(S.String),
-          logEntries: S.optional(__S(37, __c9, 1)),
+          logEntries: S.optional(__S(97, __c12, 1)),
         }),
       ).annotate({ identifier: "BuildStatusReason" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(4, __c1, 0),
-          logEntries: __S(37, __c9, 1),
+          logs: __S(8, __c1, 0),
+          logEntries: __S(97, __c12, 1),
           templateID: S.String,
           buildID: S.String,
           status: S.String,
-          reason: S.optional(__S(33, __c8, 1)),
+          reason: S.optional(__S(89, __c11, 1)),
         }),
       ).annotate({ identifier: "TemplateBuildInfo" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -775,10 +977,10 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "BuildLogEntry" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(96, __c12, 0));
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -795,7 +997,35 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TemplateAliasResponse" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          templateID: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/templates/{templateID}", code: 200 })),
+      ).annotate({ identifier: "GetTemplateByTemplateIDRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          templateID: S.String,
+          names: __S(8, __c1, 0),
+          public: S.Boolean,
+          createdAt: S.String,
+          updatedAt: S.String,
+          createdBy: S.NullOr(__S(80, __c10, 0)),
+          lastSpawnedAt: S.NullOr(S.String),
+          spawnCount: S.Number,
+          buildCount: S.Number,
+          isDefault: S.Boolean,
+          description: S.optional(S.String),
+          buildStatus: S.String,
+          defaultBuild: S.optional(__S(72, __c9, 0)),
+        }),
+      ).annotate({ identifier: "TemplateV2" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -811,24 +1041,24 @@ function __c11(j: number): any {
         S.Struct({
           present: S.Boolean,
           url: S.optional(S.String),
-          headers: S.optional(__S(45, __c11, 1)),
+          headers: S.optional(__S(121, __c15, 1)),
         }),
       ).annotate({ identifier: "TemplateBuildFileUpload" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/default-templates", code: 200 })),
       ).annotate({ identifier: "ListDefaultTemplatesRequest" });
     case 1:
-      return S.suspend(() => __S(53, __c13, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(137, __c17, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDefaultTemplatesResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -836,14 +1066,15 @@ function __c13(j: number): any {
           templateID: S.String,
           buildID: S.String,
           cpuCount: S.Number,
+          maxCpuCount: S.optional(S.Number),
           memoryMB: S.Number,
           diskSizeMB: S.Number,
           public: S.Boolean,
-          aliases: __S(4, __c1, 0),
-          names: __S(4, __c1, 0),
+          aliases: __S(8, __c1, 0),
+          names: __S(8, __c1, 0),
           createdAt: S.String,
           updatedAt: S.String,
-          createdBy: S.NullOr(__S(28, __c7, 0)),
+          createdBy: S.NullOr(__S(80, __c10, 0)),
           lastSpawnedAt: S.NullOr(S.String),
           spawnCount: S.Number,
           buildCount: S.Number,
@@ -854,10 +1085,10 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "Template" });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(136, __c17, 0));
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -880,28 +1111,9 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(37, __c9, 1),
+          logs: __S(97, __c12, 1),
         }),
       ).annotate({ identifier: "TemplateBuildLogsResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamID: S.optional(S.String.pipe(T.Query())),
-          nextToken: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/templates", code: 200 })),
-      ).annotate({ identifier: "ListTemplatesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(53, __c13, 1).pipe(T.RawResponse()),
-          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
-        }),
-      ).annotate({ identifier: "ListTemplatesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

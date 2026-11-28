@@ -31,15 +31,17 @@ const program = Effect.gen(function* () {
   return (contents.results ?? []).map((page) => ({ title: page.title, text: page.text }));
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv, Exa.ExaProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
 One module per API, each imported from its own subpath:
 
-- `@distilled.cloud/exa/api`: search, contents, answer, search monitors, Agent runs, batches and Websets.
+- `@distilled.cloud/exa/api`: search, contents, answer, search monitors, Agent runs and Websets.
   Its calls go through `Exa.ExaProtocol`.
+- `@distilled.cloud/exa/unstable/api`: batches (`createBatch`, `listBatches`, …), which Exa marks
+  beta (`x-exa-lifecycle: beta`). Same protocol and key as `api`.
 - `@distilled.cloud/exa/team_management`: API keys and team credits. Its calls go through
   `Exa.ExaTeamManagementProtocol`.
 
@@ -64,4 +66,5 @@ layer from `Redacted` values.
 - Streaming (server-sent events) is not generated. `stream: true` on `search` and `answer`, and
   `accept: "text/event-stream"` on `createAgentRun` and `listAgentRunEvents`, return an event
   stream that the REST protocol cannot decode. Leave them unset to get JSON.
-- The batch operations need Exa's beta header: pass `exaBeta: "batches-2026-06-06"`.
+- The batch operations (`@distilled.cloud/exa/unstable/api`) need Exa's beta header: pass
+  `exaBeta: "batches-2026-06-06"`.

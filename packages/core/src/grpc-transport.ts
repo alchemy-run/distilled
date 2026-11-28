@@ -101,6 +101,41 @@ export const isResponseStatus = (status: number): boolean =>
 export const hasNoBody = (status: number): boolean =>
   status === 204 || status === 205 || status === 304;
 
+/** HTTP/2 error code (RFC 9113 section 7) -> gRPC status, where it isn't INTERNAL. */
+const RESET_STATUS: ReadonlyMap<number, readonly [status: number, message: string]> =
+  /*@__PURE__*/ new Map([
+    [0x0, [13, "the server reset the stream without a grpc-status"]],
+    [0x7, [14, "the server refused the stream"]],
+    [0x8, [1, "the server cancelled the call"]],
+    [0xb, [8, "the server asked to slow down"]],
+    [0xc, [7, "the connection is not secure enough"]],
+  ]);
+
+/**
+ * The trailers of a stream the server reset with the HTTP/2 error `code`
+ * before it sent a status: the gRPC status the gRPC over HTTP/2 spec maps
+ * the code to (`PROTOCOL-HTTP2.md`, "Errors"), as grpc-js does. The call
+ * fails like any other gRPC error: `REFUSED_STREAM` (the server did no work)
+ * as `UNAVAILABLE`, which retries, `NO_ERROR` and unknown codes as
+ * `INTERNAL`, which doesn't.
+ */
+export const resetTrailers = (code: number): Trailers => {
+  const [status, message] = RESET_STATUS.get(code) ?? [13, "the server reset the stream"];
+  return { "grpc-status": String(status), "grpc-message": `${message} (HTTP/2 error ${code})` };
+};
+
+/**
+ * The reply for a stream the server reset with the HTTP/2 error `code`
+ * before its response headers: a gRPC reply of trailers alone, carrying
+ * {@link resetTrailers}.
+ */
+export const resetReply = (code: number): Reply => ({
+  status: 200,
+  headers: { "content-type": "application/grpc" },
+  body: Stream.empty,
+  trailers: Effect.succeed(resetTrailers(code)),
+});
+
 /**
  * Build a transport's response from its {@link Reply}. Fails with the
  * `TypeError` of a head that is no valid HTTP head (a header name that is no
@@ -164,12 +199,13 @@ class ReplyResponse extends Inspectable.Class implements HttpClientResponse.Http
   readonly remoteAddress = Option.none<string>();
   /** The body, read once and shared by `arrayBuffer`, `text` and `json`. */
   private bytes?: Deferred.Deferred<Uint8Array, HttpClientError.HttpClientError>;
+  readonly request: HttpClientRequest.HttpClientRequest;
+  private readonly reply: Reply;
 
-  constructor(
-    readonly request: HttpClientRequest.HttpClientRequest,
-    private readonly reply: Reply,
-  ) {
+  constructor(request: HttpClientRequest.HttpClientRequest, reply: Reply) {
     super();
+    this.request = request;
+    this.reply = reply;
     this.headers = Headers.fromInput(reply.headers);
     const setCookie = reply.headers["set-cookie"];
     this.cookies = setCookie === undefined ? Cookies.empty : Cookies.fromSetCookie(setCookie);

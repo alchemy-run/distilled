@@ -10,6 +10,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1127,6 +1128,7 @@ export interface GuardrailConfiguration {
   guardrailVersion?: string | undefined;
   trace?: GuardrailTrace | undefined;
 }
+export type ProjectIdentifier = string;
 export type PromptVariableValues = { text: string };
 export type PromptVariableMap = { [key: string]: PromptVariableValues | undefined };
 export type AdditionalModelResponseFieldPaths = string[];
@@ -1161,6 +1163,7 @@ export interface ConverseRequest {
   inferenceConfig?: InferenceConfiguration | undefined;
   toolConfig?: ToolConfiguration | undefined;
   guardrailConfig?: GuardrailConfiguration | undefined;
+  projectIdentifier?: string | undefined;
   additionalModelRequestFields?: any | undefined;
   promptVariables?: { [key: string]: PromptVariableValues | undefined } | undefined;
   additionalModelResponseFieldPaths?: string[] | undefined;
@@ -1238,6 +1241,7 @@ export interface ConverseStreamRequest {
   inferenceConfig?: InferenceConfiguration | undefined;
   toolConfig?: ToolConfiguration | undefined;
   guardrailConfig?: GuardrailStreamConfiguration | undefined;
+  projectIdentifier?: string | undefined;
   additionalModelRequestFields?: any | undefined;
   promptVariables?: { [key: string]: PromptVariableValues | undefined } | undefined;
   additionalModelResponseFieldPaths?: string[] | undefined;
@@ -1721,6 +1725,7 @@ export interface InvokeModelRequest {
   performanceConfigLatency?: PerformanceConfigLatency | undefined;
   serviceTier?: ServiceTierType | undefined;
   requestMetadata?: string | redacted.Redacted<string> | undefined;
+  projectIdentifier?: string | undefined;
 }
 export interface InvokeModelResponse {
   body: T.StreamingOutputBody;
@@ -1818,6 +1823,7 @@ export interface InvokeModelWithResponseStreamRequest {
   performanceConfigLatency?: PerformanceConfigLatency | undefined;
   serviceTier?: ServiceTierType | undefined;
   requestMetadata?: string | redacted.Redacted<string> | undefined;
+  projectIdentifier?: string | undefined;
 }
 export interface PayloadPart {
   bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
@@ -1971,6 +1977,7 @@ export const applyGuardrail: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyGuardrail",
@@ -1992,7 +1999,7 @@ export type ConverseError =
 /**
  * Sends messages to the specified Amazon Bedrock model. `Converse` provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model.
  *
- * Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response.
+ * Data retention for this request depends on the applicable account or project configuration and the model's data retention policy.
  *
  * You can submit a prompt by including it in the `messages` field, specifying the `modelId` of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case.
  *
@@ -2002,7 +2009,7 @@ export type ConverseError =
  *
  * For example code, see *Converse API examples* in the *Amazon Bedrock User Guide*.
  *
- * This operation requires permission for the `bedrock:InvokeModel` action.
+ * This operation requires permission for the `bedrock:InvokeModel` action on both the inference target and the project. If you omit `projectIdentifier` or specify `default`, this includes permission on the default project for your account.
  *
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the base inference actions (InvokeModel and InvokeModelWithResponseStream). For more information see Deny access for inference on specific models.
  *
@@ -2027,6 +2034,7 @@ export const converse: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Converse",
@@ -2083,7 +2091,7 @@ export type ConverseStreamError =
  *
  * The CLI doesn't support streaming operations in Amazon Bedrock, including `ConverseStream`.
  *
- * Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response.
+ * Data retention for this request depends on the applicable account or project configuration and the model's data retention policy.
  *
  * You can submit a prompt by including it in the `messages` field, specifying the `modelId` of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case.
  *
@@ -2093,7 +2101,7 @@ export type ConverseStreamError =
  *
  * For example code, see *Conversation streaming example* in the *Amazon Bedrock User Guide*.
  *
- * This operation requires permission for the `bedrock:InvokeModelWithResponseStream` action.
+ * This operation requires permission for the `bedrock:InvokeModelWithResponseStream` action on both the inference target and the project. If you omit `projectIdentifier` or specify `default`, this includes permission on the default project for your account.
  *
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the base inference actions (InvokeModel and InvokeModelWithResponseStream). For more information see Deny access for inference on specific models.
  *
@@ -2118,6 +2126,7 @@ export const converseStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConverseStream",
@@ -2211,6 +2220,7 @@ export const countTokens: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountTokens",
@@ -2241,6 +2251,7 @@ export const getAsyncInvoke: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsyncInvoke",
@@ -2273,6 +2284,7 @@ export const invokeGuardrailChecks: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeGuardrailChecks",
@@ -2297,7 +2309,7 @@ export type InvokeModelError =
  *
  * For example code, see *Invoke model code examples* in the *Amazon Bedrock User Guide*.
  *
- * This operation requires permission for the `bedrock:InvokeModel` action.
+ * This operation requires permission for the `bedrock:InvokeModel` action on both the inference target and the project. If you omit `projectIdentifier` or specify `default`, this includes permission on the default project for your account.
  *
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  *
@@ -2323,6 +2335,7 @@ export const invokeModel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModel",
@@ -2369,6 +2382,7 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithBidirectionalStream",
@@ -2398,7 +2412,7 @@ export type InvokeModelWithResponseStreamError =
  *
  * For example code, see *Invoke model with streaming code example* in the *Amazon Bedrock User Guide*.
  *
- * This operation requires permissions to perform the `bedrock:InvokeModelWithResponseStream` action.
+ * This operation requires permission for the `bedrock:InvokeModelWithResponseStream` action on both the inference target and the project. If you omit `projectIdentifier` or specify `default`, this includes permission on the default project for your account.
  *
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  *
@@ -2425,6 +2439,7 @@ export const invokeModelWithResponseStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithResponseStream",
@@ -2456,6 +2471,7 @@ export const listAsyncInvokes: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAsyncInvokes",
@@ -2504,6 +2520,7 @@ export const startAsyncInvoke: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAsyncInvoke",
@@ -2857,6 +2874,7 @@ function __c5(j: number): any {
           inferenceConfig: S.optional(__S(193, __c6, 1)),
           toolConfig: S.optional(__S(265, __c8, 9)),
           guardrailConfig: S.optional(__S(160, __c5, 0)),
+          projectIdentifier: S.optional(S.String),
           additionalModelRequestFields: S.optional(S.Any),
           promptVariables: S.optional(__S(194, __c6, 2)),
           additionalModelResponseFieldPaths: S.optional(__S(192, __c6, 0)),
@@ -3236,6 +3254,7 @@ function __c10(j: number): any {
           inferenceConfig: S.optional(__S(193, __c6, 1)),
           toolConfig: S.optional(__S(265, __c8, 9)),
           guardrailConfig: S.optional(__S(320, __c10, 0)),
+          projectIdentifier: S.optional(S.String),
           additionalModelRequestFields: S.optional(S.Any),
           promptVariables: S.optional(__S(194, __c6, 2)),
           additionalModelResponseFieldPaths: S.optional(__S(192, __c6, 0)),
@@ -3595,6 +3614,9 @@ function __c15(j: number): any {
           requestMetadata: S.optional(SensitiveString).pipe(
             T.HttpHeader("X-Amzn-Bedrock-Request-Metadata"),
           ),
+          projectIdentifier: S.optional(S.String).pipe(
+            T.HttpHeader("X-Amzn-Bedrock-ProjectIdentifier"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/model/{modelId}/invoke" }),
@@ -3713,6 +3735,9 @@ function __c18(j: number): any {
           serviceTier: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Bedrock-Service-Tier")),
           requestMetadata: S.optional(SensitiveString).pipe(
             T.HttpHeader("X-Amzn-Bedrock-Request-Metadata"),
+          ),
+          projectIdentifier: S.optional(S.String).pipe(
+            T.HttpHeader("X-Amzn-Bedrock-ProjectIdentifier"),
           ),
         }).pipe(
           T.all(

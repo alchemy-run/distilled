@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPrismaError } from "../errors.ts";
+import { PrismaServiceErrors } from "../errors.ts";
 import { PrismaProtocol, type PrismaOpError, type PrismaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -33,8 +33,8 @@ export class BadRequest
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
           /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
           S.String,
         ]),
       ),
@@ -43,7 +43,7 @@ export class BadRequest
     [{ status: 400 }],
   )
 {
-  declare readonly body?: Error400Body | Error404Body | string;
+  declare readonly body?: Error404Body | Error400Body | string;
 }
 
 export class Conflict
@@ -54,7 +54,7 @@ export class Conflict
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
-          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(17, __c2, 1)),
           S.String,
         ]),
       ),
@@ -63,38 +63,8 @@ export class Conflict
     [{ status: 409 }],
   )
 {
-  declare readonly body?: Error404Body | Error409Body | string;
+  declare readonly body?: Error404Body | Error409Body3 | string;
 }
-
-/** The hostname's CNAME to the app's switchboard does not resolve yet. Publish it (or wait for it to propagate) and retry. */
-export class DomainDnsNotConfigured
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<DomainDnsNotConfigured>()("DomainDnsNotConfigured", {
-      message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
-    }).pipe(C.withBadRequestError),
-    [
-      { status: 400, message: { includes: "DNS is not configured" } },
-      { status: 400, body: { "/error/hint": { includes: "DNS is not configured" } } },
-    ],
-  )
-{
-  declare readonly body?: Error404Body | string;
-}
-
-/** The workspace has not proved it owns the domain. `body.error.verification` holds the TXT record (`type`, `name`, `value`, `ttl`) to publish before retrying. */
-export class DomainOwnershipRequired
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<DomainOwnershipRequired>()("DomainOwnershipRequired", {
-      message: S.String,
-      body: S.Unknown,
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
-    }).pipe(C.withBadRequestError),
-    [{ status: 422, body: { "/error/code": "domain-ownership-required" } }],
-  ) {}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -144,26 +114,6 @@ export class UnprocessableEntity
   declare readonly body?: Error404Body | string;
 }
 
-export interface CreateAuthGithubActionsTokenRequest {
-  /** The GitHub Actions OIDC token with audience `prisma-cloud`. */
-  token: string;
-  /** Requested token lifetime in seconds. Defaults to 1800 (30 min); capped at 3600 (60 min). */
-  expiresInSeconds?: number | undefined;
-}
-export interface CreateAuthGithubActionsTokenResponseData {
-  /** Prefixed integration token ID (`itgr_` prefix). */
-  id: string;
-  type: string;
-  /** The minted integration token. Returned once -- copy it immediately. */
-  value: string;
-  /** ISO 8601 instant after which the token is invalid. */
-  expiresAt: string;
-  /** Prefixed workspace ID the token is scoped to. */
-  workspaceId: string;
-}
-export interface CreateAuthGithubActionsTokenResponse {
-  data: CreateAuthGithubActionsTokenResponseData;
-}
 export interface CreateBucketRequest {
   /** ID of the project to create the bucket in */
   projectId: string;
@@ -220,69 +170,6 @@ export interface CreateBucketKeyResponseData {
 }
 export interface CreateBucketKeyResponse {
   data: CreateBucketKeyResponseData;
-}
-/** `ci` for a build reported from a CI run, `cli` for a deploy run directly by a human or agent. */
-export type CreateBuildRequestSource = "ci" | "cli";
-/** Identifies the CI run. Supplying it makes creation idempotent -- a repeat call for the same run returns the build that already exists. Omit it for builds with no run to name, such as a deploy from a laptop, where every call creates a new build. */
-export interface CreateBuildRequestRunIdentity {
-  /** CI provider the run identity belongs to. */
-  provider: string;
-  /** Provider's repository id (for GitHub, the numeric repo id). */
-  repositoryId: string;
-  /** Provider's workflow-run id. */
-  runId: string;
-  /** Attempt number of the run; a re-run is a separate build. */
-  runAttempt: number;
-}
-export interface CreateBuildRequest {
-  /** `ci` for a build reported from a CI run, `cli` for a deploy run directly by a human or agent. */
-  source: CreateBuildRequestSource | (string & {});
-  /** Commit the build ran on. */
-  commitSha: string;
-  /** Git branch name. */
-  branchName: string;
-  /** Identifies the CI run. Supplying it makes creation idempotent -- a repeat call for the same run returns the build that already exists. Omit it for builds with no run to name, such as a deploy from a laptop, where every call creates a new build. */
-  runIdentity?: CreateBuildRequestRunIdentity | undefined;
-  /** Link to the run's logs in the reporter's own system. */
-  externalLogUrl?: string | undefined;
-  /** Project the build targets, when it exists. A build may be reported before its project does. */
-  projectId?: string | undefined;
-  branchId?: string | undefined;
-  /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. */
-  applicationTopologyContentHash?: string | undefined;
-}
-export type CreateBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
-export type CreateBuildResponseDataState =
-  | "pending"
-  | "running"
-  | "succeeded"
-  | "failed"
-  | "cancelled";
-/** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-export type CreateBuildResponseDataPhase = "queued" | "build" | "deploy";
-export interface CreateBuildResponseData {
-  id: string;
-  source: CreateBuildResponseDataSource;
-  state: CreateBuildResponseDataState;
-  /** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-  phase: CreateBuildResponseDataPhase | null;
-  commitSha: string;
-  branchName: string;
-  /** Repository the build ran against. Set only when the workspace has a live link to it; a reported repository the platform does not know stays null. */
-  gitRepoId: string | null;
-  projectId: string | null;
-  branchId: string | null;
-  externalLogUrl: string | null;
-  deployedUrl: string | null;
-  applicationTopologyContentHash: string | null;
-  errorMessage: string | null;
-  failingStep: string | null;
-  createdAt: string;
-  startedAt: string | null;
-  finishedAt: string | null;
-}
-export interface CreateBuildResponse {
-  data: CreateBuildResponseData;
 }
 export interface CreateConnectionRequest {
   databaseId: string;
@@ -599,120 +486,6 @@ export interface CreateDatabaseRestoreResponseData {
 export interface CreateDatabaseRestoreResponse {
   data: CreateDatabaseRestoreResponseData;
 }
-export interface CreateDeploymentStartRequest {
-  deploymentId: string;
-}
-export interface CreateDeploymentStartResponseData {
-  previewDomain: string;
-}
-export interface CreateDeploymentStartResponse {
-  data: CreateDeploymentStartResponseData;
-}
-export interface CreateDeploymentStopRequest {
-  deploymentId: string;
-}
-export interface CreateDeploymentStopResponse {}
-export interface CreateDomainOwnershipVerifyRequest {
-  domainOwnershipId: string;
-}
-export interface CreateDomainOwnershipVerifyResponseDataVerification {
-  type: string;
-  /** DNS record name to publish. */
-  name: string;
-  /** DNS record value to publish. */
-  value: string;
-  /** Suggested TTL in seconds. */
-  ttl: number;
-}
-/** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-export type CreateDomainOwnershipVerifyResponseDataStatus = "unverified" | "verified" | "expiring";
-export interface CreateDomainOwnershipVerifyResponseData {
-  id: string;
-  type: string;
-  /** The workspace the domain ownership belongs to. */
-  workspaceId: string;
-  domain: string;
-  verification: CreateDomainOwnershipVerifyResponseDataVerification;
-  /** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-  status: CreateDomainOwnershipVerifyResponseDataStatus;
-  /** The deadline to publish the record, if the status is `expiring`. The status becomes `unverified` at the first lookup at or after this time that still finds no value, so it can stay `expiring` for a while after it. Null otherwise. */
-  expiresAt: string | null;
-  /** When DNS last answered the lookup of the verification record. Null before the first answer, and after a lookup that got no answer while the domain ownership was not verified. A verified domain ownership keeps this answer when a lookup gets no answer. */
-  verificationRecordLastSeenAt: string | null;
-  /** Whether that answer carried the workspace's value. Null when there is no answer. */
-  verificationRecordPresent: boolean | null;
-  /** The error from the last sync of the verification record, such as `DNS unavailable`. Null when that sync succeeded. For display only. */
-  verificationRecordSyncError: string | null;
-  createdAt: string;
-}
-export interface CreateDomainOwnershipVerifyResponse {
-  data: CreateDomainOwnershipVerifyResponseData;
-}
-export interface CreateDomainRetryRequest {
-  domainId: string;
-}
-export type CreateDomainRetryResponseDataStatus =
-  | "pending_dns"
-  | "verifying"
-  | "verified_routing_blocked"
-  | "provisioning_tls"
-  | "active"
-  | "failed"
-  | "removing";
-export type CreateDomainRetryResponseDataFailureCategory = "dns" | "acme" | "storage" | "unknown";
-export interface CreateDomainRetryResponseDataDnsRecordsItem {
-  type: string;
-  name: string;
-  value: string;
-  ttl: number | null;
-}
-export type CreateDomainRetryResponseDataDnsRecordsList =
-  Array<CreateDomainRetryResponseDataDnsRecordsItem>;
-export interface CreateDomainRetryResponseData {
-  id: string;
-  type: string;
-  url: string;
-  hostname: string;
-  appId: string;
-  /** Deprecated: use `appId` instead. */
-  computeServiceId: string;
-  status: CreateDomainRetryResponseDataStatus;
-  foundryStatus: string;
-  failureReason: string | null;
-  failureCategory: CreateDomainRetryResponseDataFailureCategory | null;
-  certExpiresAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  dnsRecords: CreateDomainRetryResponseDataDnsRecordsList;
-}
-export interface CreateDomainRetryResponse {
-  data: CreateDomainRetryResponseData;
-}
-export type CreateEnvironmentVariableRequestClass = "production" | "preview";
-export interface CreateEnvironmentVariableRequest {
-  projectId: string;
-  branchId?: string | undefined;
-  class: CreateEnvironmentVariableRequestClass | (string & {});
-  key: string;
-  value: string;
-}
-export type CreateEnvironmentVariableResponseDataClass = "production" | "preview";
-export interface CreateEnvironmentVariableResponseData {
-  id: string;
-  type: string;
-  url: string;
-  projectId: string;
-  branchId: string | null;
-  class: CreateEnvironmentVariableResponseDataClass;
-  key: string;
-  valueKid: string;
-  isManagedBySystem: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface CreateEnvironmentVariableResponse {
-  data: CreateEnvironmentVariableResponseData;
-}
 export type CreateProjectRequestRegion =
   | "us-east-1"
   | "us-west-1"
@@ -830,50 +603,6 @@ export interface CreateProjectResponseData {
 }
 export interface CreateProjectResponse {
   data: CreateProjectResponseData;
-}
-export interface CreateProjectBranchRequest {
-  projectId: string;
-  gitName: string;
-  isDefault?: boolean | undefined;
-}
-export type CreateProjectBranchResponseDataRole = "production" | "preview";
-/** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-export type CreateProjectBranchResponseDataProject = CreateBucketResponseDataProject;
-export interface CreateProjectBranchResponseData {
-  id: string;
-  type: string;
-  url: string;
-  gitName: string;
-  isDefault: boolean;
-  role: CreateProjectBranchResponseDataRole;
-  createdAt: string;
-  updatedAt: string;
-  /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-  project: CreateBucketResponseDataProject;
-}
-export interface CreateProjectBranchResponse {
-  data: CreateProjectBranchResponseData;
-}
-export interface CreateProjectBranchAlchemyStateLeaseRequest {
-  projectId: string;
-  branchId: string;
-  /** Alchemy stack name (opaque wire value). */
-  stack: string;
-  /** Alchemy stage name (opaque wire value). */
-  stage: string;
-  /** Requested lease TTL in seconds. Default 60, clamped to [30, 300]. */
-  ttlSeconds?: number | undefined;
-  /** Free-form description of the acquiring deploy, echoed in the contention error so a blocked deploy can name who holds the lease. */
-  holderDescription?: string | undefined;
-}
-export interface CreateProjectBranchAlchemyStateLeaseResponseData {
-  /** Capability token for the deploy lease. Send it in the Alchemy-State-Lease-Id header with every state operation; do not log it. */
-  leaseId: string;
-  /** Lease expiry as an ISO-8601 timestamp. */
-  expiresAt: string;
-}
-export interface CreateProjectBranchAlchemyStateLeaseResponse {
-  data: CreateProjectBranchAlchemyStateLeaseResponseData;
 }
 /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
 export type CreateProjectDatabaseRequestRegion =
@@ -1002,432 +731,9 @@ export interface CreateProjectDatabaseResponse {
 }
 export interface CreateProjectTransferRequest {
   id: string;
-  recipientAccessToken: string;
+  recipientAccessToken: string | Redacted.Redacted<string>;
 }
 export interface CreateProjectTransferResponse {}
-export type CreateScmInstallationsInstallIntentRequestProvider = "github";
-export interface CreateScmInstallationsInstallIntentRequest {
-  provider: CreateScmInstallationsInstallIntentRequestProvider | (string & {});
-  workspaceId: string;
-  repository?: string | undefined;
-}
-export type CreateScmInstallationsInstallIntentResponseDataProvider = "github";
-export interface CreateScmInstallationsInstallIntentResponseData {
-  type: string;
-  provider: CreateScmInstallationsInstallIntentResponseDataProvider;
-  workspaceId: string;
-  installUrl: string;
-  alreadyLinked?: boolean | undefined;
-  accountLogin?: string | undefined;
-  hint?: string | undefined;
-}
-export interface CreateScmInstallationsInstallIntentResponse {
-  data: CreateScmInstallationsInstallIntentResponseData;
-}
-export type CreateServiceRequestRegionId =
-  | "us-east-1"
-  | "us-west-1"
-  | "eu-west-3"
-  | "eu-central-1"
-  | "ap-northeast-1"
-  | "ap-southeast-1";
-export interface CreateServiceRequest {
-  displayName: string;
-  regionId?: CreateServiceRequestRegionId | (string & {}) | undefined;
-  branchId?: string | null | undefined;
-  branchGitName?: string | null | undefined;
-  projectId: string;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string | undefined;
-}
-export type CreateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
-export interface CreateServiceResponseData {
-  id: string;
-  type: string;
-  url: string;
-  name: string;
-  region: CreateDatabaseResponseDataRegion;
-  projectId: string;
-  branchId: string | null;
-  latestDeploymentId: string | null;
-  appEndpointDomain: string;
-  createdAt: string;
-  logicalId: string | null;
-}
-export interface CreateServiceResponse {
-  data: CreateServiceResponseData;
-}
-export interface CreateServiceDeploymentRequestPortMapping {
-  http?: number | null | undefined;
-}
-export interface CreateServiceDeploymentRequest {
-  serviceId: string;
-  portMapping?: CreateServiceDeploymentRequestPortMapping | undefined;
-  skipCodeUpload?: boolean | undefined;
-}
-export interface CreateServiceDeploymentResponseData {
-  id: string;
-  type: string;
-  url: string;
-  foundryVersionId: string;
-  uploadUrl: string | null;
-}
-export interface CreateServiceDeploymentResponse {
-  data: CreateServiceDeploymentResponseData;
-}
-export interface CreateServiceDomainRequest {
-  serviceId: string;
-  hostname: string;
-}
-export type CreateServiceDomainResponseDataStatus =
-  | "pending_dns"
-  | "verifying"
-  | "verified_routing_blocked"
-  | "provisioning_tls"
-  | "active"
-  | "failed"
-  | "removing";
-export type CreateServiceDomainResponseDataFailureCategory = "dns" | "acme" | "storage" | "unknown";
-export type CreateServiceDomainResponseDataDnsRecordsItem =
-  CreateDomainRetryResponseDataDnsRecordsItem;
-export type CreateServiceDomainResponseDataDnsRecordsList =
-  Array<CreateDomainRetryResponseDataDnsRecordsItem>;
-export interface CreateServiceDomainResponseData {
-  id: string;
-  type: string;
-  url: string;
-  hostname: string;
-  appId: string;
-  /** Deprecated: use `appId` instead. */
-  computeServiceId: string;
-  status: CreateServiceDomainResponseDataStatus;
-  foundryStatus: string;
-  failureReason: string | null;
-  failureCategory: CreateServiceDomainResponseDataFailureCategory | null;
-  certExpiresAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  dnsRecords: CreateServiceDomainResponseDataDnsRecordsList;
-}
-export interface CreateServiceDomainResponse {
-  data: CreateServiceDomainResponseData;
-}
-export interface CreateServicePromoteRequest {
-  serviceId: string;
-  deploymentId?: string | undefined;
-  /** Deprecated: use `deploymentId` instead. Ignored when `deploymentId` is also present. */
-  versionId?: string | undefined;
-}
-export interface CreateServicePromoteResponseData {
-  appEndpointDomain: string;
-  reassignedDomains: number;
-}
-export interface CreateServicePromoteResponse {
-  data: CreateServicePromoteResponseData;
-}
-export interface CreateServiceRollbackRequest {
-  serviceId: string;
-  deploymentId?: string | undefined;
-  /** Deprecated: use `deploymentId` instead. Ignored when `deploymentId` is also present. */
-  versionId?: string | undefined;
-}
-export type CreateServiceRollbackResponseData = CreateServicePromoteResponseData;
-export interface CreateServiceRollbackResponse {
-  data: CreateServicePromoteResponseData;
-}
-export interface CreateServiceUrlRequest {
-  serviceId: string;
-  /** The hostname to serve, such as `shop.com`. Case and a trailing dot are ignored. Wildcards and IP addresses are refused. */
-  hostname: string;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string | undefined;
-  /** Whether to create a domain ownership for the exact hostname when no verified one covers it. Set it to `false` to create or change only the RoutingUrl, and create the domain ownership with `POST /v1/workspaces/{workspaceId}/domain-ownerships`. */
-  createDomainOwnership?: boolean | undefined;
-}
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-export type CreateServiceUrlResponseDataStatus = "pending" | "active";
-export type CreateServiceUrlResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
-export type CreateServiceUrlResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
-export type CreateServiceUrlResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
-export type CreateServiceUrlResponseDataConditionsDnsPointsAtSwitchboard =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type CreateServiceUrlResponseDataConditionsCustomDomainBound = "met" | "unmet" | "unknown";
-export type CreateServiceUrlResponseDataConditionsCertificateActive = "met" | "unmet" | "unknown";
-/** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-export interface CreateServiceUrlResponseDataConditions {
-  ownershipVerified: CreateServiceUrlResponseDataConditionsOwnershipVerified;
-  servicePresent: CreateServiceUrlResponseDataConditionsServicePresent;
-  liveDeployment: CreateServiceUrlResponseDataConditionsLiveDeployment;
-  dnsPointsAtSwitchboard: CreateServiceUrlResponseDataConditionsDnsPointsAtSwitchboard;
-  customDomainBound: CreateServiceUrlResponseDataConditionsCustomDomainBound;
-  certificateActive: CreateServiceUrlResponseDataConditionsCertificateActive;
-}
-export type CreateServiceUrlResponseDataFirstUnmetCondition =
-  | "ownershipVerified"
-  | "servicePresent"
-  | "liveDeployment"
-  | "dnsPointsAtSwitchboard"
-  | "customDomainBound"
-  | "certificateActive";
-/** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-export interface CreateServiceUrlResponseDataOwnershipExpiry {
-  expiresAt: string;
-}
-export type CreateServiceUrlResponseDataRecordsItemCondition =
-  | "ownershipVerified"
-  | "dnsPointsAtSwitchboard";
-export type CreateServiceUrlResponseDataRecordsItemType = "TXT" | "CNAME";
-export interface CreateServiceUrlResponseDataRecordsItem {
-  condition: CreateServiceUrlResponseDataRecordsItemCondition;
-  type: CreateServiceUrlResponseDataRecordsItemType;
-  name: string;
-  value: string;
-  ttl: number;
-}
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-export type CreateServiceUrlResponseDataRecordsList =
-  Array<CreateServiceUrlResponseDataRecordsItem>;
-/** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-export interface CreateServiceUrlResponseDataHeldBy {
-  workspaceId: string | null;
-  projectId: string | null;
-  serviceId: string | null;
-  message: string | null;
-}
-/** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-export type CreateServiceUrlResponseDataCustomDomainStatus =
-  | "pending"
-  | "provisioning"
-  | "active"
-  | "failed";
-/** The Foundry custom domain the RoutingUrl holds, if any. */
-export interface CreateServiceUrlResponseDataCustomDomain {
-  id: string;
-  /** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-  status: CreateServiceUrlResponseDataCustomDomainStatus | null;
-  failureReason: string | null;
-  certExpiresAt: string | null;
-  lastSeenAt: string | null;
-  certificateRetryRequestedAt: string | null;
-  /** True when the certificate is still provisioning after the custom domain was registered again. */
-  certificateIssuanceStuck: boolean;
-}
-/** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-export interface CreateServiceUrlResponseDataSwitchboardDns {
-  accepted: boolean;
-  detail: string | null;
-  lastSeenAt: string;
-}
-export interface CreateServiceUrlResponseData {
-  id: string;
-  type: string;
-  branchId: string;
-  /** Null once the service is deleted. */
-  serviceId: string | null;
-  hostname: string;
-  logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-  status: CreateServiceUrlResponseDataStatus;
-  /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-  conditions: CreateServiceUrlResponseDataConditions;
-  firstUnmetCondition: CreateServiceUrlResponseDataFirstUnmetCondition | null;
-  /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-  ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-  records: CreateServiceUrlResponseDataRecordsList;
-  /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-  heldBy: CreateServiceUrlResponseDataHeldBy | null;
-  /** The Foundry custom domain the RoutingUrl holds, if any. */
-  customDomain: CreateServiceUrlResponseDataCustomDomain | null;
-  /** The error from the last sync with Foundry, also when it left the RoutingUrl without a custom domain. Null when that sync succeeded. */
-  customDomainSyncError: string | null;
-  /** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-  switchboardDns: CreateServiceUrlResponseDataSwitchboardDns | null;
-  /** The Console page that shows what to do next, while the RoutingUrl is pending and has a service. */
-  setupUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface CreateServiceUrlResponse {
-  data: CreateServiceUrlResponseData;
-}
-export interface CreateSourceRepositoryRequest {
-  projectId: string;
-  provider: string;
-  providerRepositoryId: number;
-  /** Optional SCM installation ID to use for linking. When omitted, the API auto-picks the workspace's installation. */
-  installationId?: string | undefined;
-}
-export type CreateSourceRepositoryResponseDataProvider = "github";
-export type CreateSourceRepositoryResponseDataStatus = "active" | "archived";
-export interface CreateSourceRepositoryResponseData {
-  id: string;
-  type: string;
-  url: string;
-  repoId: number;
-  provider: CreateSourceRepositoryResponseDataProvider;
-  repoFullName: string;
-  defaultBranch: string;
-  isPrivate: boolean;
-  status: CreateSourceRepositoryResponseDataStatus;
-  projectId: string;
-  installationId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface CreateSourceRepositoryResponse {
-  data: CreateSourceRepositoryResponseData;
-  hint?: string | undefined;
-}
-export interface CreateUrlCheckRequest {
-  id: string;
-}
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-export type CreateUrlCheckResponseDataStatus = "pending" | "active";
-export type CreateUrlCheckResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
-export type CreateUrlCheckResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
-export type CreateUrlCheckResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
-export type CreateUrlCheckResponseDataConditionsDnsPointsAtSwitchboard =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type CreateUrlCheckResponseDataConditionsCustomDomainBound = "met" | "unmet" | "unknown";
-export type CreateUrlCheckResponseDataConditionsCertificateActive = "met" | "unmet" | "unknown";
-/** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-export interface CreateUrlCheckResponseDataConditions {
-  ownershipVerified: CreateUrlCheckResponseDataConditionsOwnershipVerified;
-  servicePresent: CreateUrlCheckResponseDataConditionsServicePresent;
-  liveDeployment: CreateUrlCheckResponseDataConditionsLiveDeployment;
-  dnsPointsAtSwitchboard: CreateUrlCheckResponseDataConditionsDnsPointsAtSwitchboard;
-  customDomainBound: CreateUrlCheckResponseDataConditionsCustomDomainBound;
-  certificateActive: CreateUrlCheckResponseDataConditionsCertificateActive;
-}
-export type CreateUrlCheckResponseDataFirstUnmetCondition =
-  | "ownershipVerified"
-  | "servicePresent"
-  | "liveDeployment"
-  | "dnsPointsAtSwitchboard"
-  | "customDomainBound"
-  | "certificateActive";
-/** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-export type CreateUrlCheckResponseDataOwnershipExpiry = CreateServiceUrlResponseDataOwnershipExpiry;
-export type CreateUrlCheckResponseDataRecordsItemCondition =
-  | "ownershipVerified"
-  | "dnsPointsAtSwitchboard";
-export type CreateUrlCheckResponseDataRecordsItemType = "TXT" | "CNAME";
-export interface CreateUrlCheckResponseDataRecordsItem {
-  condition: CreateUrlCheckResponseDataRecordsItemCondition;
-  type: CreateUrlCheckResponseDataRecordsItemType;
-  name: string;
-  value: string;
-  ttl: number;
-}
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-export type CreateUrlCheckResponseDataRecordsList = Array<CreateUrlCheckResponseDataRecordsItem>;
-/** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-export type CreateUrlCheckResponseDataHeldBy = CreateServiceUrlResponseDataHeldBy;
-/** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-export type CreateUrlCheckResponseDataCustomDomainStatus =
-  | "pending"
-  | "provisioning"
-  | "active"
-  | "failed";
-/** The Foundry custom domain the RoutingUrl holds, if any. */
-export interface CreateUrlCheckResponseDataCustomDomain {
-  id: string;
-  /** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-  status: CreateUrlCheckResponseDataCustomDomainStatus | null;
-  failureReason: string | null;
-  certExpiresAt: string | null;
-  lastSeenAt: string | null;
-  certificateRetryRequestedAt: string | null;
-  /** True when the certificate is still provisioning after the custom domain was registered again. */
-  certificateIssuanceStuck: boolean;
-}
-/** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-export type CreateUrlCheckResponseDataSwitchboardDns = CreateServiceUrlResponseDataSwitchboardDns;
-export interface CreateUrlCheckResponseData {
-  id: string;
-  type: string;
-  branchId: string;
-  /** Null once the service is deleted. */
-  serviceId: string | null;
-  hostname: string;
-  logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-  status: CreateUrlCheckResponseDataStatus;
-  /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-  conditions: CreateUrlCheckResponseDataConditions;
-  firstUnmetCondition: CreateUrlCheckResponseDataFirstUnmetCondition | null;
-  /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-  ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-  records: CreateUrlCheckResponseDataRecordsList;
-  /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-  heldBy: CreateServiceUrlResponseDataHeldBy | null;
-  /** The Foundry custom domain the RoutingUrl holds, if any. */
-  customDomain: CreateUrlCheckResponseDataCustomDomain | null;
-  /** The error from the last sync with Foundry, also when it left the RoutingUrl without a custom domain. Null when that sync succeeded. */
-  customDomainSyncError: string | null;
-  /** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-  switchboardDns: CreateServiceUrlResponseDataSwitchboardDns | null;
-  /** The Console page that shows what to do next, while the RoutingUrl is pending and has a service. */
-  setupUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface CreateUrlCheckResponse {
-  data: CreateUrlCheckResponseData;
-}
-export interface CreateWorkspaceRequest {
-  displayName?: string | undefined;
-}
-export interface CreateWorkspaceResponseData {
-  id: string;
-  type: string;
-  url: string;
-  name: string;
-  createdAt: string;
-}
-export interface CreateWorkspaceResponse {
-  data: CreateWorkspaceResponseData;
-}
-export interface CreateWorkspaceDomainOwnershipRequest {
-  workspaceId: string;
-  /** An exact hostname such as `shop.example.com`, or a wildcard such as `*.example.com`. */
-  domain: string;
-}
-export type CreateWorkspaceDomainOwnershipResponseDataVerification =
-  CreateDomainOwnershipVerifyResponseDataVerification;
-/** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-export type CreateWorkspaceDomainOwnershipResponseDataStatus =
-  | "unverified"
-  | "verified"
-  | "expiring";
-export interface CreateWorkspaceDomainOwnershipResponseData {
-  id: string;
-  type: string;
-  /** The workspace the domain ownership belongs to. */
-  workspaceId: string;
-  domain: string;
-  verification: CreateDomainOwnershipVerifyResponseDataVerification;
-  /** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-  status: CreateWorkspaceDomainOwnershipResponseDataStatus;
-  /** The deadline to publish the record, if the status is `expiring`. The status becomes `unverified` at the first lookup at or after this time that still finds no value, so it can stay `expiring` for a while after it. Null otherwise. */
-  expiresAt: string | null;
-  /** When DNS last answered the lookup of the verification record. Null before the first answer, and after a lookup that got no answer while the domain ownership was not verified. A verified domain ownership keeps this answer when a lookup gets no answer. */
-  verificationRecordLastSeenAt: string | null;
-  /** Whether that answer carried the workspace's value. Null when there is no answer. */
-  verificationRecordPresent: boolean | null;
-  /** The error from the last sync of the verification record, such as `DNS unavailable`. Null when that sync succeeded. For display only. */
-  verificationRecordSyncError: string | null;
-  createdAt: string;
-}
-export interface CreateWorkspaceDomainOwnershipResponse {
-  data: CreateWorkspaceDomainOwnershipResponseData;
-}
 export interface CreateWorkspaceServiceTokenRequest {
   workspaceId: string;
   /** Access only this project. Omit or pass null for Full Workspace access. */
@@ -1447,15 +753,11 @@ export interface CreateWorkspaceServiceTokenResponseData {
   valueHint: string;
   createdAt: string;
   expiresAt?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateWorkspaceServiceTokenResponse {
   data: CreateWorkspaceServiceTokenResponseData;
 }
-export interface DeleteBranchRequest {
-  branchId: string;
-}
-export interface DeleteBranchResponse {}
 export interface DeleteBucketRequest {
   bucketId: string;
 }
@@ -1473,22 +775,6 @@ export interface DeleteDatabaseRequest {
   databaseId: string;
 }
 export interface DeleteDatabaseResponse {}
-export interface DeleteDeploymentRequest {
-  deploymentId: string;
-}
-export interface DeleteDeploymentResponse {}
-export interface DeleteDomainRequest {
-  domainId: string;
-}
-export interface DeleteDomainResponse {}
-export interface DeleteDomainOwnershipRequest {
-  domainOwnershipId: string;
-}
-export interface DeleteDomainOwnershipResponse {}
-export interface DeleteEnvironmentVariableRequest {
-  envVarId: string;
-}
-export interface DeleteEnvironmentVariableResponse {}
 export interface DeleteIntegrationRequest {
   id: string;
 }
@@ -1497,38 +783,6 @@ export interface DeleteProjectRequest {
   id: string;
 }
 export interface DeleteProjectResponse {}
-export interface DeleteProjectBranchAlchemyStateLeaseRequest {
-  projectId: string;
-  branchId: string;
-}
-export interface DeleteProjectBranchAlchemyStateLeaseResponse {}
-export interface DeleteProjectBranchAlchemyStateStateStackRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage?: string | undefined;
-}
-export interface DeleteProjectBranchAlchemyStateStateStackResponse {}
-export interface DeleteProjectBranchAlchemyStateStateStackStageResourceRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-  fqn: string;
-}
-export interface DeleteProjectBranchAlchemyStateStateStackStageResourceResponse {}
-export interface DeleteServiceRequest {
-  serviceId: string;
-}
-export interface DeleteServiceResponse {}
-export interface DeleteSourceRepositoryRequest {
-  id: string;
-}
-export interface DeleteSourceRepositoryResponse {}
-export interface DeleteUrlRequest {
-  id: string;
-}
-export interface DeleteUrlResponse {}
 export interface DeleteWorkspaceIntegrationRequest {
   workspaceId: string;
   clientId: string;
@@ -1556,27 +810,6 @@ export interface GetAgentApprovalResponse {
   windowExpiresAt: string | null;
   decidedAt: string | null;
   hint?: string | undefined;
-}
-export interface GetBranchRequest {
-  branchId: string;
-}
-export type GetBranchResponseDataRole = "production" | "preview";
-/** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-export type GetBranchResponseDataProject = CreateBucketResponseDataProject;
-export interface GetBranchResponseData {
-  id: string;
-  type: string;
-  url: string;
-  gitName: string;
-  isDefault: boolean;
-  role: GetBranchResponseDataRole;
-  createdAt: string;
-  updatedAt: string;
-  /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-  project: CreateBucketResponseDataProject;
-}
-export interface GetBranchResponse {
-  data: GetBranchResponseData;
 }
 export interface GetBucketRequest {
   bucketId: string;
@@ -1631,107 +864,6 @@ export type GetBucketsResponseDataList = Array<CreateBucketResponseData>;
 export type GetBucketsResponsePagination = GetBucketKeysResponsePagination;
 export interface GetBucketsResponse {
   data: GetBucketsResponseDataList;
-  pagination: GetBucketKeysResponsePagination;
-}
-export interface GetBuildRequest {
-  buildId: string;
-}
-export type GetBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
-export type GetBuildResponseDataState =
-  | "pending"
-  | "running"
-  | "succeeded"
-  | "failed"
-  | "cancelled";
-/** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-export type GetBuildResponseDataPhase = "queued" | "build" | "deploy";
-export type GetBuildResponseDataResourcesItemResourceType =
-  | "project"
-  | "branch"
-  | "database"
-  | "app"
-  | "deployment"
-  | "bucket"
-  | "service_key"
-  | "config_variable";
-export type GetBuildResponseDataResourcesItemAction = "created" | "acted_on" | "deleted";
-export interface GetBuildResponseDataResourcesItem {
-  resourceType: GetBuildResponseDataResourcesItemResourceType;
-  /** Prefixed id of the reported resource. */
-  resourceId: string;
-  action: GetBuildResponseDataResourcesItemAction;
-  createdAt: string;
-}
-export type GetBuildResponseDataResourcesList = Array<GetBuildResponseDataResourcesItem>;
-export interface GetBuildResponseData {
-  id: string;
-  source: GetBuildResponseDataSource;
-  state: GetBuildResponseDataState;
-  /** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-  phase: GetBuildResponseDataPhase | null;
-  commitSha: string;
-  branchName: string;
-  /** Repository the build ran against. Set only when the workspace has a live link to it; a reported repository the platform does not know stays null. */
-  gitRepoId: string | null;
-  projectId: string | null;
-  branchId: string | null;
-  externalLogUrl: string | null;
-  deployedUrl: string | null;
-  applicationTopologyContentHash: string | null;
-  errorMessage: string | null;
-  failingStep: string | null;
-  createdAt: string;
-  startedAt: string | null;
-  finishedAt: string | null;
-  resources: GetBuildResponseDataResourcesList;
-}
-export interface GetBuildResponse {
-  data: GetBuildResponseData;
-}
-export type GetBuildsRequestState = "pending" | "running" | "succeeded" | "failed" | "cancelled";
-export interface GetBuildsRequest {
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-  projectId?: string | undefined;
-  branchId?: string | undefined;
-  state?: GetBuildsRequestState | (string & {}) | undefined;
-}
-export type GetBuildsResponseDataItemSource = "webhook" | "setup" | "manual" | "ci" | "cli";
-export type GetBuildsResponseDataItemState =
-  | "pending"
-  | "running"
-  | "succeeded"
-  | "failed"
-  | "cancelled";
-/** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-export type GetBuildsResponseDataItemPhase = "queued" | "build" | "deploy";
-export interface GetBuildsResponseDataItem {
-  id: string;
-  source: GetBuildsResponseDataItemSource;
-  state: GetBuildsResponseDataItemState;
-  /** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-  phase: GetBuildsResponseDataItemPhase | null;
-  commitSha: string;
-  branchName: string;
-  /** Repository the build ran against. Set only when the workspace has a live link to it; a reported repository the platform does not know stays null. */
-  gitRepoId: string | null;
-  projectId: string | null;
-  branchId: string | null;
-  externalLogUrl: string | null;
-  deployedUrl: string | null;
-  applicationTopologyContentHash: string | null;
-  errorMessage: string | null;
-  failingStep: string | null;
-  createdAt: string;
-  startedAt: string | null;
-  finishedAt: string | null;
-}
-export type GetBuildsResponseDataList = Array<GetBuildsResponseDataItem>;
-export type GetBuildsResponsePagination = GetBucketKeysResponsePagination;
-export interface GetBuildsResponse {
-  data: GetBuildsResponseDataList;
   pagination: GetBucketKeysResponsePagination;
 }
 export interface GetConnectionRequest {
@@ -2030,153 +1162,6 @@ export interface GetDatabaseUsageResponse {
   metrics: GetDatabaseUsageResponseMetrics;
   generatedAt: string;
 }
-export interface GetDeploymentRequest {
-  deploymentId: string;
-}
-/** Environment variable names present on this compute version. Values are always redacted as "[redacted]" and must not be treated as deployed secret values. */
-export type GetDeploymentResponseDataEnvVarsMap = { [key: string]: string | undefined };
-export interface GetDeploymentResponseDataPortMapping {
-  http?: number | undefined;
-}
-export interface GetDeploymentResponseData {
-  id: string;
-  type: string;
-  url: string;
-  serviceId: string;
-  foundryVersionId: string;
-  status: string;
-  previewDomain: string | null;
-  /** Environment variable names present on this compute version. Values are always redacted as "[redacted]" and must not be treated as deployed secret values. */
-  envVars?: GetDeploymentResponseDataEnvVarsMap | undefined;
-  portMapping?: GetDeploymentResponseDataPortMapping | undefined;
-  createdAt: string;
-}
-export interface GetDeploymentResponse {
-  data: GetDeploymentResponseData;
-}
-export interface GetDeploymentLogsRequest {
-  deploymentId: string;
-  tail?: number | undefined;
-  from_start?: boolean | undefined;
-  cursor?: string | undefined;
-}
-export interface GetDeploymentLogsResponse {}
-export interface GetDomainRequest {
-  domainId: string;
-}
-export type GetDomainResponseDataStatus =
-  | "pending_dns"
-  | "verifying"
-  | "verified_routing_blocked"
-  | "provisioning_tls"
-  | "active"
-  | "failed"
-  | "removing";
-export type GetDomainResponseDataFailureCategory = "dns" | "acme" | "storage" | "unknown";
-export type GetDomainResponseDataDnsRecordsItem = CreateDomainRetryResponseDataDnsRecordsItem;
-export type GetDomainResponseDataDnsRecordsList =
-  Array<CreateDomainRetryResponseDataDnsRecordsItem>;
-export interface GetDomainResponseData {
-  id: string;
-  type: string;
-  url: string;
-  hostname: string;
-  appId: string;
-  /** Deprecated: use `appId` instead. */
-  computeServiceId: string;
-  status: GetDomainResponseDataStatus;
-  foundryStatus: string;
-  failureReason: string | null;
-  failureCategory: GetDomainResponseDataFailureCategory | null;
-  certExpiresAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  dnsRecords: GetDomainResponseDataDnsRecordsList;
-}
-export interface GetDomainResponse {
-  data: GetDomainResponseData;
-}
-export interface GetDomainOwnershipRequest {
-  domainOwnershipId: string;
-}
-export type GetDomainOwnershipResponseDataVerification =
-  CreateDomainOwnershipVerifyResponseDataVerification;
-/** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-export type GetDomainOwnershipResponseDataStatus = "unverified" | "verified" | "expiring";
-export interface GetDomainOwnershipResponseData {
-  id: string;
-  type: string;
-  /** The workspace the domain ownership belongs to. */
-  workspaceId: string;
-  domain: string;
-  verification: CreateDomainOwnershipVerifyResponseDataVerification;
-  /** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-  status: GetDomainOwnershipResponseDataStatus;
-  /** The deadline to publish the record, if the status is `expiring`. The status becomes `unverified` at the first lookup at or after this time that still finds no value, so it can stay `expiring` for a while after it. Null otherwise. */
-  expiresAt: string | null;
-  /** When DNS last answered the lookup of the verification record. Null before the first answer, and after a lookup that got no answer while the domain ownership was not verified. A verified domain ownership keeps this answer when a lookup gets no answer. */
-  verificationRecordLastSeenAt: string | null;
-  /** Whether that answer carried the workspace's value. Null when there is no answer. */
-  verificationRecordPresent: boolean | null;
-  /** The error from the last sync of the verification record, such as `DNS unavailable`. Null when that sync succeeded. For display only. */
-  verificationRecordSyncError: string | null;
-  createdAt: string;
-}
-export interface GetDomainOwnershipResponse {
-  data: GetDomainOwnershipResponseData;
-}
-export interface GetEnvironmentVariableRequest {
-  envVarId: string;
-}
-export type GetEnvironmentVariableResponseDataClass = "production" | "preview";
-export interface GetEnvironmentVariableResponseData {
-  id: string;
-  type: string;
-  url: string;
-  projectId: string;
-  branchId: string | null;
-  class: GetEnvironmentVariableResponseDataClass;
-  key: string;
-  valueKid: string;
-  isManagedBySystem: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface GetEnvironmentVariableResponse {
-  data: GetEnvironmentVariableResponseData;
-}
-export type GetEnvironmentVariablesRequestClass = "production" | "preview";
-export interface GetEnvironmentVariablesRequest {
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-  projectId?: string | undefined;
-  class?: GetEnvironmentVariablesRequestClass | (string & {}) | undefined;
-  key?: string | undefined;
-  branchId?: string | undefined;
-}
-export type GetEnvironmentVariablesResponseDataItemClass = "production" | "preview";
-export interface GetEnvironmentVariablesResponseDataItem {
-  id: string;
-  type: string;
-  url: string;
-  projectId: string;
-  branchId: string | null;
-  class: GetEnvironmentVariablesResponseDataItemClass;
-  key: string;
-  valueKid: string;
-  isManagedBySystem: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-export type GetEnvironmentVariablesResponseDataList =
-  Array<GetEnvironmentVariablesResponseDataItem>;
-export type GetEnvironmentVariablesResponsePagination = GetBucketKeysResponsePagination;
-export interface GetEnvironmentVariablesResponse {
-  data: GetEnvironmentVariablesResponseDataList;
-  pagination: GetBucketKeysResponsePagination;
-}
 export interface GetIntegrationRequest {
   id: string;
 }
@@ -2267,281 +1252,6 @@ export interface GetProjectResponseData {
 }
 export interface GetProjectResponse {
   data: GetProjectResponseData;
-}
-export interface GetProjectBranchAlchemyStateStateStacksRequest {
-  projectId: string;
-  branchId: string;
-}
-export type GetProjectBranchAlchemyStateStateStacksResponseBodyList = Array<string>;
-export type GetProjectBranchAlchemyStateStateStacksResponse =
-  GetProjectBranchAlchemyStateStateStacksResponseBodyList;
-export interface GetProjectBranchAlchemyStateStateStackStageOutputRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-}
-export type GetProjectBranchAlchemyStateStateStackStageOutputResponse = unknown;
-export interface GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-}
-export type GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponseBodyList =
-  Array<unknown>;
-export type GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse =
-  GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponseBodyList;
-export interface GetProjectBranchAlchemyStateStateStackStageResourceRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-  fqn: string;
-}
-export type GetProjectBranchAlchemyStateStateStackStageResourceResponse = unknown;
-export interface GetProjectBranchAlchemyStateStateStackStageResourcesRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-}
-export type GetProjectBranchAlchemyStateStateStackStageResourcesResponseBodyList = Array<string>;
-export type GetProjectBranchAlchemyStateStateStackStageResourcesResponse =
-  GetProjectBranchAlchemyStateStateStackStageResourcesResponseBodyList;
-export interface GetProjectBranchAlchemyStateStateStackStagesRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-}
-export type GetProjectBranchAlchemyStateStateStackStagesResponseBodyList = Array<string>;
-export type GetProjectBranchAlchemyStateStateStackStagesResponse =
-  GetProjectBranchAlchemyStateStateStackStagesResponseBodyList;
-export interface GetProjectBranchAlchemyStateVersionRequest {
-  projectId: string;
-  branchId: string;
-}
-export interface GetProjectBranchAlchemyStateVersionResponse {
-  version: number;
-}
-export interface GetProjectBranchApplicationTopologyRequest {
-  projectId: string;
-  branchId: string;
-}
-export type GetProjectBranchApplicationTopologyResponseDataNodesItemKind =
-  | "module"
-  | "service"
-  | "resource";
-export interface GetProjectBranchApplicationTopologyResponseDataNodesItem {
-  logicalId: string;
-  parentLogicalId: string | null;
-  kind: GetProjectBranchApplicationTopologyResponseDataNodesItemKind;
-  type?: string | undefined;
-}
-export type GetProjectBranchApplicationTopologyResponseDataNodesList =
-  Array<GetProjectBranchApplicationTopologyResponseDataNodesItem>;
-export type GetProjectBranchApplicationTopologyResponseDataPortsItemDirection = "in" | "out";
-export interface GetProjectBranchApplicationTopologyResponseDataPortsItem {
-  logicalId: string;
-  direction: GetProjectBranchApplicationTopologyResponseDataPortsItemDirection;
-  name: string;
-  contractKind?: string | undefined;
-  contractHash?: string | undefined;
-}
-export type GetProjectBranchApplicationTopologyResponseDataPortsList =
-  Array<GetProjectBranchApplicationTopologyResponseDataPortsItem>;
-export type GetProjectBranchApplicationTopologyResponseDataEdgesItemFromDirection = "in" | "out";
-export interface GetProjectBranchApplicationTopologyResponseDataEdgesItemFrom {
-  logicalId: string;
-  direction: GetProjectBranchApplicationTopologyResponseDataEdgesItemFromDirection;
-  name: string;
-}
-export type GetProjectBranchApplicationTopologyResponseDataEdgesItemToDirection = "in" | "out";
-export interface GetProjectBranchApplicationTopologyResponseDataEdgesItemTo {
-  logicalId: string;
-  direction: GetProjectBranchApplicationTopologyResponseDataEdgesItemToDirection;
-  name: string;
-}
-export type GetProjectBranchApplicationTopologyResponseDataEdgesItemFamily =
-  | "communication"
-  | "data";
-export interface GetProjectBranchApplicationTopologyResponseDataEdgesItem {
-  from: GetProjectBranchApplicationTopologyResponseDataEdgesItemFrom;
-  to: GetProjectBranchApplicationTopologyResponseDataEdgesItemTo;
-  family: GetProjectBranchApplicationTopologyResponseDataEdgesItemFamily;
-  style?: string | undefined;
-}
-export type GetProjectBranchApplicationTopologyResponseDataEdgesList =
-  Array<GetProjectBranchApplicationTopologyResponseDataEdgesItem>;
-export interface GetProjectBranchApplicationTopologyResponseData {
-  nodes: GetProjectBranchApplicationTopologyResponseDataNodesList;
-  ports: GetProjectBranchApplicationTopologyResponseDataPortsList;
-  edges: GetProjectBranchApplicationTopologyResponseDataEdgesList;
-  contentHash?: string | undefined;
-  writtenAt?: string | undefined;
-}
-export interface GetProjectBranchApplicationTopologyResponse {
-  data: GetProjectBranchApplicationTopologyResponseData;
-}
-export interface GetProjectBranchesRequest {
-  projectId: string;
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-  gitName?: string | undefined;
-  gitNameContains?: string | undefined;
-}
-export type GetProjectBranchesResponseDataItemRole = "production" | "preview";
-/** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-export type GetProjectBranchesResponseDataItemProject = CreateBucketResponseDataProject;
-export interface GetProjectBranchesResponseDataItem {
-  id: string;
-  type: string;
-  url: string;
-  gitName: string;
-  isDefault: boolean;
-  role: GetProjectBranchesResponseDataItemRole;
-  createdAt: string;
-  updatedAt: string;
-  /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-  project: CreateBucketResponseDataProject;
-}
-export type GetProjectBranchesResponseDataList = Array<GetProjectBranchesResponseDataItem>;
-export interface GetProjectBranchesResponsePagination {
-  nextCursor: string | null;
-  hasMore: boolean;
-}
-export interface GetProjectBranchesResponse {
-  data: GetProjectBranchesResponseDataList;
-  pagination: GetProjectBranchesResponsePagination;
-}
-export interface GetProjectBranchUrlsRequest {
-  projectId: string;
-  branchId: string;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string | undefined;
-}
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-export type GetProjectBranchUrlsResponseDataItemStatus = "pending" | "active";
-export type GetProjectBranchUrlsResponseDataItemConditionsOwnershipVerified =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type GetProjectBranchUrlsResponseDataItemConditionsServicePresent =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type GetProjectBranchUrlsResponseDataItemConditionsLiveDeployment =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type GetProjectBranchUrlsResponseDataItemConditionsDnsPointsAtSwitchboard =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type GetProjectBranchUrlsResponseDataItemConditionsCustomDomainBound =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type GetProjectBranchUrlsResponseDataItemConditionsCertificateActive =
-  | "met"
-  | "unmet"
-  | "unknown";
-/** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-export interface GetProjectBranchUrlsResponseDataItemConditions {
-  ownershipVerified: GetProjectBranchUrlsResponseDataItemConditionsOwnershipVerified;
-  servicePresent: GetProjectBranchUrlsResponseDataItemConditionsServicePresent;
-  liveDeployment: GetProjectBranchUrlsResponseDataItemConditionsLiveDeployment;
-  dnsPointsAtSwitchboard: GetProjectBranchUrlsResponseDataItemConditionsDnsPointsAtSwitchboard;
-  customDomainBound: GetProjectBranchUrlsResponseDataItemConditionsCustomDomainBound;
-  certificateActive: GetProjectBranchUrlsResponseDataItemConditionsCertificateActive;
-}
-export type GetProjectBranchUrlsResponseDataItemFirstUnmetCondition =
-  | "ownershipVerified"
-  | "servicePresent"
-  | "liveDeployment"
-  | "dnsPointsAtSwitchboard"
-  | "customDomainBound"
-  | "certificateActive";
-/** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-export type GetProjectBranchUrlsResponseDataItemOwnershipExpiry =
-  CreateServiceUrlResponseDataOwnershipExpiry;
-export type GetProjectBranchUrlsResponseDataItemRecordsItemCondition =
-  | "ownershipVerified"
-  | "dnsPointsAtSwitchboard";
-export type GetProjectBranchUrlsResponseDataItemRecordsItemType = "TXT" | "CNAME";
-export interface GetProjectBranchUrlsResponseDataItemRecordsItem {
-  condition: GetProjectBranchUrlsResponseDataItemRecordsItemCondition;
-  type: GetProjectBranchUrlsResponseDataItemRecordsItemType;
-  name: string;
-  value: string;
-  ttl: number;
-}
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-export type GetProjectBranchUrlsResponseDataItemRecordsList =
-  Array<GetProjectBranchUrlsResponseDataItemRecordsItem>;
-/** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-export type GetProjectBranchUrlsResponseDataItemHeldBy = CreateServiceUrlResponseDataHeldBy;
-/** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-export type GetProjectBranchUrlsResponseDataItemCustomDomainStatus =
-  | "pending"
-  | "provisioning"
-  | "active"
-  | "failed";
-/** The Foundry custom domain the RoutingUrl holds, if any. */
-export interface GetProjectBranchUrlsResponseDataItemCustomDomain {
-  id: string;
-  /** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-  status: GetProjectBranchUrlsResponseDataItemCustomDomainStatus | null;
-  failureReason: string | null;
-  certExpiresAt: string | null;
-  lastSeenAt: string | null;
-  certificateRetryRequestedAt: string | null;
-  /** True when the certificate is still provisioning after the custom domain was registered again. */
-  certificateIssuanceStuck: boolean;
-}
-/** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-export type GetProjectBranchUrlsResponseDataItemSwitchboardDns =
-  CreateServiceUrlResponseDataSwitchboardDns;
-export interface GetProjectBranchUrlsResponseDataItem {
-  id: string;
-  type: string;
-  branchId: string;
-  /** Null once the service is deleted. */
-  serviceId: string | null;
-  hostname: string;
-  logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-  status: GetProjectBranchUrlsResponseDataItemStatus;
-  /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-  conditions: GetProjectBranchUrlsResponseDataItemConditions;
-  firstUnmetCondition: GetProjectBranchUrlsResponseDataItemFirstUnmetCondition | null;
-  /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-  ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-  records: GetProjectBranchUrlsResponseDataItemRecordsList;
-  /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-  heldBy: CreateServiceUrlResponseDataHeldBy | null;
-  /** The Foundry custom domain the RoutingUrl holds, if any. */
-  customDomain: GetProjectBranchUrlsResponseDataItemCustomDomain | null;
-  /** The error from the last sync with Foundry, also when it left the RoutingUrl without a custom domain. Null when that sync succeeded. */
-  customDomainSyncError: string | null;
-  /** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-  switchboardDns: CreateServiceUrlResponseDataSwitchboardDns | null;
-  /** The Console page that shows what to do next, while the RoutingUrl is pending and has a service. */
-  setupUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-export type GetProjectBranchUrlsResponseDataList = Array<GetProjectBranchUrlsResponseDataItem>;
-export interface GetProjectBranchUrlsResponsePagination {
-  hasMore: boolean;
-  nextCursor: unknown | null;
-}
-export interface GetProjectBranchUrlsResponse {
-  data: GetProjectBranchUrlsResponseDataList;
-  pagination: GetProjectBranchUrlsResponsePagination;
 }
 export interface GetProjectDatabasesRequest {
   projectId: string;
@@ -2668,461 +1378,18 @@ export type GetRegionsPostgresResponseDataList = Array<GetRegionsPostgresRespons
 export interface GetRegionsPostgresResponse {
   data: GetRegionsPostgresResponseDataList;
 }
-export interface GetScmInstallationRepositoriesRequest {
-  installationId: string;
-  /** Cursor for pagination (opaque, returned from previous response) */
-  cursor?: string | undefined;
-  /** Maximum repositories to return (default and max 100). */
-  limit?: number | undefined;
-}
-export interface GetScmInstallationRepositoriesResponseDataItem {
-  /** Numeric repository ID assigned by the SCM provider */
-  id: number;
-  type: string;
-  /** Full repository name, e.g. "octocat/hello" */
-  fullName: string;
-  defaultBranch: string;
-  isPrivate: boolean;
-}
-export type GetScmInstallationRepositoriesResponseDataList =
-  Array<GetScmInstallationRepositoriesResponseDataItem>;
-export type GetScmInstallationRepositoriesResponsePagination = GetProjectBranchesResponsePagination;
-export interface GetScmInstallationRepositoriesResponse {
-  data: GetScmInstallationRepositoriesResponseDataList;
-  pagination: GetProjectBranchesResponsePagination;
-}
-export interface GetScmInstallationsRequest {
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-  workspaceId: string;
-  repository?: string | undefined;
-}
-export type GetScmInstallationsResponseDataItemProvider = "github";
-export type GetScmInstallationsResponseDataItemAccountType = "user" | "organization";
-export interface GetScmInstallationsResponseDataItem {
-  id: string;
-  type: string;
-  url: string;
-  provider: GetScmInstallationsResponseDataItemProvider;
-  /** Numeric installation ID assigned by the SCM provider */
-  installationId: number;
-  /** Numeric account ID assigned by the SCM provider */
-  accountId: number;
-  accountLogin: string;
-  accountType: GetScmInstallationsResponseDataItemAccountType;
-  suspended: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-export type GetScmInstallationsResponseDataList = Array<GetScmInstallationsResponseDataItem>;
-export type GetScmInstallationsResponsePagination = GetBucketKeysResponsePagination;
-export interface GetScmInstallationsResponse {
-  data: GetScmInstallationsResponseDataList;
-  pagination: GetBucketKeysResponsePagination;
-  hint?: string | undefined;
-}
-export interface GetServiceRequest {
-  serviceId: string;
-}
-export type GetServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
-export type GetServiceResponseData = CreateServiceResponseData;
-export interface GetServiceResponse {
-  data: CreateServiceResponseData;
-}
-export interface GetServiceDeploymentsRequest {
-  serviceId: string;
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-}
-export interface GetServiceDeploymentsResponseDataItem {
-  id: string;
-  type: string;
-  url: string;
-  serviceId: string;
-  foundryVersionId: string;
-  createdAt: string;
-}
-export type GetServiceDeploymentsResponseDataList = Array<GetServiceDeploymentsResponseDataItem>;
-export type GetServiceDeploymentsResponsePagination = GetBucketKeysResponsePagination;
-export interface GetServiceDeploymentsResponse {
-  data: GetServiceDeploymentsResponseDataList;
-  pagination: GetBucketKeysResponsePagination;
-}
-export interface GetServiceDomainsRequest {
-  serviceId: string;
-}
-export type GetServiceDomainsResponseDataItemStatus =
-  | "pending_dns"
-  | "verifying"
-  | "verified_routing_blocked"
-  | "provisioning_tls"
-  | "active"
-  | "failed"
-  | "removing";
-export type GetServiceDomainsResponseDataItemFailureCategory =
-  | "dns"
-  | "acme"
-  | "storage"
-  | "unknown";
-export type GetServiceDomainsResponseDataItemDnsRecordsItem =
-  CreateDomainRetryResponseDataDnsRecordsItem;
-export type GetServiceDomainsResponseDataItemDnsRecordsList =
-  Array<CreateDomainRetryResponseDataDnsRecordsItem>;
-export interface GetServiceDomainsResponseDataItem {
-  id: string;
-  type: string;
-  url: string;
-  hostname: string;
-  appId: string;
-  /** Deprecated: use `appId` instead. */
-  computeServiceId: string;
-  status: GetServiceDomainsResponseDataItemStatus;
-  foundryStatus: string;
-  failureReason: string | null;
-  failureCategory: GetServiceDomainsResponseDataItemFailureCategory | null;
-  certExpiresAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-  dnsRecords: GetServiceDomainsResponseDataItemDnsRecordsList;
-}
-export type GetServiceDomainsResponseDataList = Array<GetServiceDomainsResponseDataItem>;
-export type GetServiceDomainsResponsePagination = GetProjectBranchUrlsResponsePagination;
-export interface GetServiceDomainsResponse {
-  data: GetServiceDomainsResponseDataList;
-  pagination: GetProjectBranchUrlsResponsePagination;
-}
-export interface GetServicesRequest {
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-  projectId?: string | undefined;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string | undefined;
-  branchId?: string | undefined;
-  branchGitName?: string | undefined;
-}
-export type GetServicesResponseDataItemRegion = CreateDatabaseResponseDataRegion;
-export type GetServicesResponseDataItem = CreateServiceResponseData;
-export type GetServicesResponseDataList = Array<CreateServiceResponseData>;
-export type GetServicesResponsePagination = GetBucketKeysResponsePagination;
-export interface GetServicesResponse {
-  data: GetServicesResponseDataList;
-  pagination: GetBucketKeysResponsePagination;
-}
-export interface GetServiceUrlsRequest {
-  serviceId: string;
-}
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-export type GetServiceUrlsResponseDataItemStatus = "pending" | "active";
-export type GetServiceUrlsResponseDataItemConditionsOwnershipVerified = "met" | "unmet" | "unknown";
-export type GetServiceUrlsResponseDataItemConditionsServicePresent = "met" | "unmet" | "unknown";
-export type GetServiceUrlsResponseDataItemConditionsLiveDeployment = "met" | "unmet" | "unknown";
-export type GetServiceUrlsResponseDataItemConditionsDnsPointsAtSwitchboard =
-  | "met"
-  | "unmet"
-  | "unknown";
-export type GetServiceUrlsResponseDataItemConditionsCustomDomainBound = "met" | "unmet" | "unknown";
-export type GetServiceUrlsResponseDataItemConditionsCertificateActive = "met" | "unmet" | "unknown";
-/** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-export interface GetServiceUrlsResponseDataItemConditions {
-  ownershipVerified: GetServiceUrlsResponseDataItemConditionsOwnershipVerified;
-  servicePresent: GetServiceUrlsResponseDataItemConditionsServicePresent;
-  liveDeployment: GetServiceUrlsResponseDataItemConditionsLiveDeployment;
-  dnsPointsAtSwitchboard: GetServiceUrlsResponseDataItemConditionsDnsPointsAtSwitchboard;
-  customDomainBound: GetServiceUrlsResponseDataItemConditionsCustomDomainBound;
-  certificateActive: GetServiceUrlsResponseDataItemConditionsCertificateActive;
-}
-export type GetServiceUrlsResponseDataItemFirstUnmetCondition =
-  | "ownershipVerified"
-  | "servicePresent"
-  | "liveDeployment"
-  | "dnsPointsAtSwitchboard"
-  | "customDomainBound"
-  | "certificateActive";
-/** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-export type GetServiceUrlsResponseDataItemOwnershipExpiry =
-  CreateServiceUrlResponseDataOwnershipExpiry;
-export type GetServiceUrlsResponseDataItemRecordsItemCondition =
-  | "ownershipVerified"
-  | "dnsPointsAtSwitchboard";
-export type GetServiceUrlsResponseDataItemRecordsItemType = "TXT" | "CNAME";
-export interface GetServiceUrlsResponseDataItemRecordsItem {
-  condition: GetServiceUrlsResponseDataItemRecordsItemCondition;
-  type: GetServiceUrlsResponseDataItemRecordsItemType;
-  name: string;
-  value: string;
-  ttl: number;
-}
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-export type GetServiceUrlsResponseDataItemRecordsList =
-  Array<GetServiceUrlsResponseDataItemRecordsItem>;
-/** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-export type GetServiceUrlsResponseDataItemHeldBy = CreateServiceUrlResponseDataHeldBy;
-/** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-export type GetServiceUrlsResponseDataItemCustomDomainStatus =
-  | "pending"
-  | "provisioning"
-  | "active"
-  | "failed";
-/** The Foundry custom domain the RoutingUrl holds, if any. */
-export interface GetServiceUrlsResponseDataItemCustomDomain {
-  id: string;
-  /** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-  status: GetServiceUrlsResponseDataItemCustomDomainStatus | null;
-  failureReason: string | null;
-  certExpiresAt: string | null;
-  lastSeenAt: string | null;
-  certificateRetryRequestedAt: string | null;
-  /** True when the certificate is still provisioning after the custom domain was registered again. */
-  certificateIssuanceStuck: boolean;
-}
-/** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-export type GetServiceUrlsResponseDataItemSwitchboardDns =
-  CreateServiceUrlResponseDataSwitchboardDns;
-export interface GetServiceUrlsResponseDataItem {
-  id: string;
-  type: string;
-  branchId: string;
-  /** Null once the service is deleted. */
-  serviceId: string | null;
-  hostname: string;
-  logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-  status: GetServiceUrlsResponseDataItemStatus;
-  /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-  conditions: GetServiceUrlsResponseDataItemConditions;
-  firstUnmetCondition: GetServiceUrlsResponseDataItemFirstUnmetCondition | null;
-  /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-  ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-  records: GetServiceUrlsResponseDataItemRecordsList;
-  /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-  heldBy: CreateServiceUrlResponseDataHeldBy | null;
-  /** The Foundry custom domain the RoutingUrl holds, if any. */
-  customDomain: GetServiceUrlsResponseDataItemCustomDomain | null;
-  /** The error from the last sync with Foundry, also when it left the RoutingUrl without a custom domain. Null when that sync succeeded. */
-  customDomainSyncError: string | null;
-  /** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-  switchboardDns: CreateServiceUrlResponseDataSwitchboardDns | null;
-  /** The Console page that shows what to do next, while the RoutingUrl is pending and has a service. */
-  setupUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-export type GetServiceUrlsResponseDataList = Array<GetServiceUrlsResponseDataItem>;
-export type GetServiceUrlsResponsePagination = GetProjectBranchUrlsResponsePagination;
-export interface GetServiceUrlsResponse {
-  data: GetServiceUrlsResponseDataList;
-  pagination: GetProjectBranchUrlsResponsePagination;
-}
-export interface GetSourceRepositoriesRequest {
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Limit for pagination */
-  limit?: number | undefined;
-  projectId: string;
-}
-export type GetSourceRepositoriesResponseDataItemProvider = "github";
-export type GetSourceRepositoriesResponseDataItemStatus = "active" | "archived";
-export interface GetSourceRepositoriesResponseDataItem {
-  id: string;
-  type: string;
-  url: string;
-  repoId: number;
-  provider: GetSourceRepositoriesResponseDataItemProvider;
-  repoFullName: string;
-  defaultBranch: string;
-  isPrivate: boolean;
-  status: GetSourceRepositoriesResponseDataItemStatus;
-  projectId: string;
-  installationId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-export type GetSourceRepositoriesResponseDataList = Array<GetSourceRepositoriesResponseDataItem>;
-export type GetSourceRepositoriesResponsePagination = GetProjectBranchesResponsePagination;
-export interface GetSourceRepositoriesResponse {
-  data: GetSourceRepositoriesResponseDataList;
-  pagination: GetProjectBranchesResponsePagination;
-}
-export interface GetSourceRepositoryRequest {
-  id: string;
-}
-export type GetSourceRepositoryResponseDataProvider = "github";
-export type GetSourceRepositoryResponseDataStatus = "active" | "archived";
-export interface GetSourceRepositoryResponseData {
-  id: string;
-  type: string;
-  url: string;
-  repoId: number;
-  provider: GetSourceRepositoryResponseDataProvider;
-  repoFullName: string;
-  defaultBranch: string;
-  isPrivate: boolean;
-  status: GetSourceRepositoryResponseDataStatus;
-  projectId: string;
-  installationId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface GetSourceRepositoryResponse {
-  data: GetSourceRepositoryResponseData;
-  hint?: string | undefined;
-}
-export interface GetUrlRequest {
-  id: string;
-}
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-export type GetUrlResponseDataStatus = "pending" | "active";
-export type GetUrlResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
-export type GetUrlResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
-export type GetUrlResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
-export type GetUrlResponseDataConditionsDnsPointsAtSwitchboard = "met" | "unmet" | "unknown";
-export type GetUrlResponseDataConditionsCustomDomainBound = "met" | "unmet" | "unknown";
-export type GetUrlResponseDataConditionsCertificateActive = "met" | "unmet" | "unknown";
-/** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-export interface GetUrlResponseDataConditions {
-  ownershipVerified: GetUrlResponseDataConditionsOwnershipVerified;
-  servicePresent: GetUrlResponseDataConditionsServicePresent;
-  liveDeployment: GetUrlResponseDataConditionsLiveDeployment;
-  dnsPointsAtSwitchboard: GetUrlResponseDataConditionsDnsPointsAtSwitchboard;
-  customDomainBound: GetUrlResponseDataConditionsCustomDomainBound;
-  certificateActive: GetUrlResponseDataConditionsCertificateActive;
-}
-export type GetUrlResponseDataFirstUnmetCondition =
-  | "ownershipVerified"
-  | "servicePresent"
-  | "liveDeployment"
-  | "dnsPointsAtSwitchboard"
-  | "customDomainBound"
-  | "certificateActive";
-/** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-export type GetUrlResponseDataOwnershipExpiry = CreateServiceUrlResponseDataOwnershipExpiry;
-export type GetUrlResponseDataRecordsItemCondition = "ownershipVerified" | "dnsPointsAtSwitchboard";
-export type GetUrlResponseDataRecordsItemType = "TXT" | "CNAME";
-export interface GetUrlResponseDataRecordsItem {
-  condition: GetUrlResponseDataRecordsItemCondition;
-  type: GetUrlResponseDataRecordsItemType;
-  name: string;
-  value: string;
-  ttl: number;
-}
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-export type GetUrlResponseDataRecordsList = Array<GetUrlResponseDataRecordsItem>;
-/** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-export type GetUrlResponseDataHeldBy = CreateServiceUrlResponseDataHeldBy;
-/** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-export type GetUrlResponseDataCustomDomainStatus = "pending" | "provisioning" | "active" | "failed";
-/** The Foundry custom domain the RoutingUrl holds, if any. */
-export interface GetUrlResponseDataCustomDomain {
-  id: string;
-  /** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-  status: GetUrlResponseDataCustomDomainStatus | null;
-  failureReason: string | null;
-  certExpiresAt: string | null;
-  lastSeenAt: string | null;
-  certificateRetryRequestedAt: string | null;
-  /** True when the certificate is still provisioning after the custom domain was registered again. */
-  certificateIssuanceStuck: boolean;
-}
-/** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-export type GetUrlResponseDataSwitchboardDns = CreateServiceUrlResponseDataSwitchboardDns;
-export interface GetUrlResponseData {
-  id: string;
-  type: string;
-  branchId: string;
-  /** Null once the service is deleted. */
-  serviceId: string | null;
-  hostname: string;
-  logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-  status: GetUrlResponseDataStatus;
-  /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-  conditions: GetUrlResponseDataConditions;
-  firstUnmetCondition: GetUrlResponseDataFirstUnmetCondition | null;
-  /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-  ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-  records: GetUrlResponseDataRecordsList;
-  /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-  heldBy: CreateServiceUrlResponseDataHeldBy | null;
-  /** The Foundry custom domain the RoutingUrl holds, if any. */
-  customDomain: GetUrlResponseDataCustomDomain | null;
-  /** The error from the last sync with Foundry, also when it left the RoutingUrl without a custom domain. Null when that sync succeeded. */
-  customDomainSyncError: string | null;
-  /** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-  switchboardDns: CreateServiceUrlResponseDataSwitchboardDns | null;
-  /** The Console page that shows what to do next, while the RoutingUrl is pending and has a service. */
-  setupUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface GetUrlResponse {
-  data: GetUrlResponseData;
-}
 export interface GetWorkspaceRequest {
   id: string;
 }
-export type GetWorkspaceResponseData = CreateWorkspaceResponseData;
-export interface GetWorkspaceResponse {
-  data: CreateWorkspaceResponseData;
-}
-export interface GetWorkspaceDomainOwnershipsRequest {
-  workspaceId: string;
-  /** Cursor for pagination */
-  cursor?: string | undefined;
-  /** Page size, 1-100 */
-  limit?: number | undefined;
-  /** Return only the domain ownership of this domain. */
-  domain?: string | undefined;
-}
-export type GetWorkspaceDomainOwnershipsResponseDataItemVerification =
-  CreateDomainOwnershipVerifyResponseDataVerification;
-/** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-export type GetWorkspaceDomainOwnershipsResponseDataItemStatus =
-  | "unverified"
-  | "verified"
-  | "expiring";
-export interface GetWorkspaceDomainOwnershipsResponseDataItem {
+export interface GetWorkspaceResponseData {
   id: string;
   type: string;
-  /** The workspace the domain ownership belongs to. */
-  workspaceId: string;
-  domain: string;
-  verification: CreateDomainOwnershipVerifyResponseDataVerification;
-  /** `verified` when the last answer from DNS carried the workspace's value. `expiring` when a verified domain ownership's record was no longer found: hostnames already serving under it keep serving, and it does not let a new or changed hostname serve. Publishing the record makes it `verified` again. The first lookup at or after `expiresAt` that still finds no value makes it `unverified`. `unverified` otherwise, including when a lookup found another workspace's value and not this workspace's. A lookup that gets no answer changes no status. */
-  status: GetWorkspaceDomainOwnershipsResponseDataItemStatus;
-  /** The deadline to publish the record, if the status is `expiring`. The status becomes `unverified` at the first lookup at or after this time that still finds no value, so it can stay `expiring` for a while after it. Null otherwise. */
-  expiresAt: string | null;
-  /** When DNS last answered the lookup of the verification record. Null before the first answer, and after a lookup that got no answer while the domain ownership was not verified. A verified domain ownership keeps this answer when a lookup gets no answer. */
-  verificationRecordLastSeenAt: string | null;
-  /** Whether that answer carried the workspace's value. Null when there is no answer. */
-  verificationRecordPresent: boolean | null;
-  /** The error from the last sync of the verification record, such as `DNS unavailable`. Null when that sync succeeded. For display only. */
-  verificationRecordSyncError: string | null;
+  url: string;
+  name: string;
   createdAt: string;
 }
-export type GetWorkspaceDomainOwnershipsResponseDataList =
-  Array<GetWorkspaceDomainOwnershipsResponseDataItem>;
-export type GetWorkspaceDomainOwnershipsResponsePagination = GetBucketKeysResponsePagination;
-export interface GetWorkspaceDomainOwnershipsResponse {
-  data: GetWorkspaceDomainOwnershipsResponseDataList;
-  pagination: GetBucketKeysResponsePagination;
-}
-export interface GetWorkspaceDomainOwnershipsVerificationRequest {
-  workspaceId: string;
-  /** An exact hostname such as `shop.example.com`, or a wildcard such as `*.example.com`. */
-  domain: string;
-}
-export type GetWorkspaceDomainOwnershipsVerificationResponseData =
-  CreateDomainOwnershipVerifyResponseDataVerification;
-export interface GetWorkspaceDomainOwnershipsVerificationResponse {
-  data: CreateDomainOwnershipVerifyResponseDataVerification;
+export interface GetWorkspaceResponse {
+  data: GetWorkspaceResponseData;
 }
 export interface GetWorkspaceIntegrationsRequest {
   workspaceId: string;
@@ -3156,8 +1423,8 @@ export interface GetWorkspacesRequest {
   /** Limit for pagination */
   limit?: number | undefined;
 }
-export type GetWorkspacesResponseDataItem = CreateWorkspaceResponseData;
-export type GetWorkspacesResponseDataList = Array<CreateWorkspaceResponseData>;
+export type GetWorkspacesResponseDataItem = GetWorkspaceResponseData;
+export type GetWorkspacesResponseDataList = Array<GetWorkspaceResponseData>;
 export type GetWorkspacesResponsePagination = GetBucketKeysResponsePagination;
 export interface GetWorkspacesResponse {
   data: GetWorkspacesResponseDataList;
@@ -3199,168 +1466,6 @@ export interface GetWorkspaceSubscriptionResponseData {
 export interface GetWorkspaceSubscriptionResponse {
   data: GetWorkspaceSubscriptionResponseData;
 }
-export type PutBuildResourceRequestResourceType =
-  | "project"
-  | "branch"
-  | "database"
-  | "app"
-  | "deployment"
-  | "bucket"
-  | "service_key"
-  | "config_variable";
-/** The strongest effect the build had on the resource. Re-reporting is safe: a weaker action never overwrites a stronger one, so `created` survives a later `acted_on`. */
-export type PutBuildResourceRequestAction = "created" | "acted_on" | "deleted";
-export interface PutBuildResourceRequest {
-  buildId: string;
-  resourceType: PutBuildResourceRequestResourceType | (string & {});
-  resourceId: string;
-  /** The strongest effect the build had on the resource. Re-reporting is safe: a weaker action never overwrites a stronger one, so `created` survives a later `acted_on`. */
-  action: PutBuildResourceRequestAction | (string & {});
-}
-export interface PutBuildResourceResponse {}
-export interface PutProjectBranchAlchemyStateStateStackStageOutputRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-}
-export type PutProjectBranchAlchemyStateStateStackStageOutputResponse = unknown;
-export interface PutProjectBranchAlchemyStateStateStackStageResourceRequest {
-  projectId: string;
-  branchId: string;
-  stack: string;
-  stage: string;
-  fqn: string;
-}
-export type PutProjectBranchAlchemyStateStateStackStageResourceResponse = unknown;
-export type PutProjectBranchApplicationTopologyRequestNodesItemKind =
-  | "module"
-  | "service"
-  | "resource";
-export interface PutProjectBranchApplicationTopologyRequestNodesItem {
-  logicalId: string;
-  parentLogicalId: string | null;
-  kind: PutProjectBranchApplicationTopologyRequestNodesItemKind | (string & {});
-  type?: string | undefined;
-}
-export type PutProjectBranchApplicationTopologyRequestNodesList =
-  Array<PutProjectBranchApplicationTopologyRequestNodesItem>;
-export type PutProjectBranchApplicationTopologyRequestPortsItemDirection = "in" | "out";
-export interface PutProjectBranchApplicationTopologyRequestPortsItem {
-  logicalId: string;
-  direction: PutProjectBranchApplicationTopologyRequestPortsItemDirection | (string & {});
-  name: string;
-  contractKind?: string | undefined;
-  contractHash?: string | undefined;
-}
-export type PutProjectBranchApplicationTopologyRequestPortsList =
-  Array<PutProjectBranchApplicationTopologyRequestPortsItem>;
-export type PutProjectBranchApplicationTopologyRequestEdgesItemFromDirection = "in" | "out";
-export interface PutProjectBranchApplicationTopologyRequestEdgesItemFrom {
-  logicalId: string;
-  direction: PutProjectBranchApplicationTopologyRequestEdgesItemFromDirection | (string & {});
-  name: string;
-}
-export type PutProjectBranchApplicationTopologyRequestEdgesItemToDirection = "in" | "out";
-export interface PutProjectBranchApplicationTopologyRequestEdgesItemTo {
-  logicalId: string;
-  direction: PutProjectBranchApplicationTopologyRequestEdgesItemToDirection | (string & {});
-  name: string;
-}
-export type PutProjectBranchApplicationTopologyRequestEdgesItemFamily = "communication" | "data";
-export interface PutProjectBranchApplicationTopologyRequestEdgesItem {
-  from: PutProjectBranchApplicationTopologyRequestEdgesItemFrom;
-  to: PutProjectBranchApplicationTopologyRequestEdgesItemTo;
-  family: PutProjectBranchApplicationTopologyRequestEdgesItemFamily | (string & {});
-  style?: string | undefined;
-}
-export type PutProjectBranchApplicationTopologyRequestEdgesList =
-  Array<PutProjectBranchApplicationTopologyRequestEdgesItem>;
-export interface PutProjectBranchApplicationTopologyRequest {
-  projectId: string;
-  branchId: string;
-  contentHash?: string | undefined;
-  nodes: PutProjectBranchApplicationTopologyRequestNodesList;
-  ports: PutProjectBranchApplicationTopologyRequestPortsList;
-  edges: PutProjectBranchApplicationTopologyRequestEdgesList;
-}
-export type PutProjectBranchApplicationTopologyResponseDataNodesItemKind =
-  | "module"
-  | "service"
-  | "resource";
-export interface PutProjectBranchApplicationTopologyResponseDataNodesItem {
-  logicalId: string;
-  parentLogicalId: string | null;
-  kind: PutProjectBranchApplicationTopologyResponseDataNodesItemKind;
-  type?: string | undefined;
-}
-export type PutProjectBranchApplicationTopologyResponseDataNodesList =
-  Array<PutProjectBranchApplicationTopologyResponseDataNodesItem>;
-export type PutProjectBranchApplicationTopologyResponseDataPortsItemDirection = "in" | "out";
-export interface PutProjectBranchApplicationTopologyResponseDataPortsItem {
-  logicalId: string;
-  direction: PutProjectBranchApplicationTopologyResponseDataPortsItemDirection;
-  name: string;
-  contractKind?: string | undefined;
-  contractHash?: string | undefined;
-}
-export type PutProjectBranchApplicationTopologyResponseDataPortsList =
-  Array<PutProjectBranchApplicationTopologyResponseDataPortsItem>;
-export type PutProjectBranchApplicationTopologyResponseDataEdgesItemFromDirection = "in" | "out";
-export interface PutProjectBranchApplicationTopologyResponseDataEdgesItemFrom {
-  logicalId: string;
-  direction: PutProjectBranchApplicationTopologyResponseDataEdgesItemFromDirection;
-  name: string;
-}
-export type PutProjectBranchApplicationTopologyResponseDataEdgesItemToDirection = "in" | "out";
-export interface PutProjectBranchApplicationTopologyResponseDataEdgesItemTo {
-  logicalId: string;
-  direction: PutProjectBranchApplicationTopologyResponseDataEdgesItemToDirection;
-  name: string;
-}
-export type PutProjectBranchApplicationTopologyResponseDataEdgesItemFamily =
-  | "communication"
-  | "data";
-export interface PutProjectBranchApplicationTopologyResponseDataEdgesItem {
-  from: PutProjectBranchApplicationTopologyResponseDataEdgesItemFrom;
-  to: PutProjectBranchApplicationTopologyResponseDataEdgesItemTo;
-  family: PutProjectBranchApplicationTopologyResponseDataEdgesItemFamily;
-  style?: string | undefined;
-}
-export type PutProjectBranchApplicationTopologyResponseDataEdgesList =
-  Array<PutProjectBranchApplicationTopologyResponseDataEdgesItem>;
-export interface PutProjectBranchApplicationTopologyResponseData {
-  nodes: PutProjectBranchApplicationTopologyResponseDataNodesList;
-  ports: PutProjectBranchApplicationTopologyResponseDataPortsList;
-  edges: PutProjectBranchApplicationTopologyResponseDataEdgesList;
-  contentHash?: string | undefined;
-  writtenAt?: string | undefined;
-}
-export interface PutProjectBranchApplicationTopologyResponse {
-  data: PutProjectBranchApplicationTopologyResponseData;
-}
-export interface UpdateBranchRequest {
-  branchId: string;
-  isDefault?: boolean | null | undefined;
-}
-export type UpdateBranchResponseDataRole = "production" | "preview";
-/** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-export type UpdateBranchResponseDataProject = CreateBucketResponseDataProject;
-export interface UpdateBranchResponseData {
-  id: string;
-  type: string;
-  url: string;
-  gitName: string;
-  isDefault: boolean;
-  role: UpdateBranchResponseDataRole;
-  createdAt: string;
-  updatedAt: string;
-  /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
-  project: CreateBucketResponseDataProject;
-}
-export interface UpdateBranchResponse {
-  data: UpdateBranchResponseData;
-}
 export interface UpdateBucketRequest {
   bucketId: string;
   /** New display name for the bucket. A label only: the provider bucket name does not change. */
@@ -3376,60 +1481,6 @@ export type UpdateBucketResponseDataProject = CreateBucketResponseDataProject;
 export type UpdateBucketResponseData = CreateBucketResponseData;
 export interface UpdateBucketResponse {
   data: CreateBucketResponseData;
-}
-/** How far the run has got. */
-export type UpdateBuildRequestPhase = "queued" | "build" | "deploy";
-export type UpdateBuildRequestState = "pending" | "running" | "succeeded" | "failed" | "cancelled";
-export interface UpdateBuildRequest {
-  buildId: string;
-  /** How far the run has got. */
-  phase?: UpdateBuildRequestPhase | (string & {}) | undefined;
-  state?: UpdateBuildRequestState | (string & {}) | undefined;
-  /** Name of the step that failed, free text -- step names come from build tooling the platform cannot validate. */
-  failingStep?: string | undefined;
-  errorMessage?: string | undefined;
-  externalLogUrl?: string | undefined;
-  /** Project the build targets. Can be set once and never changed: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed. */
-  projectId?: string | undefined;
-  /** Branch the build targets. Can be set once and never changed, like `projectId`. */
-  branchId?: string | undefined;
-  /** Where the deployed app can be reached. Can be set once and never changed, like `projectId`. */
-  deployedUrl?: string | undefined;
-  /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Can be set once and never changed, like `projectId`. */
-  applicationTopologyContentHash?: string | undefined;
-}
-export type UpdateBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
-export type UpdateBuildResponseDataState =
-  | "pending"
-  | "running"
-  | "succeeded"
-  | "failed"
-  | "cancelled";
-/** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-export type UpdateBuildResponseDataPhase = "queued" | "build" | "deploy";
-export interface UpdateBuildResponseData {
-  id: string;
-  source: UpdateBuildResponseDataSource;
-  state: UpdateBuildResponseDataState;
-  /** Null when nothing reported a phase; the platform never invents an observation it did not receive. */
-  phase: UpdateBuildResponseDataPhase | null;
-  commitSha: string;
-  branchName: string;
-  /** Repository the build ran against. Set only when the workspace has a live link to it; a reported repository the platform does not know stays null. */
-  gitRepoId: string | null;
-  projectId: string | null;
-  branchId: string | null;
-  externalLogUrl: string | null;
-  deployedUrl: string | null;
-  applicationTopologyContentHash: string | null;
-  errorMessage: string | null;
-  failingStep: string | null;
-  createdAt: string;
-  startedAt: string | null;
-  finishedAt: string | null;
-}
-export interface UpdateBuildResponse {
-  data: UpdateBuildResponseData;
 }
 export interface UpdateDatabaseRequest {
   databaseId: string;
@@ -3498,27 +1549,6 @@ export interface UpdateDatabaseResponseData {
 export interface UpdateDatabaseResponse {
   data: UpdateDatabaseResponseData;
 }
-export interface UpdateEnvironmentVariableRequest {
-  envVarId: string;
-  value: string;
-}
-export type UpdateEnvironmentVariableResponseDataClass = "production" | "preview";
-export interface UpdateEnvironmentVariableResponseData {
-  id: string;
-  type: string;
-  url: string;
-  projectId: string;
-  branchId: string | null;
-  class: UpdateEnvironmentVariableResponseDataClass;
-  key: string;
-  valueKid: string;
-  isManagedBySystem: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface UpdateEnvironmentVariableResponse {
-  data: UpdateEnvironmentVariableResponseData;
-}
 export type UpdateProjectRequestSettingsMap = { [key: string]: unknown | undefined };
 export interface UpdateProjectRequest {
   id: string;
@@ -3530,134 +1560,25 @@ export type UpdateProjectResponseData = GetProjectResponseData;
 export interface UpdateProjectResponse {
   data: GetProjectResponseData;
 }
-export interface UpdateProjectBranchAlchemyStateLeaseRequest {
-  projectId: string;
-  branchId: string;
-  /** Requested lease TTL in seconds. Default 60, clamped to [30, 300]. */
-  ttlSeconds?: number | undefined;
-}
-export type UpdateProjectBranchAlchemyStateLeaseResponseData =
-  CreateProjectBranchAlchemyStateLeaseResponseData;
-export interface UpdateProjectBranchAlchemyStateLeaseResponse {
-  data: CreateProjectBranchAlchemyStateLeaseResponseData;
-}
-export interface UpdateServiceRequest {
-  serviceId: string;
-  displayName?: string | undefined;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
-  logicalId?: string | null | undefined;
-  branchId?: string | null | undefined;
-  branchGitName?: string | null | undefined;
-}
-export type UpdateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
-export type UpdateServiceResponseData = CreateServiceResponseData;
-export interface UpdateServiceResponse {
-  data: CreateServiceResponseData;
-}
-export interface UpdateUrlRequest {
-  id: string;
-  /** The hostname to serve, such as `shop.com`. Case and a trailing dot are ignored. Wildcards and IP addresses are refused. */
-  hostname?: string | undefined;
-  /** Another service on the RoutingUrl's Branch. */
-  serviceId?: string | undefined;
-  /** `null` clears it. */
-  logicalId?: string | null | undefined;
-  /** Whether to create a domain ownership for the exact hostname when no verified one covers it. Set it to `false` to create or change only the RoutingUrl, and create the domain ownership with `POST /v1/workspaces/{workspaceId}/domain-ownerships`. */
-  createDomainOwnership?: boolean | undefined;
-}
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-export type UpdateUrlResponseDataStatus = "pending" | "active";
-export type UpdateUrlResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
-export type UpdateUrlResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
-export type UpdateUrlResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
-export type UpdateUrlResponseDataConditionsDnsPointsAtSwitchboard = "met" | "unmet" | "unknown";
-export type UpdateUrlResponseDataConditionsCustomDomainBound = "met" | "unmet" | "unknown";
-export type UpdateUrlResponseDataConditionsCertificateActive = "met" | "unmet" | "unknown";
-/** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-export interface UpdateUrlResponseDataConditions {
-  ownershipVerified: UpdateUrlResponseDataConditionsOwnershipVerified;
-  servicePresent: UpdateUrlResponseDataConditionsServicePresent;
-  liveDeployment: UpdateUrlResponseDataConditionsLiveDeployment;
-  dnsPointsAtSwitchboard: UpdateUrlResponseDataConditionsDnsPointsAtSwitchboard;
-  customDomainBound: UpdateUrlResponseDataConditionsCustomDomainBound;
-  certificateActive: UpdateUrlResponseDataConditionsCertificateActive;
-}
-export type UpdateUrlResponseDataFirstUnmetCondition =
-  | "ownershipVerified"
-  | "servicePresent"
-  | "liveDeployment"
-  | "dnsPointsAtSwitchboard"
-  | "customDomainBound"
-  | "certificateActive";
-/** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-export type UpdateUrlResponseDataOwnershipExpiry = CreateServiceUrlResponseDataOwnershipExpiry;
-export type UpdateUrlResponseDataRecordsItemCondition =
-  | "ownershipVerified"
-  | "dnsPointsAtSwitchboard";
-export type UpdateUrlResponseDataRecordsItemType = "TXT" | "CNAME";
-export interface UpdateUrlResponseDataRecordsItem {
-  condition: UpdateUrlResponseDataRecordsItemCondition;
-  type: UpdateUrlResponseDataRecordsItemType;
+/** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+export interface Error404BodyErrorVerification {
+  type: string;
+  /** DNS record name to publish. */
   name: string;
+  /** DNS record value to publish. */
   value: string;
+  /** Suggested TTL in seconds. */
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-export type UpdateUrlResponseDataRecordsList = Array<UpdateUrlResponseDataRecordsItem>;
-/** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-export type UpdateUrlResponseDataHeldBy = CreateServiceUrlResponseDataHeldBy;
-/** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-export type UpdateUrlResponseDataCustomDomainStatus =
-  | "pending"
-  | "provisioning"
-  | "active"
-  | "failed";
-/** The Foundry custom domain the RoutingUrl holds, if any. */
-export interface UpdateUrlResponseDataCustomDomain {
-  id: string;
-  /** Foundry's status of the custom domain. Null when Foundry's last answer is unknown. */
-  status: UpdateUrlResponseDataCustomDomainStatus | null;
-  failureReason: string | null;
-  certExpiresAt: string | null;
-  lastSeenAt: string | null;
-  certificateRetryRequestedAt: string | null;
-  /** True when the certificate is still provisioning after the custom domain was registered again. */
-  certificateIssuanceStuck: boolean;
+export interface Error404BodyError {
+  code: string;
+  message: string;
+  hint?: string | undefined;
+  /** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+  verification?: Error404BodyErrorVerification | undefined;
 }
-/** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-export type UpdateUrlResponseDataSwitchboardDns = CreateServiceUrlResponseDataSwitchboardDns;
-export interface UpdateUrlResponseData {
-  id: string;
-  type: string;
-  branchId: string;
-  /** Null once the service is deleted. */
-  serviceId: string | null;
-  hostname: string;
-  logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
-  status: UpdateUrlResponseDataStatus;
-  /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
-  conditions: UpdateUrlResponseDataConditions;
-  firstUnmetCondition: UpdateUrlResponseDataFirstUnmetCondition | null;
-  /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
-  ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
-  records: UpdateUrlResponseDataRecordsList;
-  /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
-  heldBy: CreateServiceUrlResponseDataHeldBy | null;
-  /** The Foundry custom domain the RoutingUrl holds, if any. */
-  customDomain: UpdateUrlResponseDataCustomDomain | null;
-  /** The error from the last sync with Foundry, also when it left the RoutingUrl without a custom domain. Null when that sync succeeded. */
-  customDomainSyncError: string | null;
-  /** Foundry's last answer about the hostname's DNS. Null before Foundry has answered. */
-  switchboardDns: CreateServiceUrlResponseDataSwitchboardDns | null;
-  /** The Console page that shows what to do next, while the RoutingUrl is pending and has a service. */
-  setupUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface UpdateUrlResponse {
-  data: UpdateUrlResponseData;
+export interface Error404Body {
+  error: Error404BodyError;
 }
 export type Error400BodyErrorList = Array<unknown>;
 export interface Error400Body {
@@ -3665,51 +1586,19 @@ export interface Error400Body {
   error: Error400BodyErrorList;
   data: unknown;
 }
+export type Error409BodyErrorCode2 = "quota-exceeded" | "client-error";
 /** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
-export type Error404BodyErrorVerification = CreateDomainOwnershipVerifyResponseDataVerification;
-export interface Error404BodyError {
-  code: string;
+export type Error409BodyErrorVerification2 = Error404BodyErrorVerification;
+export interface Error409BodyError3 {
+  code: Error409BodyErrorCode2;
   message: string;
   hint?: string | undefined;
   /** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
-  verification?: CreateDomainOwnershipVerifyResponseDataVerification | undefined;
+  verification?: Error404BodyErrorVerification | undefined;
 }
-export interface Error404Body {
-  error: Error404BodyError;
+export interface Error409Body3 {
+  error: Error409BodyError3;
 }
-/** Which attribute of the existing app clashed. */
-export type Error409BodyErrorConflict = "name" | "logicalId";
-export interface Error409BodyError {
-  code: string;
-  message: string;
-  existingAppId: string;
-  name: string;
-  branchGitName: string;
-  /** Which attribute of the existing app clashed. */
-  conflict?: Error409BodyErrorConflict | undefined;
-  /** The existing app's logical id. */
-  logicalId?: string | null | undefined;
-}
-export interface Error409Body {
-  error: Error409BodyError;
-}
-export type CreateAuthGithubActionsTokenError = BadRequest | PrismaOpError;
-/** Exchange a GitHub Actions OIDC token for a project-scoped service token U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Verifies the GitHub Actions OIDC token and mints a short-lived project-scoped service token. The caller must request the token with audience `prisma-cloud`. Any verification failure returns a generic 401 -- the response never reveals whether a repository is connected. */
-export const createAuthGithubActionsToken: API.OperationMethod<
-  CreateAuthGithubActionsTokenRequest,
-  CreateAuthGithubActionsTokenResponse,
-  CreateAuthGithubActionsTokenError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<CreateAuthGithubActionsTokenRequest>,
-  output: __S(1954, __c122, 2) as any as S.Schema<CreateAuthGithubActionsTokenResponse>,
-  errors: [BadRequest, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateAuthGithubActionsToken",
-}));
-
 export type CreateBucketError = BadRequest | Forbidden | NotFound | Conflict | PrismaOpError;
 /** Create bucket Creates a new object-store bucket in the specified project. */
 export const createBucket: API.OperationMethod<
@@ -3718,9 +1607,10 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<CreateBucketResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  input: __S(440, __c55, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<CreateBucketResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3735,30 +1625,14 @@ export const createBucketKey: API.OperationMethod<
   CreateBucketKeyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<CreateBucketKeyRequest>,
-  output: __S(2482, __c155, 2) as any as S.Schema<CreateBucketKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(488, __c61, 0) as any as S.Schema<CreateBucketKeyRequest>,
+  output: __S(490, __c61, 2) as any as S.Schema<CreateBucketKeyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBucketKey",
-}));
-
-export type CreateBuildError = BadRequest | NotFound | PrismaOpError;
-/** Report a build U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Records a build any deploy tool is running -- a CI workflow, a deploy script, or Composer from a laptop. The workspace comes from the token, never from the body, which is what lets a build be reported before the project it will create exists. Supplying `runIdentity` makes the call idempotent: a repeat for the same run returns the build already recorded rather than a second one. The response is the same either way; a caller cannot tell whether it created the build or joined one. A build reported with no `runIdentity` has no dedup key, so a client that retries a lost response creates a second build. Supply a `runIdentity` whenever the run has one. */
-export const createBuild: API.OperationMethod<
-  CreateBuildRequest,
-  CreateBuildResponse,
-  CreateBuildError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<CreateBuildRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateBuildResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateBuild",
 }));
 
 export type CreateConnectionError =
@@ -3774,9 +1648,10 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateConnectionResponse>,
-  errors: [BadRequest, Conflict, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(496, __c62, 0) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(507, __c63, 3) as any as S.Schema<CreateConnectionResponse>,
+  errors: [BadRequest, Conflict, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3791,9 +1666,10 @@ export const createConnectionRotate: API.OperationMethod<
   CreateConnectionRotateError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateConnectionRotateRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateConnectionRotateResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(520, __c65, 0) as any as S.Schema<CreateConnectionRotateRequest>,
+  output: __S(507, __c63, 3) as any as S.Schema<CreateConnectionRotateResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3814,9 +1690,10 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c36, 1) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(580, __c36, 4) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(529, __c66, 1) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(532, __c66, 4) as any as S.Schema<CreateDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3835,9 +1712,10 @@ export const createDatabaseConnection: API.OperationMethod<
   CreateDatabaseConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(24, __c3, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
+  output: __S(507, __c63, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3857,113 +1735,14 @@ export const createDatabaseRestore: API.OperationMethod<
   CreateDatabaseRestoreError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(32, __c4, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseRestore",
-}));
-
-export type CreateDeploymentStartError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Start deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Requests VM creation and startup for the deployment. The artifact must be uploaded before calling this endpoint. Returns a preview domain that becomes reachable once the VM is running. Poll the status endpoint until `running` is reached. */
-export const createDeploymentStart: API.OperationMethod<
-  CreateDeploymentStartRequest,
-  CreateDeploymentStartResponse,
-  CreateDeploymentStartError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<CreateDeploymentStartRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<CreateDeploymentStartResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateDeploymentStart",
-}));
-
-export type CreateDeploymentStopError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Stop deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Requests VM shutdown for the deployment. The deployment record and metadata are retained. Poll the status endpoint until `stopped` is reached. */
-export const createDeploymentStop: API.OperationMethod<
-  CreateDeploymentStopRequest,
-  CreateDeploymentStopResponse,
-  CreateDeploymentStopError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateDeploymentStopRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<CreateDeploymentStopResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateDeploymentStop",
-}));
-
-export type CreateDomainOwnershipVerifyError = BadRequest | NotFound | PrismaOpError;
-/** Verify a domain ownership U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Looks up the domain's verification record now and returns the domain ownership with the answer. The same answer updates every domain ownership whose verification record has the same name, in every workspace. When DNS gives no answer, no `status` changes, a verified domain ownership keeps its last answer, the others have it emptied, `verificationRecordSyncError` says why, and the platform checks again later. */
-export const createDomainOwnershipVerify: API.OperationMethod<
-  CreateDomainOwnershipVerifyRequest,
-  CreateDomainOwnershipVerifyResponse,
-  CreateDomainOwnershipVerifyError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateDomainOwnershipVerify",
-}));
-
-export type CreateDomainRetryError = BadRequest | Forbidden | NotFound | Conflict | PrismaOpError;
-/** Retry custom domain provisioning U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Retries DNS verification and certificate issuance for a failed or pending domain. Returns 409 if the domain is not yet eligible for retry (e.g. still provisioning). */
-export const createDomainRetry: API.OperationMethod<
-  CreateDomainRetryRequest,
-  CreateDomainRetryResponse,
-  CreateDomainRetryError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<CreateDomainRetryRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<CreateDomainRetryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateDomainRetry",
-}));
-
-export type CreateEnvironmentVariableError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Create an environment variable U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates a new environment variable in a project's `production` or `preview` environment, or a preview branch override when `branchId` is supplied. Returns 409 if a variable with the same key already exists in that scope -- use PATCH to replace its value. Values are stored encrypted and are not returned by subsequent reads. */
-export const createEnvironmentVariable: API.OperationMethod<
-  CreateEnvironmentVariableRequest,
-  CreateEnvironmentVariableResponse,
-  CreateEnvironmentVariableError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<CreateEnvironmentVariableRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<CreateEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateEnvironmentVariable",
 }));
 
 export type CreateProjectError = BadRequest | Conflict | UnprocessableEntity | PrismaOpError;
@@ -3974,56 +1753,14 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(932, __c58, 4) as any as S.Schema<CreateProjectResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(64, __c8, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<CreateProjectResponse>,
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProject",
-}));
-
-export type CreateProjectBranchError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Create a branch U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates an empty Branch under the specified Project. Buckets, databases, and apps are created separately. The first Branch in a Project is always created with isDefault=true and role=production regardless of the body value. Later Branches are created with role=preview. Setting isDefault=true while another Branch already holds the default atomically swaps the default flag only. */
-export const createProjectBranch: API.OperationMethod<
-  CreateProjectBranchRequest,
-  CreateProjectBranchResponse,
-  CreateProjectBranchError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateProjectBranchRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<CreateProjectBranchResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateProjectBranch",
-}));
-
-export type CreateProjectBranchAlchemyStateLeaseError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Acquire Alchemy deploy lease U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Acquires the deploy lease for a (branch, stack, stage). An expired lease is replaced atomically; a live lease fails fast with 409 naming the current holder -- there is no queueing. Every Alchemy state operation requires a live deploy lease. */
-export const createProjectBranchAlchemyStateLease: API.OperationMethod<
-  CreateProjectBranchAlchemyStateLeaseRequest,
-  CreateProjectBranchAlchemyStateLeaseResponse,
-  CreateProjectBranchAlchemyStateLeaseError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateProjectBranchAlchemyStateLease",
 }));
 
 export type CreateProjectDatabaseError =
@@ -4040,9 +1777,10 @@ export const createProjectDatabase: API.OperationMethod<
   CreateProjectDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1042, __c65, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
-  output: __S(1045, __c65, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(82, __c10, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
+  output: __S(85, __c10, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4062,261 +1800,14 @@ export const createProjectTransfer: API.OperationMethod<
   CreateProjectTransferError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateProjectTransferRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<CreateProjectTransferResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(88, __c11, 0) as any as S.Schema<CreateProjectTransferRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<CreateProjectTransferResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectTransfer",
-}));
-
-export type CreateScmInstallationsInstallIntentError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Create an SCM App installation intent U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates an installation intent for the given workspace. If an existing installation can be proven to belong to the caller it is linked immediately (`alreadyLinked`); otherwise the response carries a URL the user opens to install the SCM app. Pass `repository` (owner/name) so an installation that already covers it but cannot be linked automatically is detected and explained in `hint`. Currently only `github` is supported. */
-export const createScmInstallationsInstallIntent: API.OperationMethod<
-  CreateScmInstallationsInstallIntentRequest,
-  CreateScmInstallationsInstallIntentResponse,
-  CreateScmInstallationsInstallIntentError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<CreateScmInstallationsInstallIntentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateScmInstallationsInstallIntent",
-}));
-
-export type CreateServiceError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Create service U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` when a service already occupies the slot on the resolved branch, either by name or by `logicalId`; the body includes the existing service's id, name, branch, and logical id, and `conflict` says which attribute clashed. The name is checked first. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead. */
-export const createService: API.OperationMethod<
-  CreateServiceRequest,
-  CreateServiceResponse,
-  CreateServiceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<CreateServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateService",
-}));
-
-export type CreateServiceDeploymentError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Create deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates a new deployment under the specified service. Returns a pre-signed upload URL for the artifact unless `skipCodeUpload` is set (which forks the active promoted deployment's artifact). Environment variables are resolved automatically from the service's attached Branch (production-class templates for the production Branch; preview-class templates for preview Branches). Manage env vars via the `/v1/environment-variables` endpoints, not as part of the deploy payload. */
-export const createServiceDeployment: API.OperationMethod<
-  CreateServiceDeploymentRequest,
-  CreateServiceDeploymentResponse,
-  CreateServiceDeploymentError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1137, __c71, 1) as any as S.Schema<CreateServiceDeploymentRequest>,
-  output: __S(1139, __c71, 3) as any as S.Schema<CreateServiceDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateServiceDeployment",
-}));
-
-export type CreateServiceDomainError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | DomainOwnershipRequired
-  | DomainDnsNotConfigured
-  | PrismaOpError;
-/** Create a custom domain U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Registers a custom hostname for the service. The hostname must CNAME to the regional switchboard target before DNS verification can succeed. Returns 429 if the service has reached its domain quota (default: 3). */
-export const createServiceDomain: API.OperationMethod<
-  CreateServiceDomainRequest,
-  CreateServiceDomainResponse,
-  CreateServiceDomainError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateServiceDomainRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<CreateServiceDomainResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    DomainOwnershipRequired,
-    DomainDnsNotConfigured,
-    UnknownPrismaError,
-  ],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateServiceDomain",
-}));
-
-export type CreateServicePromoteError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Promote deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Promotes a deployment to be the active deployment behind the service's stable endpoint. The deployment must be running. Returns the service endpoint domain. */
-export const createServicePromote: API.OperationMethod<
-  CreateServicePromoteRequest,
-  CreateServicePromoteResponse,
-  CreateServicePromoteError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<CreateServicePromoteRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<CreateServicePromoteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateServicePromote",
-}));
-
-export type CreateServiceRollbackError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Roll a service back to an existing deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Makes any eligible existing deployment live behind the service's stable endpoint (rollback or roll-forward). Unlike promote, a stopped target is started and waited until it is running before the endpoint is switched, so the currently-live deployment keeps serving with zero downtime. Returns the service endpoint domain. */
-export const createServiceRollback: API.OperationMethod<
-  CreateServiceRollbackRequest,
-  CreateServiceRollbackResponse,
-  CreateServiceRollbackError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<CreateServiceRollbackRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<CreateServiceRollbackResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateServiceRollback",
-}));
-
-export type CreateServiceUrlError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Create a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Saves a hostname for the service, before its DNS exists, and answers with what is still missing. The RoutingUrl is `pending` until every condition is met, then `active`, and goes live on its own once the DNS records are published and a covering domain ownership is verified. Unless `createDomainOwnership` is `false`, a domain ownership for the exact hostname is created when no verified one covers it. A custom domain is registered with Foundry only once ownership is verified, and each registration counts against the workspace's hourly limit of new certificates. When the limit is reached, the RoutingUrl waits, `customDomainSyncError` says when the limit resets, and it registers then on its own. */
-export const createServiceUrl: API.OperationMethod<
-  CreateServiceUrlRequest,
-  CreateServiceUrlResponse,
-  CreateServiceUrlError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<CreateServiceUrlRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<CreateServiceUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateServiceUrl",
-}));
-
-export type CreateSourceRepositoryError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Link a source repository to a project U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Links a GitHub repository to a Prisma project via an existing SCM installation. */
-export const createSourceRepository: API.OperationMethod<
-  CreateSourceRepositoryRequest,
-  CreateSourceRepositoryResponse,
-  CreateSourceRepositoryError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<CreateSourceRepositoryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateSourceRepository",
-}));
-
-export type CreateUrlCheckError = BadRequest | NotFound | PrismaOpError;
-/** Check a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Refreshes the RoutingUrl now and returns it. Looks up the TXT records of the domain ownerships that cover the hostname when none is verified, asks Foundry to retry a failed certificate, and syncs the custom domain with Foundry. Creates nothing. Run it after publishing a DNS record. A certificate retry counts against the workspace's hourly limit of new certificates. */
-export const createUrlCheck: API.OperationMethod<
-  CreateUrlCheckRequest,
-  CreateUrlCheckResponse,
-  CreateUrlCheckError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<CreateUrlCheckRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<CreateUrlCheckResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateUrlCheck",
-}));
-
-export type CreateWorkspaceError = BadRequest | Forbidden | PrismaOpError;
-/** Create a workspace U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates a new free-plan workspace owned by the authenticated user. For agent tokens the workspace is created for the agent's sponsor, and the agent's permission policy treats this as an admin action -- under the default policy the sponsor approves it first. */
-export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
-  CreateWorkspaceResponse,
-  CreateWorkspaceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<CreateWorkspaceRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<CreateWorkspaceResponse>,
-  errors: [BadRequest, Forbidden, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateWorkspace",
-}));
-
-export type CreateWorkspaceDomainOwnershipError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | DomainOwnershipRequired
-  | PrismaOpError;
-/** Create a domain ownership U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Records that the workspace intends to own the domain, looks up its verification record, and returns the domain ownership, verified when the record carries the workspace's value and unverified otherwise. Publish the record in `verification`, then verify the domain ownership to complete it. When DNS gives no answer, the domain ownership is unverified, its DNS fields are empty, and the platform checks again later. The lookup also updates the other domain ownerships whose verification record has the same name, in every workspace. A domain the workspace already holds is checked again and returned. */
-export const createWorkspaceDomainOwnership: API.OperationMethod<
-  CreateWorkspaceDomainOwnershipRequest,
-  CreateWorkspaceDomainOwnershipResponse,
-  CreateWorkspaceDomainOwnershipError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, DomainOwnershipRequired, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateWorkspaceDomainOwnership",
 }));
 
 export type CreateWorkspaceServiceTokenError =
@@ -4331,35 +1822,14 @@ export const createWorkspaceServiceToken: API.OperationMethod<
   CreateWorkspaceServiceTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(104, __c13, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateWorkspaceServiceToken",
-}));
-
-export type DeleteBranchError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Soft-delete a branch U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Soft-deletes a Branch (sets deletedAt). Refuses if the Branch is the Project's current default, the Project's production Branch, or has live members. */
-export const deleteBranch: API.OperationMethod<
-  DeleteBranchRequest,
-  DeleteBranchResponse,
-  DeleteBranchError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteBranchResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteBranch",
 }));
 
 export type DeleteBucketError = BadRequest | NotFound | PrismaOpError;
@@ -4370,9 +1840,10 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteBucketResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteBucketResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4387,9 +1858,10 @@ export const deleteBucketKey: API.OperationMethod<
   DeleteBucketKeyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<DeleteBucketKeyRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteBucketKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteBucketKeyRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteBucketKeyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4404,9 +1876,10 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DeleteConnectionRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteConnectionResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4426,85 +1899,14 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDatabase",
-}));
-
-export type DeleteDeploymentError = BadRequest | Forbidden | NotFound | Conflict | PrismaOpError;
-/** Delete deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Permanently deletes the deployment, its metadata, and any associated VM. The deployment must be stopped or in the `new` state before it can be deleted. */
-export const deleteDeployment: API.OperationMethod<
-  DeleteDeploymentRequest,
-  DeleteDeploymentResponse,
-  DeleteDeploymentError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DeleteDeploymentRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteDeployment",
-}));
-
-export type DeleteDomainError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** Delete a custom domain U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Removes a custom domain binding. Authorization is derived from the parent compute service's workspace. */
-export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
-  DeleteDomainResponse,
-  DeleteDomainError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteDomain",
-}));
-
-export type DeleteDomainOwnershipError = BadRequest | NotFound | PrismaOpError;
-/** Delete a domain ownership U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Removes the domain ownership, in any status. The verification record in DNS is not changed. */
-export const deleteDomainOwnership: API.OperationMethod<
-  DeleteDomainOwnershipRequest,
-  DeleteDomainOwnershipResponse,
-  DeleteDomainOwnershipError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<DeleteDomainOwnershipRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteDomainOwnership",
-}));
-
-export type DeleteEnvironmentVariableError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Delete an environment variable U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Removes an environment variable. A second delete of the same variable returns 404. */
-export const deleteEnvironmentVariable: API.OperationMethod<
-  DeleteEnvironmentVariableRequest,
-  DeleteEnvironmentVariableResponse,
-  DeleteEnvironmentVariableError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DeleteEnvironmentVariableRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteEnvironmentVariable",
 }));
 
 export type DeleteIntegrationError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
@@ -4515,9 +1917,10 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteIntegrationResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4537,131 +1940,14 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteProjectResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProject",
-}));
-
-export type DeleteProjectBranchAlchemyStateLeaseError = BadRequest | NotFound | PrismaOpError;
-/** Release Alchemy deploy lease U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Releases the deploy lease addressed by the Alchemy-State-Lease-Id header on clean deploy exit. A missing, replaced, or expired lease returns 404 -- a lost lease at release time is surfaced, not idempotently swallowed. */
-export const deleteProjectBranchAlchemyStateLease: API.OperationMethod<
-  DeleteProjectBranchAlchemyStateLeaseRequest,
-  DeleteProjectBranchAlchemyStateLeaseResponse,
-  DeleteProjectBranchAlchemyStateLeaseError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteProjectBranchAlchemyStateLease",
-}));
-
-export type DeleteProjectBranchAlchemyStateStateStackError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Delete Alchemy stack state U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Deletes every resource-state and output row of the stack, or only the given stage's rows when the stage query parameter is set. Requires a live deploy lease on the affected stage; without a stage it additionally requires that no other stage of the stack holds a live lease, so one stage's deploy can never delete state another stage's deploy is using. Idempotent. */
-export const deleteProjectBranchAlchemyStateStateStack: API.OperationMethod<
-  DeleteProjectBranchAlchemyStateStateStackRequest,
-  DeleteProjectBranchAlchemyStateStateStackResponse,
-  DeleteProjectBranchAlchemyStateStateStackError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteProjectBranchAlchemyStateStateStack",
-}));
-
-export type DeleteProjectBranchAlchemyStateStateStackStageResourceError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Delete Alchemy resource state U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Deletes the resource state row. Idempotent: deleting an absent row also returns 204. */
-export const deleteProjectBranchAlchemyStateStateStackStageResource: API.OperationMethod<
-  DeleteProjectBranchAlchemyStateStateStackStageResourceRequest,
-  DeleteProjectBranchAlchemyStateStateStackStageResourceResponse,
-  DeleteProjectBranchAlchemyStateStateStackStageResourceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    1616,
-    __c101,
-    0,
-  ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceRequest>,
-  output: __S(
-    768,
-    __c48,
-    0,
-  ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteProjectBranchAlchemyStateStateStackStageResource",
-}));
-
-export type DeleteServiceError = BadRequest | Forbidden | NotFound | Conflict | PrismaOpError;
-/** Delete service U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Deletes a service. Deployments under the service are deleted before the service is deleted. */
-export const deleteService: API.OperationMethod<
-  DeleteServiceRequest,
-  DeleteServiceResponse,
-  DeleteServiceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteService",
-}));
-
-export type DeleteSourceRepositoryError = BadRequest | NotFound | PrismaOpError;
-/** Disconnect a source repository U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Disconnects the source repository link. Existing branches and their attached resources are preserved. */
-export const deleteSourceRepository: API.OperationMethod<
-  DeleteSourceRepositoryRequest,
-  DeleteSourceRepositoryResponse,
-  DeleteSourceRepositoryError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteSourceRepositoryResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteSourceRepository",
-}));
-
-export type DeleteUrlError = BadRequest | NotFound | PrismaOpError;
-/** Delete a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Removes the hostname from its service. Its custom domain is removed from Foundry now or, if that fails, by a retry. */
-export const deleteUrl: API.OperationMethod<
-  DeleteUrlRequest,
-  DeleteUrlResponse,
-  DeleteUrlError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DeleteUrlRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteUrlResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteUrl",
 }));
 
 export type DeleteWorkspaceIntegrationError =
@@ -4676,9 +1962,10 @@ export const deleteWorkspaceIntegration: API.OperationMethod<
   DeleteWorkspaceIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4693,9 +1980,10 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
   DeleteWorkspaceServiceTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4710,30 +1998,14 @@ export const getAgentApproval: API.OperationMethod<
   GetAgentApprovalError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<GetAgentApprovalRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<GetAgentApprovalResponse>,
-  errors: [NotFound, UnknownPrismaError],
+  input: __S(176, __c22, 0) as any as S.Schema<GetAgentApprovalRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<GetAgentApprovalResponse>,
+  errors: [NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAgentApproval",
-}));
-
-export type GetBranchError = BadRequest | NotFound | PrismaOpError;
-/** Get a branch U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a single Branch by ID. Member resources are not inlined -- list them via /v1/databases?branchId= and /v1/apps?branchId=. */
-export const getBranch: API.OperationMethod<
-  GetBranchRequest,
-  GetBranchResponse,
-  GetBranchError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetBranchRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<GetBranchResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBranch",
 }));
 
 export type GetBucketError = BadRequest | NotFound | PrismaOpError;
@@ -4744,9 +2016,10 @@ export const getBucket: API.OperationMethod<
   GetBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetBucketRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<GetBucketResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(184, __c23, 0) as any as S.Schema<GetBucketRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<GetBucketResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4761,9 +2034,10 @@ export const getBucketKeys: API.OperationMethod<
   GetBucketKeysError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<GetBucketKeysRequest>,
-  output: __S(1763, __c110, 3) as any as S.Schema<GetBucketKeysResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(192, __c24, 0) as any as S.Schema<GetBucketKeysRequest>,
+  output: __S(195, __c24, 3) as any as S.Schema<GetBucketKeysResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4778,47 +2052,14 @@ export const getBuckets: API.OperationMethod<
   GetBucketsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<GetBucketsRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<GetBucketsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(208, __c26, 0) as any as S.Schema<GetBucketsRequest>,
+  output: __S(210, __c26, 2) as any as S.Schema<GetBucketsResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBuckets",
-}));
-
-export type GetBuildError = BadRequest | NotFound | PrismaOpError;
-/** Get a build U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns one build with the resources it reported acting on. */
-export const getBuild: API.OperationMethod<
-  GetBuildRequest,
-  GetBuildResponse,
-  GetBuildError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<GetBuildRequest>,
-  output: __S(1812, __c113, 4) as any as S.Schema<GetBuildResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBuild",
-}));
-
-export type GetBuildsError = BadRequest | NotFound | PrismaOpError;
-/** List builds U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Lists the builds of the caller's workspace, newest first, filtered by project, branch, or state. `cursor` is opaque: pass back the `nextCursor` the previous page returned. */
-export const getBuilds: API.OperationMethod<
-  GetBuildsRequest,
-  GetBuildsResponse,
-  GetBuildsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetBuildsRequest>,
-  output: __S(1826, __c114, 2) as any as S.Schema<GetBuildsResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBuilds",
 }));
 
 export type GetConnectionError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
@@ -4829,9 +2070,10 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<GetConnectionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(216, __c27, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(217, __c27, 1) as any as S.Schema<GetConnectionResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4846,9 +2088,10 @@ export const getConnections: API.OperationMethod<
   GetConnectionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetConnectionsRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<GetConnectionsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(224, __c28, 0) as any as S.Schema<GetConnectionsRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<GetConnectionsResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4868,9 +2111,10 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(240, __c30, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(243, __c30, 3) as any as S.Schema<GetDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4885,9 +2129,10 @@ export const getDatabaseBackups: API.OperationMethod<
   GetDatabaseBackupsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
-  output: __S(1909, __c119, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(248, __c31, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
+  output: __S(253, __c31, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4902,9 +2147,10 @@ export const getDatabaseConnections: API.OperationMethod<
   GetDatabaseConnectionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
-  errors: [UnprocessableEntity, UnknownPrismaError],
+  input: __S(256, __c32, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4919,9 +2165,10 @@ export const getDatabases: API.OperationMethod<
   GetDatabasesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetDatabasesRequest>,
-  output: __S(1940, __c121, 4) as any as S.Schema<GetDatabasesResponse>,
-  errors: [BadRequest, Forbidden, UnknownPrismaError],
+  input: __S(264, __c33, 0) as any as S.Schema<GetDatabasesRequest>,
+  output: __S(268, __c33, 4) as any as S.Schema<GetDatabasesResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4936,123 +2183,14 @@ export const getDatabaseUsage: API.OperationMethod<
   GetDatabaseUsageError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetDatabaseUsageRequest>,
-  output: __S(1972, __c123, 4) as any as S.Schema<GetDatabaseUsageResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(272, __c34, 0) as any as S.Schema<GetDatabaseUsageRequest>,
+  output: __S(276, __c34, 4) as any as S.Schema<GetDatabaseUsageResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseUsage",
-}));
-
-export type GetDeploymentError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** Get deployment U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a deployment by ID, including its current status derived from the underlying VM state. */
-export const getDeployment: API.OperationMethod<
-  GetDeploymentRequest,
-  GetDeploymentResponse,
-  GetDeploymentError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(1988, __c124, 4) as any as S.Schema<GetDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDeployment",
-}));
-
-export type GetDeploymentLogsError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** Get deployment logs U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns log output for the specified deployment. Each record is a JSON object with `type: "log"` (log text + byte metadata) or `type: "terminal"` (end-of-page signal with a resume cursor). A plain GET responds with newline-delimited JSON (`application/x-ndjson`): it drains the requested window (`tail`, `from_start`, or `cursor`), ends with a terminal record carrying the cursor for the next page, and closes. Send an `Upgrade: websocket` header to follow the log live instead; a live segment ends after 10 minutes with the same terminal/cursor mechanism. */
-export const getDeploymentLogs: API.OperationMethod<
-  GetDeploymentLogsRequest,
-  GetDeploymentLogsResponse,
-  GetDeploymentLogsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetDeploymentLogsRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<GetDeploymentLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDeploymentLogs",
-}));
-
-export type GetDomainError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** Get a custom domain U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns details for a custom domain by id. Authorization is derived from the parent compute service's workspace. */
-export const getDomain: API.OperationMethod<
-  GetDomainRequest,
-  GetDomainResponse,
-  GetDomainError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<GetDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDomain",
-}));
-
-export type GetDomainOwnershipError = BadRequest | NotFound | PrismaOpError;
-/** Get a domain ownership U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a domain ownership, in any status. */
-export const getDomainOwnership: API.OperationMethod<
-  GetDomainOwnershipRequest,
-  GetDomainOwnershipResponse,
-  GetDomainOwnershipError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetDomainOwnershipRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<GetDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDomainOwnership",
-}));
-
-export type GetEnvironmentVariableError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Get an environment variable U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a single environment variable's metadata. The value is not returned. */
-export const getEnvironmentVariable: API.OperationMethod<
-  GetEnvironmentVariableRequest,
-  GetEnvironmentVariableResponse,
-  GetEnvironmentVariableError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetEnvironmentVariableRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<GetEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetEnvironmentVariable",
-}));
-
-export type GetEnvironmentVariablesError =
-  | NotFound
-  | BadRequest
-  | UnprocessableEntity
-  | PrismaOpError;
-/** List environment variables U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a paginated list of environment variables. All filters are optional; combine `projectId`, `class`, and `key` to look up a specific variable by name. */
-export const getEnvironmentVariables: API.OperationMethod<
-  GetEnvironmentVariablesRequest,
-  GetEnvironmentVariablesResponse,
-  GetEnvironmentVariablesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetEnvironmentVariablesRequest>,
-  output: __S(2066, __c129, 2) as any as S.Schema<GetEnvironmentVariablesResponse>,
-  errors: [NotFound, BadRequest, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetEnvironmentVariables",
 }));
 
 export type GetIntegrationError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
@@ -5063,9 +2201,10 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<GetIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(280, __c35, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<GetIntegrationResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5080,9 +2219,10 @@ export const getIntegrations: API.OperationMethod<
   GetIntegrationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetIntegrationsRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<GetIntegrationsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(296, __c37, 0) as any as S.Schema<GetIntegrationsRequest>,
+  output: __S(305, __c38, 1) as any as S.Schema<GetIntegrationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5093,9 +2233,10 @@ export type GetMeError = PrismaOpError;
 /** Get current authenticated principal Returns the user, workspace, and credential represented by the current token. */
 export const getMe: API.OperationMethod<GetMeRequest, GetMeResponse, GetMeError, PrismaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2160, __c135, 0) as any as S.Schema<GetMeRequest>,
-    output: __S(2164, __c135, 4) as any as S.Schema<GetMeResponse>,
-    errors: [UnknownPrismaError],
+    input: __S(312, __c39, 0) as any as S.Schema<GetMeRequest>,
+    output: __S(316, __c39, 4) as any as S.Schema<GetMeResponse>,
+    errors: [],
+    serviceErrors: PrismaServiceErrors,
     protocol: PrismaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5110,247 +2251,14 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(2256, __c141, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(320, __c40, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<GetProjectResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProject",
-}));
-
-export type GetProjectBranchAlchemyStateStateStacksError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** List Alchemy stacks U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Lists the distinct stack names with state or output rows on the branch. Requires no deploy lease: the stock client's auth probe (checkHttpStateStoreAuth) calls this endpoint bare, and it exposes stack names only. */
-export const getProjectBranchAlchemyStateStateStacks: API.OperationMethod<
-  GetProjectBranchAlchemyStateStateStacksRequest,
-  GetProjectBranchAlchemyStateStateStacksResponse,
-  GetProjectBranchAlchemyStateStateStacksError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksRequest>,
-  output: __S(2304, __c144, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateStateStacks",
-}));
-
-export type GetProjectBranchAlchemyStateStateStackStageOutputError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Get Alchemy stack output U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the stored stack output for the stage, or a JSON null body when absent (the stock client maps null to undefined). */
-export const getProjectBranchAlchemyStateStateStackStageOutput: API.OperationMethod<
-  GetProjectBranchAlchemyStateStateStackStageOutputRequest,
-  GetProjectBranchAlchemyStateStateStackStageOutputResponse,
-  GetProjectBranchAlchemyStateStateStackStageOutputError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2320,
-    __c145,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputRequest>,
-  output: __S(
-    2336,
-    __c146,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateStateStackStageOutput",
-}));
-
-export type GetProjectBranchAlchemyStateStateStackStageReplacedResourcesError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** List replaced Alchemy resources U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the decrypted resource states of the stage whose status is "replaced". */
-export const getProjectBranchAlchemyStateStateStackStageReplacedResources: API.OperationMethod<
-  GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest,
-  GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse,
-  GetProjectBranchAlchemyStateStateStackStageReplacedResourcesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2352,
-    __c147,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest>,
-  output: __S(
-    2353,
-    __c147,
-    1,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateStateStackStageReplacedResources",
-}));
-
-export type GetProjectBranchAlchemyStateStateStackStageResourceError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Get Alchemy resource state U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the stored resource state, or a JSON null body when absent (the stock client maps null to undefined). */
-export const getProjectBranchAlchemyStateStateStackStageResource: API.OperationMethod<
-  GetProjectBranchAlchemyStateStateStackStageResourceRequest,
-  GetProjectBranchAlchemyStateStateStackStageResourceResponse,
-  GetProjectBranchAlchemyStateStateStackStageResourceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2368,
-    __c148,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceRequest>,
-  output: __S(
-    2336,
-    __c146,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateStateStackStageResource",
-}));
-
-export type GetProjectBranchAlchemyStateStateStackStageResourcesError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** List Alchemy resources U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Lists the resource FQNs stored for the stage, ordered by FQN. */
-export const getProjectBranchAlchemyStateStateStackStageResources: API.OperationMethod<
-  GetProjectBranchAlchemyStateStateStackStageResourcesRequest,
-  GetProjectBranchAlchemyStateStateStackStageResourcesResponse,
-  GetProjectBranchAlchemyStateStateStackStageResourcesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2384,
-    __c149,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesRequest>,
-  output: __S(
-    2304,
-    __c144,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateStateStackStageResources",
-}));
-
-export type GetProjectBranchAlchemyStateStateStackStagesError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** List Alchemy stages U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Lists the distinct stage names with state or output rows for the stack. Accepts a live deploy lease on any stage of the stack. */
-export const getProjectBranchAlchemyStateStateStackStages: API.OperationMethod<
-  GetProjectBranchAlchemyStateStateStackStagesRequest,
-  GetProjectBranchAlchemyStateStateStackStagesResponse,
-  GetProjectBranchAlchemyStateStateStackStagesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2400,
-    __c150,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesRequest>,
-  output: __S(
-    2304,
-    __c144,
-    0,
-  ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateStateStackStages",
-}));
-
-export type GetProjectBranchAlchemyStateVersionError = PrismaOpError;
-/** Alchemy state store version U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Unauthenticated contract-version probe served verbatim from the pinned alchemy HttpStateApi contract. Returns the constant only and never inspects the addressed project or branch. */
-export const getProjectBranchAlchemyStateVersion: API.OperationMethod<
-  GetProjectBranchAlchemyStateVersionRequest,
-  GetProjectBranchAlchemyStateVersionResponse,
-  GetProjectBranchAlchemyStateVersionError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetProjectBranchAlchemyStateVersionRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<GetProjectBranchAlchemyStateVersionResponse>,
-  errors: [UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchAlchemyStateVersion",
-}));
-
-export type GetProjectBranchApplicationTopologyError = BadRequest | NotFound | PrismaOpError;
-/** Get branch topology U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the stored topology graph for the branch -- the same shape Composer submitted. Nodes, ports, and edges are returned in deterministic order. */
-export const getProjectBranchApplicationTopology: API.OperationMethod<
-  GetProjectBranchApplicationTopologyRequest,
-  GetProjectBranchApplicationTopologyResponse,
-  GetProjectBranchApplicationTopologyError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetProjectBranchApplicationTopologyRequest>,
-  output: __S(2456, __c153, 8) as any as S.Schema<GetProjectBranchApplicationTopologyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchApplicationTopology",
-}));
-
-export type GetProjectBranchesError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
-/** List branches in a project U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the live Branches of a Project. Supports two mutually exclusive filters: ?gitName= (exact match -- at most one row), ?gitNameContains= (case-sensitive substring). Soft-deleted Branches are not returned. Ordered by createdAt ascending. */
-export const getProjectBranches: API.OperationMethod<
-  GetProjectBranchesRequest,
-  GetProjectBranchesResponse,
-  GetProjectBranchesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetProjectBranchesRequest>,
-  output: __S(2466, __c154, 2) as any as S.Schema<GetProjectBranchesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranches",
-}));
-
-export type GetProjectBranchUrlsError = BadRequest | NotFound | PrismaOpError;
-/** List a Branch's RoutingUrls U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the hostnames of every service on the Branch, with their conditions and the DNS records still to publish. Filter by `logicalId` to find the RoutingUrl a deploy tool declared. Reads stored state only; it does not call DNS or Foundry. */
-export const getProjectBranchUrls: API.OperationMethod<
-  GetProjectBranchUrlsRequest,
-  GetProjectBranchUrlsResponse,
-  GetProjectBranchUrlsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetProjectBranchUrlsRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<GetProjectBranchUrlsResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetProjectBranchUrls",
 }));
 
 export type GetProjectDatabasesError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
@@ -5361,9 +2269,10 @@ export const getProjectDatabases: API.OperationMethod<
   GetProjectDatabasesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetProjectDatabasesRequest>,
-  output: __S(2548, __c159, 4) as any as S.Schema<GetProjectDatabasesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(344, __c43, 0) as any as S.Schema<GetProjectDatabasesRequest>,
+  output: __S(348, __c43, 4) as any as S.Schema<GetProjectDatabasesResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5378,9 +2287,10 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<GetProjectsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(352, __c44, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(354, __c44, 2) as any as S.Schema<GetProjectsResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5395,9 +2305,10 @@ export const getRegions: API.OperationMethod<
   GetRegionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetRegionsRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<GetRegionsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(360, __c45, 0) as any as S.Schema<GetRegionsRequest>,
+  output: __S(363, __c45, 3) as any as S.Schema<GetRegionsResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5412,9 +2323,10 @@ export const getRegionsAccelerate: API.OperationMethod<
   GetRegionsAccelerateError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
-  output: __S(2595, __c162, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
-  errors: [UnknownPrismaError],
+  input: __S(368, __c46, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
+  output: __S(371, __c46, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
+  errors: [],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5429,192 +2341,14 @@ export const getRegionsPostgres: API.OperationMethod<
   GetRegionsPostgresError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetRegionsPostgresRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<GetRegionsPostgresResponse>,
-  errors: [UnknownPrismaError],
+  input: __S(376, __c47, 0) as any as S.Schema<GetRegionsPostgresRequest>,
+  output: __S(379, __c47, 3) as any as S.Schema<GetRegionsPostgresResponse>,
+  errors: [],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRegionsPostgres",
-}));
-
-export type GetScmInstallationRepositoriesError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** List repositories accessible to an SCM installation U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Lists repositories accessible to the given SCM installation. */
-export const getScmInstallationRepositories: API.OperationMethod<
-  GetScmInstallationRepositoriesRequest,
-  GetScmInstallationRepositoriesResponse,
-  GetScmInstallationRepositoriesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetScmInstallationRepositoriesRequest>,
-  output: __S(2627, __c164, 3) as any as S.Schema<GetScmInstallationRepositoriesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetScmInstallationRepositories",
-}));
-
-export type GetScmInstallationsError = BadRequest | PrismaOpError;
-/** List SCM installations for a workspace U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Lists active SCM installations connected to the given workspace. */
-export const getScmInstallations: API.OperationMethod<
-  GetScmInstallationsRequest,
-  GetScmInstallationsResponse,
-  GetScmInstallationsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetScmInstallationsRequest>,
-  output: __S(2643, __c165, 3) as any as S.Schema<GetScmInstallationsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetScmInstallations",
-}));
-
-export type GetServiceError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** Get service U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a service by ID, including its region and active promoted deployment reference. */
-export const getService: API.OperationMethod<
-  GetServiceRequest,
-  GetServiceResponse,
-  GetServiceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<GetServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetService",
-}));
-
-export type GetServiceDeploymentsError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** List deployments U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns all deployments belonging to a service, ordered by creation time (newest first). Supports cursor-based pagination. */
-export const getServiceDeployments: API.OperationMethod<
-  GetServiceDeploymentsRequest,
-  GetServiceDeploymentsResponse,
-  GetServiceDeploymentsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetServiceDeploymentsRequest>,
-  output: __S(2675, __c167, 3) as any as S.Schema<GetServiceDeploymentsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetServiceDeployments",
-}));
-
-export type GetServiceDomainsError = BadRequest | Forbidden | NotFound | PrismaOpError;
-/** List custom domains for a service U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns all custom domains attached to any deployment of the service. Domains are aggregated across all deployments since Foundry lists per deployment. */
-export const getServiceDomains: API.OperationMethod<
-  GetServiceDomainsRequest,
-  GetServiceDomainsResponse,
-  GetServiceDomainsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetServiceDomainsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetServiceDomainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetServiceDomains",
-}));
-
-export type GetServicesError =
-  | BadRequest
-  | NotFound
-  | Forbidden
-  | UnprocessableEntity
-  | PrismaOpError;
-/** List services U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns all services the token has access to, ordered by creation time (oldest first). Optionally filter by project ID. Supports cursor-based pagination. */
-export const getServices: API.OperationMethod<
-  GetServicesRequest,
-  GetServicesResponse,
-  GetServicesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetServicesRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<GetServicesResponse>,
-  errors: [BadRequest, NotFound, Forbidden, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetServices",
-}));
-
-export type GetServiceUrlsError = BadRequest | NotFound | PrismaOpError;
-/** List RoutingUrls U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the service's hostnames with their conditions and the DNS records still to publish. Reads stored state only; it does not call DNS or Foundry. */
-export const getServiceUrls: API.OperationMethod<
-  GetServiceUrlsRequest,
-  GetServiceUrlsResponse,
-  GetServiceUrlsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetServiceUrlsRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<GetServiceUrlsResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetServiceUrls",
-}));
-
-export type GetSourceRepositoriesError = BadRequest | NotFound | PrismaOpError;
-/** List source repositories U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns source repositories linked to a project. Requires projectId query parameter. */
-export const getSourceRepositories: API.OperationMethod<
-  GetSourceRepositoriesRequest,
-  GetSourceRepositoriesResponse,
-  GetSourceRepositoriesError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetSourceRepositoriesRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<GetSourceRepositoriesResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSourceRepositories",
-}));
-
-export type GetSourceRepositoryError = BadRequest | NotFound | PrismaOpError;
-/** Get a source repository U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a single source repository link by ID. */
-export const getSourceRepository: API.OperationMethod<
-  GetSourceRepositoryRequest,
-  GetSourceRepositoryResponse,
-  GetSourceRepositoryError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetSourceRepositoryRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<GetSourceRepositoryResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSourceRepository",
-}));
-
-export type GetUrlError = BadRequest | NotFound | PrismaOpError;
-/** Get a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns a hostname of a service with its conditions and the DNS records still to publish. Reads stored state only; it does not call DNS or Foundry. */
-export const getUrl: API.OperationMethod<
-  GetUrlRequest,
-  GetUrlResponse,
-  GetUrlError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetUrlRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<GetUrlResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUrl",
 }));
 
 export type GetWorkspaceError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
@@ -5625,55 +2359,14 @@ export const getWorkspace: API.OperationMethod<
   GetWorkspaceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<GetWorkspaceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(384, __c48, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<GetWorkspaceResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWorkspace",
-}));
-
-export type GetWorkspaceDomainOwnershipsError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** List domain ownerships U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the workspace's domain ownerships in every status, ordered by id. */
-export const getWorkspaceDomainOwnerships: API.OperationMethod<
-  GetWorkspaceDomainOwnershipsRequest,
-  GetWorkspaceDomainOwnershipsResponse,
-  GetWorkspaceDomainOwnershipsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<GetWorkspaceDomainOwnershipsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetWorkspaceDomainOwnerships",
-}));
-
-export type GetWorkspaceDomainOwnershipsVerificationError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Get the verification record for a domain U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Returns the TXT record the workspace must publish to prove it owns the domain. Looks nothing up and stores nothing. The record's value is the same for every domain in the workspace. */
-export const getWorkspaceDomainOwnershipsVerification: API.OperationMethod<
-  GetWorkspaceDomainOwnershipsVerificationRequest,
-  GetWorkspaceDomainOwnershipsVerificationResponse,
-  GetWorkspaceDomainOwnershipsVerificationError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetWorkspaceDomainOwnershipsVerification",
 }));
 
 export type GetWorkspaceIntegrationsError =
@@ -5688,9 +2381,10 @@ export const getWorkspaceIntegrations: API.OperationMethod<
   GetWorkspaceIntegrationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(400, __c50, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
+  output: __S(305, __c38, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5705,9 +2399,10 @@ export const getWorkspaces: API.OperationMethod<
   GetWorkspacesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetWorkspacesRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<GetWorkspacesResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(408, __c51, 0) as any as S.Schema<GetWorkspacesRequest>,
+  output: __S(410, __c51, 2) as any as S.Schema<GetWorkspacesResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5722,9 +2417,10 @@ export const getWorkspaceServiceTokens: API.OperationMethod<
   GetWorkspaceServiceTokensError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  input: __S(416, __c52, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
+  output: __S(419, __c52, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5739,126 +2435,14 @@ export const getWorkspaceSubscription: API.OperationMethod<
   GetWorkspaceSubscriptionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  input: __S(424, __c53, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
+  output: __S(426, __c53, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWorkspaceSubscription",
-}));
-
-export type PutBuildResourceError = BadRequest | NotFound | PrismaOpError;
-/** Report a resource a build acted on U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Records that the build created, acted on, or deleted a platform resource -- the provenance a deploy run leaves behind. Idempotent: re-reporting the same resource updates the row rather than adding one, and never weakens the recorded action. The resource must belong to the caller's workspace, and must still be findable: a soft-deleted resource can be reported, but `project`, `database`, `service_key` and `config_variable` leave no row behind, so a build that deletes one must report it before deleting it. Reporting a deployment as `created` also attaches the deployment to the build and records the app it deployed into, both in the same transaction, because a deployment relates its build to that app whether or not the reporter says so. */
-export const putBuildResource: API.OperationMethod<
-  PutBuildResourceRequest,
-  PutBuildResourceResponse,
-  PutBuildResourceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<PutBuildResourceRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<PutBuildResourceResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PutBuildResource",
-}));
-
-export type PutProjectBranchAlchemyStateStateStackStageOutputError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Set Alchemy stack output U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Overwrites the stack output for the stage, encrypted at rest, and echoes the stored value. */
-export const putProjectBranchAlchemyStateStateStackStageOutput: API.OperationMethod<
-  PutProjectBranchAlchemyStateStateStackStageOutputRequest,
-  PutProjectBranchAlchemyStateStateStackStageOutputResponse,
-  PutProjectBranchAlchemyStateStateStackStageOutputError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    368,
-    __c23,
-    0,
-  ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputRequest>,
-  output: __S(
-    2336,
-    __c146,
-    0,
-  ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PutProjectBranchAlchemyStateStateStackStageOutput",
-}));
-
-export type PutProjectBranchAlchemyStateStateStackStageResourceError =
-  | BadRequest
-  | NotFound
-  | Conflict
-  | PrismaOpError;
-/** Set Alchemy resource state U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Stores the resource state encrypted at rest and echoes the stored value. */
-export const putProjectBranchAlchemyStateStateStackStageResource: API.OperationMethod<
-  PutProjectBranchAlchemyStateStateStackStageResourceRequest,
-  PutProjectBranchAlchemyStateStateStackStageResourceResponse,
-  PutProjectBranchAlchemyStateStateStackStageResourceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    384,
-    __c24,
-    0,
-  ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceRequest>,
-  output: __S(
-    2336,
-    __c146,
-    0,
-  ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PutProjectBranchAlchemyStateStateStackStageResource",
-}));
-
-export type PutProjectBranchApplicationTopologyError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Replace branch topology U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Atomically replaces the entire topology for a branch. Composer calls this after Load, before the apply. On error, Composer warns and continues -- the previous topology is preserved. */
-export const putProjectBranchApplicationTopology: API.OperationMethod<
-  PutProjectBranchApplicationTopologyRequest,
-  PutProjectBranchApplicationTopologyResponse,
-  PutProjectBranchApplicationTopologyError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<PutProjectBranchApplicationTopologyRequest>,
-  output: __S(2456, __c153, 8) as any as S.Schema<PutProjectBranchApplicationTopologyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PutProjectBranchApplicationTopology",
-}));
-
-export type UpdateBranchError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
-/** Update a branch U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Promotes a Branch to be the Project's default. Only isDefault is mutable -- gitName rename and role changes are rejected. */
-export const updateBranch: API.OperationMethod<
-  UpdateBranchRequest,
-  UpdateBranchResponse,
-  UpdateBranchError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateBranchRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<UpdateBranchResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateBranch",
 }));
 
 export type UpdateBucketError =
@@ -5874,30 +2458,14 @@ export const updateBucket: API.OperationMethod<
   UpdateBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<UpdateBucketRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<UpdateBucketResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(432, __c54, 0) as any as S.Schema<UpdateBucketRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<UpdateBucketResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateBucket",
-}));
-
-export type UpdateBuildError = BadRequest | NotFound | Conflict | PrismaOpError;
-/** Update a build U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Records progress on a build. Any holder of the workspace token may patch any field -- the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock. Once a build has finished, its state no longer changes: a later report updates the other fields and leaves the state as the finishing report set it. `projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` can each be set once and never changed: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. `projectId` and `branchId` must belong to the caller's workspace, and a branch must belong to the build's project, so a branch from another project is refused. */
-export const updateBuild: API.OperationMethod<
-  UpdateBuildRequest,
-  UpdateBuildResponse,
-  UpdateBuildError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UpdateBuildRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<UpdateBuildResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateBuild",
 }));
 
 export type UpdateDatabaseError =
@@ -5914,34 +2482,14 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<UpdateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  input: __S(472, __c59, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(475, __c59, 3) as any as S.Schema<UpdateDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDatabase",
-}));
-
-export type UpdateEnvironmentVariableError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Update an environment variable's value U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Replaces the value of an existing environment variable. Only the value is mutable -- the project, environment, key, and branch are fixed at create-time. */
-export const updateEnvironmentVariable: API.OperationMethod<
-  UpdateEnvironmentVariableRequest,
-  UpdateEnvironmentVariableResponse,
-  UpdateEnvironmentVariableError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UpdateEnvironmentVariableRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<UpdateEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateEnvironmentVariable",
 }));
 
 export type UpdateProjectError =
@@ -5957,70 +2505,14 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c32, 1) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(2256, __c141, 0) as any as S.Schema<UpdateProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  input: __S(481, __c60, 1) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<UpdateProjectResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProject",
-}));
-
-export type UpdateProjectBranchAlchemyStateLeaseError = BadRequest | NotFound | PrismaOpError;
-/** Heartbeat Alchemy deploy lease U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Extends the unexpired deploy lease addressed by the Alchemy-State-Lease-Id header from now. A missing, replaced, or expired lease returns 404 -- the lost-lease signal; an expired lease can never be revived. */
-export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
-  UpdateProjectBranchAlchemyStateLeaseRequest,
-  UpdateProjectBranchAlchemyStateLeaseResponse,
-  UpdateProjectBranchAlchemyStateLeaseError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateProjectBranchAlchemyStateLease",
-}));
-
-export type UpdateServiceError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | PrismaOpError;
-/** Update service U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Updates the display name, logical id, or branch of a service. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the service first, then set its `logicalId`. */
-export const updateService: API.OperationMethod<
-  UpdateServiceRequest,
-  UpdateServiceResponse,
-  UpdateServiceError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<UpdateServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateService",
-}));
-
-export type UpdateUrlError = BadRequest | NotFound | Conflict | UnprocessableEntity | PrismaOpError;
-/** Update a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Changes the hostname, the service or the `logicalId`. Nothing is refused for want of a verified domain ownership. A request that changes none of them changes nothing. A hostname change removes the old hostname's custom domain and makes the RoutingUrl `pending`. A service change keeps its status, and the hostname moves to the new service. A new hostname, or a service in another region, is registered with Foundry as for a create, and that registration counts against the workspace's hourly limit of new certificates. */
-export const updateUrl: API.OperationMethod<
-  UpdateUrlRequest,
-  UpdateUrlResponse,
-  UpdateUrlError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateUrlRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<UpdateUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateUrl",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -6034,7 +2526,7 @@ function __c0(j: number): any {
           value: S.String,
           ttl: S.Number,
         }),
-      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseDataVerification" });
+      ).annotate({ identifier: "Error404BodyErrorVerification" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6060,7 +2552,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          error: __S(16, __c1, 0),
+          error: __S(8, __c1, 0),
           data: S.Unknown,
         }),
       ).annotate({ identifier: "Error400Body" });
@@ -6073,769 +2565,19 @@ function __c2(j: number): any {
         S.Struct({
           code: S.String,
           message: S.String,
-          existingAppId: S.String,
-          name: S.String,
-          branchGitName: S.String,
-          conflict: S.optional(S.String),
-          logicalId: S.optional(S.NullOr(S.String)),
+          hint: S.optional(S.String),
+          verification: S.optional(__S(0, __c0, 0)),
         }),
-      ).annotate({ identifier: "Error409BodyError" });
+      ).annotate({ identifier: "Error409BodyError3" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          error: __S(32, __c2, 0),
+          error: __S(16, __c2, 0),
         }),
-      ).annotate({ identifier: "Error409Body" });
+      ).annotate({ identifier: "Error409Body3" });
   }
 }
 function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          repositoryId: S.String,
-          runId: S.String,
-          runAttempt: S.Number,
-        }),
-      ).annotate({ identifier: "CreateBuildRequestRunIdentity" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.String,
-          commitSha: S.String,
-          branchName: S.String,
-          runIdentity: S.optional(__S(48, __c3, 0)),
-          externalLogUrl: S.optional(S.String),
-          projectId: S.optional(S.String),
-          branchId: S.optional(S.String),
-          applicationTopologyContentHash: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/builds", code: 200 })),
-      ).annotate({ identifier: "CreateBuildRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(80, __c5, 0),
-        }),
-      ).annotate({ identifier: "CreateBuildResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          source: S.String,
-          state: S.String,
-          phase: S.NullOr(S.String),
-          commitSha: S.String,
-          branchName: S.String,
-          gitRepoId: S.NullOr(S.String),
-          projectId: S.NullOr(S.String),
-          branchId: S.NullOr(S.String),
-          externalLogUrl: S.NullOr(S.String),
-          deployedUrl: S.NullOr(S.String),
-          applicationTopologyContentHash: S.NullOr(S.String),
-          errorMessage: S.NullOr(S.String),
-          failingStep: S.NullOr(S.String),
-          createdAt: S.String,
-          startedAt: S.NullOr(S.String),
-          finishedAt: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateBuildResponseData" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/domains", code: 200 })),
-      ).annotate({ identifier: "GetServiceDomainsRequest" });
-    case 1:
-      return S.Array(__S(866, __c54, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(97, __c6, 1),
-          pagination: __S(2512, __c157, 0),
-        }),
-      ).annotate({ identifier: "GetServiceDomainsResponse" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          logicalId: S.optional(S.String.pipe(T.Query())),
-          branchId: S.optional(S.String.pipe(T.Query())),
-          branchGitName: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services", code: 200 })),
-      ).annotate({ identifier: "GetServicesRequest" });
-    case 1:
-      return S.Array(__S(1104, __c69, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(113, __c7, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetServicesResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/urls", code: 200 })),
-      ).annotate({ identifier: "GetServiceUrlsRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/source-repositories", code: 200 })),
-      ).annotate({ identifier: "GetSourceRepositoriesRequest" });
-    case 1:
-      return S.Array(__S(1280, __c80, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(145, __c9, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetSourceRepositoriesResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/source-repositories/{id}", code: 200 })),
-      ).annotate({ identifier: "GetSourceRepositoryRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/urls/{id}", code: 200 })),
-      ).annotate({ identifier: "GetUrlRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{id}", code: 200 })),
-      ).annotate({ identifier: "GetWorkspaceRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          domain: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/workspaces/{workspaceId}/domain-ownerships",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetWorkspaceDomainOwnershipsRequest" });
-    case 1:
-      return S.Array(__S(816, __c51, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(209, __c13, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetWorkspaceDomainOwnershipsResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.String.pipe(T.Label()),
-          domain: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/workspaces/{workspaceId}/domain-ownerships/verification",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetWorkspaceDomainOwnershipsVerificationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(0, __c0, 0),
-        }),
-      ).annotate({ identifier: "GetWorkspaceDomainOwnershipsVerificationResponse" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/workspaces/{workspaceId}/integrations", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetWorkspaceIntegrationsRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          databaseId: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          pass: S.String,
-          user: S.String,
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataDirectConnection" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          port: S.Number,
-          connectionString: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataEndpointsDirect" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          direct: S.optional(__S(288, __c18, 0)),
-          pooled: S.optional(__S(288, __c18, 0)),
-          accelerate: S.optional(__S(288, __c18, 0)),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataEndpoints" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          createdAt: S.String,
-          kind: S.String,
-          endpoints: __S(289, __c18, 1),
-          connectionString: S.String.pipe(T.SensitiveValue({})),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
-          database: __S(2192, __c137, 0),
-          host: S.NullOr(S.String),
-          pass: S.NullOr(S.String),
-          user: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(290, __c18, 2),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponse" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
-      ).annotate({ identifier: "GetWorkspacesRequest" });
-    case 1:
-      return S.Array(__S(1360, __c85, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(305, __c19, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetWorkspacesResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/workspaces/{workspaceId}/service-tokens", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetWorkspaceServiceTokensRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          scope: S.String,
-          projectId: S.NullOr(S.String),
-          valueHint: S.String,
-          createdAt: S.String,
-          expiresAt: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "GetWorkspaceServiceTokensResponseDataItem" });
-    case 2:
-      return S.Array(__S(321, __c20, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(322, __c20, 2),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetWorkspaceServiceTokensResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{id}/subscription", code: 200 })),
-      ).annotate({ identifier: "GetWorkspaceSubscriptionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          planName: S.String,
-          usageBlocked: S.Boolean,
-          upgradeUrl: S.String,
-        }),
-      ).annotate({ identifier: "GetWorkspaceSubscriptionResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(337, __c21, 1),
-        }),
-      ).annotate({ identifier: "GetWorkspaceSubscriptionResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          buildId: S.String.pipe(T.Label()),
-          resourceType: S.String.pipe(T.Label()),
-          resourceId: S.String.pipe(T.Label()),
-          action: S.String,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/builds/{buildId}/resources/{resourceType}/{resourceId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutBuildResourceRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/output",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutProjectBranchAlchemyStateStateStackStageOutputRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-          fqn: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/resources/{fqn}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutProjectBranchAlchemyStateStateStackStageResourceRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          contentHash: S.optional(S.String),
-          nodes: __S(2449, __c153, 1),
-          ports: __S(2451, __c153, 3),
-          edges: __S(2454, __c153, 6),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/application-topology",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutProjectBranchApplicationTopologyRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          branchId: S.String.pipe(T.Label()),
-          isDefault: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/branches/{branchId}", code: 200 })),
-      ).annotate({ identifier: "UpdateBranchRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucketId: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          branchId: S.optional(S.String),
-          branchGitName: S.optional(S.String),
-          logicalId: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/buckets/{bucketId}", code: 200 })),
-      ).annotate({ identifier: "UpdateBucketRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          buildId: S.String.pipe(T.Label()),
-          phase: S.optional(S.String),
-          state: S.optional(S.String),
-          failingStep: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-          externalLogUrl: S.optional(S.String),
-          projectId: S.optional(S.String),
-          branchId: S.optional(S.String),
-          deployedUrl: S.optional(S.String),
-          applicationTopologyContentHash: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/builds/{buildId}", code: 200 })),
-      ).annotate({ identifier: "UpdateBuildRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/connections/{id}/rotate", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRotateRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          databaseId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          branchId: S.optional(S.NullOr(S.String)),
-          branchGitName: S.optional(S.NullOr(S.String)),
-          logicalId: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 })),
-      ).annotate({ identifier: "UpdateDatabaseRequest" });
-    case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          status: S.String,
-          createdAt: S.String,
-          isDefault: S.Boolean,
-          defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(481, __c30, 1)),
-          branchId: S.NullOr(S.String),
-          logicalId: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "UpdateDatabaseResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(482, __c30, 2),
-        }),
-      ).annotate({ identifier: "UpdateDatabaseResponse" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          envVarId: S.String.pipe(T.Label()),
-          value: S.String,
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/v1/environment-variables/{envVarId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateEnvironmentVariableRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          settings: S.optional(__S(512, __c32, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateProjectRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          ttlSeconds: S.optional(S.Number),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/lease",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateProjectBranchAlchemyStateLeaseRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          logicalId: S.optional(S.NullOr(S.String)),
-          branchId: S.optional(S.NullOr(S.String)),
-          branchGitName: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "UpdateServiceRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          hostname: S.optional(S.String),
-          serviceId: S.optional(S.String),
-          logicalId: S.optional(S.NullOr(S.String)),
-          createDomainOwnership: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/urls/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateUrlRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String,
-          region: S.optional(S.String),
-          name: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
-          source: S.optional(__S(576, __c36, 0)),
-          branchId: S.optional(S.NullOr(S.String)),
-          branchGitName: S.optional(S.NullOr(S.String)),
-          logicalId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/databases", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseRequest" });
-    case 2:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          status: S.String,
-          createdAt: S.String,
-          isDefault: S.Boolean,
-          defaultConnectionId: S.NullOr(S.String),
-          connections: __S(627, __c39, 3),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(578, __c36, 2)),
-          branchId: S.NullOr(S.String),
-          logicalId: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateDatabaseResponseData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(579, __c36, 3),
-        }),
-      ).annotate({ identifier: "CreateDatabaseResponse" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateDatabaseResponseDataRegion" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          databaseId: S.String,
-          backupId: S.String,
-        }),
-      ).annotate({ identifier: "CreateDatabaseRequestSourceCase1" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          port: S.Number,
-          connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItemEndpointsDirect" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          direct: S.optional(__S(624, __c39, 0)),
-          pooled: S.optional(__S(624, __c39, 0)),
-          accelerate: S.optional(__S(624, __c39, 0)),
-        }),
-      ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItemEndpoints" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          createdAt: S.String,
-          kind: S.String,
-          endpoints: __S(625, __c39, 1),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
-          database: __S(2192, __c137, 0),
-        }),
-      ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItem" });
-    case 3:
-      return S.Array(__S(626, __c39, 2));
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-        }),
-      ).annotate({ identifier: "CreateDatabaseRequestSourceCase0" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          databaseId: S.String,
-        }),
-      ).annotate({ identifier: "CreateDatabaseRequestSourceCase2" });
-  }
-}
-function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6848,13 +2590,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateDatabaseConnectionRequest" });
   }
 }
-function __c42(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           targetDatabaseId: S.String.pipe(T.Label()),
-          source: __S(608, __c38, 0),
+          source: __S(544, __c68, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/databases/{targetDatabaseId}/restore", code: 200 }),
         ),
@@ -6870,10 +2612,10 @@ function __c42(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: __S(608, __c38, 0),
+          connections: __S(56, __c7, 0),
+          project: __S(464, __c58, 0),
+          region: S.NullOr(__S(536, __c67, 0)),
+          source: __S(544, __c68, 0),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6881,12 +2623,12 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(673, __c42, 1),
+          data: __S(33, __c4, 1),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponse" });
   }
 }
-function __c43(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6898,14 +2640,14 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          direct: S.optional(__S(688, __c43, 0)),
-          pooled: S.optional(__S(688, __c43, 0)),
-          accelerate: S.optional(__S(688, __c43, 0)),
+          direct: S.optional(__S(40, __c5, 0)),
+          pooled: S.optional(__S(40, __c5, 0)),
+          accelerate: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponseDataConnectionsItemEndpoints" });
   }
 }
-function __c44(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6916,202 +2658,20 @@ function __c44(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(689, __c43, 1),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
-          database: __S(2192, __c137, 0),
+          endpoints: __S(41, __c5, 1),
+          directConnection: S.optional(S.NullOr(__S(512, __c64, 0))),
+          database: __S(464, __c58, 0),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponseDataConnectionsItem" });
   }
 }
-function __c45(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(48, __c6, 0));
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/deployments/{deploymentId}/start", code: 200 })),
-      ).annotate({ identifier: "CreateDeploymentStartRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          previewDomain: S.String,
-        }),
-      ).annotate({ identifier: "CreateDeploymentStartResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(737, __c46, 1),
-        }),
-      ).annotate({ identifier: "CreateDeploymentStartResponse" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/deployments/{deploymentId}/stop", code: 200 })),
-      ).annotate({ identifier: "CreateDeploymentStopRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateDeploymentStopResponse" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainOwnershipId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/domain-ownerships/{domainOwnershipId}/verify",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateDomainOwnershipVerifyRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(816, __c51, 0),
-        }),
-      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponse" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          workspaceId: S.String,
-          domain: S.String,
-          verification: __S(0, __c0, 0),
-          status: S.String,
-          expiresAt: S.NullOr(S.String),
-          verificationRecordLastSeenAt: S.NullOr(S.String),
-          verificationRecordPresent: S.NullOr(S.Boolean),
-          verificationRecordSyncError: S.NullOr(S.String),
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseData" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/domains/{domainId}/retry", code: 200 })),
-      ).annotate({ identifier: "CreateDomainRetryRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(866, __c54, 2),
-        }),
-      ).annotate({ identifier: "CreateDomainRetryResponse" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          name: S.String,
-          value: S.String,
-          ttl: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "CreateDomainRetryResponseDataDnsRecordsItem" });
-    case 1:
-      return S.Array(__S(864, __c54, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          hostname: S.String,
-          appId: S.String,
-          computeServiceId: S.String,
-          status: S.String,
-          foundryStatus: S.String,
-          failureReason: S.NullOr(S.String),
-          failureCategory: S.NullOr(S.String),
-          certExpiresAt: S.NullOr(S.String),
-          createdAt: S.String,
-          updatedAt: S.String,
-          dnsRecords: __S(865, __c54, 1),
-        }),
-      ).annotate({ identifier: "CreateDomainRetryResponseData" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String,
-          branchId: S.optional(S.String),
-          class: S.String,
-          key: S.String,
-          value: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/environment-variables", code: 200 })),
-      ).annotate({ identifier: "CreateEnvironmentVariableRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(912, __c57, 0),
-        }),
-      ).annotate({ identifier: "CreateEnvironmentVariableResponse" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          projectId: S.String,
-          branchId: S.NullOr(S.String),
-          class: S.String,
-          key: S.String,
-          valueKid: S.String,
-          isManagedBySystem: S.Boolean,
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateEnvironmentVariableResponseData" });
-  }
-}
-function __c58(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7124,7 +2684,7 @@ function __c58(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7136,14 +2696,14 @@ function __c58(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(627, __c39, 3),
-          region: __S(592, __c37, 0),
-          source: S.NullOr(__S(929, __c58, 1)),
+          connections: __S(555, __c69, 3),
+          region: __S(536, __c67, 0),
+          source: S.NullOr(__S(65, __c8, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
-          apiKeys: __S(945, __c59, 1),
+          apiKeys: __S(73, __c9, 1),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          directConnection: S.NullOr(__S(272, __c17, 0)),
+          directConnection: S.NullOr(__S(512, __c64, 0)),
         }),
       ).annotate({ identifier: "CreateProjectResponseDataDatabase" });
     case 3:
@@ -7156,19 +2716,19 @@ function __c58(j: number): any {
           logicalId: S.NullOr(S.String),
           createdAt: S.String,
           defaultRegion: S.NullOr(S.String),
-          workspace: __S(2192, __c137, 0),
-          database: S.NullOr(__S(930, __c58, 2)),
+          workspace: __S(464, __c58, 0),
+          database: S.NullOr(__S(66, __c8, 2)),
         }),
       ).annotate({ identifier: "CreateProjectResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(931, __c58, 3),
+          data: __S(67, __c8, 3),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c59(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7179,94 +2739,16 @@ function __c59(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(689, __c43, 1),
+          endpoints: __S(41, __c5, 1),
           connectionString: S.String.pipe(T.SensitiveValue({})),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
+          directConnection: S.optional(S.NullOr(__S(512, __c64, 0))),
         }),
       ).annotate({ identifier: "CreateProjectResponseDataDatabaseApiKeysItem" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(72, __c9, 0));
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          gitName: S.String,
-          isDefault: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{projectId}/branches", code: 200 })),
-      ).annotate({ identifier: "CreateProjectBranchRequest" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(992, __c62, 0),
-        }),
-      ).annotate({ identifier: "CreateProjectBranchResponse" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          gitName: S.String,
-          isDefault: S.Boolean,
-          role: S.String,
-          createdAt: S.String,
-          updatedAt: S.String,
-          project: __S(2192, __c137, 0),
-        }),
-      ).annotate({ identifier: "CreateProjectBranchResponseData" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String,
-          stage: S.String,
-          ttlSeconds: S.optional(S.Number),
-          holderDescription: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/lease",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseRequest" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          leaseId: S.String,
-          expiresAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1024, __c64, 0),
-        }),
-      ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseResponse" });
-  }
-}
-function __c65(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7276,7 +2758,7 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "CreateProjectDatabaseRequestFromDatabase" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7284,12 +2766,12 @@ function __c65(j: number): any {
           region: S.optional(S.String),
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          fromDatabase: S.optional(__S(1040, __c65, 0)),
-          source: S.optional(__S(1041, __c65, 1)),
+          fromDatabase: S.optional(__S(80, __c10, 0)),
+          source: S.optional(__S(81, __c10, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{projectId}/databases", code: 200 })),
       ).annotate({ identifier: "CreateProjectDatabaseRequest" });
     case 3:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7301,415 +2783,45 @@ function __c65(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(627, __c39, 3),
-          project: __S(2192, __c137, 0),
-          region: __S(592, __c37, 0),
-          source: S.NullOr(__S(1043, __c65, 3)),
+          connections: __S(555, __c69, 3),
+          project: __S(464, __c58, 0),
+          region: __S(536, __c67, 0),
+          source: S.NullOr(__S(83, __c10, 3)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
-          apiKeys: __S(945, __c59, 1),
+          apiKeys: __S(73, __c9, 1),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          directConnection: S.NullOr(__S(272, __c17, 0)),
+          directConnection: S.NullOr(__S(512, __c64, 0)),
         }),
       ).annotate({ identifier: "CreateProjectDatabaseResponseData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1044, __c65, 4),
+          data: __S(84, __c10, 4),
         }),
       ).annotate({ identifier: "CreateProjectDatabaseResponse" });
   }
 }
-function __c66(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          recipientAccessToken: S.String,
+          recipientAccessToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{id}/transfer", code: 200 })),
       ).annotate({ identifier: "CreateProjectTransferRequest" });
   }
 }
-function __c67(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          workspaceId: S.String,
-          repository: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/v1/scm-installations/install-intents", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateScmInstallationsInstallIntentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          provider: S.String,
-          workspaceId: S.String,
-          installUrl: S.String,
-          alreadyLinked: S.optional(S.Boolean),
-          accountLogin: S.optional(S.String),
-          hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateScmInstallationsInstallIntentResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1073, __c67, 1),
-        }),
-      ).annotate({ identifier: "CreateScmInstallationsInstallIntentResponse" });
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateProjectTransferResponse",
+      });
   }
 }
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.String,
-          regionId: S.optional(S.String),
-          branchId: S.optional(S.NullOr(S.String)),
-          branchGitName: S.optional(S.NullOr(S.String)),
-          projectId: S.String,
-          logicalId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/services", code: 200 })),
-      ).annotate({ identifier: "CreateServiceRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          region: __S(592, __c37, 0),
-          projectId: S.String,
-          branchId: S.NullOr(S.String),
-          latestDeploymentId: S.NullOr(S.String),
-          appEndpointDomain: S.String,
-          createdAt: S.String,
-          logicalId: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateServiceResponseData" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1104, __c69, 0),
-        }),
-      ).annotate({ identifier: "CreateServiceResponse" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          http: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "CreateServiceDeploymentRequestPortMapping" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          portMapping: S.optional(__S(1136, __c71, 0)),
-          skipCodeUpload: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
-      ).annotate({ identifier: "CreateServiceDeploymentRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          foundryVersionId: S.String,
-          uploadUrl: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateServiceDeploymentResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1138, __c71, 2),
-        }),
-      ).annotate({ identifier: "CreateServiceDeploymentResponse" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          hostname: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/domains", code: 200 })),
-      ).annotate({ identifier: "CreateServiceDomainRequest" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          deploymentId: S.optional(S.String),
-          versionId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/promote", code: 200 })),
-      ).annotate({ identifier: "CreateServicePromoteRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appEndpointDomain: S.String,
-          reassignedDomains: S.Number,
-        }),
-      ).annotate({ identifier: "CreateServicePromoteResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1184, __c74, 0),
-        }),
-      ).annotate({ identifier: "CreateServicePromoteResponse" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          deploymentId: S.optional(S.String),
-          versionId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/rollback", code: 200 })),
-      ).annotate({ identifier: "CreateServiceRollbackRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          hostname: S.String,
-          logicalId: S.optional(S.String),
-          createDomainOwnership: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/urls", code: 200 })),
-      ).annotate({ identifier: "CreateServiceUrlRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1255, __c78, 7),
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponse" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ownershipVerified: S.String,
-          servicePresent: S.String,
-          liveDeployment: S.String,
-          dnsPointsAtSwitchboard: S.String,
-          customDomainBound: S.String,
-          certificateActive: S.String,
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseDataConditions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          expiresAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseDataOwnershipExpiry" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.String,
-          type: S.String,
-          name: S.String,
-          value: S.String,
-          ttl: S.Number,
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseDataRecordsItem" });
-    case 3:
-      return S.Array(__S(1250, __c78, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.NullOr(S.String),
-          projectId: S.NullOr(S.String),
-          serviceId: S.NullOr(S.String),
-          message: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseDataHeldBy" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          status: S.NullOr(S.String),
-          failureReason: S.NullOr(S.String),
-          certExpiresAt: S.NullOr(S.String),
-          lastSeenAt: S.NullOr(S.String),
-          certificateRetryRequestedAt: S.NullOr(S.String),
-          certificateIssuanceStuck: S.Boolean,
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseDataCustomDomain" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          accepted: S.Boolean,
-          detail: S.NullOr(S.String),
-          lastSeenAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseDataSwitchboardDns" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          branchId: S.String,
-          serviceId: S.NullOr(S.String),
-          hostname: S.String,
-          logicalId: S.NullOr(S.String),
-          status: S.String,
-          conditions: __S(1248, __c78, 0),
-          firstUnmetCondition: S.NullOr(S.String),
-          ownershipExpiry: S.NullOr(__S(1249, __c78, 1)),
-          records: __S(1251, __c78, 3),
-          heldBy: S.NullOr(__S(1252, __c78, 4)),
-          customDomain: S.NullOr(__S(1253, __c78, 5)),
-          customDomainSyncError: S.NullOr(S.String),
-          switchboardDns: S.NullOr(__S(1254, __c78, 6)),
-          setupUrl: S.NullOr(S.String),
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateServiceUrlResponseData" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String,
-          provider: S.String,
-          providerRepositoryId: S.Number,
-          installationId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/source-repositories", code: 200 })),
-      ).annotate({ identifier: "CreateSourceRepositoryRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          repoId: S.Number,
-          provider: S.String,
-          repoFullName: S.String,
-          defaultBranch: S.String,
-          isPrivate: S.Boolean,
-          status: S.String,
-          projectId: S.String,
-          installationId: S.String,
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateSourceRepositoryResponseData" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1280, __c80, 0),
-          hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSourceRepositoryResponse" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/urls/{id}/check", code: 200 })),
-      ).annotate({ identifier: "CreateUrlCheckRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/workspaces", code: 200 })),
-      ).annotate({ identifier: "CreateWorkspaceRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1360, __c85, 0),
-        }),
-      ).annotate({ identifier: "CreateWorkspaceResponse" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateWorkspaceResponseData" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workspaceId: S.String.pipe(T.Label()),
-          domain: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/workspaces/{workspaceId}/domain-ownerships",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateWorkspaceDomainOwnershipRequest" });
-  }
-}
-function __c87(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7733,28 +2845,18 @@ function __c87(j: number): any {
           valueHint: S.String,
           createdAt: S.String,
           expiresAt: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateWorkspaceServiceTokenResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1393, __c87, 1),
+          data: __S(105, __c13, 1),
         }),
       ).annotate({ identifier: "CreateWorkspaceServiceTokenResponse" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          branchId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/branches/{branchId}", code: 200 })),
-      ).annotate({ identifier: "DeleteBranchRequest" });
-  }
-}
-function __c89(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7764,7 +2866,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c90(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7777,7 +2879,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteBucketKeyRequest" });
   }
 }
-function __c91(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7787,7 +2889,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c92(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7797,51 +2899,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/deployments/{deploymentId}", code: 200 })),
-      ).annotate({ identifier: "DeleteDeploymentRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/domains/{domainId}", code: 200 })),
-      ).annotate({ identifier: "DeleteDomainRequest" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainOwnershipId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/v1/domain-ownerships/{domainOwnershipId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteDomainOwnershipRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          envVarId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/v1/environment-variables/{envVarId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteEnvironmentVariableRequest" });
-  }
-}
-function __c97(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7851,7 +2909,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c98(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7861,93 +2919,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/lease",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectBranchAlchemyStateLeaseRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectBranchAlchemyStateStateStackRequest" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-          fqn: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/resources/{fqn}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectBranchAlchemyStateStateStackStageResourceRequest" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "DeleteServiceRequest" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/source-repositories/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteSourceRepositoryRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/urls/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteUrlRequest" });
-  }
-}
-function __c105(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7964,7 +2936,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceIntegrationRequest" });
   }
 }
-function __c106(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7981,7 +2953,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceServiceTokenRequest" });
   }
 }
-function __c107(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8002,17 +2974,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetAgentApprovalResponse" });
   }
 }
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          branchId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/branches/{branchId}", code: 200 })),
-      ).annotate({ identifier: "GetBranchRequest" });
-  }
-}
-function __c109(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8022,7 +2984,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetBucketRequest" });
   }
 }
-function __c110(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8044,17 +3006,17 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "GetBucketKeysResponseDataItem" });
     case 2:
-      return S.Array(__S(1761, __c110, 1));
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1762, __c110, 2),
-          pagination: __S(1776, __c111, 0),
+          data: __S(194, __c24, 2),
+          pagination: __S(200, __c25, 0),
         }),
       ).annotate({ identifier: "GetBucketKeysResponse" });
   }
 }
-function __c111(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8065,7 +3027,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetBucketKeysResponsePagination" });
   }
 }
-function __c112(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8079,90 +3041,17 @@ function __c112(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/buckets", code: 200 })),
       ).annotate({ identifier: "GetBucketsRequest" });
     case 1:
-      return S.Array(__S(2224, __c139, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1793, __c112, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(209, __c26, 1),
+          pagination: __S(200, __c25, 0),
         }),
       ).annotate({ identifier: "GetBucketsResponse" });
   }
 }
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          buildId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/builds/{buildId}", code: 200 })),
-      ).annotate({ identifier: "GetBuildRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resourceType: S.String,
-          resourceId: S.String,
-          action: S.String,
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "GetBuildResponseDataResourcesItem" });
-    case 2:
-      return S.Array(__S(1809, __c113, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          source: S.String,
-          state: S.String,
-          phase: S.NullOr(S.String),
-          commitSha: S.String,
-          branchName: S.String,
-          gitRepoId: S.NullOr(S.String),
-          projectId: S.NullOr(S.String),
-          branchId: S.NullOr(S.String),
-          externalLogUrl: S.NullOr(S.String),
-          deployedUrl: S.NullOr(S.String),
-          applicationTopologyContentHash: S.NullOr(S.String),
-          errorMessage: S.NullOr(S.String),
-          failingStep: S.NullOr(S.String),
-          createdAt: S.String,
-          startedAt: S.NullOr(S.String),
-          finishedAt: S.NullOr(S.String),
-          resources: __S(1810, __c113, 2),
-        }),
-      ).annotate({ identifier: "GetBuildResponseData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1811, __c113, 3),
-        }),
-      ).annotate({ identifier: "GetBuildResponse" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          branchId: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/builds", code: 200 })),
-      ).annotate({ identifier: "GetBuildsRequest" });
-    case 1:
-      return S.Array(__S(80, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1825, __c114, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetBuildsResponse" });
-  }
-}
-function __c115(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8173,12 +3062,12 @@ function __c115(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(704, __c44, 0),
+          data: __S(48, __c6, 0),
         }),
       ).annotate({ identifier: "GetConnectionResponse" });
   }
 }
-function __c116(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8190,18 +3079,18 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetConnectionsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(720, __c45, 0),
-          pagination: __S(1776, __c111, 0),
+          data: __S(56, __c7, 0),
+          pagination: __S(200, __c25, 0),
         }),
       ).annotate({ identifier: "GetConnectionsResponse" });
   }
 }
-function __c118(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8210,7 +3099,7 @@ function __c118(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}", code: 200 })),
       ).annotate({ identifier: "GetDatabaseRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8222,10 +3111,10 @@ function __c118(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(1889, __c118, 1)),
+          connections: __S(56, __c7, 0),
+          project: __S(464, __c58, 0),
+          region: S.NullOr(__S(536, __c67, 0)),
+          source: S.NullOr(__S(241, __c30, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -8233,12 +3122,12 @@ function __c118(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1890, __c118, 2),
+          data: __S(242, __c30, 2),
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c119(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8259,7 +3148,7 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "GetDatabaseBackupsResponseDataItem" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(249, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8276,14 +3165,14 @@ function __c119(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1906, __c119, 2),
-          meta: __S(1907, __c119, 3),
-          pagination: __S(1908, __c119, 4),
+          data: __S(250, __c31, 2),
+          meta: __S(251, __c31, 3),
+          pagination: __S(252, __c31, 4),
         }),
       ).annotate({ identifier: "GetDatabaseBackupsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8297,7 +3186,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetDatabaseConnectionsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8311,7 +3200,7 @@ function __c121(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/databases", code: 200 })),
       ).annotate({ identifier: "GetDatabasesRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8323,53 +3212,26 @@ function __c121(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(1937, __c121, 1)),
+          connections: __S(56, __c7, 0),
+          project: __S(464, __c58, 0),
+          region: S.NullOr(__S(536, __c67, 0)),
+          source: S.NullOr(__S(265, __c33, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetDatabasesResponseDataItem" });
     case 3:
-      return S.Array(__S(1938, __c121, 2));
+      return S.Array(__S(266, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1939, __c121, 3),
-          pagination: __S(1776, __c111, 0),
+          data: __S(267, __c33, 3),
+          pagination: __S(200, __c25, 0),
         }),
       ).annotate({ identifier: "GetDatabasesResponse" });
   }
 }
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String,
-          expiresInSeconds: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          value: S.String,
-          expiresAt: S.String,
-          workspaceId: S.String,
-        }),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1953, __c122, 1),
-        }),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponse" });
-  }
-}
-function __c123(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8396,129 +3258,21 @@ function __c123(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          operations: __S(1970, __c123, 2),
-          storage: __S(1970, __c123, 2),
+          operations: __S(274, __c34, 2),
+          storage: __S(274, __c34, 2),
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponseMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          period: __S(1969, __c123, 1),
-          metrics: __S(1971, __c123, 3),
+          period: __S(273, __c34, 1),
+          metrics: __S(275, __c34, 3),
           generatedAt: S.String,
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponse" });
   }
 }
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/deployments/{deploymentId}", code: 200 })),
-      ).annotate({ identifier: "GetDeploymentRequest" });
-    case 1:
-      return S.Record(S.String, S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          http: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetDeploymentResponseDataPortMapping" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          serviceId: S.String,
-          foundryVersionId: S.String,
-          status: S.String,
-          previewDomain: S.NullOr(S.String),
-          envVars: S.optional(__S(1985, __c124, 1)),
-          portMapping: S.optional(__S(1986, __c124, 2)),
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "GetDeploymentResponseData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1987, __c124, 3),
-        }),
-      ).annotate({ identifier: "GetDeploymentResponse" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentId: S.String.pipe(T.Label()),
-          tail: S.optional(S.Number.pipe(T.Query())),
-          from_start: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/deployments/{deploymentId}/logs", code: 200 })),
-      ).annotate({ identifier: "GetDeploymentLogsRequest" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/domains/{domainId}", code: 200 })),
-      ).annotate({ identifier: "GetDomainRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domainOwnershipId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/domain-ownerships/{domainOwnershipId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetDomainOwnershipRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          envVarId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/environment-variables/{envVarId}", code: 200 })),
-      ).annotate({ identifier: "GetEnvironmentVariableRequest" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          class: S.optional(S.String.pipe(T.Query())),
-          key: S.optional(S.String.pipe(T.Query())),
-          branchId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/environment-variables", code: 200 })),
-      ).annotate({ identifier: "GetEnvironmentVariablesRequest" });
-    case 1:
-      return S.Array(__S(912, __c57, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2065, __c129, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetEnvironmentVariablesResponse" });
-  }
-}
-function __c130(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8529,14 +3283,16 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2098, __c131, 2),
+          data: __S(291, __c36, 3),
         }),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c131(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -8544,7 +3300,7 @@ function __c131(j: number): any {
           createdAt: S.String,
         }),
       ).annotate({ identifier: "GetIntegrationResponseDataClient" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -8552,26 +3308,20 @@ function __c131(j: number): any {
           displayName: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetIntegrationResponseDataCreatedByUser" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           url: S.String,
           createdAt: S.String,
-          scopes: __S(2112, __c132, 0),
-          client: __S(2096, __c131, 0),
-          createdByUser: __S(2097, __c131, 1),
+          scopes: __S(288, __c36, 0),
+          client: __S(289, __c36, 1),
+          createdByUser: __S(290, __c36, 2),
         }),
       ).annotate({ identifier: "GetIntegrationResponseData" });
   }
 }
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c133(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8583,20 +3333,20 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetIntegrationsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2098, __c131, 2));
+      return S.Array(__S(291, __c36, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2144, __c134, 0),
-          pagination: __S(1776, __c111, 0),
+          data: __S(304, __c38, 0),
+          pagination: __S(200, __c25, 0),
         }),
       ).annotate({ identifier: "GetIntegrationsResponse" });
   }
 }
-function __c135(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8621,20 +3371,335 @@ function __c135(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          user: S.NullOr(__S(2161, __c135, 1)),
-          workspace: S.NullOr(__S(592, __c37, 0)),
-          credential: __S(2162, __c135, 2),
+          user: S.NullOr(__S(313, __c39, 1)),
+          workspace: S.NullOr(__S(536, __c67, 0)),
+          credential: __S(314, __c39, 2),
         }),
       ).annotate({ identifier: "GetMeResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2163, __c135, 3),
+          data: __S(315, __c39, 3),
         }),
       ).annotate({ identifier: "GetMeResponse" });
   }
 }
-function __c136(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{id}", code: 200 })),
+      ).annotate({ identifier: "GetProjectRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          logicalId: S.NullOr(S.String),
+          createdAt: S.String,
+          defaultRegion: S.NullOr(S.String),
+          workspace: __S(464, __c58, 0),
+        }),
+      ).annotate({ identifier: "GetProjectResponseData" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(328, __c41, 0),
+        }),
+      ).annotate({ identifier: "GetProjectResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/databases", code: 200 })),
+      ).annotate({ identifier: "GetProjectDatabasesRequest" });
+    case 1:
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          status: S.String,
+          createdAt: S.String,
+          isDefault: S.Boolean,
+          defaultConnectionId: S.NullOr(S.String),
+          connections: __S(56, __c7, 0),
+          project: __S(464, __c58, 0),
+          region: S.NullOr(__S(536, __c67, 0)),
+          source: S.NullOr(__S(345, __c43, 1)),
+          branchId: S.NullOr(S.String),
+          logicalId: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "GetProjectDatabasesResponseDataItem" });
+    case 3:
+      return S.Array(__S(346, __c43, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(347, __c43, 3),
+          pagination: __S(200, __c25, 0),
+        }),
+      ).annotate({ identifier: "GetProjectDatabasesResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          logicalId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
+      ).annotate({ identifier: "GetProjectsRequest" });
+    case 1:
+      return S.Array(__S(328, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(353, __c44, 1),
+          pagination: __S(200, __c25, 0),
+        }),
+      ).annotate({ identifier: "GetProjectsResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          product: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/regions", code: 200 })),
+      ).annotate({ identifier: "GetRegionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          product: S.String,
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetRegionsResponseDataItem" });
+    case 2:
+      return S.Array(__S(361, __c45, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(362, __c45, 2),
+        }),
+      ).annotate({ identifier: "GetRegionsResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/accelerate", code: 200 })),
+      ).annotate({ identifier: "GetRegionsAccelerateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "GetRegionsAccelerateResponseDataItem" });
+    case 2:
+      return S.Array(__S(369, __c46, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(370, __c46, 2),
+        }),
+      ).annotate({ identifier: "GetRegionsAccelerateResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/postgres", code: 200 })),
+      ).annotate({ identifier: "GetRegionsPostgresRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "GetRegionsPostgresResponseDataItem" });
+    case 2:
+      return S.Array(__S(377, __c47, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(378, __c47, 2),
+        }),
+      ).annotate({ identifier: "GetRegionsPostgresResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{id}", code: 200 })),
+      ).annotate({ identifier: "GetWorkspaceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(392, __c49, 0),
+        }),
+      ).annotate({ identifier: "GetWorkspaceResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          createdAt: S.String,
+        }),
+      ).annotate({ identifier: "GetWorkspaceResponseData" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workspaceId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/workspaces/{workspaceId}/integrations", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetWorkspaceIntegrationsRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
+      ).annotate({ identifier: "GetWorkspacesRequest" });
+    case 1:
+      return S.Array(__S(392, __c49, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(409, __c51, 1),
+          pagination: __S(200, __c25, 0),
+        }),
+      ).annotate({ identifier: "GetWorkspacesResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workspaceId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v1/workspaces/{workspaceId}/service-tokens", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetWorkspaceServiceTokensRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          scope: S.String,
+          projectId: S.NullOr(S.String),
+          valueHint: S.String,
+          createdAt: S.String,
+          expiresAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetWorkspaceServiceTokensResponseDataItem" });
+    case 2:
+      return S.Array(__S(417, __c52, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(418, __c52, 2),
+          pagination: __S(200, __c25, 0),
+        }),
+      ).annotate({ identifier: "GetWorkspaceServiceTokensResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{id}/subscription", code: 200 })),
+      ).annotate({ identifier: "GetWorkspaceSubscriptionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          planName: S.String,
+          usageBlocked: S.Boolean,
+          upgradeUrl: S.String,
+        }),
+      ).annotate({ identifier: "GetWorkspaceSubscriptionResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(425, __c53, 1),
+        }),
+      ).annotate({ identifier: "GetWorkspaceSubscriptionResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucketId: S.String.pipe(T.Label()),
+          displayName: S.optional(S.String),
+          branchId: S.optional(S.String),
+          branchGitName: S.optional(S.String),
+          logicalId: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/buckets/{bucketId}", code: 200 })),
+      ).annotate({ identifier: "UpdateBucketRequest" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8648,29 +3713,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateBucketRequest" });
   }
 }
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          url: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateBucketResponseDataProject" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2224, __c139, 0),
-        }),
-      ).annotate({ identifier: "CreateBucketResponse" });
-  }
-}
-function __c139(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8682,310 +3725,91 @@ function __c139(j: number): any {
           providerName: S.String,
           status: S.String,
           createdAt: S.String,
-          project: __S(2192, __c137, 0),
+          project: __S(464, __c58, 0),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CreateBucketResponseData" });
   }
 }
-function __c140(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{id}", code: 200 })),
-      ).annotate({ identifier: "GetProjectRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2272, __c142, 0),
+          data: __S(448, __c56, 0),
         }),
-      ).annotate({ identifier: "GetProjectResponse" });
+      ).annotate({ identifier: "CreateBucketResponse" });
   }
 }
-function __c142(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          url: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CreateBucketResponseDataProject" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          databaseId: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          branchId: S.optional(S.NullOr(S.String)),
+          branchGitName: S.optional(S.NullOr(S.String)),
+          logicalId: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 })),
+      ).annotate({ identifier: "UpdateDatabaseRequest" });
+    case 1:
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           type: S.String,
           url: S.String,
           name: S.String,
-          logicalId: S.NullOr(S.String),
+          status: S.String,
           createdAt: S.String,
-          defaultRegion: S.NullOr(S.String),
-          workspace: __S(2192, __c137, 0),
+          isDefault: S.Boolean,
+          defaultConnectionId: S.NullOr(S.String),
+          connections: __S(56, __c7, 0),
+          project: __S(464, __c58, 0),
+          region: S.NullOr(__S(536, __c67, 0)),
+          source: S.NullOr(__S(473, __c59, 1)),
+          branchId: S.NullOr(S.String),
+          logicalId: S.NullOr(S.String),
         }),
-      ).annotate({ identifier: "GetProjectResponseData" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStacksRequest" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(2112, __c132, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetProjectBranchAlchemyStateStateStacksResponse",
-      });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/output",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageOutputRequest" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetProjectBranchAlchemyStateStateStackStageOutputResponse",
-      });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/replaced-resources",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest",
-      });
-    case 1:
-      return S.suspend(() => __S(16, __c1, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse",
-      });
-  }
-}
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-          fqn: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/resources/{fqn}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageResourceRequest" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-          stage: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages/{stage}/resources",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageResourcesRequest" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          stack: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/state/stacks/{stack}/stages",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStagesRequest" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/alchemy-state/version",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.Number,
-        }),
-      ).annotate({ identifier: "GetProjectBranchAlchemyStateVersionResponse" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/application-topology",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyRequest" });
-  }
-}
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          logicalId: S.String,
-          parentLogicalId: S.NullOr(S.String),
-          kind: S.String,
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataNodesItem" });
-    case 1:
-      return S.Array(__S(2448, __c153, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          logicalId: S.String,
-          direction: S.String,
-          name: S.String,
-          contractKind: S.optional(S.String),
-          contractHash: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataPortsItem" });
+      ).annotate({ identifier: "UpdateDatabaseResponseData" });
     case 3:
-      return S.Array(__S(2450, __c153, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          logicalId: S.String,
-          direction: S.String,
-          name: S.String,
+          data: __S(474, __c59, 2),
         }),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataEdgesItemFrom" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          from: __S(2452, __c153, 4),
-          to: __S(2452, __c153, 4),
-          family: S.String,
-          style: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataEdgesItem" });
-    case 6:
-      return S.Array(__S(2453, __c153, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          nodes: __S(2449, __c153, 1),
-          ports: __S(2451, __c153, 3),
-          edges: __S(2454, __c153, 6),
-          contentHash: S.optional(S.String),
-          writtenAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseData" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2455, __c153, 7),
-        }),
-      ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponse" });
+      ).annotate({ identifier: "UpdateDatabaseResponse" });
   }
 }
-function __c154(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          gitName: S.optional(S.String.pipe(T.Query())),
-          gitNameContains: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/branches", code: 200 })),
-      ).annotate({ identifier: "GetProjectBranchesRequest" });
+      return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(992, __c62, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2465, __c154, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetProjectBranchesResponse" });
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          settings: S.optional(__S(480, __c60, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c155(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9013,66 +3837,108 @@ function __c155(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2481, __c155, 1),
+          data: __S(489, __c61, 1),
         }),
       ).annotate({ identifier: "CreateBucketKeyResponse" });
   }
 }
-function __c156(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          branchId: S.String.pipe(T.Label()),
-          logicalId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/branches/{branchId}/urls",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectBranchUrlsRequest" });
+          databaseId: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRequest" });
   }
 }
-function __c157(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hasMore: S.Boolean,
-          nextCursor: S.NullOr(S.Unknown),
+          host: S.String,
+          port: S.Number,
+          connectionString: S.String.pipe(T.SensitiveValue({})),
         }),
-      ).annotate({ identifier: "GetProjectBranchUrlsResponsePagination" });
-  }
-}
-function __c158(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1255, __c78, 7));
+      ).annotate({ identifier: "CreateConnectionResponseDataEndpointsDirect" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2528, __c158, 0),
-          pagination: __S(2512, __c157, 0),
+          direct: S.optional(__S(504, __c63, 0)),
+          pooled: S.optional(__S(504, __c63, 0)),
+          accelerate: S.optional(__S(504, __c63, 0)),
         }),
-      ).annotate({ identifier: "GetProjectBranchUrlsResponse" });
-  }
-}
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/databases", code: 200 })),
-      ).annotate({ identifier: "GetProjectDatabasesRequest" });
-    case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      ).annotate({ identifier: "CreateConnectionResponseDataEndpoints" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          createdAt: S.String,
+          kind: S.String,
+          endpoints: __S(505, __c63, 1),
+          connectionString: S.String.pipe(T.SensitiveValue({})),
+          directConnection: S.optional(S.NullOr(__S(512, __c64, 0))),
+          database: __S(464, __c58, 0),
+          host: S.NullOr(S.String),
+          pass: S.NullOr(S.String),
+          user: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(506, __c63, 2),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          pass: S.String,
+          user: S.String,
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataDirectConnection" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connections/{id}/rotate", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRotateRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String,
+          region: S.optional(S.String),
+          name: S.optional(S.String),
+          isDefault: S.optional(S.Boolean),
+          source: S.optional(__S(528, __c66, 0)),
+          branchId: S.optional(S.NullOr(S.String)),
+          branchGitName: S.optional(S.NullOr(S.String)),
+          logicalId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/databases", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseRequest" });
+    case 2:
+      return S.suspend(() => S.Union([__S(560, __c70, 0), __S(544, __c68, 0), __S(561, __c70, 1)]));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -9083,239 +3949,96 @@ function __c159(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(2545, __c159, 1)),
+          connections: __S(555, __c69, 3),
+          project: __S(464, __c58, 0),
+          region: S.NullOr(__S(536, __c67, 0)),
+          source: S.NullOr(__S(530, __c66, 2)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
-      ).annotate({ identifier: "GetProjectDatabasesResponseDataItem" });
-    case 3:
-      return S.Array(__S(2546, __c159, 2));
+      ).annotate({ identifier: "CreateDatabaseResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2547, __c159, 3),
-          pagination: __S(1776, __c111, 0),
+          data: __S(531, __c66, 3),
         }),
-      ).annotate({ identifier: "GetProjectDatabasesResponse" });
+      ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c160(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          logicalId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
-      ).annotate({ identifier: "GetProjectsRequest" });
-    case 1:
-      return S.Array(__S(2272, __c142, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2561, __c160, 1),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetProjectsResponse" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          product: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/regions", code: 200 })),
-      ).annotate({ identifier: "GetRegionsRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          type: S.String,
-          name: S.String,
-          product: S.String,
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetRegionsResponseDataItem" });
-    case 2:
-      return S.Array(__S(2577, __c161, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2578, __c161, 2),
-        }),
-      ).annotate({ identifier: "GetRegionsResponse" });
-  }
-}
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/accelerate", code: 200 })),
-      ).annotate({ identifier: "GetRegionsAccelerateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
           name: S.String,
         }),
-      ).annotate({ identifier: "GetRegionsAccelerateResponseDataItem" });
-    case 2:
-      return S.Array(__S(2593, __c162, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2594, __c162, 2),
-        }),
-      ).annotate({ identifier: "GetRegionsAccelerateResponse" });
+      ).annotate({ identifier: "CreateDatabaseResponseDataRegion" });
   }
 }
-function __c163(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/postgres", code: 200 })),
-      ).annotate({ identifier: "GetRegionsPostgresRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Struct({
-          id: S.String,
           type: S.String,
-          name: S.String,
-          status: S.String,
+          databaseId: S.String,
+          backupId: S.String,
         }),
-      ).annotate({ identifier: "GetRegionsPostgresResponseDataItem" });
-    case 2:
-      return S.Array(__S(2609, __c163, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2610, __c163, 2),
-        }),
-      ).annotate({ identifier: "GetRegionsPostgresResponse" });
+      ).annotate({ identifier: "CreateDatabaseRequestSourceCase1" });
   }
 }
-function __c164(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          installationId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/scm-installations/{installationId}/repositories",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesRequest" });
+          host: S.String,
+          port: S.Number,
+          connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItemEndpointsDirect" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.Number,
-          type: S.String,
-          fullName: S.String,
-          defaultBranch: S.String,
-          isPrivate: S.Boolean,
+          direct: S.optional(__S(552, __c69, 0)),
+          pooled: S.optional(__S(552, __c69, 0)),
+          accelerate: S.optional(__S(552, __c69, 0)),
         }),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesResponseDataItem" });
+      ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItemEndpoints" });
     case 2:
-      return S.Array(__S(2625, __c164, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2626, __c164, 2),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesResponse" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          workspaceId: S.String.pipe(T.Query()),
-          repository: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
-      ).annotate({ identifier: "GetScmInstallationsRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           type: S.String,
           url: S.String,
-          provider: S.String,
-          installationId: S.Number,
-          accountId: S.Number,
-          accountLogin: S.String,
-          accountType: S.String,
-          suspended: S.Boolean,
+          name: S.String,
           createdAt: S.String,
-          updatedAt: S.String,
+          kind: S.String,
+          endpoints: __S(553, __c69, 1),
+          directConnection: S.optional(S.NullOr(__S(512, __c64, 0))),
+          database: __S(464, __c58, 0),
         }),
-      ).annotate({ identifier: "GetScmInstallationsResponseDataItem" });
-    case 2:
-      return S.Array(__S(2641, __c165, 1));
+      ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItem" });
     case 3:
+      return S.Array(__S(554, __c69, 2));
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2642, __c165, 2),
-          pagination: __S(1776, __c111, 0),
-          hint: S.optional(S.String),
+          type: S.String,
         }),
-      ).annotate({ identifier: "GetScmInstallationsResponse" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "GetServiceRequest" });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
-      ).annotate({ identifier: "GetServiceDeploymentsRequest" });
+      ).annotate({ identifier: "CreateDatabaseRequestSourceCase0" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
           type: S.String,
-          url: S.String,
-          serviceId: S.String,
-          foundryVersionId: S.String,
-          createdAt: S.String,
+          databaseId: S.String,
         }),
-      ).annotate({ identifier: "GetServiceDeploymentsResponseDataItem" });
-    case 2:
-      return S.Array(__S(2673, __c167, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2674, __c167, 2),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetServiceDeploymentsResponse" });
+      ).annotate({ identifier: "CreateDatabaseRequestSourceCase2" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

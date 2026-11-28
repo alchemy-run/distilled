@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { GithubServiceErrors } from "../errors.ts";
 import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -346,8 +347,8 @@ export type CreateIssueFieldRequestDataType =
   | "single_select"
   | "multi_select"
   | "number";
-/** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
-export type CreateIssueFieldRequestVisibility = "organization_members_only" | "all";
+/** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
+export type CreateIssueFieldRequestVisibility = "organization_members_only" | "all" | "restricted";
 /** Color for the option. */
 export type CreateIssueFieldRequestOptionsItemColor =
   | "gray"
@@ -379,15 +380,15 @@ export interface CreateIssueFieldRequest {
   description?: string | null | undefined;
   /** The data type of the issue field. */
   data_type: CreateIssueFieldRequestDataType | (string & {});
-  /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
+  /** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. Defaults to `organization_members_only`. */
   visibility?: CreateIssueFieldRequestVisibility | (string & {}) | undefined;
   /** Options for select fields. Required when data_type is 'single_select' or 'multi_select'. */
   options?: CreateIssueFieldRequestOptionsList | null | undefined;
 }
 /** The data type of the issue field. */
 export type IssueFieldDataType = "text" | "date" | "single_select" | "multi_select" | "number";
-/** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). */
-export type IssueFieldVisibility = "organization_members_only" | "all";
+/** The visibility of the issue field. Organization-owned fields return `organization_members_only` for restricted visibility (visible to organization members and to collaborators on the repository the field is read through), or `all` (visible to all users who can see issues). For create and update requests, use `restricted` instead of the deprecated `organization_members_only` input. Existing REST API versions continue to return `organization_members_only` for restricted organization-owned fields, even when a request uses `restricted`. Any change to this response spelling will be introduced in a future REST API version. */
+export type IssueFieldVisibility = "organization_members_only" | "all" | "restricted";
 /** The color of the option. */
 export type IssueFieldOptionsItemColor =
   | "gray"
@@ -416,7 +417,7 @@ export interface IssueFieldOptionsItem {
 }
 /** Available options for single select and multi select fields. */
 export type IssueFieldOptionsList = Array<IssueFieldOptionsItem>;
-/** A custom attribute defined at the organization level for attaching structured data to issues. */
+/** A custom attribute defined by a repository owner for attaching structured data to issues. */
 export interface IssueField {
   /** The unique identifier of the issue field. */
   id: number;
@@ -428,7 +429,7 @@ export interface IssueField {
   description?: string | null | undefined;
   /** The data type of the issue field. */
   data_type: IssueFieldDataType;
-  /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). */
+  /** The visibility of the issue field. Organization-owned fields return `organization_members_only` for restricted visibility (visible to organization members and to collaborators on the repository the field is read through), or `all` (visible to all users who can see issues). For create and update requests, use `restricted` instead of the deprecated `organization_members_only` input. Existing REST API versions continue to return `organization_members_only` for restricted organization-owned fields, even when a request uses `restricted`. Any change to this response spelling will be introduced in a future REST API version. */
   visibility?: IssueFieldVisibility | undefined;
   /** Available options for single select and multi select fields. */
   options?: IssueFieldOptionsList | null | undefined;
@@ -452,7 +453,7 @@ export interface CreateIssueTypeRequest {
   org: string;
   /** Name of the issue type. */
   name: string;
-  /** Whether or not the issue type is enabled at the organization level. */
+  /** Whether or not the issue type is enabled. */
   is_enabled: boolean;
   /** Description of the issue type. */
   description?: string | null | undefined;
@@ -1476,7 +1477,7 @@ export interface MinimalRepository {
   permissions?: MinimalRepositoryPermissions | undefined;
   role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
   network_count?: number | undefined;
@@ -1558,7 +1559,13 @@ export interface GetOrgRoleRequest {
   role_id: number;
 }
 /** The system role from which this role inherits permissions. */
-export type OrganizationRoleBaseRole = "read" | "triage" | "write" | "maintain" | "admin";
+export type OrganizationRoleBaseRole =
+  | "read"
+  | "triage"
+  | "moderate"
+  | "write"
+  | "maintain"
+  | "admin";
 /** Source answers the question, "where did this role come from?" */
 export type OrganizationRoleSource = "Organization" | "Enterprise" | "Predefined";
 /** A list of permissions included in this role. */
@@ -3001,8 +3008,8 @@ export interface UpdateRequest {
   /** Controls whether or not deploy keys may be added and used for repositories in the organization. */
   deploy_keys_enabled_for_repositories?: boolean | undefined;
 }
-/** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. */
-export type UpdateIssueFieldRequestVisibility = "organization_members_only" | "all";
+/** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. */
+export type UpdateIssueFieldRequestVisibility = "organization_members_only" | "all" | "restricted";
 /** Color for the option. */
 export type UpdateIssueFieldRequestOptionsItemColor =
   | "gray"
@@ -3036,7 +3043,7 @@ export interface UpdateIssueFieldRequest {
   name?: string | undefined;
   /** Description of the issue field. */
   description?: string | null | undefined;
-  /** The visibility of the issue field. Can be `organization_members_only` (visible only within the organization) or `all` (visible to all users who can see issues). Only used when the visibility settings feature is enabled. */
+  /** The visibility of the issue field. Can be `restricted` (visible to organization members and to collaborators on the repository the field is read through) or `all` (visible to all users who can see issues). `organization_members_only` is deprecated. Use `restricted` instead. Removal will be announced for a future REST API version; existing REST API versions will continue to support this value. Only used when the visibility settings feature is enabled. */
   visibility?: UpdateIssueFieldRequestVisibility | (string & {}) | undefined;
   /** Options for select fields. Only applicable when updating single_select or multi_select fields. When provided, this array **replaces** the entire existing set of options rather than adding to or updating individual options. To retain or update an existing option, include it in the array with its `id`. Options sent without an `id` are treated as new options and may cause existing options to be deleted and recreated. */
   options?: UpdateIssueFieldRequestOptionsList | undefined;
@@ -3058,7 +3065,7 @@ export interface UpdateIssueTypeRequest {
   issue_type_id: number;
   /** Name of the issue type. */
   name: string;
-  /** Whether or not the issue type is enabled at the organization level. */
+  /** Whether or not the issue type is enabled. */
   is_enabled: boolean;
   /** Description of the issue type. */
   description?: string | null | undefined;
@@ -3140,6 +3147,7 @@ export const assignTeamToOrgRole: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<AssignTeamToOrgRoleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AssignTeamToOrgRoleResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3157,6 +3165,7 @@ export const assignUserToOrgRole: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<AssignUserToOrgRoleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AssignUserToOrgRoleResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3174,6 +3183,7 @@ export const blockUser: API.OperationMethod<
   input: __S(560, __c35, 0) as any as S.Schema<BlockUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<BlockUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3191,6 +3201,7 @@ export const bulkReviewPatGrantRequestsIn: API.OperationMethod<
   input: __S(736, __c46, 0) as any as S.Schema<BulkReviewPatGrantRequestsInRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<BulkReviewPatGrantRequestsInResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3208,6 +3219,7 @@ export const cancelInvitation: API.OperationMethod<
   input: __S(960, __c60, 0) as any as S.Schema<CancelInvitationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelInvitationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3225,6 +3237,7 @@ export const checkBlockedUser: API.OperationMethod<
   input: __S(1168, __c73, 0) as any as S.Schema<CheckBlockedUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CheckBlockedUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3242,6 +3255,7 @@ export const checkMembershipForUser: API.OperationMethod<
   input: __S(1472, __c92, 0) as any as S.Schema<CheckMembershipForUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CheckMembershipForUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3259,6 +3273,7 @@ export const checkPublicMembershipForUser: API.OperationMethod<
   input: __S(1696, __c106, 0) as any as S.Schema<CheckPublicMembershipForUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CheckPublicMembershipForUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3276,6 +3291,7 @@ export const convertMemberToOutsideCollaborator: API.OperationMethod<
   input: __S(1920, __c120, 0) as any as S.Schema<ConvertMemberToOutsideCollaboratorRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ConvertMemberToOutsideCollaboratorResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3283,7 +3299,7 @@ export const convertMemberToOutsideCollaborator: API.OperationMethod<
 }));
 
 export type CreateArtifactDeploymentRecordError = GithubOpError;
-/** Create an artifact deployment record Create or update deployment records for an artifact associated with an organization. This endpoint allows you to record information about a specific artifact, such as its name, digest, environments, cluster, and deployment. The deployment name has to be uniqe within a cluster (i.e a combination of logical, physical environment and cluster) as it identifies unique deployment. Multiple requests for the same combination of logical, physical environment, cluster and deployment name will only create one record, successive request will update the existing record. This allows for a stable tracking of a deployment where the actual deployed artifact can change over time. */
+/** Create an artifact deployment record Create or update deployment records for an artifact associated with an organization. This endpoint allows you to record information about a specific artifact, such as its name, digest, environments, cluster, and deployment. The deployment name has to be unique within a cluster (i.e a combination of logical, physical environment and cluster) as it identifies unique deployment. Multiple requests for the same combination of logical, physical environment, cluster and deployment name will only create one record, successive request will update the existing record. This allows for a stable tracking of a deployment where the actual deployed artifact can change over time. */
 export const createArtifactDeploymentRecord: API.OperationMethod<
   CreateArtifactDeploymentRecordRequest,
   CreateArtifactDeploymentRecordResponse,
@@ -3293,6 +3309,7 @@ export const createArtifactDeploymentRecord: API.OperationMethod<
   input: __S(2112, __c132, 0) as any as S.Schema<CreateArtifactDeploymentRecordRequest>,
   output: __S(2176, __c136, 0) as any as S.Schema<CreateArtifactDeploymentRecordResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3310,6 +3327,7 @@ export const createArtifactStorageRecord: API.OperationMethod<
   input: __S(48, __c3, 0) as any as S.Schema<CreateArtifactStorageRecordRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<CreateArtifactStorageRecordResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3327,6 +3345,7 @@ export const createClusterDeploymentRecordsJob: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<CreateClusterDeploymentRecordsJobRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateClusterDeploymentRecordsJobResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3344,6 +3363,7 @@ export const createInvitation: API.OperationMethod<
   input: __S(288, __c18, 0) as any as S.Schema<CreateInvitationRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<OrganizationInvitation>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3361,6 +3381,7 @@ export const createIssueField: API.OperationMethod<
   input: __S(338, __c21, 2) as any as S.Schema<CreateIssueFieldRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<IssueField>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3378,6 +3399,7 @@ export const createIssueType: API.OperationMethod<
   input: __S(368, __c23, 0) as any as S.Schema<CreateIssueTypeRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<IssueType>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3395,6 +3417,7 @@ export const createWebhook: API.OperationMethod<
   input: __S(401, __c25, 1) as any as S.Schema<CreateWebhookRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<OrgHook>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3416,6 +3439,7 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinition: API.O
   ) as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<CustomProperty>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3441,6 +3465,7 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinitions: API.
     1,
   ) as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3466,6 +3491,7 @@ export const customPropertiesForReposCreateOrUpdateOrganizationValues: API.Opera
     0,
   ) as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationValuesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3491,6 +3517,7 @@ export const customPropertiesForReposDeleteOrganizationDefinition: API.Operation
     0,
   ) as any as S.Schema<CustomPropertiesForReposDeleteOrganizationDefinitionResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3512,6 +3539,7 @@ export const customPropertiesForReposGetOrganizationDefinition: API.OperationMet
   ) as any as S.Schema<CustomPropertiesForReposGetOrganizationDefinitionRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<CustomProperty>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3537,6 +3565,7 @@ export const customPropertiesForReposGetOrganizationDefinitions: API.OperationMe
     1,
   ) as any as S.Schema<CustomPropertiesForReposGetOrganizationDefinitionsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3564,6 +3593,7 @@ export const customPropertiesForReposGetOrganizationValues: API.PaginatedOperati
       3,
     ) as any as S.Schema<CustomPropertiesForReposGetOrganizationValuesResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3584,6 +3614,7 @@ export const Delete: API.OperationMethod<
   input: __S(624, __c39, 0) as any as S.Schema<DeleteRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3601,6 +3632,7 @@ export const deleteAttestationsBulk: API.OperationMethod<
   input: __S(640, __c40, 0) as any as S.Schema<DeleteAttestationsBulkRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAttestationsBulkResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3618,6 +3650,7 @@ export const deleteAttestationsById: API.OperationMethod<
   input: __S(656, __c41, 0) as any as S.Schema<DeleteAttestationsByIdRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAttestationsByIdResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3635,6 +3668,7 @@ export const deleteAttestationsBySubjectDigest: API.OperationMethod<
   input: __S(672, __c42, 0) as any as S.Schema<DeleteAttestationsBySubjectDigestRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteAttestationsBySubjectDigestResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3652,6 +3686,7 @@ export const deleteIssueField: API.OperationMethod<
   input: __S(688, __c43, 0) as any as S.Schema<DeleteIssueFieldRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteIssueFieldResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3669,6 +3704,7 @@ export const deleteIssueType: API.OperationMethod<
   input: __S(704, __c44, 0) as any as S.Schema<DeleteIssueTypeRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteIssueTypeResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3686,6 +3722,7 @@ export const deleteWebhook: API.OperationMethod<
   input: __S(720, __c45, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3693,7 +3730,7 @@ export const deleteWebhook: API.OperationMethod<
 }));
 
 export type DisableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
-/** Disable a selected repository for immutable releases in an organization Removes a repository from the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Disable a selected repository for immutable releases in an organization Removes a repository from the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const disableSelectedRepositoryImmutableReleasesOrganization: API.OperationMethod<
   DisableSelectedRepositoryImmutableReleasesOrganizationRequest,
   DisableSelectedRepositoryImmutableReleasesOrganizationResponse,
@@ -3711,6 +3748,7 @@ export const disableSelectedRepositoryImmutableReleasesOrganization: API.Operati
     0,
   ) as any as S.Schema<DisableSelectedRepositoryImmutableReleasesOrganizationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3718,7 +3756,7 @@ export const disableSelectedRepositoryImmutableReleasesOrganization: API.Operati
 }));
 
 export type EnableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
-/** Enable a selected repository for immutable releases in an organization Adds a repository to the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Enable a selected repository for immutable releases in an organization Adds a repository to the list of selected repositories that are enforced for immutable releases in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const enableSelectedRepositoryImmutableReleasesOrganization: API.OperationMethod<
   EnableSelectedRepositoryImmutableReleasesOrganizationRequest,
   EnableSelectedRepositoryImmutableReleasesOrganizationResponse,
@@ -3736,6 +3774,7 @@ export const enableSelectedRepositoryImmutableReleasesOrganization: API.Operatio
     0,
   ) as any as S.Schema<EnableSelectedRepositoryImmutableReleasesOrganizationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3761,6 +3800,7 @@ export const externalPropertiesForReposCreateOrUpdateOrganizationValues: API.Ope
     0,
   ) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3787,6 +3827,7 @@ export const externalPropertiesForReposCreateOrUpdateValuesForOrganizationProper
     0,
   ) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3812,6 +3853,7 @@ export const externalPropertiesForReposDeleteOrganizationValues: API.OperationMe
     0,
   ) as any as S.Schema<ExternalPropertiesForReposDeleteOrganizationValuesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3837,6 +3879,7 @@ export const externalPropertiesForReposGetOrganizationAppInstallations: API.Oper
     2,
   ) as any as S.Schema<ExternalPropertiesForReposGetOrganizationAppInstallationsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3862,6 +3905,7 @@ export const externalPropertiesForReposGetOrganizationDefinitions: API.Operation
     3,
   ) as any as S.Schema<ExternalPropertiesForReposGetOrganizationDefinitionsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3883,6 +3927,7 @@ export const externalPropertiesForReposRegisterOrganizationAppInstallation: API.
   ) as any as S.Schema<ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<OrganizationExternalPropertyInstallation>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3896,6 +3941,7 @@ export const get: API.OperationMethod<GetRequest, OrganizationFull, GetError, Gi
     input: __S(912, __c57, 0) as any as S.Schema<GetRequest>,
     output: __S(929, __c58, 1) as any as S.Schema<OrganizationFull>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3915,6 +3961,7 @@ export const getApiInsightRouteStatsByActor: API.PaginatedOperationMethod<
     input: __S(944, __c59, 0) as any as S.Schema<GetApiInsightRouteStatsByActorRequest>,
     output: __S(947, __c59, 3) as any as S.Schema<GetApiInsightRouteStatsByActorResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3937,6 +3984,7 @@ export const getApiInsightSubjectStats: API.PaginatedOperationMethod<
     input: __S(976, __c61, 0) as any as S.Schema<GetApiInsightSubjectStatsRequest>,
     output: __S(979, __c61, 3) as any as S.Schema<GetApiInsightSubjectStatsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3957,6 +4005,7 @@ export const getApiInsightSummaryStats: API.OperationMethod<
   input: __S(992, __c62, 0) as any as S.Schema<GetApiInsightSummaryStatsRequest>,
   output: __S(1008, __c63, 0) as any as S.Schema<ApiInsightsSummaryStats>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3974,6 +4023,7 @@ export const getApiInsightSummaryStatsByActor: API.OperationMethod<
   input: __S(1024, __c64, 0) as any as S.Schema<GetApiInsightSummaryStatsByActorRequest>,
   output: __S(1008, __c63, 0) as any as S.Schema<ApiInsightsSummaryStats>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3991,6 +4041,7 @@ export const getApiInsightSummaryStatsByUser: API.OperationMethod<
   input: __S(1040, __c65, 0) as any as S.Schema<GetApiInsightSummaryStatsByUserRequest>,
   output: __S(1008, __c63, 0) as any as S.Schema<ApiInsightsSummaryStats>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4008,6 +4059,7 @@ export const getApiInsightTimeStats: API.OperationMethod<
   input: __S(1056, __c66, 0) as any as S.Schema<GetApiInsightTimeStatsRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<GetApiInsightTimeStatsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4025,6 +4077,7 @@ export const getApiInsightTimeStatsByActor: API.OperationMethod<
   input: __S(1088, __c68, 0) as any as S.Schema<GetApiInsightTimeStatsByActorRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<GetApiInsightTimeStatsByActorResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4042,6 +4095,7 @@ export const getApiInsightTimeStatsByUser: API.OperationMethod<
   input: __S(1104, __c69, 0) as any as S.Schema<GetApiInsightTimeStatsByUserRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<GetApiInsightTimeStatsByUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4061,6 +4115,7 @@ export const getApiInsightUserStats: API.PaginatedOperationMethod<
     input: __S(1120, __c70, 0) as any as S.Schema<GetApiInsightUserStatsRequest>,
     output: __S(1123, __c70, 3) as any as S.Schema<GetApiInsightUserStatsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4081,6 +4136,7 @@ export const getClusterDeploymentRecordsJob: API.OperationMethod<
   input: __S(1136, __c71, 0) as any as S.Schema<GetClusterDeploymentRecordsJobRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<GetClusterDeploymentRecordsJobResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4088,7 +4144,7 @@ export const getClusterDeploymentRecordsJob: API.OperationMethod<
 }));
 
 export type GetImmutableReleasesSettingsError = GithubOpError;
-/** Get immutable releases settings for an organization Gets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Get immutable releases settings for an organization Gets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const getImmutableReleasesSettings: API.OperationMethod<
   GetImmutableReleasesSettingsRequest,
   ImmutableReleasesOrganizationSettings,
@@ -4098,6 +4154,7 @@ export const getImmutableReleasesSettings: API.OperationMethod<
   input: __S(1152, __c72, 0) as any as S.Schema<GetImmutableReleasesSettingsRequest>,
   output: __S(1153, __c72, 1) as any as S.Schema<ImmutableReleasesOrganizationSettings>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4105,7 +4162,7 @@ export const getImmutableReleasesSettings: API.OperationMethod<
 }));
 
 export type GetImmutableReleasesSettingsRepositoriesError = GithubOpError;
-/** List selected repositories for immutable releases enforcement List all of the repositories that have been selected for immutable releases enforcement in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** List selected repositories for immutable releases enforcement List all of the repositories that have been selected for immutable releases enforcement in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const getImmutableReleasesSettingsRepositories: API.PaginatedOperationMethod<
   GetImmutableReleasesSettingsRepositoriesRequest,
   GetImmutableReleasesSettingsRepositoriesResponse,
@@ -4121,6 +4178,7 @@ export const getImmutableReleasesSettingsRepositories: API.PaginatedOperationMet
       1,
     ) as any as S.Schema<GetImmutableReleasesSettingsRepositoriesResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4146,6 +4204,7 @@ export const getMembershipForAuthenticatedUser: API.OperationMethod<
   input: __S(1232, __c77, 0) as any as S.Schema<GetMembershipForAuthenticatedUserRequest>,
   output: __S(1265, __c79, 1) as any as S.Schema<OrgMembership>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4163,6 +4222,7 @@ export const getMembershipForUser: API.OperationMethod<
   input: __S(1280, __c80, 0) as any as S.Schema<GetMembershipForUserRequest>,
   output: __S(1265, __c79, 1) as any as S.Schema<OrgMembership>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4180,6 +4240,7 @@ export const getOrgRole: API.OperationMethod<
   input: __S(1296, __c81, 0) as any as S.Schema<GetOrgRoleRequest>,
   output: __S(1312, __c82, 0) as any as S.Schema<OrganizationRole>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4199,6 +4260,7 @@ export const getOrgRulesetHistory: API.PaginatedOperationMethod<
     input: __S(1328, __c83, 0) as any as S.Schema<GetOrgRulesetHistoryRequest>,
     output: __S(1331, __c83, 3) as any as S.Schema<GetOrgRulesetHistoryResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4219,6 +4281,7 @@ export const getOrgRulesetVersion: API.OperationMethod<
   input: __S(1360, __c85, 0) as any as S.Schema<GetOrgRulesetVersionRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<GetOrgRulesetVersionResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4236,6 +4299,7 @@ export const getWebhook: API.OperationMethod<
   input: __S(1376, __c86, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<OrgHook>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4253,6 +4317,7 @@ export const getWebhookConfigForOrg: API.OperationMethod<
   input: __S(1392, __c87, 0) as any as S.Schema<GetWebhookConfigForOrgRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<WebhookConfig>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4270,6 +4335,7 @@ export const getWebhookDelivery: API.OperationMethod<
   input: __S(1424, __c89, 0) as any as S.Schema<GetWebhookDeliveryRequest>,
   output: __S(1426, __c89, 2) as any as S.Schema<HookDelivery>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4283,6 +4349,7 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     input: __S(1440, __c90, 0) as any as S.Schema<ListRequest>,
     output: __S(1457, __c91, 1) as any as S.Schema<ListResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4302,6 +4369,7 @@ export const listAppInstallations: API.PaginatedOperationMethod<
     input: __S(1488, __c93, 0) as any as S.Schema<ListAppInstallationsRequest>,
     output: __S(1492, __c93, 4) as any as S.Schema<ListAppInstallationsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4327,6 +4395,7 @@ export const listArtifactDeploymentRecords: API.OperationMethod<
   input: __S(1504, __c94, 0) as any as S.Schema<ListArtifactDeploymentRecordsRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<ListArtifactDeploymentRecordsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4344,6 +4413,7 @@ export const listArtifactStorageRecords: API.OperationMethod<
   input: __S(1520, __c95, 0) as any as S.Schema<ListArtifactStorageRecordsRequest>,
   output: __S(1523, __c95, 3) as any as S.Schema<ListArtifactStorageRecordsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4351,7 +4421,7 @@ export const listArtifactStorageRecords: API.OperationMethod<
 }));
 
 export type ListAttestationRepositoriesError = GithubOpError;
-/** List attestation repositories List repositories owned by the provided organization that have created at least one attested artifact Results will be sorted in ascending order by repository ID */
+/** List attestation repositories List repositories owned by the provided organization that have created at least one attested artifact. Results will be sorted in ascending order by repository ID. */
 export const listAttestationRepositories: API.OperationMethod<
   ListAttestationRepositoriesRequest,
   ListAttestationRepositoriesResponse,
@@ -4361,6 +4431,7 @@ export const listAttestationRepositories: API.OperationMethod<
   input: __S(1536, __c96, 0) as any as S.Schema<ListAttestationRepositoriesRequest>,
   output: __S(1539, __c96, 3) as any as S.Schema<ListAttestationRepositoriesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4378,6 +4449,7 @@ export const listAttestations: API.OperationMethod<
   input: __S(1552, __c97, 0) as any as S.Schema<ListAttestationsRequest>,
   output: __S(1555, __c97, 3) as any as S.Schema<ListAttestationsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4395,6 +4467,7 @@ export const listAttestationsBulk: API.OperationMethod<
   input: __S(1584, __c99, 0) as any as S.Schema<ListAttestationsBulkRequest>,
   output: __S(1589, __c99, 5) as any as S.Schema<ListAttestationsBulkResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4414,6 +4487,7 @@ export const listBlockedUsers: API.PaginatedOperationMethod<
     input: __S(1600, __c100, 0) as any as S.Schema<ListBlockedUsersRequest>,
     output: __S(1617, __c101, 1) as any as S.Schema<ListBlockedUsersResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4436,6 +4510,7 @@ export const listFailedInvitations: API.PaginatedOperationMethod<
     input: __S(1632, __c102, 0) as any as S.Schema<ListFailedInvitationsRequest>,
     output: __S(1649, __c103, 1) as any as S.Schema<ListFailedInvitationsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4458,6 +4533,7 @@ export const listForAuthenticatedUser: API.PaginatedOperationMethod<
     input: __S(1664, __c104, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
     output: __S(1457, __c91, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4480,6 +4556,7 @@ export const listForUser: API.PaginatedOperationMethod<
     input: __S(1680, __c105, 0) as any as S.Schema<ListForUserRequest>,
     output: __S(1457, __c91, 1) as any as S.Schema<ListForUserResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4502,6 +4579,7 @@ export const listInvitationTeams: API.PaginatedOperationMethod<
     input: __S(1712, __c107, 0) as any as S.Schema<ListInvitationTeamsRequest>,
     output: __S(1715, __c107, 3) as any as S.Schema<ListInvitationTeamsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4522,6 +4600,7 @@ export const listIssueFields: API.OperationMethod<
   input: __S(1760, __c110, 0) as any as S.Schema<ListIssueFieldsRequest>,
   output: __S(1762, __c110, 2) as any as S.Schema<ListIssueFieldsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4539,6 +4618,7 @@ export const listIssueTypes: API.OperationMethod<
   input: __S(1776, __c111, 0) as any as S.Schema<ListIssueTypesRequest>,
   output: __S(1778, __c111, 2) as any as S.Schema<ListIssueTypesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4558,6 +4638,7 @@ export const listMembers: API.PaginatedOperationMethod<
     input: __S(1792, __c112, 0) as any as S.Schema<ListMembersRequest>,
     output: __S(1617, __c101, 1) as any as S.Schema<ListMembersResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4580,6 +4661,7 @@ export const listMembershipsForAuthenticatedUser: API.PaginatedOperationMethod<
     input: __S(1808, __c113, 0) as any as S.Schema<ListMembershipsForAuthenticatedUserRequest>,
     output: __S(1810, __c113, 2) as any as S.Schema<ListMembershipsForAuthenticatedUserResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4600,6 +4682,7 @@ export const listOrgRoles: API.OperationMethod<
   input: __S(1824, __c114, 0) as any as S.Schema<ListOrgRolesRequest>,
   output: __S(1826, __c114, 2) as any as S.Schema<ListOrgRolesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4619,6 +4702,7 @@ export const listOrgRoleTeams: API.PaginatedOperationMethod<
     input: __S(1840, __c115, 0) as any as S.Schema<ListOrgRoleTeamsRequest>,
     output: __S(1843, __c115, 3) as any as S.Schema<ListOrgRoleTeamsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4641,6 +4725,7 @@ export const listOrgRoleUsers: API.PaginatedOperationMethod<
     input: __S(1856, __c116, 0) as any as S.Schema<ListOrgRoleUsersRequest>,
     output: __S(1860, __c116, 4) as any as S.Schema<ListOrgRoleUsersResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4663,6 +4748,7 @@ export const listOutsideCollaborators: API.PaginatedOperationMethod<
     input: __S(1872, __c117, 0) as any as S.Schema<ListOutsideCollaboratorsRequest>,
     output: __S(1617, __c101, 1) as any as S.Schema<ListOutsideCollaboratorsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4685,6 +4771,7 @@ export const listPatGrantRepositories: API.PaginatedOperationMethod<
     input: __S(1888, __c118, 0) as any as S.Schema<ListPatGrantRepositoriesRequest>,
     output: __S(1904, __c119, 0) as any as S.Schema<ListPatGrantRepositoriesResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4707,6 +4794,7 @@ export const listPatGrantRequestRepositories: API.PaginatedOperationMethod<
     input: __S(1936, __c121, 0) as any as S.Schema<ListPatGrantRequestRepositoriesRequest>,
     output: __S(1904, __c119, 0) as any as S.Schema<ListPatGrantRequestRepositoriesResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4729,6 +4817,7 @@ export const listPatGrantRequests: API.PaginatedOperationMethod<
     input: __S(1952, __c122, 0) as any as S.Schema<ListPatGrantRequestsRequest>,
     output: __S(1955, __c122, 3) as any as S.Schema<ListPatGrantRequestsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4751,6 +4840,7 @@ export const listPatGrants: API.PaginatedOperationMethod<
     input: __S(1984, __c124, 0) as any as S.Schema<ListPatGrantsRequest>,
     output: __S(1987, __c124, 3) as any as S.Schema<ListPatGrantsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4773,6 +4863,7 @@ export const listPendingInvitations: API.PaginatedOperationMethod<
     input: __S(2000, __c125, 0) as any as S.Schema<ListPendingInvitationsRequest>,
     output: __S(1649, __c103, 1) as any as S.Schema<ListPendingInvitationsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4795,6 +4886,7 @@ export const listPublicMembers: API.PaginatedOperationMethod<
     input: __S(2016, __c126, 0) as any as S.Schema<ListPublicMembersRequest>,
     output: __S(1617, __c101, 1) as any as S.Schema<ListPublicMembersResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4815,6 +4907,7 @@ export const listWebhookDeliveries: API.OperationMethod<
   input: __S(2032, __c127, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
   output: __S(2035, __c127, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4834,6 +4927,7 @@ export const listWebhooks: API.PaginatedOperationMethod<
     input: __S(2048, __c128, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(2050, __c128, 2) as any as S.Schema<ListWebhooksResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4854,6 +4948,7 @@ export const pingWebhook: API.OperationMethod<
   input: __S(2064, __c129, 0) as any as S.Schema<PingWebhookRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PingWebhookResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4871,6 +4966,7 @@ export const redeliverWebhookDelivery: API.OperationMethod<
   input: __S(2080, __c130, 0) as any as S.Schema<RedeliverWebhookDeliveryRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RedeliverWebhookDeliveryResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4888,6 +4984,7 @@ export const removeMember: API.OperationMethod<
   input: __S(2096, __c131, 0) as any as S.Schema<RemoveMemberRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveMemberResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4905,6 +5002,7 @@ export const removeMembershipForUser: API.OperationMethod<
   input: __S(2192, __c137, 0) as any as S.Schema<RemoveMembershipForUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveMembershipForUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4922,6 +5020,7 @@ export const removeOutsideCollaborator: API.OperationMethod<
   input: __S(2208, __c138, 0) as any as S.Schema<RemoveOutsideCollaboratorRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemoveOutsideCollaboratorResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4939,6 +5038,7 @@ export const removePublicMembershipForAuthenticatedUser: API.OperationMethod<
   input: __S(2224, __c139, 0) as any as S.Schema<RemovePublicMembershipForAuthenticatedUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RemovePublicMembershipForAuthenticatedUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4956,6 +5056,7 @@ export const reviewPatGrantRequest: API.OperationMethod<
   input: __S(2240, __c140, 0) as any as S.Schema<ReviewPatGrantRequestRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ReviewPatGrantRequestResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4973,6 +5074,7 @@ export const revokeAllOrgRolesTeam: API.OperationMethod<
   input: __S(2256, __c141, 0) as any as S.Schema<RevokeAllOrgRolesTeamRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RevokeAllOrgRolesTeamResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4990,6 +5092,7 @@ export const revokeAllOrgRolesUser: API.OperationMethod<
   input: __S(2272, __c142, 0) as any as S.Schema<RevokeAllOrgRolesUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RevokeAllOrgRolesUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5007,6 +5110,7 @@ export const revokeOrgRoleTeam: API.OperationMethod<
   input: __S(2288, __c143, 0) as any as S.Schema<RevokeOrgRoleTeamRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RevokeOrgRoleTeamResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5024,6 +5128,7 @@ export const revokeOrgRoleUser: API.OperationMethod<
   input: __S(2304, __c144, 0) as any as S.Schema<RevokeOrgRoleUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RevokeOrgRoleUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5041,6 +5146,7 @@ export const setClusterDeploymentRecords: API.OperationMethod<
   input: __S(2320, __c145, 0) as any as S.Schema<SetClusterDeploymentRecordsRequest>,
   output: __S(2176, __c136, 0) as any as S.Schema<SetClusterDeploymentRecordsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5048,7 +5154,7 @@ export const setClusterDeploymentRecords: API.OperationMethod<
 }));
 
 export type SetImmutableReleasesSettingsError = GithubOpError;
-/** Set immutable releases settings for an organization Sets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Set immutable releases settings for an organization Sets the immutable releases policy for repositories in an organization. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const setImmutableReleasesSettings: API.OperationMethod<
   SetImmutableReleasesSettingsRequest,
   SetImmutableReleasesSettingsResponse,
@@ -5058,6 +5164,7 @@ export const setImmutableReleasesSettings: API.OperationMethod<
   input: __S(2336, __c146, 0) as any as S.Schema<SetImmutableReleasesSettingsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SetImmutableReleasesSettingsResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5065,7 +5172,7 @@ export const setImmutableReleasesSettings: API.OperationMethod<
 }));
 
 export type SetImmutableReleasesSettingsRepositoriesError = GithubOpError;
-/** Set selected repositories for immutable releases enforcement Replaces all repositories that have been selected for immutable releases enforcement in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
+/** Set selected repositories for immutable releases enforcement Replaces all repositories that have been selected for immutable releases enforcement in an organization. To use this endpoint, the organization immutable releases policy for `enforced_repositories` must be configured to `selected`. OAuth tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint. */
 export const setImmutableReleasesSettingsRepositories: API.OperationMethod<
   SetImmutableReleasesSettingsRepositoriesRequest,
   SetImmutableReleasesSettingsRepositoriesResponse,
@@ -5075,6 +5182,7 @@ export const setImmutableReleasesSettingsRepositories: API.OperationMethod<
   input: __S(64, __c4, 0) as any as S.Schema<SetImmutableReleasesSettingsRepositoriesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SetImmutableReleasesSettingsRepositoriesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5092,6 +5200,7 @@ export const setMembershipForUser: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<SetMembershipForUserRequest>,
   output: __S(1265, __c79, 1) as any as S.Schema<OrgMembership>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5109,6 +5218,7 @@ export const setPublicMembershipForAuthenticatedUser: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<SetPublicMembershipForAuthenticatedUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<SetPublicMembershipForAuthenticatedUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5126,6 +5236,7 @@ export const unblockUser: API.OperationMethod<
   input: __S(112, __c7, 0) as any as S.Schema<UnblockUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UnblockUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5143,6 +5254,7 @@ export const update: API.OperationMethod<
   input: __S(128, __c8, 0) as any as S.Schema<UpdateRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<OrganizationFull>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5160,6 +5272,7 @@ export const updateIssueField: API.OperationMethod<
   input: __S(146, __c9, 2) as any as S.Schema<UpdateIssueFieldRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<IssueField>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5177,6 +5290,7 @@ export const updateIssueType: API.OperationMethod<
   input: __S(160, __c10, 0) as any as S.Schema<UpdateIssueTypeRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<IssueType>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5194,6 +5308,7 @@ export const updateMembershipForAuthenticatedUser: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<UpdateMembershipForAuthenticatedUserRequest>,
   output: __S(1265, __c79, 1) as any as S.Schema<OrgMembership>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5211,6 +5326,7 @@ export const updatePatAccess: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<UpdatePatAccessRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdatePatAccessResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5228,6 +5344,7 @@ export const updatePatAccesses: API.OperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<UpdatePatAccessesRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UpdatePatAccessesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5245,6 +5362,7 @@ export const updateWebhook: API.OperationMethod<
   input: __S(257, __c16, 1) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<OrgHook>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5262,6 +5380,7 @@ export const updateWebhookConfigForOrg: API.OperationMethod<
   input: __S(272, __c17, 0) as any as S.Schema<UpdateWebhookConfigForOrgRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<WebhookConfig>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6915,7 +7034,7 @@ function __c76(j: number): any {
           updated_at: S.optional(S.NullOr(S.String)),
           permissions: S.optional(__S(1216, __c76, 0)),
           role_name: S.optional(S.String),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           delete_branch_on_merge: S.optional(S.Boolean),
           subscribers_count: S.optional(S.Number),
           network_count: S.optional(S.Number),

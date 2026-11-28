@@ -303,27 +303,7 @@
     },
     {
       "op": "replace",
-      "path": "/types/Mutation/fields/privateNetworkCreateOrGet/errors",
-      "value": ["RailwayNotFound"]
-    },
-    {
-      "op": "replace",
-      "path": "/types/Mutation/fields/privateNetworkEndpointCreateOrGet/errors",
-      "value": ["RailwayNotFound"]
-    },
-    {
-      "op": "replace",
-      "path": "/types/Mutation/fields/privateNetworkEndpointDelete/errors",
-      "value": ["RailwayNotFound"]
-    },
-    {
-      "op": "replace",
       "path": "/types/Mutation/fields/privateNetworkEndpointRename/errors",
-      "value": ["RailwayNotFound"]
-    },
-    {
-      "op": "replace",
-      "path": "/types/Mutation/fields/privateNetworksForEnvironmentDelete/errors",
       "value": ["RailwayNotFound"]
     },
     {

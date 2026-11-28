@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -192,11 +193,33 @@ export interface GetWarehouseTableRequest {
   project_id: string;
   /** A UUID string identifying this data warehouse table. */
   id: string;
+  /** Include table columns. Disable for lightweight table lookups. */
+  include_columns?: boolean | undefined;
+}
+export interface GetWarehouseTablesHistoryTableRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this data warehouse table. */
+  id: string;
+}
+export interface HistoryTableRef {
+  /** ID of the history table. */
+  id: string;
+  /** Name the history table is queried by in HogQL. */
+  name: string;
+  /** Whether you can change who can access the history table. */
+  user_can_manage_access: boolean;
+}
+export interface TableHistoryTable {
+  /** Whether this table has access rules of its own that you can manage, so there are rules to copy to its history table. */
+  main_table_has_copyable_rules: boolean;
+  /** The table's history table, which keeps every past version of its rows. `null` when the table has none or you can't view it. */
+  history_table: HistoryTableRef | null;
 }
 export interface ListWarehouseTablesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Include table columns. Disable for lightweight table existence or name lookups. */
+  /** Include table columns. Disable for lightweight table lookups. */
   include_columns?: boolean | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
@@ -252,17 +275,36 @@ export interface UpdateWarehouseTablesPartialRequest {
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
   options?: UpdateWarehouseTablesPartialRequestOptionsMap | undefined;
 }
+export interface WarehouseTablesCopyAccessRulesToHistoryTableCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this data warehouse table. */
+  id: string;
+}
 /** * `csv` - csv * `json` - json * `parquet` - parquet */
 export type UploadedFileFormatEnum = "csv" | "json" | "parquet";
+export interface WarehouseTablesCreateFromFileCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Notebook short ID and cell ID separated by a slash. On create, associates the new table with that cell. On replace, requires the table to have been created for that cell. */
+  notebook_cell?: string | undefined;
+  /** How the uploaded file is read: 'csv', 'json', or 'parquet'. * `csv` - csv * `json` - json * `parquet` - parquet */
+  file_format: UploadedFileFormatEnum | (string & {});
+  file: string;
+  /** Name the resulting table is queried by in HogQL. */
+  table_name: string;
+}
 export interface WarehouseTablesCreateFromUploadCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Notebook short ID and cell ID separated by a slash. On create, associates the new table with that cell. On replace, requires the table to have been created for that cell. */
+  notebook_cell?: string | undefined;
+  /** How the uploaded file is read: 'csv', 'json', or 'parquet'. * `csv` - csv * `json` - json * `parquet` - parquet */
+  file_format: UploadedFileFormatEnum | (string & {});
   /** Id returned by upload_file for the stored file. */
   upload_id: string;
   /** Sanitized filename returned by upload_file. */
   filename: string;
-  /** How the uploaded file is read: 'csv', 'json', or 'parquet'. * `csv` - csv * `json` - json * `parquet` - parquet */
-  file_format: UploadedFileFormatEnum | (string & {});
   /** Name the resulting table is queried by in HogQL. */
   table_name: string;
 }
@@ -285,14 +327,28 @@ export interface WarehouseTablesReplaceFileCreateRequest {
   project_id: string;
   /** A UUID string identifying this data warehouse table. */
   id: string;
+  /** Notebook short ID and cell ID separated by a slash. On create, associates the new table with that cell. On replace, requires the table to have been created for that cell. */
+  notebook_cell?: string | undefined;
+  /** How the uploaded file is read: 'csv', 'json', or 'parquet'. * `csv` - csv * `json` - json * `parquet` - parquet */
+  file_format: UploadedFileFormatEnum | (string & {});
   /** Id returned by upload_file for the stored file. */
   upload_id: string;
   /** Sanitized filename returned by upload_file. */
   filename: string;
-  /** How the uploaded file is read: 'csv', 'json', or 'parquet'. * `csv` - csv * `json` - json * `parquet` - parquet */
-  file_format: UploadedFileFormatEnum | (string & {});
 }
 export interface WarehouseTablesReplaceFileCreateResponse {}
+export interface WarehouseTablesReplaceWithFileCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this data warehouse table. */
+  id: string;
+  /** Notebook short ID and cell ID separated by a slash. On create, associates the new table with that cell. On replace, requires the table to have been created for that cell. */
+  notebook_cell?: string | undefined;
+  /** How the uploaded file is read: 'csv', 'json', or 'parquet'. * `csv` - csv * `json` - json * `parquet` - parquet */
+  file_format: UploadedFileFormatEnum | (string & {});
+  file: string;
+}
+export interface WarehouseTablesReplaceWithFileCreateResponse {}
 /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
 export type WarehouseTablesUpdateSchemaCreateRequestOptionsMap = {
   [key: string]: unknown | undefined;
@@ -343,9 +399,10 @@ export const createWarehouseTable: API.OperationMethod<
   CreateWarehouseTableError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateWarehouseTableRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
+  input: __S(72, __c9, 0) as any as S.Schema<CreateWarehouseTableRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<TableOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -360,9 +417,10 @@ export const createWarehouseTablesFile: API.OperationMethod<
   CreateWarehouseTablesFileError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CreateWarehouseTablesFileRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<CreateWarehouseTablesFileResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateWarehouseTablesFileRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<CreateWarehouseTablesFileResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -377,13 +435,32 @@ export const getWarehouseTable: API.OperationMethod<
   GetWarehouseTableError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetWarehouseTableRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetWarehouseTableRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<TableOutput>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWarehouseTable",
+}));
+
+export type GetWarehouseTablesHistoryTableError = PosthogOpError;
+/** Get the table's history table The history table of a table that keeps the past versions of its rows. The history table is a table of its own, so access rules set on this table don't apply to it. */
+export const getWarehouseTablesHistoryTable: API.OperationMethod<
+  GetWarehouseTablesHistoryTableRequest,
+  TableHistoryTable,
+  GetWarehouseTablesHistoryTableError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c16, 0) as any as S.Schema<GetWarehouseTablesHistoryTableRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<TableHistoryTable>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseTablesHistoryTable",
 }));
 
 export type ListWarehouseTablesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -394,9 +471,10 @@ export const listWarehouseTables: API.OperationMethod<
   ListWarehouseTablesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListWarehouseTablesRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<PaginatedTableListOutput>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListWarehouseTablesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<PaginatedTableListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -411,9 +489,10 @@ export const updateWarehouseTable: API.OperationMethod<
   UpdateWarehouseTableError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdateWarehouseTableRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
+  input: __S(152, __c19, 0) as any as S.Schema<UpdateWarehouseTableRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<TableOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -428,13 +507,54 @@ export const updateWarehouseTablesPartial: API.OperationMethod<
   UpdateWarehouseTablesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<UpdateWarehouseTablesPartialRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
+  input: __S(160, __c20, 0) as any as S.Schema<UpdateWarehouseTablesPartialRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<TableOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateWarehouseTablesPartial",
+}));
+
+export type WarehouseTablesCopyAccessRulesToHistoryTableCreateError = PosthogOpError;
+/** Copy the table's access rules to its history table Replace the access rules of the table's history table with the table's own rules. Requires the right to manage access to both tables. */
+export const warehouseTablesCopyAccessRulesToHistoryTableCreate: API.OperationMethod<
+  WarehouseTablesCopyAccessRulesToHistoryTableCreateRequest,
+  TableHistoryTable,
+  WarehouseTablesCopyAccessRulesToHistoryTableCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    0,
+    __c0,
+    0,
+  ) as any as S.Schema<WarehouseTablesCopyAccessRulesToHistoryTableCreateRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<TableHistoryTable>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesCopyAccessRulesToHistoryTableCreate",
+}));
+
+export type WarehouseTablesCreateFromFileCreateError = PosthogOpError;
+/** Create a warehouse table from the file in this request. */
+export const warehouseTablesCreateFromFileCreate: API.OperationMethod<
+  WarehouseTablesCreateFromFileCreateRequest,
+  TableOutput,
+  WarehouseTablesCreateFromFileCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<WarehouseTablesCreateFromFileCreateRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<TableOutput>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesCreateFromFileCreate",
 }));
 
 export type WarehouseTablesCreateFromUploadCreateError = PosthogOpError;
@@ -445,9 +565,10 @@ export const warehouseTablesCreateFromUploadCreate: API.OperationMethod<
   WarehouseTablesCreateFromUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<WarehouseTablesCreateFromUploadCreateRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
+  input: __S(16, __c2, 0) as any as S.Schema<WarehouseTablesCreateFromUploadCreateRequest>,
+  output: __S(100, __c12, 4) as any as S.Schema<TableOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -462,9 +583,10 @@ export const warehouseTablesDestroy: API.OperationMethod<
   WarehouseTablesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<WarehouseTablesDestroyRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesDestroyResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<WarehouseTablesDestroyRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<WarehouseTablesDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -483,9 +605,10 @@ export const warehouseTablesRefreshSchemaCreate: API.OperationMethod<
   WarehouseTablesRefreshSchemaCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<WarehouseTablesRefreshSchemaCreateRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesRefreshSchemaCreateResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<WarehouseTablesRefreshSchemaCreateRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<WarehouseTablesRefreshSchemaCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -500,13 +623,32 @@ export const warehouseTablesReplaceFileCreate: API.OperationMethod<
   WarehouseTablesReplaceFileCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<WarehouseTablesReplaceFileCreateRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesReplaceFileCreateResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<WarehouseTablesReplaceFileCreateRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<WarehouseTablesReplaceFileCreateResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WarehouseTablesReplaceFileCreate",
+}));
+
+export type WarehouseTablesReplaceWithFileCreateError = PosthogOpError;
+/** Replace the rows of a file-upload table with the file in this request. */
+export const warehouseTablesReplaceWithFileCreate: API.OperationMethod<
+  WarehouseTablesReplaceWithFileCreateRequest,
+  WarehouseTablesReplaceWithFileCreateResponse,
+  WarehouseTablesReplaceWithFileCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<WarehouseTablesReplaceWithFileCreateRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<WarehouseTablesReplaceWithFileCreateResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseTablesReplaceWithFileCreate",
 }));
 
 export type WarehouseTablesUpdateSchemaCreateError =
@@ -521,9 +663,10 @@ export const warehouseTablesUpdateSchemaCreate: API.OperationMethod<
   WarehouseTablesUpdateSchemaCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<WarehouseTablesUpdateSchemaCreateRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesUpdateSchemaCreateResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<WarehouseTablesUpdateSchemaCreateRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<WarehouseTablesUpdateSchemaCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -531,16 +674,17 @@ export const warehouseTablesUpdateSchemaCreate: API.OperationMethod<
 }));
 
 export type WarehouseTablesUploadFileCreateError = PosthogOpError;
-/** Upload a file for a new warehouse table and FileUpload source Store an uploaded file for a new warehouse table and FileUpload source. Uploading is a separate first step from `create_from_upload` so the create call stays JSON-only: this returns an `upload_id` the caller passes back to build the table. The file is written under a team-scoped prefix, so a table can only ever read back its own team's uploads. */
+/** Upload a file for a new warehouse table and FileUpload source Store an uploaded file for a new warehouse table and FileUpload source. Returns an upload ID for a subsequent create or replacement. */
 export const warehouseTablesUploadFileCreate: API.OperationMethod<
   WarehouseTablesUploadFileCreateRequest,
   FileUploadResponse,
   WarehouseTablesUploadFileCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<WarehouseTablesUploadFileCreateRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<FileUploadResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<WarehouseTablesUploadFileCreateRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<FileUploadResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -557,6 +701,65 @@ function __c0(j: number): any {
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_tables/{id}/copy_access_rules_to_history_table/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WarehouseTablesCopyAccessRulesToHistoryTableCreateRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          notebook_cell: S.optional(S.String),
+          file_format: S.String,
+          file: S.String,
+          table_name: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_tables/create_from_file/",
+            code: 200,
+            contentType: "multipart",
+          }),
+        ),
+      ).annotate({ identifier: "WarehouseTablesCreateFromFileCreateRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          notebook_cell: S.optional(S.String),
+          file_format: S.String,
+          upload_id: S.String,
+          filename: S.String,
+          table_name: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_tables/create_from_upload/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WarehouseTablesCreateFromUploadCreateRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
             method: "DELETE",
             uri: "/api/projects/{project_id}/warehouse_tables/{id}/",
             code: 200,
@@ -565,7 +768,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "WarehouseTablesDestroyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -582,16 +785,17 @@ function __c1(j: number): any {
       ).annotate({ identifier: "WarehouseTablesRefreshSchemaCreateRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          notebook_cell: S.optional(S.String),
+          file_format: S.String,
           upload_id: S.String,
           filename: S.String,
-          file_format: S.String,
         }).pipe(
           T.Http({
             method: "POST",
@@ -602,7 +806,28 @@ function __c2(j: number): any {
       ).annotate({ identifier: "WarehouseTablesReplaceFileCreateRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          notebook_cell: S.optional(S.String),
+          file_format: S.String,
+          file: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/warehouse_tables/{id}/replace_with_file/",
+            code: 200,
+            contentType: "multipart",
+          }),
+        ),
+      ).annotate({ identifier: "WarehouseTablesReplaceWithFileCreateRequest" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -613,8 +838,8 @@ function __c3(j: number): any {
           name: S.optional(S.String),
           format: S.optional(S.String),
           url_pattern: S.optional(S.String),
-          credential: S.optional(__S(56, __c7, 0)),
-          options: S.optional(__S(48, __c6, 0)),
+          credential: S.optional(__S(88, __c11, 0)),
+          options: S.optional(__S(80, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -625,7 +850,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "WarehouseTablesUpdateSchemaCreateRequest" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -653,7 +878,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "FileUploadResponse" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -663,8 +888,8 @@ function __c5(j: number): any {
           name: S.optional(S.String),
           format: S.optional(S.String),
           url_pattern: S.optional(S.String),
-          credential: S.optional(__S(56, __c7, 0)),
-          options: S.optional(__S(48, __c6, 0)),
+          credential: S.optional(__S(88, __c11, 0)),
+          options: S.optional(__S(80, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -675,13 +900,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateWarehouseTableRequest" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -692,7 +917,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CredentialInput" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -704,7 +929,7 @@ function __c8(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(48, __c6, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(80, __c10, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -712,12 +937,12 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(64, __c8, 0))),
+          created_by: S.optional(S.NullOr(__S(96, __c12, 0))),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "CredentialOutput" });
     case 2:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(80, __c10, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -736,22 +961,22 @@ function __c8(j: number): any {
           name: S.optional(S.String),
           hogql_name: S.optional(S.String),
           format: S.optional(S.String),
-          created_by: S.optional(S.NullOr(__S(64, __c8, 0))),
+          created_by: S.optional(S.NullOr(__S(96, __c12, 0))),
           created_at: S.optional(S.String),
           created_via: S.optional(S.NullOr(S.String)),
           url_pattern: S.optional(S.String),
-          credential: S.optional(__S(65, __c8, 1)),
-          columns: S.optional(__S(66, __c8, 2)),
-          external_data_source: S.optional(__S(67, __c8, 3)),
-          external_schema: S.optional(S.NullOr(__S(48, __c6, 0))),
+          credential: S.optional(__S(97, __c12, 1)),
+          columns: S.optional(__S(98, __c12, 2)),
+          external_data_source: S.optional(__S(99, __c12, 3)),
+          external_schema: S.optional(S.NullOr(__S(80, __c10, 0))),
           pending_source_id: S.NullOr(S.String),
-          options: S.optional(__S(48, __c6, 0)),
+          options: S.optional(__S(80, __c10, 0)),
           user_access_level: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TableOutput" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -761,8 +986,8 @@ function __c9(j: number): any {
           name: S.optional(S.String),
           format: S.optional(S.String),
           url_pattern: S.optional(S.String),
-          credential: S.optional(__S(56, __c7, 0)),
-          options: S.optional(__S(48, __c6, 0)),
+          credential: S.optional(__S(88, __c11, 0)),
+          options: S.optional(__S(80, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -774,7 +999,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateWarehouseTablesFileRequest" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -782,13 +1007,14 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          include_columns: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -799,7 +1025,43 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetWarehouseTableRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/warehouse_tables/{id}/history_table/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetWarehouseTablesHistoryTableRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          user_can_manage_access: S.Boolean,
+        }),
+      ).annotate({ identifier: "HistoryTableRef" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          main_table_has_copyable_rules: S.Boolean,
+          history_table: S.NullOr(__S(136, __c17, 0)),
+        }),
+      ).annotate({ identifier: "TableHistoryTable" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -815,19 +1077,19 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListWarehouseTablesRequest" });
     case 1:
-      return S.Array(__S(68, __c8, 4));
+      return S.Array(__S(100, __c12, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(97, __c12, 1)),
+          results: S.optional(__S(145, __c18, 1)),
         }),
       ).annotate({ identifier: "PaginatedTableListOutput" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -838,8 +1100,8 @@ function __c13(j: number): any {
           name: S.optional(S.String),
           format: S.optional(S.String),
           url_pattern: S.optional(S.String),
-          credential: S.optional(__S(56, __c7, 0)),
-          options: S.optional(__S(48, __c6, 0)),
+          credential: S.optional(__S(88, __c11, 0)),
+          options: S.optional(__S(80, __c10, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -850,7 +1112,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateWarehouseTableRequest" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -861,8 +1123,8 @@ function __c14(j: number): any {
           name: S.optional(S.String),
           format: S.optional(S.String),
           url_pattern: S.optional(S.String),
-          credential: S.optional(__S(56, __c7, 0)),
-          options: S.optional(__S(48, __c6, 0)),
+          credential: S.optional(__S(88, __c11, 0)),
+          options: S.optional(__S(80, __c10, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -871,26 +1133,6 @@ function __c14(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateWarehouseTablesPartialRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          upload_id: S.String,
-          filename: S.String,
-          file_format: S.String,
-          table_name: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/warehouse_tables/create_from_upload/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WarehouseTablesCreateFromUploadCreateRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

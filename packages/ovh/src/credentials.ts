@@ -3,11 +3,11 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * OVH credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). OVH REST accepts an OAuth2 access token as
  * `Authorization: Bearer <token>` (`OVH_ACCESS_TOKEN`); callers hand an
  * already-fetched token. Application-key request signing is not modelled
- * here -- `makeRestProtocol` injects static headers only.
+ * here -- `restProtocol` injects static headers only.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -30,9 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "OvhCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OvhCredentials") {}
 
 const baseUrlFromEnv = (): string => {
   const explicit = process.env.OVH_API_BASE_URL;
@@ -57,21 +55,29 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads OVH_ACCESS_TOKEN (required) and OVH_API_BASE_URL / OVH_ENDPOINT. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads OVH_ACCESS_TOKEN (required) and OVH_API_BASE_URL / OVH_ENDPOINT.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.OVH_ACCESS_TOKEN;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.OVH_ACCESS_TOKEN;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "OVH_ACCESS_TOKEN environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "OVH_ACCESS_TOKEN environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: baseUrlFromEnv(),
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: baseUrlFromEnv(),
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

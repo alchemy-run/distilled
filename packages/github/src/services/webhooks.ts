@@ -217,7 +217,7 @@ export interface RepositoryWebhooksTemplateRepository {
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;
@@ -350,7 +350,7 @@ export interface RepositoryWebhooks {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: RepositoryWebhooksTemplateRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -808,7 +808,7 @@ export interface MinimalRepository {
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
   network_count?: number | undefined;
@@ -3877,7 +3877,7 @@ export interface Repository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -9251,6 +9251,15 @@ export interface IssueCommentUnpinnedEvent {
   sender: NullableSimpleUser;
 }
 export type IssueDependenciesBlockedByAddedEventAction = "blocked_by_added";
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export interface IssueStatus {
+  /** The stable identifier of the planning status. */
+  id: number;
+  /** The display name of the planning status, which may change in the future. */
+  name: string;
+  /** A stable identifier for the category, such as `backlog`, `planned`, `started`, `completed`, `not_planned` or `duplicate`. Clients should expect new keys to be added. */
+  category: string;
+}
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 export interface IssueLabelsItemCase1 {
@@ -9357,6 +9366,8 @@ export interface Issue {
   number: number;
   /** State of the issue; either 'open' or 'closed' */
   state: string;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** The reason for the current state */
   state_reason?: IssueStateReason | null | undefined;
   /** Title of the issue */
@@ -9791,6 +9802,8 @@ export interface WebhooksIssuePerformedViaGithubApp {
 export type WebhooksIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type WebhooksIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type WebhooksIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type WebhooksIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type WebhooksIssueState = "open" | "closed";
 export type WebhooksIssueUserType = "Bot" | "User" | "Organization" | "Mannequin";
@@ -9851,6 +9864,8 @@ export interface WebhooksIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: WebhooksIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: WebhooksIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -10226,6 +10241,8 @@ export interface IssuesClosedEventIssuePerformedViaGithubApp {
 export type IssuesClosedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesClosedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesClosedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesClosedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesClosedEventIssueState = "open" | "closed";
 export type IssuesClosedEventIssueUserType = "Bot" | "User" | "Organization" | "Mannequin";
@@ -10286,6 +10303,8 @@ export interface IssuesClosedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesClosedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state: IssuesClosedEventIssueState;
   state_reason?: string | null | undefined;
@@ -10661,6 +10680,8 @@ export interface IssuesDeletedEventIssuePerformedViaGithubApp {
 export type IssuesDeletedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesDeletedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesDeletedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesDeletedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesDeletedEventIssueState = "open" | "closed";
 export type IssuesDeletedEventIssueUserType = "Bot" | "User" | "Organization";
@@ -10721,6 +10742,8 @@ export interface IssuesDeletedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesDeletedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesDeletedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -11125,6 +11148,8 @@ export interface IssuesDemilestonedEventIssuePerformedViaGithubApp {
 export type IssuesDemilestonedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesDemilestonedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesDemilestonedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesDemilestonedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesDemilestonedEventIssueState = "open" | "closed";
 export type IssuesDemilestonedEventIssueUserType = "Bot" | "User" | "Organization" | "Mannequin";
@@ -11185,6 +11210,8 @@ export interface IssuesDemilestonedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesDemilestonedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesDemilestonedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -11617,6 +11644,8 @@ export interface IssuesEditedEventIssuePerformedViaGithubApp {
 export type IssuesEditedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesEditedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesEditedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesEditedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesEditedEventIssueState = "open" | "closed";
 export type IssuesEditedEventIssueUserType = "Bot" | "User" | "Organization" | "Mannequin";
@@ -11677,6 +11706,8 @@ export interface IssuesEditedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesEditedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesEditedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -12220,6 +12251,8 @@ export interface IssuesLabeledEventIssuePerformedViaGithubApp {
 export type IssuesLabeledEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesLabeledEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesLabeledEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesLabeledEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesLabeledEventIssueState = "open" | "closed";
 export type IssuesLabeledEventIssueUserType = "Bot" | "User" | "Organization" | "Mannequin";
@@ -12280,6 +12313,8 @@ export interface IssuesLabeledEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesLabeledEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesLabeledEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -12650,6 +12685,8 @@ export interface IssuesLockedEventIssuePerformedViaGithubApp {
 export type IssuesLockedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesLockedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesLockedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesLockedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesLockedEventIssueState = "open" | "closed";
 export type IssuesLockedEventIssueUserType = "Bot" | "User" | "Organization";
@@ -12710,6 +12747,8 @@ export interface IssuesLockedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesLockedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesLockedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -13101,6 +13140,8 @@ export interface IssuesMilestonedEventIssuePerformedViaGithubApp {
 export type IssuesMilestonedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesMilestonedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesMilestonedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesMilestonedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesMilestonedEventIssueState = "open" | "closed";
 export type IssuesMilestonedEventIssueUserType = "Bot" | "User" | "Organization";
@@ -13161,6 +13202,8 @@ export interface IssuesMilestonedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesMilestonedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesMilestonedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -13583,6 +13626,8 @@ export interface IssuesOpenedEventChangesOldIssuePerformedViaGithubApp {
 export type IssuesOpenedEventChangesOldIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesOpenedEventChangesOldIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesOpenedEventChangesOldIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesOpenedEventChangesOldIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesOpenedEventChangesOldIssueState = "open" | "closed";
 export type IssuesOpenedEventChangesOldIssueUserType = "Bot" | "User" | "Organization";
@@ -13645,6 +13690,8 @@ export interface IssuesOpenedEventChangesOldIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesOpenedEventChangesOldIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesOpenedEventChangesOldIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -14174,6 +14221,8 @@ export interface IssuesOpenedEventIssuePerformedViaGithubApp {
 export type IssuesOpenedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesOpenedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesOpenedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesOpenedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesOpenedEventIssueState = "open" | "closed";
 export type IssuesOpenedEventIssueUserType = "Bot" | "User" | "Organization";
@@ -14233,6 +14282,8 @@ export interface IssuesOpenedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesOpenedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesOpenedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -14564,6 +14615,8 @@ export interface WebhooksIssue2PerformedViaGithubApp {
 export type WebhooksIssue2PullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type WebhooksIssue2Reactions = CommitCommentCreatedEventCommentReactions;
 export type WebhooksIssue2IssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type WebhooksIssue2Status = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type WebhooksIssue2State = "open" | "closed";
 export type WebhooksIssue2UserType = "Bot" | "User" | "Organization";
@@ -14624,6 +14677,8 @@ export interface WebhooksIssue2 {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: WebhooksIssue2IssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: WebhooksIssue2State | undefined;
   state_reason?: string | null | undefined;
@@ -15024,6 +15079,8 @@ export interface IssuesReopenedEventIssuePerformedViaGithubApp {
 export type IssuesReopenedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesReopenedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesReopenedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesReopenedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesReopenedEventIssueState = "open" | "closed";
 export type IssuesReopenedEventIssueUserType = "Bot" | "User" | "Organization" | "Mannequin";
@@ -15084,6 +15141,8 @@ export interface IssuesReopenedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesReopenedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state: IssuesReopenedEventIssueState;
   state_reason?: string | null | undefined;
@@ -15105,6 +15164,44 @@ export interface IssuesReopenedEvent {
   organization?: OrganizationSimpleWebhooks | undefined;
   repository: RepositoryWebhooks;
   sender: NullableSimpleUser;
+}
+export type IssuesStatusChangedEventAction = "status_changed";
+/** The status the issue had before the change, or `null` if it had none. */
+export type IssuesStatusChangedEventChangesStatusFrom = IssueStatus;
+export interface IssuesStatusChangedEventChangesStatus {
+  /** The status the issue had before the change, or `null` if it had none. */
+  from: IssueStatus | null;
+}
+/** The state of the issue before the change. */
+export type IssuesStatusChangedEventChangesStateFrom = "open" | "closed";
+export interface IssuesStatusChangedEventChangesState {
+  /** The state of the issue before the change. */
+  from: IssuesStatusChangedEventChangesStateFrom;
+}
+export interface IssuesStatusChangedEventChangesStateReason {
+  /** The reason for the state of the issue before the change. */
+  from: string | null;
+}
+/** The changes to the issue. `state` and `state_reason` are only included when the status change also closed or reopened the issue, or changed the reason it was closed. */
+export interface IssuesStatusChangedEventChanges {
+  status: IssuesStatusChangedEventChangesStatus;
+  state?: IssuesStatusChangedEventChangesState | undefined;
+  state_reason?: IssuesStatusChangedEventChangesStateReason | undefined;
+}
+/** The status the issue changed to. */
+export type IssuesStatusChangedEventStatus = IssueStatus;
+export interface IssuesStatusChangedEvent {
+  action: IssuesStatusChangedEventAction;
+  /** The changes to the issue. `state` and `state_reason` are only included when the status change also closed or reopened the issue, or changed the reason it was closed. */
+  changes: IssuesStatusChangedEventChanges;
+  enterprise?: EnterpriseWebhooks | undefined;
+  installation?: SimpleInstallation | undefined;
+  issue: WebhooksIssue;
+  organization?: OrganizationSimpleWebhooks | undefined;
+  repository: RepositoryWebhooks;
+  sender: NullableSimpleUser;
+  /** The status the issue changed to. */
+  status: IssueStatus;
 }
 export type IssuesTransferredEventAction = "transferred";
 export type IssuesTransferredEventChangesNewIssueActiveLockReason =
@@ -15532,6 +15629,8 @@ export type IssuesTransferredEventChangesNewIssuePullRequest =
 export type IssuesTransferredEventChangesNewIssueReactions =
   CommitCommentCreatedEventCommentReactions;
 export type IssuesTransferredEventChangesNewIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesTransferredEventChangesNewIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesTransferredEventChangesNewIssueState = "open" | "closed";
 export type IssuesTransferredEventChangesNewIssueUserType = "Bot" | "User" | "Organization";
@@ -15595,6 +15694,8 @@ export interface IssuesTransferredEventChangesNewIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesTransferredEventChangesNewIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesTransferredEventChangesNewIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -16200,6 +16301,8 @@ export interface IssuesUnlockedEventIssuePerformedViaGithubApp {
 export type IssuesUnlockedEventIssuePullRequest = IssueCommentCreatedEventIssuePullRequest;
 export type IssuesUnlockedEventIssueReactions = CommitCommentCreatedEventCommentReactions;
 export type IssuesUnlockedEventIssueIssueFieldValuesList = Array<IssueFieldValue>;
+/** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+export type IssuesUnlockedEventIssueStatus = IssueStatus;
 /** State of the issue; either 'open' or 'closed' */
 export type IssuesUnlockedEventIssueState = "open" | "closed";
 export type IssuesUnlockedEventIssueUserType = "Bot" | "User" | "Organization";
@@ -16260,6 +16363,8 @@ export interface IssuesUnlockedEventIssue {
   sub_issues_summary?: SubIssuesSummary | undefined;
   issue_dependencies_summary?: IssueDependenciesSummary | undefined;
   issue_field_values?: IssuesUnlockedEventIssueIssueFieldValuesList | undefined;
+  /** The status of the issue, or `null` if it has none. Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. */
+  status?: IssueStatus | null | undefined;
   /** State of the issue; either 'open' or 'closed' */
   state?: IssuesUnlockedEventIssueState | undefined;
   state_reason?: string | null | undefined;
@@ -17022,7 +17127,7 @@ export interface NullableRepositoryWebhooksTemplateRepository {
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;
@@ -17158,7 +17263,7 @@ export interface NullableRepositoryWebhooks {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepositoryWebhooksTemplateRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -44511,7 +44616,7 @@ export interface NullableRepository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -44647,7 +44752,7 @@ export interface FullRepository {
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | null | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | null | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
   delete_branch_on_merge?: boolean | undefined;
@@ -47300,6 +47405,7 @@ export interface WebhookEvents {
     | IssuesOpenedEvent
     | IssuesPinnedEvent
     | IssuesReopenedEvent
+    | IssuesStatusChangedEvent
     | IssuesTransferredEvent
     | IssuesTypedEvent
     | IssuesUnassignedEvent

@@ -11,6 +11,7 @@
     "specs:local": "node scripts/specs.ts local",
     "specs:link": "node scripts/specs.ts link",
     "specs:check": "node scripts/specs.ts check",
+    "alchemy:main": "pnpm update --recursive alchemy @alchemy.run/aws @alchemy.run/cloudflare @alchemy.run/github",
     "patches:audit": "node scripts/patches.ts audit",
     "patches:names": "node scripts/patches.ts names",
     "typecheck": "tsrs -b",
@@ -27,7 +28,9 @@
     "prepare": "husky",
     "test": "node scripts/test.ts",
     "typecheck:ci": "tsrs -b --noCheck false",
-    "validate:publish-packages": "node scripts/validate-publish-packages.ts"
+    "validate:publish-packages": "node scripts/validate-publish-packages.ts",
+    "services:check": "node scripts/check-services.ts",
+    "config-errors:check": "node scripts/check-config-errors.ts"
   },
   "devDependencies": {
     "@alchemy.run/pkg": "2.0.0-beta.85",

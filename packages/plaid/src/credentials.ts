@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Plaid credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Plaid authenticates with `PLAID-CLIENT-ID`,
  * `PLAID-SECRET`, and `Plaid-Version` headers.
  */
@@ -29,9 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "PlaidCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("PlaidCredentials") {}
 
 const resolveBaseUrl = (config: {
   readonly apiBaseUrl?: string;
@@ -62,29 +60,37 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads PLAID_CLIENT_ID, PLAID_SECRET, and optional PLAID_VERSION / env URL. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads PLAID_CLIENT_ID, PLAID_SECRET, and optional PLAID_VERSION / env URL.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const clientId = process.env.PLAID_CLIENT_ID;
-    const secret = process.env.PLAID_SECRET;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const clientId = process.env.PLAID_CLIENT_ID;
+      const secret = process.env.PLAID_SECRET;
 
-    if (!clientId || !secret) {
-      return yield* new ConfigError({
-        message: "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
-      });
-    }
+      if (!clientId || !secret) {
+        return yield* new ConfigError({
+          message: "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
+        });
+      }
 
-    return {
-      clientId,
-      secret: Redacted.make(secret),
-      plaidVersion: process.env.PLAID_VERSION ?? DEFAULT_PLAID_VERSION,
-      apiBaseUrl: resolveBaseUrl({
-        apiBaseUrl: process.env.PLAID_API_BASE_URL,
-        env: process.env.PLAID_ENV,
-      }),
-    };
-  }),
+      return {
+        clientId,
+        secret: Redacted.make(secret),
+        plaidVersion: process.env.PLAID_VERSION ?? DEFAULT_PLAID_VERSION,
+        apiBaseUrl: resolveBaseUrl({
+          apiBaseUrl: process.env.PLAID_API_BASE_URL,
+          env: process.env.PLAID_ENV,
+        }),
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );
 
 /** Auth headers for a resolved credentials config. */

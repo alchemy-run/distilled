@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAdyenError } from "../errors.ts";
+import { AdyenServiceErrors } from "../errors.ts";
 import { AdyenProtocol, type AdyenOpError, type AdyenOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -100,66 +100,71 @@ export interface ApplePaySessionResponse {
   /** Base64 encoded data you need to [complete the Apple Pay merchant validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation). */
   data: string;
 }
-export type CalculationType = "LRS_TCS";
-export type RemittancePurpose = "TOUR_PROGRAMME" | "TRAVEL_NON_TOUR" | "EDUCATION" | "DIGITAL";
-export type SublimitStatus = "EXCEEDED" | "NOT_EXCEEDED";
+export type CalculationType = "lrsTcs";
+export type RemittancePurpose = "tourProgramme" | "travelNonTour" | "education" | "digital";
+export type SublimitStatus = "exceeded" | "notExceeded";
 export interface LrsContext {
-  /** The remittance category, for example TOUR_PROGRAMME or EDUCATION. */
+  /** The purpose of the remittance under the Liberalised Remittance Scheme. Possible values: * **tourProgramme**: a tour program. * **travelNonTour**: travel that is not a tour program. * **education**: education. * **digital**: digital services. */
   remittancePurpose: RemittancePurpose | (string & {});
-  /** The status of the INR 1 million LRS sublimit, for example EXCEEDED. */
+  /** The status of the INR 1 million Liberalised Remittance Scheme sublimit. Possible values: * **exceeded**: the sublimit is exceeded. * **notExceeded**: the sublimit is not exceeded. */
   sublimitStatus: SublimitStatus | (string & {});
 }
 export interface TaxCalculationContext {
-  /** The type of calculation requested. Initially only LRS_TCS is supported. */
+  /** The type of tax calculation. Supported value: **lrsTcs**, the Indian Liberalised Remittance Scheme Tax Collected at Source. */
   calculationType: CalculationType | (string & {});
-  /** India-specific LRS declarations. */
+  /** The shopper's declarations for the Indian Liberalised Remittance Scheme (LRS). */
   lrs: LrsContext;
-  /** The country governing tax processing. Initially only IN is supported. */
+  /** The two-letter country code governing tax processing, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format. Supported value: **IN**. */
   taxCountryCode: string;
 }
 export interface TaxableAmount {
-  /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). */
+  /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes#currency-codes) of the amount. */
   currency: string;
-  /** The amount in [minor units](https://docs.adyen.com/development-resources/currency-codes). */
+  /** The numeric value of the amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes#minor-units) */
   value: number;
 }
 export interface CreateCalculateTaxRequest {
-  /** The merchant account identifier requesting the tax calculation. */
+  /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
   /** The context used to calculate the tax. */
   taxCalculationContext: TaxCalculationContext;
-  /** The amount on which Adyen calculates the tax. */
+  /** The amount on which Adyen calculates the tax. The value must be greater than zero. */
   taxableAmount: TaxableAmount;
 }
-export type TaxAmount = TaxableAmount;
+export interface TaxAmount {
+  /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes#currency-codes) of the amount. */
+  currency: string;
+  /** The numeric value of the amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes#minor-units). */
+  value: number;
+}
 export interface TaxCalculationComponent {
   /** The calculated tax amount of this component. */
-  taxAmount?: TaxableAmount | undefined;
-  /** The type of the calculated tax component, for example LRS_TCS. */
+  taxAmount?: TaxAmount | undefined;
+  /** The type of tax calculated. Supported value: **lrsTcs**, the Indian Liberalised Remittance Scheme Tax Collected at Source. */
   type?: CalculationType | undefined;
 }
 /** The individual tax components calculated by Adyen. */
 export type TaxCalculationTaxCalculationsList = Array<TaxCalculationComponent>;
 export interface TaxCalculation {
-  /** The merchant account for which the calculation was made. */
+  /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount?: string | undefined;
-  /** The tax country, calculation type, and LRS declarations accepted by Adyen. */
+  /** The tax country, calculation type, and LRS declarations from the request. */
   taxCalculationContext?: TaxCalculationContext | undefined;
   /** The individual tax components calculated by Adyen. */
   taxCalculations?: TaxCalculationTaxCalculationsList | undefined;
-  /** The taxable amount accepted by Adyen. */
-  taxableAmount?: TaxableAmount | undefined;
-  /** The taxable amount plus the calculated tax. Use this amount in /payments.amount. */
-  totalAmount?: TaxableAmount | undefined;
-  /** The total tax amount calculated by Adyen. */
-  totalTaxAmount?: TaxableAmount | undefined;
+  /** The taxable amount from the request, before tax. */
+  taxableAmount?: TaxAmount | undefined;
+  /** The sum of `taxableAmount` and `totalTaxAmount`. Use this amount as `amount` in `/payments`. */
+  totalAmount?: TaxAmount | undefined;
+  /** The sum of the individual tax amounts in `taxCalculations`. */
+  totalTaxAmount?: TaxAmount | undefined;
 }
 export interface CalculateTaxResponse {
-  /** The canonical calculation accepted and produced by Adyen. Informational in the initial release. */
+  /** The tax calculation results. */
   taxCalculation?: TaxCalculation | undefined;
-  /** The unique reference for this calculation attempt. */
+  /** The unique reference for the tax calculation. */
   taxCalculationReference?: string | undefined;
-  /** The opaque, encrypted, and signed token that represents the complete canonical calculation. Required in /payments. */
+  /** The encrypted and signed token representing the tax calculation. Submit this value as `taxCalculation.taxCalculationToken` in `/payments`. */
   taxCalculationToken?: string | undefined;
 }
 export interface CommonField {
@@ -245,6 +250,10 @@ export interface CreateCardDetailRequest {
   encryptedCardNumber?: string | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
+  /** Your reference to uniquely identify the shopper that owns the `storedPaymentMethodId`. Required when `storedPaymentMethodId` is provided. */
+  shopperReference?: string | undefined;
+  /** The unique identifier of the stored payment method to look up, as returned by [`/storedPaymentMethods`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/get/storedPaymentMethods). Use this to get the details of a stored card that is not present at charge time. When provided, `shopperReference` is required and you must not include `cardNumber` or `encryptedCardNumber`. */
+  storedPaymentMethodId?: string | undefined;
   /** The card brands you support. This is the [`brands`](https://docs.adyen.com/api-explorer/Checkout/latest/post/paymentMethods#responses-200-paymentMethods-brands) array from your [`/paymentMethods`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods) response. If not included, our API uses the ones configured for your merchant account and, if provided, the country code. */
   supportedBrands?: CreateCardDetailRequestSupportedBrandsList | undefined;
 }
@@ -346,13 +355,8 @@ export interface AccountInfo {
   /** Shopper's work phone number (including the country code). */
   workPhone?: string | undefined;
 }
-export interface Amount {
-  /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes#currency-codes) of the amount. */
-  currency: string;
-  /** The numeric value of the amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes#minor-units). */
-  value: number;
-}
-/** Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure). Possible values: * **always**: Perform 3D Secure authentication. * **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined. */
+export type Amount = TaxAmount;
+/** Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure). Possible values: * **always**: Perform 3D Secure authentication. For browser-based payments, make sure the payment request also contains complete `browserInfo` and `origin`. Without them, 3D Secure 2 cannot be initiated and the transaction can be authorized without liability shift. * **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined. */
 export type AuthenticationDataAttemptAuthentication = "always" | "never";
 /** Dimensions of the 3DS2 challenge window to be displayed to the cardholder. Possible values: * **01** - size of 250x400 * **02** - size of 390x400 * **03** - size of 500x600 * **04** - size of 600x400 * **05** - Fullscreen */
 export type ThreeDSRequestDataChallengeWindowSize = "01" | "02" | "03" | "04" | "05";
@@ -373,7 +377,7 @@ export interface ThreeDSRequestData {
   threeDSVersion?: ThreeDSRequestDataThreeDSVersion | (string & {}) | undefined;
 }
 export interface AuthenticationData {
-  /** Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure). Possible values: * **always**: Perform 3D Secure authentication. * **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined. */
+  /** Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure). Possible values: * **always**: Perform 3D Secure authentication. For browser-based payments, make sure the payment request also contains complete `browserInfo` and `origin`. Without them, 3D Secure 2 cannot be initiated and the transaction can be authorized without liability shift. * **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined. */
   attemptAuthentication?: AuthenticationDataAttemptAuthentication | (string & {}) | undefined;
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
   authenticationOnly?: boolean | undefined;
@@ -518,7 +522,7 @@ export interface MerchantRiskIndicator {
   /** The estimated delivery time for the shopper to receive the goods. Allowed values: * `electronicDelivery` * `sameDayShipping` * `overnightShipping` * `twoOrMoreDaysShipping` */
   deliveryTimeframe?: MerchantRiskIndicatorDeliveryTimeframe | (string & {}) | undefined;
   /** For prepaid or gift card purchase, the purchase amount total of prepaid or gift card(s). */
-  giftCardAmount?: Amount | undefined;
+  giftCardAmount?: TaxAmount | undefined;
   /** For prepaid or gift card purchase, total count of individual prepaid or gift cards/codes purchased. */
   giftCardCount?: number | undefined;
   /** For prepaid or gift card purchase, [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) three-digit currency code of the gift card, other than those listed in Table A.5 of the EMVCo 3D Secure Protocol and Core Functions Specification. */
@@ -576,7 +580,7 @@ export type ApplePayDonationsFundingSource = "credit" | "debit" | "prepaid";
 export type ApplePayDonationsType = "applepay";
 export interface ApplePayDonations {
   /** The stringified and base64 encoded `paymentData` you retrieved from the Apple framework. */
-  applePayToken: string;
+  applePayToken: string | Redacted.Redacted<string>;
   /** The checkout attempt identifier. */
   checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
@@ -650,6 +654,8 @@ export interface CardDonations {
   srcScheme?: string | undefined;
   /** The reference for the Click to Pay token. */
   srcTokenReference?: string | undefined;
+  /** When enrolling a new user, this field determines whether to store the shopper's card in their Click to Pay profile. When this is set to **True**, the request must include `shopperEmail`, `shopperName`, and `telephoneNumber`. */
+  storeClickToPayProfile?: boolean | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
@@ -669,7 +675,7 @@ export interface GooglePayDonations {
   /** The selected payment card network. */
   googlePayCardNetwork?: string | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -707,7 +713,7 @@ export interface PayWithGoogleDonations {
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
   fundingSource?: PayWithGoogleDonationsFundingSource | (string & {}) | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -984,14 +990,14 @@ export interface CreateDonationRequest {
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
   accountInfo?: AccountInfo | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** Data for 3DS authentication. */
   authenticationData?: AuthenticationData | undefined;
   /** The address where to send the invoice. > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object. >* For 3D Secure 2 transactions in all browser-based and mobile implementations. >* For cross-border payouts to and from Canada. */
   billingAddress?: BillingAddress | undefined;
-  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
+  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. > > For browser-based payments, missing or incomplete `browserInfo` means 3D Secure 2 cannot be initiated. The transaction is then treated as ineligible for 3D Secure 2 and can be authorized without liability shift. Native app 3D Secure 2 authentication does not require `browserInfo`. This field is usually collected on the client, so validate its presence and completeness on your server before you submit the payment. For more information, see [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/). */
   browserInfo?: BrowserInfo | undefined;
   /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * iOS * Android * Web */
   channel?: CreateDonationRequestChannel | (string & {}) | undefined;
@@ -1012,7 +1018,7 @@ export interface CreateDonationRequest {
   /** PSP reference of the transaction from which the donation token is generated. Required when `donationToken` is provided. */
   donationOriginalPspReference?: string | undefined;
   /** Donation token received in the `/payments` call. */
-  donationToken?: string | undefined;
+  donationToken?: string | Redacted.Redacted<string> | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
   lineItems?: CreateDonationRequestLineItemsList | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
@@ -1023,7 +1029,7 @@ export interface CreateDonationRequest {
   metadata?: CreateDonationRequestMetadataMap | undefined;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
   mpiData?: ThreeDSecureData | undefined;
-  /** > Required for browser-based (`channel` **Web**) 3D Secure 2 transactions.Set this to the origin URL of the page where you are rendering the Drop-in/Component. Do not include subdirectories and a trailing slash. */
+  /** > Required for browser-based (`channel` **Web**) 3D Secure 2 transactions. Set this to the origin URL of the page where you are rendering the Drop-in/Component. Do not include subdirectories and a trailing slash. > If `origin` is missing or incorrect, 3D Secure 2 cannot be initiated and the transaction can be authorized without liability shift. Set this value on your server. If you receive it from the client, validate it first. For more information, see [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/). */
   origin?: string | undefined;
   /** The type and required details of a payment method to use. When `donationToken` is provided, the payment method is derived from the token and this field becomes optional. If you are [PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide), and make donations using raw card details, you must explicitly provide the payment method details. */
   paymentMethod?: CreateDonationRequestPaymentMethod | undefined;
@@ -1103,7 +1109,7 @@ export interface CheckoutBankTransferAction {
   /** The sort code of the bank transfer. */
   sortCode?: string | undefined;
   /** The amount of the bank transfer. */
-  totalAmount?: Amount | undefined;
+  totalAmount?: TaxAmount | undefined;
   /** The type of the action. */
   type: CheckoutBankTransferActionType;
   /** Specifies the URL to redirect to. */
@@ -1113,13 +1119,13 @@ export interface CheckoutBankTransferAction {
 export type CheckoutDelegatedAuthenticationActionType = "delegatedAuthentication";
 export interface CheckoutDelegatedAuthenticationAction {
   /** A token needed to authorise a payment. */
-  authorisationToken?: string | undefined;
+  authorisationToken?: string | Redacted.Redacted<string> | undefined;
   /** Encoded payment data. */
   paymentData?: string | undefined;
   /** Specifies the payment method. */
   paymentMethodType?: string | undefined;
   /** A token to pass to the delegatedAuthentication component. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** **delegatedAuthentication** */
   type: CheckoutDelegatedAuthenticationActionType;
   /** Specifies the URL to redirect to. */
@@ -1195,7 +1201,7 @@ export interface CheckoutSDKAction {
 export type CheckoutThreeDS2ActionType = "threeDS2";
 export interface CheckoutThreeDS2Action {
   /** A token needed to authorise a payment. */
-  authorisationToken?: string | undefined;
+  authorisationToken?: string | Redacted.Redacted<string> | undefined;
   /** Encoded payment data. */
   paymentData?: string | undefined;
   /** Specifies the payment method. */
@@ -1203,7 +1209,7 @@ export interface CheckoutThreeDS2Action {
   /** A subtype of the token. */
   subtype?: string | undefined;
   /** A token to pass to the 3DS2 Component to get the fingerprint. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** **threeDS2** */
   type: CheckoutThreeDS2ActionType;
   /** Specifies the URL to redirect to. */
@@ -1223,7 +1229,7 @@ export interface CheckoutVoucherAction {
   /** The date time of the voucher expiry. */
   expiresAt?: string | undefined;
   /** The initial amount. */
-  initialAmount?: Amount | undefined;
+  initialAmount?: TaxAmount | undefined;
   /** The URL to the detailed instructions to make payment using the voucher. */
   instructionsUrl?: string | undefined;
   /** The issuer of the voucher. */
@@ -1247,9 +1253,9 @@ export interface CheckoutVoucherAction {
   /** The shopper name. */
   shopperName?: string | undefined;
   /** The surcharge amount. */
-  surcharge?: Amount | undefined;
+  surcharge?: TaxAmount | undefined;
   /** The total amount (initial plus surcharge amount). */
-  totalAmount?: Amount | undefined;
+  totalAmount?: TaxAmount | undefined;
   /** **voucher** */
   type: CheckoutVoucherActionType;
   /** Specifies the URL to redirect to. */
@@ -1288,11 +1294,11 @@ export interface OpiResponse {
   /** The OPI issuer id. */
   issuerId?: string | undefined;
   /** The OPI transaction token. */
-  transToken?: string | undefined;
+  transToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CheckoutOrderResponse {
   /** The initial amount of the order. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** The expiry date for the order. */
   expiresAt?: string | undefined;
   /** The encrypted order data. */
@@ -1302,7 +1308,7 @@ export interface CheckoutOrderResponse {
   /** The merchant reference for the order. */
   reference?: string | undefined;
   /** The updated remaining amount. */
-  remainingAmount?: Amount | undefined;
+  remainingAmount?: TaxAmount | undefined;
 }
 export interface ResponsePaymentMethod {
   /** The card brand that the shopper used to pay. Only returned if `paymentMethod.type` is **scheme**. */
@@ -1429,9 +1435,9 @@ export interface PaymentResponse {
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
   additionalData?: PaymentResponseAdditionalDataMap | undefined;
   /** Authorised amount in the transaction. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** Donation Token containing payment details for Adyen Giving. */
-  donationToken?: string | undefined;
+  donationToken?: string | Redacted.Redacted<string> | undefined;
   /** The fraud result properties of the payment. */
   fraudResult?: FraudResult | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
@@ -1463,7 +1469,7 @@ export interface PaymentResponse {
 export type DonationPaymentResponseStatus = "completed" | "pending" | "refused";
 export interface DonationPaymentResponse {
   /** Authorised amount in the transaction. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** The Adyen account name of your charity. We will provide you with this account name once your chosen charity has been [onboarded](https://docs.adyen.com/online-payments/donations#onboarding). */
   donationAccount?: string | undefined;
   /** Your unique resource identifier. */
@@ -1599,7 +1605,7 @@ export interface CheckoutOutgoingForwardRequest {
   /** The request body that you want Adyen to forward to the third party on your behalf, in string format. Include key value pairs to specify the payment details, and use [placeholders](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders) for the values. Adyen replaces the placeholders with the payment details when making the request to the third party. When forwarding a network token, include a [condition](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#conditional-placeholders) that checks if the network token exists, and informs Adyen of which fields to send depending on the outcome. */
   body: string;
   /** Your credentials that are needed to authenticate with the third party. */
-  credentials?: string | undefined;
+  credentials?: string | Redacted.Redacted<string> | undefined;
   /** The request headers that will be included in the request Adyen makes to the third party on your behalf. Supports the `{{credentials}}` [placeholder](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders). */
   headers?: CheckoutOutgoingForwardRequestHeadersMap | undefined;
   /** The HTTP method to use for the request Adyen makes on your behalf to the third party. */
@@ -1611,7 +1617,7 @@ export interface CreateForwardRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
   idempotencyKey?: string | undefined;
   /** The amount of the forwarded payment. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** The base URL of the third party API, where Adyen will send the request to forward the payment details. */
   baseUrl: string;
   /** Your merchant account. */
@@ -1624,8 +1630,8 @@ export interface CreateForwardRequest {
   paymentMethod?: CheckoutForwardRequestCard | undefined;
   /** The [details of the request](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#request-to-adyen-card) that you want to forward to the third-party. */
   request: CheckoutOutgoingForwardRequest;
-  /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. > Your reference must not include personally identifiable information (PII) such as name or email address. */
-  shopperReference: string;
+  /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. This parameter is required unless the request is for PAN forwarding and `options.tokenize` is false (the default). > Your reference must not include personally identifiable information (PII) such as name or email address. */
+  shopperReference?: string | undefined;
   /** The unique identifier of the token that you want to forward to the third party. This is the `storedPaymentMethodId` you received in the webhook after you created the token. */
   storedPaymentMethodId?: string | undefined;
 }
@@ -1673,7 +1679,7 @@ export interface CreateOrderRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
   idempotencyKey?: string | undefined;
   /** The total amount of the order. */
-  amount: Amount;
+  amount: TaxAmount;
   /** The date when the order should expire. If not provided, the default expiry duration is 1 day. [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**. */
   expiresAt?: string | undefined;
   /** The merchant account identifier, with which you want to process the order. */
@@ -1689,7 +1695,7 @@ export interface CreateOrderResponse {
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
   additionalData?: CreateOrderResponseAdditionalDataMap | undefined;
   /** The initial amount of the order. */
-  amount: Amount;
+  amount: TaxAmount;
   /** The date that the order will expire. */
   expiresAt: string;
   /** The fraud result properties of the payment. */
@@ -1703,7 +1709,7 @@ export interface CreateOrderResponse {
   /** If the payment's authorisation is refused or an error occurs during authorisation, this field holds Adyen's mapped reason for the refusal or a description of the error. When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values. For more information, see [Refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons). */
   refusalReason?: string | undefined;
   /** The remaining amount in the order. */
-  remainingAmount: Amount;
+  remainingAmount: TaxAmount;
   /** The result of the order creation request. The value is always **Success**. */
   resultCode: CreateOrderResponseResultCode;
 }
@@ -1784,17 +1790,17 @@ export interface ForexQuote {
   /** The account type. */
   accountType?: string | undefined;
   /** The base amount. */
-  baseAmount?: Amount | undefined;
+  baseAmount?: TaxAmount | undefined;
   /** The base points. */
   basePoints: number;
   /** The buy rate. */
-  buy?: Amount | undefined;
+  buy?: TaxAmount | undefined;
   /** The interbank amount. */
-  interbank?: Amount | undefined;
+  interbank?: TaxAmount | undefined;
   /** The reference assigned to the forex quote request. */
   reference?: string | undefined;
   /** The sell rate. */
-  sell?: Amount | undefined;
+  sell?: TaxAmount | undefined;
   /** The signature to validate the integrity. */
   signature?: string | undefined;
   /** The source of the forex quote. */
@@ -2146,6 +2152,8 @@ export interface CardDetails {
   srcScheme?: string | undefined;
   /** The reference for the Click to Pay token. */
   srcTokenReference?: string | undefined;
+  /** When enrolling a new user, this field determines whether to store the shopper's card in their Click to Pay profile. When this is set to **True**, the request must include `shopperEmail`, `shopperName`, and `telephoneNumber`. */
+  storeClickToPayProfile?: boolean | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   storedPaymentMethodId?: string | undefined;
   /** Required for mobile integrations. Version of the 3D Secure 2 mobile SDK. */
@@ -2364,7 +2372,7 @@ export interface AlmaDetails {
 export type AmazonPayDetailsType = "amazonpay";
 export interface AmazonPayDetails {
   /** This is the `amazonPayToken` that you obtained from the [Get Checkout Session](https://amazon-pay-acquirer-guide.s3-eu-west-1.amazonaws.com/v1/amazon-pay-api-v2/checkout-session.html#get-checkout-session) response. This token is used for API only integration specifically. */
-  amazonPayToken?: string | undefined;
+  amazonPayToken?: string | Redacted.Redacted<string> | undefined;
   /** The checkout attempt identifier. */
   checkoutAttemptId?: string | undefined;
   /** The `checkoutSessionId` is used to identify the checkout session at the Amazon Pay side. This field is required only for drop-in and components integration, where it replaces the amazonPayToken. */
@@ -2406,7 +2414,7 @@ export type ApplePayDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type ApplePayDetailsType = "applepay";
 export interface ApplePayDetails {
   /** The stringified and base64 encoded `paymentData` you retrieved from the Apple framework. */
-  applePayToken: string;
+  applePayToken: string | Redacted.Redacted<string>;
   /** The checkout attempt identifier. */
   checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
@@ -2673,6 +2681,8 @@ export interface ExternalTokenDetails {
   holderName?: string | undefined;
   /** The card number. Only collect raw card data if you are [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide). */
   number?: string | undefined;
+  /** When enrolling a new user, this field determines whether to store the shopper's card in their Click to Pay profile. When this is set to **True**, the request must include `shopperEmail`, `shopperName`, and `telephoneNumber`. */
+  storeClickToPayProfile?: boolean | undefined;
   /** Identifier used to fetch the token from the external service */
   storedPaymentMethodId: string;
   /** The external service from which to fetch the token. Supported only for specific companies. Contact Adyen if you want to use this feature. */
@@ -2729,7 +2739,7 @@ export interface GooglePayDetails {
   /** The selected payment card network. */
   googlePayCardNetwork?: string | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -2800,7 +2810,7 @@ export interface KlarnaNetworkDetails {
   /** The Klarna Network Payment Account identifier to use for the transaction. Required when `klarnaNetworkSessionToken` is provided. */
   klarnaNetworkPaymentAccountId?: string | undefined;
   /** The token obtained from the Klarna SDK during an Express Checkout flow. */
-  klarnaNetworkSessionToken?: string | undefined;
+  klarnaNetworkSessionToken?: string | Redacted.Redacted<string> | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -3006,7 +3016,7 @@ export interface PayWithGoogleDetails {
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
   fundingSource?: PayWithGoogleDetailsFundingSource | (string & {}) | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -3126,11 +3136,11 @@ export interface PixRecurring {
   /** The frequency at which the shopper will be charged. */
   frequency?: PixRecurringFrequency | (string & {}) | undefined;
   /** For a billing plan where the payment amounts are variable, the minimum amount to charge the shopper for each recurring payment. When a shopper approves the billing plan, they can also specify a maximum amount in their banking app. */
-  minAmount?: Amount | undefined;
+  minAmount?: TaxAmount | undefined;
   /** The pspReference for the failed recurring payment. Find this in AUTHORISATION webhook you received after the billing date. */
   originalPspReference?: string | undefined;
   /** For a billing plan where the payment amount is fixed, the amount the shopper will be charged for each recurring payment. */
-  recurringAmount?: Amount | undefined;
+  recurringAmount?: TaxAmount | undefined;
   /** The text that that will be shown on the shopper's bank statement for the recurring payments. We recommend to add a descriptive text about the subscription to let your shoppers recognize your recurring payments. Maximum length: 35 characters. */
   recurringStatement?: string | undefined;
   /** When set to true, you can retry for failed recurring payments. The default value is true. */
@@ -3285,7 +3295,7 @@ export interface SamsungPayDetails {
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** The payload you received from the Samsung Pay SDK response. */
-  samsungPayToken: string;
+  samsungPayToken: string | Redacted.Redacted<string>;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
   sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
@@ -3610,6 +3620,10 @@ export interface RiskData {
 }
 /** Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer. For the web service API, Adyen assumes Ecommerce shopper interaction by default. This field has the following possible values: * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request. * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment). * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone. * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal. */
 export type CreatePaymentRequestShopperInteraction = "Ecommerce" | "ContAuth" | "Moto" | "POS";
+export interface TokenizedShopperTaxIdentification {
+  /** The `verifiedShopperTaxIdentificationToken` returned by `/verifyShopperTaxIdentification`. Treat the token as opaque: do not parse or modify it. */
+  verifiedShopperTaxIdentificationToken: string | Redacted.Redacted<string>;
+}
 export interface ShopperTaxInfo {
   /** The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code associated with the provided tax identification number. Currently used only for Indian PA-CB tax verification, when applicable. */
   taxCountryCode: string;
@@ -3658,7 +3672,7 @@ export interface SubMerchantInfo {
   /** Required for transactions performed by registered payment facilitators. The sub-merchant's address. */
   address?: BillingAddress | undefined;
   /** Required for transactions performed by registered payment facilitators. The amount of the payment corresponding to each sub-merchant. This value will be different than the request amount if shopper is purchasing items at different sub-merchants' shops. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** Required for transactions performed by registered payment facilitators. The email associated with the sub-merchant's account. */
   email?: string | undefined;
   /** Required for transactions performed by registered payment facilitators. A unique identifier that you create for the sub-merchant, used by schemes to identify the sub-merchant. * Format: Alphanumeric * Maximum length: 15 characters */
@@ -3681,6 +3695,10 @@ export interface Surcharge {
   /** The [surcharge](https://docs.adyen.com/online-payments/surcharge/) amount to apply to the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes). When you apply surcharge, include the surcharge in the `amount.value` field. Review our [Surcharge compliance guide](https://docs.adyen.com/development-resources/surcharge-compliance/) to learn about how to comply with regulatory requirements when applying surcharge. */
   value: number;
 }
+export interface TokenizedTaxCalculation {
+  /** The `taxCalculationToken` returned by `/calculateTax`. Treat the token as opaque: do not parse or modify it. */
+  taxCalculationToken: string | Redacted.Redacted<string>;
+}
 /** Request-specific parameter values to populate the template placeholders. Each key must match a placeholder defined in the template referenced by `requestTemplateCode`. */
 export type ThirdPartyTokenRedundancyInfoRequestParametersMap = {
   [key: string]: string | undefined;
@@ -3697,11 +3715,11 @@ export interface CreatePaymentRequest {
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
   accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount | undefined;
+  additionalAmount?: TaxAmount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
   additionalData?: CreatePaymentRequestAdditionalDataMap | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** Data for 3DS authentication. */
@@ -3710,7 +3728,7 @@ export interface CreatePaymentRequest {
   bankAccount?: CheckoutBankAccount | undefined;
   /** The address where to send the invoice. > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object. >* For 3D Secure 2 transactions in all browser-based and mobile implementations. >* For cross-border payouts to and from Canada. */
   billingAddress?: BillingAddress | undefined;
-  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
+  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. > > For browser-based payments, missing or incomplete `browserInfo` means 3D Secure 2 cannot be initiated. The transaction is then treated as ineligible for 3D Secure 2 and can be authorized without liability shift. Native app 3D Secure 2 authentication does not require `browserInfo`. This field is usually collected on the client, so validate its presence and completeness on your server before you submit the payment. For more information, see [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/). */
   browserInfo?: BrowserInfo | undefined;
   /** The [delay between the authorization and automatic capture](https://docs.adyen.com/online-payments/capture?tab=delayed-individual_2#delayed-automatic-capture) of the payment, specified in hours. Maximum value: **672** (28 days). */
   captureDelayHours?: number | undefined;
@@ -3778,7 +3796,7 @@ export interface CreatePaymentRequest {
   order?: EncryptedOrderData | undefined;
   /** When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead. */
   orderReference?: string | undefined;
-  /** > Required for browser-based (`channel` **Web**) 3D Secure 2 transactions.Set this to the origin URL of the page where you are rendering the Drop-in/Component. Do not include subdirectories and a trailing slash. */
+  /** > Required for browser-based (`channel` **Web**) 3D Secure 2 transactions. Set this to the origin URL of the page where you are rendering the Drop-in/Component. Do not include subdirectories and a trailing slash. > If `origin` is missing or incorrect, 3D Secure 2 cannot be initiated and the transaction can be authorized without liability shift. Set this value on your server. If you receive it from the client, validate it first. For more information, see [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/). */
   origin?: string | undefined;
   /** The type and required details of a payment method to use. */
   paymentMethod: CreatePaymentRequestPaymentMethod;
@@ -3823,6 +3841,8 @@ export interface CreatePaymentRequest {
   shopperReference?: string | undefined;
   /** The text to be shown on the shopper's bank statement. We recommend sending a maximum of 22 characters, otherwise banks might truncate the string. Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**. */
   shopperStatement?: string | undefined;
+  /** The shopper's tax identification, verified by Adyen. Contains the token returned by `/verifyShopperTaxIdentification`. */
+  shopperTaxIdentification?: TokenizedShopperTaxIdentification | undefined;
   /** The tax info of the shopper */
   shopperTaxInfo?: ShopperTaxInfo | undefined;
   /** The shopper's social security number. */
@@ -3837,13 +3857,15 @@ export interface CreatePaymentRequest {
   subMerchants?: CreatePaymentRequestSubMerchantsList | undefined;
   /** The [surcharge](https://docs.adyen.com/online-payments/surcharge/) amount to apply to the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes). When you apply surcharge, include the surcharge in the `amount.value` field. Review our [Surcharge compliance guide](https://docs.adyen.com/development-resources/surcharge-compliance/) to learn about how to comply with regulatory requirements when applying surcharge. */
   surcharge?: Surcharge | undefined;
+  /** The tax calculated by Adyen for this payment. Contains the token returned by `/calculateTax`. */
+  taxCalculation?: TokenizedTaxCalculation | undefined;
   /** The shopper's telephone number. The phone number must include a plus sign (+) and a country code (1-3 digits), followed by the number (4-15 digits). If the value you provide does not follow the guidelines, we do not submit it for authentication. > Required for Visa and JCB transactions that require 3D Secure 2 authentication, if you did not include the `shopperEmail`. */
   telephoneNumber?: string | undefined;
   /** Configuration for creating redundant payment tokens with third-party token vaults using the Adyen Forward API. This feature requires Forward API webhook integration and pre-configured templates in your Adyen account. Contact your Adyen account manager for setup and availability. */
   thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments) or [Classic integration](https://docs.adyen.com/classic-integration) documentation. */
   threeDS2RequestData?: ThreeDS2RequestFields | undefined;
-  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorisation.Default: **false**. */
+  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
   threeDSAuthenticationOnly?: boolean | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
   trustedShopper?: boolean | undefined;
@@ -3871,7 +3893,7 @@ export interface CreatePaymentAmountUpdateRequest {
   /** The required data to make a [synchronous authorization adjustment](https://docs.adyen.com/online-payments/adjust-authorisation). Pass the corresponding value from the `/payments` response or webhook message. */
   adjustAuthorisationData?: string | undefined;
   /** The updated amount. The `currency` must match the currency used in authorisation. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
@@ -3899,7 +3921,7 @@ export interface PaymentAmountUpdateResponse {
   /** The data blob for subsequent synchronous adjust authorisation calls. Returned when the synchronous flow is used. */
   adjustAuthorisationData?: string | undefined;
   /** The updated amount. */
-  amount: Amount;
+  amount: TaxAmount;
   /** The reason for the amount update. Possible values: * **delayedCharge** * **noShow** * **installment** */
   industryUsage?: PaymentAmountUpdateResponseIndustryUsage | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
@@ -3955,7 +3977,7 @@ export interface CreatePaymentCaptureRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
   idempotencyKey?: string | undefined;
   /** The amount that you want to capture. The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** Enhanced scheme data that may be required for processing the payment. For example, airline information. */
@@ -3983,7 +4005,7 @@ export type PaymentCaptureResponseStatus = "received";
 export type PaymentCaptureResponseSubMerchantsList = Array<SubMerchantInfo>;
 export interface PaymentCaptureResponse {
   /** The captured amount. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
   lineItems?: PaymentCaptureResponseLineItemsList | undefined;
   /** The merchant account that is used to process the payment. */
@@ -4089,7 +4111,7 @@ export interface CreatePaymentLinkRequest {
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
   allowedPaymentMethods?: CreatePaymentLinkRequestAllowedPaymentMethodsList | undefined;
   /** The payment amount and currency. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** The address where to send the invoice. */
@@ -4218,7 +4240,7 @@ export interface PaymentLinkResponse {
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
   allowedPaymentMethods?: PaymentLinkResponseAllowedPaymentMethodsList | undefined;
   /** The payment amount and currency. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** The address where to send the invoice. */
@@ -4329,10 +4351,10 @@ export interface CreatePaymentMethodRequest {
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
   allowedPaymentMethods?: CreatePaymentMethodRequestAllowedPaymentMethodsList | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"blockedPaymentMethods":["ideal","applepay"]` */
   blockedPaymentMethods?: CreatePaymentMethodRequestBlockedPaymentMethodsList | undefined;
-  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
+  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. > > If you proceed with a 3D Secure 2 payment, the following requirements apply to `browserInfo` in the `/payments` request. For browser-based 3D Secure 2 payments, include complete `browserInfo`. For mobile app integrations that can be routed to a 3D Secure 2 redirect, include the `userAgent` and `acceptHeader` fields. Native app 3D Secure 2 authentication does not require `browserInfo`. If the `/payments` request of a browser-based payment has missing or incomplete `browserInfo`, the transaction is treated as ineligible for 3D Secure 2 and can be authorized without liability shift. This field is usually collected on the client, so validate its presence and completeness on your server before you submit the payment. For more information, see [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/). */
   browserInfo?: BrowserInfo | undefined;
   /** The platform where a payment transaction takes place. This field can be used for filtering out payment methods that are only available on specific platforms. Possible values: * iOS * Android * Web */
   channel?: CreatePaymentMethodRequestChannel | (string & {}) | undefined;
@@ -4499,7 +4521,7 @@ export interface StoredPaymentMethod {
   /** The last two digits of the year the card expires. For example, **22** for the year 2022. */
   expiryYear?: string | undefined;
   /** The token issued by an external tokenization service representing the shopper's payment method */
-  externalToken?: string | undefined;
+  externalToken?: string | Redacted.Redacted<string> | undefined;
   /** The name of the payment method holder. */
   holderName?: string | undefined;
   /** The IBAN of the bank account. */
@@ -4703,16 +4725,16 @@ export interface CreatePaymentMethodsBalanceRequest {
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
   accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount | undefined;
+  additionalAmount?: TaxAmount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
   additionalData?: CreatePaymentMethodsBalanceRequestAdditionalDataMap | undefined;
   /** The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero). */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** The address where to send the invoice. > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object. >* For 3D Secure 2 transactions in all browser-based and mobile implementations. >* For cross-border payouts to and from Canada. */
   billingAddress?: BillingAddress | undefined;
-  /** The shopper's browser information. > For 3D Secure, the full object is required for web integrations. For mobile app integrations, include the `userAgent` and `acceptHeader` fields to indicate that your integration can support a redirect in case a payment is routed to 3D Secure 2 redirect. */
+  /** The shopper's browser information. > The 3D Secure 2 guidance for `browserInfo` applies to the later `/payments` request, not to this balance check. For browser-based 3D Secure 2 payments, include complete `browserInfo`. For mobile app integrations that can be routed to a 3D Secure 2 redirect, include the `userAgent` and `acceptHeader` fields. Native app 3D Secure 2 authentication does not require `browserInfo`. > > This field is usually collected on the client, so validate its presence and completeness on your server before you submit the payment. */
   browserInfo?: BrowserInfo | undefined;
   /** The delay between the authorisation and scheduled auto-capture, specified in hours. */
   captureDelayHours?: number | undefined;
@@ -4790,7 +4812,7 @@ export interface CreatePaymentMethodsBalanceRequest {
   telephoneNumber?: string | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments) or [Classic integration](https://docs.adyen.com/classic-integration) documentation. */
   threeDS2RequestData?: ThreeDS2RequestData | undefined;
-  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
+  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
   threeDSAuthenticationOnly?: boolean | undefined;
   /** The reference value to aggregate sales totals in reporting. When not specified, the store field is used (if available). */
   totalsGroup?: string | undefined;
@@ -4805,7 +4827,7 @@ export interface BalanceCheckResponse {
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
   additionalData?: BalanceCheckResponseAdditionalDataMap | undefined;
   /** The balance for the payment method. */
-  balance: Amount;
+  balance: TaxAmount;
   /** The fraud result properties of the payment. */
   fraudResult?: FraudResult | undefined;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request. */
@@ -4815,7 +4837,7 @@ export interface BalanceCheckResponse {
   /** The result of the cancellation request. Possible values: * **Success** - Indicates that the balance check was successful. * **NotEnoughBalance** - Commonly indicates that the card did not have enough balance to pay the amount in the request, or that the currency of the balance on the card did not match the currency of the requested amount. * **Failed** - Indicates that the balance check failed. */
   resultCode: BalanceCheckResponseResultCode;
   /** The maximum spendable balance for a single transaction. Applicable to some gift cards. */
-  transactionLimit?: Amount | undefined;
+  transactionLimit?: TaxAmount | undefined;
 }
 /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
 export type CreatePaymentRefundRequestLineItemsList = Array<LineItem>;
@@ -4834,7 +4856,7 @@ export interface CreatePaymentRefundRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
   idempotencyKey?: string | undefined;
   /** The amount that you want to refund. The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** This is only available for PayPal refunds. The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the specific capture to refund. */
@@ -4873,7 +4895,7 @@ export type PaymentRefundResponseSplitsList = Array<Split>;
 export type PaymentRefundResponseStatus = "received";
 export interface PaymentRefundResponse {
   /** The refund amount. */
-  amount: Amount;
+  amount: TaxAmount;
   /** This is only available for PayPal refunds. The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the specific capture to refund. */
   capturePspReference?: string | undefined;
   /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
@@ -4922,7 +4944,7 @@ export interface PaymentReversalResponse {
   status: PaymentReversalResponseStatus;
 }
 export interface DetailsRequestAuthenticationData {
-  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
+  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
   authenticationOnly?: boolean | undefined;
 }
 export interface PaymentCompletionDetails {
@@ -4932,13 +4954,13 @@ export interface PaymentCompletionDetails {
   PaReq?: string | undefined;
   /** (3D) Payment Authentication Response data by the card issuer. */
   PaRes?: string | undefined;
-  authorization_token?: string | undefined;
+  authorization_token?: string | Redacted.Redacted<string> | undefined;
   /** PayPal-generated token for recurring payments. */
-  billingToken?: string | undefined;
+  billingToken?: string | Redacted.Redacted<string> | undefined;
   /** The SMS verification code collected from the shopper. */
   cupsecureplus_smscode?: string | undefined;
   /** PayPal-generated third party access token. */
-  facilitatorAccessToken?: string | undefined;
+  facilitatorAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** A random number sent to the mobile phone number of the shopper to verify the payment. */
   oneTimePasscode?: string | undefined;
   /** PayPal-assigned ID for the order. */
@@ -4964,7 +4986,7 @@ export interface PaymentCompletionDetails {
   /** Base64-encoded string returned by the Component after the challenge flow. It contains the following parameter: `threeDSCompInd`. */
   threeds2_fingerprint?: string | undefined;
   /** PayPalv2-generated token for recurring payments. */
-  vaultToken?: string | undefined;
+  vaultToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreatePaymentsDetailRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -5002,9 +5024,9 @@ export interface PaymentDetailsResponse {
   /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
   additionalData?: PaymentDetailsResponseAdditionalDataMap | undefined;
   /** Authorised amount in the transaction. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** Donation Token containing payment details for Adyen Giving. */
-  donationToken?: string | undefined;
+  donationToken?: string | Redacted.Redacted<string> | undefined;
   /** The fraud result properties of the payment. */
   fraudResult?: FraudResult | undefined;
   /** The reference used during the /payments request. */
@@ -5038,7 +5060,7 @@ export interface PaymentDetailsResponse {
 export type DeliveryMethodType = "Shipping";
 export interface DeliveryMethod {
   /** The cost of this delivery method. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** The name of the delivery method as shown to the shopper. */
   description?: string | undefined;
   /** The reference of the delivery method. */
@@ -5051,19 +5073,19 @@ export interface DeliveryMethod {
 /** The list of new delivery methods and the cost of each. */
 export type CreatePaypalUpdateOrderRequestDeliveryMethodsList = Array<DeliveryMethod>;
 export interface TaxTotal {
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
 }
 export interface CreatePaypalUpdateOrderRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
   idempotencyKey?: string | undefined;
   /** The updated final payment amount. This amount is the item total plus the shipping costs of the selected `deliveryMethod`. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** The delivery address for this order. */
   deliveryAddress?: DeliveryAddress | undefined;
   /** The list of new delivery methods and the cost of each. */
   deliveryMethods?: CreatePaypalUpdateOrderRequestDeliveryMethodsList | undefined;
   /** The discount amount for this order. */
-  discountAmount?: Amount | undefined;
+  discountAmount?: TaxAmount | undefined;
   /** The `paymentData` from the client side. This value changes every time you make a `/paypal/updateOrder` request. */
   paymentData?: string | undefined;
   /** The original `pspReference` from the `/payments` response. */
@@ -5071,7 +5093,7 @@ export interface CreatePaypalUpdateOrderRequest {
   /** The original `sessionId` from the `/sessions` response. */
   sessionId?: string | undefined;
   /** The shipping amount for this order. */
-  shippingAmount?: Amount | undefined;
+  shippingAmount?: TaxAmount | undefined;
   /** Total tax amount from the order. */
   taxTotal?: TaxTotal | undefined;
 }
@@ -5145,13 +5167,13 @@ export interface CreateSessionRequest {
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
   accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount | undefined;
+  additionalAmount?: TaxAmount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
   additionalData?: CreateSessionRequestAdditionalDataMap | undefined;
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
   allowedPaymentMethods?: CreateSessionRequestAllowedPaymentMethodsList | undefined;
   /** The amount of the payment. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** Configuration data for 3DS payments. */
@@ -5271,7 +5293,7 @@ export interface CreateSessionRequest {
   thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments). */
   threeDS2RequestData?: CheckoutSessionThreeDS2RequestData | undefined;
-  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
+  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
   threeDSAuthenticationOnly?: boolean | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
   trustedShopper?: boolean | undefined;
@@ -5321,13 +5343,13 @@ export interface CreateCheckoutSessionResponse {
   /** Shopper account information for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
   accountInfo?: AccountInfo | undefined;
   /** If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification). Required to be in the same currency as the `amount`. */
-  additionalAmount?: Amount | undefined;
+  additionalAmount?: TaxAmount | undefined;
   /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
   additionalData?: CreateCheckoutSessionResponseAdditionalDataMap | undefined;
   /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
   allowedPaymentMethods?: CreateCheckoutSessionResponseAllowedPaymentMethodsList | undefined;
   /** The amount of the payment. */
-  amount: Amount;
+  amount: TaxAmount;
   /** Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions). */
   applicationInfo?: ApplicationInfo | undefined;
   /** Configuration data for 3DS payments. */
@@ -5446,7 +5468,7 @@ export interface CreateCheckoutSessionResponse {
   thirdPartyTokenRedundancyInfo?: ThirdPartyTokenRedundancyInfo | undefined;
   /** Request fields for 3D Secure 2. To check if any of the following fields are required for your integration, refer to [Online payments](https://docs.adyen.com/online-payments). */
   threeDS2RequestData?: CheckoutSessionThreeDS2RequestData | undefined;
-  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
+  /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization. Default: **false**. */
   threeDSAuthenticationOnly?: boolean | undefined;
   /** Set to true if the payment should be routed to a trusted MID. */
   trustedShopper?: boolean | undefined;
@@ -5651,42 +5673,42 @@ export interface ValidateShopperIdResponse {
 }
 export type TaxIdentificationType = "PAN";
 export interface ShopperTaxIdentification {
-  /** The country governing the shopper's tax processing. Initially only IN is supported. */
+  /** The two-letter country code governing the shopper's tax processing, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format. Supported value: **IN**. */
   taxCountryCode: string;
   /** The tax identification number submitted for verification. */
   taxIdentificationNumber: string;
-  /** The type of the tax identification. Initially only PAN is supported. */
+  /** The type of tax identification. Supported value: **PAN**, an Indian Permanent Account Number. */
   taxIdentificationType: TaxIdentificationType | (string & {});
 }
 export interface CreateVerifyShopperTaxIdentificationRequest {
-  /** The merchant account identifier requesting the tax verification. */
+  /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
-  /** Your reference to uniquely identify this shopper, for example user ID or account ID. Used to bind the verification to the shopper context. > Your reference must not include personally identifiable information (PII), for example name or email address. */
+  /** Your reference to uniquely identify this shopper, for example user ID or account ID. The value is case-sensitive and must be at least three characters. Use the same `shopperReference` in `/payments`. > Your reference must not include personally identifiable information (PII), for example name or email address. */
   shopperReference: string;
-  /** The shopper tax identification to verify. */
+  /** The shopper's tax identification to verify. */
   shopperTaxIdentification: ShopperTaxIdentification;
 }
 export interface VerifiedShopperTaxIdentification {
-  /** The masked name of the tax identification holder. */
+  /** The masked name of the tax identification holder. The full name is not returned. */
   maskedName?: string | undefined;
-  /** The country governing the shopper's tax processing. */
+  /** The two-letter country code governing the shopper's tax processing, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format. Supported value: **IN**. */
   taxCountryCode?: string | undefined;
-  /** The type of the verified tax identification. */
+  /** The type of verified tax identification. Supported value: **PAN**, an Indian Permanent Account Number. */
   taxIdentificationType?: TaxIdentificationType | undefined;
 }
 export interface VerifyShopperTaxIdentificationResponse {
-  /** The human-readable reason for the unsuccessful result. */
+  /** The human-readable reason for an **INVALID** or **UNKNOWN** verification result. */
   reason?: string | undefined;
-  /** The reason code for the unsuccessful result, when available. */
+  /** The code for an unsuccessful verification, if available. */
   reasonCode?: string | undefined;
-  /** The verification result, for example valid or invalid. */
+  /** The result of verifying the shopper's tax identification. Possible results for this endpoint: * **VALID**: verification succeeded. The response includes a token and masked tax identification. * **INVALID**: the tax identification is invalid or unsupported. The response includes a `reason` and no token. * **UNKNOWN**: verification did not return the required details. The response includes a `reason` and no token. */
   result?: Result | undefined;
-  /** The unique reference for the verification attempt. */
+  /** The unique reference for the verification. Returned only when `result` is **VALID**. */
   taxVerificationReference?: string | undefined;
-  /** The masked representation of the verified tax identification. */
+  /** The masked representation of the verified tax identification. Returned only when `result` is **VALID**. */
   verifiedShopperTaxIdentification?: VerifiedShopperTaxIdentification | undefined;
-  /** The opaque, encrypted, and signed token representing the successful verification. Required in /payments. */
-  verifiedShopperTaxIdentificationToken?: string | undefined;
+  /** The encrypted and signed token representing a successful verification. Returned only when `result` is **VALID**. Submit this value as `shopperTaxIdentification.verifiedShopperTaxIdentificationToken` in `/payments` with the same `shopperReference` used for verification. */
+  verifiedShopperTaxIdentificationToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteStoredPaymentMethodRequest {
   /** The unique identifier of the token. */
@@ -5713,7 +5735,7 @@ export type SessionResultResponseAdditionalDataMap = { [key: string]: string | u
 export type PaymentResultCode = "Authorised" | "Received" | "Pending";
 export interface Payment {
   /** Authorised amount in the transaction. */
-  amount?: Amount | undefined;
+  amount?: TaxAmount | undefined;
   /** Only returned for `resultCode`: **Authorised**. Details about the payment method used in the transaction. */
   paymentMethod?: ResponsePaymentMethod | undefined;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique. Use this reference when you communicate with us about this request. */
@@ -5819,7 +5841,8 @@ export const createApplePaySession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CreateApplePaySessionRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<ApplePaySessionResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5836,7 +5859,8 @@ export const createCalculateTax: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1250, __c39, 2) as any as S.Schema<CreateCalculateTaxRequest>,
   output: __S(1254, __c39, 6) as any as S.Schema<CalculateTaxResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5853,7 +5877,8 @@ export const createCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateCancelRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<StandalonePaymentCancelResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5870,7 +5895,8 @@ export const createCardDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<CreateCardDetailRequest>,
   output: __S(1379, __c43, 3) as any as S.Schema<CardDetailsResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5887,7 +5913,8 @@ export const createDonation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CreateDonationRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<DonationPaymentResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5908,7 +5935,8 @@ export const createDonationCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<CreateDonationCampaignRequest>,
   output: __S(1925, __c60, 5) as any as S.Schema<DonationCampaignsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5925,7 +5953,8 @@ export const createForward: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1988, __c62, 4) as any as S.Schema<CreateForwardRequest>,
   output: __S(1992, __c62, 8) as any as S.Schema<CheckoutForwardResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5942,7 +5971,8 @@ export const createOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateOrderRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<CreateOrderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5959,7 +5989,8 @@ export const createOrdersCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateOrdersCancelRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<CancelOrderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5974,9 +6005,10 @@ export const createPayment: API.OperationMethod<
   CreatePaymentError,
   AdyenOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(165, __c5, 5) as any as S.Schema<CreatePaymentRequest>,
+  input: __S(167, __c5, 7) as any as S.Schema<CreatePaymentRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<PaymentResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5997,7 +6029,8 @@ export const createPaymentAmountUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreatePaymentAmountUpdateRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<PaymentAmountUpdateResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6014,7 +6047,8 @@ export const createPaymentCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreatePaymentCancelRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<PaymentCancelResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6031,7 +6065,8 @@ export const createPaymentCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreatePaymentCaptureRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<PaymentCaptureResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6048,7 +6083,8 @@ export const createPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CreatePaymentLinkRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6065,7 +6101,8 @@ export const createPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<CreatePaymentMethodRequest>,
   output: __S(689, __c21, 17) as any as S.Schema<PaymentMethodsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6086,7 +6123,8 @@ export const createPaymentMethodsBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(706, __c22, 2) as any as S.Schema<CreatePaymentMethodsBalanceRequest>,
   output: __S(707, __c22, 3) as any as S.Schema<BalanceCheckResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6103,7 +6141,8 @@ export const createPaymentRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<CreatePaymentRefundRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<PaymentRefundResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6124,7 +6163,8 @@ export const createPaymentReversal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<CreatePaymentReversalRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<PaymentReversalResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6141,7 +6181,8 @@ export const createPaymentsDetail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(803, __c25, 3) as any as S.Schema<CreatePaymentsDetailRequest>,
   output: __S(804, __c25, 4) as any as S.Schema<PaymentDetailsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6162,7 +6203,8 @@ export const createPaypalUpdateOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(835, __c26, 3) as any as S.Schema<CreatePaypalUpdateOrderRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<PaypalUpdateOrderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6179,7 +6221,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(866, __c27, 2) as any as S.Schema<CreateSessionRequest>,
   output: __S(867, __c27, 3) as any as S.Schema<CreateCheckoutSessionResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6196,7 +6239,8 @@ export const createStoredPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(897, __c28, 1) as any as S.Schema<CreateStoredPaymentMethodRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<StoredPaymentMethodResource>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6217,7 +6261,8 @@ export const createValidateShopperId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<CreateValidateShopperIdRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<ValidateShopperIdResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6238,7 +6283,8 @@ export const createVerifyShopperTaxIdentification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(993, __c31, 1) as any as S.Schema<CreateVerifyShopperTaxIdentificationRequest>,
   output: __S(995, __c31, 3) as any as S.Schema<VerifyShopperTaxIdentificationResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6255,7 +6301,8 @@ export const deleteStoredPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteStoredPaymentMethodRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<DeleteStoredPaymentMethodResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6272,7 +6319,8 @@ export const getPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetPaymentLinkRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6289,7 +6337,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(1091, __c34, 3) as any as S.Schema<SessionResultResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6306,7 +6355,8 @@ export const getStoredPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetStoredPaymentMethodsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<ListStoredPaymentMethodsResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6323,7 +6373,8 @@ export const updatePaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<PaymentLinkResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAdyenError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6340,7 +6391,8 @@ export const updateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<UpdateSessionRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<CheckoutSessionPatchSessionResponse>,
-  errors: [UnknownAdyenError],
+  errors: [],
+  serviceErrors: AdyenServiceErrors,
   protocol: AdyenProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6384,7 +6436,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           expiresAt: S.optional(S.String),
           merchantAccount: S.String,
@@ -6413,7 +6467,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           merchantAccount: S.String,
           order: __S(128, __c4, 0),
         }).pipe(T.Http({ method: "POST", uri: "/orders/cancel", code: 200 })),
@@ -6470,20 +6526,34 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          verifiedShopperTaxIdentificationToken: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "TokenizedShopperTaxIdentification" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           taxCountryCode: S.String,
           taxIdentificationNumber: S.String,
         }),
       ).annotate({ identifier: "ShopperTaxInfo" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           value: S.Number,
         }),
       ).annotate({ identifier: "Surcharge" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          taxCalculationToken: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "TokenizedTaxCalculation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -6547,13 +6617,15 @@ function __c5(j: number): any {
           shopperName: S.optional(__S(1632, __c51, 0)),
           shopperReference: S.optional(S.String),
           shopperStatement: S.optional(S.String),
-          shopperTaxInfo: S.optional(__S(163, __c5, 3)),
+          shopperTaxIdentification: S.optional(__S(163, __c5, 3)),
+          shopperTaxInfo: S.optional(__S(164, __c5, 4)),
           socialSecurityNumber: S.optional(S.String),
           splits: S.optional(__S(194, __c6, 2)),
           store: S.optional(S.String),
           storePaymentMethod: S.optional(S.Boolean),
           subMerchants: S.optional(__S(225, __c7, 1)),
-          surcharge: S.optional(__S(164, __c5, 4)),
+          surcharge: S.optional(__S(165, __c5, 5)),
+          taxCalculation: S.optional(__S(166, __c5, 6)),
           telephoneNumber: S.optional(S.String),
           thirdPartyTokenRedundancyInfo: S.optional(__S(386, __c12, 2)),
           threeDS2RequestData: S.optional(__S(1504, __c47, 0)),
@@ -6869,6 +6941,7 @@ function __c10(j: number): any {
           srcDigitalCardId: S.optional(S.String),
           srcScheme: S.optional(S.String),
           srcTokenReference: S.optional(S.String),
+          storeClickToPayProfile: S.optional(S.Boolean),
           storedPaymentMethodId: S.optional(S.String),
           threeDS2SdkVersion: S.optional(S.String),
           type: S.optional(S.String),
@@ -7004,7 +7077,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           adjustAuthType: S.optional(S.String),
           adjustAuthorisationData: S.optional(S.String),
           amount: __S(1280, __c40, 0),
@@ -7046,7 +7121,9 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
@@ -7076,7 +7153,9 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           enhancedSchemeData: S.optional(__S(310, __c9, 22)),
@@ -7112,7 +7191,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
@@ -7243,7 +7324,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           additionalData: S.optional(__S(32, __c1, 0)),
           allowedPaymentMethods: S.optional(__S(1408, __c44, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
@@ -7364,7 +7447,7 @@ function __c21(j: number): any {
           cashtag: S.optional(S.String),
           expiryMonth: S.optional(S.String),
           expiryYear: S.optional(S.String),
-          externalToken: S.optional(S.String),
+          externalToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           holderName: S.optional(S.String),
           iban: S.optional(S.String),
           id: S.optional(S.String),
@@ -7449,7 +7532,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7516,7 +7601,9 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           capturePspReference: S.optional(S.String),
@@ -7555,7 +7642,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           paymentPspReference: S.String.pipe(T.Label()),
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           reference: S.optional(S.String),
@@ -7570,11 +7659,11 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorisationToken: S.optional(S.String),
+          authorisationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           paymentData: S.optional(S.String),
           paymentMethodType: S.optional(S.String),
           subtype: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           type: S.String,
           url: S.optional(S.String),
         }),
@@ -7591,10 +7680,10 @@ function __c25(j: number): any {
           MD: S.optional(S.String),
           PaReq: S.optional(S.String),
           PaRes: S.optional(S.String),
-          authorization_token: S.optional(S.String),
-          billingToken: S.optional(S.String),
+          authorization_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          billingToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cupsecureplus_smscode: S.optional(S.String.pipe(T.Body("cupsecureplus.smscode"))),
-          facilitatorAccessToken: S.optional(S.String),
+          facilitatorAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           oneTimePasscode: S.optional(S.String),
           orderID: S.optional(S.String),
           payerID: S.optional(S.String),
@@ -7607,13 +7696,15 @@ function __c25(j: number): any {
           threeDSResult: S.optional(S.String),
           threeds2_challengeResult: S.optional(S.String.pipe(T.Body("threeds2.challengeResult"))),
           threeds2_fingerprint: S.optional(S.String.pipe(T.Body("threeds2.fingerprint"))),
-          vaultToken: S.optional(S.String),
+          vaultToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PaymentCompletionDetails" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           authenticationData: S.optional(__S(801, __c25, 1)),
           details: __S(802, __c25, 2),
           paymentData: S.optional(S.String),
@@ -7626,7 +7717,7 @@ function __c25(j: number): any {
           action: S.optional(__S(800, __c25, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
-          donationToken: S.optional(S.String),
+          donationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           fraudResult: S.optional(__S(1474, __c46, 2)),
           merchantReference: S.optional(S.String),
           opi: S.optional(__S(1792, __c56, 0)),
@@ -7668,7 +7759,9 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: S.optional(__S(1280, __c40, 0)),
           deliveryAddress: S.optional(__S(1856, __c58, 0)),
           deliveryMethods: S.optional(__S(833, __c26, 1)),
@@ -7704,7 +7797,9 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           additionalAmount: S.optional(__S(1280, __c40, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
@@ -7868,7 +7963,9 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           merchantAccount: S.String,
           opi: S.optional(__S(416, __c13, 0)),
           paymentMethod: __S(896, __c28, 0),
@@ -7996,7 +8093,7 @@ function __c31(j: number): any {
           result: S.optional(S.String),
           taxVerificationReference: S.optional(S.String),
           verifiedShopperTaxIdentification: S.optional(__S(994, __c31, 2)),
-          verifiedShopperTaxIdentificationToken: S.optional(S.String),
+          verifiedShopperTaxIdentificationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "VerifyShopperTaxIdentificationResponse" });
   }
@@ -8070,7 +8167,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           displayName: S.String,
           domainName: S.String,
           merchantIdentifier: S.String,
@@ -8206,7 +8305,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
           merchantAccount: S.String,
           paymentReference: S.String,
@@ -8276,11 +8377,15 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           cardNumber: S.optional(S.String),
           countryCode: S.optional(S.String),
           encryptedCardNumber: S.optional(S.String),
           merchantAccount: S.String,
+          shopperReference: S.optional(S.String),
+          storedPaymentMethodId: S.optional(S.String),
           supportedBrands: S.optional(__S(1408, __c44, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/cardDetails", code: 200 })),
       ).annotate({ identifier: "CreateCardDetailRequest" });
@@ -8316,7 +8421,9 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           accountInfo: S.optional(__S(1728, __c54, 0)),
           amount: __S(1280, __c40, 0),
           applicationInfo: S.optional(__S(1348, __c42, 4)),
@@ -8332,7 +8439,7 @@ function __c45(j: number): any {
           donationAccount: S.optional(S.String),
           donationCampaignId: S.optional(S.String),
           donationOriginalPspReference: S.optional(S.String),
-          donationToken: S.optional(S.String),
+          donationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
           merchantRiskIndicator: S.optional(__S(1696, __c53, 0)),
@@ -8442,7 +8549,7 @@ function __c47(j: number): any {
           action: S.optional(S.Unknown),
           additionalData: S.optional(__S(32, __c1, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
-          donationToken: S.optional(S.String),
+          donationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           fraudResult: S.optional(__S(1474, __c46, 2)),
           merchantReference: S.optional(S.String),
           opi: S.optional(__S(1792, __c56, 0)),
@@ -8773,7 +8880,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           issuerId: S.optional(S.String),
-          transToken: S.optional(S.String),
+          transToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OpiResponse" });
   }
@@ -8832,7 +8939,9 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           currency: S.String,
           label: S.optional(S.String),
           locale: S.optional(S.String),
@@ -8928,7 +9037,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           body: S.String,
-          credentials: S.optional(S.String),
+          credentials: S.optional(S.String.pipe(T.SensitiveValue({}))),
           headers: S.optional(__S(32, __c1, 0)),
           httpMethod: S.String,
           urlSuffix: S.optional(S.String),
@@ -8937,7 +9046,9 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotencyKey: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
           amount: S.optional(__S(1280, __c40, 0)),
           baseUrl: S.String,
           merchantAccount: S.String,
@@ -8945,7 +9056,7 @@ function __c62(j: number): any {
           options: S.optional(__S(1985, __c62, 1)),
           paymentMethod: S.optional(__S(1986, __c62, 2)),
           request: __S(1987, __c62, 3),
-          shopperReference: S.String,
+          shopperReference: S.optional(S.String),
           storedPaymentMethodId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/forward", code: 200 })),
       ).annotate({ identifier: "CreateForwardRequest" });

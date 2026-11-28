@@ -7,7 +7,9 @@
  * hand-written.
  *
  * One module per API: `api` (search, contents, answer, monitors, agent runs,
- * batches, Websets) and `teamManagement` (API keys and credits).
+ * Websets) and `teamManagement` (API keys and credits). Exa's beta batches
+ * operations are generated to `./unstable-services` and imported from
+ * `@distilled.cloud/exa/unstable/api`.
  *
  * @example
  * ```ts
@@ -19,7 +21,7 @@
  * const program = Api.search({ query: "Effect TypeScript", numResults: 3 });
  *
  * program.pipe(
- *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv, Exa.ExaProtocol)),
+ *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv)),
  *   Effect.runPromise,
  * );
  * ```
