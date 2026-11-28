@@ -73,11 +73,11 @@ export const metadataServerSource = (config: MetadataServerConfig = {}): TokenSo
     const account = encodeLabel("serviceAccount", serviceAccount);
     if (account instanceof InvalidInput) {
       return yield* new GCPCredentialsError({
-        message: `The service account ${JSON.stringify(serviceAccount)} cannot be a URL path segment.`,
+        message: `The service account ${JSON.stringify(String(serviceAccount))} cannot be a URL path segment.`,
       });
     }
     const scopes = config.scopes?.length
-      ? `?scopes=${encodeURIComponent(config.scopes.join(","))}`
+      ? `?scopes=${encodeURIComponent(config.scopes.join(",").toWellFormed())}`
       : "";
     const issuedAt = Date.now();
     const body = yield* requestJson(

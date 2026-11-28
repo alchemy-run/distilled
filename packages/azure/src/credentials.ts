@@ -285,7 +285,7 @@ const tokenEndpoint = (authorityHost: string, tenantId: string): string | Config
   const tenant = encodeLabel("tenantId", tenantId);
   return tenant instanceof InvalidInput
     ? new ConfigError({
-        message: `The configured tenantId ${JSON.stringify(tenantId)} cannot be a URL path segment`,
+        message: `The configured tenantId ${JSON.stringify(String(tenantId))} cannot be a URL path segment`,
       })
     : `${authorityHost.replace(/\/+$/, "")}/${tenant}/oauth2/v2.0/token`;
 };

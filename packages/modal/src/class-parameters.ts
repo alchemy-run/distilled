@@ -6,7 +6,7 @@
  * identify the bound function, so they must match what Modal's clients
  * send). This encodes them with the package's descriptors.
  */
-import { encodeMessage } from "@distilled.cloud/core/protobuf";
+import { encodeMessageOrThrow } from "@distilled.cloud/core/protobuf";
 import { descriptors } from "./descriptors.ts";
 
 /** One parameter value: `ClassParameterValue` in proto3 JSON form. */
@@ -27,5 +27,6 @@ export interface ClassParameterValue {
  */
 export const serializeClassParameters = (parameters: ReadonlyArray<ClassParameterValue>): string =>
   Buffer.from(
-    encodeMessage(descriptors, "modal.client.ClassParameterSet", { parameters }),
+    // oxlint-disable-next-line distilled/or-throw -- a public synchronous helper, so its name and return type stay: it throws for a value that does not fit its field
+    encodeMessageOrThrow(descriptors, "modal.client.ClassParameterSet", { parameters }),
   ).toString("base64");

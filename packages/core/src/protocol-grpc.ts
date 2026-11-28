@@ -9,7 +9,7 @@
  * builds a core protocol (core/protocol):
  *
  * - **Request**: the proto3 JSON body is transcoded to one protobuf message
- *   ({@link encodeMessage}) in one gRPC frame, sent as `application/grpc`.
+ *   ({@link encodeMessageOrThrow}) in one gRPC frame, sent as `application/grpc`.
  * - **Transport**: the call goes through the `HttpClient` the
  *   `GrpcTransport` reference holds, or the caller's `HttpClient` when it
  *   holds none (see `@distilled.cloud/core/grpc-transport`). Plain `fetch`
@@ -53,8 +53,8 @@ import * as Stream from "effect/Stream";
 import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
 import * as MaxMessageBytes from "./max-message-bytes.ts";
 import {
-  decodeMessage,
-  encodeMessage,
+  decodeMessageOrThrow,
+  encodeMessageOrThrow,
   frame,
   FrameReader,
   FrameTooLargeError,
@@ -230,7 +230,8 @@ const detailsOf = (raw: string | undefined): ReadonlyArray<unknown> => {
     const padded = raw.padEnd(raw.length + ((4 - (raw.length % 4)) % 4), "=");
     const bin = atob(padded.replace(/-/g, "+").replace(/_/g, "/"));
     const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
-    const status = decodeMessage(STATUS_DESCRIPTORS, "google.rpc.Status", bytes) as {
+    // oxlint-disable-next-line distilled/or-throw -- a plain value on the error path: the catch below returns no details for malformed ones
+    const status = decodeMessageOrThrow(STATUS_DESCRIPTORS, "google.rpc.Status", bytes) as {
       readonly details: ReadonlyArray<unknown>;
     };
     return status.details;
@@ -259,6 +260,7 @@ const methodPath = (url: string): string => {
   }
 };
 
+/* oxlint-disable distilled/no-unguarded-throwing-builtin -- the text is the JSON body the REST encoder just wrote; `encode` calls jsonBody inside its try, which fails with InvalidInput */
 /** The JSON a REST request carries, or `undefined` for an empty body. */
 const jsonBody = (body: HttpBody.Uint8Array | HttpBody.Raw | HttpBody.Empty): unknown => {
   switch (body._tag) {
@@ -272,6 +274,7 @@ const jsonBody = (body: HttpBody.Uint8Array | HttpBody.Raw | HttpBody.Empty): un
       return typeof body.body === "string" && body.body ? JSON.parse(body.body) : body.body;
   }
 };
+/* oxlint-enable distilled/no-unguarded-throwing-builtin */
 
 const jsonResponse = (
   request: HttpClientRequest.HttpClientRequest,
@@ -281,6 +284,7 @@ const jsonResponse = (
 ): HttpClientResponse.HttpClientResponse =>
   HttpClientResponse.fromWeb(
     request,
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `value` is a status body built here or what decodeMessageOrThrow returned: JSON values, with no bigint and no cycle
     new Response(JSON.stringify(value), {
       status,
       headers: { ...headers, "content-type": "application/json" },
@@ -372,7 +376,8 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
         }
         let payload: Uint8Array;
         try {
-          payload = encodeMessage(d, method[0], jsonBody(body) ?? {});
+          // oxlint-disable-next-line distilled/or-throw -- per-call path, so no Effect.try step: the catch below fails with InvalidInput
+          payload = encodeMessageOrThrow(d, method[0], jsonBody(body) ?? {});
         } catch (cause) {
           return Effect.fail(
             new InvalidInput({
@@ -532,7 +537,7 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
       response.request,
       headers,
       2,
-      `unexpected content-type ${JSON.stringify(headers["content-type"] ?? "")}`,
+      `unexpected content-type ${JSON.stringify(String(headers["content-type"] ?? ""))}`,
     );
   };
 
@@ -626,7 +631,8 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
           const reader = new FrameReader(limit);
           let frames: Uint8Array[];
           try {
-            frames = reader.push(new Uint8Array(buffer));
+            // oxlint-disable-next-line distilled/or-throw -- per-call path, so no Effect.try step: the catch below fails with the frame's error
+            frames = reader.pushOrThrow(new Uint8Array(buffer));
           } catch (cause) {
             return Effect.flatMap(endOf(args, response, trailers, true), () =>
               frameFailure(args, response, cause),
@@ -650,8 +656,10 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
               let value: unknown;
               try {
                 value = stream
-                  ? { items: frames.map((f) => decodeMessage(d, responseType, f)) }
-                  : decodeMessage(d, responseType, frames[0]!);
+                  ? // oxlint-disable-next-line distilled/or-throw -- per-call path, so no Effect.try step: the catch below fails with the SDK's parse error
+                    { items: frames.map((f) => decodeMessageOrThrow(d, responseType, f)) }
+                  : // oxlint-disable-next-line distilled/or-throw -- per-call path, so no Effect.try step: the catch below fails with the SDK's parse error
+                    decodeMessageOrThrow(d, responseType, frames[0]!);
               } catch (cause) {
                 return parseFailure(buffer, cause);
               }
@@ -735,7 +743,8 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
     const item = (payload: Uint8Array): Effect.Effect<unknown, Failure, Requirements> => {
       let value: unknown;
       try {
-        value = decodeMessage(d, responseType, payload);
+        // oxlint-disable-next-line distilled/or-throw -- runs for every message, so no Effect.try step: the catch below fails with the SDK's parse error
+        value = decodeMessageOrThrow(d, responseType, payload);
       } catch (cause) {
         return parseFailure(payload, cause);
       }
@@ -750,7 +759,8 @@ const grpcMethods = <RestError, Requirements, ParseError, StatusError>(
           if (chunk.length > 0) sawBody = true;
           let frames: Uint8Array[];
           try {
-            frames = reader.push(chunk);
+            // oxlint-disable-next-line distilled/or-throw -- runs for every chunk, so no Effect.try step: the catch below fails with the frame's error
+            frames = reader.pushOrThrow(chunk);
           } catch (cause) {
             return frameFailure(args, response, cause);
           }

@@ -61,7 +61,7 @@ export const check = (config: Config): Effect.Effect<Checked<Config>, ConfigErro
       Effect.succeed(config as Checked<Config>)
     : Effect.fail(
         new ConfigError({
-          message: `The configured Iceberg prefix ${JSON.stringify(config.prefix)} cannot be a URL path`,
+          message: `The configured Iceberg prefix ${JSON.stringify(String(config.prefix))} cannot be a URL path`,
         }),
       );
 };

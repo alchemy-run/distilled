@@ -235,6 +235,7 @@ export const streamInterpreterCode = (
     Effect.gen(function* () {
       const connection = yield* open("/process/interpreter/execute");
       yield* connection.write(
+        // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the request is the caller's `code`, `contextId`, `envs` and `timeout`: strings and a number by their types (`InterpreterCodeRequest`), which always serialize
         JSON.stringify({
           code: request.code,
           contextId: request.contextId,
@@ -599,7 +600,8 @@ export const createPty = (
     // Environment variables travel as a subprotocol token, as Daytona's SDKs send them.
     protocols:
       request.envs && Object.keys(request.envs).length > 0
-        ? [`X-Daytona-Pty-Envs~${base64Url(JSON.stringify(request.envs))}`]
+        ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `envs` is the caller's `Record<string, string>` by its type (`CreatePtyRequest`), which always serializes
+          [`X-Daytona-Pty-Envs~${base64Url(JSON.stringify(request.envs))}`]
         : [],
   });
 
@@ -719,11 +721,13 @@ const indexOf = (haystack: Uint8Array, needle: Uint8Array, from: number) => {
 const dispositionParam = (disposition: string, name: string) => {
   // RFC 5987 `name*=utf-8''...` wins over the plain parameter.
   const plainParam = () => {
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `name` is a parameter name this file writes out ("name", "filename"), never the provider's value
     const plain = new RegExp(`(?:^|;)\\s*${name}="([^"]*)"|(?:^|;)\\s*${name}=([^;]+)`, "i").exec(
       disposition,
     );
     return plain ? (plain[1] ?? plain[2]?.trim()) : undefined;
   };
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `name` is a parameter name this file writes out ("name", "filename"), never the provider's value
   const extended = new RegExp(`(?:^|;)\\s*${name}\\*=([^']*)'[^']*'([^;]+)`, "i").exec(disposition);
   if (!extended) return plainParam();
   try {

@@ -53,7 +53,8 @@ export const configuredSubscriptionId = (
   uri: string | undefined,
 ): string | ConfigError =>
   creds?.subscriptionId
-    ? encodeURIComponent(creds.subscriptionId)
+    ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `check` (./credentials-service.ts) refused a subscriptionId with a lone surrogate when the layer was built
+      encodeURIComponent(creds.subscriptionId)
     : new ConfigError({
         message: `${uri ?? "this operation"} needs a subscriptionId: pass it or configure one on the credentials`,
       });

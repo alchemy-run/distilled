@@ -63,6 +63,7 @@ const keyOf = (target: Target) =>
 const connect = (http2: Http2, target: Target): Session => {
   if (!("socketPath" in target)) return http2.connect(target.origin);
   const net = builtin<Net>("node:net");
+  // oxlint-disable-next-line distilled/or-throw -- connect is private to this file and runs only under the try in `make`, which resumes with the transport error
   if (net === undefined) throw new Error("node:net is not available in this runtime");
   // The authority is only the `:authority` pseudo-header; the socket is the transport.
   return http2.connect("http://localhost", {

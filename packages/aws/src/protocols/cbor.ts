@@ -48,6 +48,7 @@ class Writer {
     if (typeof n === "bigint" || n >= 0x100000000) {
       this.byte(m | 27);
       this.reserve(8);
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- every caller passes a bigint, a length or a safe integer
       this.view.setBigUint64(this.length, BigInt(n));
       this.length += 8;
     } else if (n < 24) {
@@ -122,6 +123,7 @@ const writeBigint = (w: Writer, v: bigint): void => {
   }
 };
 
+/* oxlint-disable distilled/or-throw -- write throws CborError for a function or a symbol; it is private to this file and runs only under encodeCborOrThrow */
 const write = (w: Writer, v: unknown): void => {
   if (v === null || v === undefined) return w.byte(0xf6);
   switch (typeof v) {
@@ -162,9 +164,10 @@ const write = (w: Writer, v: unknown): void => {
   }
   throw new CborError(`CBOR cannot encode a ${typeof v}`);
 };
+/* oxlint-enable distilled/or-throw */
 
 /** `value` as CBOR. Throws {@link CborError} for a function or a symbol. */
-export const encodeCbor = (value: unknown): Uint8Array => {
+export const encodeCborOrThrow = (value: unknown): Uint8Array => {
   const w = new Writer();
   write(w, value);
   return w.bytes.slice(0, w.length);
@@ -188,9 +191,11 @@ const half = (h: number): number => {
   return sign * (1 + fraction / 1024) * 2 ** (exponent - 15);
 };
 
+/* oxlint-disable distilled/or-throw -- bignum and Reader's methods throw CborError; they are private to this file and run only under decodeCborOrThrow */
 const bignum = (bytes: unknown, negative: boolean): number => {
   if (!(bytes instanceof Uint8Array)) throw new CborError("a bignum tag must hold a byte string");
   let n = 0n;
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `b` is a byte of a Uint8Array: an integer from 0 to 255
   for (const b of bytes) n = (n << 8n) | BigInt(b);
   return Number(negative ? -1n - n : n);
 };
@@ -377,9 +382,10 @@ class Reader {
     }
   }
 }
+/* oxlint-enable distilled/or-throw */
 
 /** The value `bytes` encode. Throws {@link CborError} when they are not well-formed CBOR. */
-export const decodeCbor = (bytes: Uint8Array): unknown => {
+export const decodeCborOrThrow = (bytes: Uint8Array): unknown => {
   const reader = new Reader(bytes);
   const value = reader.item();
   if (reader.pos !== bytes.length) throw new CborError("trailing bytes after the CBOR item");

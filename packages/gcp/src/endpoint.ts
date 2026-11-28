@@ -18,19 +18,18 @@ import * as Option from "effect/Option";
 export class Endpoint
   extends /*@__PURE__*/ Context.Service<Endpoint, Option.Option<URL>>()("GCP::Endpoint") {}
 
-// `localhost:8085` parses as a URL with the scheme `localhost:`, so the
-// scheme is checked too.
-const isHttpUrl = (value: string): boolean =>
-  URL.canParse(value) && /^https?:$/.test(new URL(value).protocol);
-
-const parse = (endpoint: string): Effect.Effect<URL, ConfigError> =>
-  isHttpUrl(endpoint)
-    ? Effect.succeed(new URL(endpoint))
+const parse = (endpoint: string): Effect.Effect<URL, ConfigError> => {
+  const url = URL.canParse(endpoint) ? new URL(endpoint) : undefined;
+  // `localhost:8085` parses as a URL with the scheme `localhost:`, so the
+  // scheme is checked too.
+  return url !== undefined && /^https?:$/.test(url.protocol)
+    ? Effect.succeed(url)
     : Effect.fail(
         new ConfigError({
-          message: `GCP endpoint override must be an absolute http(s) URL (e.g. http://localhost:8085), got ${JSON.stringify(endpoint)}`,
+          message: `GCP endpoint override must be an absolute http(s) URL (e.g. http://localhost:8085), got ${JSON.stringify(String(endpoint))}`,
         }),
       );
+};
 
 /** `GOOGLE_API_ENDPOINT`; resolves `undefined` when unset. */
 export const fromEnvironment = /*@__PURE__*/ Config.String("GOOGLE_API_ENDPOINT").pipe(
@@ -63,6 +62,7 @@ export const of = (endpoint: string) =>
 
 /** Replace the origin of `baseUrl` with `endpoint`'s, keeping its path. */
 export const withEndpoint = (baseUrl: string, endpoint: URL): string => {
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `baseUrl` is the SDK's own data: the URL the generator put in the operation's Http trait
   const base = new URL(baseUrl);
   const path = `${endpoint.pathname.replace(/\/+$/, "")}${base.pathname}`;
   return `${endpoint.origin}${path}`;

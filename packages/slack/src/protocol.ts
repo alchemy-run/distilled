@@ -160,9 +160,11 @@ const serializeForWire = (input: unknown, inputAst: AST.AST): unknown => {
       out ??= { ...(input as Record<string, unknown>) };
       out[key] = value.every((v) => typeof v !== "object" || v === null)
         ? value.join(",")
-        : JSON.stringify(value);
+        : // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the value is the caller's input, and the defect boundary reports one JSON cannot carry as `SdkError`
+          JSON.stringify(value);
     } else if (isForm && !isQuery) {
       out ??= { ...(input as Record<string, unknown>) };
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the value is the caller's input, and the defect boundary reports one JSON cannot carry as `SdkError`
       out[key] = JSON.stringify(value);
     }
   }

@@ -280,6 +280,7 @@ const lazyTaggedError =
   (identifier?: string) =>
   (...args: ReadonlyArray<unknown>): Function => {
     function LazyTaggedError(this: unknown, input?: unknown, options?: unknown) {
+      // oxlint-disable-next-line distilled/or-throw -- this function stands in for a class: called without `new` it throws the TypeError a class throws, and TypeScript refuses such a call
       if (!new.target) throw new TypeError("Class constructor cannot be invoked without 'new'");
       return Reflect.construct(realErrorClass(new.target), [input, options], new.target);
     }

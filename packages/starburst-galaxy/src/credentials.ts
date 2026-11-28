@@ -75,6 +75,7 @@ const LOOPBACK = new Set(["127.0.0.1", "localhost", "[::1]"]);
 const apiBaseUrlFor = (domain: string): Effect.Effect<string, ConfigError> => {
   const origin = originFromConfig("Starburst Galaxy domain", domain);
   if (typeof origin !== "string") return Effect.fail(origin);
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `originFromConfig` read this origin from a URL it parsed, so it parses again
   const url = new URL(origin);
   if (url.protocol !== "https:" && !(url.protocol === "http:" && LOOPBACK.has(url.hostname))) {
     return Effect.fail(new ConfigError({ message: "Starburst Galaxy domain must use HTTPS" }));

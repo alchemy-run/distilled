@@ -29,6 +29,7 @@ const PKCS8_PREFIX = /*@__PURE__*/ Uint8Array.from([
 
 export const toBigInt = (bytes: Uint8Array): bigint => {
   let n = 0n;
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `b` is a byte of a Uint8Array: an integer from 0 to 255
   for (const b of bytes) n = (n << 8n) | BigInt(b);
   return n;
 };
@@ -233,7 +234,9 @@ const W = 4;
 const WINDOWS = Math.ceil(256 / W) + 1;
 const WINDOW_SIZE = 2 ** (W - 1);
 const MAX_NUMBER = 2 ** W;
+// oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- an integer constant of this module
 const MASK = BigInt(MAX_NUMBER - 1);
+// oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- an integer constant of this module
 const SHIFT_BY = BigInt(W);
 
 // From noble `calcOffsets`: https://github.com/paulmillr/noble-curves/blob/a0ac59846ee76c52f7c18886f4963e1211345d48/src/abstract/curve.ts#L195-L218
@@ -311,7 +314,7 @@ export const base64Url = (bytes: Uint8Array): string => {
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 };
 
-export const fromBase64Url = (s: string): Uint8Array =>
+export const fromBase64UrlOrThrow = (s: string): Uint8Array =>
   Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
 
 /** DER INTEGER of an unsigned big-endian value. */

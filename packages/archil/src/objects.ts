@@ -149,7 +149,7 @@ const bucketOf = (ref: DiskRef) => (ref.branch ? `${ref.disk}.${ref.branch}` : r
 const namesNothing = (member: string, value: string) =>
   new InvalidInput({
     member,
-    message: `Input member ${member} cannot be ${JSON.stringify(value)}: the request would address the disk instead`,
+    message: `Input member ${member} cannot be ${JSON.stringify(String(value))}: the request would address the disk instead`,
   });
 
 /**
@@ -176,11 +176,13 @@ const encodeKey = (member: string, key: string): string | InvalidInput => {
 };
 
 const xmlText = (xml: string, tag: string) => {
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `tag` is a tag name this file writes out ("Code", "Key", ...), never a caller's or the provider's value
   const match = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
   return match ? decodeXml(match[1]!) : undefined;
 };
 
 const xmlBlocks = (xml: string, tag: string) =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `tag` is a tag name this file writes out ("Contents", "Part", ...), never a caller's or the provider's value
   [...xml.matchAll(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`, "g"))].map((m) => m[1]!);
 
 const decodeXml = (s: string) =>

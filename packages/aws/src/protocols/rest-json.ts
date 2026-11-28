@@ -23,7 +23,7 @@ import type { Request } from "@distilled.cloud/s3/client/request";
 import type { Response } from "@distilled.cloud/s3/client/response";
 import type { InputEvent } from "@distilled.cloud/s3/eventstream/serializer";
 import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
-import { fromBase64 } from "@distilled.cloud/s3/util/base64";
+import { fromBase64OrThrow } from "@distilled.cloud/s3/util/base64";
 import { inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
 import {
   extractJsonErrorCode,
@@ -185,6 +185,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
   // members (AWS SDK v3; Smithy RestJsonHttpWithEmptyStructurePayload).
   const payloadIsStructure = payloadMember !== undefined && isStructure(payloadMember.type);
 
+  /* oxlint-disable distilled/or-throw, distilled/no-unguarded-throwing-builtin -- serialize runs under the plain try of the request builder's callers (encodeWith, serializeEffect): what throws here fails the call with InvalidInput */
   const serialize = (input: unknown): Serialized => {
     const encoded = encodeInput(input);
 
@@ -240,7 +241,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       } else if (isBlobPayload(payloadAst)) {
         // A non-streaming blob payload is the body's raw bytes; the encoder
         // made it base64.
-        request.body = fromBase64(payloadValue as string);
+        request.body = fromBase64OrThrow(payloadValue as string);
         if (!userSetContentType) {
           request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
         }
@@ -286,6 +287,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     const built = request;
     return eventBody === undefined ? built : Effect.map(eventBody, (body) => ({ ...built, body }));
   };
+  /* oxlint-enable distilled/or-throw, distilled/no-unguarded-throwing-builtin */
 
   /**
    * The members bound to the status code and headers, or {@link Unreadable}

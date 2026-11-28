@@ -102,7 +102,7 @@ const checked = (location: ConsoleLocation): Checked<ConsoleLocation> | ConfigEr
   return invalidLabel("consoleId", location.consoleId) === undefined
     ? (location as Checked<ConsoleLocation>)
     : new ConfigError({
-        message: `The configured UniFi console ID ${JSON.stringify(location.consoleId)} cannot be a URL path segment`,
+        message: `The configured UniFi console ID ${JSON.stringify(String(location.consoleId))} cannot be a URL path segment`,
       });
 };
 
@@ -132,6 +132,7 @@ export const consoleBaseUrl = (
 ): string => {
   if (location._tag === "Local") return `${location.host}/proxy/${app}/integration`;
   // `:` is legal in a path segment, and console IDs are `<hex>:<number>`.
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `check` refused a console ID with a lone surrogate (`Checked<ConsoleLocation>`)
   const id = encodeURIComponent(location.consoleId).replace(/%3A/gi, ":");
   return `${cloudBaseUrl}/v1/connector/consoles/${id}/proxy/${app}/integration`;
 };

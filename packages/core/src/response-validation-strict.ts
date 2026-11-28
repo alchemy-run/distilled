@@ -31,6 +31,7 @@ export class SchemaMismatch extends Error {
   readonly actual: unknown;
   constructor(path: ReadonlyArray<PropertyKey>, expected: string, actual: unknown) {
     super(
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the path holds strings and numbers only (a symbol is spelled out), which always serialize
       `Expected ${expected}, got ${show(actual)}${path.length ? ` at ${JSON.stringify(path.map((k) => (typeof k === "symbol" ? String(k) : k)))}` : ""}`,
     );
     this.path = path;
@@ -55,7 +56,8 @@ export type Decode = (input: unknown) => SchemaMismatch | undefined;
 const show = (u: unknown): string => {
   if (u === MISSING) return "nothing (missing key)";
   if (u === undefined) return "undefined";
-  if (typeof u === "string") return JSON.stringify(u.length > 40 ? `${u.slice(0, 40)}...` : u);
+  if (typeof u === "string")
+    return JSON.stringify(String(u.length > 40 ? `${u.slice(0, 40)}...` : u));
   if (Array.isArray(u)) return "an array";
   if (u !== null && typeof u === "object") return "an object";
   return String(u);

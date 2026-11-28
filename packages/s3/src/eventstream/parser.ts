@@ -11,7 +11,7 @@ import * as Effect from "effect/Effect";
 import * as Ref from "effect/Ref";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
-import { decode, decodeFailure, fitsWire, holdsSensitive } from "../util/codec.ts";
+import { decodeFailure, decodeOrThrow, fitsWire, holdsSensitive } from "../util/codec.ts";
 import { bodyStream, type StreamBody } from "../util/stream.ts";
 import {
   decodeMessage,
@@ -257,9 +257,11 @@ export const decodeEventStreamUnion = (
   const ast = eventSchema.ast as any;
   const lenient = Stream.map(eventStream, (event) => {
     try {
-      return decode(ast, event, true) as ParsedEvent;
+      // oxlint-disable-next-line distilled/or-throw -- a plain try: Effect.try would add an Effect step to every event
+      return decodeOrThrow(ast, event, true) as ParsedEvent;
     } catch {
-      return fitsWire(ast, event) ? (decode(ast, event) as ParsedEvent) : event;
+      // oxlint-disable-next-line distilled/or-throw -- lenient: it keeps a value that does not fit as read, and throws nothing
+      return fitsWire(ast, event) ? (decodeOrThrow(ast, event) as ParsedEvent) : event;
     }
   });
   return Stream.unwrap(
@@ -268,7 +270,8 @@ export const decodeEventStreamUnion = (
         ? lenient
         : Stream.mapEffect(eventStream, (event) => {
             try {
-              return Effect.succeed(decode(ast, event, true) as ParsedEvent);
+              // oxlint-disable-next-line distilled/or-throw -- a plain try: Effect.try would add an Effect step to every event
+              return Effect.succeed(decodeOrThrow(ast, event, true) as ParsedEvent);
             } catch (error) {
               return fitsWire(ast, event)
                 ? Effect.fail(

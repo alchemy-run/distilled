@@ -2,14 +2,14 @@
  * Value conversion between the types a generated AWS schema declares and
  * their wire form, by walking the schema's lite AST.
  *
- * `encode` turns an operation input into its wire form before a protocol
+ * `encodeOrThrow` turns an operation input into its wire form before a protocol
  * serializes it: struct keys renamed by `encodeKeys`, timestamps to the
  * format their `codecSymbol` names, blobs to base64, `Redacted` values
  * unwrapped. It checks what it walks the way Effect Schema's encoder did
  * (required members present, primitives of the declared type, a union
  * member that fits), and throws {@link CodecError} otherwise.
  *
- * `decode` is the reverse, for values a protocol read off the wire. Lenient
+ * `decodeOrThrow` is the reverse, for values a protocol read off the wire. Lenient
  * decoding never fails: a value that does not fit its schema is kept as
  * read (wrapped in `Redacted` whole when its type can hold a sensitive
  * value), and the rest of the response still converts. Exact decoding throws
@@ -33,7 +33,7 @@ import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
-import { fromBase64, toBase64 } from "./base64.ts";
+import { fromBase64OrThrow, toBase64 } from "./base64.ts";
 import { formatDateTime } from "./timestamp.ts";
 
 /** A value that does not fit its schema. */
@@ -54,13 +54,14 @@ export class CodecError extends Error {
 
 const show = (u: unknown): string => {
   if (u === undefined) return "undefined";
-  if (typeof u === "string") return JSON.stringify(u);
+  if (typeof u === "string") return JSON.stringify(String(u));
   if (u instanceof Date) return `Date(${isValidDate(u) ? u.toISOString() : "Invalid"})`;
   if (Array.isArray(u)) return "an array";
   if (typeof u === "object" && u !== null) return "an object";
   return String(u);
 };
 
+/* oxlint-disable distilled/or-throw -- the encoders and decoders built below throw CodecError (`fail`); they are private to this file and run only under encodeOrThrow and decodeOrThrow */
 const fail = (expected: string, actual: unknown): never => {
   throw new CodecError(expected, actual);
 };
@@ -68,6 +69,7 @@ const fail = (expected: string, actual: unknown): never => {
 /** Prefix a member's failure with its key, as Effect's issue paths did. */
 const within = (e: unknown, key: PropertyKey): unknown => {
   if (e instanceof CodecError) {
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- a key is a string or an index: it always serializes
     const at = ` at [${JSON.stringify(key)}]`;
     e.message += at;
     e.path += at;
@@ -223,6 +225,7 @@ const acceptsNull = (n: Node): boolean => {
 };
 
 const expected = (n: Node): string =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the literal is from the SDK's own schema
   n._tag === "Literal" ? JSON.stringify(n.literal) : n._tag.toLowerCase();
 
 /** {@link primitive} for `n` as one test, or `undefined` when `n` accepts anything. */
@@ -280,7 +283,8 @@ const encoderOf = (n: Node, binary: boolean): Encoder => {
  * every number: blobs stay `Uint8Array`, timestamps `Date`, and NaN and the
  * infinities numbers.
  */
-export const encode = (n: Node, v: unknown, binary = false): unknown => encoderOf(n, binary)(v);
+export const encodeOrThrow = (n: Node, v: unknown, binary = false): unknown =>
+  encoderOf(n, binary)(v);
 
 const buildEncoder = (n: Node, binary: boolean): Encoder => {
   const codec = codecOf(n);
@@ -497,7 +501,7 @@ const nonFinite = (v: unknown): v is "NaN" | "Infinity" | "-Infinity" =>
 //#region decode
 
 /**
- * How {@link decode} treats a mismatch: `false` keeps the value as read,
+ * How {@link decodeOrThrow} treats a mismatch: `false` keeps the value as read,
  * `true` throws, `"closed"` also throws on a key the schema does not model.
  */
 export type Exactness = boolean | "closed";
@@ -529,7 +533,7 @@ const decoderOf = (n: Node, exact: Exactness): Decoder => {
  * declares. Lenient by default: a value that does not fit is kept as read.
  * With `exact`, a mismatch throws {@link CodecError} instead.
  */
-export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =>
+export const decodeOrThrow = (n: Node, v: unknown, exact: Exactness = false): unknown =>
   decoderOf(n, exact)(v);
 
 /**
@@ -582,7 +586,7 @@ const codecDecoder = (codec: CodecKind, n: Node, exact: Exactness): Decoder => {
       if (v instanceof Uint8Array) return v;
       if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
       try {
-        return fromBase64(v);
+        return fromBase64OrThrow(v);
       } catch {
         // Not base64: the same failure as a non-string.
         return exact ? fail("a base64 string", v) : v;
@@ -800,6 +804,7 @@ const unionDecoder = (n: Node, exact: Exactness): Decoder => {
 };
 
 //#endregion
+/* oxlint-enable distilled/or-throw */
 
 /** The message of a failed encode or decode, without the value it found when `withhold`. */
 export const decodeFailure = (e: unknown, withhold: boolean): string => {
@@ -825,6 +830,7 @@ export const errorBody = (operation: Operation<any, any, any>, body: string): st
 const encodeFailure = (ast: Node, e: unknown): ParseError =>
   new ParseError({ message: decodeFailure(e, holdsSensitive(ast)) });
 
+/* oxlint-disable distilled/or-throw -- both run on every call, so they catch what encodeOrThrow throws in a plain try; the function inputEncoderSync returns throws it as ParseError, as documented, under the plain try around a protocol's serialize */
 /**
  * An operation input encoder for protocols: encode failures become
  * `ParseError`, without the value found when the input can hold a secret.
@@ -833,7 +839,7 @@ export const inputEncoder =
   (ast: Node, binary = false) =>
   (input: unknown): Effect.Effect<unknown, ParseError> => {
     try {
-      return Effect.succeed(encode(ast, input, binary));
+      return Effect.succeed(encodeOrThrow(ast, input, binary));
     } catch (e) {
       return Effect.fail(encodeFailure(ast, e));
     }
@@ -844,8 +850,9 @@ export const inputEncoderSync =
   (ast: Node, binary = false) =>
   (input: unknown): unknown => {
     try {
-      return encode(ast, input, binary);
+      return encodeOrThrow(ast, input, binary);
     } catch (e) {
       throw encodeFailure(ast, e);
     }
   };
+/* oxlint-enable distilled/or-throw */

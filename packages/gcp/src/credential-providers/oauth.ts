@@ -135,7 +135,7 @@ export const iamCredentialsUrl = (
   return account instanceof InvalidInput
     ? Effect.fail(
         new GCPCredentialsError({
-          message: `The service account ${JSON.stringify(serviceAccountEmail)} cannot be a URL path segment.`,
+          message: `The service account ${JSON.stringify(String(serviceAccountEmail))} cannot be a URL path segment.`,
         }),
       )
     : Effect.succeed(

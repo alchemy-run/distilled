@@ -162,9 +162,10 @@ const signJwt = (
       }),
     );
   }
-  const header = base64url(encoder.encode(JSON.stringify({ alg: "RS256", typ: "JWT" })));
+  const header = base64url(encoder.encode('{"alg":"RS256","typ":"JWT"}'));
   const claims = base64url(
     encoder.encode(
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the claims are a string and two numbers that this function builds
       JSON.stringify({
         iss: String(config.appId),
         iat: issuedAt,

@@ -30,7 +30,7 @@ import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
 import { hasUnitInput } from "../protocol-traits.ts";
 import { getAnnotationUnwrap, getAwsApiService, protocolSymbol } from "../traits.ts";
-import { decodeCbor, encodeCbor } from "./cbor.ts";
+import { decodeCborOrThrow, encodeCborOrThrow } from "./cbor.ts";
 
 const CONTENT_TYPE = "application/cbor";
 
@@ -39,15 +39,17 @@ const hex = (bytes: Uint8Array): string =>
   Array.from(bytes.subarray(0, 512), (b) => b.toString(16).padStart(2, "0")).join("") +
   (bytes.length > 512 ? "..." : "");
 
+/* oxlint-disable distilled/or-throw -- readMap throws for a body that is not a CBOR map; it is private to this file and both its callers catch it in a plain try */
 /** The CBOR map a body holds: `{}` for an empty body; throws for anything else. */
 const readMap = (bytes: Uint8Array): Record<string, unknown> => {
   if (bytes.length === 0) return {};
-  const value = decodeCbor(bytes);
+  const value = decodeCborOrThrow(bytes);
   if (value === null || typeof value !== "object" || Array.isArray(value)) {
     throw new Error("the body is not a CBOR map");
   }
   return value as Record<string, unknown>;
 };
+/* oxlint-enable distilled/or-throw */
 
 const message = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
@@ -75,7 +77,8 @@ export const rpcv2CborProtocol: ProtocolImpl = (operation: Operation): ProtocolH
     const request: Request = { method: "POST", path, query: {}, headers };
     if (!unitInput) {
       headers["Content-Type"] = CONTENT_TYPE;
-      request.body = encodeCbor(encodeInput(input) ?? {});
+      // oxlint-disable-next-line distilled/or-throw -- serialize runs under the plain try of the request builder's callers (encodeWith, serializeEffect): what throws here fails the call with InvalidInput
+      request.body = encodeCborOrThrow(encodeInput(input) ?? {});
     }
     return request;
   };
@@ -125,6 +128,7 @@ export const rpcv2CborProtocol: ProtocolImpl = (operation: Operation): ProtocolH
           : (response.headers["x-amzn-query-error"]?.split(";")[0] ?? undefined);
       if (!rawErrorCode) {
         return yield* new ParseError({
+          // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- response.headers is a record of strings: it always serializes
           message: `No error code found in response. Headers: ${JSON.stringify(response.headers)}, Body: ${errorBody(operation, hex(bytes))}`,
         });
       }

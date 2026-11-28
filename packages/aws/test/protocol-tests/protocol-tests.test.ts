@@ -21,7 +21,7 @@ import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 import { awsSpec, supportedProtocol } from "../../scripts/spec.ts";
 import * as Credentials from "../../src/credentials.ts";
 import * as Endpoint from "../../src/endpoint.ts";
-import { decodeCbor } from "../../src/protocols/cbor.ts";
+import { decodeCborOrThrow } from "../../src/protocols/cbor.ts";
 import * as Retry from "../../src/retry.ts";
 
 const dir = import.meta.dirname;
@@ -362,7 +362,7 @@ const formPairs = (body: string) =>
 
 /** A CBOR body as a value `toEqual` compares (an empty body is `undefined`). */
 const cborValue = async (bytes: Uint8Array): Promise<unknown> =>
-  bytes.length === 0 ? undefined : canonical(decodeCbor(bytes));
+  bytes.length === 0 ? undefined : canonical(decodeCborOrThrow(bytes));
 
 const expectBody = async (
   actual: string,

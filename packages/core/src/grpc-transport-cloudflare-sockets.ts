@@ -166,6 +166,7 @@ const chunkedDecoder = (): BodyDecoder => {
           const eol = indexOf(buf, CRLF);
           if (eol < 0) break;
           const size = Number.parseInt(decoder.decode(buf.subarray(0, eol)).split(";")[0]!, 16);
+          // oxlint-disable-next-line distilled/or-throw -- chunkedDecoder is private to this file, and `exchange` calls feed only inside `attempt` (Effect.try)
           if (Number.isNaN(size)) throw new ProtocolViolation("invalid chunk size");
           buf = buf.subarray(eol + 2);
           if (size === 0) state = "trailers";

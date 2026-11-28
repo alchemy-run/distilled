@@ -6,7 +6,7 @@ import {
   type HeaderField,
   type HpackDecoder,
   HpackError,
-  huffmanDecode,
+  huffmanDecodeOrThrow,
   makeDecoder,
 } from "../src/hpack.ts";
 import { HUFFMAN_CODES, STATIC_TABLE } from "./fixtures/rfc7541.ts";
@@ -89,7 +89,7 @@ const tableOf = (decoder: HpackDecoder): HeaderField[] => {
   const entries: HeaderField[] = [];
   for (let index = STATIC_TABLE.length + 1; ; index++) {
     try {
-      entries.push(decoder.decode(indexed(index))[0]!);
+      entries.push(decoder.decodeOrThrow(indexed(index))[0]!);
     } catch {
       return entries;
     }
@@ -126,10 +126,10 @@ describe("the static table", () => {
   test("every index reads as Appendix A lists it", () => {
     const decoder = makeDecoder();
     STATIC_TABLE.forEach((field, at) => {
-      expect(decoder.decode(indexed(at + 1))).toEqual([field]);
+      expect(decoder.decodeOrThrow(indexed(at + 1))).toEqual([field]);
     });
     // All of it in one block.
-    expect(decoder.decode(cat(...STATIC_TABLE.map((_, at) => indexed(at + 1))))).toEqual(
+    expect(decoder.decodeOrThrow(cat(...STATIC_TABLE.map((_, at) => indexed(at + 1))))).toEqual(
       STATIC_TABLE,
     );
   });
@@ -137,21 +137,23 @@ describe("the static table", () => {
   test("every index names a literal of each form", () => {
     for (const form of [incremental, without, never]) {
       STATIC_TABLE.forEach(([name], at) => {
-        expect(makeDecoder().decode(form(at + 1, `value ${at}`))).toEqual([[name, `value ${at}`]]);
+        expect(makeDecoder().decodeOrThrow(form(at + 1, `value ${at}`))).toEqual([
+          [name, `value ${at}`],
+        ]);
       });
     }
   });
 
   test("there is no index 0", () => {
-    refuses(() => makeDecoder().decode(hex("80")), "no header at index 0");
+    refuses(() => makeDecoder().decodeOrThrow(hex("80")), "no header at index 0");
   });
 
   test("an index past it reads the dynamic table, which starts empty", () => {
-    refuses(() => makeDecoder().decode(indexed(62)), "no header at index 62");
-    refuses(() => makeDecoder().decode(indexed(100_000)), "no header at index 100000");
-    refuses(() => makeDecoder().decode(incremental(62, "v")), "no header at index 62");
-    refuses(() => makeDecoder().decode(without(62, "v")), "no header at index 62");
-    refuses(() => makeDecoder().decode(never(62, "v")), "no header at index 62");
+    refuses(() => makeDecoder().decodeOrThrow(indexed(62)), "no header at index 62");
+    refuses(() => makeDecoder().decodeOrThrow(indexed(100_000)), "no header at index 100000");
+    refuses(() => makeDecoder().decodeOrThrow(incremental(62, "v")), "no header at index 62");
+    refuses(() => makeDecoder().decodeOrThrow(without(62, "v")), "no header at index 62");
+    refuses(() => makeDecoder().decodeOrThrow(never(62, "v")), "no header at index 62");
   });
 });
 
@@ -163,16 +165,19 @@ describe("RFC 7541 Appendix C", () => {
     expect(int(10, 5)).toEqual([0x0a]);
     expect(int(1337, 5)).toEqual([0x1f, 0x9a, 0x0a]);
     expect(int(42, 8)).toEqual([0x2a]);
-    expect(makeDecoder(10).decode(hex("2a"))).toEqual([]);
-    refuses(() => makeDecoder(9).decode(hex("2a")), "dynamic table size exceeds the limit");
-    expect(makeDecoder(1337).decode(hex("3f9a0a"))).toEqual([]);
-    refuses(() => makeDecoder(1336).decode(hex("3f9a0a")), "dynamic table size exceeds the limit");
+    expect(makeDecoder(10).decodeOrThrow(hex("2a"))).toEqual([]);
+    refuses(() => makeDecoder(9).decodeOrThrow(hex("2a")), "dynamic table size exceeds the limit");
+    expect(makeDecoder(1337).decodeOrThrow(hex("3f9a0a"))).toEqual([]);
+    refuses(
+      () => makeDecoder(1336).decodeOrThrow(hex("3f9a0a")),
+      "dynamic table size exceeds the limit",
+    );
   });
 
   test("C.2.1: a literal with indexing", () => {
     const decoder = makeDecoder();
     const block = hex("400a 6375 7374 6f6d 2d6b 6579 0d63 7573 746f 6d2d 6865 6164 6572");
-    expect(decoder.decode(block)).toEqual([["custom-key", "custom-header"]]);
+    expect(decoder.decodeOrThrow(block)).toEqual([["custom-key", "custom-header"]]);
     expect(tableOf(decoder)).toEqual([["custom-key", "custom-header"]]);
     expect(incremental("custom-key", "custom-header")).toEqual(block);
   });
@@ -180,7 +185,7 @@ describe("RFC 7541 Appendix C", () => {
   test("C.2.2: a literal without indexing", () => {
     const decoder = makeDecoder();
     const block = hex("040c 2f73 616d 706c 652f 7061 7468");
-    expect(decoder.decode(block)).toEqual([[":path", "/sample/path"]]);
+    expect(decoder.decodeOrThrow(block)).toEqual([[":path", "/sample/path"]]);
     expect(tableOf(decoder)).toEqual([]);
     expect(without(4, "/sample/path")).toEqual(block);
   });
@@ -188,27 +193,27 @@ describe("RFC 7541 Appendix C", () => {
   test("C.2.3: a literal never indexed", () => {
     const decoder = makeDecoder();
     const block = hex("1008 7061 7373 776f 7264 0673 6563 7265 74");
-    expect(decoder.decode(block)).toEqual([["password", "secret"]]);
+    expect(decoder.decodeOrThrow(block)).toEqual([["password", "secret"]]);
     expect(tableOf(decoder)).toEqual([]);
     expect(never("password", "secret")).toEqual(block);
   });
 
   test("C.2.4: an indexed field", () => {
     const decoder = makeDecoder();
-    expect(decoder.decode(hex("82"))).toEqual([[":method", "GET"]]);
+    expect(decoder.decodeOrThrow(hex("82"))).toEqual([[":method", "GET"]]);
     expect(tableOf(decoder)).toEqual([]);
   });
 
   const requests = (blocks: readonly [string, string, string]) => {
     const decoder = makeDecoder();
-    expect(decoder.decode(hex(blocks[0]))).toEqual([
+    expect(decoder.decodeOrThrow(hex(blocks[0]))).toEqual([
       [":method", "GET"],
       [":scheme", "http"],
       [":path", "/"],
       [":authority", "www.example.com"],
     ]);
     expect(tableOf(decoder)).toEqual([[":authority", "www.example.com"]]);
-    expect(decoder.decode(hex(blocks[1]))).toEqual([
+    expect(decoder.decodeOrThrow(hex(blocks[1]))).toEqual([
       [":method", "GET"],
       [":scheme", "http"],
       [":path", "/"],
@@ -219,7 +224,7 @@ describe("RFC 7541 Appendix C", () => {
       ["cache-control", "no-cache"],
       [":authority", "www.example.com"],
     ]);
-    expect(decoder.decode(hex(blocks[2]))).toEqual([
+    expect(decoder.decodeOrThrow(hex(blocks[2]))).toEqual([
       [":method", "GET"],
       [":scheme", "https"],
       [":path", "/index.html"],
@@ -252,7 +257,7 @@ describe("RFC 7541 Appendix C", () => {
   // The table holds 256 octets, so each response evicts.
   const responses = (blocks: readonly [string, string, string]) => {
     const decoder = makeDecoder(256);
-    expect(decoder.decode(hex(blocks[0]))).toEqual([
+    expect(decoder.decodeOrThrow(hex(blocks[0]))).toEqual([
       [":status", "302"],
       ["cache-control", "private"],
       ["date", "Mon, 21 Oct 2013 20:13:21 GMT"],
@@ -264,7 +269,7 @@ describe("RFC 7541 Appendix C", () => {
       ["cache-control", "private"],
       [":status", "302"],
     ]);
-    expect(decoder.decode(hex(blocks[1]))).toEqual([
+    expect(decoder.decodeOrThrow(hex(blocks[1]))).toEqual([
       [":status", "307"],
       ["cache-control", "private"],
       ["date", "Mon, 21 Oct 2013 20:13:21 GMT"],
@@ -276,7 +281,7 @@ describe("RFC 7541 Appendix C", () => {
       ["date", "Mon, 21 Oct 2013 20:13:21 GMT"],
       ["cache-control", "private"],
     ]);
-    expect(decoder.decode(hex(blocks[2]))).toEqual([
+    expect(decoder.decodeOrThrow(hex(blocks[2]))).toEqual([
       [":status", "200"],
       ["cache-control", "private"],
       ["date", "Mon, 21 Oct 2013 20:13:22 GMT"],
@@ -336,7 +341,7 @@ describe("RFC 7541 Appendix C", () => {
     ];
     for (const [text, coded] of strings) {
       expect(huffman(text)).toEqual(hex(coded));
-      expect(huffmanDecode(hex(coded))).toEqual(octets(text));
+      expect(huffmanDecodeOrThrow(hex(coded))).toEqual(octets(text));
     }
   });
 });
@@ -344,10 +349,10 @@ describe("RFC 7541 Appendix C", () => {
 describe("integers", () => {
   // A table size update reads a 5-bit prefix, and the limit tells its value.
   const reads = (bytes: string, value: number) => {
-    expect(makeDecoder(value).decode(hex(bytes))).toEqual([]);
+    expect(makeDecoder(value).decodeOrThrow(hex(bytes))).toEqual([]);
     if (value > 0) {
       refuses(
-        () => makeDecoder(value - 1).decode(hex(bytes)),
+        () => makeDecoder(value - 1).decodeOrThrow(hex(bytes)),
         "dynamic table size exceeds the limit",
       );
     }
@@ -379,25 +384,28 @@ describe("integers", () => {
 
   test("the test encoder writes what the decoder reads", () => {
     for (const value of [0, 30, 31, 32, 158, 159, 4096, 2 ** 31, 2 ** 35 + 30]) {
-      expect(makeDecoder(value).decode(resize(value))).toEqual([]);
+      expect(makeDecoder(value).decodeOrThrow(resize(value))).toEqual([]);
     }
   });
 
   test("a sixth octet of continuation is too large", () => {
-    refuses(() => makeDecoder().decode(hex("3f 80 80 80 80 80 01")), "integer is too large");
-    refuses(() => makeDecoder().decode(hex("ff 80 80 80 80 80 01")), "integer is too large");
-    refuses(() => makeDecoder().decode(hex("7f 80 80 80 80 80 01")), "integer is too large");
-    refuses(() => makeDecoder().decode(hex("0f 80 80 80 80 80 01")), "integer is too large");
-    refuses(() => makeDecoder().decode(hex("00 7f 80 80 80 80 80 01")), "integer is too large");
+    refuses(() => makeDecoder().decodeOrThrow(hex("3f 80 80 80 80 80 01")), "integer is too large");
+    refuses(() => makeDecoder().decodeOrThrow(hex("ff 80 80 80 80 80 01")), "integer is too large");
+    refuses(() => makeDecoder().decodeOrThrow(hex("7f 80 80 80 80 80 01")), "integer is too large");
+    refuses(() => makeDecoder().decodeOrThrow(hex("0f 80 80 80 80 80 01")), "integer is too large");
+    refuses(
+      () => makeDecoder().decodeOrThrow(hex("00 7f 80 80 80 80 80 01")),
+      "integer is too large",
+    );
   });
 
   test("a block that ends inside one is refused", () => {
     for (const bytes of ["3f", "3f 80", "3f ff ff ff ff", "3f 80 80 80 80 80"]) {
-      refuses(() => makeDecoder().decode(hex(bytes)), "header block ends inside an integer");
+      refuses(() => makeDecoder().decodeOrThrow(hex(bytes)), "header block ends inside an integer");
     }
     // An index, a name index of each prefix, and a string's length.
     for (const bytes of ["ff", "ff 80", "7f", "7f ff", "0f", "1f", "1f 80", "00 7f", "00 7f 80"]) {
-      refuses(() => makeDecoder().decode(hex(bytes)), "header block ends inside an integer");
+      refuses(() => makeDecoder().decodeOrThrow(hex(bytes)), "header block ends inside an integer");
     }
   });
 
@@ -405,54 +413,54 @@ describe("integers", () => {
     // Sixty-five entries, so the indices 62 to 126 exist.
     const decoder = makeDecoder(65 * 34);
     for (let at = 0; at < 65; at++) {
-      decoder.decode(incremental(String.fromCharCode(48 + at), ""));
+      decoder.decodeOrThrow(incremental(String.fromCharCode(48 + at), ""));
     }
     // Index 126 is the oldest, 62 the newest.
-    expect(decoder.decode(indexed(126))).toEqual([["0", ""]]);
-    expect(decoder.decode(indexed(62))).toEqual([["p", ""]]);
+    expect(decoder.decodeOrThrow(indexed(126))).toEqual([["0", ""]]);
+    expect(decoder.decodeOrThrow(indexed(62))).toEqual([["p", ""]]);
     // 63 is the limit of a 6-bit prefix, 15 of a 4-bit one.
     expect(incremental(63, "v").subarray(0, 2)).toEqual(hex("7f 00"));
     expect(without(15, "v").subarray(0, 2)).toEqual(hex("0f 00"));
     expect(never(126, "v").subarray(0, 2)).toEqual(hex("1f 6f"));
-    expect(decoder.decode(without(63, "v"))).toEqual([["o", "v"]]);
-    expect(decoder.decode(never(126, "v"))).toEqual([["0", "v"]]);
-    refuses(() => decoder.decode(indexed(127)), "no header at index 127");
-    expect(decoder.decode(incremental(63, "v"))).toEqual([["o", "v"]]);
+    expect(decoder.decodeOrThrow(without(63, "v"))).toEqual([["o", "v"]]);
+    expect(decoder.decodeOrThrow(never(126, "v"))).toEqual([["0", "v"]]);
+    refuses(() => decoder.decodeOrThrow(indexed(127)), "no header at index 127");
+    expect(decoder.decodeOrThrow(incremental(63, "v"))).toEqual([["o", "v"]]);
     // The new entry moved every other one up.
-    expect(decoder.decode(indexed(127))).toEqual([["0", ""]]);
-    refuses(() => decoder.decode(indexed(128)), "no header at index 128");
+    expect(decoder.decodeOrThrow(indexed(127))).toEqual([["0", ""]]);
+    refuses(() => decoder.decodeOrThrow(indexed(128)), "no header at index 128");
   });
 });
 
 describe("strings", () => {
   test("a name and a value may be empty", () => {
-    expect(makeDecoder().decode(hex("00 00 00"))).toEqual([["", ""]]);
-    expect(makeDecoder().decode(hex("00 80 80"))).toEqual([["", ""]]);
-    expect(makeDecoder().decode(without("name", ""))).toEqual([["name", ""]]);
-    expect(makeDecoder().decode(without(1, "", true))).toEqual([[":authority", ""]]);
+    expect(makeDecoder().decodeOrThrow(hex("00 00 00"))).toEqual([["", ""]]);
+    expect(makeDecoder().decodeOrThrow(hex("00 80 80"))).toEqual([["", ""]]);
+    expect(makeDecoder().decodeOrThrow(without("name", ""))).toEqual([["name", ""]]);
+    expect(makeDecoder().decodeOrThrow(without(1, "", true))).toEqual([[":authority", ""]]);
   });
 
   test("every octet is kept, one character each", () => {
     const all = String.fromCharCode(...Array.from({ length: 256 }, (_, octet) => octet));
-    expect(makeDecoder().decode(without("x", all))).toEqual([["x", all]]);
-    expect(makeDecoder().decode(without("x", all, true))).toEqual([["x", all]]);
-    expect(makeDecoder().decode(without(all, "x"))).toEqual([[all, "x"]]);
+    expect(makeDecoder().decodeOrThrow(without("x", all))).toEqual([["x", all]]);
+    expect(makeDecoder().decodeOrThrow(without("x", all, true))).toEqual([["x", all]]);
+    expect(makeDecoder().decodeOrThrow(without(all, "x"))).toEqual([[all, "x"]]);
   });
 
   test("a string of any length is read whole", () => {
     // Around the limits of the 7-bit length, and of the step it is read in.
     for (const length of [1, 126, 127, 128, 255, 8191, 8192, 8193, 16_384, 20_000]) {
       const text = Array.from({ length }, (_, at) => String.fromCharCode(97 + (at % 26))).join("");
-      expect(makeDecoder().decode(without("x", text))).toEqual([["x", text]]);
-      expect(makeDecoder().decode(without(text, text, true))).toEqual([[text, text]]);
+      expect(makeDecoder().decodeOrThrow(without("x", text))).toEqual([["x", text]]);
+      expect(makeDecoder().decodeOrThrow(without(text, text, true))).toEqual([[text, text]]);
     }
   });
 
   test("a name and a value may be coded differently", () => {
     const block = cat([0x00], str("custom-key", true), str("custom-value"));
-    expect(makeDecoder().decode(block)).toEqual([["custom-key", "custom-value"]]);
+    expect(makeDecoder().decodeOrThrow(block)).toEqual([["custom-key", "custom-value"]]);
     const other = cat([0x00], str("custom-key"), str("custom-value", true));
-    expect(makeDecoder().decode(other)).toEqual([["custom-key", "custom-value"]]);
+    expect(makeDecoder().decodeOrThrow(other)).toEqual([["custom-key", "custom-value"]]);
   });
 
   test("a block that ends before or inside one is refused", () => {
@@ -477,36 +485,39 @@ describe("strings", () => {
       "00 7f ff ff ff ff 7f",
     ];
     for (const bytes of cut) {
-      refuses(() => makeDecoder().decode(hex(bytes)), "header block ends inside a string");
+      refuses(() => makeDecoder().decodeOrThrow(hex(bytes)), "header block ends inside a string");
     }
   });
 
   test("a Huffman string that breaks its code is refused", () => {
-    refuses(() => makeDecoder().decode(hex("00 84 ffffffff 00")), "Huffman string contains EOS");
-    refuses(() => makeDecoder().decode(hex("00 81 00 00")), "invalid Huffman padding");
-    refuses(() => makeDecoder().decode(hex("00 00 82 1fff")), "invalid Huffman padding");
+    refuses(
+      () => makeDecoder().decodeOrThrow(hex("00 84 ffffffff 00")),
+      "Huffman string contains EOS",
+    );
+    refuses(() => makeDecoder().decodeOrThrow(hex("00 81 00 00")), "invalid Huffman padding");
+    refuses(() => makeDecoder().decodeOrThrow(hex("00 00 82 1fff")), "invalid Huffman padding");
   });
 });
 
 describe("Huffman decoding", () => {
   test("nothing is nothing", () => {
-    expect(huffmanDecode(new Uint8Array(0))).toEqual(new Uint8Array(0));
+    expect(huffmanDecodeOrThrow(new Uint8Array(0))).toEqual(new Uint8Array(0));
   });
 
   test("every octet has the code Appendix B gives it", () => {
     for (let octet = 0; octet < 256; octet++) {
-      expect(huffmanDecode(pack(huffmanBits([octet])))).toEqual(Uint8Array.of(octet));
+      expect(huffmanDecodeOrThrow(pack(huffmanBits([octet])))).toEqual(Uint8Array.of(octet));
     }
   });
 
   test("every octet after every other", () => {
     const up = Array.from({ length: 256 }, (_, octet) => octet);
-    expect(huffmanDecode(pack(huffmanBits(up)))).toEqual(Uint8Array.from(up));
+    expect(huffmanDecodeOrThrow(pack(huffmanBits(up)))).toEqual(Uint8Array.from(up));
     const down = up.toReversed();
-    expect(huffmanDecode(pack(huffmanBits(down)))).toEqual(Uint8Array.from(down));
+    expect(huffmanDecodeOrThrow(pack(huffmanBits(down)))).toEqual(Uint8Array.from(down));
     // Each octet next to one of each code length.
     const mixed = up.flatMap((octet) => [octet, 48, 255 - octet, 10]);
-    expect(huffmanDecode(pack(huffmanBits(mixed)))).toEqual(Uint8Array.from(mixed));
+    expect(huffmanDecodeOrThrow(pack(huffmanBits(mixed)))).toEqual(Uint8Array.from(mixed));
   });
 
   // "0" has a 5-bit code, so one to eight of them leave every length of padding.
@@ -519,7 +530,7 @@ describe("Huffman decoding", () => {
   test("padding is up to seven bits of ones", () => {
     expect(paddings.map((each) => each.padding).toSorted()).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
     for (const { count } of paddings) {
-      expect(huffmanDecode(pack(zeros(count)))).toEqual(octets("0".repeat(count)));
+      expect(huffmanDecodeOrThrow(pack(zeros(count)))).toEqual(octets("0".repeat(count)));
     }
   });
 
@@ -552,10 +563,10 @@ describe("Huffman decoding", () => {
         const bits = [...zeros(count), ...tail];
         const expected = reference(bits);
         if (expected === undefined) {
-          refuses(() => huffmanDecode(pack(bits)), "invalid Huffman padding");
+          refuses(() => huffmanDecodeOrThrow(pack(bits)), "invalid Huffman padding");
           refused++;
         } else {
-          expect(huffmanDecode(pack(bits))).toEqual(Uint8Array.from(expected));
+          expect(huffmanDecodeOrThrow(pack(bits))).toEqual(Uint8Array.from(expected));
           read++;
         }
       }
@@ -571,19 +582,22 @@ describe("Huffman decoding", () => {
       const bits = Array.from({ length: 16 }, (_, bit) => (octets >> (15 - bit)) & 1);
       const expected = reference(bits);
       if (expected === undefined) {
-        refuses(() => huffmanDecode(bytes), "invalid Huffman padding");
+        refuses(() => huffmanDecodeOrThrow(bytes), "invalid Huffman padding");
       } else {
-        expect(huffmanDecode(bytes)).toEqual(Uint8Array.from(expected));
+        expect(huffmanDecodeOrThrow(bytes)).toEqual(Uint8Array.from(expected));
       }
     }
   });
 
   test("padding of a whole octet or more is refused", () => {
-    refuses(() => huffmanDecode(hex("ff")), "invalid Huffman padding");
-    refuses(() => huffmanDecode(hex("ffff")), "invalid Huffman padding");
-    refuses(() => huffmanDecode(hex("ffffff")), "invalid Huffman padding");
+    refuses(() => huffmanDecodeOrThrow(hex("ff")), "invalid Huffman padding");
+    refuses(() => huffmanDecodeOrThrow(hex("ffff")), "invalid Huffman padding");
+    refuses(() => huffmanDecodeOrThrow(hex("ffffff")), "invalid Huffman padding");
     for (const { count } of paddings) {
-      refuses(() => huffmanDecode(cat(pack(zeros(count)), [0xff])), "invalid Huffman padding");
+      refuses(
+        () => huffmanDecodeOrThrow(cat(pack(zeros(count)), [0xff])),
+        "invalid Huffman padding",
+      );
     }
   });
 
@@ -591,30 +605,36 @@ describe("Huffman decoding", () => {
     // The first octet of codes of 13, 23 and 28 bits.
     for (const octet of [0, 1, 2]) {
       const bits = huffmanBits([octet]);
-      refuses(() => huffmanDecode(pack(bits.slice(0, 8))), "invalid Huffman padding");
+      refuses(() => huffmanDecodeOrThrow(pack(bits.slice(0, 8))), "invalid Huffman padding");
     }
   });
 
   test("EOS is refused wherever it stands", () => {
-    refuses(() => huffmanDecode(hex("ffffffff")), "Huffman string contains EOS");
-    refuses(() => huffmanDecode(pack(huffmanBits([256]))), "Huffman string contains EOS");
-    refuses(() => huffmanDecode(pack(huffmanBits([97, 256, 98]))), "Huffman string contains EOS");
-    refuses(() => huffmanDecode(pack(huffmanBits([97, 98, 256]))), "Huffman string contains EOS");
+    refuses(() => huffmanDecodeOrThrow(hex("ffffffff")), "Huffman string contains EOS");
+    refuses(() => huffmanDecodeOrThrow(pack(huffmanBits([256]))), "Huffman string contains EOS");
+    refuses(
+      () => huffmanDecodeOrThrow(pack(huffmanBits([97, 256, 98]))),
+      "Huffman string contains EOS",
+    );
+    refuses(
+      () => huffmanDecodeOrThrow(pack(huffmanBits([97, 98, 256]))),
+      "Huffman string contains EOS",
+    );
   });
 });
 
 describe("the dynamic table", () => {
   test("the newest entry is index 62", () => {
     const decoder = makeDecoder();
-    decoder.decode(cat(incremental("a", "1"), incremental("b", "2")));
-    decoder.decode(incremental("c", "3"));
+    decoder.decodeOrThrow(cat(incremental("a", "1"), incremental("b", "2")));
+    decoder.decodeOrThrow(incremental("c", "3"));
     expect(tableOf(decoder)).toEqual([
       ["c", "3"],
       ["b", "2"],
       ["a", "1"],
     ]);
     // An entry may be used in the block that adds it.
-    expect(decoder.decode(cat(incremental("d", "4"), indexed(62), indexed(63)))).toEqual([
+    expect(decoder.decodeOrThrow(cat(incremental("d", "4"), indexed(62), indexed(63)))).toEqual([
       ["d", "4"],
       ["d", "4"],
       ["c", "3"],
@@ -623,7 +643,7 @@ describe("the dynamic table", () => {
 
   test("the same field twice is two entries", () => {
     const decoder = makeDecoder();
-    decoder.decode(cat(incremental("a", "1"), incremental("a", "1")));
+    decoder.decodeOrThrow(cat(incremental("a", "1"), incremental("a", "1")));
     expect(tableOf(decoder)).toEqual([
       ["a", "1"],
       ["a", "1"],
@@ -632,7 +652,7 @@ describe("the dynamic table", () => {
 
   test("only a literal with indexing adds to it", () => {
     const decoder = makeDecoder();
-    decoder.decode(
+    decoder.decodeOrThrow(
       cat(without("a", "1"), never("b", "2"), without(1, "x"), never(1, "y"), indexed(2)),
     );
     expect(tableOf(decoder)).toEqual([]);
@@ -641,10 +661,10 @@ describe("the dynamic table", () => {
   test("an entry takes its name, its value and 32 octets", () => {
     // "ab" and "cde": 37 octets.
     const fits = makeDecoder(37);
-    fits.decode(incremental("ab", "cde"));
+    fits.decodeOrThrow(incremental("ab", "cde"));
     expect(tableOf(fits)).toEqual([["ab", "cde"]]);
     const tight = makeDecoder(36);
-    expect(tight.decode(incremental("ab", "cde"))).toEqual([["ab", "cde"]]);
+    expect(tight.decodeOrThrow(incremental("ab", "cde"))).toEqual([["ab", "cde"]]);
     expect(tableOf(tight)).toEqual([]);
   });
 
@@ -653,10 +673,10 @@ describe("the dynamic table", () => {
     // characters are forty-two.
     for (const text of ["0".repeat(12), "\u0001".repeat(12)]) {
       const fits = makeDecoder(12 + 12 + 32);
-      fits.decode(incremental(text, text, true));
+      fits.decodeOrThrow(incremental(text, text, true));
       expect(tableOf(fits)).toEqual([[text, text]]);
       const tight = makeDecoder(12 + 12 + 31);
-      tight.decode(incremental(text, text, true));
+      tight.decodeOrThrow(incremental(text, text, true));
       expect(tableOf(tight)).toEqual([]);
     }
   });
@@ -664,19 +684,19 @@ describe("the dynamic table", () => {
   test("an indexed name counts as the name's octets", () => {
     // ":authority" is ten octets.
     const fits = makeDecoder(10 + 3 + 32);
-    fits.decode(incremental(1, "abc"));
+    fits.decodeOrThrow(incremental(1, "abc"));
     expect(tableOf(fits)).toEqual([[":authority", "abc"]]);
     const tight = makeDecoder(10 + 3 + 31);
-    tight.decode(incremental(1, "abc"));
+    tight.decodeOrThrow(incremental(1, "abc"));
     expect(tableOf(tight)).toEqual([]);
     // A name from the dynamic table.
     const dynamic = makeDecoder(2 * (4 + 1 + 32));
-    dynamic.decode(cat(incremental("name", "1"), incremental(62, "2")));
+    dynamic.decodeOrThrow(cat(incremental("name", "1"), incremental(62, "2")));
     expect(tableOf(dynamic)).toEqual([
       ["name", "2"],
       ["name", "1"],
     ]);
-    dynamic.decode(incremental(62, "3"));
+    dynamic.decodeOrThrow(incremental(62, "3"));
     expect(tableOf(dynamic)).toEqual([
       ["name", "3"],
       ["name", "2"],
@@ -686,22 +706,22 @@ describe("the dynamic table", () => {
   test("a full table evicts its oldest entries", () => {
     // Three entries of 34 octets fit in 102.
     const decoder = makeDecoder(102);
-    decoder.decode(cat(incremental("a", "1"), incremental("b", "2"), incremental("c", "3")));
+    decoder.decodeOrThrow(cat(incremental("a", "1"), incremental("b", "2"), incremental("c", "3")));
     expect(tableOf(decoder)).toHaveLength(3);
-    decoder.decode(incremental("d", "4"));
+    decoder.decodeOrThrow(incremental("d", "4"));
     expect(tableOf(decoder)).toEqual([
       ["d", "4"],
       ["c", "3"],
       ["b", "2"],
     ]);
     // One of 68 octets takes the room of two.
-    decoder.decode(incremental("e", "5".repeat(35)));
+    decoder.decodeOrThrow(incremental("e", "5".repeat(35)));
     expect(tableOf(decoder)).toEqual([
       ["e", "5".repeat(35)],
       ["d", "4"],
     ]);
     // After an eviction the room is counted afresh.
-    decoder.decode(incremental("f", "6"));
+    decoder.decodeOrThrow(incremental("f", "6"));
     expect(tableOf(decoder)).toEqual([
       ["f", "6"],
       ["e", "5".repeat(35)],
@@ -710,34 +730,40 @@ describe("the dynamic table", () => {
 
   test("an entry larger than the table empties it", () => {
     const decoder = makeDecoder(102);
-    decoder.decode(cat(incremental("a", "1"), incremental("b", "2")));
-    expect(decoder.decode(incremental("big", "x".repeat(100)))).toEqual([["big", "x".repeat(100)]]);
+    decoder.decodeOrThrow(cat(incremental("a", "1"), incremental("b", "2")));
+    expect(decoder.decodeOrThrow(incremental("big", "x".repeat(100)))).toEqual([
+      ["big", "x".repeat(100)],
+    ]);
     expect(tableOf(decoder)).toEqual([]);
-    decoder.decode(incremental("c", "3"));
+    decoder.decodeOrThrow(incremental("c", "3"));
     expect(tableOf(decoder)).toEqual([["c", "3"]]);
   });
 
   test("an entry may be named after the one it evicts", () => {
     const decoder = makeDecoder(40);
-    decoder.decode(incremental("name", "1"));
-    expect(decoder.decode(incremental(62, "2"))).toEqual([["name", "2"]]);
+    decoder.decodeOrThrow(incremental("name", "1"));
+    expect(decoder.decodeOrThrow(incremental(62, "2"))).toEqual([["name", "2"]]);
     expect(tableOf(decoder)).toEqual([["name", "2"]]);
   });
 
   test("a table of no size holds nothing", () => {
     const decoder = makeDecoder(0);
-    expect(decoder.decode(incremental("a", "1"))).toEqual([["a", "1"]]);
+    expect(decoder.decodeOrThrow(incremental("a", "1"))).toEqual([["a", "1"]]);
     expect(tableOf(decoder)).toEqual([]);
-    expect(decoder.decode(resize(0))).toEqual([]);
-    refuses(() => decoder.decode(resize(1)), "dynamic table size exceeds the limit");
+    expect(decoder.decodeOrThrow(resize(0))).toEqual([]);
+    refuses(() => decoder.decodeOrThrow(resize(1)), "dynamic table size exceeds the limit");
   });
 
   test("the table is 4096 octets unless set", () => {
-    expect(makeDecoder().decode(hex("3f e1 1f"))).toEqual([]);
-    refuses(() => makeDecoder().decode(hex("3f e2 1f")), "dynamic table size exceeds the limit");
+    expect(makeDecoder().decodeOrThrow(hex("3f e1 1f"))).toEqual([]);
+    refuses(
+      () => makeDecoder().decodeOrThrow(hex("3f e2 1f")),
+      "dynamic table size exceeds the limit",
+    );
     // 120 entries of 34 octets fit, 121 do not.
     const decoder = makeDecoder();
-    for (let at = 0; at < 121; at++) decoder.decode(incremental("n", String.fromCharCode(at)));
+    for (let at = 0; at < 121; at++)
+      decoder.decodeOrThrow(incremental("n", String.fromCharCode(at)));
     const table = tableOf(decoder);
     expect(table).toHaveLength(120);
     expect(table[0]).toEqual(["n", String.fromCharCode(120)]);
@@ -746,49 +772,52 @@ describe("the dynamic table", () => {
 
   test("a size update shrinks the table, oldest entries first", () => {
     const decoder = makeDecoder(200);
-    decoder.decode(cat(incremental("a", "1"), incremental("b", "2"), incremental("c", "3")));
+    decoder.decodeOrThrow(cat(incremental("a", "1"), incremental("b", "2"), incremental("c", "3")));
     // Room for two entries of 34.
-    expect(decoder.decode(resize(68))).toEqual([]);
+    expect(decoder.decodeOrThrow(resize(68))).toEqual([]);
     expect(tableOf(decoder)).toEqual([
       ["c", "3"],
       ["b", "2"],
     ]);
-    decoder.decode(resize(67));
+    decoder.decodeOrThrow(resize(67));
     expect(tableOf(decoder)).toEqual([["c", "3"]]);
     // The smaller size holds for what follows.
-    decoder.decode(incremental("d", "4"));
+    decoder.decodeOrThrow(incremental("d", "4"));
     expect(tableOf(decoder)).toEqual([["d", "4"]]);
   });
 
   test("a size update to nothing empties the table, and a later one refills it", () => {
     const decoder = makeDecoder(200);
-    decoder.decode(cat(incremental("a", "1"), incremental("b", "2")));
-    decoder.decode(resize(0));
+    decoder.decodeOrThrow(cat(incremental("a", "1"), incremental("b", "2")));
+    decoder.decodeOrThrow(resize(0));
     expect(tableOf(decoder)).toEqual([]);
-    decoder.decode(incremental("c", "3"));
+    decoder.decodeOrThrow(incremental("c", "3"));
     expect(tableOf(decoder)).toEqual([]);
     // Back to the limit: what was evicted stays gone.
-    decoder.decode(cat(resize(200), incremental("d", "4")));
+    decoder.decodeOrThrow(cat(resize(200), incremental("d", "4")));
     expect(tableOf(decoder)).toEqual([["d", "4"]]);
     // Two updates may open a block: the smallest size, then the one to keep.
-    decoder.decode(cat(resize(0), resize(100), incremental("e", "5")));
+    decoder.decodeOrThrow(cat(resize(0), resize(100), incremental("e", "5")));
     expect(tableOf(decoder)).toEqual([["e", "5"]]);
   });
 
   test("a size update above the limit is refused", () => {
-    expect(makeDecoder(256).decode(resize(256))).toEqual([]);
-    refuses(() => makeDecoder(256).decode(resize(257)), "dynamic table size exceeds the limit");
+    expect(makeDecoder(256).decodeOrThrow(resize(256))).toEqual([]);
+    refuses(
+      () => makeDecoder(256).decodeOrThrow(resize(257)),
+      "dynamic table size exceeds the limit",
+    );
     // The limit is the setting, not the last update.
     const decoder = makeDecoder(256);
-    decoder.decode(resize(10));
-    expect(decoder.decode(resize(256))).toEqual([]);
-    refuses(() => decoder.decode(resize(257)), "dynamic table size exceeds the limit");
+    decoder.decodeOrThrow(resize(10));
+    expect(decoder.decodeOrThrow(resize(256))).toEqual([]);
+    refuses(() => decoder.decodeOrThrow(resize(257)), "dynamic table size exceeds the limit");
   });
 
   test("a size update after a field is refused", () => {
     for (const field of [indexed(2), incremental("a", "1"), without("a", "1"), never("a", "1")]) {
       refuses(
-        () => makeDecoder().decode(cat(field, resize(100))),
+        () => makeDecoder().decodeOrThrow(cat(field, resize(100))),
         "dynamic table size update after a header field",
       );
     }
@@ -797,7 +826,7 @@ describe("the dynamic table", () => {
   test("each connection has its own table", () => {
     const one = makeDecoder();
     const other = makeDecoder();
-    one.decode(incremental("a", "1"));
+    one.decodeOrThrow(incremental("a", "1"));
     expect(tableOf(one)).toEqual([["a", "1"]]);
     expect(tableOf(other)).toEqual([]);
   });
@@ -805,12 +834,12 @@ describe("the dynamic table", () => {
 
 describe("decoding", () => {
   test("an empty block has no fields", () => {
-    expect(makeDecoder().decode(new Uint8Array(0))).toEqual([]);
+    expect(makeDecoder().decodeOrThrow(new Uint8Array(0))).toEqual([]);
   });
 
   test("a block is read from where its view starts", () => {
     const block = cat([0xff, 0xff], indexed(2), without("a", "1"), [0xff]);
-    expect(makeDecoder().decode(block.subarray(2, block.length - 1))).toEqual([
+    expect(makeDecoder().decodeOrThrow(block.subarray(2, block.length - 1))).toEqual([
       [":method", "GET"],
       ["a", "1"],
     ]);
@@ -828,7 +857,7 @@ describe("decoding", () => {
       indexed(62),
       indexed(63),
     );
-    expect(decoder.decode(block)).toEqual([
+    expect(decoder.decodeOrThrow(block)).toEqual([
       [":method", "POST"],
       ["x-one", "1"],
       ["x-one", "2"],
@@ -884,9 +913,9 @@ describe("encoding", () => {
       expect(block.subarray(0, 3)).toEqual(hex("00 01 6e"));
       expect(block.subarray(3, block.length - length)).toEqual(hex(prefix));
       expect(block.subarray(block.length - length)).toEqual(octets(value));
-      expect(makeDecoder().decode(block)).toEqual([["n", value]]);
+      expect(makeDecoder().decodeOrThrow(block)).toEqual([["n", value]]);
       // And as a name.
-      expect(makeDecoder().decode(encode([[value, "x"]]))).toEqual([[value, "x"]]);
+      expect(makeDecoder().decodeOrThrow(encode([[value, "x"]]))).toEqual([[value, "x"]]);
     }
   });
 
@@ -894,7 +923,7 @@ describe("encoding", () => {
     expect(encode([["grpc-message", "café"]])).toEqual(
       cat([0x00], str("grpc-message"), [5], octets("caf"), [0xc3, 0xa9]),
     );
-    const [field] = makeDecoder().decode(encode([["grpc-message", "café ☕ 𝄞"]]));
+    const [field] = makeDecoder().decodeOrThrow(encode([["grpc-message", "café ☕ 𝄞"]]));
     // One character per octet, so UTF-8 comes back as its octets.
     expect(Buffer.from(field![1], "latin1").toString("utf8")).toBe("café ☕ 𝄞");
   });
@@ -913,10 +942,10 @@ describe("encoding", () => {
       ["x-repeat", "2"],
     ];
     const decoder = makeDecoder();
-    expect(decoder.decode(encode(fields))).toEqual(fields);
+    expect(decoder.decodeOrThrow(encode(fields))).toEqual(fields);
     expect(tableOf(decoder)).toEqual([]);
     // Every field of the static table.
-    expect(makeDecoder().decode(encode(STATIC_TABLE))).toEqual(STATIC_TABLE);
+    expect(makeDecoder().decodeOrThrow(encode(STATIC_TABLE))).toEqual(STATIC_TABLE);
   });
 
   test("is what node:http2 reads", async () => {
@@ -1010,7 +1039,7 @@ describe("encoding", () => {
     const sorted = (fields: ReadonlyArray<HeaderField>) =>
       fields.toSorted((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
     blocks.forEach((block, at) => {
-      expect(sorted(decoder.decode(block))).toEqual(sorted(sent[at]!));
+      expect(sorted(decoder.decodeOrThrow(block))).toEqual(sorted(sent[at]!));
     });
     // nghttp2 indexed what repeats, so later blocks are shorter and the
     // table is in use.

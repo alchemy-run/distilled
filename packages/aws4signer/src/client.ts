@@ -108,6 +108,7 @@ const withSignedUrl = (
   signedUrl: string,
 ): HttpClientRequest.HttpClientRequest =>
   HttpClientRequest.setUrl(
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `url` is the request's parsed URL: for the http(s) URL of a request to sign, origin + pathname is a URL again
     HttpClientRequest.setUrl(request, new URL(url.origin + url.pathname)),
     signedUrl,
   );

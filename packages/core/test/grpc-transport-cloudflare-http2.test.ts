@@ -31,10 +31,10 @@ import {
 } from "../src/grpc-transport.ts";
 import { encode, type HeaderField, HpackError, makeDecoder } from "../src/hpack.ts";
 import {
-  decodeMessage,
-  encodeMessage,
+  decodeMessageOrThrow,
+  encodeMessageOrThrow,
   frame,
-  unframe,
+  unframeOrThrow,
   type ProtoDescriptors,
 } from "../src/protobuf.ts";
 import { grpcProtocol } from "../src/protocol-grpc.ts";
@@ -114,8 +114,8 @@ server.on("stream", (stream: http2.ServerHttp2Stream, headers) => {
   const chunks: Buffer[] = [];
   stream.on("data", (chunk: Buffer) => chunks.push(chunk));
   stream.on("end", async () => {
-    const [payload] = unframe(new Uint8Array(Buffer.concat(chunks)));
-    const { count, padding } = decodeMessage(descriptors, "test.Req", payload!) as {
+    const [payload] = unframeOrThrow(new Uint8Array(Buffer.concat(chunks)));
+    const { count, padding } = decodeMessageOrThrow(descriptors, "test.Req", payload!) as {
       count: number;
       padding?: string;
     };
@@ -140,7 +140,7 @@ server.on("stream", (stream: http2.ServerHttp2Stream, headers) => {
     trailers(count === 7 ? { "grpc-status": "5", "grpc-message": "gone" } : { "grpc-status": "0" });
     for (let i = 1; i <= Math.max(count, 1); i++) {
       const bytes = frame(
-        encodeMessage(descriptors, "test.Reply", {
+        encodeMessageOrThrow(descriptors, "test.Reply", {
           index: i,
           // A reply larger than a frame and, over a few, than the window.
           padding: count === 3 ? "r".repeat(700_000) : "",
@@ -480,7 +480,7 @@ const updates = (peer: Peer) =>
     .map((f) => [f.stream, new DataView(f.payload.buffer).getUint32(0)]);
 /** The request's header fields, as the server decodes them. */
 const requestFields = (peer: Peer) =>
-  makeDecoder().decode(
+  makeDecoder().decodeOrThrow(
     cat(
       ...peer.frames
         .filter((f) => f.type === HEADERS || f.type === CONTINUATION)
@@ -2308,7 +2308,7 @@ describe("the gRPC transport in scope", () => {
   });
 
   test("a call under the layer goes through the socket, not the caller's HttpClient", async () => {
-    const reply = frame(encodeMessage(descriptors, "test.Reply", { index: 9 }));
+    const reply = frame(encodeMessageOrThrow(descriptors, "test.Reply", { index: 9 }));
     const peer = new Peer([
       cat(
         head([
@@ -2355,8 +2355,8 @@ describe("the gRPC transport in scope", () => {
     });
     expect(fields["content-type"]).toContain("application/grpc");
     // The request is one gRPC frame of the message.
-    const [message] = unframe(cat(...dataFrames(peer).map((f) => f.payload)));
-    expect(decodeMessage(descriptors, "test.Req", message!)).toMatchObject({ count: 2 });
+    const [message] = unframeOrThrow(cat(...dataFrames(peer).map((f) => f.payload)));
+    expect(decodeMessageOrThrow(descriptors, "test.Req", message!)).toMatchObject({ count: 2 });
     expect(dataFrames(peer).at(-1)!.flags).toBe(END_STREAM);
     expect(peer.closes).toBe(1);
   });

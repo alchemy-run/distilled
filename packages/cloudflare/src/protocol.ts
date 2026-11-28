@@ -131,7 +131,8 @@ const envelopeErrorMessage = (
   // `errors` entries that carry no message: keep their other fields.
   const detail =
     rawErrors.length > 0
-      ? JSON.stringify(rawErrors)
+      ? // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `rawErrors` is part of what `JSON.parse` returned in `decode`, and parsed JSON always serializes
+        JSON.stringify(rawErrors)
       : Array.isArray(json.errors) || text.trim().length === 0
         ? ""
         : text;

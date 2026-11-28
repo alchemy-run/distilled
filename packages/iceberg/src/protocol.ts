@@ -60,6 +60,7 @@ export const baseUrlFor = (creds: Checked<Config>, uri: string): string => {
   const root = `${creds.uri.replace(/\/+$/, "")}/v1`;
   const prefix = creds.prefix?.replace(/^\/+|\/+$/g, "");
   if (UNPREFIXED_ROUTES.has(uri) || !prefix) return root;
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `check` (./credentials.ts) refused a prefix with a lone surrogate when the layer was built
   return `${root}/${prefix.replace(UNSAFE_PATH_CHARACTER, encodeURIComponent)}`;
 };
 

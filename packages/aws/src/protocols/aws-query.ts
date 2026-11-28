@@ -94,8 +94,10 @@ export const awsQueryProtocol: ProtocolImpl = (operation: Operation): ProtocolHa
 
     // Build form-urlencoded body
     const params: string[] = [];
+    /* oxlint-disable distilled/no-unguarded-throwing-builtin -- the action and the version are the SDK's own names */
     params.push(`Action=${encodeURIComponent(action)}`);
     params.push(`Version=${encodeURIComponent(version)}`);
+    /* oxlint-enable distilled/no-unguarded-throwing-builtin */
 
     // Serialize already-encoded input members
     serializeMembers(inputAst, encoded as Record<string, unknown>, "", params);
@@ -246,6 +248,7 @@ function getQueryKeyName(prop: AST.PropertySignature): string {
   return String(prop.name);
 }
 
+/* oxlint-disable distilled/no-unguarded-throwing-builtin -- serializeMembers and serializeValue are private to this file and run only in serialize, under the plain try of the request builder's callers (encodeWith, serializeEffect): a value encodeURIComponent cannot encode fails the call with InvalidInput */
 /**
  * Serialize object members to query parameters
  */
@@ -347,6 +350,7 @@ function serializeValue(
     serializeMembers(ast, value as Record<string, unknown>, key, params);
   }
 }
+/* oxlint-enable distilled/no-unguarded-throwing-builtin */
 
 // =============================================================================
 // XML Deserialization

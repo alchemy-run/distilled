@@ -8,7 +8,7 @@
  */
 import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
 import { encodeEvent } from "@distilled.cloud/s3/eventstream/codec";
-import { serializeInputEvent } from "@distilled.cloud/s3/eventstream/serializer";
+import { serializeInputEventOrThrow } from "@distilled.cloud/s3/eventstream/serializer";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -164,7 +164,7 @@ describe("Bedrock ConverseStream", () => {
             metrics: { latencyMs: 120 },
           },
         },
-      ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
+      ].map((event) => Effect.runPromise(encodeEvent(serializeInputEventOrThrow(event)))),
     );
   });
   const bedrock = (end: "close" | "error" = "close") =>

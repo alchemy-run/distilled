@@ -56,7 +56,7 @@ import {
   isStringAST,
   unwrapUnion,
 } from "../util/ast.ts";
-import { fromBase64, toBase64 } from "../util/base64.ts";
+import { fromBase64OrThrow, toBase64 } from "../util/base64.ts";
 import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { headerReader, notBase64 } from "../util/headers.ts";
@@ -74,7 +74,7 @@ import {
   elementText,
   escapeXml,
   parseXml,
-  parseXmlSync,
+  parseXmlOrThrow,
   readXml,
   readXmlMap,
   unwrapArrayValue,
@@ -210,7 +210,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         }
       } else if (payloadIsBlob) {
         // The encoder made the bytes base64; the body is the bytes.
-        request.body = fromBase64(payloadValue as string);
+        // oxlint-disable-next-line distilled/or-throw -- serialize runs under the plain try of the request builder's callers (encodeWith, serializeEffect): what throws here fails the call with InvalidInput
+        request.body = fromBase64OrThrow(payloadValue as string);
         if (request.headers["Content-Type"] === undefined) {
           request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
         }
@@ -299,7 +300,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
           const text = new TextDecoder().decode(payload);
           if (!text) return {};
           try {
-            return parseXmlSync(text);
+            // oxlint-disable-next-line distilled/or-throw -- a plain try: Effect.try would add an Effect step to every event of a stream
+            return parseXmlOrThrow(text);
           } catch {
             // Not XML: the event carries the text as is.
             return { payload: text };

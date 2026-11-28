@@ -64,7 +64,7 @@ interface Element {
  * Throws XmlParseError for malformed input or exceeded limits.
  * The iterative scanner allocates no Effects while traversing the document.
  */
-export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObject {
+export function parseXmlOrThrow(xml: string, options: XmlParseOptions = {}): XmlObject {
   let pos = xml.charCodeAt(0) === 0xfeff ? 1 : 0;
   const start = pos;
   const maxDepth = options.maxDepth ?? 256;
@@ -306,7 +306,8 @@ export const parseXml = (
 ): Effect.Effect<XmlObject, XmlParseError> =>
   Effect.suspend(() => {
     try {
-      return Effect.succeed(parseXmlSync(xml, options));
+      // oxlint-disable-next-line distilled/or-throw -- per-call path (every XML response): `Effect.suspend` with this plain `try` is one step, and what the parser throws fails as `XmlParseError`
+      return Effect.succeed(parseXmlOrThrow(xml, options));
     } catch (error) {
       if (error instanceof XmlParseError) return Effect.fail(error);
       // Anything else the parser throws (a stack overflow on deep nesting,

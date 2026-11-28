@@ -114,6 +114,7 @@ export const labelEncodingSymbol = /*@__PURE__*/ Symbol.for(
 /** Preserve selected RFC 3986 pchar delimiters inside a single URI label. */
 export const LabelEncoding = (options: { readonly preserve: string }) => {
   if (!/^[!$&'()*+,;=:@]*$/.test(options.preserve)) {
+    // oxlint-disable-next-line distilled/or-throw -- generated code calls this while its module is defined, in no Effect: a bad `preserve` is the generator's own data, an SDK bug
     throw new TypeError("LabelEncoding can preserve only URI path-segment delimiters");
   }
   return makeAnnotation(labelEncodingSymbol, options.preserve);

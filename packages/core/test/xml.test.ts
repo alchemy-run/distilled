@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import * as Effect from "effect/Effect";
 import { describe, it } from "vitest";
-import { escapeXml, parseXml, parseXmlSync, XmlParseError } from "../src/xml.ts";
+import { escapeXml, parseXml, parseXmlOrThrow, XmlParseError } from "../src/xml.ts";
 import {
   parseXmlReference,
   XmlParseError as ReferenceXmlParseError,
@@ -10,16 +10,16 @@ import fixtures from "./fixtures/xml/upstream-validator.json" with { type: "json
 
 function parse(xml: string) {
   // Compare the wire values independently of the null prototypes used for safety.
-  return JSON.parse(JSON.stringify(parseXmlSync(xml)));
+  return JSON.parse(JSON.stringify(parseXmlOrThrow(xml)));
 }
 
 describe("upstream fast-xml-parser validation corpus", () => {
   for (const [index, fixture] of fixtures.entries()) {
     it(`${index}: ${fixture.name}`, () => {
       if (fixture.parserValid ?? fixture.valid) {
-        assert.doesNotThrow(() => parseXmlSync(fixture.xml));
+        assert.doesNotThrow(() => parseXmlOrThrow(fixture.xml));
       } else {
-        assert.throws(() => parseXmlSync(fixture.xml), XmlParseError);
+        assert.throws(() => parseXmlOrThrow(fixture.xml), XmlParseError);
       }
     });
   }
@@ -112,7 +112,7 @@ describe("XML object format", () => {
   });
 
   it("stores prototype-related names as own data properties", () => {
-    const result = parseXmlSync(
+    const result = parseXmlOrThrow(
       "<__proto__><constructor>one</constructor><constructor>two</constructor><__proto__>safe</__proto__><toString/></__proto__>",
     );
     const root = result.__proto__;
@@ -209,7 +209,7 @@ describe("malformed and unsupported XML", () => {
   for (const xml of invalid) {
     it(`rejects ${JSON.stringify(xml)}`, () => {
       assert.throws(
-        () => parseXmlSync(xml),
+        () => parseXmlOrThrow(xml),
         (error) => {
           assert.ok(error instanceof XmlParseError);
           assert.ok(error.offset >= 0 && error.offset <= xml.length);
@@ -222,7 +222,7 @@ describe("malformed and unsupported XML", () => {
   it("reports original input offsets and CRLF-aware line numbers", () => {
     const xml = "<R>\r\n&bad;</R>";
     assert.throws(
-      () => parseXmlSync(xml),
+      () => parseXmlOrThrow(xml),
       (error) => {
         assert.ok(error instanceof XmlParseError);
         assert.equal(error.offset, 5);
@@ -234,15 +234,15 @@ describe("malformed and unsupported XML", () => {
   });
 
   it("enforces depth and input length limits", () => {
-    assert.doesNotThrow(() => parseXmlSync("<a><b/></a>", { maxDepth: 2 }));
-    assert.throws(() => parseXmlSync("<a><b/></a>", { maxDepth: 1 }), XmlParseError);
-    assert.doesNotThrow(() => parseXmlSync("<a/>", { maxLength: 4 }));
-    assert.throws(() => parseXmlSync("<a/>", { maxLength: 3 }), XmlParseError);
-    assert.throws(() => parseXmlSync("<a/>", { maxDepth: NaN }), XmlParseError);
-    assert.throws(() => parseXmlSync("<a/>", { maxLength: -1 }), XmlParseError);
+    assert.doesNotThrow(() => parseXmlOrThrow("<a><b/></a>", { maxDepth: 2 }));
+    assert.throws(() => parseXmlOrThrow("<a><b/></a>", { maxDepth: 1 }), XmlParseError);
+    assert.doesNotThrow(() => parseXmlOrThrow("<a/>", { maxLength: 4 }));
+    assert.throws(() => parseXmlOrThrow("<a/>", { maxLength: 3 }), XmlParseError);
+    assert.throws(() => parseXmlOrThrow("<a/>", { maxDepth: NaN }), XmlParseError);
+    assert.throws(() => parseXmlOrThrow("<a/>", { maxLength: -1 }), XmlParseError);
     const nested = "<a>".repeat(2_000) + "</a>".repeat(2_000);
-    assert.throws(() => parseXmlSync(nested), XmlParseError);
-    assert.doesNotThrow(() => parseXmlSync(nested, { maxDepth: 2_000 }));
+    assert.throws(() => parseXmlOrThrow(nested), XmlParseError);
+    assert.doesNotThrow(() => parseXmlOrThrow(nested, { maxDepth: 2_000 }));
   });
 
   it("exposes parser failures through Effect's typed channel", () => {
@@ -274,7 +274,7 @@ describe("parser fast paths", () => {
   };
   const same = (xml: string) =>
     assert.deepEqual(
-      outcome(parseXmlSync, xml),
+      outcome(parseXmlOrThrow, xml),
       outcome(parseXmlReference, xml),
       JSON.stringify(xml),
     );
@@ -370,7 +370,7 @@ describe("parser fast paths", () => {
     for (const maxDepth of [1, 2, 3]) {
       const xml = "<a><b><c/></b></a>";
       assert.deepEqual(
-        outcome((x) => parseXmlSync(x, { maxDepth }), xml),
+        outcome((x) => parseXmlOrThrow(x, { maxDepth }), xml),
         outcome((x) => parseXmlReference(x, { maxDepth }), xml),
       );
     }

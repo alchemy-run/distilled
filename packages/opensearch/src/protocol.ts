@@ -154,7 +154,9 @@ const signSigV4 = (
       secretAccessKey: auth.credentials.secretAccessKey,
       sessionToken: auth.credentials.sessionToken,
     });
-    const unsigned = HttpClientRequest.setUrl(request, new URL(url.origin + url.pathname));
+    // The signed URL carries the query, so the request's own is dropped.
+    url.search = "";
+    const unsigned = HttpClientRequest.setUrl(request, url);
     return HttpClientRequest.setHeaders(
       HttpClientRequest.setUrl(unsigned, signed.url),
       signed.headers,

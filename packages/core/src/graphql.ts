@@ -292,6 +292,7 @@ const fieldResult = (parent: TypeRef, field: FieldMeta): TypeRef => {
 };
 
 const unwrapList = (typeRef: TypeRef): TypeRef => {
+  // oxlint-disable-next-line distilled/or-throw -- `Query.filter` and `Query.map` build a plan synchronously, in no Effect; their types take only a list Query, so only a call that bypasses the types gets here
   if (typeRef.tag !== "list") throw new GqlError("expected a list Query");
   return typeRef.of;
 };
@@ -743,6 +744,7 @@ export const rootLeaf = <Value, Error = never>(
 const printExpr = (expr: Expr): string => {
   switch (expr._tag) {
     case "Root":
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- arguments JSON cannot carry (a BigInt, an object that contains itself) throw here, as on main; no request can send them either, and `Query.fn` fails with `GqlError` for them
       return expr.args ? `${expr.field}(${JSON.stringify(expr.args)})` : expr.field;
     case "Prop":
       return `${printExpr(expr.parent)}.${expr.field.name}`;
@@ -770,6 +772,7 @@ const emptySel = (field: string): SelNode => ({
   isList: false,
 });
 
+/* oxlint-disable distilled/or-throw, distilled/no-unguarded-throwing-builtin -- the plan compiler and interpreter (down to `interpretValueSync`) throw `GqlError`, or what `JSON.stringify` throws on an argument; they are private to this file and run only inside `compiling`, which fails with `GqlError` */
 const stableStringify = (value: unknown): string => {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
@@ -1256,6 +1259,7 @@ const interpretValueSync = (
   }
   return plan;
 };
+/* oxlint-enable distilled/or-throw, distilled/no-unguarded-throwing-builtin */
 
 const interpretPlan = (
   plan: unknown,
@@ -1680,6 +1684,7 @@ export const queryFn =
 // `pageInfo { hasNextPage endCursor }` next to `edges`, and stops when
 // `hasNextPage` is false.
 
+/* oxlint-disable distilled/or-throw -- `connectionOf` and `withCursor` throw `GqlError`; they are private to this file and run only inside `compiling`, which fails with it */
 /** The connection a paged query reads, below any list-level Map/Filter. */
 const connectionOf = (expr: Expr): RootExpr | PropExpr => {
   const base = graphqlBase(expr);
@@ -1712,13 +1717,15 @@ const withCursor = (expr: Expr, connection: Expr, after: string | undefined): Ex
       throw new GqlError(`withCursor: ${expr._tag}`);
   }
 };
+/* oxlint-enable distilled/or-throw */
 
+/** The value at `path`, or the {@link GqlError} for a path that crosses a list. */
 const readPath = (data: unknown, path: Path): unknown => {
   let current = data;
   for (const segment of path) {
     if (current == null) return undefined;
     if (Array.isArray(current)) {
-      throw new GqlError("Query.pages cannot page a connection inside a list");
+      return new GqlError("Query.pages cannot page a connection inside a list");
     }
     current = (current as Record<string, unknown>)[segment];
   }
@@ -1759,6 +1766,9 @@ const fetchPage = <Item>(
       | undefined;
     const cursor = info?.endCursor ?? null;
     if (info?.hasNextPage !== true) {
+      // A path that crosses a list: `readPath` returned its `GqlError`,
+      // which has no `hasNextPage`.
+      if (info instanceof GqlError) return yield* info;
       return [items ?? [], Option.none<PageState>()] as const;
     }
     if (cursor === null || cursor === state.after || state.seen.has(cursor)) {

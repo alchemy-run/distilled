@@ -319,6 +319,7 @@ const signedRequest = (signing: SigningContext, nonce: string) =>
     const jws = yield* signRequest({ ...signing, nonce });
     return HttpClientRequest.post(signing.url).pipe(
       HttpClientRequest.setHeader("Accept", JOSE_ACCEPT),
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `jws` is the three base64url strings that signRequest built
       HttpClientRequest.bodyText(JSON.stringify(jws), "application/jose+json"),
     );
   });

@@ -109,6 +109,7 @@ const toUrlEncodedBody = (
   if (body._tag !== "Uint8Array" || !/json/i.test(body.contentType ?? "")) {
     return request;
   }
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the body is the JSON text that `buildRequest` wrote just before
   const parsed = JSON.parse(new TextDecoder().decode(body.body as Uint8Array)) as Record<
     string,
     unknown
@@ -116,6 +117,7 @@ const toUrlEncodedBody = (
   const entries: Array<[string, string]> = [];
   for (const [k, v] of Object.entries(parsed)) {
     if (v === undefined || v === null) continue;
+    // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- `v` is part of what `JSON.parse` returned above, and parsed JSON always serializes
     entries.push([k, typeof v === "object" ? JSON.stringify(v) : String(v)]);
   }
   return HttpClientRequestModule.bodyUrlParams(request, entries);

@@ -14,7 +14,7 @@ import {
   type EventMemberBindings,
   type EventPayloadKind,
 } from "../traits.ts";
-import { encode } from "../util/codec.ts";
+import { encodeOrThrow } from "../util/codec.ts";
 import {
   encodeEvent,
   EventStreamEncodeError,
@@ -96,7 +96,7 @@ function extractEventTypeAndPayload(event: InputEvent): {
  * @param contentType - The content type for the payload (default: application/json)
  * @returns A MessageEvent ready for wire serialization
  */
-export const serializeInputEvent = (
+export const serializeInputEventOrThrow = (
   event: InputEvent,
   contentType: string = "application/json",
 ): MessageEvent => {
@@ -134,7 +134,8 @@ export const serializeInputEventStream = <E extends InputEvent>(
 ): Stream.Stream<Uint8Array, unknown> => {
   // Convert typed events to StreamEvents, then encode to bytes
   const byteStream = events.pipe(
-    Stream.map((event) => serializeInputEvent(event, contentType)),
+    // oxlint-disable-next-line distilled/or-throw -- the frames are the request body of a call: a throw here fails that call (the defect boundary), and Effect.try would add an Effect step to every event
+    Stream.map((event) => serializeInputEventOrThrow(event, contentType)),
     Stream.mapEffect(encodeEvent),
   );
 
@@ -163,6 +164,7 @@ const toBytes = (value: unknown): Uint8Array => {
 const INT32_MIN = -(2 ** 31);
 const INT32_MAX = 2 ** 31 - 1;
 
+/* oxlint-disable distilled/no-unguarded-throwing-builtin -- toHeaderValue and buildInputEventMessage are private to this file and run only inside the Effect.try of serializeInputEventStreamWithSchema, which fails with EventStreamEncodeError */
 /** Map an `eventHeader` member value to a typed event stream header. */
 const toHeaderValue = (value: unknown): HeaderValue | undefined => {
   if (typeof value === "string") return { type: HeaderType.String, value };
@@ -243,6 +245,7 @@ const buildInputEventMessage = (
     headers,
   };
 };
+/* oxlint-enable distilled/no-unguarded-throwing-builtin */
 
 /**
  * Serialize an input event stream using its event union schema.
@@ -286,25 +289,27 @@ export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
       // Raw (blob/string) payload frames need no wire form; skip encoding so
       // large audio chunks are not base64-encoded only to be discarded.
       const needsWire = !binding?.payload || binding.payload.kind === "structure";
-      const wire =
-        eventAst && needsWire
-          ? Effect.try({
-              try: () => encode(eventAst, { [eventType]: member }) as unknown,
-              catch: (cause) =>
-                new EventStreamEncodeError({
-                  message: `event ${eventType} does not match its schema: ${cause instanceof Error ? cause.message : String(cause)}`,
-                }),
-            })
-          : Effect.succeed(undefined as unknown);
-      return Effect.map(wire, (encoded) => {
-        const wireMember =
-          encoded !== undefined &&
-          encoded !== null &&
-          typeof encoded === "object" &&
-          eventType in encoded
-            ? ((encoded as Record<string, unknown>)[eventType] as Record<string, unknown>)
-            : member;
-        return buildInputEventMessage(eventType, member, wireMember, binding);
+      // One Effect.try for the encode and the frame: a value neither can
+      // carry (a `BigInt`, a header number that is not finite) fails as well.
+      return Effect.try({
+        try: () => {
+          const encoded =
+            eventAst && needsWire
+              ? (encodeOrThrow(eventAst, { [eventType]: member }) as unknown)
+              : undefined;
+          const wireMember =
+            encoded !== undefined &&
+            encoded !== null &&
+            typeof encoded === "object" &&
+            eventType in encoded
+              ? ((encoded as Record<string, unknown>)[eventType] as Record<string, unknown>)
+              : member;
+          return buildInputEventMessage(eventType, member, wireMember, binding);
+        },
+        catch: (cause) =>
+          new EventStreamEncodeError({
+            message: `event ${eventType} does not match its schema: ${cause instanceof Error ? cause.message : String(cause)}`,
+          }),
       });
     }),
     Stream.mapEffect(encodeEvent),
@@ -322,7 +327,7 @@ export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
  * @param contentType - The content type for binary payloads (default: application/octet-stream)
  * @returns A MessageEvent ready for wire serialization
  */
-export const serializeInputEventWithPayload = (
+export const serializeInputEventWithPayloadOrThrow = (
   event: InputEvent,
   payloadMemberName: string,
   contentType: string = "application/octet-stream",
@@ -381,10 +386,12 @@ export const serializeInputEventStreamWithPayloads = <E extends InputEvent>(
       // Extract event type for lookup (handles both _tag and Smithy formats)
       const { eventType } = extractEventTypeAndPayload(event);
       const payloadMember = eventPayloadMap[eventType];
+      /* oxlint-disable distilled/or-throw -- the frames are the request body of a call: a throw here fails that call (the defect boundary), and Effect.try would add an Effect step to every event */
       if (payloadMember) {
-        return serializeInputEventWithPayload(event, payloadMember);
+        return serializeInputEventWithPayloadOrThrow(event, payloadMember);
       }
-      return serializeInputEvent(event);
+      return serializeInputEventOrThrow(event);
+      /* oxlint-enable distilled/or-throw */
     }),
     Stream.mapEffect(encodeEvent),
   );

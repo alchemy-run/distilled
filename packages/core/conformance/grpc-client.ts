@@ -28,7 +28,11 @@ import { parseProto, protoDescriptors } from "../../dev/src/codegen/proto.ts";
 import * as API from "../src/api.ts";
 import * as NodeHttp2 from "../src/grpc-transport-node-http2.ts";
 import { GrpcTransport, trailersOf } from "../src/grpc-transport.ts";
-import { decodeMessage, encodeMessage, type ProtoDescriptors } from "../src/protobuf.ts";
+import {
+  decodeMessageOrThrow,
+  encodeMessageOrThrow,
+  type ProtoDescriptors,
+} from "../src/protobuf.ts";
 import { Deadline, GRPC_STATUS_NAMES, grpcProtocol } from "../src/protocol-grpc.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
@@ -143,7 +147,7 @@ const detailOf = (detail: unknown): unknown => {
   const any = detail as { readonly "@type": string; readonly value?: string };
   const type = any["@type"].slice(any["@type"].lastIndexOf("/") + 1);
   if (d.messages[type] === undefined || typeof any.value !== "string") return detail;
-  const message = decodeMessage(d, type, Buffer.from(any.value, "base64"));
+  const message = decodeMessageOrThrow(d, type, Buffer.from(any.value, "base64"));
   return { "@type": any["@type"], ...(message as Record<string, unknown>) };
 };
 
@@ -229,7 +233,7 @@ const run = Effect.fn(function* (req: CompatRequest) {
 // =============================================================================
 
 const write = (message: unknown) => {
-  const out = encodeMessage(d, `${PKG}.ClientCompatResponse`, message);
+  const out = encodeMessageOrThrow(d, `${PKG}.ClientCompatResponse`, message);
   const header = Buffer.alloc(4);
   header.writeUInt32BE(out.length, 0);
   process.stdout.write(Buffer.concat([header, out]));
@@ -242,7 +246,7 @@ process.stdin.on("data", (chunk: Buffer) => {
   while (buffer.length >= 4) {
     const length = buffer.readUInt32BE(0);
     if (buffer.length < 4 + length) break;
-    const req = decodeMessage(
+    const req = decodeMessageOrThrow(
       d,
       `${PKG}.ClientCompatRequest`,
       buffer.subarray(4, 4 + length),

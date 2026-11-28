@@ -124,6 +124,7 @@ const saveToken = (loginSession: string, token: LoginToken) => {
         .pipe(Effect.catchReason("PlatformError", "NotFound", () => Effect.void)),
     ),
     Effect.andThen(
+      // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the token is what JSON.parse read from the cache file, with strings from the refresh: it always serializes
       nodeFileSystem.writeFileString(path, JSON.stringify(token, null, 2), { mode: 0o600 }),
     ),
     Effect.ignore({
@@ -152,6 +153,7 @@ const expiresAt = (token: LoginToken): number => new Date(token.accessToken.expi
 
 const base64url = (value: string): string => Buffer.from(value).toString("base64url");
 
+/* oxlint-disable distilled/or-throw -- derToRaw throws for a signature that is not DER; it is private to this file and runs only in the DPoP signer, which withDpop calls inside Effect.try */
 /** ES256 signatures are DER from `node:crypto` but raw `r || s` in a JWT. */
 const derToRaw = (der: Buffer): Buffer => {
   if (der[0] !== 0x30 || der[2] !== 0x02) {
@@ -168,6 +170,7 @@ const derToRaw = (der: Buffer): Buffer => {
   s = s[0] === 0x00 ? s.subarray(1) : s;
   return Buffer.concat([Buffer.alloc(32 - r.length), r, Buffer.alloc(32 - s.length), s]);
 };
+/* oxlint-enable distilled/or-throw */
 
 type DpopProof = (method: string, endpoint: string) => string;
 
@@ -220,6 +223,7 @@ const dpopProof = (dpopKey: string): Effect.Effect<DpopProof, CredentialSourceEr
 
 /** The proof covers the method and the URL without its query string. */
 const endpoint = (url: string): string => {
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- endpoint is private to this file and runs only inside the Effect.try of withDpop
   const parsed = new URL(url);
   return `${parsed.origin}${parsed.pathname}`;
 };

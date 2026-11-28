@@ -194,6 +194,7 @@ class Writer {
 // Reader
 // ============================================================================
 
+/* oxlint-disable distilled/or-throw, distilled/no-unguarded-throwing-builtin -- Reader and the encode and decode helpers down to readWellKnown throw ProtobufEncodeError, ProtobufDecodeError or what a built-in throws; they are private to this file and used only inside encodeMessageOrThrow and decodeMessageOrThrow */
 class Reader {
   pos = 0;
   readonly view: DataView;
@@ -719,7 +720,7 @@ const writeWellKnown = (
         }
         inner = toBytes(rest.value, field);
       } else {
-        inner = encodeMessage(d, type, CUSTOM_JSON.has(type) ? rest.value : rest);
+        inner = encodeMessageOrThrow(d, type, CUSTOM_JSON.has(type) ? rest.value : rest);
       }
       w.tag(1, 2);
       w.delimited((out) => out.bytes(textEncoder.encode(typeUrl)));
@@ -828,7 +829,11 @@ const isDefault = (
 };
 
 /** Encode a proto3 JSON value of message `name` to protobuf bytes. */
-export const encodeMessage = (d: ProtoDescriptors, name: string, value: unknown): Uint8Array => {
+export const encodeMessageOrThrow = (
+  d: ProtoDescriptors,
+  name: string,
+  value: unknown,
+): Uint8Array => {
   if (value === null && name !== "google.protobuf.Value") {
     throw new ProtobufEncodeError(`${name}: expected a message, got null`);
   }
@@ -903,7 +908,7 @@ const readValue = (
     case "bytes":
       return bytesToBase64(r.delimited());
     case "message":
-      return decodeMessage(d, ref as string, r.delimited());
+      return decodeMessageOrThrow(d, ref as string, r.delimited());
     default:
       if (wire === 2) throw new ProtobufDecodeError("unexpected length-delimited scalar");
       return readScalar(d, r, kind, typeof ref === "string" ? ref : undefined);
@@ -1106,7 +1111,7 @@ const readWellKnown = (
       // A type the descriptors don't know stays opaque: its bytes, base64.
       if (!isKnownMessage(d, type))
         return { value: { "@type": typeUrl, value: bytesToBase64(inner) } };
-      const message = decodeMessage(d, type, inner);
+      const message = decodeMessageOrThrow(d, type, inner);
       return {
         value: CUSTOM_JSON.has(type)
           ? { "@type": typeUrl, value: message }
@@ -1127,6 +1132,7 @@ const readWellKnown = (
     }
   }
 };
+/* oxlint-enable distilled/or-throw, distilled/no-unguarded-throwing-builtin */
 
 const concatBytes = (chunks: ReadonlyArray<Uint8Array>): Uint8Array => {
   if (chunks.length === 1) return chunks[0]!;
@@ -1166,7 +1172,11 @@ const oneofsOf = (fields: ReadonlyArray<FieldDescriptor>): Map<number, string[]>
  * a field whose wire type doesn't match its kind is skipped as unknown, and
  * unknown fields are dropped.
  */
-export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Array): unknown => {
+export const decodeMessageOrThrow = (
+  d: ProtoDescriptors,
+  name: string,
+  bytes: Uint8Array,
+): unknown => {
   const wk = readWellKnown(d, name, bytes);
   if (wk) return wk.value;
   const fields = d.messages[name];
@@ -1202,7 +1212,9 @@ export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Arr
       const entry = new Reader(r.delimited());
       let key: unknown = defaultOf(d, kk, undefined);
       let value: unknown =
-        vk === "message" ? decodeMessage(d, vr as string, new Uint8Array(0)) : defaultOf(d, vk, vr);
+        vk === "message"
+          ? decodeMessageOrThrow(d, vr as string, new Uint8Array(0))
+          : defaultOf(d, vk, vr);
       while (!entry.done) {
         const [n, w] = entry.tag();
         if (n === 1 && w === wireTypeOf(kk)) key = readValue(d, entry, w, kk, undefined);
@@ -1232,7 +1244,7 @@ export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Arr
     out[json] = readValue(d, r, wire, kind, ref);
   }
   for (const [json, { ref, chunks }] of messages) {
-    out[json] = decodeMessage(d, ref, concatBytes(chunks));
+    out[json] = decodeMessageOrThrow(d, ref, concatBytes(chunks));
   }
   for (const [, json, kind, ref, repeated, presence] of fields) {
     // A singular message field has presence; a repeated one reads as [].
@@ -1293,8 +1305,8 @@ export const frame = (payload: Uint8Array): Uint8Array => {
 };
 
 /**
- * Reads gRPC message frames from a body that arrives in chunks: `push` each
- * chunk and get back the messages it completed. `rest` is the number of
+ * Reads gRPC message frames from a body that arrives in chunks: `pushOrThrow`
+ * each chunk and get back the messages it completed. `rest` is the number of
  * bytes held for an incomplete frame (`0` once a body ends cleanly).
  * Compressed frames are rejected. A gRPC-Web trailer frame (flag `0x80`) is
  * not a message: its `name: value` lines are collected in `trailers`.
@@ -1315,7 +1327,7 @@ export class FrameReader {
     return this.buf.length;
   }
 
-  push(chunk: Uint8Array): Uint8Array[] {
+  pushOrThrow(chunk: Uint8Array): Uint8Array[] {
     if (this.buf.length === 0) this.buf = chunk;
     else {
       const next = new Uint8Array(this.buf.length + chunk.length);
@@ -1359,9 +1371,9 @@ export class FrameReader {
 const trailerDecoder = /*@__PURE__*/ new TextDecoder();
 
 /** Split a whole gRPC body into message payloads. */
-export const unframe = (body: Uint8Array): Uint8Array[] => {
+export const unframeOrThrow = (body: Uint8Array): Uint8Array[] => {
   const reader = new FrameReader();
-  const out = reader.push(body);
+  const out = reader.pushOrThrow(body);
   if (reader.rest !== 0) throw new ProtobufDecodeError("truncated gRPC frame");
   return out;
 };

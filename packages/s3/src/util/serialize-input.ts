@@ -25,8 +25,11 @@ import { formatHeaderList, toBase64Header } from "./headers.ts";
 /**
  * Percent-encode a URI label value: everything except RFC 3986 unreserved
  * characters, so "/" becomes "%2F" (Smithy / AWS SDK `extendedEncodeURIComponent`).
+ * The caller first checks the value with core's `invalidLabel`, which refuses
+ * a lone UTF-16 surrogate: `encodeURIComponent` throws on one.
  */
 export const encodeLabel = (value: string): string =>
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- every caller checks the value with invalidLabel first (no lone surrogate); this runs on every call
   encodeURIComponent(value).replace(
     /[!'()*]/g,
     (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase(),
@@ -105,6 +108,7 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
         header: getHttpHeader(prop),
         quoteHeader: element !== undefined && !isDateAST(element),
         base64Header: getMediaType(prop) !== undefined && isStringAST(prop.type),
+        // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the label name is from the SDK's own schema
         label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}\\+?\\}`) : undefined,
         greedy: uri.includes(`{${labelName}+}`),
         queryParam: getHttpQuery(prop),

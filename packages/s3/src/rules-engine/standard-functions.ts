@@ -156,6 +156,7 @@ export function uriEncode(value: RulesValue): RulesValue {
     return undefined;
   }
 
+  // oxlint-disable-next-line distilled/no-unguarded-throwing-builtin -- the rules encode only Bucket, an @httpLabel: serialization refused a lone surrogate (invalidLabel) before the endpoint is resolved
   return encodeURIComponent(value);
 }
 

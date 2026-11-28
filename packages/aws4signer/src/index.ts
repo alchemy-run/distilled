@@ -225,6 +225,7 @@ interface Canonical {
 /** An HTTP header name (RFC 9110 token). */
 const TOKEN = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
 
+/* oxlint-disable distilled/or-throw, distilled/no-unguarded-throwing-builtin -- headerRecord and canonicalize throw a SigningError (InvalidSigningHeaders, InvalidSigningUrl); they are private to this file and their callers catch it: the callers of signSync in a plain try, signAsync and signV4a in Effect.try. encodeURIComponent gets the path and query of a parsed URL, which hold no lone surrogate */
 /**
  * `options.headers` as `Headers` normalizes them -- lower-case names,
  * trimmed values, repeated names joined with ", " -- as a record. Plain
@@ -398,6 +399,7 @@ const canonicalize = (options: SignOptions, algorithm: Algorithm = SIGV4): Canon
     },
   };
 };
+/* oxlint-enable distilled/or-throw, distilled/no-unguarded-throwing-builtin */
 
 const stringToSignOf = (c: Canonical, canonicalRequestHash: string): string =>
   [c.algorithm, c.datetime, c.credentialString, canonicalRequestHash].join("\n");
@@ -440,6 +442,7 @@ const syncSigningKey = (
   return key;
 };
 
+/* oxlint-disable distilled/or-throw -- signSync is the public synchronous signer of this package (and of @distilled.cloud/s3/SigV4 and @distilled.cloud/aws/SigV4), so its name stays; it throws a SigningError, as documented, and its callers catch it in a plain try on the per-call path */
 /**
  * {@link sign} without effects, for callers already running on a fiber.
  * Returns `undefined` when the
@@ -484,6 +487,7 @@ export const signSync = (
     throw new CryptoError({ operation: "hmac", cause });
   }
 };
+/* oxlint-enable distilled/or-throw */
 
 /**
  * Sign a request with SigV4. Fails with a {@link SigningError} when the URL
@@ -734,10 +738,12 @@ export const signingPublicKeyV4a = (
   via: "auto" | "webcrypto" | "javascript" = "auto",
 ): Effect.Effect<{ readonly x: string; readonly y: string }, CryptoError> =>
   Effect.flatMap(deriveSigningKeyV4a(accessKeyId, secretAccessKey), (key) => {
+    /* oxlint-disable distilled/or-throw -- hexOf decodes the coordinates of a JWK: one this module builds (jwkOf), or one it reads inside Effect.try / Effect.tryPromise */
     const hexOf = (jwk: JsonWebKey) => ({
-      x: CoreCrypto.hex(P256.fromBase64Url(jwk.x!)),
-      y: CoreCrypto.hex(P256.fromBase64Url(jwk.y!)),
+      x: CoreCrypto.hex(P256.fromBase64UrlOrThrow(jwk.x!)),
+      y: CoreCrypto.hex(P256.fromBase64UrlOrThrow(jwk.y!)),
     });
+    /* oxlint-enable distilled/or-throw */
     const node = via === "auto" ? nodeEcdsa() : undefined;
     if (via === "javascript") return Effect.sync(() => hexOf(jwkOf(key.d)));
     if (node !== undefined) {
